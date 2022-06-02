@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.apollopharmacy.vishwam.data.State" />
+
+        <variable
+            name="verifyUserModel"
+            type="com.apollopharmacy.vishwam.ui.verifyuser.VerifyUserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        android:background="@drawable/app_bg"
+        tools:context=".ui.MainActivity">
+
+        <RelativeLayout
+            android:id="@+id/parentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/logo" />
+
+                <TextView
+                    android:id="@+id/sign_in_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_60dp"
+                    android:text="To Experience Vishwam"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_15sp"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emp_id_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_15dp"
+                    android:textColorHint="@color/white"
+                    android:theme="@style/TextLabel"
+                    app:layout_constraintTop_toBottomOf="@+id/image">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/employee_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="Please Enter Your Employee ID"
+                        android:imeOptions="actionDone"
+                        android:inputType="text"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_17sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/verifyButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_70dp"
+                    android:background="@drawable/yellow_drawable"
+                    android:enabled="@{verifyUserModel.state == State.LOADING ? false :true}"
+                    android:text="Proceed"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@+id/password" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/end_to_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/powered_by"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:gravity="center"
+                android:text="@string/label_end_to_end"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+
+            <TextView
+                android:id="@+id/powered_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/value_15dp"
+                android:gravity="center"
+                android:text="@string/label_powered_by"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

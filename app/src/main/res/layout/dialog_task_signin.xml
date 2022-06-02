@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_dialog_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/splash_start_color"
+        android:gravity="center"
+        android:paddingTop="@dimen/value_10dp"
+        android:paddingBottom="@dimen/value_10dp"
+        android:text="@string/label_create_task"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16sp"
+        android:textStyle="bold" />
+
+    <Spinner
+        android:id="@+id/dept_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value_40dp"
+        android:layout_margin="@dimen/value_15dp"
+        android:background="@drawable/spinner_border" />
+
+    <Spinner
+        android:id="@+id/task_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value_40dp"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:layout_marginBottom="@dimen/value_15dp"
+        android:background="@drawable/spinner_border"
+        android:visibility="gone" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/createTask"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:visibility="gone"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/createTaskText"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:hint="@string/label_enter_task"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/singInLayout"
+        android:layout_width="@dimen/value_200dp"
+        android:layout_height="@dimen/value_45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginBottom="@dimen/value_30dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/value_30dp"
+            android:layout_height="@dimen/value_25dp"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_sign_in" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:text="@string/label_task_sign_in"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

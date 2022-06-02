@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="item_default_color">#a7cdd9</color>
+    <color name="item_selected_color">#CC0066</color>
+    <color name="customer_search_border">#d5d6d8</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="splash_start_color">#173b5e</color>
+</resources>

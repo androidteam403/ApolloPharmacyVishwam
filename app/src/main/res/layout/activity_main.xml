@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value_60dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_60dp"
+            android:background="@color/splash_start_color" />
+
+        <ImageView
+            android:id="@+id/openDrawer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/value_20dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_menu_24" />
+
+        <TextView
+            android:id="@+id/headerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/value_20dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="@dimen/text_18sp" />
+
+        <FrameLayout
+            android:id="@+id/notificationLayout"
+            style="?attr/actionButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:clipToPadding="false"
+            android:focusable="true"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_notifications_24" />
+
+            <TextView
+                android:id="@+id/cart_badge"
+                android:layout_width="@dimen/value_20dp"
+                android:layout_height="@dimen/value_20dp"
+                android:layout_gravity="end|top"
+                android:layout_marginTop="@dimen/value_3dp"
+                android:layout_marginEnd="@dimen/value_minus_5dp"
+                android:background="@drawable/badge_background"
+                android:gravity="center"
+                android:padding="@dimen/value_3dp"
+                android:text="0"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/text_10sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/toolbar"
+            android:background="@color/white" />
+
+        <LinearLayout
+            android:id="@+id/gpsLoaderLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:background="#8C000000"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_25dp"
+                android:text="Fetching Location..."
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20sp" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="@color/customer_search_border"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/nav_header_main">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_175dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.dvinfosys.ui.NavigationListView
+                    android:id="@+id/expandable_navigation"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left"
+                    android:background="@color/white"
+                    android:divider="@color/customer_search_border"
+                    android:dividerHeight="0.5dp"
+                    android:groupIndicator="@null"
+                    android:scrollbars="vertical"
+                    app:itemBackground="@drawable/item_bg" />
+
+                <TextView
+                    android:id="@+id/versionInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginBottom="@dimen/value_10dp"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </LinearLayout>
+        </ScrollView>
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

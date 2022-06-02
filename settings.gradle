@@ -1,0 +1,4 @@
+include ':digitlib'
+include ':navigationlistview'
+include ':app'
+rootProject.name = "ApolloPharmacy"

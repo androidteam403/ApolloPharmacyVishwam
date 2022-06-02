@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.apollopharmacy.vishwam.data.State" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="registration"
+            type="com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            tools:context=".RegistrationFragment">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/siteId"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_marginRight="@dimen/value_15dp"
+                android:textColorHint="@color/black"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/siteIdSelect"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                    android:focusable="false"
+                    android:hint="@string/label_select_site_id"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/departmentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/siteId">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/branchNameTextInput"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/branchName"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:hint="@string/label_distribution_center"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/selectDepartmentText"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/selectDepartment"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:focusable="false"
+                        android:hint="@string/label_select_department"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/selectCategoryText"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black"
+                    android:visibility="@{registration.visibleState == State.SUCCESS ? View.VISIBLE : View.GONE}">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/selectCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:focusable="false"
+                        android:hint="@string/label_select_category"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/selectSubCategoryText"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black"
+                    android:visibility="@{registration.visibleState == State.SUCCESS ? View.GONE : View.GONE}">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/selectSubCategory"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:focusable="false"
+                        android:hint="@string/label_select_sub_category"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                  <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/selectRemarksText"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black"
+                    android:visibility="@{registration.visibleState == State.SUCCESS ? View.GONE : View.GONE}">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/selectRemarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:focusable="false"
+                        android:hint="@string/label_select_remarks"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/date"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/dateOfProblem"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                        android:focusable="false"
+                        android:hint="@string/label_since_problem_raise"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/problemLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/date">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_problem_with"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/codeAx"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:checked="false"
+                            android:text="@string/label_code_available_ax"
+                            android:textSize="@dimen/text_18sp" />
+
+                        <RadioButton
+                            android:id="@+id/newBatchRadio"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:checked="false"
+                            android:text="@string/label_new_batch"
+                            android:textSize="@dimen/text_18sp" />
+
+                        <RadioButton
+                            android:id="@+id/shortExpire"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:checked="false"
+                            android:text="@string/label_short_expire"
+                            android:textSize="@dimen/text_18sp" />
+
+                        <RadioButton
+                            android:id="@+id/vpn"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:checked="false"
+                            android:textSize="@dimen/text_18sp" />
+                    </RadioGroup>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/extraLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/problemLayout">
+
+                    <LinearLayout
+                        android:id="@+id/shortExpireLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/expire"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/expireText"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:hint="@string/label_expire"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/purchase"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/purchasePriseText"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:hint="@string/label_purchase_price"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/newBatchLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/problemLayout">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/newBatch"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/articleCode"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:clickable="true"
+                                android:focusable="false"
+                                android:hint="@string/label_article_code"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:text=""
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/batch"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/batchText"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890.-/\"
+                                android:hint="@string/label_batch"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/mrp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/mrpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:hint="@string/label_enter_mrp"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/purchasePrise"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/purchasePriseEdit"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:hint="@string/label_enter_purchase_price"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/expiredate"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/expireDateExpire"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:clickable="true"
+                                android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                                android:focusable="false"
+                                android:hint="@string/label_select_expire_date"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/description"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="500"
+                    app:layout_constraintTop_toBottomOf="@+id/extraLayout">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/descriptionText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_100dp"
+                        android:gravity="top|start"
+                        android:hint="@string/label_problem_description"
+                        android:inputType="textMultiLine"
+                        android:maxLength="500"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/titleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_marginTop="@dimen/value_15dp"
+                    android:text="@string/label_upload_image"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/description" />
+
+                <LinearLayout
+                    android:id="@+id/attachImageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_100dp"
+                    android:layout_margin="@dimen/value_10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toBottomOf="@+id/titleName">
+
+                    <ImageView
+                        android:id="@+id/addImage"
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_capture_image" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/imageRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginBottom="@dimen/value_5dp"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/inventoryMessageForCamera"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/label_attach_images"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/text_15sp"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/attachImageLayout" />
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_margin="@dimen/value_15dp"
+                    android:background="@drawable/yellow_drawable"
+                    android:enabled="@{registration.state == State.SUCCESS ? false :true}"
+                    android:text="@string/label_submit"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

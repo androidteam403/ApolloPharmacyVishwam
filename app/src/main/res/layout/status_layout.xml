@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/statusBy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_20dp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:fontFamily="@font/droidsans"
+            android:text="Abhishek"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_13sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/statusStaffDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_20dp"
+            android:layout_marginEnd="@dimen/value_20dp"
+            android:layout_marginBottom="@dimen/value_7dp"
+            android:lineSpacingExtra="@dimen/value_2dp"
+            android:textAlignment="gravity"
+            android:textSize="@dimen/text_13sp"
+            android:text="Approved"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/statusBy" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">Vishwam</string>
+    <string name="label_end_to_end">End to End Employee App</string>
+    <string name="label_powered_by">Powered by Apollo Pharmacy</string>
+
+    <!--Custom-->
+    <string name="input_digits">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="label_network_error">Please Check Internet Connection</string>
+    <string name="label_confirm_logout">Are you sure you want to Logout?</string>
+    <string name="default_notification_channel_id">fcm_default_channel</string>
+    <string name="label_something_wrong_try_later">Something went wrong, please try again later</string>
+
+    <!-- Verify User-->
+    <string name="verification_code">Verification Code</string>
+    <string name="please_check">Please confirm the Employee ID</string>
+    <string name="please_check_employee_id">, at this stage itself there is no provision to change the Employee ID after validation</string>
+    <string name="please_check_verification_code">Please check the verification code sent to\n</string>
+    <string name="please_type_the_verification_code_sent_to_">Verification code sent to</string>
+    <string name="label_resend_OTP">Resend OTP</string>
+
+    <!--Login-->
+    <string name="label_user_name">User Name</string>
+    <string name="label_password">Password</string>
+    <string name="label_login">Login</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_submit">Submit</string>
+
+    <!--CMS App-->
+    <string name="label_complaint_reg">Complaint Registration</string>
+    <string name="label_complaint_list">Complaint List</string>
+    <string name="label_search_by">Search By</string>
+    <string name="label_select_site_id">Select Site Id  <font color='#cc0029\'>*</font></string>
+    <string name="label_select_department">Select Department <font color='#cc0029\'>*</font></string>
+    <string name="label_select_category">Select Category  <font color='#FF0000'>*</font></string>
+    <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
+    <string name="label_select_remarks">Select Reason  <font color='#FF0000'>*</font></string>
+
+  <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
+
+    <string name="label_since_problem_raise">Date of Occurrence <font color='#FF0000'>*</font></string>
+    <string name="label_problem_with">Problem With  <font color='#FF0000'>*</font></string>
+    <string name="label_code_available_ax">Code available in Ax</string>
+    <string name="label_new_batch">New Batch  <font color='#FF0000'>*</font></string>
+    <string name="label_check_site">Please Select any Site ID, before checking Complaints List</string>
+    <string name="label_check_dates">From date should be less than To date</string>
+
+    <string name="label_distribution_center">Distribution Center  <font color='#FF0000'>*</font></string>
+    <string name="label_short_expire">Short Expire</string>
+    <string name="label_expire">Expire</string>
+    <string name="label_purchase_price">Purchase Prise</string>
+    <string name="label_article_code">Article Code</string>
+    <string name="label_batch">Batch</string>
+    <string name="label_enter_mrp">Enter MRP</string>
+    <string name="label_enter_purchase_price">Enter Purchase Price</string>
+    <string name="label_select_expire_date">Select Expire Date</string>
+  <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
+    <string name="label_problem_description">Complaint Description  <font color='#FF0000'>*</font></string>
+    <!--<string name="label_upload_image">Upload Image For The Following</string>-->
+    <string name="label_upload_image">Capture and Upload Image</string>
+    <string name="label_attach_images">Please Attach Front and Back Images</string>
+    <string name="label_select_article">Select Article</string>
+    <string name="label_search_article">Search Article</string>
+    <string name="label_no_article_found">No Article Found</string>
+    <string name="label_confirm_store">Are you sure want to confirm this Store?</string>
+    <string name="label_yes">Yes</string>
+    <string name="label_no">No</string>
+    <string name="label_site_change_alert">For Site Change, Please Contact Admin.</string>
+    <string name="label_no_category_available">No category is Available</string>
+    <string name="label_no_sub_category_available">No sub category is Available</string>
+    <string name="label_no_reasons_available">No Reasons Is Available</string>
+    <string name="label_upload_image_limit">You are allowed to upload only two images</string>
+    <string name="validate_upload_image_limit">Please Upload Required Images</string>
+    <string name="label_registration_success">Registration Successful</string>
+
+    <string name="err_msg_select_department">Please Select Department</string>
+    <string name="err_msg_select_category">Please Select Category</string>
+    <string name="err_msg_select_sub_category">Please Select Sub Category</string>
+    <string name="err_msg_select_reason">Please Select Reason</string>
+    <string name="err_msg_problem_since">Date of Occurrence</string>
+    <string name="err_msg_enter_description">Please Enter Complaint Description</string>
+    <string name="err_msg_select_article_code">Please Select Article Code</string>
+    <string name="err_msg_select_batch_number">Please Enter Batch Number</string>
+    <string name="err_msg_enter_mrp">Please Enter MRP Price</string>
+    <string name="err_msg_enter_purchase_price">Please Enter Purchase Price</string>
+    <string name="err_msg_price_diff">Purchase price should be higher than enter MRP</string>
+    <string name="err_msg_select_expiry_date">Please enter Expiry Date</string>
+    <string name="err_msg_upload_image">Please add front and back images</string>
+    <string name="label_unknown_err">Unknown Error</string>
+    <string name="label_unableto_save">Store ID not available</string>
+    <string name="label_complaint_site_id">Site ID:</string>
+    <string name="label_complaint_ticket_number">Ticket No.:</string>
+    <string name="label_status">Ticket Status:</string>
+    <string name="label_close_date">Closed Date:</string>
+    <string name="label_problem_since">Date Of Occurence</string>
+    <string name="label_no_tasks">No Tasks Available</string>
+    <string name="label_permission_denied">Permission Denied</string>
+    <string name="label_select_site">Select Site</string>
+    <string name="label_search_site_id">Search Site Id</string>
+    <string name="label_site_not_available">Site Not Available</string>
+    <string name="label_sub_category_list">Sub Category List</string>
+    <string name="label_reasonlist_list">Reason List</string>
+
+    <string name="label_enter_remarks">Enter Remarks</string>
+    <string name="label_re_open">Re-Open</string>
+    <string name="label_accept">Accept</string>
+    <string name="label_acknowledge_close_comp">Please acknowledgement to register a new complaint</string>
+    <string name="label_registered_date">Reg Date:</string>
+    <string name="label_staff_name">Staff Name</string>
+    <string name="label_description">Description</string>
+    <string name="label_siteid">Site ID</string>
+    <string name="label_siteName">Site Name</string>
+    <string name="label_tracking_status">Track Status</string>
+    <string name="label_department">Department</string>
+    <string name="label_prob_description">Prob.Description:</string>
+    <string name="label_acknowledgement">Acknowledgement</string>
+    <string name="label_rate_complaint">Please Rate the complaint</string>
+    <string name="label_enter_remark">Please Enter Remark</string>
+    <string name="label_for_complaints_select_site_id">For Complaint List, Before Select Site ID</string>
+    <string name="label_no_complaints">No Complaints Available</string>
+
+    <!--Adrenalin App-->
+    <string name="label_no_history">No Attendance History!</string>
+    <string name="label_capture">CAPTURE</string>
+    <string name="label_create_task">Create Task</string>
+    <string name="label_enter_task">Enter Task</string>
+    <string name="label_task_information">Task Information</string>
+    <string name="label_serial_no">S.No</string>
+    <string name="label_duration_header">Duration</string>
+    <string name="label_close_task">Close existing task, before creating new task.</string>
+    <string name="err_task">Task should not be empty</string>
+    <string name="label_logout">Logout</string>
+    <string name="label_logout_alert">Are you sure want to Logout?</string>
+    <string name="label_ok">OK</string>
+    <string name="label_cancel_text">Cancel</string>
+
+    <string name="label_task">Task:</string>
+    <string name="label_sign_in_time">Sign In Time:</string>
+    <string name="label_sign_out_time">Sign Out Time:</string>
+    <string name="label_duration">Duration:</string>
+    <string name="label_current_time">Current Time:</string>
+
+    <string name="label_sign_in">Sign In</string>
+    <string name="label_sign_out">Sign Out</string>
+    <string name="label_last_login">Last Attendance Sign-In :</string>
+    <string name="label_attendance_sign_in">Attendance Sign-In</string>
+    <string name="label_attendance_sign_out">Attendance Sign-Out</string>
+    <string name="label_task_sign_in">Task In</string>
+    <string name="label_task_sign_out">Task Out</string>
+    <string name="label_task_sign_in_time">Task In Time:</string>
+    <string name="label_task_sign_out_time">Task Out Time:</string>
+    <string name="label_task_sign_in_time_colon">Sign-In Time:</string>
+    <!--Discount App-->
+
+    <string name="title_permission_permanently_denied">Location Permission Permanently Denied</string>
+    <string name="message_permission_permanently_denied">The app will not work without providing location permission.
+
+ Open App settings -> Permissions -> Allow permission.</string>
+    <string name="title_permission_denied">Location Permission Denied</string>
+    <string name="message_permission_denied">The app will not work without providing location permission. Allow permission?</string>
+    <string name="settings">Settings</string>
+    <string name="not_now">Not now</string>
+    <string name="cancel">Cancel</string>
+    <string name="allow">Allow</string>
+
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/value_3dp">
+
+        <TextView
+            android:id="@+id/deviceAlertHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_20dp"
+            android:gravity="center"
+            android:text="Your device is already registered"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_14sp" />
+
+        <TextView
+            android:id="@+id/deviceChangeMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/deviceAlertHeader"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginBottom="@dimen/value_15dp"
+            android:gravity="center"
+            android:text="Do you want to deactivate old device?"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_15sp" />
+
+        <LinearLayout
+            android:id="@+id/buttonLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_35dp"
+            android:layout_below="@+id/deviceChangeMsg"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_20dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/noBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@drawable/reject_button"
+                android:text="No"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
+
+            <Button
+                android:id="@+id/yesBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_15dp"
+                android:background="@drawable/accept_background"
+                android:text="Yes"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

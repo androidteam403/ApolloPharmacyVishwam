@@ -1,0 +1,109 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+
+}
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        applicationId "com.apollopharmacy.vishwam"
+        minSdkVersion 23
+        targetSdkVersion 30
+        versionCode 11
+        versionName "1.1.8"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            debuggable = false
+        }
+    }
+    lintOptions {
+        checkReleaseBuilds false
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:$core_version"
+    implementation "androidx.appcompat:appcompat:$app_compact_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constratint_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation project(path: ':navigationlistview')
+    implementation project(path: ':digitlib')
+    androidTestImplementation "androidx.test.ext:junit:$test_version"
+    implementation "android.arch.lifecycle:runtime:$life_cycle"
+
+    annotationProcessor "android.arch.lifecycle:compiler:$life_cycle"
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+
+    implementation "com.valdesekamdem.library:md-toast:$toast_version"
+    implementation "com.github.hadilq.liveevent:liveevent:$live_event_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    implementation "com.github.sujithkanna:smileyrating:2.0.0"
+    implementation 'androidx.fragment:fragment:1.3.0'
+
+    implementation 'com.google.android.material:material:1.0.0'
+
+    // Azure
+    implementation 'com.microsoft.azure.android:azure-storage-android:2.0.0@aar'
+    // Image Zoom in lib
+    implementation 'com.github.chrisbanes:PhotoView:2.1.3'
+    // location play services
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    // dexter runtime permissions
+    implementation 'com.karumi:dexter:4.2.0'
+
+    implementation 'com.github.aabhasr1:OtpView:1.0.5'
+
+    // Import the Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:28.4.0')
+
+    implementation 'com.google.firebase:firebase-analytics:20.0.0'
+    implementation 'com.google.firebase:firebase-core:20.0.0'
+//    implementation 'com.google.firebase:firebase-crashlytics:18.2.4'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+
+    implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
+
+    implementation 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+
+    //test
+    androidTestImplementation 'com.jayway.android.robotium:robotium-solo:5.5.2'
+
+   // implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2'
+    //implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_version"
+
+    implementation 'com.localebro:okhttpprofiler:1.0.8'
+
+}

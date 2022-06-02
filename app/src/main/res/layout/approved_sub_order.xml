@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/medicineNameOrg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:lines="1"
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_15sp"
+                app:fontFamily="@font/droidsans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicineNameOrg"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/medicineNameHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Item Name"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/medicineName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/medicineNameHeader"
+                        android:layout_centerHorizontal="true"
+                        android:lines="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.7">
+
+                    <TextView
+                        android:id="@+id/quantityHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Qty."
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/quantityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/quantityHeader"
+                        android:layout_centerHorizontal="true"
+                        android:text="100"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:id="@+id/priceHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Price"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/priceText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/priceHeader"
+                        android:layout_centerHorizontal="true"
+                        android:drawableLeft="@drawable/ic_rupee_indian"
+                        android:text="100"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.8">
+
+                    <TextView
+                        android:id="@+id/bulkDiscText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Bulk Disc.%"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+
+                    <TextView
+                        android:id="@+id/bulkDisc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bulkDiscText"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/marginDiscLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.7"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/marginDiscHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Margin"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+
+                    <TextView
+                        android:id="@+id/marginDiscText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/marginDiscHeader"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:text="10%"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>

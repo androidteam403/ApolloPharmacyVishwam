@@ -1,0 +1,791 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/createdLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/created"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_create"/>
+
+                <View
+                    android:id="@+id/viewCreated"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/created"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/createdPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_2dp"
+                    android:maxLines="1"
+                    android:textColor="@color/status_created"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/createdDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/holdProcessLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/holdProcess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_hold_process"/>
+
+                <View
+                    android:id="@+id/viewHoldProcess"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/holdProcess"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/holdProcessPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/status_hold_process"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/holdProcessDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/holdProcessStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:visibility="gone"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/processLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/process"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_process"/>
+
+                <View
+                    android:id="@+id/viewProcess"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/process"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/processPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_progress"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/processDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:textColor="@color/black"
+                    android:maxLines="1"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/processStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/closedLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/closed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_closed" />
+
+                <View
+                    android:id="@+id/viewClosed"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/closed"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/closedPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_closed"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/closedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/closedStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lOneLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/lOne"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_lone" />
+
+                <View
+                    android:id="@+id/viewLOne"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/lOne"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lOnePerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_lone"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lOneDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lOneStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lTwoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/lTwo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_ltwo" />
+
+                <View
+                    android:id="@+id/viewLTwo"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/lTwo"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lTwoPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_ltwo"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lTwoDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lTwoStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/lThreeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/lThree"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_lthree" />
+
+                <View
+                    android:id="@+id/viewLThree"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/lThree"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/lThreePerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_lthree"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lThreeDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/lThreeStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/reopenRequestLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/reopenRequest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_reopen_request" />
+
+                <View
+                    android:id="@+id/viewReopenRequest"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/reopenRequest"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/reopenRequestPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_reopen_request"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reopenRequestDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reopenRequestStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/acknowledgedLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/acknowledged"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_acknowledge" />
+
+                <View
+                    android:id="@+id/viewAcknowledged"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/acknowledged"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/acknowledgedPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_acknowledge"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/acknowledgedDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/acknowledgedStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/reopenedForProcessLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/reopenedForProcess"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_reopen_process" />
+
+                <View
+                    android:id="@+id/viewReopenedForProcess"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/reopenedForProcess"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/reopenedForProcessPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_reopen_for_process"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reopenedForProcessDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reopenedForProcessStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/reOpenLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/reOpen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_create"/>
+
+                <View
+                    android:id="@+id/viewReOpen"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/reOpen"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/reOpenPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_minus_2dp"
+                    android:maxLines="1"
+                    android:textColor="@color/status_created"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reOpenDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/reOpenStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/acceptLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_2dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/accept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/value_12dp"
+                    android:layout_height="@dimen/value_12dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/status_closed" />
+
+                <View
+                    android:id="@+id/viewAccept"
+                    android:layout_width="@dimen/value_2dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/dashed_line" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toEndOf="@+id/accept"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/acceptPerson"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/value_minus_3dp"
+                    android:textColor="@color/status_closed"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/acceptDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/acceptStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:maxLines="1"
+                    android:visibility="gone"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

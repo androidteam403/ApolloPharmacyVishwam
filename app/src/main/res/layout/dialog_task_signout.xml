@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="330dp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/custom_dialog_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/splash_start_color"
+        android:gravity="center"
+        android:paddingTop="@dimen/value_10dp"
+        android:paddingBottom="@dimen/value_10dp"
+        android:text="@string/label_task_information"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/taskName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:layout_marginBottom="@dimen/value_10dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/signInTimeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/currentTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/durationValue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:textColor="@color/black" />
+
+    <LinearLayout
+        android:id="@+id/singOutLayout"
+        android:layout_width="@dimen/value_200dp"
+        android:layout_height="@dimen/value_45dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/value_30dp"
+        android:layout_marginBottom="@dimen/value_30dp"
+        android:background="@drawable/bg_button"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/value_30dp"
+            android:layout_height="@dimen/value_25dp"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="10dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_sign_out" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:text="@string/label_task_sign_out"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</LinearLayout>

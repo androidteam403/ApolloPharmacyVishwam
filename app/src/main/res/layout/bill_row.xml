@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:elevation="5dp">
+
+        <LinearLayout
+            android:id="@+id/orderHead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/pendingLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="4.5"
+                android:background="@color/bill_colour"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/storeId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Store Id"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/storeText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/storeId"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="50001400"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/postedDateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Approv. Date"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/postedDate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/postedDateText"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="25-sep-2020"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:id="@+id/bulkDiscText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="10dp"
+                        android:text="Approv. Value"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/approvedValueText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/bulkDiscText"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"
+                        android:text="30.29"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.2">
+
+                    <ImageView
+                        android:id="@+id/arrowClose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingBottom="15dp"
+                        android:src="@drawable/ic_baseline_minimize_24"
+                        android:visibility="gone" />
+
+
+                    <ImageView
+                        android:id="@+id/arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_baseline_add_24"
+                        android:visibility="visible" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/extraData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/detailslayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/billedDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="Billed Date"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                        <TextView
+                            android:id="@+id/billedDateValue"
+                            android:layout_width="70dp"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/billedDate"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="2dp"
+                            android:lines="1"
+                            android:text="2020-05-12"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            android:id="@+id/indentNoHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="INDENTN0"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                        <TextView
+                            android:id="@+id/indentNoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/indentNoHeader"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="2dp"
+                            android:lines="1"
+                            android:text="30"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.1">
+
+                        <TextView
+                            android:id="@+id/finalBillHeader"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="Billed value"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                        <TextView
+                            android:id="@+id/finalBillText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/finalBillHeader"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="2dp"
+                            android:lines="1"
+                            android:text="30"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"
+                            app:fontFamily="@font/droidsans" />
+
+                    </RelativeLayout>
+
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="4"
+                    tools:listitem="@layout/bill_details_row" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+</layout>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.apollopharmacy.vishwam.data.State" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="signInStatus"
+            type="Boolean" />
+
+        <variable
+            name="onSignInClick"
+            type="Boolean" />
+
+        <variable
+            name="onCaptureClick"
+            type="Boolean" />
+
+        <variable
+            name="onLogoutClick"
+            type="Boolean" />
+
+        <variable
+            name="attendanceViewModel"
+            type="com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/signInOutParentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/image_layout"
+                android:layout_width="@dimen/value_130dp"
+                android:layout_height="@dimen/value_130dp"
+                android:visibility="gone"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/value_50dp"
+                android:background="@drawable/apollo_image_bg"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/image"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/logo" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/gpsInfoLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:layout_marginTop="@dimen/value_50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Location Information"
+                    android:textSize="@dimen/text_15sp"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"/>
+
+                <TextView
+                    android:id="@+id/currentLocationInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_40dp"
+                    android:layout_marginStart="@dimen/value_40dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:layout_gravity="center"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/singInLayout"
+                android:layout_width="@dimen/value_250dp"
+                android:layout_height="@dimen/value_45dp"
+                android:layout_below="@+id/gpsInfoLayout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/value_40dp"
+                android:background="@drawable/bg_button"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:visibility="@{onLogoutClick?View.GONE:View.VISIBLE}">
+
+                <ImageView
+                    android:layout_width="@dimen/value_30dp"
+                    android:layout_height="@dimen/value_25dp"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginEnd="10dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_sign_in" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_15dp"
+                    android:text="@string/label_attendance_sign_in"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/signInViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/value_40dp"
+                android:orientation="vertical"
+                android:layout_below="@+id/singInLayout"
+                android:visibility="@{onSignInClick || onLogoutClick?View.VISIBLE:View.GONE}">
+
+                <LinearLayout
+                    android:id="@+id/captureBtnLayout"
+                    android:layout_width="@dimen/value_180dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/value_40dp"
+                    android:background="@drawable/bg_button"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="@{onLogoutClick?View.VISIBLE:View.GONE}">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_camera" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_capture"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/submitBtnLayout"
+                    android:layout_width="@dimen/value_180dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="@dimen/value_40dp"
+                    android:background="@drawable/bg_button"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="25dp"
+                        android:layout_marginEnd="10dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_submit" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_submit"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/capturedImageLayout"
+                    android:layout_width="@dimen/value_200dp"
+                    android:layout_height="@dimen/value_250dp"
+                    android:layout_gravity="center"
+                    android:background="@color/splash_start_color"
+                    android:visibility="@{onSignInClick || onLogoutClick?View.INVISIBLE:View.GONE}">
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/value_200dp"
+                        android:layout_height="@dimen/value_250dp">
+
+                        <ImageView
+                            android:id="@+id/capturedImg"
+                            android:layout_width="200dp"
+                            android:layout_height="250dp"
+                            android:contentDescription="@string/app_name"
+                            android:padding="@dimen/value_5dp"
+                            android:scaleType="fitXY" />
+
+                        <ImageView
+                            android:id="@+id/deleteImage"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentEnd="true"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="@dimen/value_2dp"
+                            android:paddingBottom="@dimen/value_2dp"
+                            android:src="@drawable/ic_close"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </RelativeLayout>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/singOutViewLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/value_30dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/lastLogInText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Last Login: 25 June 2021, 02:15 PM"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_16sp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/taskInfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <RelativeLayout
+                android:id="@+id/headerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_55dp"
+                android:background="@color/apollo_img_color"
+                android:padding="@dimen/value_7dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:text="@string/label_last_login"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        android:id="@+id/lastLogTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/signOutParentLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/value_42dp"
+                    android:background="@drawable/bg_button"
+                    android:gravity="center"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:text="@string/label_attendance_sign_out"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/taskRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/headerLayout"
+                android:padding="@dimen/value_5dp"
+                android:visibility="visible"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="2"
+                tools:listitem="@layout/view_task_item" />
+
+            <RelativeLayout
+                android:id="@+id/emptyList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_no_tasks"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_18sp" />
+            </RelativeLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_task_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:layout_marginBottom="@dimen/value_25dp"
+                android:backgroundTint="@color/splash_start_color"
+                app:fabSize="normal"
+                app:srcCompat="@drawable/ic_baseline_add_24"
+                tools:ignore="VectorDrawableCompat" />
+        </RelativeLayout>
+
+        <!--        <ProgressBar-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_centerInParent="true"-->
+        <!--            android:layout_gravity="center"-->
+        <!--            android:indeterminateTint="@color/splash_start_color"-->
+        <!--            android:visibility="@{taskModel.state == State.SUCCESS?View.VISIBLE:View.GONE}" />-->
+    </RelativeLayout>
+</layout>

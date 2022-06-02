@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:cardElevation="@dimen/value_3dp"
+        android:layout_marginStart="@dimen/value_5dp"
+        android:layout_marginTop="@dimen/value_6dp"
+        android:layout_marginBottom="@dimen/value_2dp"
+        android:layout_marginEnd="@dimen/value_5dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/value_8dp">
+
+        <LinearLayout
+            android:id="@+id/notificationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_80dp"
+            android:background="#e7f6fb"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/value_10dp"
+                android:layout_weight="0.1"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/ic_baseline_notifications_24"
+                android:tint="@color/black" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:layout_weight="0.7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/notiHeaderLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value_2dp"
+                    android:text="Offer"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/notiDescLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:maxLines="1"
+                    android:text="October month Offers are with 25%"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:layout_weight="0.2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/notiDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="03 Oct"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp" />
+
+                <TextView
+                    android:id="@+id/notiTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:maxLines="1"
+                    android:text="12:15 PM"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

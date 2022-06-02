@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="splash_start_color">#173b5e</color>
+    <color name="splash_end_color">#269aba</color>
+    <color name="app_center_color">#1f6e90</color>
+
+    <color name="colorPrimary">#007C9D</color>
+    <color name="colorPrimaryDark">#007C9D</color>
+    <color name="colorAccent">#007C9D</color>
+    <color name="backgroundColor">#007C9D</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#b9c2c4</color>
+
+    <color name="customer_search_border">#d5d6d8</color>
+    <color name="pay_btn_color">#fcb815</color>
+    <color name="dark_yellow">#FDB813</color>
+    <color name="fadedTextColor">#949698</color>
+
+    <color name="apollo_btn_color">#fdb931</color>
+    <color name="apollo_img_color">#2582a1</color>
+    <color name="rejected">#e51e32</color>
+    <color name="status_created">#FF0000</color>
+    <color name="status_hold_process">#0000FF</color>
+    <color name="status_progress">#f2b115</color>
+    <color name="status_closed">#2CBA00</color>
+    <color name="status_lone">#800000</color>
+    <color name="status_ltwo">#800080</color>
+    <color name="status_lthree">#000080</color>
+    <color name="status_reopen_request">#606060</color>
+    <color name="status_acknowledge">#00CCCC</color>
+    <color name="status_reopen_for_process">#CC0066</color>
+    <color name="dotted_line_color">#7e7e7e</color>
+    <color name="complaint_bg">#ecf5f8</color>
+
+    <color name="task_card_bg">#b2e2f2</color>
+    <color name="dialog_corner_color">#d4d4d4</color>
+    <color name="header_bg">#d5d6d8</color>
+
+    <color name="faded_background">#E2E4E6</color>
+    <color name="faded_click">#7BBFD1</color>
+    <color name="bill_colour">#85bb65</color>
+    <color name="active_task_color">#c5e5c9</color>
+    <color name="green">#33cc33</color>
+    <color name="material_amber_accent_700">#FFAB00</color>
+</resources>
