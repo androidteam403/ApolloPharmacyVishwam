@@ -83,6 +83,7 @@ object Preferences {
     private const val PREF_KEY_PIN_CREATED = "PREF_KEY_PIN_CREATED"
     private const val PREF_KEY_FCM_UPDATED = "PREF_KEY_FCM_UPDATED"
     private const val KEY_LOGIN_DATE = "KEY_LOGIN_DATE"
+    private const val KEY_COMPANY = "KEY_COMPANY"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -154,5 +155,13 @@ object Preferences {
 
     fun getLoginDate(): String {
         return sharedPreferences.getString(KEY_LOGIN_DATE, "")!!
+    }
+
+    fun setCompany(company: String) {
+        sharedPreferences.edit().putString(KEY_COMPANY, company).apply()
+    }
+
+    fun getCompany(): String {
+        return sharedPreferences.getString(KEY_COMPANY, "")!!
     }
 }

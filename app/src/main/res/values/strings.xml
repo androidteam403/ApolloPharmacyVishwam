@@ -164,4 +164,13 @@
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
 
+
+    <string-array name="company_list">
+        <item>Select Company</item>
+        <item>AHLSCM</item>
+        <item>AHL247</item>
+        <item>APPL</item>
+        <item>APL</item>
+        <item>AHEL</item>
+    </string-array>
 </resources>

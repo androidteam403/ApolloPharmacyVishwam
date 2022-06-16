@@ -33,7 +33,6 @@ import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.util.Utils
 import java.io.File
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -1294,21 +1293,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     override fun confirmSite(departmentDto: StoreListItem) {
         showLoading()
-        Preferences.saveSiteId(departmentDto.sITEID!!)
+        Preferences.saveSiteId(departmentDto.site!!)
         RegistrationRepo.saveStoreInfo(departmentDto)
         viewModel.registerUserWithSiteID(
             UserSiteIDRegReqModel(
                 userData.EMPID,
-                departmentDto.sITEID
+                departmentDto.site
             ), departmentDto
         )
 
         var storedata = StoreData(
-            departmentDto.sITEID,
-            departmentDto.sITENAME,
-            departmentDto.DcName,
-            departmentDto.sTATEID,
-            departmentDto.dcId
+            departmentDto.site,
+            departmentDto.store_name,
+            departmentDto.dc_code?.name,
+            departmentDto.site,
+            departmentDto.dc_code?.code
         )
         LoginRepo.saveStoreData(storedata)
 
@@ -1326,14 +1325,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     fun onSuccessUserWithSiteID(selectedStoreItem: StoreListItem) {
         hideLoading()
         RefreshView()
-        if (selectedStoreItem.sITEID.isNullOrEmpty()) {
+        if (selectedStoreItem.site.isNullOrEmpty()) {
             viewBinding.departmentLayout.visibility = View.GONE
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
         } else {
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
-            Preferences.saveSiteId(selectedStoreItem.sITEID!!)
+            Preferences.saveSiteId(selectedStoreItem.site!!)
             RegistrationRepo.saveStoreInfo(selectedStoreItem)
             if (!isSuperAdmin) {
                 showLoading()
@@ -1342,8 +1341,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            viewBinding.siteIdSelect.setText(selectedStoreItem.sITEID + " - " + selectedStoreItem.sITENAME)
-            viewBinding.branchName.setText(selectedStoreItem.dcId + " - " + selectedStoreItem.DcName)
+            viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
+            viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)
         }
     }
 }

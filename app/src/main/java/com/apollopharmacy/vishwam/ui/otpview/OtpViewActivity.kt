@@ -231,6 +231,10 @@ class OtpViewActivity : AppCompatActivity() {
         }
 
         otpViewBinding.resendOtpLayout.setOnClickListener {
+            otpViewBinding.txtOtp1.setText("")
+            otpViewBinding.txtOtp2.setText("")
+            otpViewBinding.txtOtp3.setText("")
+            otpViewBinding.txtOtp4.setText("")
             countDownTimer.onFinish()
             countDownTimer.cancel()
             countDownTimer.start()
@@ -358,7 +362,7 @@ class OtpViewActivity : AppCompatActivity() {
                 codeName,
                 versionNum.toString(),
                 Build.MANUFACTURER,
-                Build.MODEL, "Test"))
+                Build.MODEL, Preferences.getCompany()))
         } else {
             Toast.makeText(
                 this,
