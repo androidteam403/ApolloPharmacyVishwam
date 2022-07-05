@@ -52,9 +52,11 @@ class ComplainListViewModel : ViewModel() {
                         RegistrationRepo.getDetails(
                             "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
-                                baseUrl + "&site_id=" + requestComplainList.siteid + "&from_date=" + requestComplainList.fromDate + "&to_date=" + requestComplainList.toDate,
+                                "$baseUrl&site_id=${requestComplainList.siteid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}",
                                 "GET",
-                                "The"
+                                "The",
+                                "",
+                                ""
                             )
                         )
                     }
@@ -124,7 +126,9 @@ class ComplainListViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
                                 "GET",
-                                "The"
+                                "The",
+                                "",
+                                ""
                             )
                         )
 
