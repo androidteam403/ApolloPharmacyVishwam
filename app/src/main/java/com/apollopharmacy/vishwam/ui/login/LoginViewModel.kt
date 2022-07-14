@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveSiteId("")
-                                    LoginRepo.saveProfile(result.value)
+                                    LoginRepo.saveProfile(result.value,loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
                                     Preferences.setLoginDate(Utils.getCurrentDate())

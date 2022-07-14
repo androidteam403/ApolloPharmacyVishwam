@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.otpview
 
+import `in`.aabhasjindal.otptextview.OTPListener
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -33,6 +34,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import java.lang.reflect.Field
 import java.util.concurrent.TimeUnit
 
+
 class OtpViewActivity : AppCompatActivity() {
     lateinit var otpViewModel: OtpViewModel
     lateinit var otpViewBinding: ActivityOtpViewBinding
@@ -51,8 +53,11 @@ class OtpViewActivity : AppCompatActivity() {
         otpViewModel = ViewModelProvider(this)[OtpViewModel::class.java]
         if (intent.extras != null) {
             empVal = intent.getStringExtra("EmpID").toString()
-            otpViewBinding.employeeId.append(" (" + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
-                R.string.please_check_employee_id))
+            otpViewBinding.employeeId.append(
+                " (" + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
+                    R.string.please_check_employee_id
+                )
+            )
         }
 
         FirebaseMessaging.getInstance().token
@@ -60,8 +65,10 @@ class OtpViewActivity : AppCompatActivity() {
                 override fun onComplete(task: Task<String>) {
                     if (!task.isSuccessful) {
                         FCM_KEY = "Unknown"
-                        Utils.printMessage(TAG,
-                            "Fetching FCM registration token failed" + task.exception)
+                        Utils.printMessage(
+                            TAG,
+                            "Fetching FCM registration token failed" + task.exception
+                        )
                         return
                     }
 
@@ -81,10 +88,10 @@ class OtpViewActivity : AppCompatActivity() {
                 otpViewBinding.customerMobileNum.setText(resources.getText(R.string.please_type_the_verification_code_sent_to_))
                 otpViewBinding.customerMobileNum.append(" " + Utils.getMaskedNumber(it.MOBILENO))
                 otpViewBinding.linearEdtOtp.visibility = View.VISIBLE
+                otpViewBinding.otpView.visibility = View.VISIBLE
                 otpViewBinding.fabNext.visibility = View.VISIBLE
                 countDownTimer.start()
                 receivedOtp = it.OTP
-                otpViewBinding.txtOtp1.requestFocus()
             } else {
                 otpViewBinding.updateButton.isClickable = true
                 otpViewBinding.confirmButton.isClickable = true
@@ -98,78 +105,6 @@ class OtpViewActivity : AppCompatActivity() {
             Utlis.hideLoading()
             handleOtpService(serviceEmpID)
         }
-
-        otpViewBinding.txtOtp1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp2.setSelection(otpViewBinding.txtOtp2.text!!.length)
-                    otpViewBinding.txtOtp2.requestFocus()
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp3.setSelection(otpViewBinding.txtOtp3.text!!.length)
-                    otpViewBinding.txtOtp3.requestFocus()
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp3.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp4.setSelection(otpViewBinding.txtOtp4.text!!.length)
-                    otpViewBinding.txtOtp4.requestFocus()
-                    otpViewBinding.txtOtp4.setCursorVisible(true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp4.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp4.setSelection(otpViewBinding.txtOtp4.text!!.length)
-//                    otpViewBinding.txtOtp4.requestFocus()
-                    otpViewBinding.txtOtp4.hideKeyboard()
-                } else {
-                    otpViewBinding.txtOtp4.setCursorVisible(true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
 
         otpViewModel.commands.observeForever { command ->
             Utlis.hideLoading()
@@ -211,13 +146,17 @@ class OtpViewActivity : AppCompatActivity() {
 
         otpViewBinding.proceedButton.setOnClickListener {
             isTimerStarted = true;
-            otpViewBinding.employeeIdET.postDelayed({ otpViewBinding.employeeIdET.hideKeyboard() },
-                50)
+            otpViewBinding.employeeIdET.postDelayed(
+                { otpViewBinding.employeeIdET.hideKeyboard() },
+                50
+            )
             otpViewBinding.employeeIdET.isEnabled = false
             otpViewBinding.proceedButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
             otpViewBinding.proceedButton.isClickable = false
-            handleOtpConfirmView(otpViewBinding.employeeIdET.text.toString().trim()
-                .replace(" ", ""))
+            handleOtpConfirmView(
+                otpViewBinding.employeeIdET.text.toString().trim()
+                    .replace(" ", "")
+            )
         }
 
         otpViewBinding.fabPrevious.setOnClickListener {
@@ -231,14 +170,11 @@ class OtpViewActivity : AppCompatActivity() {
         }
 
         otpViewBinding.resendOtpLayout.setOnClickListener {
-            otpViewBinding.txtOtp1.setText("")
-            otpViewBinding.txtOtp2.setText("")
-            otpViewBinding.txtOtp3.setText("")
-            otpViewBinding.txtOtp4.setText("")
+            otpViewBinding.otpView.setOTP("")
             countDownTimer.onFinish()
             countDownTimer.cancel()
             countDownTimer.start()
-            otpViewBinding.resendOtpLayout.isClickable = false
+            otpViewBinding.resendOtpLayout.visibility = View.GONE
             otpViewBinding.resendOtpLayout.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
             val userID: String
             if (otpViewBinding.employeeIdET.text.toString().isEmpty()) {
@@ -274,18 +210,20 @@ class OtpViewActivity : AppCompatActivity() {
     }
 
     private fun millisecondsToTime(milliseconds: Long): String? {
-        return "Time remaining " + String.format("%02d : %02d",
+        return "Time remaining " + String.format(
+            "%02d : %02d",
             TimeUnit.MILLISECONDS.toMinutes(milliseconds),
             TimeUnit.MILLISECONDS.toSeconds(milliseconds) -
-                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)))
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
+        )
     }
 
     override fun onStop() {
         super.onStop()
-        if (countDownTimer != null) {
-            countDownTimer.onFinish()
-            countDownTimer.cancel()
-        }
+//        if (countDownTimer != null) {
+//            countDownTimer.onFinish()
+//            countDownTimer.cancel()
+//        }
     }
 
     override fun onDestroy() {
@@ -298,11 +236,11 @@ class OtpViewActivity : AppCompatActivity() {
 
     override fun onResume() {
         Utils.printMessage(TAG, "isTimerStarted : " + isTimerStarted)
-        if (isTimerStarted) {
-            otpViewBinding.resendOtpLayout.visibility = View.VISIBLE
-        } else {
-            otpViewBinding.resendOtpLayout.visibility = View.GONE
-        }
+//        if (isTimerStarted) {
+//            otpViewBinding.resendOtpLayout.visibility = View.VISIBLE
+//        } else {
+//            otpViewBinding.resendOtpLayout.visibility = View.GONE
+//        }
         super.onResume()
     }
 
@@ -312,8 +250,12 @@ class OtpViewActivity : AppCompatActivity() {
     }
 
     private fun handleNextIntent() {
-        enteredOtp =
-            otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
+        enteredOtp = otpViewBinding.otpView.otp
+        if(enteredOtp == receivedOtp && otpViewBinding.resendOtpLayout.visibility == View.VISIBLE){
+            Toast.makeText(this, "Entered OTP has Expired", Toast.LENGTH_SHORT).show()
+            return
+        }
+         //   otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
         if (enteredOtp == receivedOtp) {
             countDownTimer.cancel()
             otpViewBinding.timer.setText("")
@@ -356,13 +298,17 @@ class OtpViewActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-            otpViewModel.checkEmpAvailability(ValidateOtpRequest(empID.toUpperCase(),
-                Utils.getDeviceId(this),
-                FCM_KEY,
-                codeName,
-                versionNum.toString(),
-                Build.MANUFACTURER,
-                Build.MODEL, Preferences.getCompany()))
+            otpViewModel.checkEmpAvailability(
+                ValidateOtpRequest(
+                    empID.toUpperCase(),
+                    Utils.getDeviceId(this),
+                    FCM_KEY,
+                    codeName,
+                    versionNum.toString(),
+                    Build.MANUFACTURER,
+                    Build.MODEL, Preferences.getCompany()
+                )
+            )
         } else {
             Toast.makeText(
                 this,

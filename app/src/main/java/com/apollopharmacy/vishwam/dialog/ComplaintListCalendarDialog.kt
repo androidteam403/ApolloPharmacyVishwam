@@ -25,11 +25,15 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
     companion object {
         const val KEY_DATA = "data"
+        const val KEY_FROM_DATE = "from_date"
+        const val KEY_IS_TO ="is_to_date"
     }
 
-    fun generateParsedData(data: String): Bundle {
+    fun generateParsedData(data: String, isToDate: Boolean, fromDate: String ): Bundle {
         return Bundle().apply {
             putString(KEY_DATA, data)
+            putString(KEY_FROM_DATE,fromDate)
+            putBoolean(KEY_IS_TO,isToDate)
         }
     }
 
@@ -79,6 +83,10 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
         dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
+        if(arguments?.getBoolean(KEY_IS_TO) == true){
+            val date = SimpleDateFormat("dd-MMM-yyyy").parse(arguments?.getString(KEY_FROM_DATE))
+            dataPickerBinding.datePicker.minDate =date.time
+        }
 
         dataPickerBinding.ok.setOnClickListener {
             val _year = dataPickerBinding.datePicker.year

@@ -67,14 +67,14 @@ class RegistrationViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("DISCOUNT GET STORE LIST")) {
-                val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/list/mobile-site-list"//data.APIS[i].URL
+            if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            token,
+                            "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
@@ -242,13 +242,14 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseTicktResolvedapi::class.java
                                         )
-                                    if (responseTicktResolvedapi.success) {
-                                        tisketstatusresponse.value = responseTicktResolvedapi
-                                    } else {
-                                        command.value = CmsCommand.ShowToast(
-                                            responseTicktResolvedapi.toString()
-                                        )
-                                    }
+                                    tisketstatusresponse.value = responseTicktResolvedapi
+//                                    if (!responseTicktResolvedapi.success) {
+//                                        tisketstatusresponse.value = responseTicktResolvedapi
+//                                    } else {
+//                                        command.value = CmsCommand.ShowToast(
+//                                            responseTicktResolvedapi.toString()
+//                                        )
+//                                    }
                                 }
                             }
                             /* val reasonlitrows = response.value.data.listdata.rows
@@ -283,7 +284,7 @@ class RegistrationViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS CMSLOGIN")) {
+            if (data.APIS[i].NAME.equals("CMS LOGIN")) {
                 /* var baseUrl =
                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/login"*/
                 var baseUrl = data.APIS[i].URL
@@ -382,7 +383,7 @@ class RegistrationViewModel : ViewModel() {
                             state.value = State.ERROR
                             if (response != null) {
                                 // tisketstatusresponse.value = response.value
-                                val resp: String = response.value.toString()
+                                val resp: String = response.value.string()
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseticketRatingApi =

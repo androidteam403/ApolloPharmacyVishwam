@@ -9,6 +9,7 @@ import android.os.Build
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -32,6 +33,7 @@ import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCA
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.util.Utils
+import com.google.gson.Gson
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -268,11 +270,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                   viewModel.getTicketRatingApi()*/
 
 
-                /*  AcknowledgementDialog().apply {
+                  AcknowledgementDialog().apply {
                       arguments = AcknowledgementDialog()
                           .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
                   }
-                      .show(childFragmentManager, "")*/
+                      .show(childFragmentManager, "")
             }
 
         })
@@ -462,7 +464,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         viewModel.responsenewcomplaintregistration.observe(viewLifecycleOwner, {
             hideLoading()
-            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
 
             SubmitcomplaintDialog().apply {
@@ -1341,8 +1343,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
-            viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)
+           val store =  LoginDetails.StoreData(
+               selectedStoreItem.site.toString(),
+               selectedStoreItem.store_name.toString(),
+               selectedStoreItem.dc_code?.name.toString(),
+               selectedStoreItem.site.toString(),
+               selectedStoreItem.dc_code?.code.toString())
+           val repo = LoginRepo.getProfile()
+            repo?.STOREDETAILS?.clear()
+            repo?.STOREDETAILS?.add(store)
+            if (repo != null) {
+                LoginRepo.saveProfile(repo,LoginRepo.getPassword())
+                Log.e("Saved prif data", Gson().toJson(repo))
+                viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
+                viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)
+            }
+
         }
     }
 }
