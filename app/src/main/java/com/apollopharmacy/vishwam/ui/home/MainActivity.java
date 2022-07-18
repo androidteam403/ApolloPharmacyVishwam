@@ -46,6 +46,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -268,6 +269,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
                 break;
+            case "Swacch Images Upload":
+                headerText.setText("Swacch Images");
+                fragment = new SwacchImagesUpload();
+                break;
+
 
             case "Logout":
                 dialogExit();
@@ -556,7 +562,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
                                         .addChildModel(new ChildModel("Bill"))
-                        )
+                        ).addHeaderModel(
+                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
+                                .addChildModel(new ChildModel("Swacch Images Upload"))
+
+                )
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -565,7 +575,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
-                            else if (id == 3) {
+                            else if (id == 4) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -585,6 +595,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
+                            }else if(groupPosition == 3 && childPosition ==0){
+                                displaySelectedScreen("Swacch Images Upload");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;

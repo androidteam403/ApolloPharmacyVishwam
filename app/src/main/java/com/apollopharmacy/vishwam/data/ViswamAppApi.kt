@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
 import okhttp3.ResponseBody
 import retrofit2.http.*
 import java.util.*
@@ -240,4 +241,9 @@ interface ViswamAppApi {
         @Body getDetailsRequest: GetDetailsRequest
     ): ResponseBody
 
+
+    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseCategoryDetails?Storeid=16001")
+    suspend fun swachhImagesUpload(
+        @Header("token") token: String,
+    ): SwachModelResponse
 }
