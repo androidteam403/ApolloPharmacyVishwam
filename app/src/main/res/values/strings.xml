@@ -37,7 +37,7 @@
     <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_remarks">Select Reason  <font color='#FF0000'>*</font></string>
 
-  <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
+    <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
 
     <string name="label_since_problem_raise">Date of Occurrence <font color='#FF0000'>*</font></string>
     <string name="label_problem_with">Problem With  <font color='#FF0000'>*</font></string>
@@ -55,7 +55,7 @@
     <string name="label_enter_mrp">Enter MRP</string>
     <string name="label_enter_purchase_price">Enter Purchase Price</string>
     <string name="label_select_expire_date">Select Expire Date</string>
-  <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
+    <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
     <string name="label_problem_description">Complaint Description  <font color='#FF0000'>*</font></string>
     <!--<string name="label_upload_image">Upload Image For The Following</string>-->
     <string name="label_upload_image">Capture and Upload Image</string>
@@ -91,9 +91,9 @@
     <string name="label_unableto_save">Store ID not available</string>
     <string name="label_complaint_site_id">Site ID:</string>
     <string name="label_complaint_ticket_number">Ticket No.:</string>
-    <string name="label_status">Ticket Status:</string>
+    <string name="label_status">Status: </string>
     <string name="label_close_date">Closed Date:</string>
-    <string name="label_problem_since">Date Of Occurence</string>
+    <string name="label_problem_since">Date Of Occurrence: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
     <string name="label_select_site">Select Site</string>
@@ -104,15 +104,15 @@
 
     <string name="label_enter_remarks">Enter Remarks</string>
     <string name="label_re_open">Re-Open</string>
-    <string name="label_accept">Accept</string>
+    <string name="label_accept">Close</string>
     <string name="label_acknowledge_close_comp">Please acknowledgement to register a new complaint</string>
     <string name="label_registered_date">Reg Date:</string>
-    <string name="label_staff_name">Staff Name</string>
+    <string name="label_staff_name">Ticket created by: </string>
     <string name="label_description">Description</string>
     <string name="label_siteid">Site ID</string>
     <string name="label_siteName">Site Name</string>
     <string name="label_tracking_status">Track Status</string>
-    <string name="label_department">Department</string>
+    <string name="label_department">Department: </string>
     <string name="label_prob_description">Prob.Description:</string>
     <string name="label_acknowledgement">Acknowledgement</string>
     <string name="label_rate_complaint">Please Rate the complaint</string>
@@ -163,5 +163,19 @@
     <string name="not_now">Not now</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
+    <string-array name="company_list">
+        <item>Select Company</item>
+        <item>AHLSCM</item>
+        <item>AHL247</item>
+        <item>APPL</item>
+        <item>APL</item>
+        <item>AHEL</item>
+    </string-array>
+
+    <string name="label_reason_acknowledgement">Reason</string>
+    <string name="label_site_list">Site: </string>
 </resources>

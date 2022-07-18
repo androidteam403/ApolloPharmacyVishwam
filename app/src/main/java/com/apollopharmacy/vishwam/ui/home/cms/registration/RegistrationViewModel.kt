@@ -11,7 +11,9 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
-import com.apollopharmacy.vishwam.data.model.*
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
+import com.apollopharmacy.vishwam.data.model.ImageDataDto
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
@@ -22,9 +24,6 @@ import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.decodeFromString
 import java.util.*
 
 class RegistrationViewModel : ViewModel() {
@@ -68,25 +67,43 @@ class RegistrationViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("DISCOUNT GET STORE LIST")) {
+            if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
                 val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.selectSiteId(token, baseUrl)
+                        RegistrationRepo.getDetails(
+                            "h72genrSSNFivOi/cfiX3A==",
+                            GetDetailsRequest(
+                                baseUrl,
+                                "GET",
+                                "The",
+                                "",
+                                ""
+                            )
+                        )
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
                     }
                     when (response) {
                         is ApiResult.Success -> {
                             state.value = State.ERROR
-                            if (response.value.status) {
+                            val resp: String = response.value.string()
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val reasonmasterV2Response =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    SiteDto::class.java
+                                )
+
+                            if (reasonmasterV2Response.status) {
                                 siteLiveData.clear()
-                                response.value.storeList.map { siteLiveData.add(it) }
+                                reasonmasterV2Response.siteData?.listData?.rows?.map { siteLiveData.add(it) }
                                 // getDepartment()
                                 command.value = CmsCommand.ShowSiteInfo("")
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    response.value.message.toString()
+                                    reasonmasterV2Response.message.toString()
                                 )
                             }
                         }
@@ -124,7 +141,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
-                                "The"
+                                "The",
+                                "",
+                                ""
                             )
                         )
                         //  RegistrationRepo.getReasonslistmaster(baseUrl)
@@ -203,7 +222,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
-                                "The"
+                                "The",
+                                "",
+                                ""
                             )
                         )
                         // RegistrationRepo.getticketresolvedstatus(baseUrl)
@@ -221,13 +242,14 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseTicktResolvedapi::class.java
                                         )
-                                    if (responseTicktResolvedapi.success) {
-                                        tisketstatusresponse.value = responseTicktResolvedapi
-                                    } else {
-                                        command.value = CmsCommand.ShowToast(
-                                            responseTicktResolvedapi.toString()
-                                        )
-                                    }
+                                    tisketstatusresponse.value = responseTicktResolvedapi
+//                                    if (!responseTicktResolvedapi.success) {
+//                                        tisketstatusresponse.value = responseTicktResolvedapi
+//                                    } else {
+//                                        command.value = CmsCommand.ShowToast(
+//                                            responseTicktResolvedapi.toString()
+//                                        )
+//                                    }
                                 }
                             }
                             /* val reasonlitrows = response.value.data.listdata.rows
@@ -262,7 +284,7 @@ class RegistrationViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS CMSLOGIN")) {
+            if (data.APIS[i].NAME.equals("CMS LOGIN")) {
                 /* var baseUrl =
                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/login"*/
                 var baseUrl = data.APIS[i].URL
@@ -281,7 +303,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
-                                requestCMSLoginJson
+                                requestCMSLoginJson,
+                                "",
+                                ""
                             )
                         )
                         //  RegistrationRepo.getCMSLoginApi(baseUrl, cmsLogin)
@@ -346,7 +370,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
-                                "the"
+                                "the",
+                                "",
+                                ""
                             )
                         )
 
@@ -357,7 +383,7 @@ class RegistrationViewModel : ViewModel() {
                             state.value = State.ERROR
                             if (response != null) {
                                 // tisketstatusresponse.value = response.value
-                                val resp: String = response.value.toString()
+                                val resp: String = response.value.string()
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseticketRatingApi =
@@ -420,7 +446,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
-                                requestClosedticketApiJson
+                                requestClosedticketApiJson,
+                                "authorization",
+                                autherisation
                             )
                         )
 
@@ -469,7 +497,6 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-
     fun getDepartment() {
         clearAllList()
         val url = Preferences.getApi()
@@ -478,49 +505,18 @@ class RegistrationViewModel : ViewModel() {
             if (data.APIS[i].NAME.equals("CMS APP")) {
                 val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
-
-
-                val cMSCommonRequestJson =
-                    Gson().toJson(CMSCommonRequest(Config.CMS_List_Of_Departments, ""))
-
-
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "POST",
-                                cMSCommonRequestJson
-                            )
+                        RegistrationRepo.callDepartmentList(
+                            token,
+                            baseUrl,
+                            Config.CMS_List_Of_Departments
                         )
-                        //CMSCommonResponse
-
-//                        RegistrationRepo.callDepartmentList(
-//                            token,
-//                            baseUrl,
-//                            Config.CMS_List_Of_Departments
-//                        )
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            if (response != null) {
-                                val resp: String = response.value.string()
-                                if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val departmentV2Response =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            DepartmentV2Response::class.java
-                                        )
-
-                                    command.value = CmsCommand.SuccessDeptList("")
-                                    departmentV2Response.departmentList.map { departmentLiveData.add(it) }
-
-
-                                }
-                            }
+                            command.value = CmsCommand.SuccessDeptList("")
+                            response.value.departmentList.map { departmentLiveData.add(it) }
                         }
                         is ApiResult.GenericError -> {
                         }
@@ -608,6 +604,7 @@ class RegistrationViewModel : ViewModel() {
         } else {
             uniqueCategoryList = Categorylistfromreasons;
         }
+        uniqueCategoryList.sortBy { it.name }
         return uniqueCategoryList;
     }
 
@@ -703,7 +700,9 @@ class RegistrationViewModel : ViewModel() {
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
-                                requestNewComplaintRegistrationJson
+                                requestNewComplaintRegistrationJson,
+                                "",
+                                ""
                             )
                         )
 
@@ -733,7 +732,7 @@ class RegistrationViewModel : ViewModel() {
                                             responseNewComplaintRegistration
                                     } else {
                                         command.value =
-                                            CmsCommand.ShowToast(responseNewComplaintRegistration.message.toString())
+                                            CmsCommand.ShowToast(responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString())
                                     }
 
 
@@ -780,10 +779,10 @@ class RegistrationViewModel : ViewModel() {
 
 
     fun submitApi(registrationSubmit: SubmitNewV2Response) {
-        registrationSubmit.cmode = storeDetailsSend.sTATEID
-        registrationSubmit.region = storeDetailsSend.dcId
-        registrationSubmit.siteId = storeDetailsSend.sITEID
-        registrationSubmit.branchName = storeDetailsSend.sITENAME
+//        registrationSubmit.cmode = storeDetailsSend.site
+//        registrationSubmit.region = storeDetailsSend.dc_code?.code
+//        registrationSubmit.siteId = storeDetailsSend.site
+//        registrationSubmit.branchName = storeDetailsSend.store_name
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -835,10 +834,10 @@ class RegistrationViewModel : ViewModel() {
     }
 
     fun submitRequestWithImages(submitRequestWithImages: SubmitNewV2Response, unitTag: String) {
-        submitRequestWithImages.cmode = storeDetailsSend.sTATEID
-        submitRequestWithImages.region = storeDetailsSend.dcId
-        submitRequestWithImages.siteId = storeDetailsSend.sITEID
-        submitRequestWithImages.branchName = storeDetailsSend.sITENAME
+//        submitRequestWithImages.cmode = storeDetailsSend.site
+//        submitRequestWithImages.region = storeDetailsSend.dc_code?.code
+//        submitRequestWithImages.siteId = storeDetailsSend.site
+//        submitRequestWithImages.branchName = storeDetailsSend.store_name
         if (unitTag.equals("NEWBATCH")) {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -987,7 +986,7 @@ class RegistrationViewModel : ViewModel() {
                             token,
                             baseUrl,
                             Config.CMS_Tickets_List,
-                            TrackingListDto(trackingListDto.sITEID!!)
+                            TrackingListDto(trackingListDto.site!!)
                         )
                     }
                     when (response) {
@@ -1070,56 +1069,33 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-    fun registerUserWithSiteID(userSiteIDRegReqModel: UserSiteIDRegReqModel, slectedStoreItem: StoreListItem) {
+    fun registerUserWithSiteID(
+        userSiteIDRegReqModel: UserSiteIDRegReqModel,
+        slectedStoreItem: StoreListItem,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS SAVE EMPLOYEE")) {
                 val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
-
-                val userSiteIDRegReqModelJson =
-                    Gson().toJson(userSiteIDRegReqModel)
-
-
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "POST",
-                                userSiteIDRegReqModelJson
-                            )
+                        RegistrationRepo.submitEmpWithSiteIDReg(
+                            token,
+                            baseUrl,
+                            userSiteIDRegReqModel
                         )
-
-
-//                        RegistrationRepo.submitEmpWithSiteIDReg(
-//                            token,
-//                            baseUrl,
-//                            userSiteIDRegReqModel
-//                        )
                     }
                     state.value = State.SUCCESS
                     when (response) {
                         is ApiResult.Success -> {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val userSiteIDRegResModel =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        UserSiteIDRegResModel::class.java
-                                    )
-                                getDepartment()
-                                command.value = CmsCommand.CheckValidatedUserWithSiteID(
-                                    userSiteIDRegResModel.MESSAGE,
-                                    slectedStoreItem
-                                )
-                                state.value = State.ERROR
-
-
-                            }
+                            getDepartment()
+                            command.value = CmsCommand.CheckValidatedUserWithSiteID(
+                                response.value.MESSAGE,
+                                slectedStoreItem
+                            )
+                            state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
                             command.value = CmsCommand.ShowToast(

@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.dialog
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -13,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DialogLogoutBinding
+import com.apollopharmacy.vishwam.ui.login.LoginActivity
 
 class SignOutDialog : DialogFragment() {
 
@@ -40,7 +42,10 @@ class SignOutDialog : DialogFragment() {
         viewBinding.cancelButton.setOnClickListener { dismiss() }
         viewBinding.signOutButton.setOnClickListener {
             LoginRepo.signOutUser()
-            requireActivity()!!.finishAndRemoveTask()
+            val intent = Intent(requireActivity(),LoginActivity::class.java)
+            startActivity(intent)
+            requireActivity()!!.finish()
+
         }
     }
 }

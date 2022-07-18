@@ -1,7 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Build
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -29,9 +32,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.*
 import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.bumptech.glide.Glide
-import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
     ImageClickListener, ComplaintListCalendarDialog.DateSelected {
@@ -58,8 +59,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewBinding.viewmodel = viewModel
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
-        viewBinding.fromDateText.setText(Utils.getOneWeekBackDate())
+        viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
+
+        viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            submitClick()
+        })
+
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
 
@@ -78,14 +84,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
              toDate=format1.format(date)*/
 
 
-            if (siteId.isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.label_check_site),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            } else {
+//            if (siteId.isEmpty()) {
+//                Toast.makeText(
+//                    requireContext(),
+//                    resources.getString(R.string.label_check_site),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+//            else {
                 Utlis.showLoading(requireContext())
                 if (isSuperAdmin) {
                     /* viewModel.getComplainListOrder(
@@ -146,7 +153,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                          )
                      )*/
                 }
-            }
+         //   }
         } else {
             Toast.makeText(
                 requireContext(),
@@ -159,6 +166,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         //newticketlist..........
         viewModel.newcomplainLiveData.observe(viewLifecycleOwner, Observer {
             Utlis.hideLoading()
+            if (viewBinding.pullToRefresh.isRefreshing) {
+                viewBinding.pullToRefresh.isRefreshing = false
+            }
             if (it.size == 0) {
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.emptyList.visibility = View.VISIBLE
@@ -191,7 +201,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 var uid = item.ticket.uid
                 var itemPos: Int = -1
                 for (ticketrow in adapter.orderData) {
-                    itemPos++;
+                    itemPos++
                     if (uid.equals(ticketrow.uid)) {
                         item.status = ticketrow.status.name
 
@@ -203,7 +213,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                              }
                          }*/
 
-                        break
                         break
                     }
 
@@ -246,99 +255,104 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
         viewBinding.submit.setOnClickListener {
-            if (NetworkUtil.isNetworkConnected(requireContext())) {
-                if (siteId.isEmpty()) {
-                    Toast.makeText(
-                        requireContext(),
-                        resources.getString(R.string.label_check_site),
-                        Toast.LENGTH_SHORT
+            submitClick()
+        }
+    }
+
+    fun submitClick(){
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+//                if (siteId.isEmpty()) {
+//                    Toast.makeText(
+//                        requireContext(),
+//                        resources.getString(R.string.label_check_site),
+//                        Toast.LENGTH_SHORT
+//                    )
+//                        .show()
+//                } else {
+            //  val fromDate:String?=null
+            //  val toDate:String?=null
+            var fromDate = viewBinding.fromDateText.text.toString()
+            var toDate = viewBinding.toDateText.text.toString()
+            //var format1 : SimpleDateFormat? = null
+            /*format1 = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+            var date: Date? = null
+            date = format1!!.parse(fromDate)
+            fromDate= format1!!.format(date)
+            date= format1!!.parse(toDate)
+            toDate= format1!!.format(date)*/
+
+            if (getDateDifference(fromDate, toDate) > 0) {
+                if(!viewBinding.pullToRefresh.isRefreshing)
+                    Utlis.showLoading(requireContext())
+
+                if (isSuperAdmin) {
+                    /* viewModel.getComplainListOrder(
+                         RequestComplainList(
+                             "",
+                             viewBinding.fromDateText.text.toString(),
+                             viewBinding.toDateText.text.toString(),
+                             userData.EMPID
+                         )
+                     )*/
+
+                    viewModel.getNewticketlist(
+                        RequestComplainList(
+                            //"11002",
+                            Preferences.getSiteId(),
+                            Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString()),
+                            Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString()),
+
+                            userData.EMPID
+                        )
                     )
-                        .show()
+
                 } else {
-                    //  val fromDate:String?=null
-                    //  val toDate:String?=null
-                    var fromDate = viewBinding.fromDateText.text.toString()
-                    var toDate = viewBinding.toDateText.text.toString()
-                    //var format1 : SimpleDateFormat? = null
-                    /*format1 = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
-                    var date: Date? = null
-                    date = format1!!.parse(fromDate)
-                    fromDate= format1!!.format(date)
-                    date= format1!!.parse(toDate)
-                    toDate= format1!!.format(date)*/
+                    /* viewModel.getComplainListOrder(
+                         RequestComplainList(
+                             siteId,
+                             viewBinding.fromDateText.text.toString(),
+                             viewBinding.toDateText.text.toString(),
+                             ""
+                         )
+                     )*/
 
-                    if (getDateDifference(fromDate, toDate) > 0) {
-                        Utlis.showLoading(requireContext())
-                        if (isSuperAdmin) {
-                            /* viewModel.getComplainListOrder(
-                                 RequestComplainList(
-                                     "",
-                                     viewBinding.fromDateText.text.toString(),
-                                     viewBinding.toDateText.text.toString(),
-                                     userData.EMPID
-                                 )
-                             )*/
-
-                            viewModel.getNewticketlist(
-                                RequestComplainList(
-                                    //"11002",
-                                    Preferences.getSiteId(),
-                                    Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString()),
-                                    Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString()),
-
-                                    userData.EMPID
-                                )
-                            )
-
-                        } else {
-                            /* viewModel.getComplainListOrder(
-                                 RequestComplainList(
-                                     siteId,
-                                     viewBinding.fromDateText.text.toString(),
-                                     viewBinding.toDateText.text.toString(),
-                                     ""
-                                 )
-                             )*/
-
-                            viewModel.getNewticketlist(
-                                RequestComplainList(
-                                    //"11002",
-                                    Preferences.getSiteId(),
-                                    Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString()),
-                                    Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString()),
-                                    //fromDate,
-                                    // toDate,
-                                    userData.EMPID
-                                )
-                            )
-                        }
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            resources.getString(R.string.label_check_dates),
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                    viewModel.getNewticketlist(
+                        RequestComplainList(
+                            //"11002",
+                            Preferences.getSiteId(),
+                            Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString()),
+                            Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString()),
+                            //fromDate,
+                            // toDate,
+                            userData.EMPID
+                        )
+                    )
                 }
             } else {
                 Toast.makeText(
                     requireContext(),
-                    resources.getString(R.string.label_network_error),
+                    resources.getString(R.string.label_check_dates),
                     Toast.LENGTH_SHORT
-                )
-                    .show()
+                ).show()
             }
+            //  }
+        } else {
+            Toast.makeText(
+                requireContext(),
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
         }
     }
-
     fun openDateDialog() {
         if (isFromDateSelected) {
             ComplaintListCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.fromDateText.text.toString())
+                arguments = generateParsedData(viewBinding.fromDateText.text.toString(),false,viewBinding.fromDateText.text.toString())
             }.show(childFragmentManager, "")
         } else {
             ComplaintListCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.toDateText.text.toString())
+                arguments = generateParsedData(viewBinding.toDateText.text.toString(),true,viewBinding.fromDateText.text.toString())
             }.show(childFragmentManager, "")
         }
     }
@@ -915,17 +929,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             lateinit var userData: LoginDetails
             userData = LoginRepo.getProfile()!!
 
-            lateinit var StoreData: StoreData
-            StoreData = LoginRepo.getStoreData()!!
-
-            binding.staffNameText.setText(items.created_id.first_name)
+//            lateinit var StoreData: StoreData
+//            StoreData = LoginRepo.getStoreData()!!
+            if(items.created_id.last_name != null)
+                binding.staffNameText.text = items.created_id.first_name + " "+ items.created_id.last_name
+            else
+                binding.staffNameText.text = items.created_id.first_name
             binding.departmentName.text = items.department.name
             binding.problemSinceText.text = Utils.getCustomDate(items.created_time)
             binding.complainDetails.text =
                 items.description?.trim()?.replace("\\s+".toRegex(), " ")
 
-            binding.siteid.text = StoreData.SITEID
-            binding.siteName.text = StoreData.SITENAME
+            binding.siteid.text = items.site.site+"-"+items.site.store_name
+//            binding.siteName.text = items.site.store_name
 
 
 
@@ -1020,8 +1036,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
 
             binding.cmpStatus.text =
-                context.resources?.getString(R.string.label_status) + items.status.name
-
+                " " + items.status.name
+            binding.cmpStatus.setTextColor(Color.parseColor(items.status.background_color))
             /*if (items.status.name.equals("New")) {
                 binding.cmpStatus.text =
                     context.resources?.getString(R.string.label_status) + " New"
@@ -1106,42 +1122,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.createdPerson.setText(
-                            remarks.description
-                        )
-                        remarkBinding.createdDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.createdPerson.text = remarks.description
+                        remarkBinding.createdDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
-                    } /*else if (remarks.status?.name?.toUpperCase().equals("HOLD AND PROCESSE")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.VISIBLE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.holdProcessPerson.setText(
-                        "Hold and Processed by " + remarks.user.first_name
-                    )
-                    remarkBinding.holdProcessDate.setText("on " + remarks.modified_time?.let {
-                        Utlis.convertCmsDate(it)
-                    })
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.holdProcessStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.holdProcessStatus.visibility = View.VISIBLE
-                        remarkBinding.holdProcessStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                }*/ else if (remarks.status?.toUpperCase().equals("IN PROGRESS")) {
+                        }
+                    } else if (remarks.status?.toUpperCase().equals("IN PROGRESS")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
                         remarkBinding.processLayout.visibility = View.VISIBLE
@@ -1155,12 +1140,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.processPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.processDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.processPerson.text = remarks.description
+                        remarkBinding.processDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
                         /* if (remarks.remarks.isNullOrEmpty())
                              remarkBinding.processStatus.visibility = View.GONE
                          else {
@@ -1184,12 +1167,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.closedPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.closedDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.closedPerson.text = remarks.description
+                        remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
                         /*if (remarks.remarks.isNullOrEmpty())
                             remarkBinding.closedStatus.visibility = View.GONE
                         else {
@@ -1213,12 +1194,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.closedPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.closedDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.closedPerson.text = remarks.description
+                        remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
                         /*if (remarks.remarks.isNullOrEmpty())
                             remarkBinding.closedStatus.visibility = View.GONE
                         else {
@@ -1242,12 +1221,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.closedPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.closedDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.closedPerson.text = remarks.description
+                        remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
                         /*if (remarks.remarks.isNullOrEmpty())
                             remarkBinding.closedStatus.visibility = View.GONE
                         else {
@@ -1271,12 +1248,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.closedPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.closedDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.closedPerson.text = remarks.description
+                        remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
 
 
                         /*if (remarks.remarks.isNullOrEmpty())
@@ -1288,7 +1263,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                                     ?.replace("\\s+".toRegex(), " ")
                             )
                         }*/
-                    } else if (remarks.status?.toUpperCase().equals("On HOLD")) {
+                    } else if (remarks.status?.toUpperCase().equals("ON HOLD")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
                         remarkBinding.processLayout.visibility = View.GONE
@@ -1302,12 +1277,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.closedPerson.setText(remarks.description
-
-                        )
-                        remarkBinding.closedDate.setText("on " + remarks.created_time?.let {
+                        remarkBinding.closedPerson.text = remarks.description
+                        remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
-                        })
+                        }
 
 
                         /*if (remarks.remarks.isNullOrEmpty())
@@ -1629,6 +1602,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (isFromDateSelected) {
             isFromDateSelected = false
             viewBinding.fromDateText.setText(showingDate)
+            val fromDate = viewBinding.fromDateText.text.toString()
+            val toDate = viewBinding.toDateText.text.toString()
+            if (getDateDifference(fromDate, toDate) == 0) {
+                viewBinding.toDateText.setText(Utils.getCurrentDate())
+            }
         } else {
             viewBinding.toDateText.setText(showingDate)
         }

@@ -104,8 +104,10 @@ object LoginRepo {
         }
     }
 
-    fun saveProfile(loginDetails: LoginDetails) {
+    fun saveProfile(loginDetails: LoginDetails, password: String) {
         Preferences.saveProfile(Gson().toJson(loginDetails))
+        Preferences.savePassword(password)
+
     }
 
     fun getProfile(): LoginDetails? {
@@ -116,6 +118,10 @@ object LoginRepo {
             e.printStackTrace()
             return null
         }
+    }
+
+    fun getPassword(): String{
+        return Preferences.getUserPassword()
     }
 
 

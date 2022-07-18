@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/bottomarrow.xml" value="0.1215" />
+        <entry key="app/src/main/res/layout/activity_create_pin.xml" value="0.12919310970081596" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.11730072463768115" />
+        <entry key="app/src/main/res/layout/activity_otp_view.xml" value="0.13122171945701358" />
+        <entry key="app/src/main/res/layout/activity_verify_user.xml" value="0.11730072463768115" />
+        <entry key="app/src/main/res/layout/custom_forgot_pin.xml" value="0.12919310970081596" />
+        <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.13949275362318841" />
+        <entry key="app/src/main/res/layout/fragment_complaints.xml" value="0.1586582048957389" />
+        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_complaint_item.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/view_image_item.xml" value="0.15416666666666667" />
+        <entry key="app/src/main/res/layout/view_order_status.xml" value="0.18177697189483227" />
+      </map>
+    </option>
   </component>
-  <component name="ProjectType">
-    <option name="id" value="Android" />
-  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK" />
 </project>

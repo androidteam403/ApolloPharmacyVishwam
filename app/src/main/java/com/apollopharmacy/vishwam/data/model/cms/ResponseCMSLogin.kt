@@ -416,11 +416,11 @@ data class ResponseCMSLogin (
         @field:SerializedName("uid")
         val uid: String? = null,
 
-        @field:SerializedName("user_team_region")
-        val user_team_region: ArrayList<String>,
+//        @field:SerializedName("user_team_region")
+//        val user_team_region: ArrayList<String>,
 
-        @field:SerializedName("user_team_category")
-        val user_team_category: ArrayList<String>,
+//        @field:SerializedName("user_team_category")
+//        val user_team_category: ArrayList<String>,
 
     ):Serializable
 

@@ -16,7 +16,7 @@ public class ForgotPinActivity extends AppLockActivity {
     public void showForgotDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
         dialog.setContentView(R.layout.custom_forgot_pin);
 
         ImageView closeImg = (ImageView) dialog.findViewById(R.id.close_dialog);

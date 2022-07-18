@@ -116,7 +116,7 @@ class SiteRecyclerView(
         R.layout.view_list_item
     ) {
     override fun bindItems(binding: ViewListItemBinding, items: StoreListItem, position: Int) {
-        binding.itemName.text = "${items.sITEID}, ${items.sITENAME}"
+        binding.itemName.text = "${items.site}, ${items.store_name}"
         binding.root.setOnClickListener {
 
             onSelectedListner.onSelected(items)

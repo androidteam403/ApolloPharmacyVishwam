@@ -265,7 +265,10 @@ data class ResponseNewTicketlist(
         val uid: String? = null,
 
         @field:SerializedName("site")
-        val site: String? = null
+        val site: String? = null,
+
+        @field:SerializedName("store_name")
+        val store_name: String? = null
     ):Serializable
 
 

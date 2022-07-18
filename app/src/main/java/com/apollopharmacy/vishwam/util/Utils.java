@@ -318,9 +318,9 @@ public class Utils {
         return convertedDate;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public static int getDateDifference(String fromDate, String toDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
 

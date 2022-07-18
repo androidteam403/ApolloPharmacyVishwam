@@ -27,7 +27,9 @@ class LoginViewModel : ViewModel() {
             commands.postValue(Command.ShowToast("Please Enter User ID"))
         } else if (loginRequest.PASSWORD.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter Password"))
-        } else {
+        } else if(loginRequest.COMPANY.isEmpty()){
+            commands.postValue(Command.ShowToast("Please Select company"))
+        } else{
             state.postValue(State.LOADING)
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -44,7 +46,7 @@ class LoginViewModel : ViewModel() {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveSiteId("")
-                                    LoginRepo.saveProfile(result.value)
+                                    LoginRepo.saveProfile(result.value,loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
                                     Preferences.setLoginDate(Utils.getCurrentDate())
