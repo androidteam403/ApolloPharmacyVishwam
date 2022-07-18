@@ -3,11 +3,13 @@ package com.apollopharmacy.vishwam.ui.login
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.widget.Toast
+import android.view.ViewGroup
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -38,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var downloadController: DownloadController
     private val PERMISSION_REQUEST_CODE = 1
     val TAG = "LoginActivity"
-
+    private  var selectedcompany = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -89,6 +91,59 @@ class LoginActivity : AppCompatActivity() {
             }
         })
 
+
+        val companys = resources.getStringArray(R.array.company_list)
+        val mySpinner = findViewById<Spinner>(R.id.company_spinner)
+        val spinnerAdapter= object : ArrayAdapter<String>(this,R.layout.dropdown_item, companys) {
+
+            override fun isEnabled(position: Int): Boolean {
+                // Disable the first item from Spinner
+                // First item will be used for hint
+                return position != 0
+            }
+
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup
+            ): View {
+                val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
+                //set the color of first item in the drop down list to gray
+                if(position == 0) {
+                    view.setTextColor(Color.GRAY)
+                } else {
+                    //here it is possible to define color for other items by
+                    //view.setTextColor(Color.RED)
+                }
+                return view
+            }
+
+        }
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        mySpinner.adapter = spinnerAdapter
+        val index = companys.indexOfFirst{
+            it == Preferences.getCompany()
+        }
+        mySpinner.setSelection(index)
+        mySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val value = parent!!.getItemAtPosition(position).toString()
+                if(value == companys[0]){
+//                    (view as TextView).setTextColor(Color.GRAY)
+                }else{
+                    selectedcompany = companys[position]
+                }
+            }
+
+        }
         onCheckBuildDetails()
     }
 
@@ -99,7 +154,8 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.checkLogin(
                 LoginRequest(
                     loginBinding.passwordEditText.text.toString().trim(),
-                    loginBinding.nameEditText.text.toString().trim()
+                    loginBinding.nameEditText.text.toString().trim(),
+                    selectedcompany
                 )
             )
         } else {

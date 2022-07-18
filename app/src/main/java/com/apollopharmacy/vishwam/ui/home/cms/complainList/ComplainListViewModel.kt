@@ -52,7 +52,7 @@ class ComplainListViewModel : ViewModel() {
                         RegistrationRepo.getDetails(
                             "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
-                                "$baseUrl&site_id=${requestComplainList.siteid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}",
+                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}",
                                 "GET",
                                 "The",
                                 "",
