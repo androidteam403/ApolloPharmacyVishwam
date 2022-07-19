@@ -89,7 +89,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
         </LinearLayout>
-
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dateSelectionLayout">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewApproved"
             android:layout_width="match_parent"
@@ -100,6 +104,7 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:itemCount="2"
             tools:listitem="@layout/view_complaint_item" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <RelativeLayout
             android:id="@+id/emptyList"

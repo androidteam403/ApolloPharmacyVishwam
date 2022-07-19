@@ -49,4 +49,6 @@
     <color name="active_task_color">#c5e5c9</color>
     <color name="green">#33cc33</color>
     <color name="material_amber_accent_700">#FFAB00</color>
+    <color name="pastel_orange_light">#FBE8DF</color>
+
 </resources>

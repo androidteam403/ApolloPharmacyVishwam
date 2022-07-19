@@ -4,6 +4,7 @@ plugins {
     id 'com.google.gms.google-services'
     id 'com.google.firebase.crashlytics'
 
+
 }
 
 android {
@@ -11,10 +12,10 @@ android {
 
     defaultConfig {
         applicationId "com.apollopharmacy.vishwam"
-        minSdkVersion 23
+        minSdkVersion 24
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.1.8"
+        versionCode 12
+        versionName "1.1.9"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -105,5 +106,7 @@ dependencies {
     //implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_version"
 
     implementation 'com.localebro:okhttpprofiler:1.0.8'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+
 
 }

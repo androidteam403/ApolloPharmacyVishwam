@@ -107,7 +107,7 @@ class AcknowledgementDialog : DialogFragment() {
         var cmsLogin = RequestCMSLogin()
        // cmsLogin.appUserName = "APL49365"
         cmsLogin.appUserName =userData!!.EMPID
-        cmsLogin.appPassword = "Cms#1234"
+        cmsLogin.appPassword = LoginRepo.getPassword()
         viewModel.getCMSLoginApi(cmsLogin)
         viewModel.getTicketRatingApi()
 
@@ -144,7 +144,7 @@ class AcknowledgementDialog : DialogFragment() {
       /*  viewBinding.problemDesc.text =
             context?.resources?.getString(R.string.label_prob_description) + "  ${data[0].problemDrescription}"*/
           viewBinding.problemDesc.text =
-                  context?.resources?.getString(R.string.label_prob_description) + datanew.ticket_reason_name
+                  context?.resources?.getString(R.string.label_reason_acknowledgement) + datanew.ticket_reason_name
         viewBinding.textHead.text = context?.resources?.getString(R.string.label_acknowledgement)
         viewBinding.accept.setOnClickListener {
             closingstatus=true
@@ -209,12 +209,12 @@ class AcknowledgementDialog : DialogFragment() {
                         RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
                         comment = viewBinding.remark.text.toString().trim(),
                         uid = datanew.ticket_uid,
-                        RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",code = "solved"),
+                        RequestClosedticketApi.Status(uid = "97A318ACE84930236386DB1A70944825",code = "reopened"),
                         RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",code = "reopen"),
                         RequestClosedticketApi.Level(datanew.ticket_level_uid),
                         ticket_id = datanew.ticket_id,
                         RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                        action_name = "Closed",
+                        action_name = "Reopened",
                         RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
                         RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
                     )
