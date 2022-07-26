@@ -35,7 +35,6 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-import com.apollopharmacy.vishwam.ui.home.SwachhApollo.Swachhapollo;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -46,7 +45,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload;
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -271,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Swacch Images Upload":
                 headerText.setText("Swacch Images");
-                fragment = new SwacchImagesUpload();
+                fragment = new SwacchImagesUploadFragment();
                 break;
 
 

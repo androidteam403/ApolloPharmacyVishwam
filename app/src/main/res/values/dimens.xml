@@ -58,4 +58,5 @@
     <dimen name="value_300dp">300dp</dimen>
     <dimen name="value_450dp">450dp</dimen>
     <dimen name="eighty_fivedp">85dp</dimen>
+    <dimen name="five_sp">5sp</dimen>
 </resources>

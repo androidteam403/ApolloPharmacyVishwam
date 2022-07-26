@@ -35,13 +35,13 @@
             android:textStyle="bold" />
 
         <TextView
-
+            android:id="@+id/uploadButtonTop"
             android:layout_width="0dp"
             android:layout_height="@dimen/value_40dp"
             android:layout_gravity="end"
             android:layout_marginEnd="6sp"
             android:layout_weight="0.3"
-            android:background="@drawable/yellow_drawable"
+            android:background="@color/grey"
             android:padding="6sp"
             android:text="Upload"
             android:textAlignment="center"
@@ -50,7 +50,26 @@
             android:textStyle="bold"
             tools:ignore="RtlCompat" />
 
+        <TextView
+            android:id="@+id/uploadButtonTopYellow"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/value_40dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="6sp"
+            android:layout_weight="0.3"
+            android:background="@color/dark_yellow"
+            android:padding="6sp"
+            android:visibility="gone"
+            android:text="Upload"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16sp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+
     </LinearLayout>
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView
