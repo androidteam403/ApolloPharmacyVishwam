@@ -18,7 +18,6 @@ class ConfigListAdapter(
 
     private val callbackInterface: UploadButtonAdapter.CallbackInterface,
     private val frontview_fileArrayList: ArrayList<SwachModelResponse>,
-    private  val frontview_fileArrayList1: ArrayList<ImageDataDto>
 ) :
     RecyclerView.Adapter<ConfigListAdapter.ViewHolder>() {
 
@@ -48,6 +47,7 @@ class ConfigListAdapter(
         holder.imageCount.text = SwachModelResponse?.categoryImageUploadCount
 
 //        val imageCount: String? = SwachModelResponse?.categoryImageUploadCount
+
 
 
 

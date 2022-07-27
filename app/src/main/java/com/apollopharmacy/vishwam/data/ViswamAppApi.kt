@@ -253,6 +253,6 @@ interface ViswamAppApi {
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onSubmitSwacch(
         @Header("token") token: String,
-        @Body data: MutableList<OnSubmitSwachModelRequest>
+        @Body data: ArrayList<OnSubmitSwachModelRequest>
     ): OnSubmitSwachModelResponse
 }

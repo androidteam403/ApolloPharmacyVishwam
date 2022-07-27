@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.cms.SubmitNewV2Response
 import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding
@@ -26,6 +27,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.adapter.ConfigListAdapter
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.adapter.UploadButtonAdapter
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest.ImageUrl
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse.Config.ImgeDtcl
 import com.apollopharmacy.vishwam.ui.home.swachhapollo.Commands
@@ -34,8 +36,10 @@ import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import java.io.File
 import kotlin.collections.ArrayList
+import kotlin.properties.Delegates
 
-class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacchImagesUploadBinding>(),
+class SwacchImagesUploadFragment :
+    BaseFragment<SwachhapolloViewModel, FragmentSwacchImagesUploadBinding>(),
     UploadButtonAdapter.CallbackInterface {
     var swachhapolloModel: SwachhapolloModel? = null
     lateinit var swachModelResponse: SwachModelResponse
@@ -46,7 +50,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
     private var swacchApolloList = ArrayList<SwachModelResponse>()
     private var imagesArrayListSend = ArrayList<SubmitNewV2Response.PrescriptionImagesItem>()
 
-    private var frontview_fileArrayList = ArrayList<ImageDataDto>()
+//    private var frontview_fileArrayList = ArrayList<ImageDataDto>()
 
     private var NewimagesArrayListSend = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
     private var uploadimagevalidationcount = ArrayList<ArrayList<ImageDataDto>>()
@@ -56,18 +60,18 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
         get() = R.layout.fragment_swacch_images_upload
 
 
-    override fun retrieveViewModel(): SwachhapolloModel {
-        return ViewModelProvider(this).get(SwachhapolloModel::class.java)
+    override fun retrieveViewModel(): SwachhapolloViewModel {
+        return ViewModelProvider(this).get(SwachhapolloViewModel::class.java)
 
     }
 
     override fun setup() {
         viewModel.swachImagesRegister()
+        viewBinding.storeId.text = Preferences.getSiteId()
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
-        }
-        else {
+        } else {
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.label_network_error),
@@ -92,7 +96,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
                 }
 
                 configListAdapter =
-                    ConfigListAdapter(it, this, swacchApolloList, frontview_fileArrayList)
+                    ConfigListAdapter(it, this, swacchApolloList)
                 val layoutManager = LinearLayoutManager(context)
                 viewBinding.recyclerViewimageswach.layoutManager = layoutManager
                 viewBinding.recyclerViewimageswach.itemAnimator = DefaultItemAnimator()
@@ -102,16 +106,21 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
             }
         }
 
+
+
+
         viewBinding.uploadButtonTop.setOnClickListener {
 
             Toast.makeText(context, "Please upload all Images", Toast.LENGTH_SHORT).show()
-
         }
 
 
         viewModel.commands.observe(viewLifecycleOwner, observer = {
+            configListAdapter.notifyDataSetChanged()
+            hideLoading()
             when (it) {
-                is Commands.ImageIsUploadedInAzur -> {
+
+                is CommandsNew.ImageIsUploadedInAzur -> {
                     for (i in swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto!!.indices) {
                         if (swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.get(
                                 i
@@ -127,6 +136,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
                                 i,
                                 imageDtcl
                             )
+
                             break
                         }
 
@@ -143,41 +153,46 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
 
 
 
-//        viewBinding.uploadButtonTopYellow.setOnClickListener {
-//            if (NetworkUtil.isNetworkConnected(requireContext())) {
-//                showLoading()
-//                var submitList: ArrayList<OnSubmitSwachModelRequest>
-//                for (i in swacchApolloList.get(0).configlist!!.indices)
-//                {
-//                    var submit : OnSubmitSwachModelRequest
-//                    submit.actionEvent = "SUBMIT"
-//                    submit.storeId = "16001"
-//                    submit.useridId = "APL49392"
-//                    submit.categoryId = swacchApolloList.get(0).configlist!!.get(i).categoryId
-//                    var imageurlsList : ArrayList<OnSubmitSwachModelRequest.ImageUrl>
-//                    for(j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices){
-//                        var imageUrl = OnSubmitSwachModelRequest.ImageUrl
-//                        imageUrl.url = swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j).base64Images
-//                        imageurlsList.add(imageUrl)
-//
-//                    }
-//
-//                    submitList.add(submit)
-//                }
-//                viewModel.onSubmitSwacch(
-//                    MutableList<OnSubmitSwachModelRequest>(
-//                        "SUBMIT",
-//                        "16001",
-//                        "APL49392",
-//                        swacchApolloList.get(0).configlist.get(i).categoryId,
-//                        OnSubmitSwachModelRequest.ImageUrl(swacchApolloList.get(0).configlist.get(i).imageDataDto.get(0).file))
-//                )
-//            }
-//
-//            }
+        viewBinding.uploadButtonTopYellow.setOnClickListener {
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                var submitList = ArrayList<OnSubmitSwachModelRequest>()
+                for (i in swacchApolloList.get(0).configlist!!.indices) {
+                    var submit = OnSubmitSwachModelRequest()
+                    submit.actionEvent = "SUBMIT"
+                    submit.storeId = Preferences.getSiteId()
+                    submit.useridId = Preferences.getToken()
+                    submit.categoryId = swacchApolloList.get(0).configlist!!.get(i).categoryId
+
+                    var imageUrlsList = ArrayList<OnSubmitSwachModelRequest.ImageUrl>()
+                    for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+                        var imageUrl = submit.ImageUrl()
+
+                        imageUrl.url =
+                            swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+                        imageUrlsList.add(imageUrl)
+                        submit.imageUrls = imageUrlsList
+
+
+                    }
+
+                    submitList.add(submit)
+
+                }
+                viewModel.onSubmitSwacch(ArrayList<OnSubmitSwachModelRequest>(submitList))
+            }
+
         }
 
-
+        viewModel.onSubmitSwachModel.observeForever {
+            hideLoading()
+            if (it != null && it.status == true) {
+                Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(context, "Please try again!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 
 //    private fun prepareMovieData() {
@@ -312,24 +327,26 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloModel, FragmentSwacc
 //            var capture: File? = null
 
 //            frontview_fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+
+
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
             )?.file = imageFromCameraFile
-            swacchApolloList.get(0).configlist!!.get(configPosition).imageUploaded = true
             configListAdapter.notifyDataSetChanged()
+            swacchApolloList.get(0).configlist!!.get(configPosition).imageUploaded = true
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
             )?.positionLoop = uploadPosition
             checkAllImagesUploaded()
 
 
+
         }
-        viewModel.connectToAzure(
-            swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-                uploadPosition
-            )
-        )
+        showLoading()
+        viewModel.connectToAzure(swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(uploadPosition))
+        configListAdapter.notifyDataSetChanged()
     }
+
 
 
     private fun checkAllImagesUploaded() {

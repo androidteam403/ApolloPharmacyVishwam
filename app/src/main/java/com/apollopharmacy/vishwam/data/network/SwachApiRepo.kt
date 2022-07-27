@@ -52,7 +52,7 @@ object SwachApiRepo {
 
     suspend fun onSubmitSwacch(
         token: String,
-        onSubmitModelRequest: MutableList<OnSubmitSwachModelRequest>
+        onSubmitModelRequest: ArrayList<OnSubmitSwachModelRequest>
     ): ApiResult<OnSubmitSwachModelResponse> {
         return try {
             val response = Api.getClient().onSubmitSwacch(token, onSubmitModelRequest)

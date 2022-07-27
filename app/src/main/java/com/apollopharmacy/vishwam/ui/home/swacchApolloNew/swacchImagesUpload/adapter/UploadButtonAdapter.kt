@@ -41,21 +41,17 @@ class UploadButtonAdapter(
 
         var myInt: Int = 1
 
-        if(SwachModelResponse?.file!=null){
-            holder.capturedImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
-        }
-
-
         holder.uploadTextNumber.text = position.plus(myInt).toString()
 
-        if(SwachModelResponse?.file == null){
-            holder.capturedImage.setImageURI(null)
-            holder.previewLayout.visibility = View.GONE
-        }else{
+
+
+
+        if(SwachModelResponse?.file!=null){
             holder.capturedImagesGoneLayout.visibility = View.VISIBLE
             holder.capturedImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
             holder.previewLayout.visibility = View.VISIBLE
         }
+
 
 
 
