@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +35,7 @@ import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.bumptech.glide.Glide
 import java.util.*
 
-class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
+class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
     ImageClickListener, ComplaintListCalendarDialog.DateSelected {
 
     var isFromDateSelected: Boolean = false

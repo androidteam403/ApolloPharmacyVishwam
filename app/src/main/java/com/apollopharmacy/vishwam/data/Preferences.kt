@@ -83,6 +83,8 @@ object Preferences {
     //-------------------- get Api details -----------------------
 
     private const val KEY_API = "KEY_API"
+    private const val SWACH_API = "SWACH_API"
+
     private const val KEY_SITE_ID = "site_id"
     private const val KEY_SITE_INFORMATION = "site_information"
     private const val KEY_GLOBAL_RESPONSE = "KEY_GLOBAL_RESPONSE"
@@ -101,6 +103,17 @@ object Preferences {
     fun getApi(): String {
         return sharedPreferences.getString(KEY_API, "")!!
     }
+
+
+    fun saveSwachhApi(apiItems: String) {
+        sharedPreferences.edit().putString(KEY_API, apiItems).apply()
+    }
+
+    fun getSwachhApi(): String {
+        return sharedPreferences.getString(KEY_API, "")!!
+    }
+
+
 
     fun saveSiteId(siteId: String) {
         sharedPreferences.edit().putString(KEY_SITE_ID, siteId).apply()

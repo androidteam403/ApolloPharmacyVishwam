@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModel
 import com.apollopharmacy.vishwam.util.Utils
 
 abstract class BaseFragment<VM : ViewModel, DB : ViewDataBinding> : Fragment() {
+
 
     lateinit var viewModel: VM
     lateinit var viewBinding: DB

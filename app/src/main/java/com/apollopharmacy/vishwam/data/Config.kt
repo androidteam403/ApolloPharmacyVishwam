@@ -18,7 +18,10 @@ object Config {
     var IS_LOG_ENABLED = true
     val VISWAM_PREFERENCE = "VISWAM_PREFERENCE"
     val ATTENDANCE_API_HEADER = "h72genrSSNFivOi/cfiX3A=="
+    val SWACHH_LIST_KEY = "h72genrSSNFivOi/cfiX3A=="
+    val SWACHH_IMAGE_KEY="h72genrSSNFivOi/cfiX3A=="
     val SWACHAPI_HEADER = "h72genrSSNFivOi/cfiX3A=="
+    val SWACHH_IMAGES_APPROVE="h72genrSSNFivOi/cfiX3A=="
 
     val CMS_GLOBAL_API = "https://viswam.apollopharmacy.org/apolloutil/api/Encryptiondecryption"
     val CMS_GLOABL_KEY = "wyDoHg0wG3U5O9sRWncACA=="

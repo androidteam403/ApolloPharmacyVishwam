@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -28,6 +29,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishwam.BuildConfig;
@@ -35,6 +37,7 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -45,6 +48,8 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload;
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
@@ -273,7 +278,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SwacchImagesUploadFragment();
                 break;
 
+            case "Swacch List":
+                headerText.setText("Swacch List");
 
+                fragment = new SwacchFragment();
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -564,6 +573,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         ).addHeaderModel(
                         new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
                                 .addChildModel(new ChildModel("Swacch Images Upload"))
+                                .addChildModel(new ChildModel("Swacch List"))
+                )
 
                 )
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
@@ -596,6 +607,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Bill");
                             }else if(groupPosition == 3 && childPosition ==0){
                                 displaySelectedScreen("Swacch Images Upload");
+                            } else if (groupPosition == 3 && childPosition ==1) {
+                                displaySelectedScreen("Swacch List");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
@@ -656,8 +669,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -702,8 +714,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -806,8 +817,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 1) {
+                            } else if (id == 1) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
