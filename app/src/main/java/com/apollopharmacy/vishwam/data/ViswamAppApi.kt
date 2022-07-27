@@ -3,10 +3,11 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.*
 import okhttp3.ResponseBody
 import retrofit2.http.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 interface ViswamAppApi {
 
@@ -33,6 +34,22 @@ interface ViswamAppApi {
 
     //API's for Discount App
 
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
+    suspend fun swachhResponseList(
+        @Header("token") token: String,
+        @Body data: ApproveRejectListRequest
+    ): ApproveRejectListResponse
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    suspend fun swachhResponseImageList(
+        @Header("token") token: String,
+        @Body data: LineImagesRequest
+    ): LineImagesResponse
+
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    suspend fun ApproveRejectResponse(
+        @Header("token") token: String,
+        @Body data: ArrayList<ApproveRequest>): ApproveResponse
     @POST
     suspend fun loginUser(@Url url: String, @Body data: CommonRequest): String
 

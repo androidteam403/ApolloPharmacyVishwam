@@ -122,9 +122,7 @@ data class ResponseNewTicketlist(
         var problem_images: ProblemImages? = null,
 
         var isExpanded:Boolean,
-
-        var Tickethistory:NewTicketHistoryResponse
-    ) : Serializable
+        var Tickethistory:NewTicketHistoryResponse) : Serializable
 
     data class  ProblemImages(
         @field:SerializedName("images")
