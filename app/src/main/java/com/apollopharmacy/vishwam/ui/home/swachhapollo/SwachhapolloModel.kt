@@ -2,22 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.swachhapollo
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwacch
-import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.SwachApiRepo
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
-import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class SwachhapolloModel : ViewModel()
 {

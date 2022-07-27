@@ -27,16 +27,13 @@ import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.adapter.ConfigListAdapter
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.adapter.UploadButtonAdapter
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest.ImageUrl
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse.Config.ImgeDtcl
-import com.apollopharmacy.vishwam.ui.home.swachhapollo.Commands
 import com.apollopharmacy.vishwam.ui.home.swachhapollo.SwachhapolloModel
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import java.io.File
 import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 class SwacchImagesUploadFragment :
     BaseFragment<SwachhapolloViewModel, FragmentSwacchImagesUploadBinding>(),

@@ -48,7 +48,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload;
+
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
@@ -572,9 +572,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Bill"))
                         ).addHeaderModel(
                         new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                                .addChildModel(new ChildModel("Swacch Images Upload"))
+                               .addChildModel(new ChildModel("Swacch Images Upload"))
                                 .addChildModel(new ChildModel("Swacch List"))
-                )
+
 
                 )
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
@@ -605,9 +605,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
-                            }else if(groupPosition == 3 && childPosition ==0){
+                            }
+                            else if(groupPosition == 3 && childPosition ==0){
                                 displaySelectedScreen("Swacch Images Upload");
-                            } else if (groupPosition == 3 && childPosition ==1) {
+                            }
+                            else if (groupPosition == 3 && childPosition ==1) {
                                 displaySelectedScreen("Swacch List");
                             }
                             drawer.closeDrawer(GravityCompat.START);
@@ -669,7 +671,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 3) {
+                            }
+                            else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -714,7 +717,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 3) {
+                            }
+                            else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -817,7 +821,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 1) {
+                            }
+                            else if (id == 1) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }

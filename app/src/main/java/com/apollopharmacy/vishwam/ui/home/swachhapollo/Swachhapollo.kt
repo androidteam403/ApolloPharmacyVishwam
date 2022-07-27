@@ -10,7 +10,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
