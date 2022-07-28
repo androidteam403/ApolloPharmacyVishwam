@@ -15,7 +15,19 @@
             android:layout_height="@dimen/value_100dp"
             android:contentDescription="@string/app_name"
             android:scaleType="center"
+
+            android:visibility="visible"
             android:src="@drawable/desktop" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_100dp"
+            android:text="No Items Found"
+            android:textAlignment="center"
+            android:layout_marginTop="@dimen/value_20dp"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:id="@+id/emptyList"
+            android:textSize="@dimen/text_18sp" />
 
 
     </LinearLayout>

@@ -37,7 +37,6 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
     private var swachhListResp = ArrayList<ApproveRejectListResponse>()
     var getImageList = ArrayList<LineImagesResponse.ImageUrl>()
     private val imageUrls: List<ApproveRequest.ImageUrl>? = null
-
     var pendingList = ArrayList<ApproveRejectListResponse.GetPending>()
     var approveList = ArrayList<ApproveRejectListResponse.GetApproved>()
 
@@ -72,17 +71,14 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
     }
 
     override fun setup() {
+
+
         val siteId = Preferences.getSiteId()
 
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
 
 
-        viewModel.swacchImagesList.observe(viewLifecycleOwner) {
-            getImageList = it.imageUrls as ArrayList<LineImagesResponse.ImageUrl>
-
-
-        }
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
             var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
@@ -98,29 +94,22 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 //        )
 
         viewModel.swacchList.observe(viewLifecycleOwner) {
-           if (it.getApprovedList?.isEmpty() == true) {
+            if (it.getApprovedList?.isEmpty() == true) {
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
             }
-            adapter =
-                it.getApprovedList?.let { it1 -> ListRecycleView(it1, this, this, getImageList) }!!
-            viewBinding.recyclerViewApproved.adapter = adapter
-
+//            adapter =
+//                it.getApprovedList?.let { it1 -> ListRecycleView(it1, this, this, getImageList) }!!
             pendingList = it.getPendingList as ArrayList<ApproveRejectListResponse.GetPending>
             approveList = it.getApprovedList as ArrayList<ApproveRejectListResponse.GetApproved>
+            adapter = ListRecycleView(approveList, this, this, getImageList)
+            viewBinding.recyclerViewApproved.adapter = adapter
 
-            rejectAdapter =
-                it.getPendingList?.let { it1 ->
-                    RejectListRecycleView(
-                        it1,
-                        this,
-                        getImageList,
-                        this
-                    )
-                }!!
+
+            rejectAdapter = RejectListRecycleView(pendingList, this, getImageList, this)
             viewBinding.recyclerViewReject.adapter = rejectAdapter
 
         }
@@ -161,7 +150,6 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
             viewBinding.reject.setBackgroundColor(Color.parseColor("#dceaf4"))
             viewBinding.accept.setBackgroundColor(Color.WHITE)
             viewBinding.recyclerViewApproved.visibility = View.GONE
-
 
 
         }
@@ -243,7 +231,8 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
     ) :
 
         SimpleRecyclerView<SwacchlistRecycleviewBinding, ApproveRejectListResponse.GetApproved>(
-            orderData, R.layout.swacchlist_recycleview
+            orderData,
+            R.layout.swacchlist_recycleview
         ) {
         override fun bindItems(
             binding: SwacchlistRecycleviewBinding,
@@ -252,35 +241,28 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         ) {
 
 
-            lateinit var Imageadapter: ImageRecyclerView
-            Imageadapter = ImageRecyclerView(imageList, imageClickListener, clickListener)
-            binding.approveimagesRecycleview.adapter = Imageadapter
-//            binding.storeId.setText(items.storeId?.get(position))
 
-
-            binding.arrowClose.setOnClickListener {
-
-                clickListener.onClickApproveImage(
-                    position,
-                    orderData as ArrayList<ApproveRejectListResponse.GetApproved>
-                )
-
-            }
             binding.storeId.setText(items.storeId)
             binding.categoryautoid.setText(items.status)
+            binding.categoryaut.setText(items.categoryAuotId)
             binding.categoryname.setText(items.categoryName)
-            binding.arrowClose.setOnClickListener() {
 
+
+
+
+            binding.arrowClose.setOnClickListener() {
 
                 clickListener.onClickApproveImage(
                     position,
                     orderData as ArrayList<ApproveRejectListResponse.GetApproved>
                 )
+
+                binding.approveimagesRecycleview.visibility = View.VISIBLE
 
                 binding.arrowClose.visibility = View.GONE
 
-                binding.approveimagesRecycleview.visibility = View.VISIBLE
                 binding.arrow.visibility = View.VISIBLE
+
 
             }
 
@@ -291,14 +273,24 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
                 binding.arrow.visibility = View.GONE
             }
 
-//            Imageadapter = ImageRecyclerView(it, imageClickListener)
-        }
 //        lateinit var Imageadapter: ImageRecycleView
 
+            lateinit var Imageadapter: ImageRecyclerView
+            if (orderData[position].imageUrls == null) {
+
+            } else {
+                Imageadapter =
+                    orderData[position].imageUrls?.let {
+                        ImageRecyclerView(
+                            it,
+                            imageClickListener
+                        )
+                    }!!
+                binding.approveimagesRecycleview.adapter = Imageadapter
+            }
+        }
 
     }
-
-
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
@@ -318,6 +310,7 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         orderData: ArrayList<ApproveRejectListResponse.GetApproved>
     ) {
 
+
         viewModel.getImagesList(
             LineImagesRequest(
                 orderData[position].categoryId,
@@ -325,13 +318,18 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
                 orderData[position].categoryAuotId
             )
         )
-
+        viewModel.swacchImagesList.observe(viewLifecycleOwner) {
+            approveList[position].imageUrls = it.imageUrls
+        }
     }
+
 
     override fun onClickPendingImage(
         position: Int,
         orderData: ArrayList<ApproveRejectListResponse.GetPending>
     ) {
+
+
         viewModel.getImagesList(
             LineImagesRequest(
                 orderData[position].categoryId,
@@ -339,10 +337,11 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
                 orderData[position].categoryAuotId
             )
         )
+        viewModel.swacchImagesList.observe(viewLifecycleOwner) {
+            pendingList[position].imageUrls = it.imageUrls
+
+        }
     }
-
-
-
 
 
     override fun onClickPendingrejectButton(
@@ -358,13 +357,14 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         reject.imageUrls = getImageList
         submitList.add(reject)
         viewModel.getApproveList(submitList)
-         var rejects :String?=null
+        var rejects: String? = null
 
-        viewModel.swachhAproveList.observe(viewLifecycleOwner){
-            rejects=it.message
+        viewModel.swachhAproveList.observe(viewLifecycleOwner) {
+            rejects = it.message
         }
         Toast.makeText(
-            requireContext(), ("CategoryId "+orderData[position].categoryId.toString()+" Rejected "+rejects),
+            requireContext(),
+            ("CategoryId " + orderData[position].categoryId.toString() + " Rejected " + rejects),
             Toast.LENGTH_SHORT
         ).show()
     }
@@ -382,13 +382,14 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         reject.imageUrls = getImageList
         submitList.add(reject)
         viewModel.getApproveList(submitList)
-        var rejects :String?=null
+        var rejects: String? = null
 
-        viewModel.swachhAproveList.observe(viewLifecycleOwner){
-            rejects=it.message
+        viewModel.swachhAproveList.observe(viewLifecycleOwner) {
+            rejects = it.message
         }
         Toast.makeText(
-            requireContext(), ( "CategoryId "+orderData[position].categoryId.toString()+" Approved "+ rejects),
+            requireContext(),
+            ("CategoryId " + orderData[position].categoryId.toString() + " Approved " + rejects),
             Toast.LENGTH_SHORT
         ).show()
 
@@ -403,7 +404,8 @@ class RejectListRecycleView(
     val imageClickListener: ImageClickListener,
     var imageList: List<LineImagesResponse.ImageUrl>,
     val clickListener: clickListener,
-) :
+
+    ) :
 
     SimpleRecyclerView<RejectlistSwacchBinding, ApproveRejectListResponse.GetPending>(
         orderData, R.layout.rejectlist_swacch
@@ -413,11 +415,8 @@ class RejectListRecycleView(
         items: ApproveRejectListResponse.GetPending,
         position: Int
     ) {
-        lateinit var Imageadapter: ImageRecyclerView
 
 
-        Imageadapter = ImageRecyclerView(imageList, imageClickListener, clickListener)
-        binding.addedImagesRecyclerView.adapter = Imageadapter
 //            binding.storeId.setText(items.storeId?.get(position))
 
         binding.accept.setOnClickListener {
@@ -427,45 +426,21 @@ class RejectListRecycleView(
             )
         }
         binding.reject.setOnClickListener {
-
             clickListener.onClickPendingrejectButton(
                 position,
                 orderData as ArrayList<ApproveRejectListResponse.GetPending>
             )
-
-
         }
-
-
-        binding.arrowClose.setOnClickListener {
-            clickListener.onClickApproveImage(
-                position,
-                orderData as ArrayList<ApproveRejectListResponse.GetApproved>
-            )
-
-        }
-
-
-
-
         binding.storeId.setText(items.storeId)
         binding.categoryautoid.setText(items.categoryAuotId)
         binding.categoryname.setText(items.categoryName)
 
         binding.arrowClose.setOnClickListener() {
-
-
             clickListener.onClickPendingImage(
                 position,
                 orderData as ArrayList<ApproveRejectListResponse.GetPending>
             )
-
-
-
-
-
             binding.arrowClose.visibility = View.GONE
-
             binding.addedImagesRecyclerView.visibility = View.VISIBLE
             binding.arrow.visibility = View.VISIBLE
 
@@ -476,6 +451,14 @@ class RejectListRecycleView(
             binding.arrowClose.visibility = View.VISIBLE
             binding.addedImagesRecyclerView.visibility = View.GONE
             binding.arrow.visibility = View.GONE
+        }
+        if (orderData[position].imageUrls == null) {
+
+        } else {
+            lateinit var Imageadapter: ImageRecyclerView
+            Imageadapter =
+                orderData[position].imageUrls?.let { ImageRecyclerView(it, imageClickListener) }!!
+            binding.addedImagesRecyclerView.adapter = Imageadapter
         }
 
 //            Imageadapter = ImageRecyclerView(it, imageClickListener)
@@ -489,8 +472,8 @@ class RejectListRecycleView(
 class ImageRecyclerView(
     var orderData: List<LineImagesResponse.ImageUrl>,
     val imageClickListener: ImageClickListener,
-    clickListener: clickListener,
-) :
+
+    ) :
     SimpleRecyclerView<SwacchimagelistRecycleviewBinding, LineImagesResponse.ImageUrl>(
         orderData,
         R.layout.swacchimagelist_recycleview
@@ -503,12 +486,20 @@ class ImageRecyclerView(
         position: Int,
     ) {
 
+//        if (orderData.isEmpty()) {
+//            binding.emptyList.visibility = View.VISIBLE
+//            binding.image.visibility = View.GONE
+//        } else {
+//            binding.emptyList.visibility = View.GONE
+//            binding.image.visibility = View.VISIBLE
+//        }
 
         Glide.with(ViswamApp.context).load(items.url).placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.image.setOnClickListener {
             items.url?.let { it1 -> imageClickListener.onItemClick(position, it1) }
         }
+
     }
 }
 
@@ -525,7 +516,6 @@ interface clickListener {
         position: Int,
         orderData: ArrayList<ApproveRejectListResponse.GetPending>
     )
-
 
 
     fun onClickPendingrejectButton(
