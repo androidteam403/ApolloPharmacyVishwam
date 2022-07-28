@@ -48,8 +48,9 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload;
+
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -126,10 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
-
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -155,6 +154,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.setDrawerListener(toggle);
 //        toggle.syncState();
+
 
 
         navigationView = findViewById(R.id.nav_view);
@@ -189,7 +189,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedScreen("HOME");
         listView.setSelected(0);
 
-
         FrameLayout notificationLayout = findViewById(R.id.notificationLayout);
         textCartItemCount = findViewById(R.id.cart_badge);
         setupBadge();
@@ -209,7 +208,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         gpsLoaderLayout = findViewById(R.id.gpsLoaderLayout);
 
-        if (isAttendanceRequired) {
+        if(isAttendanceRequired) {
             initPermission();
             checkExternalPermission();
         }
@@ -232,7 +231,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void displaySelectedScreen(String itemName) {
         //creating fragment object
         Fragment fragment = null;
-
         currentItem = itemName;
         if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
             return;
@@ -277,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Swacch Images Upload":
                 headerText.setText("Swacch Images");
-                fragment = new SwacchImagesUpload();
+                fragment = new SwacchImagesUploadFragment();
                 break;
 
             case "Swacch List":
@@ -487,7 +485,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (isAttendanceRequired + "-" + isCMSRequired + "-" + isDiscountRequired) {
             case "false-false-true":
                 listView.init(this)
-
                         .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home))
                         .addHeaderModel(
                                 new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_baseline_discount)
@@ -504,7 +501,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 2) {
+                            }
+                            else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -540,7 +538,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 2) {
+                            }
+                            else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -571,15 +570,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
                                         .addChildModel(new ChildModel("Bill"))
-
                         ).addHeaderModel(
-
                         new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                                .addChildModel(new ChildModel("Swacch Images Upload"))
+                               .addChildModel(new ChildModel("Swacch Images Upload"))
                                 .addChildModel(new ChildModel("Swacch List"))
+
+
                 )
-
-
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -587,7 +584,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }  else if (id == 5) {
+                            }
+                            else if (id == 4) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -607,9 +605,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
-                            } else if (groupPosition == 3 && childPosition == 0) {
+                            }
+                            else if(groupPosition == 3 && childPosition ==0){
                                 displaySelectedScreen("Swacch Images Upload");
-                            } else if (groupPosition == 3 && childPosition ==1) {
+                            }
+                            else if (groupPosition == 3 && childPosition ==1) {
                                 displaySelectedScreen("Swacch List");
                             }
                             drawer.closeDrawer(GravityCompat.START);
@@ -631,7 +631,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 2) {
+                            }  else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -671,7 +671,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 3) {
+                            }
+                            else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -716,7 +717,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 3) {
+                            }
+                            else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -777,7 +779,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Orders Menu
                         Common.showToast(context, "Discount");
                         drawer.closeDrawer(GravityCompat.START);
-                    } */ else if (id == 5) {
+                    } */
+                            else if (id == 4) {
                                 //Logout
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
@@ -818,7 +821,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 1) {
+                            }
+                            else if (id == 1) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }

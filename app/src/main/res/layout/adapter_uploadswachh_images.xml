@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite">
 
     <LinearLayout
@@ -11,97 +12,112 @@
         android:background="@color/white">
 
         <LinearLayout
+            android:id="@+id/linear_touch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/black_border"
             android:orientation="vertical">
 
-            <TextView
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:layout_marginTop="@dimen/text_10sp"
+             android:layout_marginStart="@dimen/text_10sp">
+
+             <TextView
                 android:id="@+id/categoryname"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_10sp"
                 android:text="FRONT VIEW"
-                android:layout_marginTop="@dimen/text_10sp"
+                 android:gravity="center"
                 android:textSize="@dimen/text_14sp"
                 android:textColor="@color/black"
                 android:textStyle="normal" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="("
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginStart="4sp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14sp"/>
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="match_parent"
+                 android:layout_gravity="center"
+                 android:id="@+id/imageCount"
+                 android:layout_marginStart="2sp"
+                 android:text="2"
+                 android:textStyle="bold"
+                 android:textColor="@color/black"
+                 android:textSize="@dimen/text_14sp" />
+
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:text=")"
+                 android:textStyle="bold"
+                 android:layout_gravity="center"
+                 android:layout_marginStart="2sp"
+                 android:textColor="@color/black"
+                 android:textSize="@dimen/text_14sp"/>
+
+         </LinearLayout>
+
+
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
             <LinearLayout
-                android:id="@+id/attachImageLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/eighty_fivedp"
                 android:layout_marginLeft="@dimen/text_10sp"
                 android:layout_marginTop="@dimen/value_10dp"
-                android:layout_marginRight="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/value_20dp">
+
+
 
                 <LinearLayout
-                    android:id="@+id/uploadswacImages"
-                    android:layout_width="@dimen/value_140dp"
-                    android:layout_height="@dimen/value_35dp"
-                    android:background="@drawable/yellow_drawable">
+                    android:id="@+id/attachImageLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/addImage"
-                        android:layout_width="@dimen/text_20sp"
-                        android:layout_height="@dimen/text_20sp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/value_5dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_capture_image" />
 
-                    <TextView
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/uploadButtonRecyclerView"
                         android:layout_width="wrap_content"
+                        android:visibility="visible"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Upload Image1"
-                        android:layout_marginStart="4sp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp" />
+                        android:layout_marginBottom="@dimen/value_5dp" />
+
 
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_marginTop="@dimen/value_6dp"
-                    android:layout_width="@dimen/value_140dp"
-                    android:layout_height="@dimen/value_35dp"
-                    android:background="@drawable/yellow_drawable">
-
-                    <ImageView
-                        android:id="@+id/addImage1"
-                        android:layout_width="@dimen/text_20sp"
-                        android:layout_height="@dimen/text_20sp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/value_5dp"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/ic_capture_image" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="Upload Image 2"
-                        android:layout_marginStart="4sp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp" />
-
-
-                </LinearLayout>
-
-
-
-
-<!--                <androidx.recyclerview.widget.RecyclerView-->
-<!--                    android:id="@+id/imageRecyclerView"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:visibility="gone"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_marginStart="@dimen/value_5dp"-->
-<!--                    android:layout_marginBottom="@dimen/value_5dp"-->
-<!--                    android:orientation="horizontal" />-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"  />
             </LinearLayout>
+
+</ScrollView>
+
+
+
 
 
         </LinearLayout>

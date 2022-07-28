@@ -381,7 +381,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                      )
                      )
                  }
-                 else {
+                 else {connectToAzure
                      statusInventory = "NOTBATCH"
                      viewModel.connectToAzure(fileArrayList, statusInventory!!)
                  }*/
@@ -651,6 +651,18 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 }
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+
         viewModel.pendingListLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (it.status.equals("true")) {

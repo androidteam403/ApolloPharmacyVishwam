@@ -10,11 +10,41 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:layout_marginTop="@dimen/value_10dp"
     tools:context=".ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUpload">
 
-
     <LinearLayout
+        android:id="@+id/site_data"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value_25dp"
+        android:background="@color/dark_yellow"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:paddingStart="@dimen/value_20dp"
+        android:paddingEnd="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Store Id: "
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/store_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textSize="@dimen/eleven_sp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="@dimen/value_7dp"
         android:id="@+id/upload"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,13 +65,13 @@
             android:textStyle="bold" />
 
         <TextView
-
+            android:id="@+id/uploadButtonTop"
             android:layout_width="0dp"
             android:layout_height="@dimen/value_40dp"
             android:layout_gravity="end"
             android:layout_marginEnd="6sp"
             android:layout_weight="0.3"
-            android:background="@drawable/yellow_drawable"
+            android:background="@color/grey"
             android:padding="6sp"
             android:text="Upload"
             android:textAlignment="center"
@@ -50,7 +80,26 @@
             android:textStyle="bold"
             tools:ignore="RtlCompat" />
 
+        <TextView
+            android:id="@+id/uploadButtonTopYellow"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/value_40dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="6sp"
+            android:layout_weight="0.3"
+            android:background="@color/dark_yellow"
+            android:padding="6sp"
+            android:visibility="gone"
+            android:text="Upload"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_16sp"
+            android:textStyle="bold"
+            tools:ignore="RtlCompat" />
+
     </LinearLayout>
+
+
 
 
     <androidx.recyclerview.widget.RecyclerView

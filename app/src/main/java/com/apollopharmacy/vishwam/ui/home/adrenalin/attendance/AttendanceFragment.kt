@@ -416,23 +416,10 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             ) {
                                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                                     showLoading()
-                                    viewModel.taskInsertUpdateService(
-                                        TaskInfoReq(
-                                            enteredTaskName,
-                                            employeeID,
-                                            "",
-                                            locationLatitude,
-                                            locationLongitude,
-                                            "SIGNIN",
-                                            getAttendanceCity(
-                                                requireContext(),
-                                                locationLatitude.toDouble(),
-                                                locationLongitude.toDouble()
-                                            )
-                                        )
-                                    )
+                                    viewModel.taskInsertUpdateService(TaskInfoReq(enteredTaskName, employeeID, "", locationLatitude, locationLongitude, "SIGNIN", getAttendanceCity(requireContext(), locationLatitude.toDouble(), locationLongitude.toDouble())))
                                     dialog.dismiss()
-                                } else {
+                                }
+                                else {
                                     Toast.makeText(
                                         requireContext(),
                                         context?.resources?.getString(R.string.label_network_error),
@@ -444,7 +431,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 (activity as MainActivity).initPermission()
                                 (activity as MainActivity).startLocationUpdates()
                             }
-                        } else {
+                        }
+
+                        else {
                             (activity as MainActivity).initPermission()
                             (activity as MainActivity).startLocationUpdates()
                         }

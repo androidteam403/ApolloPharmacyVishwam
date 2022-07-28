@@ -45,7 +45,7 @@ class LoginViewModel : ViewModel() {
                                 if (result.value.STATUS) {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
-                                    Preferences.saveSiteId("")
+                                    Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
                                     LoginRepo.saveProfile(result.value,loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))

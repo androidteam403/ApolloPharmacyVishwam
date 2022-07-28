@@ -3,6 +3,9 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelResponse
+import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.*
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -263,4 +266,10 @@ interface ViswamAppApi {
     suspend fun swachhImagesUpload(
         @Header("token") token: String,
     ): SwachModelResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    suspend fun onSubmitSwacch(
+        @Header("token") token: String,
+        @Body data: ArrayList<OnSubmitSwachModelRequest>
+    ): OnSubmitSwachModelResponse
 }

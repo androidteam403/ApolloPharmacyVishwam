@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.mo
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.File
 import java.io.Serializable
 
 class SwachModelResponse : Serializable {
@@ -17,7 +18,7 @@ class SwachModelResponse : Serializable {
     @Expose
     var configlist: List<Config>? = null
 
-    inner class Config : Serializable {
+     class Config : Serializable {
         @SerializedName("CATEGORY_ID")
         @Expose
         var categoryId: String? = null
@@ -30,6 +31,8 @@ class SwachModelResponse : Serializable {
         @Expose
         var storeName: String? = null
 
+         var imageUploaded: Boolean? = null
+
         @SerializedName("CATEGORY_NAME")
         @Expose
         var categoryName: String? = null
@@ -41,5 +44,12 @@ class SwachModelResponse : Serializable {
         @SerializedName("CATEGORY_IMAGE_UPLOAD_COUNT")
         @Expose
         var categoryImageUploadCount: String? = null
+
+        var imageDataDto: MutableList<ImgeDtcl>? = null
+
+          class ImgeDtcl(var file: File?, var integerButtonCount: Int,  val base64Images: String, var positionLoop: Int)
+
+
     }
+
 }

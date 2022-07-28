@@ -23,6 +23,8 @@ import com.apollopharmacy.vishwam.databinding.SwacchlistRecycleviewBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.SwachhApollo.SwachhListViewModel
+
+
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -77,7 +79,12 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
-
+//        viewModel.getImagesList(
+//            LineImagesRequest(
+//                2,
+//                "16001", "CAT00000057"
+//            )
+//        )
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
@@ -85,7 +92,7 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
             viewModel.getSwachhList(ApproveRejectListRequest("APL49396", fromDate, toDate, 0, 100))
         }
 
-
+//
 //        viewModel.getImagesList(
 //            LineImagesRequest(
 //                2,
