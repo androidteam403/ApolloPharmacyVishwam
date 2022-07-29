@@ -3,6 +3,7 @@
 package com.apollopharmacy.vishwam.ui.home.swacchlist
 
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,13 +24,12 @@ import com.apollopharmacy.vishwam.databinding.SwacchlistRecycleviewBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.SwachhApollo.SwachhListViewModel
-
-
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 
 class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
@@ -79,26 +79,12 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
-//        viewModel.getImagesList(
-//            LineImagesRequest(
-//                2,
-//                "16001", "CAT00000057"
-//            )
-//        )
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
             var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
             viewModel.getSwachhList(ApproveRejectListRequest("APL49396", fromDate, toDate, 0, 100))
         }
-
-//
-//        viewModel.getImagesList(
-//            LineImagesRequest(
-//                2,
-//                "16001", "CAT00000057"
-//            )
-//        )
 
         viewModel.swacchList.observe(viewLifecycleOwner) {
             if (it.getApprovedList?.isEmpty() == true) {
@@ -108,14 +94,10 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
             }
-//            adapter =
-//                it.getApprovedList?.let { it1 -> ListRecycleView(it1, this, this, getImageList) }!!
             pendingList = it.getPendingList as ArrayList<ApproveRejectListResponse.GetPending>
             approveList = it.getApprovedList as ArrayList<ApproveRejectListResponse.GetApproved>
             adapter = ListRecycleView(approveList, this, this, getImageList)
             viewBinding.recyclerViewApproved.adapter = adapter
-
-
             rejectAdapter = RejectListRecycleView(pendingList, this, getImageList, this)
             viewBinding.recyclerViewReject.adapter = rejectAdapter
 
@@ -135,13 +117,6 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
             )
 
         }
-
-
-
-
-
-
-
         viewBinding.accept.setBackgroundColor(Color.parseColor("#dceaf4"))
 
         viewBinding.reject.setOnClickListener() {
@@ -247,40 +222,34 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
             position: Int
         ) {
 
-
-
             binding.storeId.setText(items.storeId)
             binding.categoryautoid.setText(items.status)
             binding.categoryaut.setText(items.categoryAuotId)
             binding.categoryname.setText(items.categoryName)
 
 
-
-
             binding.arrowClose.setOnClickListener() {
-
                 clickListener.onClickApproveImage(
                     position,
                     orderData as ArrayList<ApproveRejectListResponse.GetApproved>
                 )
 
-                binding.approveimagesRecycleview.visibility = View.VISIBLE
-
-                binding.arrowClose.visibility = View.GONE
-
-                binding.arrow.visibility = View.VISIBLE
-
-
+                notifyDataSetChanged()
             }
-
-
-            binding.arrow.setOnClickListener() {
-                binding.arrowClose.visibility = View.VISIBLE
+            if (items.isExpanded == true) {
+                binding.approveimagesRecycleview.visibility = View.VISIBLE
+                binding.arrow.visibility = View.VISIBLE
+                binding.arrowClose.visibility = View.GONE
+            } else if (items.isExpanded==false) {
                 binding.approveimagesRecycleview.visibility = View.GONE
                 binding.arrow.visibility = View.GONE
+                binding.arrowClose.visibility = View.VISIBLE
+            }
+            binding.arrow.setOnClickListener() {
+                orderData[position].isExpanded = false
+                notifyDataSetChanged()
             }
 
-//        lateinit var Imageadapter: ImageRecycleView
 
             lateinit var Imageadapter: ImageRecyclerView
             if (orderData[position].imageUrls == null) {
@@ -293,11 +262,13 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
                             imageClickListener
                         )
                     }!!
+
                 binding.approveimagesRecycleview.adapter = Imageadapter
             }
         }
 
     }
+
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
@@ -316,18 +287,31 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         position: Int,
         orderData: ArrayList<ApproveRejectListResponse.GetApproved>
     ) {
+        var curStatus: Boolean = orderData.get(position).isExpanded
+        orderData.forEach {
+            it.isExpanded = false
+        }
 
+        orderData.get(position).isExpanded = !curStatus
 
-        viewModel.getImagesList(
+        Utlis.showLoading(requireContext())
+       viewModel.getImagesList(
             LineImagesRequest(
                 orderData[position].categoryId,
                 "16001",
                 orderData[position].categoryAuotId
             )
         )
+
         viewModel.swacchImagesList.observe(viewLifecycleOwner) {
             approveList[position].imageUrls = it.imageUrls
+            adapter.notifyDataSetChanged()
+            Utlis.hideLoading()
+
+
+
         }
+
     }
 
 
@@ -335,6 +319,15 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         position: Int,
         orderData: ArrayList<ApproveRejectListResponse.GetPending>
     ) {
+        Utlis.showLoading(requireContext())
+
+
+        var curStatus: Boolean = orderData.get(position).isExpanded
+        orderData.forEach {
+            it.isExpanded = false
+        }
+
+        orderData.get(position).isExpanded = !curStatus
 
 
         viewModel.getImagesList(
@@ -346,6 +339,9 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         )
         viewModel.swacchImagesList.observe(viewLifecycleOwner) {
             pendingList[position].imageUrls = it.imageUrls
+            rejectAdapter.notifyDataSetChanged()
+            Utlis.hideLoading()
+
 
         }
     }
@@ -438,28 +434,40 @@ class RejectListRecycleView(
                 orderData as ArrayList<ApproveRejectListResponse.GetPending>
             )
         }
-        binding.storeId.setText(items.storeId)
-        binding.categoryautoid.setText(items.categoryAuotId)
-        binding.categoryname.setText(items.categoryName)
+
 
         binding.arrowClose.setOnClickListener() {
+
             clickListener.onClickPendingImage(
                 position,
                 orderData as ArrayList<ApproveRejectListResponse.GetPending>
             )
-            binding.arrowClose.visibility = View.GONE
-            binding.addedImagesRecyclerView.visibility = View.VISIBLE
-            binding.arrow.visibility = View.VISIBLE
 
+            notifyDataSetChanged()
         }
-
 
         binding.arrow.setOnClickListener() {
-            binding.arrowClose.visibility = View.VISIBLE
+            orderData[position].isExpanded = false
+            notifyDataSetChanged()
+        }
+
+        if (items.isExpanded == true) {
+            binding.addedImagesRecyclerView.visibility = View.VISIBLE
+            binding.arrow.visibility = View.VISIBLE
+            binding.arrowClose.visibility = View.GONE
+        } else {
             binding.addedImagesRecyclerView.visibility = View.GONE
             binding.arrow.visibility = View.GONE
+            binding.arrowClose.visibility = View.VISIBLE
         }
+
+
+        binding.storeId.setText(items.storeId)
+        binding.categoryautoid.setText(items.categoryAuotId)
+        binding.categoryname.setText(items.categoryName)
+
         if (orderData[position].imageUrls == null) {
+
 
         } else {
             lateinit var Imageadapter: ImageRecyclerView
