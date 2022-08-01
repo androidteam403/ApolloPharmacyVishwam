@@ -137,6 +137,43 @@
                             android:textColor="@color/black"
                             android:textSize="13sp" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="@dimen/value_120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Category autoid      "
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=":"
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/categoryaut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_2dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=" "
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
 
                     <LinearLayout
                         android:layout_width="wrap_content"

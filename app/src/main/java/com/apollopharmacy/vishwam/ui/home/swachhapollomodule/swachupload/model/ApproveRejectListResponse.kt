@@ -48,6 +48,7 @@ class ApproveRejectListResponse : Serializable {
         @SerializedName("CATEGORY_ID")
         @Expose
         var categoryId: Int? = null
+        var isExpanded:Boolean = false
 
         @SerializedName("STORE_ID")
         @Expose
@@ -64,6 +65,10 @@ class ApproveRejectListResponse : Serializable {
         @SerializedName("APPROVED_BY")
         @Expose
         var approvedBy: String? = null
+
+
+
+        var imageUrls: List<LineImagesResponse.ImageUrl>? = null
 
         @SerializedName("REJECTED_BY")
         @Expose
@@ -120,6 +125,15 @@ class ApproveRejectListResponse : Serializable {
             this.rejectedDate = rejectedDate
             return this
         }
+        inner class ImageUrl : Serializable {
+            @SerializedName("URL")
+            @Expose
+            var url: String? = null
+            fun withUrl(url: String?): ImageUrl {
+                this.url = url
+                return this
+            }
+        }
     }
 
     inner class GetPending : Serializable {
@@ -143,6 +157,7 @@ class ApproveRejectListResponse : Serializable {
         @SerializedName("STATUS")
         @Expose
         var status: String? = null
+        var imageUrls: List<LineImagesResponse.ImageUrl>? = null
 
         @SerializedName("APPROVED_BY")
         @Expose
@@ -201,6 +216,15 @@ class ApproveRejectListResponse : Serializable {
 
         fun withRejectedDate(rejectedDate: String?): GetPending {
             this.rejectedDate = rejectedDate
+            return this
+        }
+    }
+    inner class ImageUrl : Serializable {
+        @SerializedName("URL")
+        @Expose
+        var url: String? = null
+        fun withUrl(url: String?): ImageUrl {
+            this.url = url
             return this
         }
     }

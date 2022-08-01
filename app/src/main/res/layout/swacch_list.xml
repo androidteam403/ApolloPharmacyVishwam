@@ -151,18 +151,20 @@
 
 
                    <Button
-                       android:layout_width="170dp"
+                       android:layout_width="210dp"
                        android:layout_height="48dp"
                        android:textAlignment="center"
                        android:id="@+id/accept"
+                       android:visibility="visible"
                        android:textColor="@color/colorPrimary"
                        android:background="@color/white"
                        android:text="APPROVE"/>
                     <Button
-                        android:layout_width="@dimen/value_200dp"
+                        android:layout_width="240dp"
                         android:layout_height="48dp"
-                        android:layout_marginLeft="170dp"
+                        android:layout_marginLeft="@dimen/value_175dp"
                         android:id="@+id/reject"
+                        android:visibility="visible"
                         android:textColor="@color/colorPrimary"
                         android:background="@color/white"
                         android:textAlignment="center"
