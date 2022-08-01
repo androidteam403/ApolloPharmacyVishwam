@@ -25,7 +25,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.SwachhApollo.SwacchList"></activity>
+        <activity android:name=".ui.sampleui.swachlistmodule.swachlistscreen3.PreviewLastImageActivity"></activity>
+        <activity android:name=".ui.sampleui.swachlistmodule.swachlisrscreen2.ApproveListActivity" />
+        <activity android:name=".ui.sampleui.uploadnowbutton.UploadNowButtonActivity" />
+        <activity android:name=".ui.sampleui.reshootactivity.ReShootActivity" />
+        <activity android:name=".ui.home.SwachhApollo.SwacchList" />
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:screenOrientation="portrait"

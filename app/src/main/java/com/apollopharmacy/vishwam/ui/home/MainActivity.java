@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -29,7 +28,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishwam.BuildConfig;
@@ -49,8 +47,11 @@ import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 
-import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.SwacchImagesUploadFragment;
+
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachlist.swachlistfragment.SwacchFragment;
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
+import com.apollopharmacy.vishwam.ui.sampleui.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlistscreen1.SwachListmoduleUi;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -279,9 +280,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Swacch List":
-                headerText.setText("Swacch List");
-
+                headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
+                break;
+
+            case "Swach Upload Module":
+                headerText.setText("SWACHH LIST");
+                fragment = new SampleSwachUi();
+                break;
+            case "Swach List Module":
+                headerText.setText("SWACHH LIST");
+                fragment = new SwachListmoduleUi();
                 break;
             case "Logout":
                 dialogExit();
@@ -576,7 +585,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 .addChildModel(new ChildModel("Swacch List"))
 
 
-                )
+                ).addHeaderModel(
+                    new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+                            .addChildModel(new ChildModel("Upload Module"))
+                            .addChildModel(new ChildModel("List Module"))
+
+
+
+            )
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -585,7 +601,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
-                            else if (id == 4) {
+                            else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -611,6 +627,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             else if (groupPosition == 3 && childPosition ==1) {
                                 displaySelectedScreen("Swacch List");
+                            }
+                            else if (groupPosition == 4 && childPosition ==0) {
+                                displaySelectedScreen("Swach Upload Module");
+                            }else if(groupPosition == 4 && childPosition ==1){
+                                displaySelectedScreen("Swach List Module");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;

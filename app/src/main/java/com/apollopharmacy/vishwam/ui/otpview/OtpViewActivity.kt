@@ -1,14 +1,11 @@
 package com.apollopharmacy.vishwam.ui.otpview
 
-import `in`.aabhasjindal.otptextview.OTPListener
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -127,7 +124,7 @@ class OtpViewActivity : AppCompatActivity() {
 
         otpViewBinding.updateButton.setOnClickListener {
             otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
-            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle1))
             otpViewBinding.updateButton.isClickable = false
             otpViewBinding.confirmButton.isClickable = false
             otpViewBinding.updateIdLayout.visibility = View.VISIBLE
@@ -175,7 +172,7 @@ class OtpViewActivity : AppCompatActivity() {
             countDownTimer.cancel()
             countDownTimer.start()
             otpViewBinding.resendOtpLayout.visibility = View.GONE
-            otpViewBinding.resendOtpLayout.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+            otpViewBinding.resendOtpLayout.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle1))
             val userID: String
             if (otpViewBinding.employeeIdET.text.toString().isEmpty()) {
                 userID = empVal

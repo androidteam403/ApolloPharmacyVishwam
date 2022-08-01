@@ -1,9 +1,10 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
 import java.io.IOException

@@ -42,15 +42,13 @@
                 android:layout_height="@dimen/value_45dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_weight="1"
                 android:background="@drawable/grey_rectangle"
                 android:gravity="center"
-                android:text="@string/label_cancel"
+                android:text="Cancel"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />
-
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/yes_btn"
                 android:layout_width="@dimen/value_200dp"

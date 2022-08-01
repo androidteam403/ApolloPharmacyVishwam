@@ -51,5 +51,16 @@
     <color name="green">#33cc33</color>
     <color name="material_amber_accent_700">#FFAB00</color>
     <color name="pastel_orange_light">#FBE8DF</color>
+    <color name="light_blue">#ecf6f8</color>
+    <color name="dark_blue">#173b5f</color>
+    <color name="color_ash">#f0f0f0</color>
+    <color name="greenn">#00a651</color>
+    <color name="light_pink">#fde8e9</color>
+    <color name="header_blue">#2582a1</color>
+    <color name="color_red">#ed1c24</color>
+    <color name="light_blue_background">#d8eaef</color>
+    <color name="ashcolor">#c7c7c7</color>
+    <color name="sea_blue">#49c3f3</color>
+    <color name="ash_dark">#b3b3b3</color>
 
 </resources>

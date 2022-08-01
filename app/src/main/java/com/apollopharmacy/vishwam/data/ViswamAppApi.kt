@@ -3,13 +3,10 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelRequest
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.OnSubmitSwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.*
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
+
 import okhttp3.ResponseBody
 import retrofit2.http.*
-import java.util.*
 import kotlin.collections.ArrayList
 
 interface ViswamAppApi {

@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.data.azure
 
-import com.apollopharmacy.vishwam.ui.home.swacchApolloNew.swacchImagesUpload.model.SwachModelResponse
+
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.microsoft.azure.storage.CloudStorageAccount
 import com.microsoft.azure.storage.blob.BlobContainerPermissions
 import com.microsoft.azure.storage.blob.BlobContainerPublicAccessType
