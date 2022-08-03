@@ -1,25 +1,25 @@
-package com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter
+package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter.CapturedImagesListAdapter
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter.UploadButtonAdapter
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 
-class ConfigListAdapter(
+class ConfigListAdapterSwach(
     private val configLst: SwachModelResponse,
 
     private val callbackInterface: UploadButtonAdapter.CallbackInterface,
     private val frontview_fileArrayList: ArrayList<SwachModelResponse>,
 ) :
-    RecyclerView.Adapter<ConfigListAdapter.ViewHolder>() {
+    RecyclerView.Adapter<ConfigListAdapterSwach.ViewHolder>() {
 
+    private lateinit var capturedListAdapter: CapturedImagesListAdapter
 
     private lateinit var uploadImagesRecyclerView: UploadButtonAdapter
 
@@ -50,11 +50,11 @@ class ConfigListAdapter(
 
 
 
-        uploadImagesRecyclerView = UploadButtonAdapter(position, SwachModelResponse?.imageDataDto,callbackInterface, configLst.configlist)
-        val layoutManager1 = LinearLayoutManager(context)
-        holder.uploadButtonRecycler.layoutManager = layoutManager1
-        holder.uploadButtonRecycler.itemAnimator = DefaultItemAnimator()
-        holder.uploadButtonRecycler.adapter = uploadImagesRecyclerView
+//        uploadImagesRecyclerView = UploadButtonAdapter(position, SwachModelResponse?.imageDataDto,callbackInterface, configLst.configlist)
+//        val layoutManager1 = LinearLayoutManager(context)
+//        holder.uploadButtonRecycler.layoutManager = layoutManager1
+//        holder.uploadButtonRecycler.itemAnimator = DefaultItemAnimator()
+//        holder.uploadButtonRecycler.adapter = uploadImagesRecyclerView
 
 
 //        if(SwachModelResponse?.imageDataDto !=null && SwachModelResponse?.imageDataDto!!.get(0).file!=null){

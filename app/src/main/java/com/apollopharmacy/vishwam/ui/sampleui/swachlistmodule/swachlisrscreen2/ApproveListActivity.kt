@@ -9,7 +9,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
 import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlistscreen3.PreviewLastImageActivity
-import com.apollopharmacy.vishwam.ui.sampleui.uploadnowbutton.UploadNowButtonActivity
 
 class ApproveListActivity : AppCompatActivity() {
     lateinit var activityApproveListBinding: ActivityApproveListBinding

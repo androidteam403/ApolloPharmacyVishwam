@@ -295,7 +295,7 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         orderData.get(position).isExpanded = !curStatus
 
         Utlis.showLoading(requireContext())
-       viewModel.getImagesList(
+        viewModel.getImagesList(
             LineImagesRequest(
                 orderData[position].categoryId,
                 "16001",
@@ -545,14 +545,3 @@ interface clickListener {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-

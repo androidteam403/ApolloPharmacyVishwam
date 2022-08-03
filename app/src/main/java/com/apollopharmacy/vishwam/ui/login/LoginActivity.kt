@@ -158,7 +158,8 @@ class LoginActivity : AppCompatActivity() {
                     selectedcompany
                 )
             )
-        } else {
+        }
+        else {
             context?.let {
                 Toast.makeText(
                     it,

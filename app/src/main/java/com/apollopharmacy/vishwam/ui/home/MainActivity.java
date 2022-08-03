@@ -48,9 +48,9 @@ import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 
 
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachlist.swachlistfragment.SwacchFragment;
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
-import com.apollopharmacy.vishwam.ui.sampleui.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlistscreen1.SwachListmoduleUi;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;

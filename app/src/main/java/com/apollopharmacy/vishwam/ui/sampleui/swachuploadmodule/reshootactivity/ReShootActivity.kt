@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.sampleui.reshootactivity
+package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,8 +7,7 @@ import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityReShootBinding
-import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
-import com.apollopharmacy.vishwam.ui.sampleui.uploadnowbutton.UploadNowButtonActivity
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 
 class ReShootActivity : AppCompatActivity() {
     lateinit var activityreShootBinding: ActivityReShootBinding

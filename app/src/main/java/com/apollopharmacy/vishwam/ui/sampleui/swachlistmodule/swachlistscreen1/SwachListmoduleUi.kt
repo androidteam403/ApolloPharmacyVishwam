@@ -4,11 +4,8 @@ import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.databinding.FragmentSwachlistmoduleuiBinding
-import com.apollopharmacy.vishwam.ui.sampleui.sampleswachui.SampleSwachViewModel
 import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlisrscreen2.ApproveListActivity
-import com.apollopharmacy.vishwam.ui.sampleui.uploadnowbutton.UploadNowButtonActivity
 
 class SwachListmoduleUi : BaseFragment<SwachListmoduleViewModel, FragmentSwachlistmoduleuiBinding>() {
     override val layoutRes: Int

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/value_10dp"
-        android:background="@drawable/dialog_background"
-        android:orientation="vertical"
-        android:padding="@dimen/value_20dp">
+
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/value_10dp"
+    android:background="@drawable/dialog_background"
+    android:orientation="vertical"
+    android:padding="@dimen/value_20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <ImageView
             android:layout_width="@dimen/value_40dp"
@@ -33,7 +34,7 @@
            android:paddingBottom="@dimen/value_5dp"
             android:layout_marginBottom="@dimen/value_5dp">
 
-            <androidx.appcompat.widget.AppCompatButton
+            <TextView
                 android:id="@+id/no_btnN"
                 android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_30dp"
@@ -46,7 +47,7 @@
                 android:textStyle="bold"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_15sp"/>
-            <androidx.appcompat.widget.AppCompatButton
+            <TextView
                 android:id="@+id/yes_btnN"
                 android:textStyle="bold"
                 android:layout_width="@dimen/value_70dp"
@@ -62,4 +63,3 @@
                 android:textSize="@dimen/text_15sp"/>
         </LinearLayout>
     </LinearLayout>
-</layout>
