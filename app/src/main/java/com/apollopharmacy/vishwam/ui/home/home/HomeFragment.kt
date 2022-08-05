@@ -12,10 +12,12 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         get() = R.layout.fragment_home
 
     override fun retrieveViewModel(): HomeViewModel {
+
         return ViewModelProvider(this).get(HomeViewModel::class.java)
     }
 
     override fun setup() {
+
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             viewBinding.customerName.setText("Welcome, " + userData.EMPNAME)

@@ -35,7 +35,7 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-import com.apollopharmacy.vishwam.ui.home.SwachhApollo.Swachhapollo;
+
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -46,6 +46,12 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+
+
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlistscreen1.SwachListmoduleUi;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -268,7 +274,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
                 break;
+            case "Swacch Images Upload":
+                headerText.setText("Swacch Images");
+                fragment = new SwacchImagesUploadFragment();
+                break;
 
+            case "Swacch List":
+                headerText.setText("SWACHH LIST");
+                fragment = new SwacchFragment();
+                break;
+
+            case "Swach Upload Module":
+                headerText.setText("SWACHH LIST");
+                fragment = new SampleSwachUi();
+                break;
+            case "Swach List Module":
+                headerText.setText("SWACHH LIST");
+                fragment = new SwachListmoduleUi();
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -556,7 +579,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
                                         .addChildModel(new ChildModel("Bill"))
-                        )
+                        ).addHeaderModel(
+                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
+                               .addChildModel(new ChildModel("Swacch Images Upload"))
+                                .addChildModel(new ChildModel("Swacch List"))
+
+
+                ).addHeaderModel(
+                    new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+                            .addChildModel(new ChildModel("Upload Module"))
+                            .addChildModel(new ChildModel("List Module"))
+
+
+
+            )
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -565,7 +601,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
-                            else if (id == 3) {
+                            else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -585,6 +621,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
+                            }
+                            else if(groupPosition == 3 && childPosition ==0){
+                                displaySelectedScreen("Swacch Images Upload");
+                            }
+                            else if (groupPosition == 3 && childPosition ==1) {
+                                displaySelectedScreen("Swacch List");
+                            }
+                            else if (groupPosition == 4 && childPosition ==0) {
+                                displaySelectedScreen("Swach Upload Module");
+                            }else if(groupPosition == 4 && childPosition ==1){
+                                displaySelectedScreen("Swach List Module");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
