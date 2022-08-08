@@ -70,7 +70,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{model.isApproved() ? model.approvedDate : `-`}"
+                            android:text="@{model.status.equals(`PENDING`) ? model.uploadedDate : model.status.equals(`APPROVED`) ? model.approvedDate : model.status.equals(`RESHOOT`) ? model.reshootDate : model.status.equals(`PARTIALLY APPROVED`) ? model.partiallyApprovedDate : `-`}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -93,7 +93,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{model.isApproved() ? model.approvedBy : `-`}"
+                            android:text="@{model.status.equals(`PENDING`) ? model.uploadedBy : model.status.equals(`APPROVED`) ? model.approvedBy : model.status.equals(`RESHOOT`) ? model.reshootBy : model.status.equals(`PARTIALLY APPROVED`) ? model.partiallyApprovedBy : `-`}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -135,9 +135,9 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{model.isApproved() ? `Approved` : `Pending`}"
+                            android:text="@{model.status}"
                             android:textAlignment="center"
-                            android:textColor="@{model.isApproved() ? @color/greenn : @color/sea_blue}"
+                            android:textColor="@{model.status.equals(`PENDING`) ? @color/sea_blue : model.status.equals(`APPROVED`) ? @color/greenn : model.status.equals(`RESHOOT`) ? @color/color_red : model.status.equals(`PARTIALLY APPROVED`) ? @color/material_amber_accent_700 : @color/black}"
                             android:textSize="@dimen/text_12sp" />
 
                         <RelativeLayout

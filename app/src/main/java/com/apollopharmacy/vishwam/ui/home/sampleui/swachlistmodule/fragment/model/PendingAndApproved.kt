@@ -12,5 +12,8 @@ class PendingAndApproved : Serializable {
     var reshootDate: String? = null
     var partiallyApprovedDate: String? = null
     var isApproved: Boolean? = false
+    var uploadedBy: String? = null
+    var uploadedDate: String? = null
+    var status: String? = null
 
 }

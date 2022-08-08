@@ -7,10 +7,10 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentSwachhListBinding
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity
 
 class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBinding>(),
     SwachhListCallback {
@@ -56,6 +56,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.reshootDate = i.reshootDate
                             pendingAndApproved.partiallyApprovedDate = i.partiallyApprovedDate
                             pendingAndApproved.isApproved = true
+                            pendingAndApproved.uploadedBy = i.uploadedBy
+                            pendingAndApproved.uploadedDate = i.uploadedDate
+                            pendingAndApproved.status = i.status
                             pendingAndApprovedList.add(pendingAndApproved)
 
                         }
@@ -72,6 +75,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.reshootDate = i.reshootDate
                             pendingAndApproved.partiallyApprovedDate = i.partiallyApprovedDate
                             pendingAndApproved.isApproved = false
+                            pendingAndApproved.uploadedBy = i.uploadedBy
+                            pendingAndApproved.uploadedDate = i.uploadedDate
+                            pendingAndApproved.status = i.status
                             pendingAndApprovedList.add(pendingAndApproved)
                         }
                     }
