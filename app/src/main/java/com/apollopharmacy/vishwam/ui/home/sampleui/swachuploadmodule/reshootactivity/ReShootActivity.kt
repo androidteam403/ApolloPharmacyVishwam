@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
 import android.content.Intent
 import android.net.Uri
@@ -16,6 +16,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityReShootBinding
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse

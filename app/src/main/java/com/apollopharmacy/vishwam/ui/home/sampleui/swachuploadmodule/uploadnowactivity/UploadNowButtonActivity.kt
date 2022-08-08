@@ -1,6 +1,7 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.ContextWrapper
@@ -36,9 +37,10 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSw
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
-import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
@@ -318,7 +320,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         }
     }
 
-    //    context.cacheDir
+
     private fun openCamera() {
 //        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        val extStorageDirectory =
@@ -360,11 +362,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == RESULT_OK) {
-
-//            val compressedImageFile = id.zelory.compressor.Compressor(this).compressToFile(
-//                imageFromCameraFile
-//            )
+        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+//            var capture: File? = null
 
             val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
 
