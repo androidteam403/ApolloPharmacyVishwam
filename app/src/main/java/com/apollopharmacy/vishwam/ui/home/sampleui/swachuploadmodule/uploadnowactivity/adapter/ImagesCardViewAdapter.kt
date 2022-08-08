@@ -104,6 +104,3 @@ class ImagesCardViewAdapter(
     }
 }
 
-private fun ImageView.setAlpha(d: Double) {
-
-}

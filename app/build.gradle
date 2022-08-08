@@ -111,7 +111,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
-
+    implementation 'id.zelory:compressor:2.1.0'
+    compile 'com.github.hkk595:Resizer:v1.5'
 
 
 

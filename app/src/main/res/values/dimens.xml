@@ -73,4 +73,5 @@
     <dimen name="twenty_three23_sp">23sp</dimen>
     <dimen name="dimen65dp">65dp</dimen>
     <dimen name="dimen160dp">160dp</dimen>
+    <dimen name="sixty_five65_dp">65dp</dimen>
 </resources>
