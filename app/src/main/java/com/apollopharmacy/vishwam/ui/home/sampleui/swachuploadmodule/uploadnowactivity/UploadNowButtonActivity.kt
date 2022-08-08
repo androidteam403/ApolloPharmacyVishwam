@@ -1,8 +1,7 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,21 +10,14 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,20 +25,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.data.model.LoginRequest
-import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding.inflate
-import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding.inflate
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
-import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding.inflate
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
-import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import org.w3c.dom.Text
 import java.io.File
 
 class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.CallbackInterface {

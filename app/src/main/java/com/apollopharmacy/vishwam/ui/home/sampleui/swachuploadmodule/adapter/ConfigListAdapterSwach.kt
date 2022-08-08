@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.adapter
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.adapter
 
 import android.view.LayoutInflater
 import android.view.View

@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,7 +9,6 @@ import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwacch
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.CommandsNew
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

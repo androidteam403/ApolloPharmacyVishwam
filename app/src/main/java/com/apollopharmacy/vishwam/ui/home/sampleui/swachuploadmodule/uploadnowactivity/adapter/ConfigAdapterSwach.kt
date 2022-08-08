@@ -1,10 +1,9 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R

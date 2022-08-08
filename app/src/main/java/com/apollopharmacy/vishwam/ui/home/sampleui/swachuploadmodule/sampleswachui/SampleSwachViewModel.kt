@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

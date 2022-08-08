@@ -50,8 +50,8 @@ import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity
 
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.sampleui.swachlistmodule.swachlistscreen1.SwachListmoduleUi;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Swach List Module":
                 headerText.setText("SWACHH LIST");
-                fragment = new SwachListmoduleUi();
+                fragment = new SwachListFragment();
                 break;
             case "Logout":
                 dialogExit();

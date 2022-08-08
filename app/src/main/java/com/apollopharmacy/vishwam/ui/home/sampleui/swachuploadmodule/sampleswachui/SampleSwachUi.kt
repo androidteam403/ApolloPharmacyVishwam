@@ -1,18 +1,15 @@
-package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui
+package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
 import android.content.Intent
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter.ConfigListAdapter
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.adapter.ConfigListAdapterSwach
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.adapter.ConfigListAdapterSwach
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 
 

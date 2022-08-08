@@ -3,11 +3,11 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListRequest
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
-
 import okhttp3.ResponseBody
 import retrofit2.http.*
-import kotlin.collections.ArrayList
 
 interface ViswamAppApi {
 
@@ -39,6 +39,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ApproveRejectListRequest
     ): ApproveRejectListResponse
+
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
     suspend fun swachhResponseImageList(
         @Header("token") token: String,
@@ -49,7 +50,9 @@ interface ViswamAppApi {
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
         @Header("token") token: String,
-        @Body data: ArrayList<ApproveRequest>): ApproveResponse
+        @Body data: ArrayList<ApproveRequest>
+    ): ApproveResponse
+
     @POST
     suspend fun loginUser(@Url url: String, @Body data: CommonRequest): String
 
@@ -269,4 +272,10 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ArrayList<OnSubmitSwachModelRequest>
     ): OnSubmitSwachModelResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
+    suspend fun GET_PENDING_ANDAPPROVED_LIST_API_CALL(
+        @Header("token") token: String,
+        @Body data: GetpendingAndApprovedListRequest?
+    ): GetpendingAndApprovedListResponse
 }
