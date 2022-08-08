@@ -72,9 +72,19 @@ object Preferences {
         return sharedPreferences.getString(KEY_PROFILE, "")!!
     }
 
+    fun savePassword(password: String){
+        sharedPreferences.edit().putString(KEY_USER_PASSWORD, password).apply()
+    }
+
+    fun getUserPassword(): String {
+        return sharedPreferences.getString(KEY_USER_PASSWORD, "")!!
+    }
+
     //-------------------- get Api details -----------------------
 
     private const val KEY_API = "KEY_API"
+    private const val SWACH_API = "SWACH_API"
+
     private const val KEY_SITE_ID = "site_id"
     private const val KEY_SITE_INFORMATION = "site_information"
     private const val KEY_GLOBAL_RESPONSE = "KEY_GLOBAL_RESPONSE"
@@ -83,6 +93,8 @@ object Preferences {
     private const val PREF_KEY_PIN_CREATED = "PREF_KEY_PIN_CREATED"
     private const val PREF_KEY_FCM_UPDATED = "PREF_KEY_FCM_UPDATED"
     private const val KEY_LOGIN_DATE = "KEY_LOGIN_DATE"
+    private const val KEY_COMPANY = "KEY_COMPANY"
+    private const val KEY_USER_PASSWORD ="KEY_PASSWORD"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -91,6 +103,17 @@ object Preferences {
     fun getApi(): String {
         return sharedPreferences.getString(KEY_API, "")!!
     }
+
+
+    fun saveSwachhApi(apiItems: String) {
+        sharedPreferences.edit().putString(KEY_API, apiItems).apply()
+    }
+
+    fun getSwachhApi(): String {
+        return sharedPreferences.getString(KEY_API, "")!!
+    }
+
+
 
     fun saveSiteId(siteId: String) {
         sharedPreferences.edit().putString(KEY_SITE_ID, siteId).apply()
@@ -154,5 +177,13 @@ object Preferences {
 
     fun getLoginDate(): String {
         return sharedPreferences.getString(KEY_LOGIN_DATE, "")!!
+    }
+
+    fun setCompany(company: String) {
+        sharedPreferences.edit().putString(KEY_COMPANY, company).apply()
+    }
+
+    fun getCompany(): String {
+        return sharedPreferences.getString(KEY_COMPANY, "")!!
     }
 }

@@ -57,4 +57,21 @@
     <dimen name="value_250dp">250dp</dimen>
     <dimen name="value_300dp">300dp</dimen>
     <dimen name="value_450dp">450dp</dimen>
+    <dimen name="eighty_fivedp">85dp</dimen>
+    <dimen name="five_sp">5sp</dimen>
+    <dimen name="eleven_sp">11sp</dimen>
+    <dimen name="five5_sp">5sp</dimen>
+    <dimen name="six6_sp">6sp</dimen>
+    <dimen name="twenty20_dp">20dp</dimen>
+    <dimen name="three3_sp">3sp</dimen>
+    <dimen name="twenty20_sp">20sp</dimen>
+    <dimen name="thirteen13_dp">13dp</dimen>
+    <dimen name="ninety_five95_dp">95dp</dimen>
+    <dimen name="onehundred_ten_dp">110dp</dimen>
+    <dimen name="four4_dp">4dp</dimen>
+    <dimen name="twenty_seven27_dp">27dp</dimen>
+    <dimen name="twenty_three23_sp">23sp</dimen>
+    <dimen name="dimen65dp">65dp</dimen>
+    <dimen name="dimen160dp">160dp</dimen>
+    <dimen name="sixty_five65_dp">65dp</dimen>
 </resources>

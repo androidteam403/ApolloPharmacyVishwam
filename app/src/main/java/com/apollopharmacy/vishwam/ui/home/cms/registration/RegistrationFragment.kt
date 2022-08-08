@@ -9,10 +9,12 @@ import android.os.Build
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.apollopharmacy.eposmobileapp.ui.dashboard.ConfirmSiteDialog
 import com.apollopharmacy.vishwam.R
@@ -32,13 +34,13 @@ import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCA
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.util.Utils
+import com.google.gson.Gson
 import java.io.File
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
+class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
     CustomDialog.AbstractDialogClickListner, CategoryDialog.SubCategoryDialogClickListner,
     SubCategoryDialog.SubSubCategoryDialogClickListner, CalendarDialog.DateSelected,
     ImageClickListner, SiteDialog.AbstractDialogSiteClickListner,
@@ -269,11 +271,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                   viewModel.getTicketRatingApi()*/
 
 
-                /*  AcknowledgementDialog().apply {
+                  AcknowledgementDialog().apply {
                       arguments = AcknowledgementDialog()
                           .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
                   }
-                      .show(childFragmentManager, "")*/
+                      .show(childFragmentManager, "")
             }
 
         })
@@ -379,7 +381,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                      )
                      )
                  }
-                 else {
+                 else {connectToAzure
                      statusInventory = "NOTBATCH"
                      viewModel.connectToAzure(fileArrayList, statusInventory!!)
                  }*/
@@ -463,7 +465,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         viewModel.responsenewcomplaintregistration.observe(viewLifecycleOwner, {
             hideLoading()
-            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
 
             SubmitcomplaintDialog().apply {
@@ -649,6 +651,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 }
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+
         viewModel.pendingListLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (it.status.equals("true")) {
@@ -1294,21 +1308,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     override fun confirmSite(departmentDto: StoreListItem) {
         showLoading()
-        Preferences.saveSiteId(departmentDto.sITEID!!)
+        Preferences.saveSiteId(departmentDto.site!!)
         RegistrationRepo.saveStoreInfo(departmentDto)
         viewModel.registerUserWithSiteID(
             UserSiteIDRegReqModel(
                 userData.EMPID,
-                departmentDto.sITEID
+                departmentDto.site
             ), departmentDto
         )
 
         var storedata = StoreData(
-            departmentDto.sITEID,
-            departmentDto.sITENAME,
-            departmentDto.DcName,
-            departmentDto.sTATEID,
-            departmentDto.dcId
+            departmentDto.site,
+            departmentDto.store_name,
+            departmentDto.dc_code?.name,
+            departmentDto.site,
+            departmentDto.dc_code?.code
         )
         LoginRepo.saveStoreData(storedata)
 
@@ -1326,14 +1340,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     fun onSuccessUserWithSiteID(selectedStoreItem: StoreListItem) {
         hideLoading()
         RefreshView()
-        if (selectedStoreItem.sITEID.isNullOrEmpty()) {
+        if (selectedStoreItem.site.isNullOrEmpty()) {
             viewBinding.departmentLayout.visibility = View.GONE
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
         } else {
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
-            Preferences.saveSiteId(selectedStoreItem.sITEID!!)
+            Preferences.saveSiteId(selectedStoreItem.site!!)
             RegistrationRepo.saveStoreInfo(selectedStoreItem)
             if (!isSuperAdmin) {
                 showLoading()
@@ -1342,8 +1356,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            viewBinding.siteIdSelect.setText(selectedStoreItem.sITEID + " - " + selectedStoreItem.sITENAME)
-            viewBinding.branchName.setText(selectedStoreItem.dcId + " - " + selectedStoreItem.DcName)
+           val store =  LoginDetails.StoreData(
+               selectedStoreItem.site.toString(),
+               selectedStoreItem.store_name.toString(),
+               selectedStoreItem.dc_code?.name.toString(),
+               selectedStoreItem.site.toString(),
+               selectedStoreItem.dc_code?.code.toString())
+           val repo = LoginRepo.getProfile()
+            repo?.STOREDETAILS?.clear()
+            repo?.STOREDETAILS?.add(store)
+            if (repo != null) {
+                LoginRepo.saveProfile(repo,LoginRepo.getPassword())
+                Log.e("Saved prif data", Gson().toJson(repo))
+                viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
+                viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)
+            }
+
         }
     }
 }
