@@ -1,53 +1,53 @@
 package com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity
 
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
+import android.os.Environment
 import android.provider.MediaStore
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.data.model.LoginRequest
-import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding.inflate
-import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding.inflate
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
-import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding.inflate
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import org.w3c.dom.Text
+import id.zelory.compressor.Compressor
+import me.echodev.resizer.Resizer
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
+
 
 class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.CallbackInterface {
     lateinit var activityUploadNowButtonBinding: ActivityUploadNowButtonBinding
@@ -59,6 +59,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     public var allImagesUploadedSwach: Boolean = false
     private var overallImageCount: Int = 0
     private var uploadedImageCount: Int = 0
+    private var fileNameForCompressedImage: String? = null
 
 
     @SuppressLint("SetTextI18n")
@@ -69,7 +70,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             R.layout.activity_upload_now_button
         )
         viewModel = ViewModelProvider(this)[UploadNowButtonViewModel::class.java]
-        activityUploadNowButtonBinding.imageCountSwach.text=  uploadedImageCount.toString()+ "/" + overallImageCount
+        activityUploadNowButtonBinding.imageCountSwach.text =
+            uploadedImageCount.toString() + "/" + overallImageCount
 
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
@@ -84,6 +86,20 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                     Toast.LENGTH_SHORT
                 )
                     .show()
+            }
+        }
+
+        viewModel.uploadSwachModel.observeForever {
+            hideLoading()
+            if (it != null && it.status == true) {
+                Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
+                onBackPressed()
+            } else if(it!=null && it.status == false && it.message== "ALREADY UPLAODED") {
+                Toast.makeText(context, ""+ it.message, Toast.LENGTH_SHORT).show()
+
+              onBackPressed()
+            }else{
+                Toast.makeText(context, "Please try again!!", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -104,7 +120,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                     swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
 
                 }
-                activityUploadNowButtonBinding.imageCountSwach.text= uploadedImageCount.toString() + "/" + overallImageCount
+                activityUploadNowButtonBinding.imageCountSwach.text =
+                    uploadedImageCount.toString() + "/" + overallImageCount
                 configListAdapter =
                     ConfigAdapterSwach(it, swacchApolloList, this)
                 val layoutManager = LinearLayoutManager(context)
@@ -122,7 +139,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             configListAdapter.notifyDataSetChanged()
             Utlis.hideLoading()
             when (it) {
-                is CommandsNewSwach.ImageIsUploadedInAzur -> {
+                is CommandsNewSwachImp.ImageIsUploadedInAzur -> {
                     for (i in swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto!!.indices) {
                         if (swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.get(
                                 i
@@ -152,8 +169,43 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
         activityUploadNowButtonBinding.uploadnowbutton.setOnClickListener {
-            updateButtonValidation()
+           updateButtonValidation()
+
         }
+
+
+
+    }
+
+    override fun onBackPressed() {
+
+        super.onBackPressed()
+
+    }
+
+    private fun uploadApi(){
+
+        if (NetworkUtil.isNetworkConnected(context)) {
+            var submit = OnUploadSwachModelRequest()
+            submit.actionEvent = "SUBMIT"
+            submit.storeid = Preferences.getSiteId()
+            submit.userid = Preferences.getToken()
+            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+
+            for (i in swacchApolloList.get(0).configlist!!.indices) {
+                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+                    var imageUrl = submit.ImageUrl()
+                    imageUrl.url =
+                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
+                    imageUrlsList.add(imageUrl)
+                }
+
+            }
+            submit.imageUrls = imageUrlsList
+            viewModel.onUploadSwach(submit)
+        }
+
     }
 
 
@@ -191,7 +243,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 null
             swacchApolloList.get(0).configlist!!.get(configPosDelete).imageUploaded = false
             uploadedImageCount--
-            activityUploadNowButtonBinding.imageCountSwach.text= uploadedImageCount.toString() + "/" + overallImageCount
+            activityUploadNowButtonBinding.imageCountSwach.text =
+                uploadedImageCount.toString() + "/" + overallImageCount
             activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#a6a6a6"));
             configListAdapter.notifyDataSetChanged()
             checkAllImagesUploaded()
@@ -265,11 +318,31 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         }
     }
 
-
+    //    context.cacheDir
     private fun openCamera() {
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        val extStorageDirectory =
+//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+//                .toString()
+//        imageFromCameraFile =
+//            File(extStorageDirectory, "${System.currentTimeMillis()}.jpg")
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+//        } else {
+//            val photoUri = FileProvider.getUriForFile(
+//                context,
+//                context.packageName + ".provider",
+//                imageFromCameraFile!!
+//            )
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+//        }
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
-            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+            File(ViswamApp.Companion.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
@@ -287,26 +360,86 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-//            var capture: File? = null
+        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == RESULT_OK) {
 
-//            frontview_fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+//            val compressedImageFile = id.zelory.compressor.Compressor(this).compressToFile(
+//                imageFromCameraFile
+//            )
 
+            val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
+
+//          val fileSizeInKBC = fileSizeInBytesC / 1024
+//
+//           val fileSizeInMBC = fileSizeInKBC / 1024
+//            val path: String =
+//                Environment.getExternalStorageDirectory().toString() + "/CameraImages/exampleswach.jpg"
+//            val file = File(path)
+//            val outputFileUri = Uri.fromFile(file)
+//            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
+//
+//            startActivityForResult(intent, imageFromCameraFile)
+
+//            createImageFile()
+
+//          saveToInternalStorage(imageFromCameraFile)
+
+
+//        val compressedImageFile =  Compressor(this).compressToFile(imageFromCameraFile);
+//
+//           val  compressedImageBitmap =  Compressor(this).compressToBitmap(imageFromCameraFile);
+
+//          val compressedImage =  Compressor(this)
+//                .setMaxWidth(640)
+//                .setMaxHeight(480)
+//                .setQuality(100)
+//                .setCompressFormat(Bitmap.CompressFormat.WEBP)
+//                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
+//                    Environment.DIRECTORY_PICTURES).getAbsolutePath())
+//                .compressToFile(imageFromCameraFile);
+
+            val resizedImage = Resizer(this)
+                .setTargetLength(1080)
+                .setQuality(100)
+                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                .setOutputDirPath(
+                    ViswamApp.Companion.context.cacheDir.toString()
+                )
+
+                .setSourceImage(imageFromCameraFile)
+                .resizedFile
+            // Environment.getExternalStoragePublicDirectory(
+            //                        Environment.DIRECTORY_PICTURES
+            //                    ).getAbsolutePath()
+// Environment.getExternalStoragePublicDirectory(
+//                        Environment.DIRECTORY_PICTURES
+//            val fileSizeInBytes: Long = resizedImage.length()
+//
+
+//            val fileSizeInKB = fileSizeInBytes / 1024
+//
+//            val fileSizeInMB = fileSizeInKB / 1024
 
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
-            )?.file = imageFromCameraFile
+            )?.file = resizedImage
+//
+
+
             configListAdapter.notifyDataSetChanged()
             swacchApolloList.get(0).configlist!!.get(configPosition).imageUploaded = true
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
             )?.positionLoop = uploadPosition
             uploadedImageCount++
-            activityUploadNowButtonBinding.imageCountSwach.text= uploadedImageCount.toString() + "/" + overallImageCount
+            activityUploadNowButtonBinding.imageCountSwach.text =
+                uploadedImageCount.toString() + "/" + overallImageCount
             checkAllImagesUploaded()
 
 
         }
+
         Utlis.showLoading(this)
         viewModel.connectToAzure(
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
@@ -314,6 +447,11 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             )
         )
         configListAdapter.notifyDataSetChanged()
+    }
+
+
+    fun addImageToGallery(filePath: String?, context: Context) {
+
     }
 
     private fun checkAllImagesUploaded() {
@@ -337,7 +475,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 allImagesUploaded = false
             }
 
-            if (uploadedImageCount==overallImageCount) {
+            if (uploadedImageCount == overallImageCount) {
                 activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
             } else {
                 activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#a6a6a6"));
@@ -348,10 +486,51 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
-            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
+            uploadApi()
+
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
         }
     }
+
+    private fun saveToInternalStorage(bitmapImage: Bitmap): String? {
+        val cw = ContextWrapper(applicationContext)
+        // path to /data/data/yourapp/app_data/imageDir
+        val directory: File = cw.getDir("imageDir", MODE_PRIVATE)
+        // Create imageDir
+        val mypath = File(directory, "profile.jpg")
+        var fos: FileOutputStream? = null
+        try {
+            fos = FileOutputStream(mypath)
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fos!!.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return directory.absolutePath
+    }
+
+//    private fun createImageFile(): File {
+//        // Create an image file name
+//        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+//        val imageFileName = "JPEG_" + timeStamp + "_"
+//        val storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+//        val image = File.createTempFile(
+//            imageFileName, /* prefix */
+//            ".jpg", /* suffix */
+//            storageDir      /* directory */
+//        )
+//
+//        // Save a file: path for use with ACTION_VIEW intents
+////        mCurrentPhotoPath = image.absolutePath
+//        return image
+//    }
 }

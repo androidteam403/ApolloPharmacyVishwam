@@ -4,6 +4,7 @@ import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 
 import okhttp3.ResponseBody
 import retrofit2.http.*
@@ -269,4 +270,29 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ArrayList<OnSubmitSwachModelRequest>
     ): OnSubmitSwachModelResponse
+
+
+    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails?StoreId=16001")
+    suspend fun checkDayWiseAccess(
+        @Header("token") token: String,
+    ): CheckDayWiseAccessResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    suspend fun onUploadSwacch(
+        @Header("token") token: String,
+        @Body data: OnUploadSwachModelRequest
+    ): OnUploadSwachModelResponse
+
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStorependingAndApprovedList")
+    suspend fun getStorePersonHistory(
+        @Header("token") token: String,
+        @Body data: GetStorePersonHistoryodelRequest
+    ): GetStorePersonHistoryodelResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    suspend fun getImageUrlApi(
+        @Header("token") token: String,
+        @Body data: GetImageUrlModelRequest
+    ): GetImageUrlModelResponse
 }
