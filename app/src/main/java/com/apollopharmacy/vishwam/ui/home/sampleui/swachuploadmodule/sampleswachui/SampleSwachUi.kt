@@ -4,6 +4,8 @@ import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.ViswamApp
@@ -12,8 +14,7 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.S
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
+
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.adapter.ConfigListAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity

@@ -10,8 +10,6 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachViewModel
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers

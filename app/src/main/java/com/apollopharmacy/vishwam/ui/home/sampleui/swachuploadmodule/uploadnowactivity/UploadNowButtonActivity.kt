@@ -34,9 +34,6 @@ import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil

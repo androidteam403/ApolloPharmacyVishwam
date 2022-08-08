@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.adapters.ImagesCardViewAdapterRes
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 
 class OnClickStatusClickAdapter(private var categoryList: List<GetImageUrlModelResponse.Category>?, private var callbackInterface: ImagesCardViewAdapterRes.CallbackInterface) : RecyclerView.Adapter<OnClickStatusClickAdapter.ViewHolder>() {

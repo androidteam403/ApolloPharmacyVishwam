@@ -16,13 +16,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityReShootBinding
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.adapters.ImagesCardViewAdapterRes
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.ImagesCardViewAdapterRes
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.ReShootActivityViewModel
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.OnClickStatusClickAdapter
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import java.io.File
 
 class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackInterface {
