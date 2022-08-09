@@ -815,14 +815,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Uploaded"
+                            android:text="@string/label_pending"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="15"
+                            android:text="@{pendingCount}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twenty_three23_sp"
                             android:textStyle="bold" />
@@ -839,14 +839,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Accepted"
+                            android:text="@string/label_accepted"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="10"
+                            android:text="@{acceptedCount}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twenty_three23_sp"
                             android:textStyle="bold" />
@@ -863,14 +863,14 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Rejected"
+                            android:text="@string/label_rejected"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="5"
+                            android:text="@{reShootCount}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/twenty_three23_sp"
                             android:textStyle="bold" />
@@ -907,13 +907,13 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
 
 
                         <TextView
                             android:layout_width="@dimen/value_100dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_12sp"
                             android:layout_marginTop="@dimen/value_7dp"
                             android:background="@drawable/green_background"
                             android:padding="@dimen/five5_sp"
@@ -921,12 +921,12 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" />
 
                         <TextView
                             android:layout_width="@dimen/value_100dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_12sp"
                             android:layout_marginTop="@dimen/value_7dp"
                             android:background="@drawable/red_rounded_corners"
                             android:padding="@dimen/five5_sp"
@@ -934,8 +934,22 @@
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
+                        <TextView
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:background="@drawable/red_rounded_corners"
+                            android:backgroundTint="@color/material_amber_accent_700"
+                            android:padding="@dimen/five5_sp"
+                            android:text="Pending"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -960,6 +974,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:gravity="center"
+                android:onClick="@{()-> callback.onClickSubmit()}"
                 android:text="SUBMIT"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
@@ -975,5 +990,30 @@
         <variable
             name="model"
             type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved" />
+
+        <variable
+            name="pendingCount"
+            type="String" />
+
+        <variable
+            name="acceptedCount"
+            type="String" />
+
+        <variable
+            name="reShootCount"
+            type="String" />
+
+        <variable
+            name="status"
+            type="String" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListcallback" />
+
     </data>
 </layout>

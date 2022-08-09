@@ -29,6 +29,9 @@ class ImageUrlAdapter(
         Glide.with(mContext).load(imageUrl.url)
             .error(R.drawable.placeholder_image)
             .into(holder.adapterImageUrlsBinding.image)
+        holder.adapterImageUrlsBinding.image.setOnClickListener {
+            approveListcallback.onClickImage()
+        }
     }
 
     override fun getItemCount(): Int {

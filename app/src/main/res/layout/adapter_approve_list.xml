@@ -32,7 +32,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/image_urls_recycler"
                     android:layout_width="@dimen/dimen160dp"
-                    android:layout_height="@dimen/dimen65dp"/>
+                    android:layout_height="@dimen/dimen65dp" />
                 <!--                <androidx.cardview.widget.CardView-->
                 <!--                    android:layout_width="@dimen/value_80dp"-->
                 <!--                    android:layout_height="65dp"-->
@@ -142,17 +142,65 @@
                         android:textAlignment="center"
                         android:textColor="@color/black" />
 
-                    <TextView
-                        android:layout_width="@dimen/value_100dp"
+                    <LinearLayout
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_7dp"
-                        android:background="@drawable/green_background"
-                        android:padding="@dimen/five5_sp"
-                        android:text="Accepted"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:background="@drawable/ash_rounded_corners"
+                            android:padding="@dimen/five5_sp"
+                            android:text="Partially"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
+
+
+                        <TextView
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:background="@drawable/green_background"
+                            android:padding="@dimen/five5_sp"
+                            android:text="Accepted"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" />
+
+                        <TextView
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:background="@drawable/red_rounded_corners"
+                            android:padding="@dimen/five5_sp"
+                            android:text="Re-Shoot"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
+
+                        <TextView
+                            android:layout_width="@dimen/value_100dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:background="@drawable/red_rounded_corners"
+                            android:backgroundTint="@color/material_amber_accent_700"
+                            android:padding="@dimen/five5_sp"
+                            android:text="Pending"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold"
+                            android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
+                    </LinearLayout>
                 </LinearLayout>
 
 
@@ -168,5 +216,13 @@
         <variable
             name="model"
             type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse.Category" />
+
+        <variable
+            name="status"
+            type="String" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
     </data>
 </layout>

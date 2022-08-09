@@ -74,4 +74,5 @@
     <dimen name="dimen65dp">65dp</dimen>
     <dimen name="dimen160dp">160dp</dimen>
     <dimen name="sixty_five65_dp">65dp</dimen>
+    <dimen name="dimen400dp">400dp</dimen>
 </resources>
