@@ -1612,6 +1612,9 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
             viewBinding.toDateText.setText(showingDate)
         }
     }
+
+    override fun selectedDatefrom(dateSelected: String, showingDate: String) {
+    }
 }
 
 interface ImageClickListener {

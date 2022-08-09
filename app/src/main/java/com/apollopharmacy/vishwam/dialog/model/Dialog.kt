@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.dialog
+package com.apollopharmacy.vishwam.dialog.model
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,44 +7,48 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.DatepickerLayoutBinding
 import com.apollopharmacy.vishwam.databinding.DialogDatePickerBinding
+import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis.formatTheDate
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ComplaintListCalendarDialog : DialogFragment() {
+class Dialog: DialogFragment() {
 
-    interface DateSelected {
-        fun selectedDateTo(dateSelected: String, showingDate: String)
-        fun selectedDatefrom(dateSelected: String, showingDate: String)
+
+    val TAG = "DatePickerDialog"
+    private lateinit var dateSelectedListner: DateSelecter
+    private var selectedDate: String = ""
+
+    interface DateSelecter {
+        fun selectDate(dateSelected: String, showingDate: String)
 
     }
-
-    private lateinit var dateSelectedListner: DateSelected
-    private var selectedDate: String = ""
 
     companion object {
         const val KEY_DATA = "data"
         const val KEY_FROM_DATE = "from_date"
-        const val KEY_IS_TO ="is_to_date"
+        const val KEY_IS_TO = "is_to_date"
     }
 
-    fun generateParsedData(data: String, isToDate: Boolean, fromDate: String ): Bundle {
+    fun generateParsedData(data: String, isToDate: Boolean, fromDate: String): Bundle {
         return Bundle().apply {
             putString(KEY_DATA, data)
-            putString(KEY_FROM_DATE,fromDate)
-            putBoolean(KEY_IS_TO,isToDate)
+            putString(KEY_FROM_DATE, fromDate)
+            putBoolean(KEY_IS_TO, isToDate)
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View? {
-
         val dataPickerBinding = DataBindingUtil.inflate(
             inflater,
             R.layout.dialog_date_picker,
@@ -52,7 +56,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
             false
         ) as DialogDatePickerBinding
 
-        dateSelectedListner = parentFragment as DateSelected
+        dateSelectedListner = parentFragment as DateSelecter
 
         val calendar = Calendar.getInstance()
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
@@ -60,7 +64,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
 //        dataPickerBinding.datePicker.maxDate = System.currentTimeMillis()
 //        dataPickerBinding.datePicker.minDate = calendar.getTimeInMillis()
 
-        selectedDate = arguments?.getString(KEY_DATA).toString()
+        selectedDate = arguments?.getString(ComplaintListCalendarDialog.KEY_DATA).toString()
         dataPickerBinding.cancel.setOnClickListener { dismiss() }
         val checkVal: NumberFormat = DecimalFormat("00")
         val c = Calendar.getInstance()
@@ -80,14 +84,20 @@ class ComplaintListCalendarDialog : DialogFragment() {
             month = Utils.getMonth(selectedDate)
             day = strs[0].toInt()
         }
-        Utils.printMessage("TAG",
-            "Date is :: " + day + "/" + month + "/" + year + ",  DT : " + selectedDate + ", : " + month)
+        Utils.printMessage(
+            "TAG",
+            "Date is :: " + day + "/" + month + "/" + year + ",  DT : " + selectedDate + ", : " + month
+        )
 
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
         dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
-        if(arguments?.getBoolean(KEY_IS_TO) == true){
-            val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
-            dataPickerBinding.datePicker.minDate =date.time
+        if (arguments?.getBoolean(ComplaintListCalendarDialog.KEY_IS_TO) == true) {
+            val date = SimpleDateFormat("yyyy-MMM-dd").parse(
+                arguments?.getString(
+                    ComplaintListCalendarDialog.KEY_FROM_DATE
+                )
+            )
+            dataPickerBinding.datePicker.minDate = date.time
         }
 
         dataPickerBinding.ok.setOnClickListener {
@@ -98,7 +108,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
             val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
             val getDate =
                 "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-            dateSelectedListner.selectedDateTo(getDate, getDate)
+            dateSelectedListner.selectDate(getDate, getDate)
             dismiss()
         }
         return dataPickerBinding.root

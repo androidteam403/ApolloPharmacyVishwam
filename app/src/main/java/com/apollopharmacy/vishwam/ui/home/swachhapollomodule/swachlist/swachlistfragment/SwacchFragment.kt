@@ -283,6 +283,9 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         }
     }
 
+    override fun selectedDatefrom(dateSelected: String, showingDate: String) {
+    }
+
     override fun onClickApproveImage(
         position: Int,
         orderData: ArrayList<ApproveRejectListResponse.GetApproved>

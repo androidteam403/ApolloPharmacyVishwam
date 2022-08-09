@@ -2,8 +2,9 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mod
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-class GetpendingAndApprovedListRequest() {
+class GetpendingAndApprovedListRequest() :Serializable{
     @SerializedName("EMPID")
     @Expose
     var empid: String? = null
@@ -27,4 +28,6 @@ class GetpendingAndApprovedListRequest() {
     @SerializedName("ENDPAGENO")
     @Expose
     var endpageno: Int? = null
+
+
 }

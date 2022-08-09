@@ -17,11 +17,12 @@ class SwachListViewModel : ViewModel() {
     var getpendingAndApprovedListResponse = MutableLiveData<GetpendingAndApprovedListResponse>()
 
 
-    fun getPendingAndApprovedListApiCall() {
+    fun getPendingAndApprovedListApiCall(empiD:String,fromDate:String,toDate:String) {
         val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
-        getpendingAndApprovedListRequest.empid = "APL49396"
-        getpendingAndApprovedListRequest.fromdate = "2022-08-02"
-        getpendingAndApprovedListRequest.todate = "2022-08-06"
+        getpendingAndApprovedListRequest.empid=empiD
+//        getpendingAndApprovedListRequest.empid = "APL49396"
+        getpendingAndApprovedListRequest.fromdate = fromDate
+        getpendingAndApprovedListRequest.todate = toDate
         getpendingAndApprovedListRequest.storeId = "16001"
         getpendingAndApprovedListRequest.startpageno = 0
         getpendingAndApprovedListRequest.endpageno = 100
