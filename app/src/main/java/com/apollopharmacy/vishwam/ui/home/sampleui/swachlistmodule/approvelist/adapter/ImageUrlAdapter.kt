@@ -27,7 +27,7 @@ class ImageUrlAdapter(
     override fun onBindViewHolder(holder: ImageUrlAdapter.ViewHolder, position: Int) {
         val imageUrl = imageUrlsList.get(position)
         Glide.with(mContext).load(imageUrl.url)
-            .error(R.drawable.placeholder_image)
+            .error(R.drawable.capture)
             .into(holder.adapterImageUrlsBinding.image)
         holder.adapterImageUrlsBinding.image.setOnClickListener {
             approveListcallback.onClickImage()

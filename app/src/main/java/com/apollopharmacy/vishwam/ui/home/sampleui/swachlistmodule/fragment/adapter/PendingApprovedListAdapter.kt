@@ -32,11 +32,12 @@ class PendingApprovedListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.pendingApprovedListBinding.model = pendingApprovedList.get(position)
-        holder.pendingApprovedListBinding.updateButton.setOnClickListener {
-            mCallback.onClickUpdate(
-                pendingApprovedList.get(position)
-            )
-        }
+        holder.pendingApprovedListBinding.cardview
+            .setOnClickListener {
+                mCallback.onClickUpdate(
+                    pendingApprovedList.get(position)
+                )
+            }
 
     }
 

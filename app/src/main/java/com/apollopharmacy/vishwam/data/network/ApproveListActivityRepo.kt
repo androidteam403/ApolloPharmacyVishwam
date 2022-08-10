@@ -66,10 +66,7 @@ object ApproveListActivityRepo {
                     "h72genrSSNFivOi/cfiX3A==",
                     saveAcceptAndReshootRequest
                 )
-            if (response.status == true)
-                ApiResult.Success(response)
-            else
-                ApiResult.GenericError(null, "error")
+            ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
         } catch (e: IOException) {

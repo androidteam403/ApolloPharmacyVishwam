@@ -19,14 +19,17 @@ class ApproveListViewModel : ViewModel() {
 
     var getImageUrlsResponse = MutableLiveData<GetImageUrlsResponse>()
     var saveAcceptAndReshootResponse = MutableLiveData<SaveAcceptAndReshootResponse>()
+    var errorMessage = MutableLiveData<String>()
 
 
     fun getImageUrlsApiCall(pendingAndApproved: PendingAndApproved) {
+        val state = MutableLiveData<State>()
+
+        state.postValue(State.LOADING)
         val getImageUrlsRequest = GetImageUrlsRequest()
         getImageUrlsRequest.storeId = pendingAndApproved.storeId
         getImageUrlsRequest.swachhId = pendingAndApproved.swachhid
 
-        val state = MutableLiveData<State>()
 
         viewModelScope.launch {
             state.value = State.SUCCESS
@@ -70,10 +73,10 @@ class ApproveListViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
-                    when (response.value.status) {
-                        true -> {
-                            saveAcceptAndReshootResponse.value = response.value
-                        }
+                    if (response.value.status == true) {
+                        saveAcceptAndReshootResponse.value = response.value
+                    } else {
+                        errorMessage.value = response.value.message
                     }
                 }
                 is ApiResult.GenericError -> {

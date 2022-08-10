@@ -3,8 +3,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +30,7 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/image_urls_recycler"
-                    android:layout_width="@dimen/dimen160dp"
+                    android:layout_width="@dimen/dimen170dp"
                     android:layout_height="@dimen/dimen65dp" />
                 <!--                <androidx.cardview.widget.CardView-->
                 <!--                    android:layout_width="@dimen/value_80dp"-->
@@ -118,8 +117,8 @@
                     android:layout_marginStart="@dimen/value_30dp">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="2/2"

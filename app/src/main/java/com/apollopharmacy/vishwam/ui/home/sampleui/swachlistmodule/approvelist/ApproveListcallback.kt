@@ -4,4 +4,5 @@ interface ApproveListcallback {
 
     fun onClickImage()
     fun onClickSubmit()
+    fun onClickBack()
 }

@@ -4,4 +4,5 @@ interface PreviewLastImageCallback {
     fun onClickReShoot()
     fun onClickAccept()
     fun onClickCompleted()
+    fun onClickBack()
 }

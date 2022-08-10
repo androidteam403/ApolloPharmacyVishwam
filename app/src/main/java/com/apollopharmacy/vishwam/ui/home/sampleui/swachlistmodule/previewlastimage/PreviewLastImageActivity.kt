@@ -82,8 +82,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     override fun onPageSelected(position: Int) {
         currentPosition = position
         activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
-        activityPreviewLastImageBinding.totalImages =
-            "" + position.plus(1) + "/" + imageUrlsList.size
+        activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
 
 
     }
@@ -133,7 +132,13 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                         isAllVerified = false
                     }
                 }
-                isAllVerified.also { it.also { it.also { activityPreviewLastImageBinding.isAllComplete = it } } }
+                isAllVerified.also {
+                    it.also {
+                        it.also {
+                            activityPreviewLastImageBinding.isAllComplete = it
+                        }
+                    }
+                }
                 if (currentPosition == imageUrlsList.size - 1) {
                     for (i in imageUrlsList) {
                         if (i.isVerified == false) {
@@ -157,5 +162,9 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         intent.putExtra("IMAGE_URLS_OBJECT", imageUrlsList)
         setResult(Activity.RESULT_OK, intent)
         finish()
+    }
+
+    override fun onClickBack() {
+        onBackPressed()
     }
 }

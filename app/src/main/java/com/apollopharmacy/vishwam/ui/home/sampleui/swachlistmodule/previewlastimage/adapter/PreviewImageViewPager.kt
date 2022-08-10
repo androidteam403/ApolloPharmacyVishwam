@@ -9,6 +9,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ViewpagerPreviewImageBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
+import com.bumptech.glide.Glide
 
 class PreviewImageViewPager(
     val mContext: Context,
@@ -17,18 +18,19 @@ class PreviewImageViewPager(
     PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val viewPagerBinding: ViewpagerPreviewImageBinding = DataBindingUtil.inflate(
+        val viewpagerPreviewImageBinding: ViewpagerPreviewImageBinding = DataBindingUtil.inflate(
             LayoutInflater.from(mContext),
             R.layout.viewpager_preview_image,
             container,
             false
         )
 
+        Glide.with(mContext).load(imageUrl.get(position).url).error(R.drawable.placeholder_image)
+            .into(viewpagerPreviewImageBinding.viewpagerImage)
 
+        container.addView(viewpagerPreviewImageBinding.root)
 
-
-        container.addView(viewPagerBinding.root)
-        return viewPagerBinding.root
+        return viewpagerPreviewImageBinding.root
     }
 
     override fun getCount(): Int {

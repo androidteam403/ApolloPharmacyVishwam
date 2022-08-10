@@ -3,12 +3,12 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -24,7 +24,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     private var approveListAdapter: ApproveListAdapter? = null
     private var getImageUrlsResponses = GetImageUrlsResponse()
     private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
-
+    private var overallStatus: String? = null
+    val APPROVE_LIST_ACTIVITY = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityApproveListBinding = DataBindingUtil.setContentView(
@@ -37,16 +38,20 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     }
 
     private fun setUp() {
+        activityApproveListBinding.callback = this
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
         when (pendingAndApproved != null) {
             true -> {
                 activityApproveListBinding.model = pendingAndApproved
+                Utlis.showLoading(this)
                 approveListViewModel.getImageUrlsApiCall(pendingAndApproved!!)
 
             }
         }
+        errorMessage()
         getImageUrlsApiResponse()
+        saveAcceptandReshoot()
     }
 
     private fun getImageUrlsApiResponse() {
@@ -65,6 +70,35 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                         approveListAdapter
                     report()
                 }
+            }
+        }
+    }
+
+    private fun saveAcceptandReshoot() {
+        approveListViewModel.saveAcceptAndReshootResponse.observeForever { saveAcceptAndReshootResponse ->
+            Utlis.hideLoading()
+            when (saveAcceptAndReshootResponse != null) {
+                true -> {
+                    when (saveAcceptAndReshootResponse.status == true) {
+                        true -> {
+                            Toast.makeText(this, "Status has been updated", Toast.LENGTH_SHORT)
+                                .show()
+                            onBackPressed()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun errorMessage() {
+        approveListViewModel.errorMessage.observeForever { errorMessage ->
+            Utlis.hideLoading()
+            if (errorMessage != null)
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            else {
+                Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show()
+
             }
         }
     }
@@ -101,12 +135,16 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
         if (isPending) {
             activityApproveListBinding.status = "0"
+            overallStatus = "0"
         } else if (isAccepted) {
             activityApproveListBinding.status = "1"
+            overallStatus = "1"
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
+            overallStatus = "2"
         } else {
             activityApproveListBinding.status = "3"
+            overallStatus = "3"
         }
     }
 
@@ -121,23 +159,35 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     override fun onClickSubmit() {
         val saveAcceptAndReshootRequest = SaveAcceptAndReshootRequest()
         saveAcceptAndReshootRequest.swachhid = pendingAndApproved!!.swachhid
-        saveAcceptAndReshootRequest.storeid = Preferences.getSiteId()
-        saveAcceptAndReshootRequest.statusid = "1"
+        saveAcceptAndReshootRequest.storeid = "16001"// Preferences.getSiteId()
+        saveAcceptAndReshootRequest.statusid = overallStatus
         saveAcceptAndReshootRequest.reamrks = ""
         saveAcceptAndReshootRequest.rating = ""
         saveAcceptAndReshootRequest.userid = "APL49396"
-
+        val imageUrlsList = ArrayList<SaveAcceptAndReshootRequest.Imageurl>()
         for (i in getImageUrlsResponses.categoryList!!) {
             for (j in i.imageUrls!!) {
                 val imageUrl = SaveAcceptAndReshootRequest.Imageurl()
                 imageUrl.imageid = j.imageid
                 imageUrl.statusid = j.status
                 imageUrl.remarks = ""
-                saveAcceptAndReshootRequest.imageurls!!.add(imageUrl)
+                imageUrlsList.add(imageUrl)
             }
         }
 
+        saveAcceptAndReshootRequest.imageurls = imageUrlsList
+        Utlis.showLoading(this)
         approveListViewModel.saveAccepetAndReshoot(saveAcceptAndReshootRequest)
+    }
+
+    override fun onClickBack() {
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
