@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen400dp">
+
+        <ImageView
+            android:id="@+id/viewpager_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimen400dp"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@drawable/capture" />
+    </RelativeLayout>
+</layout>

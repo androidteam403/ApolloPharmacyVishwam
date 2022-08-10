@@ -182,4 +182,7 @@
     <string name="label_on_u0020">On:\u0020</string>
     <string name="label_by_u0020">By:\u0020</string>
     <string name="label_status_u0020">Status:\u0020</string>
+    <string name="label_pending">Pending</string>
+    <string name="label_accepted">Accepted</string>
+    <string name="label_rejected">Rejected</string>
 </resources>

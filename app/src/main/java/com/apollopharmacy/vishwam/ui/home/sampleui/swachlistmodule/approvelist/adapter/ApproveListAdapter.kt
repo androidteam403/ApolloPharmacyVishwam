@@ -33,18 +33,45 @@ class ApproveListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val category = categoryList.get(position)
         holder.adapterApproveListBinding.model = category
-
-        when (category.imageUrls != null && category.imageUrls.size > 0) {
-            true -> {
-                val imageUrlAdapter =
-                    ImageUrlAdapter(mContext, category.imageUrls, approveListcallback)
-                holder.adapterApproveListBinding.imageUrlsRecycler.layoutManager =
-                    LinearLayoutManager(
-                        mContext, LinearLayoutManager.HORIZONTAL, false
-                    )
-                holder.adapterApproveListBinding.imageUrlsRecycler.adapter =
-                    imageUrlAdapter
+        var isAccepted = true
+        var isReShoot = true
+        var isPending = true
+        for (i in category.imageUrls!!) {
+            if (i.status.equals("0")) {
+                isAccepted = false
+                isReShoot = false
             }
+            else if (i.status.equals("1")) {
+                isReShoot = false
+                isPending = false
+            }
+            else if (i.status.equals("2")) {
+                isAccepted = false
+                isPending = false
+            }
+        }
+        if (isPending) {
+            holder.adapterApproveListBinding.status = "0"
+        }
+        else if (isAccepted) {
+            holder.adapterApproveListBinding.status = "1"
+        }
+        else if (isReShoot) {
+            holder.adapterApproveListBinding.status = "2"
+        }
+        else {
+            holder.adapterApproveListBinding.status = "3"
+        }
+
+        if ((category.imageUrls != null && category.imageUrls!!.size > 0) == true) {
+            val imageUrlAdapter =
+                ImageUrlAdapter(mContext, category.imageUrls!!, approveListcallback)
+            holder.adapterApproveListBinding.imageUrlsRecycler.layoutManager =
+                LinearLayoutManager(
+                    mContext, LinearLayoutManager.HORIZONTAL, false
+                )
+            holder.adapterApproveListBinding.imageUrlsRecycler.adapter =
+                imageUrlAdapter
         }
 
     }

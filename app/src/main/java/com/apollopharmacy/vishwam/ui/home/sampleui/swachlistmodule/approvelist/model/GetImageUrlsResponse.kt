@@ -15,41 +15,45 @@ class GetImageUrlsResponse : Serializable {
 
     @SerializedName("CATEGORY_LIST")
     @Expose
-    val categoryList: List<Category>? = null
+    var categoryList: List<Category>? = null
 
-    inner class Category {
+    class Category : Serializable {
         @SerializedName("CATEGORYID")
         @Expose
-        val categoryid: String? = null
+        var categoryid: String? = null
 
         @SerializedName("CATEGORYNAME")
         @Expose
-        val categoryname: String? = null
+        var categoryname: String? = null
 
         @SerializedName("IMAGE_URLS")
         @Expose
-        val imageUrls: List<ImageUrl>? = null
+        var imageUrls: ArrayList<ImageUrl>? = null
     }
 
-    inner class ImageUrl {
+    class ImageUrl : Serializable {
         @SerializedName("URL")
         @Expose
-        val url: String? = null
+        var url: String? = null
 
         @SerializedName("STATUS")
         @Expose
-        val status: String? = null
+        var status: String? = null
 
         @SerializedName("REMARKS")
         @Expose
-        val remarks: String? = null
+        var remarks: String? = null
 
         @SerializedName("CATEGORYID")
         @Expose
-        val categoryid: Int? = null
+        var categoryid: Int? = null
 
         @SerializedName("IMAGEID")
         @Expose
-        val imageid: String? = null
+        var imageid: String? = null
+
+        var mainCategoryId: String? = null
+        var categoryname: String? = null
+        var isVerified: Boolean? = false
     }
 }
