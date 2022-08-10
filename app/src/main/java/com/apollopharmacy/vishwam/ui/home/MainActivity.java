@@ -148,6 +148,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     }
                 });
 
+
+
+
         listView = findViewById(R.id.expandable_navigation);
 
         drawer = findViewById(R.id.drawer_layout);
@@ -297,6 +300,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         previousItem = itemName;
+
+        if (itemName.equalsIgnoreCase(""))
+
         //replacing the fragment
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
