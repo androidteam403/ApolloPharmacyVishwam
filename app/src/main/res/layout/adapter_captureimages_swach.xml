@@ -14,6 +14,10 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+            app:cardElevation="@dimen/value_5dp"
             android:layout_marginStart="@dimen/value_10dp"
             android:layout_width="@dimen/onehundred_ten_dp"
             android:layout_height="@dimen/value_100dp"
@@ -37,7 +41,7 @@
                         android:layout_gravity="center"
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
-                        android:src="@drawable/ic_camera"/>
+                        android:src="@drawable/ash_color_caera"/>
                     <TextView
                         android:id="@+id/imageTextandNumber"
                         android:layout_width="wrap_content"

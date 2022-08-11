@@ -305,4 +305,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetpendingAndApprovedListRequest?
     ): GetpendingAndApprovedListResponse
+
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    suspend fun onUploadSwacchRes(
+        @Header("token") token: String,
+        @Body data: OnUploadSwachModelRequest
+    ): OnUploadSwachModelResponse
 }

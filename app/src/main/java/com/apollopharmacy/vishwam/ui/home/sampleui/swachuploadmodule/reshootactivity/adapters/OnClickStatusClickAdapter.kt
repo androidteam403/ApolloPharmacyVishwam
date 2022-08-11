@@ -12,8 +12,14 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.adapters.ImagesCardViewAdapterRes
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 
-class OnClickStatusClickAdapter(private var categoryList: List<GetImageUrlModelResponse.Category>?, private var callbackInterface: ImagesCardViewAdapterRes.CallbackInterface) : RecyclerView.Adapter<OnClickStatusClickAdapter.ViewHolder>() {
+class OnClickStatusClickAdapter(
+    private var categoryList: List<GetImageUrlModelResponse.Category>?,
+    private var callbackInterface: ImagesCardViewAdapterRes.CallbackInterface,
+    private var callbackInterfaceOnClick: CallbackInterfaceOnClick,
+) : RecyclerView.Adapter<OnClickStatusClickAdapter.ViewHolder>() {
     private lateinit var imagesCardViewAdapter: ImagesCardViewAdapterRes
+
+    var reshootAgainCount: Int = 0
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,23 +34,58 @@ class OnClickStatusClickAdapter(private var categoryList: List<GetImageUrlModelR
 
         holder.catergoryName.text = catergoryResponse?.categoryname
 
+
+        var isApproved = true
+        var isReshoot = true
+        var isPending = true
+        for (i in catergoryResponse?.imageUrls!!){
+            if (i.status.equals("0")){
+                isApproved = false
+                isReshoot = false
+            }else if (i.status.equals("1")){
+                isPending = false
+                isReshoot = false
+            }else if (i.status.equals("2")){
+                isApproved = false
+                isPending = false
+            }
+        }
+        if (isApproved){
+            holder.approvedLayout.visibility = View.VISIBLE
+        }else if (isReshoot){
+            holder.reshootLayout.visibility = View.VISIBLE
+        }else if (isPending){
+            holder.pendingLayout.visibility=View.VISIBLE
+        }else{
+            holder.partialLayout.visibility = View.VISIBLE
+        }
+//
+//
+//        if (allStatusGood) {
+//            holder.approvedLayout.visibility = View.VISIBLE
+//        } else if(isPending) {
+//            holder.pendingLayout.visibility=View.VISIBLE
+//        }else if(isReshoot){
+//            holder.reshootLayout.visibility = View.VISIBLE
+//        }else if(isPartial){
+//            holder.partialLayout.visibility = View.VISIBLE
+//        }
+
+
+
+
+
+
+
+
         imagesCardViewAdapter =
             ImagesCardViewAdapterRes(position, catergoryResponse?.imageUrls, callbackInterface)
         holder.imageRecyclerView.layoutManager = LinearLayoutManager(
             ViswamApp.context,
-            LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager.HORIZONTAL, false
+        )
         holder.imageRecyclerView.adapter = imagesCardViewAdapter
 
-
-//        for (i in categoryList?.get(position)?.imageUrls!!.indices){
-//            if(categoryList!!.get(position).imageUrls!!.get(i).status.equals("1")){
-//                var allGood : Boolean = true
-//            }else if(categoryList!!.get(position).imageUrls!!.get(i).status.equals("2")){
-//                var reShoot : Boolean = true
-//            }else if(categoryList!!.get(position).imageUrls!!.get(i).status.equals("3")){
-//                var partiallyApproved : Boolean = true
-//            }
-//        }
 
     }
 
@@ -53,12 +94,19 @@ class OnClickStatusClickAdapter(private var categoryList: List<GetImageUrlModelR
     }
 
 
+    interface CallbackInterfaceOnClick {
+
+    }
+
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val catergoryName :TextView = itemView.findViewById(R.id.categoryNameSwachRes)
-        val imageRecyclerView: RecyclerView = itemView.findViewById(R.id.uploadlayoutrecyclerviewRes)
-        val approvedLayout : LinearLayout = itemView.findViewById(R.id.approved_layoutRes)
-        val reshootLayout : LinearLayout = itemView.findViewById(R.id.reshoot_layoutRes)
-        val partialLayout : LinearLayout = itemView.findViewById(R.id.partially_approved_res)
+        val catergoryName: TextView = itemView.findViewById(R.id.categoryNameSwachRes)
+        val imageRecyclerView: RecyclerView =
+            itemView.findViewById(R.id.uploadlayoutrecyclerviewRes)
+        val approvedLayout: LinearLayout = itemView.findViewById(R.id.approved_layoutRes)
+        val reshootLayout: LinearLayout = itemView.findViewById(R.id.reshoot_layoutRes)
+        val pendingLayout: LinearLayout = itemView.findViewById(R.id.pending_layoutRes)
+        val partialLayout: LinearLayout = itemView.findViewById(R.id.partially_approved_res)
     }
 
 }

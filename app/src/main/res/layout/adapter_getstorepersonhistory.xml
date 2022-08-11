@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_blue">
 
     <LinearLayout
@@ -11,8 +12,13 @@
 
 
         <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/value_6dp"
+            app:cardElevation="@dimen/value_5dp"
+            android:layout_marginTop="@dimen/value_3dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:layout_marginRight="@dimen/value_5dp"
+            android:layout_marginLeft="@dimen/value_5dp"
             android:id="@+id/cardview"
-            android:layout_marginTop="@dimen/value_5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible">
@@ -40,31 +46,55 @@
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:orientation="horizontal">
 
+
+
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="On: " />
+                            android:text="On: "
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/date_details"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="26 July, 2022 - 10:30 AM"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/value_3dp"
+                            android:id="@+id/three_dots"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="end"
+                            android:gravity="end"
+                            android:layout_height="@dimen/value_15dp">
+
+
+                            <ImageView
+                                android:layout_width="@dimen/text_13sp"
+                                android:layout_height="@dimen/text_13sp"
+                                android:src="@drawable/threedots"
+                                android:layout_gravity="end"/>
+
+
+                        </LinearLayout>
+
 
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/four4_dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_10dp"
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:orientation="horizontal">
 
                         <TextView
+                            android:textSize="@dimen/text_12sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="By: " />
@@ -73,7 +103,6 @@
                             android:id="@+id/by_details"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Sundar Kumar - 1225566"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -102,8 +131,8 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="@dimen/text_18sp"
-                            android:layout_height="@dimen/text_18sp"
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
                             android:src="@drawable/greenright" />
 
                         <TextView
@@ -126,7 +155,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_7dp"
-                            android:text="10/10"
                             android:textSize="@dimen/text_12sp"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/black"
@@ -175,7 +203,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_7dp"
-                            android:text="5/10"
                             android:textSize="@dimen/text_12sp"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/black"
@@ -224,7 +251,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_7dp"
-                            android:text="5/10"
                             android:textSize="@dimen/text_12sp"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/black"
@@ -274,7 +300,54 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_7dp"
-                            android:text="10/10"
+                            android:textSize="@dimen/text_12sp"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/black"
+
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/partially_approved_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/value_3dp"
+                        android:layout_marginStart="@dimen/value_7dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/clock_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Partially Approved"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/sea_blue" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/value_7dp"
                             android:textSize="@dimen/text_12sp"
                             android:textAlignment="viewEnd"
                             android:textColor="@color/black"
