@@ -24,9 +24,28 @@ class PreviewImageViewPager(
             container,
             false
         )
+        if (position == imageUrl.size - 1) {
+            viewpagerPreviewImageBinding.isLastPos = true
+            var accepted = 0
+            var rejected = 0
+            for (i in imageUrl) {
+                if (imageUrl.indexOf(i) != imageUrl.size - 1)
+                    if (i.status.equals("1")) {
+                        accepted++
+                    } else if (i.equals("2")) {
+                        rejected++
+                    }
+            }
+            viewpagerPreviewImageBinding.totalImages = "${imageUrl.size}"
+            viewpagerPreviewImageBinding.accepted = "$accepted"
+            viewpagerPreviewImageBinding.rejected = "$rejected"
 
-        Glide.with(mContext).load(imageUrl.get(position).url).error(R.drawable.placeholder_image)
-            .into(viewpagerPreviewImageBinding.viewpagerImage)
+        } else {
+            viewpagerPreviewImageBinding.isLastPos = false
+            Glide.with(mContext).load(imageUrl.get(position).url)
+                .error(R.drawable.placeholder_image)
+                .into(viewpagerPreviewImageBinding.viewpagerImage)
+        }
 
         container.addView(viewpagerPreviewImageBinding.root)
 

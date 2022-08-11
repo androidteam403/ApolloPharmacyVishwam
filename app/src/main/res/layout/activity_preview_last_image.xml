@@ -25,8 +25,8 @@
                     android:layout_width="@dimen/value_40dp"
                     android:layout_height="@dimen/value_40dp"
                     android:layout_gravity="center"
-                    android:onClick="@{()-> callback.onClickBack()}"
                     android:contentDescription="@string/app_name"
+                    android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
                 <TextView
@@ -58,9 +58,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/value_50dp"
                         android:layout_gravity="center"
-                        android:visibility="gone"
+                        android:contentDescription="@string/app_name"
                         android:src="@drawable/close_white_icon"
-                        android:contentDescription="@string/app_name" />
+                        android:visibility="gone" />
                 </LinearLayout>
 
 
@@ -162,7 +162,8 @@
                     android:layout_marginTop="@dimen/value_30dp"
                     android:background="@color/header_blue"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="@dimen/value_35dp"
@@ -183,22 +184,20 @@
 
                 </LinearLayout>
 
-                <LinearLayout
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimen400dp">
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginBottom="@dimen/value_60dp" />
+                <!--                    <ImageView-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="400dp"-->
+                <!--                        android:contentDescription="@string/app_name"-->
+                <!--                        android:scaleType="fitXY"-->
+                <!--                        android:src="@drawable/capture" />-->
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/preview_image_viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                    <!--                    <ImageView-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="400dp"-->
-                    <!--                        android:contentDescription="@string/app_name"-->
-                    <!--                        android:scaleType="fitXY"-->
-                    <!--                        android:src="@drawable/capture" />-->
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -206,7 +205,8 @@
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/value_40dp"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
 
                     <TextView
@@ -257,7 +257,8 @@
             <LinearLayout
                 android:id="@+id/reshootacceptedlayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="0dp"
@@ -288,21 +289,88 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_60dp"
+                android:orientation="horizontal"
+                android:visibility="@{isLastPos ? view.GONE: view.VISIBLE}"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".3"
+                    android:background="@color/header_blue"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Images"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@{totalImages}"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_18sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:layout_weight=".7"
+                    android:gravity="end|center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="action"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_18sp" />
+
+                    <ImageView
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? .5f: actionStatus.equalsIgnoreCase(`2`) ? 1f : .5f}"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickReShoot()}"
+                        android:src="@drawable/action_reshoot" />
+
+                    <ImageView
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? 1f: actionStatus.equalsIgnoreCase(`2`) ? .5f : 1f}"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickAccept()}"
+                        android:src="@drawable/action_accept" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/completeButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/value_60dp"
                 android:background="@color/greenn"
-                android:layout_marginTop="@dimen/value_10dp"
+                android:gravity="center"
                 android:onClick="@{()-> callback.onClickCompleted()}"
                 android:orientation="horizontal"
                 android:padding="@dimen/value_12dp"
-                android:visibility="@{isAllComplete ? view.VISIBLE: view.GONE}">
+                android:visibility="@{isLastPos ? view.VISIBLE: view.GONE}">
 
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_10dp"
                     android:gravity="center"
                     android:text="COMPLETE"
                     android:textColor="@color/white"
@@ -337,5 +405,13 @@
         <variable
             name="view"
             type="android.view.View" />
+
+        <variable
+            name="actionStatus"
+            type="String" />
+
+        <variable
+            name="isLastPos"
+            type="Boolean" />
     </data>
 </layout>
