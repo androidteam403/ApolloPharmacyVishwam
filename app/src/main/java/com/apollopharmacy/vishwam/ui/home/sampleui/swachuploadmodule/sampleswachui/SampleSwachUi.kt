@@ -95,6 +95,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
         }
 
+
         showLoading()
         viewModel.checkDayWiseAccess()
         viewModel.checkDayWiseAccess.observeForever {

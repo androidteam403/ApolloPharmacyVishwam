@@ -75,7 +75,7 @@ class GetStorePersonAdapter(
             }
             holder.pendingpLayout.visibility = View.VISIBLE
         }
-        else if (getStorePersonlist?.get(position)?.status.equals("RE-SHOOT")) {
+        else if (getStorePersonlist?.get(position)?.status.equals("RESHOOT")) {
             holder.reshootLayout.visibility = View.VISIBLE
             if (getStorePerson?.reshootDate == "") {
                 holder.onDetails.text = "--"

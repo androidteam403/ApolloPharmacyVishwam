@@ -106,7 +106,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     R.color.sea_blue
                 )
             );
-        } else if (status == "RE-SHOOT") {
+        } else if (status == "RESHOOT") {
             if (reshootDate != null && reshootDate != "") {
                 activityreShootBinding.uploadedDate.text = reshootDate
             } else {
@@ -138,6 +138,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         var submit = GetImageUrlModelRequest()
         submit.storeid = storeId
         submit.swachhId = swachId
+        Utlis.showLoading(this)
         viewModel.getImageUrl(submit)
 
         viewModel.getImageUrlsList.observeForever {
@@ -178,6 +179,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 activityreShootBinding.imageRecyclerViewRes.itemAnimator =
                     DefaultItemAnimator()
                 activityreShootBinding.imageRecyclerViewRes.adapter = onClickStatusClickAdapter
+                Utlis.hideLoading()
             } else {
 
                 Toast.makeText(applicationContext, "Please try again", Toast.LENGTH_SHORT).show()

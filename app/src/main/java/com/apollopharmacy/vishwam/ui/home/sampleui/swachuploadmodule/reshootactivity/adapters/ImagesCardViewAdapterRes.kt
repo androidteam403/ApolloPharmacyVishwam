@@ -42,10 +42,13 @@ class ImagesCardViewAdapterRes(
 
 
         if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
+
             Glide.with(context).load(imageUrls?.url).into(holder.iageView)
             holder.camera.visibility = View.GONE
             holder.eyeImage.visibility = View.VISIBLE
             holder.redTrashLayout.visibility = View.VISIBLE
+        }else{
+            Glide.with(context).load(R.drawable.placeholder_image).into(holder.iageView)
         }
         if(imageUrlsList?.get(position)?.status.equals("0")){
             holder.camera.visibility = View.GONE

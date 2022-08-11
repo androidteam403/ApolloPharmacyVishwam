@@ -45,10 +45,11 @@
                     android:visibility="gone">
 
                     <ImageView
-                        android:layout_width="@dimen/text_18sp"
-                        android:layout_height="@dimen/text_18sp"
+                        android:layout_width="@dimen/value_20dp"
+                        android:layout_height="@dimen/value_20dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/camerawhite" />
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/ic_baseline_camera_alt_24" />
                 </LinearLayout>
 
                 <LinearLayout
