@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlasti
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
@@ -81,6 +82,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+        Toast.makeText(this, "onPageScrolled", Toast.LENGTH_SHORT).show()
     }
 
     override fun onPageSelected(position: Int) {
@@ -100,7 +102,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-
+        Toast.makeText(this, "onPageScrollStateChanged", Toast.LENGTH_SHORT).show()
     }
 
 
@@ -128,6 +130,11 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                                 break
                             }
                         }
+                    }
+                    if (isAllVerified) {
+                        activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1
+                        )
                     }
                 } else {
                     activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
@@ -165,6 +172,11 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                                 break
                             }
                         }
+                    }
+                    if (isAllVerified) {
+                        activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1
+                        )
                     }
                 } else {
                     activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
