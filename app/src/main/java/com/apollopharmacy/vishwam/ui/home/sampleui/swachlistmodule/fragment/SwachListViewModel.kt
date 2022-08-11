@@ -21,11 +21,11 @@ class SwachListViewModel : ViewModel() {
         val state = MutableLiveData<State>()
         state.postValue(State.LOADING)
         val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
+//        getpendingAndApprovedListRequest.empid = empiD
         getpendingAndApprovedListRequest.empid = "APL49396"
-//        getpendingAndApprovedListRequest.empid = "APL49396"
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
-        getpendingAndApprovedListRequest.storeId = "16001"
+        getpendingAndApprovedListRequest.storeId = ""
         getpendingAndApprovedListRequest.startpageno = 0
         getpendingAndApprovedListRequest.endpageno = 100
 

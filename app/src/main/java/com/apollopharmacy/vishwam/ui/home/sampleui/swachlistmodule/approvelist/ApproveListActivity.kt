@@ -10,14 +10,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
@@ -168,7 +166,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         saveAcceptAndReshootRequest.swachhid = pendingAndApproved!!.swachhid
         saveAcceptAndReshootRequest.storeid = "16001"// Preferences.getSiteId()
         saveAcceptAndReshootRequest.statusid = overallStatus
-        saveAcceptAndReshootRequest.reamrks = ""
+        saveAcceptAndReshootRequest.reamrks = activityApproveListBinding.comment.text.toString()
         saveAcceptAndReshootRequest.rating = ""
         saveAcceptAndReshootRequest.userid = "APL49396"
         val imageUrlsList = ArrayList<SaveAcceptAndReshootRequest.Imageurl>()

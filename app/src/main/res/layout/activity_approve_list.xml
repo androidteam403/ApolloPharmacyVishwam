@@ -983,6 +983,7 @@
                                 android:textColor="@color/black" />
 
                             <EditText
+                                android:id="@+id/comment"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_40dp"
                                 android:layout_marginTop="@dimen/value_5dp"

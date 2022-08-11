@@ -76,4 +76,5 @@
     <dimen name="sixty_five65_dp">65dp</dimen>
     <dimen name="dimen400dp">400dp</dimen>
     <dimen name="dimen170dp">170dp</dimen>
+    <dimen name="dimen25sp">25sp</dimen>
 </resources>

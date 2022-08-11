@@ -189,4 +189,6 @@
     <string name="label_report">Report</string>
     <string name="label_total_images">Total Images</string>
     <string name="label_this_store_review_ncompleted_successfully">This store review\ncompleted successfully</string>
+    <string name="label_the_images_status_will_be_changed">The images status will be changed</string>
+    <string name="label_alert">Alert!</string>
 </resources>

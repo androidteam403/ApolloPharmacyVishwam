@@ -1,16 +1,18 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage
 
 import android.app.Activity
-import android.app.AlertDialog
-import android.content.DialogInterface
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Toast
+import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityPreviewLastImageBinding
+import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.adapter.PreviewImageViewPager
@@ -63,6 +65,14 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(0)
         activityPreviewLastImageBinding.totalImages = "1/${imageUrlsList.size - 1}"
 
+        if (imageUrlsList.get(0).status.equals("1")) {
+            activityPreviewLastImageBinding.actionStatus = "1"
+        } else if (imageUrlsList.get(0).status.equals("2")) {
+            activityPreviewLastImageBinding.actionStatus = "2"
+        } else {
+            activityPreviewLastImageBinding.actionStatus = "0"
+        }
+
         var isAllVerified = true
         for (i in imageUrlsList) {
             if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1)
@@ -72,12 +82,12 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
         activityPreviewLastImageBinding.isAllComplete = isAllVerified
 
-        previewImageViewPager = PreviewImageViewPager(this, imageUrlsList
+        previewImageViewPager = PreviewImageViewPager(
+            this, imageUrlsList
         )
 
         activityPreviewLastImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewLastImageBinding.previewImageViewpager.adapter = previewImageViewPager
-
 
 
     }
@@ -198,21 +208,47 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onClickBack() {
-        val positiveButtonClick={
-                dialog:DialogInterface,which:Int-> onBackPressed()
-
+        val imagesStatusAlertDialog = Dialog(this)
+        val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
+            )
+        imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+//        imagesStatusAlertDialog.setCancelable(false)
+        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
+            onClickCompleted()
         }
-        val negativeButtonClick={
-                dialog:DialogInterface,which:Int-> dialog.dismiss()
-
+        dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
+            finish()
         }
-        val builder=AlertDialog.Builder(this)
-        with(builder){
-            setMessage("Do you want to Save Preview Images")
-            setPositiveButton("ok",positiveButtonClick)
-            setNegativeButton("Cancel",negativeButtonClick)
-            show()
+        dialogLastimagePreviewAlertBinding.close.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
         }
+        imagesStatusAlertDialog.show()
 
+
+//        val positiveButtonClick = { dialog: DialogInterface, which: Int ->
+//            onBackPressed()
+//
+//        }
+//        val negativeButtonClick = { dialog: DialogInterface, which: Int ->
+//            dialog.dismiss()
+//
+//        }
+//        val builder = AlertDialog.Builder(this)
+//        with(builder) {
+//            setMessage("Do you want to Save Preview Images")
+//            setPositiveButton("ok", positiveButtonClick)
+//            setNegativeButton("Cancel", negativeButtonClick)
+//            show()
+//        }
+
+    }
+
+    override fun onBackPressed() {
+        onClickBack()
     }
 }
