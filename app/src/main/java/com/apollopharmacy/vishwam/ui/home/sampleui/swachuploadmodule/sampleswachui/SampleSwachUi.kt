@@ -61,7 +61,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
         getStoreHistoryRequest.startpageno =0
-        getStoreHistoryRequest.endpageno =2
+        getStoreHistoryRequest.endpageno =100
         viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {

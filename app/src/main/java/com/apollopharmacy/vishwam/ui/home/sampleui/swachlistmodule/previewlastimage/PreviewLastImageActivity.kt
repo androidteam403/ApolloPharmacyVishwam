@@ -97,19 +97,36 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageSelected(position: Int) {
-        currentPosition = position
-        if (currentPosition != imageUrlsList.size - 1) {
-            activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
-            activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
-            if (imageUrlsList.get(position).status.equals("1")) {
-                activityPreviewLastImageBinding.actionStatus = "1"
-            } else if (imageUrlsList.get(position).status.equals("2")) {
-                activityPreviewLastImageBinding.actionStatus = "2"
-            } else {
-                activityPreviewLastImageBinding.actionStatus = "0"
+        if (position == imageUrlsList.size - 1) {
+            var isAllVerified = true
+            for (i in imageUrlsList) {
+                if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                    if (i.isVerified == false) {
+                        isAllVerified = false
+                    }
+                }
             }
+            if (isAllVerified){
+                currentPosition = position
+                activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
+                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
+            }
+        }else{
+            currentPosition = position
+            if (currentPosition != imageUrlsList.size - 1) {
+                activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
+                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
+                if (imageUrlsList.get(position).status.equals("1")) {
+                    activityPreviewLastImageBinding.actionStatus = "1"
+                } else if (imageUrlsList.get(position).status.equals("2")) {
+                    activityPreviewLastImageBinding.actionStatus = "2"
+                } else {
+                    activityPreviewLastImageBinding.actionStatus = "0"
+                }
+            }
+            activityPreviewLastImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
         }
-        activityPreviewLastImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+
     }
 
     override fun onPageScrollStateChanged(state: Int) {
