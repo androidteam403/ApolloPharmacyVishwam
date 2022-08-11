@@ -1,21 +1,23 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
 import android.content.Intent
+import android.os.Build
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.adapter.ConfigListAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -41,9 +43,26 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         return ViewModelProvider(this).get(SampleSwachViewModel::class.java)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         viewModel.swachImagesRegisters()
 
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        val currentDate: String = simpleDateFormat.format(Date())
+
+        var fromdate  = simpleDateFormat.format(cal.time)
+        var toDate = currentDate
+        showLoading()
+        var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
+        getStoreHistoryRequest.storeid = "16001"
+        getStoreHistoryRequest.empid = "APL0001"
+        getStoreHistoryRequest.fromdate = fromdate
+        getStoreHistoryRequest.todate = toDate
+        getStoreHistoryRequest.startpageno =0
+        getStoreHistoryRequest.endpageno =2
+        viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -76,12 +95,15 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
         }
 
+
         showLoading()
         viewModel.checkDayWiseAccess()
         viewModel.checkDayWiseAccess.observeForever {
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
+//                it.friday=false
+//                it.wednesday=true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -126,20 +148,25 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             hideLoading()
         }
 
-        showLoading()
-        var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
-        getStoreHistoryRequest.storeid = "16001"
-        getStoreHistoryRequest.empid = "APL0001"
-        getStoreHistoryRequest.fromdate = "2022-06-02"
-        getStoreHistoryRequest.todate = "2022-08-05"
-        getStoreHistoryRequest.startpageno =0
-        getStoreHistoryRequest.endpageno =2
-        viewModel.getStorePersonHistory(getStoreHistoryRequest)
+
 
         viewModel.getStorePersonHistory.observeForever {
             if(it!=null){
                 getStorePersonHistoryList.add(it)
-                hideLoading()
+                viewBinding.storeId.text = Preferences.getSiteId()
+                viewBinding.userId.text= Preferences.getToken()
+//                if(getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate!=null &&getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate!="" ){
+//                    viewBinding.uploadedOn.text = getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate
+//                }else{
+//                    viewBinding.uploadedOn.text = "--"
+//                }
+
+                val sdf = SimpleDateFormat("dd MMM, yyyy")
+                val currentDate = sdf.format(Date())
+
+                viewBinding.todaysDate.text =currentDate
+
+
                 getStorePersonAdapter =
                     GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this)
                 val layoutManager = LinearLayoutManager(ViswamApp.context)
@@ -147,6 +174,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.imageRecyclerView.itemAnimator =
                     DefaultItemAnimator()
                 viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+                hideLoading()
 
             }
         }
@@ -164,10 +192,24 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     }
 
-    override fun onClickStatus(position: Int, swachhid: String?, status: String?) {
+    override fun onClickStatus(
+        position: Int,
+        swachhid: String?,
+        status: String?,
+        approvedDate: String?,
+        storeId: String?,
+        uploadedDate: String?,
+        reshootDate: String?,
+        partiallyApprovedDate: String?
+    ) {
         val intent = Intent(context, ReShootActivity::class.java)
         intent.putExtra("swachhid",swachhid)
         intent.putExtra("status", status)
+        intent.putExtra("approvedDate", approvedDate)
+        intent.putExtra("storeId", storeId)
+        intent.putExtra("uploadedDate", uploadedDate)
+        intent.putExtra("reshootDate", reshootDate)
+        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
            startActivity(intent)
     }
 

@@ -28,6 +28,7 @@
             android:padding="@dimen/value_10dp">
 
             <ImageView
+                android:id="@+id/backButton"
                 android:layout_width="@dimen/value_40dp"
                 android:layout_height="@dimen/value_40dp"
                 android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
@@ -84,6 +85,7 @@
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
+                            android:id="@+id/storeId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="16015"
@@ -122,9 +124,9 @@
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
+                            android:id="@+id/userId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="1225566"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -159,9 +161,9 @@
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
+                            android:id="@+id/todaysDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="26 July, 2022"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />

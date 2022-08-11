@@ -26,7 +26,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentSwacchImagesUploadBinding
 
 
 
-import com.apollopharmacy.vishwam.ui.home.swachhapollo.SwachhapolloModel
+
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter.ConfigListAdapter
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.adapter.UploadButtonAdapter
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
@@ -38,7 +38,6 @@ import kotlin.collections.ArrayList
 
 class SwacchImagesUploadFragment : BaseFragment<SwachhapolloViewModel, FragmentSwacchImagesUploadBinding>(),
     UploadButtonAdapter.CallbackInterface {
-    var swachhapolloModel: SwachhapolloModel? = null
     lateinit var swachModelResponse: SwachModelResponse
 
     private lateinit var capturedImagesList: MutableList<ImageDataDto>

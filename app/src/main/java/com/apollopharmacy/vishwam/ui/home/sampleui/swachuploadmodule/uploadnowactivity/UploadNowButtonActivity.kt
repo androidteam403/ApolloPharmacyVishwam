@@ -46,6 +46,9 @@ import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.CallbackInterface {
@@ -69,6 +72,13 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             R.layout.activity_upload_now_button
         )
         viewModel = ViewModelProvider(this)[UploadNowButtonViewModel::class.java]
+
+        activityUploadNowButtonBinding.storeId.text = Preferences.getSiteId()
+        activityUploadNowButtonBinding.userId.text= Preferences.getToken()
+        val sdf = SimpleDateFormat("dd MMM, yyyy")
+        val currentDate = sdf.format(Date())
+
+        activityUploadNowButtonBinding.todaysDate.text =currentDate
         activityUploadNowButtonBinding.imageCountSwach.text =
             uploadedImageCount.toString() + "/" + overallImageCount
 
@@ -87,16 +97,21 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                     .show()
             }
         }
+        activityUploadNowButtonBinding.backButton.setOnClickListener{
+            onBackPressed()
+        }
+
+
 
         viewModel.uploadSwachModel.observeForever {
             hideLoading()
             if (it != null && it.status == true) {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
-                onBackPressed()
+                super.onBackPressed()
             } else if(it!=null && it.status == false && it.message== "ALREADY UPLAODED") {
                 Toast.makeText(context, ""+ it.message, Toast.LENGTH_SHORT).show()
 
-              onBackPressed()
+                super.onBackPressed()
             }else{
                 Toast.makeText(context, "Please try again!!", Toast.LENGTH_SHORT).show()
             }
@@ -163,6 +178,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
                 }
+
             }
         })
 
@@ -176,9 +192,25 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     }
 
+    private fun exitDialog(){
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.exit_dialog)
+        val close = dialog.findViewById<TextView>(R.id.no_btnExit)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+        val ok = dialog.findViewById<TextView>(R.id.yes_btnExit)
+        ok.setOnClickListener {
+            super.onBackPressed()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+    }
+
     override fun onBackPressed() {
 
-        super.onBackPressed()
+        exitDialog()
 
     }
 
@@ -187,8 +219,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         if (NetworkUtil.isNetworkConnected(context)) {
             var submit = OnUploadSwachModelRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid = Preferences.getSiteId()
-            submit.userid = Preferences.getToken()
+            submit.storeid = "16001"
+            submit.userid = "APL0001"
             var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
             for (i in swacchApolloList.get(0).configlist!!.indices) {
@@ -203,7 +235,9 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             }
             submit.imageUrls = imageUrlsList
             viewModel.onUploadSwach(submit)
+
         }
+
 
     }
 
@@ -482,9 +516,17 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
+            activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
 //            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
-            uploadApi()
 
+            for(i in swacchApolloList.get(0).configlist?.indices!!){
+                for(j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.indices!!){
+                    viewModel.connectToAzure(
+                        swacchApolloList.get(0).configlist?.get(i)?.imageDataDto?.get(j))
+                }
+            }
+
+            uploadApi()
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
