@@ -40,7 +40,6 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -51,12 +50,10 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-
-
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -133,8 +130,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//         toolbar = findViewById(R.id.toolbar);
-//       setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -155,12 +152,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listView = findViewById(R.id.expandable_navigation);
 
+
         drawer = findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        drawer.setDrawerListener(toggle);
 //        toggle.syncState();
-
 
 
         navigationView = findViewById(R.id.nav_view);
@@ -214,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         gpsLoaderLayout = findViewById(R.id.gpsLoaderLayout);
 
-        if(isAttendanceRequired) {
+        if (isAttendanceRequired) {
             initPermission();
             checkExternalPermission();
         }
@@ -289,12 +286,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SwacchFragment();
                 break;
 
-            case "Swach Upload Module":
-//                toolbar.setBackgroundColor(getResources().getColor(R.color.header_blue));
+            case "Upload":
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 break;
-            case "Swach List Module":
+            case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 break;
@@ -497,7 +493,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired) {
+
         switch (isAttendanceRequired + "-" + isCMSRequired + "-" + isDiscountRequired) {
+
+
             case "false-false-true":
                 listView.init(this)
                         .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home))
@@ -516,8 +515,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -553,8 +551,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -584,30 +581,41 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Pending"))
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
-                                        .addChildModel(new ChildModel("Bill"))
-                        ).addHeaderModel(
-                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                               .addChildModel(new ChildModel("Swacch Images Upload"))
-                                .addChildModel(new ChildModel("Swacch List"))
+                                        .addChildModel(new ChildModel("Bill")));
+//                        ).addHeaderModel(
+//                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                                .addChildModel(new ChildModel("Swacch Images Upload"))
+//                                .addChildModel(new ChildModel("Swacch List")));
+//                if (userDesignation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
+//                }
+                if (userDesignation.equalsIgnoreCase("NODATA")) {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
+
+                } else {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
+                }
+//                ).addHeaderModel(
+//                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                                .addChildModel(new ChildModel("Upload Module"))
+//                                .addChildModel(new ChildModel("List Module"))
 
 
-                ).addHeaderModel(
-                    new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                            .addChildModel(new ChildModel("Upload Module"))
-                            .addChildModel(new ChildModel("List Module"))
-
-
-
-            )
-                        .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
+                listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
                             if (id == 0) {
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 5) {
+                            } else if (id == 4) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -627,17 +635,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
-                            }
-                            else if(groupPosition == 3 && childPosition ==0){
+                            } else if (groupPosition == 4 && childPosition == 0) {
                                 displaySelectedScreen("Swacch Images Upload");
-                            }
-                            else if (groupPosition == 3 && childPosition ==1) {
+                            } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swacch List");
-                            }
-                            else if (groupPosition == 4 && childPosition ==0) {
-                                displaySelectedScreen("Swach Upload Module");
-                            }else if(groupPosition == 4 && childPosition ==1){
-                                displaySelectedScreen("Swach List Module");
+                            } else if (groupPosition == 3 && childPosition == 0) {
+                                if (userDesignation.equalsIgnoreCase("NODATA")) {
+                                    displaySelectedScreen("Upload");
+                                } else if (userDesignation.equalsIgnoreCase("manager") || userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive") || userDesignation.equalsIgnoreCase("ceo")) {
+                                    displaySelectedScreen("List");
+                                }
+                            } else if (groupPosition == 3 && childPosition == 1) {
+                                displaySelectedScreen("List");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
@@ -658,7 +667,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }  else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -698,8 +707,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -744,8 +752,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -806,8 +813,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Orders Menu
                         Common.showToast(context, "Discount");
                         drawer.closeDrawer(GravityCompat.START);
-                    } */
-                            else if (id == 4) {
+                    } */ else if (id == 4) {
                                 //Logout
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
@@ -848,8 +854,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 1) {
+                            } else if (id == 1) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }

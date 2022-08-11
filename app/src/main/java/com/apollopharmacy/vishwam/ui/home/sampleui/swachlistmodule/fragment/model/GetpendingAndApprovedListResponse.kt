@@ -52,6 +52,19 @@ class GetpendingAndApprovedListResponse {
         @SerializedName("PARTIALLY_APPROVED_DATE")
         @Expose
         var partiallyApprovedDate: String? = null
+
+        @SerializedName("STATUS")
+        @Expose
+        var status: String? = null
+
+        @SerializedName("UPLOADED_BY")
+        @Expose
+        var uploadedBy: String? = null
+
+        @SerializedName("UPLOADED_DATE")
+        @Expose
+        var uploadedDate: String? = null
+
     }
 
     inner class GetPending {
@@ -86,5 +99,17 @@ class GetpendingAndApprovedListResponse {
         @SerializedName("PARTIALLY_APPROVED_DATE")
         @Expose
         var partiallyApprovedDate: String? = null
+
+        @SerializedName("STATUS")
+        @Expose
+        var status: String? = null
+
+        @SerializedName("UPLOADED_BY")
+        @Expose
+        var uploadedBy: String? = null
+
+        @SerializedName("UPLOADED_DATE")
+        @Expose
+        var uploadedDate: String? = null
     }
 }

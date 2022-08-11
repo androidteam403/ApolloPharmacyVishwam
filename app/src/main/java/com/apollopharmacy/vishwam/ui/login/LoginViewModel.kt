@@ -48,6 +48,7 @@ class LoginViewModel : ViewModel() {
                                     Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
                                     LoginRepo.saveProfile(result.value,loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
+                                    Preferences.saveDesignation(result.value.DESIGNATION)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
                                     Preferences.setLoginDate(Utils.getCurrentDate())
                                     commands.value = Command.NavigateTo(result.value)

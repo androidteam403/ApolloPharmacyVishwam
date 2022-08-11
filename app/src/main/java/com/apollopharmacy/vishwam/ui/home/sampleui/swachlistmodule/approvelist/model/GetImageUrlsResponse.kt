@@ -7,49 +7,53 @@ import java.io.Serializable
 class GetImageUrlsResponse : Serializable {
     @SerializedName("MESSAGE")
     @Expose
-    private val message: String? = null
+    val message: String? = null
 
     @SerializedName("STATUS")
     @Expose
-    private val status: Boolean? = null
+    val status: Boolean? = null
 
     @SerializedName("CATEGORY_LIST")
     @Expose
-    private val categoryList: List<Category>? = null
+    var categoryList: List<Category>? = null
 
-    internal inner class Category {
+    class Category : Serializable {
         @SerializedName("CATEGORYID")
         @Expose
-        private val categoryid: String? = null
+        var categoryid: String? = null
 
         @SerializedName("CATEGORYNAME")
         @Expose
-        private val categoryname: String? = null
+        var categoryname: String? = null
 
         @SerializedName("IMAGE_URLS")
         @Expose
-        private val imageUrls: List<ImageUrl>? = null
+        var imageUrls: ArrayList<ImageUrl>? = null
     }
 
-    inner class ImageUrl {
+    class ImageUrl : Serializable {
         @SerializedName("URL")
         @Expose
-        private val url: String? = null
+        var url: String? = null
 
         @SerializedName("STATUS")
         @Expose
-        private val status: String? = null
+        var status: String? = null
 
         @SerializedName("REMARKS")
         @Expose
-        private val remarks: String? = null
+        var remarks: String? = null
 
         @SerializedName("CATEGORYID")
         @Expose
-        private val categoryid: Int? = null
+        var categoryid: Int? = null
 
         @SerializedName("IMAGEID")
         @Expose
-        private val imageid: String? = null
+        var imageid: String? = null
+
+        var mainCategoryId: String? = null
+        var categoryname: String? = null
+        var isVerified: Boolean? = false
     }
 }

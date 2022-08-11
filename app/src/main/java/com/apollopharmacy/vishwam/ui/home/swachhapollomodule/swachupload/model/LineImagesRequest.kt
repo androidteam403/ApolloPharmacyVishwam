@@ -17,6 +17,10 @@ class LineImagesRequest : Serializable {
     @Expose
     var categoryAutoId: String? = null
 
+    @SerializedName("SWACHH_ID")
+    @Expose
+    var swachhId: String? = null
+
     constructor(categoryid: Int?, storeid: String?, categoryAutoId: String?) {
         this.categoryid = categoryid
         this.storeid = storeid

@@ -3,6 +3,10 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
@@ -305,6 +309,18 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetpendingAndApprovedListRequest?
     ): GetpendingAndApprovedListResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    suspend fun GET_IMAGE_URLS_API_CALL(
+        @Header("token") token: String,
+        @Body data: GetImageUrlsRequest?
+    ): GetImageUrlsResponse
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
+    suspend fun SAVE_ACCEPT_AND_RESHOOT(
+        @Header("token") token: String,
+        @Body data: SaveAcceptAndReshootRequest?
+    ): SaveAcceptAndReshootResponse
 
 
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
