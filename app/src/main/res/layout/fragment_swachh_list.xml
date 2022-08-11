@@ -26,11 +26,10 @@
                     android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="@dimen/value_25dp"
-                        android:layout_height="@dimen/value_25dp"
                         android:layout_gravity="center"
-                        android:contentDescription="@string/app_name"
-                        android:src="@drawable/storehome" />
+                        android:layout_width="@dimen/text_22sp"
+                        android:layout_height="@dimen/text_22sp"
+                        android:src="@drawable/person_1" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -41,14 +40,15 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Store ID"
+                            android:text="User ID"
+                            android:textStyle="bold"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
+                            android:id="@+id/userId_swachlist"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{storeId}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -60,7 +60,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_25dp"
+                    android:layout_marginStart="@dimen/eighteen18_dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -142,25 +142,26 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginStart="@dimen/value_12dp"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:background="@drawable/darkblue_roundedcorners"
                 android:orientation="horizontal"
-                android:padding="@dimen/value_6dp">
+                android:padding="@dimen/value_4dp">
 
 
                 <TextView
+                    android:layout_marginStart="@dimen/value_5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2sp"
                     android:text="@{`ID:`+ storeId}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_15sp"
                     android:textStyle="bold" />
 
                 <ImageView
-                    android:layout_width="@dimen/text_18sp"
-                    android:layout_height="@dimen/text_18sp"
+                    android:layout_marginStart="@dimen/value_3dp"
+                    android:layout_width="@dimen/text_15sp"
+                    android:layout_height="@dimen/text_15sp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/value_3dp"
                     android:src="@drawable/ic_baseline_clear_24" />
@@ -171,6 +172,7 @@
                 android:id="@+id/pending_and_approved_list_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_9dp"
                 android:layout_marginStart="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/value_5dp" />
             <!--            <androidx.cardview.widget.CardView-->
