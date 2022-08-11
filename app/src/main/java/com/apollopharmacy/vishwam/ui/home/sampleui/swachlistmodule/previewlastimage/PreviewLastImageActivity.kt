@@ -83,7 +83,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-        Toast.makeText(this, "onPageScrolled", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "onPageScrolled", Toast.LENGTH_SHORT).show()
     }
 
     override fun onPageSelected(position: Int) {
@@ -103,7 +103,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageScrollStateChanged(state: Int) {
-        Toast.makeText(this, "onPageScrollStateChanged", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "onPageScrollStateChanged", Toast.LENGTH_SHORT).show()
     }
 
 

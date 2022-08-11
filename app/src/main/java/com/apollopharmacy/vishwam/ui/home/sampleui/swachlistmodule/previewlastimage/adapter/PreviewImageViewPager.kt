@@ -43,7 +43,7 @@ class PreviewImageViewPager(
         } else {
             viewpagerPreviewImageBinding.isLastPos = false
             Glide.with(mContext).load(imageUrl.get(position).url)
-                .error(R.drawable.placeholder_image)
+                .error(R.drawable.capture)
                 .into(viewpagerPreviewImageBinding.viewpagerImage)
         }
 

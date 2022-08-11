@@ -35,7 +35,6 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -46,12 +45,10 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-
-
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -284,11 +281,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new SwacchFragment();
                 break;
 
-            case "Swach Upload Module":
+            case "Upload":
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 break;
-            case "Swach List Module":
+            case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 break;
@@ -584,14 +581,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                                .addChildModel(new ChildModel("Swacch Images Upload"))
 //                                .addChildModel(new ChildModel("Swacch List")));
-                if (userDesignation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
-                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                            .addChildModel(new ChildModel("List Module")));
-                }else if (userDesignation.equalsIgnoreCase("NODATA")){
-                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                if (userDesignation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
+//                }
+                if (userDesignation.equalsIgnoreCase("NODATA")) {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
 
-                            .addChildModel(new ChildModel("Upload Module")));
-
+                } else {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
                 }
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
@@ -630,14 +634,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Swacch Images Upload");
                             } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swacch List");
-                            } else if (userDesignation.equalsIgnoreCase("NODATA")) {
-                                displaySelectedScreen("Swach List Module");
-
-//                                displaySelectedScreen("Swach Upload Module");
-
-                            } else if (userDesignation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
-
-                                displaySelectedScreen("Swach List Module");
+                            } else if (groupPosition == 3 && childPosition == 0) {
+                                if (userDesignation.equalsIgnoreCase("NODATA")) {
+                                    displaySelectedScreen("Upload");
+                                } else if (userDesignation.equalsIgnoreCase("manager") || userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive") || userDesignation.equalsIgnoreCase("ceo")) {
+                                    displaySelectedScreen("List");
+                                }
+                            } else if (groupPosition == 3 && childPosition == 1) {
+                                displaySelectedScreen("List");
                             }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
