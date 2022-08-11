@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -65,13 +67,12 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
         activityPreviewLastImageBinding.isAllComplete = isAllVerified
 
-        previewImageViewPager = PreviewImageViewPager(
-            this,
-            imageUrlsList
+        previewImageViewPager = PreviewImageViewPager(this, imageUrlsList
         )
 
         activityPreviewLastImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewLastImageBinding.previewImageViewpager.adapter = previewImageViewPager
+
 
 
     }
@@ -165,6 +166,21 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onClickBack() {
-        onBackPressed()
+        val positiveButtonClick={
+                dialog:DialogInterface,which:Int-> onBackPressed()
+
+        }
+        val negativeButtonClick={
+                dialog:DialogInterface,which:Int-> dialog.dismiss()
+
+        }
+        val builder=AlertDialog.Builder(this)
+        with(builder){
+            setMessage("Do you want to Save Preview Images")
+            setPositiveButton("ok",positiveButtonClick)
+            setNegativeButton("Cancel",negativeButtonClick)
+            show()
+        }
+
     }
 }

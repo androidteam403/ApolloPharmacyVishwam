@@ -1,14 +1,15 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.AdapterImageUrlsBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListcallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
+import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.bumptech.glide.Glide
 
 class ImageUrlAdapter(
@@ -16,6 +17,7 @@ class ImageUrlAdapter(
     val imageUrlsList: List<GetImageUrlsResponse.ImageUrl>,
     val approveListcallback: ApproveListcallback
 ) : RecyclerView.Adapter<ImageUrlAdapter.ViewHolder>() {
+    private lateinit var scaleGestureDetector: ScaleGestureDetector
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageUrlAdapter.ViewHolder {
         val adapterImageUrlsBinding: AdapterImageUrlsBinding = DataBindingUtil.inflate(
@@ -25,18 +27,27 @@ class ImageUrlAdapter(
     }
 
     override fun onBindViewHolder(holder: ImageUrlAdapter.ViewHolder, position: Int) {
+        var view: View? = null
+
         val imageUrl = imageUrlsList.get(position)
         Glide.with(mContext).load(imageUrl.url)
             .error(R.drawable.capture)
             .into(holder.adapterImageUrlsBinding.image)
         holder.adapterImageUrlsBinding.image.setOnClickListener {
-            approveListcallback.onClickImage()
+
+
+            imageUrl.url?.let { it1 -> approveListcallback.onClickImage(position, it1) }
         }
+
+
     }
 
     override fun getItemCount(): Int {
         return imageUrlsList.size
     }
+
+
+
 
     class ViewHolder(val adapterImageUrlsBinding: AdapterImageUrlsBinding) :
         RecyclerView.ViewHolder(adapterImageUrlsBinding.root)
