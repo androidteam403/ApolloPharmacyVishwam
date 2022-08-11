@@ -46,6 +46,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         viewBinding.callback = this
+        viewBinding.userIdSwachlist.text=Preferences.getToken()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)

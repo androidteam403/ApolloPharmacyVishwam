@@ -103,7 +103,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.sea_blue
+                    R.color.material_amber_accent_700
                 )
             );
         } else if (status == "RESHOOT") {
@@ -129,7 +129,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.color_red
+                    R.color.sea_blue
                 )
             );
         }

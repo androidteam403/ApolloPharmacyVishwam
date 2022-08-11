@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -7,12 +8,15 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardview"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/value_10dp"
-            android:layout_marginTop="@dimen/value_10dp"
             android:layout_marginEnd="@dimen/value_10dp"
-            android:visibility="visible">
+            android:visibility="visible"
+            app:cardCornerRadius="@dimen/value_6dp"
+            app:cardElevation="@dimen/value_7dp">
 
             <LinearLayout
                 android:id="@+id/orderHead"
@@ -55,6 +59,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:layout_marginTop="@dimen/four4_dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_10dp"
@@ -63,6 +68,7 @@
 
 
                         <TextView
+                            android:textSize="@dimen/text_12sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_on_u0020" />
@@ -79,6 +85,8 @@
                     </LinearLayout>
 
                     <LinearLayout
+
+                        android:layout_marginTop="@dimen/four4_dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_10dp"
@@ -86,6 +94,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:textSize="@dimen/text_12sp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_by_u0020" />
@@ -120,8 +129,8 @@
                         android:padding="@dimen/value_3dp">
 
                         <ImageView
-                            android:layout_width="@dimen/text_18sp"
-                            android:layout_height="@dimen/text_18sp"
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
                             android:src="@{model.isApproved() ? @drawable/greenright : @drawable/clock_small}" />
 
                         <TextView

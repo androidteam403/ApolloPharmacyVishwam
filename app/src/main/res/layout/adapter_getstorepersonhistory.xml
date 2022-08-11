@@ -146,7 +146,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approved"
+                            android:text="APPROVED"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/greenn" />
@@ -194,7 +194,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Re Shoot"
+                            android:text="RESHOOT"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/red" />
@@ -242,10 +242,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pending"
+                            android:text="PENDING"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
-                            android:textColor="@color/red" />
+                            android:textColor="@color/sea_blue" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -290,7 +290,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Not Updated"
+                            android:text="NOT UPDATED"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/red" />
@@ -339,10 +339,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Partially Approved"
+                            android:text="PARTIALLY APPROVED"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
-                            android:textColor="@color/sea_blue" />
+                            android:textColor="@color/material_amber_accent_700" />
 
                         <TextView
                             android:layout_width="match_parent"
