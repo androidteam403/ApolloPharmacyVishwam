@@ -3,18 +3,21 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
+import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
@@ -25,6 +28,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     private var getImageUrlsResponses = GetImageUrlsResponse()
     private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
     private var overallStatus: String? = null
+    var view: View? = null
     val APPROVE_LIST_ACTIVITY = 101
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,12 +152,15 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         }
     }
 
-    override fun onClickImage() {
+    override fun onClickImage(position: Int, imagePath: String) {
+
+
         val intent = Intent(this, PreviewLastImageActivity::class.java)
         intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
         intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
         startActivityForResult(intent, PreviewLastImageActivity().PREVIEW_LAST_IMAGE_ACTIVITY)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+//
     }
 
     override fun onClickSubmit() {
