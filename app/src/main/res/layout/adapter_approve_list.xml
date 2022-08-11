@@ -121,9 +121,9 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:text="2/2"
+                        android:text="@{approvedAndTotalCount}"
                         android:textAlignment="center"
-                        android:textColor="@color/black"
+                        android:textColor="@{status.equalsIgnoreCase(`1`) ? @color/black : @color/grey}"
                         android:textSize="@dimen/text_20sp" />
                 </LinearLayout>
 
@@ -223,5 +223,9 @@
         <variable
             name="view"
             type="android.view.View" />
+
+        <variable
+            name="approvedAndTotalCount"
+            type="String" />
     </data>
 </layout>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -42,7 +43,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/value_50dp"
-                android:background="@color/light_blue_background">
+                android:background="@color/light_blue_background"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -899,7 +901,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_3dp"
-                                android:text="Status" />
+                                android:text="Status"
+                                android:textColor="@color/black" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -966,8 +969,28 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_20dp"
+                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:orientation="vertical"
+                            android:layout_marginBottom="@dimen/value_5dp">
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_3dp"
+                                android:text="@string/label_add_comments"
+                                android:textColor="@color/black" />
+
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_40dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:autofillHints="@string/app_name"
+                                android:background="@drawable/edit_comment_bg"
+                                android:hint="Enter comment"
+                                android:inputType="text"
+                                android:padding="@dimen/value_5dp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -979,7 +1002,7 @@
         <LinearLayout
             android:id="@+id/reshootButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
             android:background="@color/greenn"
             android:orientation="horizontal"
@@ -992,7 +1015,8 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:gravity="center"
                 android:onClick="@{()-> callback.onClickSubmit()}"
-                android:text="SUBMIT"
+                android:text="@string/label_submit"
+                android:textAllCaps="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />

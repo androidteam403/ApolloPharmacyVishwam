@@ -55,15 +55,19 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrlsList.add(imageUrl)
             }
         }
+        val imageUrl = GetImageUrlsResponse.ImageUrl()
+        imageUrlsList.add(imageUrl)
+
         activityPreviewLastImageBinding.pendingAndApprovedModel = pendingAndApproved
         activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(0)
-        activityPreviewLastImageBinding.totalImages = "1/" + imageUrlsList.size
+        activityPreviewLastImageBinding.totalImages = "1/${imageUrlsList.size - 1}"
 
         var isAllVerified = true
         for (i in imageUrlsList) {
-            if (i.isVerified == false) {
-                isAllVerified = false
-            }
+            if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1)
+                if (i.isVerified == false) {
+                    isAllVerified = false
+                }
         }
         activityPreviewLastImageBinding.isAllComplete = isAllVerified
 
@@ -82,13 +86,22 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
     override fun onPageSelected(position: Int) {
         currentPosition = position
-        activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
-        activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
-
-
+        if (currentPosition != imageUrlsList.size - 1) {
+            activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
+            activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
+            if (imageUrlsList.get(position).status.equals("1")) {
+                activityPreviewLastImageBinding.actionStatus = "1"
+            } else if (imageUrlsList.get(position).status.equals("2")) {
+                activityPreviewLastImageBinding.actionStatus = "2"
+            } else {
+                activityPreviewLastImageBinding.actionStatus = "0"
+            }
+        }
+        activityPreviewLastImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
     }
 
     override fun onPageScrollStateChanged(state: Int) {
+
     }
 
 
@@ -99,18 +112,22 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrlsList.get(currentPosition).isVerified = true
                 var isAllVerified = true
                 for (i in imageUrlsList) {
-                    if (i.isVerified == false) {
-                        isAllVerified = false
+                    if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                        if (i.isVerified == false) {
+                            isAllVerified = false
+                        }
                     }
                 }
                 activityPreviewLastImageBinding.isAllComplete = isAllVerified
-                if (currentPosition == imageUrlsList.size - 1) {
+                if (currentPosition == imageUrlsList.size - 2) {
                     for (i in imageUrlsList) {
-                        if (i.isVerified == false) {
-                            activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                                imageUrlsList.indexOf(i)
-                            )
-                            break
+                        if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                            if (i.isVerified == false) {
+                                activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
+                                    imageUrlsList.indexOf(i)
+                                )
+                                break
+                            }
                         }
                     }
                 } else {
@@ -129,24 +146,25 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrlsList.get(currentPosition).isVerified = true
                 var isAllVerified = true
                 for (i in imageUrlsList) {
-                    if (i.isVerified == false) {
-                        isAllVerified = false
-                    }
-                }
-                isAllVerified.also {
-                    it.also {
-                        it.also {
-                            activityPreviewLastImageBinding.isAllComplete = it
+                    if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                        if (i.isVerified == false) {
+                            isAllVerified = false
                         }
                     }
                 }
-                if (currentPosition == imageUrlsList.size - 1) {
+
+                activityPreviewLastImageBinding.isAllComplete = isAllVerified
+
+
+                if (currentPosition == imageUrlsList.size - 2) {
                     for (i in imageUrlsList) {
-                        if (i.isVerified == false) {
-                            activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                                imageUrlsList.indexOf(i)
-                            )
-                            break
+                        if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                            if (i.isVerified == false) {
+                                activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
+                                    imageUrlsList.indexOf(i)
+                                )
+                                break
+                            }
                         }
                     }
                 } else {
@@ -156,10 +174,12 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 }
             }
         }
+
     }
 
     override fun onClickCompleted() {
         val intent = Intent()
+        imageUrlsList.removeAt(imageUrlsList.size - 1)
         intent.putExtra("IMAGE_URLS_OBJECT", imageUrlsList)
         setResult(Activity.RESULT_OK, intent)
         finish()

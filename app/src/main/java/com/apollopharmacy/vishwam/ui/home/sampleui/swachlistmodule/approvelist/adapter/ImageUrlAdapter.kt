@@ -15,7 +15,8 @@ import com.bumptech.glide.Glide
 class ImageUrlAdapter(
     val mContext: Context,
     val imageUrlsList: List<GetImageUrlsResponse.ImageUrl>,
-    val approveListcallback: ApproveListcallback
+    val approveListcallback: ApproveListcallback,
+    val isApproved: Boolean
 ) : RecyclerView.Adapter<ImageUrlAdapter.ViewHolder>() {
     private lateinit var scaleGestureDetector: ScaleGestureDetector
 
@@ -30,6 +31,7 @@ class ImageUrlAdapter(
         var view: View? = null
 
         val imageUrl = imageUrlsList.get(position)
+        holder.adapterImageUrlsBinding.isApproved = isApproved
         Glide.with(mContext).load(imageUrl.url)
             .error(R.drawable.capture)
             .into(holder.adapterImageUrlsBinding.image)
