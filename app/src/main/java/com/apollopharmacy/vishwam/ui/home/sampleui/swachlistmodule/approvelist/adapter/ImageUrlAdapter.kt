@@ -33,7 +33,7 @@ class ImageUrlAdapter(
         val imageUrl = imageUrlsList.get(position)
         holder.adapterImageUrlsBinding.isApproved = isApproved
         Glide.with(mContext).load(imageUrl.url)
-            .error(R.drawable.capture)
+            .error(R.drawable.placeholder_image)
             .into(holder.adapterImageUrlsBinding.image)
         holder.adapterImageUrlsBinding.image.setOnClickListener {
 
