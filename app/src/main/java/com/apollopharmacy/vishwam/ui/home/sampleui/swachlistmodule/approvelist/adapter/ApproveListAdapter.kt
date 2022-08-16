@@ -54,6 +54,7 @@ class ApproveListAdapter(
             "$approvedCount/${category.imageUrls!!.size}"
         if (isPending) {
             holder.adapterApproveListBinding.status = "0"
+            approveListcallback.onePendingStatus()
         } else if (isAccepted) {
             holder.adapterApproveListBinding.status = "1"
         } else if (isReShoot) {
@@ -61,6 +62,8 @@ class ApproveListAdapter(
         } else {
             holder.adapterApproveListBinding.status = "3"
         }
+
+
 
         if ((category.imageUrls != null && category.imageUrls!!.size > 0) == true) {
             val imageUrlAdapter =

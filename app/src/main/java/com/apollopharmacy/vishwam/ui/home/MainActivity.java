@@ -586,7 +586,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                                .addChildModel(new ChildModel("Swacch Images Upload"))
 //                                .addChildModel(new ChildModel("Swacch List")));
-//                if (userDesignation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
+//                if ( Designation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }

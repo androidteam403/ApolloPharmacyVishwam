@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
+import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.FragmentSwachhListBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.model.Dialog
@@ -20,6 +22,8 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -33,6 +37,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var fromDate = String()
     var toDate = String()
     var day = 0
+    var userDesignation = ""
     var getApprovedList: List<GetpendingAndApprovedListResponse.GetApproved>? = null
     var getPendingList: List<GetpendingAndApprovedListResponse.GetPending>? = null
     override val layoutRes: Int
@@ -47,7 +52,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     override fun setup() {
         viewBinding.callback = this
         viewBinding.userIdSwachlist.text=Preferences.getToken()
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyy")
+        val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -58,6 +63,16 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
         viewBinding.fromDate.text = fromDate
         viewBinding.toDate.text = toDate
+
+        val loginJson = getLoginJson()
+        var loginData: LoginDetails? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            loginData = gson.fromJson(loginJson, LoginDetails::class.java)
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+        userDesignation = loginData?.APPLEVELDESIGNATION!!
 
         Utlis.showLoading(requireContext())
         viewModel.getPendingAndApprovedListApiCall(
@@ -113,7 +128,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                         }
                     }
-                    if (getPendingList != null) {
+                    if (getPendingList != null && userDesignation.equals("EXECUTIVE")) {
                         for (i in getPendingList!!) {
                             val pendingAndApproved = PendingAndApproved()
                             pendingAndApproved.swachhid = i.swachhid
@@ -131,6 +146,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApprovedList.add(pendingAndApproved)
                         }
                     }
+
+
                     pendingApprovedListAdapter =
                         PendingApprovedListAdapter(context, pendingAndApprovedList, this)
                     viewBinding.pendingAndApprovedListRecyclerview.layoutManager =

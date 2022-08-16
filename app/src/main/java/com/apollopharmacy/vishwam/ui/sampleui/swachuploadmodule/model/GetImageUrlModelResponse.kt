@@ -50,6 +50,10 @@ class GetImageUrlModelResponse : Serializable {
             @SerializedName("IMAGEID")
             @Expose
             var imageid: String? = null
+
+            @SerializedName("RESHOOT STATUS")
+            @Expose
+            var isReshootStatus: Boolean? = null
         }
     }
 }

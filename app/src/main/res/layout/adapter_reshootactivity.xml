@@ -179,13 +179,13 @@
 
 
                             <TextView
-                                android:layout_width="@dimen/value_100dp"
+                                android:layout_width="@dimen/value_130dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_7dp"
                                 android:background="@drawable/red_rounded_corners"
                                 android:backgroundTint="@color/material_amber_accent_700"
                                 android:padding="@dimen/four_4sp"
-                                android:text="Pending"
+                                android:text="Pending Review"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_16sp"

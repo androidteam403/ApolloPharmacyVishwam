@@ -33,7 +33,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@{imageUrlModel.categoryname+ ` - image `+imageUrlModel.imageid}"
+                    android:text="@{imageUrlModel.categoryname}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold"
@@ -48,6 +48,10 @@
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold"
                     android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}" />
+
+
+
+
 
 
                 <!--                <TextView-->
@@ -201,7 +205,6 @@
                     android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginBottom="@dimen/value_60dp" />
                 <!--                    <ImageView-->
                 <!--                        android:layout_width="match_parent"-->

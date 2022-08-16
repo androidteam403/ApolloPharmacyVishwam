@@ -39,6 +39,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import org.w3c.dom.Text
 import java.io.File
+import java.text.SimpleDateFormat
 
 class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackInterface,
     OnClickStatusClickAdapter.CallbackInterfaceOnClick {
@@ -70,7 +71,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         val reshootDate = intent.getStringExtra("reshootDate")
         val partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")
 
-        activityreShootBinding.storeId.text = Preferences.getSiteId()
+        activityreShootBinding.storeId.text = storeId
 
 
 
@@ -82,7 +83,12 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         if (status == "APPROVED") {
             if (approvedDate != null && approvedDate != "") {
-                activityreShootBinding.uploadedDate.text = approvedDate
+
+                val strDate = approvedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
@@ -95,7 +101,12 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             );
         } else if (status == "PARTIALLY APPROVED") {
             if (partiallyApprovedDate != null && partiallyApprovedDate != "") {
-                activityreShootBinding.uploadedDate.text = partiallyApprovedDate
+
+                val strDate = partiallyApprovedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
@@ -108,7 +119,12 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             );
         } else if (status == "RESHOOT") {
             if (reshootDate != null && reshootDate != "") {
-                activityreShootBinding.uploadedDate.text = reshootDate
+
+                val strDate = reshootDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
@@ -121,7 +137,12 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             );
         } else if (status == "PENDING") {
             if (uploadedDate != null && uploadedDate != "") {
-                activityreShootBinding.uploadedDate.text = uploadedDate
+
+                val strDate = uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                activityreShootBinding.uploadedDate.text = dateNewFormat
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
@@ -217,6 +238,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     getImageUrlsList.get(0).categoryList?.get(configgpositionRes)?.imageUrls?.get(
                         urlPosition
                     )?.url = it.filePath
+                    getImageUrlsList.get(0).categoryList?.get(configgpositionRes)?.imageUrls?.get(
+                        urlPosition
+                    )?.isReshootStatus = true
                     uploadedCount++
                     activityreShootBinding.countOfIages.setText(uploadedCount.toString() + "" + "/" + overallreshootcount)
                     if (uploadedCount == overallreshootcount) {
@@ -356,6 +380,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             getImageUrlsList.get(0).categoryList?.get(configPositionDel)?.imageUrls?.get(
                 urlPositionDel
             )?.url = ""
+            getImageUrlsList.get(0).categoryList?.get(configPositionDel)?.imageUrls?.get(
+                urlPositionDel
+            )?.isReshootStatus = false
             onClickStatusClickAdapter.notifyDataSetChanged()
             uploadedCount--
             activityreShootBinding.countOfIages.setText(uploadedCount.toString() + "" + "/" + overallreshootcount)
