@@ -94,10 +94,10 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:textSize="@dimen/text_12sp"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="By: " />
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="by: "
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/by_details"

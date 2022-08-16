@@ -10,12 +10,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
+import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
@@ -62,6 +64,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
             getImageUrlsResponses = getImageUrlsResponse
             when (getImageUrlsResponse != null && getImageUrlsResponse.categoryList != null && getImageUrlsResponse.categoryList!!.size > 0) {
                 true -> {
+//                   getImageUrlsResponses.categoryList?.get(0)?.imageUrls?.get(0)?.status="0"
                     approveListAdapter =
                         ApproveListAdapter(this, getImageUrlsResponses.categoryList!!, this)
                     activityApproveListBinding.categoryListRecycler.layoutManager =
@@ -135,9 +138,15 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         activityApproveListBinding.acceptedCount = "" + acceptedCount
         activityApproveListBinding.reShootCount = "" + reShootCount
 
+
+
+
         if (isPending) {
             activityApproveListBinding.status = "0"
             overallStatus = "0"
+//            activityApproveListBinding.reshootButton.visibility = View.GONE
+//            activityApproveListBinding.buttonForPending.visibility = View.VISIBLE
+
         } else if (isAccepted) {
             activityApproveListBinding.status = "1"
             overallStatus = "1"
@@ -147,17 +156,23 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         } else {
             activityApproveListBinding.status = "3"
             overallStatus = "3"
+
         }
     }
 
-    override fun onClickImage(position: Int, imagePath: String) {
+    override fun onClickImage(position: Int, imagePath: String, viewClick: View) {
 
 
-        val intent = Intent(this, PreviewLastImageActivity::class.java)
-        intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
-        intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
-        startActivityForResult(intent, PreviewLastImageActivity().PREVIEW_LAST_IMAGE_ACTIVITY)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        PhotoPopupWindow(
+            ViswamApp.context, R.layout.layout_image_fullview, viewClick,
+            imagePath, null
+        )
+
+//        val intent = Intent(this, PreviewLastImageActivity::class.java)
+//        intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
+//        intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
+//        startActivityForResult(intent, PreviewLastImageActivity().PREVIEW_LAST_IMAGE_ACTIVITY)
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 //
     }
 
@@ -187,6 +202,19 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
     override fun onClickBack() {
         onBackPressed()
+    }
+
+    override fun onClickStartReiew() {
+        val intent = Intent(this, PreviewLastImageActivity::class.java)
+        intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
+        intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
+        startActivityForResult(intent, PreviewLastImageActivity().PREVIEW_LAST_IMAGE_ACTIVITY)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    override fun onePendingStatus() {
+        activityApproveListBinding.reshootButton.visibility = View.GONE
+        activityApproveListBinding.buttonForPending.visibility = View.VISIBLE
     }
 
     override fun onBackPressed() {

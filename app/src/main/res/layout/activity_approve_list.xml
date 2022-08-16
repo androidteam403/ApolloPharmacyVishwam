@@ -915,7 +915,7 @@
                                     android:layout_marginTop="@dimen/value_7dp"
                                     android:background="@drawable/ash_rounded_corners"
                                     android:padding="@dimen/five5_sp"
-                                    android:text="Partially"
+                                    android:text="Partial"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_16sp"
@@ -997,6 +997,8 @@
                 </LinearLayout>
 
             </ScrollView>
+
+
         </LinearLayout>
 
 
@@ -1024,6 +1026,31 @@
 
 
         </LinearLayout>
+        <LinearLayout
+            android:visibility="gone"
+        android:id="@+id/buttonForPending"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/value_50dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/greenn"
+        android:orientation="horizontal"
+        android:padding="@dimen/value_12dp">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:gravity="center"
+            android:onClick="@{()-> callback.onClickStartReiew()}"
+            android:text="Start Review"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_17sp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
 
     </RelativeLayout>
 

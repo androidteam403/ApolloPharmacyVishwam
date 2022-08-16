@@ -32,29 +32,32 @@ class ImagesCardViewAdapterRes(
         var imageUrls = imageUrlsList?.get(position)
 
 
+        if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
+            Glide.with(context).load(imageUrls?.url).into(holder.iageView)
+        }else{
+            Glide.with(context).load(R.drawable.placeholder_image).into(holder.iageView)
+        }
 
         if(imageUrlsList?.get(position)?.status.equals("2")) {
             holder.eyeImage.visibility = View.GONE
             holder.camera.visibility = View.VISIBLE
         }
 
-
-
-
-        if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
-
-            Glide.with(context).load(imageUrls?.url).into(holder.iageView)
+        if(imageUrls?.isReshootStatus == true){
             holder.camera.visibility = View.GONE
             holder.eyeImage.visibility = View.VISIBLE
             holder.redTrashLayout.visibility = View.VISIBLE
-        }else{
-            Glide.with(context).load(R.drawable.placeholder_image).into(holder.iageView)
-        }
-        if(imageUrlsList?.get(position)?.status.equals("0")){
-            holder.camera.visibility = View.GONE
-            holder.eyeImage.visibility = View.VISIBLE
+        }else if(imageUrls?.isReshootStatus == false){
+            holder.camera.visibility = View.VISIBLE
+            holder.eyeImage.visibility = View.GONE
             holder.redTrashLayout.visibility = View.GONE
         }
+//
+//        if(imageUrlsList?.get(position)?.status.equals("0")){
+//            holder.camera.visibility = View.GONE
+//            holder.eyeImage.visibility = View.VISIBLE
+//            holder.redTrashLayout.visibility = View.GONE
+//        }
 
 
 

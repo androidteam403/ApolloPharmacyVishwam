@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import java.text.SimpleDateFormat
 
 class GetStorePersonAdapter(
     private var getStorePersonlist: List<GetStorePersonHistoryodelResponse.Get>?,
@@ -51,7 +52,18 @@ class GetStorePersonAdapter(
             if (getStorePerson?.approvedDate == "") {
                 holder.onDetails.text = "--"
             } else {
-                holder.onDetails.text = getStorePerson?.approvedDate
+
+
+                val strDate = getStorePerson?.approvedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                holder.onDetails.text = dateNewFormat.toString()
+
+
+
+
+                holder.onDetails.text = dateNewFormat.toString()
             }
 
             if (getStorePerson?.approvedBy == "") {
@@ -65,7 +77,12 @@ class GetStorePersonAdapter(
             if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
-                holder.onDetails.text = getStorePerson?.uploadedDate
+
+                val strDate = getStorePerson?.uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                holder.onDetails.text = dateNewFormat.toString()
             }
 
             if (getStorePerson?.uploadedBy == "") {
@@ -80,7 +97,12 @@ class GetStorePersonAdapter(
             if (getStorePerson?.reshootDate == "") {
                 holder.onDetails.text = "--"
             } else {
-                holder.onDetails.text = getStorePerson?.reshootDate
+
+                val strDate =  getStorePerson?.reshootDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                holder.onDetails.text = dateNewFormat.toString()
             }
 
             if (getStorePerson?.reshootBy == "") {
@@ -98,7 +120,11 @@ class GetStorePersonAdapter(
             if (getStorePerson?.partiallyApprovedDate == "") {
                 holder.onDetails.text = "--"
             } else {
-                holder.onDetails.text = getStorePerson?.partiallyApprovedDate
+                val strDate =  getStorePerson?.partiallyApprovedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                holder.onDetails.text = dateNewFormat.toString()
             }
 
             if (getStorePerson?.partiallyApprovedBy == "") {

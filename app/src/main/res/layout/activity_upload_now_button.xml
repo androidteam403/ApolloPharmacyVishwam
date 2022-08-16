@@ -10,6 +10,8 @@
     android:background="@color/white"
     tools:context=".ui.home.sampleui.uploadnowbutton.UploadNowButtonActivity">
 
+
+
     <LinearLayout
         android:layout_above="@id/uploadnowbutton"
         android:id="@+id/linear"
@@ -44,6 +46,7 @@
 
 
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/linearlayout"
@@ -1042,7 +1045,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/text_15sp"
-            android:text="3/8"
             android:textStyle="bold"
             android:textColor="@color/white"
             android:textSize="@dimen/text_20sp" />

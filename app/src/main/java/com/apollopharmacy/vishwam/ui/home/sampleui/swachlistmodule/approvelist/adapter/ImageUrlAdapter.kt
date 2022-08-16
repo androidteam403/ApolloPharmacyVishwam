@@ -5,11 +5,9 @@ import android.view.*
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.AdapterImageUrlsBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListcallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.bumptech.glide.Glide
 
 class ImageUrlAdapter(
@@ -38,7 +36,9 @@ class ImageUrlAdapter(
         holder.adapterImageUrlsBinding.image.setOnClickListener {
 
 
-            imageUrl.url?.let { it1 -> approveListcallback.onClickImage(position, it1) }
+            imageUrl.url?.let {
+                    it1 -> approveListcallback.onClickImage(position, it1,it)
+            }
         }
 
 
