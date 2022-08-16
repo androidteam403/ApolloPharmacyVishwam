@@ -36,7 +36,19 @@
                     android:text="@{imageUrlModel.categoryname+ ` - image `+imageUrlModel.imageid}"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_17sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textColor="@color/white"
+                    android:text="@string/label_completed_successfully"
+                    android:textSize="@dimen/text_17sp"
+                    android:textStyle="bold"
+                    android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}" />
+
 
                 <!--                <TextView-->
                 <!--                    android:layout_width="wrap_content"-->
@@ -232,7 +244,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_12sp"
-                        android:text="This store review is completed Successfully"
+                        android:text="@string/label_this_store_review_is_completed_successfully"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -338,7 +350,7 @@
                         android:layout_width="@dimen/value_40dp"
                         android:layout_height="@dimen/value_40dp"
                         android:layout_marginStart="@dimen/value_15dp"
-                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? .5f: actionStatus.equalsIgnoreCase(`2`) ? 1f : .5f}"
+                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? .3f: actionStatus.equalsIgnoreCase(`2`) ? 1f : 1f}"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickReShoot()}"
                         android:src="@drawable/action_reshoot" />
@@ -347,7 +359,7 @@
                         android:layout_width="@dimen/value_40dp"
                         android:layout_height="@dimen/value_40dp"
                         android:layout_marginStart="@dimen/value_15dp"
-                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? 1f: actionStatus.equalsIgnoreCase(`2`) ? .5f : 1f}"
+                        android:alpha="@{actionStatus.equalsIgnoreCase(`1`) ? 1f: actionStatus.equalsIgnoreCase(`2`) ? .3f : 1f}"
                         android:contentDescription="@string/app_name"
                         android:onClick="@{()-> callback.onClickAccept()}"
                         android:src="@drawable/action_accept" />

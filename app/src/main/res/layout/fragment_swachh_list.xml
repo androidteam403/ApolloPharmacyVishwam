@@ -17,11 +17,13 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginTop="@dimen/value_15dp"
                 android:layout_marginEnd="@dimen/value_10dp"
+                android:weightSum="1"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight=".25"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
@@ -29,7 +31,8 @@
                         android:layout_gravity="center"
                         android:layout_width="@dimen/text_22sp"
                         android:layout_height="@dimen/text_22sp"
-                        android:src="@drawable/person_1" />
+                        android:src="@drawable/person_1"
+                        android:contentDescription="@string/app_name" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -58,10 +61,11 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight=".6"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eighteen18_dp"
                     android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/value_5dp"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -112,8 +116,9 @@
 
                 <RelativeLayout
                     android:id="@+id/cameraDelete"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_40dp"
+                    android:layout_width="0dp"
+                    android:layout_weight=".15"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:gravity="center_vertical"
                     android:visibility="visible">

@@ -88,6 +88,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
         activityPreviewLastImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewLastImageBinding.previewImageViewpager.adapter = previewImageViewPager
+        activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(0, true)
 
 
     }
@@ -103,19 +104,25 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
                     if (i.isVerified == false) {
                         isAllVerified = false
+                        activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
+                            imageUrlsList.indexOf(i), true
+                        )
+                        break
                     }
                 }
             }
             if (isAllVerified){
                 currentPosition = position
                 activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
-                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
+                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size - 1}"
             }
+            activityPreviewLastImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+
         }else{
             currentPosition = position
             if (currentPosition != imageUrlsList.size - 1) {
                 activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
-                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
+                activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size - 1}"
                 if (imageUrlsList.get(position).status.equals("1")) {
                     activityPreviewLastImageBinding.actionStatus = "1"
                 } else if (imageUrlsList.get(position).status.equals("2")) {
@@ -153,7 +160,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                         if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
                             if (i.isVerified == false) {
                                 activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                                    imageUrlsList.indexOf(i)
+                                    imageUrlsList.indexOf(i), true
                                 )
                                 break
                             }
@@ -161,12 +168,12 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     }
                     if (isAllVerified) {
                         activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                            currentPosition + 1
+                            currentPosition + 1, true
                         )
                     }
                 } else {
                     activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                        currentPosition + 1
+                        currentPosition + 1, true
                     )
                 }
             }
@@ -195,7 +202,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                         if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
                             if (i.isVerified == false) {
                                 activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                                    imageUrlsList.indexOf(i)
+                                    imageUrlsList.indexOf(i), true
                                 )
                                 break
                             }
@@ -203,12 +210,12 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     }
                     if (isAllVerified) {
                         activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                            currentPosition + 1
+                            currentPosition + 1, true
                         )
                     }
                 } else {
                     activityPreviewLastImageBinding.previewImageViewpager.setCurrentItem(
-                        currentPosition + 1
+                        currentPosition + 1, true
                     )
                 }
             }

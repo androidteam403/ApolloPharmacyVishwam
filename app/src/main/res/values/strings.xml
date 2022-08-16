@@ -191,4 +191,6 @@
     <string name="label_this_store_review_ncompleted_successfully">This store review\ncompleted successfully</string>
     <string name="label_the_images_status_will_be_changed">The images status will be changed</string>
     <string name="label_alert">Alert!</string>
+    <string name="label_completed_successfully">Completed successfully</string>
+    <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>
 </resources>
