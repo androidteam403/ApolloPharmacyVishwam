@@ -456,7 +456,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         if (uploadedCount == overallreshootcount) {
             if (NetworkUtil.isNetworkConnected(context)) {
                 var submit = OnUploadSwachModelRequest()
-                submit.actionEvent = "SUBMIT"
+                submit.actionEvent = "RESHOOT"
                 submit.storeid = Preferences.getSiteId()
                 submit.userid = Preferences.getToken()
                 var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
@@ -468,6 +468,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                             getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
                         imageUrl.categoryid =
                             getImageUrlsList.get(0).categoryList!!.get(i).categoryname
+                        imageUrl.imageId = getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
                         imageUrlsList.add(imageUrl)
                     }
 
