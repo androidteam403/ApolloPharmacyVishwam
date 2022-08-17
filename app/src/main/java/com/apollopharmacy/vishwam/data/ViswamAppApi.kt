@@ -3,6 +3,8 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
@@ -52,6 +54,12 @@ interface ViswamAppApi {
         @Body data: LineImagesRequest,
     ): LineImagesResponse
 
+
+    @POST("https://online.apollopharmacy.org/ITEMMASTER/AddArticle")
+    suspend fun DrugResponse(
+        @Header("token") token: String,
+        @Body data: DrugRequest
+    ): DrugResponse
 
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
