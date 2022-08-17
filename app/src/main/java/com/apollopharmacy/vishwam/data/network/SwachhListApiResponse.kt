@@ -1,6 +1,8 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 
 import com.google.gson.JsonSyntaxException
@@ -82,6 +84,38 @@ object SwachhListApiResponse {
         }
     }
 
+    suspend fun getDrugResponse(drugRequest: DrugRequest): ApiResult<DrugResponse> {
+        return try {
+            val response = Api.getClient().DrugResponse(Config.DRUG_KEY,drugRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
 
 
     suspend fun getLineImagesList(lineImagesRequest: LineImagesRequest): ApiResult<LineImagesResponse> {

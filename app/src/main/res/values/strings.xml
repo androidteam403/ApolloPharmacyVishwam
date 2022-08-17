@@ -27,6 +27,33 @@
     <string name="label_cancel">Cancel</string>
     <string name="label_submit">Submit</string>
 
+
+
+
+
+
+
+
+    <string name="err_msg_select_gst">Please Select GST</string>
+    <string name="err_msg_select_site">Please Select Site Id</string>
+    <string name="err_msg_select_cat">Please Select Category</string>
+
+    <string name="err_msg_select_mnfDate">Please Select Date</string>
+    <string name="err_msg_select_expDate">Please Select Date</string>
+    <string name="err_msg_select_nam">Please Enter Item Name</string>
+
+    <string name="err_msg_select_batc">Please Enter Batch Number</string>
+    <string name="err_msg_select_mrp">Please Enter Mrp</string>
+    <string name="err_msg_select_purprice">Please Enter Purchase Price</string>
+
+    <string name="err_msg_select_bar">Please Enter Bar Code</string>
+    <string name="err_msg_select_hsn">Please Enter HSN Code</string>
+
+    <string name="err_msg_select_packsize">Please Enter Pack Size</string>
+
+
+
+
     <!--CMS App-->
     <string name="label_complaint_reg">Complaint Registration</string>
     <string name="label_complaint_list">Complaint List</string>
