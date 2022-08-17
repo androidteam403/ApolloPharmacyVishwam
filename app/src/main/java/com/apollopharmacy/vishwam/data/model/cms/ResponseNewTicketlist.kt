@@ -122,9 +122,7 @@ data class ResponseNewTicketlist(
         var problem_images: ProblemImages? = null,
 
         var isExpanded:Boolean,
-
-        var Tickethistory:NewTicketHistoryResponse
-    ) : Serializable
+        var Tickethistory:NewTicketHistoryResponse) : Serializable
 
     data class  ProblemImages(
         @field:SerializedName("images")
@@ -265,7 +263,10 @@ data class ResponseNewTicketlist(
         val uid: String? = null,
 
         @field:SerializedName("site")
-        val site: String? = null
+        val site: String? = null,
+
+        @field:SerializedName("store_name")
+        val store_name: String? = null
     ):Serializable
 
 

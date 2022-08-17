@@ -15,9 +15,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/container"
         android:background="@drawable/app_bg"
         tools:context=".ui.MainActivity">
 
@@ -30,6 +30,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
+                android:id="@+id/main_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -49,18 +50,41 @@
                     android:id="@+id/sign_in_header"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_60dp"
+                    android:layout_marginTop="@dimen/value_50dp"
                     android:text="To Experience Vishwam"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_15sp"
                     android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:background="@drawable/spinner_background">
+
+                    <Spinner
+                        android:id="@+id/company_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:minHeight="0dp"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/bottomarrow" />
+                </RelativeLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/emp_id_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
                     android:textColorHint="@color/white"
                     android:theme="@style/TextLabel"
                     app:layout_constraintTop_toBottomOf="@+id/image">
@@ -71,7 +95,8 @@
                         android:layout_height="@dimen/value_50dp"
                         android:hint="Please Enter Your Employee ID"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textPersonName"
+                        android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyY zZ0123456789"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"
@@ -92,30 +117,38 @@
                     app:layout_constraintTop_toBottomOf="@+id/password" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/end_to_end"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/powered_by"
-                android:layout_marginBottom="@dimen/value_5dp"
-                android:gravity="center"
-                android:text="@string/label_end_to_end"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16sp" />
+                android:layout_height="match_parent"
+                android:layout_below="@+id/main_layout">
+                <TextView
+                    android:id="@+id/end_to_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/powered_by"
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:gravity="center"
+                    android:text="@string/label_end_to_end"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toTopOf="@+id/powered_by"/>
 
-            <TextView
-                android:id="@+id/powered_by"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/value_15dp"
-                android:gravity="center"
-                android:text="@string/label_powered_by"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
+                <TextView
+                    android:id="@+id/powered_by"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/value_15dp"
+                    android:gravity="center"
+                    android:text="@string/label_powered_by"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

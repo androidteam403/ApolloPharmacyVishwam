@@ -7,6 +7,15 @@
     android:layout_margin="@dimen/value_20dp"
     android:background="@android:color/black">
 
+    <TextView
+        android:id="@+id/category_naePop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_15sp"
+        android:layout_margin="@dimen/text_10sp"
+        android:visibility="visible"/>
+
     <ImageButton
         android:id="@+id/ib_close"
         android:layout_width="wrap_content"

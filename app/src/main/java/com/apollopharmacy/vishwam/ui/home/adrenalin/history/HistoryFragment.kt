@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.adrenalin.history
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -13,7 +14,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentHistoryBinding
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
 
-class HistoryFragment : BaseFragment<HistoryViewModel, FragmentHistoryBinding>() {
+class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>() {
 
     val TAG = "HistoryFragment"
     lateinit var userData: LoginDetails
