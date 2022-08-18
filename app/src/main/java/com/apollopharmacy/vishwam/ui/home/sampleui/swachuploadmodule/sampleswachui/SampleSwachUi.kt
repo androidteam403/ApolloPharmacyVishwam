@@ -26,9 +26,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBinding>() , GetStorePersonAdapter.getStoreHistory {
+class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBinding>(),
+    GetStorePersonAdapter.getStoreHistory {
     private var swacchApolloList = ArrayList<SwachModelResponse>()
-//    private lateinit var configListAdapter: ConfigListAdapterSwach
+
+    //    private lateinit var configListAdapter: ConfigListAdapterSwach
     var dayofCharArray: String? = null
     private lateinit var getStorePersonAdapter: GetStorePersonAdapter
     var positionofday: Int? = null
@@ -51,14 +53,14 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         val sdf = SimpleDateFormat("dd MMM, yyyy")
         val todaysUpdate = sdf.format(Date())
 
-        viewBinding.todaysDate.text =todaysUpdate
+        viewBinding.todaysDate.text = todaysUpdate
 
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
 
-        var fromdate  = simpleDateFormat.format(cal.time)
+        var fromdate = simpleDateFormat.format(cal.time)
         var toDate = currentDate
         showLoading()
         var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
@@ -66,8 +68,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         getStoreHistoryRequest.empid = "APL0001"
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
-        getStoreHistoryRequest.startpageno =0
-        getStoreHistoryRequest.endpageno =2
+        getStoreHistoryRequest.startpageno = 0
+        getStoreHistoryRequest.endpageno = 2
         viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
@@ -108,8 +110,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-                it.friday=false
-                it.thursday=true
+                it.friday = false
+                it.thursday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -142,12 +144,13 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 //                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
                 if (dayofCharArray == dayOfTheWeek) {
-                    if(Preferences.getUploadedDateDayWise().equals(todaysUpdate)){
+                    if (Preferences.getUploadedDateDayWise().equals(todaysUpdate)) {
                         viewBinding.alreadyUploadedlayout.visibility = View.VISIBLE
-                        viewBinding.uploadDay.text= dayofCharArray
+                        viewBinding.uploadDay.text = dayofCharArray
                         viewBinding.uploadOnLayout.visibility = View.GONE
                         viewBinding.uploadNowLayout.visibility = View.GONE
-                    }else{
+                    } else {
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
                         viewBinding.uploadOnLayout.visibility = View.GONE
                         viewBinding.uploadNowLayout.visibility = View.VISIBLE
                     }
@@ -166,17 +169,15 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
         viewModel.getStorePersonHistory.observeForever {
-            if(it!=null){
+            if (it != null) {
                 getStorePersonHistoryList.add(it)
                 viewBinding.storeId.text = Preferences.getSiteId()
-                viewBinding.userId.text= Preferences.getToken()
+                viewBinding.userId.text = Preferences.getToken()
 //                if(getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate!=null &&getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate!="" ){
 //                    viewBinding.uploadedOn.text = getStorePersonHistoryList.get(0).getList?.get(0)?.uploadedDate
 //                }else{
 //                    viewBinding.uploadedOn.text = "--"
 //                }
-
-
 
 
                 getStorePersonAdapter =
@@ -215,14 +216,14 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         partiallyApprovedDate: String?
     ) {
         val intent = Intent(context, ReShootActivity::class.java)
-        intent.putExtra("swachhid",swachhid)
+        intent.putExtra("swachhid", swachhid)
         intent.putExtra("status", status)
         intent.putExtra("approvedDate", approvedDate)
         intent.putExtra("storeId", storeId)
         intent.putExtra("uploadedDate", uploadedDate)
         intent.putExtra("reshootDate", reshootDate)
         intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
-           startActivity(intent)
+        startActivity(intent)
     }
 
 }
