@@ -382,31 +382,32 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val barCode = viewBinding.barCode.text.toString().trim()
 
         if (site.isEmpty()) {
-            viewBinding.siteIdSelect.error = ""
+            viewBinding.siteId.error = "Please Select Site id"
             showErrorMsg(context?.resources?.getString(R.string.err_msg_select_site))
             return false
+
         } else if (categoryName.isEmpty()) {
-            viewBinding.selectCategory.error = ""
+            viewBinding.selectCategoryText.error = "Please Select Category "
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_cat)
             )
             return false
         } else if (itemName.isEmpty()) {
-            viewBinding.itemName.error = ""
+            viewBinding.branchNameTextInput.error = "Please Enter Item Name"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_nam)
             )
             return false
         } else if (manufDate.isEmpty()) {
-            viewBinding.fromDateText.error = ""
+            viewBinding.fromDate.error = "Please Select Date"
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_mnfDate)
             )
             return false
         } else if (expDate.isEmpty()) {
-            viewBinding.toDateText.error = ""
+            viewBinding.toDate.error = "Please Select Date"
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_expiry_date)
             )
@@ -414,49 +415,49 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 //
         else if (batchNo.isEmpty()) {
-            viewBinding.batchNo.error = ""
+            viewBinding.BatchTextInput.error = "Please Enter Batch No"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_batc)
             )
             return false
         } else if (mrp.isEmpty()) {
-            viewBinding.mrpEditText.error = ""
+            viewBinding.MrpTextInput.error = "Please Enter Mrp Price"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_mrp)
             )
             return false
         } else if (purchasePrice.isEmpty()) {
-            viewBinding.purchasePrice.error = ""
+            viewBinding.purchasePriceTextInput.error = "Please Enter Purchase Price"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_purprice)
             )
             return false
         } else if (barCode.isEmpty()) {
-            viewBinding.barCode.error = ""
+            viewBinding.barCodeL.error = "Please Enter Barcode No"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_bar)
             )
             return false
         } else if (hsnCode.isEmpty()) {
-            viewBinding.hsnCode.error = ""
+            viewBinding.hsnText.error = "Please Enter HSN Code"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_hsn)
             )
             return false
         } else if (gst.isEmpty()) {
-            viewBinding.gst.error = ""
+            viewBinding.gst.error = "Please Enter Gst No"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_gst)
             )
             return false
         } else if (packsize.isEmpty()) {
-            viewBinding.packsize.error = ""
+            viewBinding.pasckizel.error = "Please Enter Pack Size"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_packsize)
@@ -544,6 +545,21 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.packsize.setText("")
         viewBinding.siteIdSelect.setText("")
         viewBinding.barCode.setText("")
+
+
+        viewBinding.siteId.error=null
+        viewBinding.selectCategoryText.error=null
+        viewBinding.branchNameTextInput.error=null
+        viewBinding.fromDate.error=null
+        viewBinding.toDate.error=null
+        viewBinding.BatchTextInput.error=null
+        viewBinding.MrpTextInput.error=null
+        viewBinding.purchasePriceTextInput.error=null
+        viewBinding.hsnText.error=null
+        viewBinding.pasckizel.error=null
+        viewBinding.siteIdSelect.error=null
+        viewBinding.barCodeL.error=null
+        viewBinding.gst.error=null
 
 
         imageList.clear()

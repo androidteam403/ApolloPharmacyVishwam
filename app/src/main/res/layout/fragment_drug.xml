@@ -36,15 +36,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
                         android:clickable="true"
-                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                         android:focusable="false"
+
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                         android:hint="@string/label_select_site_id"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/text_15sp"
-                        />
+                        android:textSize="@dimen/text_15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -95,10 +95,7 @@
                             android:id="@+id/itemName"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                            android:editable="true"
-                            android:enabled="true"
-                            android:hint="Item Name *"
-
+                              android:hint="Item Name *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -199,9 +196,9 @@
                             android:editable="true"
                             android:enabled="true"
                             android:hint="Mrp(Single) *"
+                            android:inputType="numberDecimal"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
-                            android:inputType="numberDecimal"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp"
@@ -276,11 +273,11 @@
                             android:editable="true"
                             android:enabled="true"
                             android:hint="HSN Code *"
-                            android:paddingStart="@dimen/value_10dp"
                             android:inputType="textCapCharacters"
+                            android:maxLength="8"
+                            android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
-                            android:maxLength="8"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
@@ -311,7 +308,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/packsizel"
+                        android:id="@+id/pasckizel"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -578,8 +575,8 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:contentDescription="@string/app_name"
                                 android:scaleType="fitCenter"
-                                android:visibility="visible"
-                                android:src="@drawable/ic_capture_image" />
+                                android:src="@drawable/ic_capture_image"
+                                android:visibility="visible" />
 
 
                         </LinearLayout>
