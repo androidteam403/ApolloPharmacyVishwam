@@ -54,7 +54,7 @@ class OtpViewActivity : AppCompatActivity() {
         if (intent.extras != null) {
             empVal = intent.getStringExtra("EmpID").toString()
             otpViewBinding.employeeId.append(
-                " (" + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
+                " (" + Preferences.getCompany()+ Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
                     R.string.please_check_employee_id
                 )
             )
@@ -90,6 +90,12 @@ class OtpViewActivity : AppCompatActivity() {
                 otpViewBinding.linearEdtOtp.visibility = View.VISIBLE
                 otpViewBinding.otpView.visibility = View.VISIBLE
                 otpViewBinding.fabNext.visibility = View.VISIBLE
+                otpViewBinding.timer.visibility = View.VISIBLE
+                otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+                otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+                otpViewBinding.updateButton.isClickable = true
+                otpViewBinding.confirmButton.isClickable = false
+                otpViewBinding.updateIdLayout.visibility = View.GONE
                 countDownTimer.start()
                 receivedOtp = it.OTP
             } else {
@@ -125,22 +131,38 @@ class OtpViewActivity : AppCompatActivity() {
             }
         }
 
+        otpViewBinding.cancelButton.setOnClickListener{
+            otpViewBinding.buttonLayout.visibility =View.VISIBLE
+            otpViewBinding.updateIdLayout.visibility = View.GONE
+        }
+
         otpViewBinding.updateButton.setOnClickListener {
-            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
-            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
-            otpViewBinding.updateButton.isClickable = false
-            otpViewBinding.confirmButton.isClickable = false
+            otpViewBinding.buttonLayout.visibility =View.GONE
+//            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+//            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//            otpViewBinding.updateButton.isClickable = false
+//            otpViewBinding.confirmButton.isClickable = true
+//            otpViewBinding.employeeIdET.isEnabled = true
+//            otpViewBinding.proceedButton.isClickable = true
             otpViewBinding.updateIdLayout.visibility = View.VISIBLE
             otpViewBinding.employeeIdET.setText(empVal)
             otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
             otpViewBinding.employeeIdET.requestFocus()
+            otpViewBinding.linearEdtOtp.visibility = View.GONE
+            otpViewBinding.otpView.visibility = View.GONE
+            otpViewBinding.customerMobileNum.visibility = View.GONE
+            otpViewBinding.fabNext.visibility = View.GONE
+            otpViewBinding.timer.visibility = View.GONE
+            countDownTimer.cancel()
         }
 
         otpViewBinding.confirmButton.setOnClickListener {
-            isTimerStarted = true;
+            isTimerStarted = true
+            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
             otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
-            otpViewBinding.updateButton.isClickable = false
-            otpViewBinding.confirmButton.isClickable = false
+//            otpViewBinding.updateButton.isClickable = true
+//            otpViewBinding.confirmButton.isClickable = false
+            otpViewBinding.updateIdLayout.visibility = View.GONE
             handleOtpConfirmView(empVal)
         }
 
@@ -153,10 +175,9 @@ class OtpViewActivity : AppCompatActivity() {
             otpViewBinding.employeeIdET.isEnabled = false
             otpViewBinding.proceedButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
             otpViewBinding.proceedButton.isClickable = false
-            handleOtpConfirmView(
-                otpViewBinding.employeeIdET.text.toString().trim()
-                    .replace(" ", "")
-            )
+            empVal = otpViewBinding.employeeIdET.text.toString().trim()
+                .replace(" ", "")
+            handleOtpConfirmView(empVal)
         }
 
         otpViewBinding.fabPrevious.setOnClickListener {
@@ -321,6 +342,7 @@ class OtpViewActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //Disable Back
+        finish()
     }
 
     private fun showBottomSheetDialog(msg: String) {

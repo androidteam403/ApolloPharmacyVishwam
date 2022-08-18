@@ -66,7 +66,7 @@
                     android:layout_width="@dimen/value_100dp"
                     android:layout_height="@dimen/value_40dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/grey_rectangle"
+                    android:background="@drawable/yellow_rectangle"
                     android:text="Update"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
@@ -118,18 +118,38 @@
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/text_17sp" />
+                        android:textSize="@dimen/text_17sp"
+                        android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyY zZ0123456789"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal">
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/proceedButton"
-                    android:layout_width="@dimen/value_180dp"
+                    android:layout_width="@dimen/value_100dp"
                     android:layout_height="@dimen/value_45dp"
                     android:layout_marginTop="@dimen/value_20dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:background="@drawable/yellow_rectangle"
                     android:text="Proceed"
+                    android:textAllCaps="false"
                     android:textColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/password" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancelButton"
+                    android:layout_width="@dimen/value_100dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginTop="@dimen/value_20dp"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@drawable/grey_rectangle"
+                    android:text="Cancel"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView

@@ -16,7 +16,6 @@ import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DialogAcknowledgementBinding
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
-import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationViewModel
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis.convertCmsDate
@@ -69,7 +68,7 @@ class AcknowledgementDialog : DialogFragment() {
             ViewGroup.LayoutParams.MATCH_PARENT
         );
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog?.setCancelable(false)
+        dialog?.setCanceledOnTouchOutside(false)
         viewBinding = DialogAcknowledgementBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(requireActivity())[RegistrationViewModel::class.java]
         viewBinding.viewModel = viewModel
@@ -87,13 +86,12 @@ class AcknowledgementDialog : DialogFragment() {
             viewBinding.closeDate.text =
                 context?.resources?.getString(R.string.label_close_date) + "  ${convertCmsDate(data[0].closeTime.toString())}"
         }*/
+        viewBinding.dilogaClose.setOnClickListener { dismiss() }
 
-          viewBinding.ticketNo.text =
-            context?.resources?.getString(R.string.label_complaint_ticket_number) + "  ${datanew.ticket_id}"
+          viewBinding.ticketNo.text = "${datanew.ticket_id}"
         if(datanew.ticket_created_time != null)
         {
-        viewBinding.regDate.text =
-            context?.resources?.getString(R.string.label_registered_date) + "  ${convertCmsDate(datanew.ticket_created_time.toString())}"
+        viewBinding.regDate.text ="${convertCmsDate(datanew.ticket_created_time.toString())}"
     }
         /*if (data[0].closeTime.toString().isEmpty()) {
             viewBinding.closeDate.visibility = View.GONE
@@ -143,8 +141,7 @@ class AcknowledgementDialog : DialogFragment() {
 
       /*  viewBinding.problemDesc.text =
             context?.resources?.getString(R.string.label_prob_description) + "  ${data[0].problemDrescription}"*/
-          viewBinding.problemDesc.text =
-                  context?.resources?.getString(R.string.label_reason_acknowledgement) + datanew.ticket_reason_name
+          viewBinding.problemDesc.text = datanew.ticket_reason_name
         viewBinding.textHead.text = context?.resources?.getString(R.string.label_acknowledgement)
         viewBinding.accept.setOnClickListener {
             closingstatus=true
@@ -157,7 +154,7 @@ class AcknowledgementDialog : DialogFragment() {
 
             }
 
-            if (checkValidation()) {
+            if (checkValidation(true)) {
                 viewModel.getTicketclosingApi(
                     token,
                     RequestClosedticketApi(
@@ -202,7 +199,7 @@ class AcknowledgementDialog : DialogFragment() {
 
             }
 
-            if (checkValidation()) {
+            if (checkValidation(false)) {
                 viewModel.getTicketclosingApi(
                     token,
                     RequestClosedticketApi(
@@ -250,7 +247,7 @@ class AcknowledgementDialog : DialogFragment() {
         return viewBinding.root
     }
 
-    fun checkValidation(): Boolean {
+    fun checkValidation(isValidateRate: Boolean): Boolean {
         if (viewBinding.remark.text.toString().isEmpty()) {
             Toast.makeText(
                 requireContext(),
@@ -259,7 +256,7 @@ class AcknowledgementDialog : DialogFragment() {
             ).show()
             return false
         }
-        if (viewBinding.smileRating.rating == 0) {
+        if (isValidateRate && viewBinding.smileRating.rating == 0) {
             Toast.makeText(
                 requireContext(),
                 context?.resources?.getString(R.string.label_rate_complaint),

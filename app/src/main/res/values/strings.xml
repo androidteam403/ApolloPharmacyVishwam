@@ -90,10 +90,10 @@
     <string name="label_unknown_err">Unknown Error</string>
     <string name="label_unableto_save">Store ID not available</string>
     <string name="label_complaint_site_id">Site ID:</string>
-    <string name="label_complaint_ticket_number">Ticket No.:</string>
+    <string name="label_complaint_ticket_number">Ticket No: </string>
     <string name="label_status">Status: </string>
     <string name="label_close_date">Closed Date:</string>
-    <string name="label_problem_since">Date Of Occurrence: </string>
+    <string name="label_problem_since">Created Date Time: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
     <string name="label_select_site">Select Site</string>
@@ -102,13 +102,13 @@
     <string name="label_sub_category_list">Sub Category List</string>
     <string name="label_reasonlist_list">Reason List</string>
 
-    <string name="label_enter_remarks">Enter Remarks</string>
+    <string name="label_enter_remarks">Enter Remarks *</string>
     <string name="label_re_open">Re-Open</string>
     <string name="label_accept">Close</string>
     <string name="label_acknowledge_close_comp">Please acknowledgement to register a new complaint</string>
-    <string name="label_registered_date">Reg Date:</string>
-    <string name="label_staff_name">Ticket created by: </string>
-    <string name="label_description">Description</string>
+    <string name="label_registered_date">Reg Date: </string>
+    <string name="label_staff_name">Created by: </string>
+    <string name="label_description">Description: </string>
     <string name="label_siteid">Site ID</string>
     <string name="label_siteName">Site Name</string>
     <string name="label_tracking_status">Track Status</string>
@@ -174,6 +174,8 @@
         <item>AHEL</item>
     </string-array>
 
-    <string name="label_reason_acknowledgement">Reason</string>
+    <string name="label_reason_acknowledgement">Reason: </string>
     <string name="label_site_list">Site: </string>
+    <string name="label_region">Region: </string>
+    <string name="label_location">Location: </string>
 </resources>

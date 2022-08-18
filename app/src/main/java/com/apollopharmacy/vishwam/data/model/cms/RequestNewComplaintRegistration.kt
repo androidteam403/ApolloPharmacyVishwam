@@ -57,7 +57,10 @@ data class RequestNewComplaintRegistration(
 
     data class  Reason(
         @field:SerializedName("uid")
-        val uid: String? = null
+        val uid: String? = null,
+
+        @field:SerializedName("reason_sla")
+        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>
     ):Serializable
 
     data class  Subcategory(
