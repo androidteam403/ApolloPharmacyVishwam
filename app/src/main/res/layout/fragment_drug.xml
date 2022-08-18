@@ -31,14 +31,15 @@
 
                     app:layout_constraintTop_toTopOf="parent">
 
-                    <androidx.appcompat.widget.AppCompatEditText
+                    <EditText
                         android:id="@+id/siteIdSelect"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
                         android:clickable="true"
-                        android:focusable="false"
-
                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:editable="false"
+                        android:enabled="true"
+                        android:focusableInTouchMode="true"
                         android:hint="@string/label_select_site_id"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
@@ -72,7 +73,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
-                            android:focusable="false"
+                            android:editable="false"
                             android:hint="@string/label_select_category"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -91,11 +92,11 @@
                         android:layout_marginRight="@dimen/value_15dp"
                         android:textColorHint="@color/black">
 
-                        <androidx.appcompat.widget.AppCompatEditText
+                        <EditText
                             android:id="@+id/itemName"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                              android:hint="Item Name *"
+                            android:hint="Item Name *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -117,10 +118,9 @@
                             android:id="@+id/fromDateText"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
-                            android:focusable="false"
+                            android:editable="false"
                             android:hint="Manufacture Date *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -145,7 +145,7 @@
                             android:layout_height="@dimen/value_55dp"
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
-                            android:focusable="false"
+                            android:editable="false"
                             android:hint="Expire Date *"
                             android:paddingStart="@dimen/value_7dp"
                             android:paddingEnd="@dimen/value_7dp"
@@ -298,7 +298,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
-                            android:focusable="false"
+                            android:editable="false"
                             android:hint="Select Gst *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -544,126 +544,54 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/description" />
 
+
                     <LinearLayout
                         android:id="@+id/attachImageLayout"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/value_10dp"
                         android:orientation="horizontal"
                         app:layout_constraintTop_toBottomOf="@+id/titleName">
 
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:padding="@dimen/value_3dp"
+                            android:text="Front Image "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="Front Image "
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-
-                            <ImageView
-                                android:id="@+id/addImage"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="18dp"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_capture_image"
-                                android:visibility="visible" />
-
-
-                        </LinearLayout>
-
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                            android:layout_marginLeft="@dimen/text_17sp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:paddingStart="1sp"
+                            android:text="Back Image"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/value_16dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="Back Image"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-
-                            <ImageView
-                                android:id="@+id/addImage1"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_30dp"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-
-                                android:src="@drawable/ic_capture_image" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/value_20dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="Bill Image"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-
-                            <ImageView
-                                android:id="@+id/addImage2"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="26dp"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_capture_image" />
+                            android:layout_marginLeft="@dimen/value_20dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:padding="@dimen/value_3dp"
+                            android:text="Side Image"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
 
 
-                        </LinearLayout>
-
-                        <LinearLayout
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/value_20dp"
-                                android:layout_marginTop="@dimen/value_5dp"
-                                android:text="Side Image"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
-
-                            <ImageView
-                                android:id="@+id/addImage3"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_30dp"
-                                android:layout_marginTop="@dimen/value_10dp"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_capture_image" />
-
-
-                        </LinearLayout>
-
+                            android:layout_marginLeft="26dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Bill Image"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
 
                     </LinearLayout>
 
@@ -672,23 +600,81 @@
                         android:id="@+id/imageRecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/value_5dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginBottom="@dimen/value_5dp"
                         android:orientation="horizontal"
+                        android:visibility="visible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                    <Button
-                        android:id="@+id/submit"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_50dp"
-                        android:layout_margin="@dimen/value_15dp"
-                        android:background="@drawable/yellow_drawable"
-                        android:text="@string/label_submit"
-                        android:textColor="@color/black"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:id="@+id/addImage"
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginStart="26dp"
+                            android:contentDescription="@string/app_name"
+
+                            android:paddingStart="2sp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_capture_image"
+                            android:visibility="visible" />
+
+
+                        <ImageView
+                            android:id="@+id/addImage1"
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginLeft="48dp"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="2sp"
+                            android:scaleType="fitCenter"
+
+                            android:src="@drawable/ic_capture_image" />
+
+                        <ImageView
+                            android:id="@+id/addImage2"
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginLeft="@dimen/value_42dp"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="2sp"
+                            android:scaleType="fitCenter"
+
+                            android:src="@drawable/ic_capture_image" />
+
+                        <ImageView
+                            android:id="@+id/addImage3"
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_marginLeft="@dimen/value_45dp"
+                            android:contentDescription="@string/app_name"
+                            android:paddingStart="2sp"
+                            android:scaleType="fitCenter"
+
+                            android:src="@drawable/ic_capture_image" />
+
+
+                    </LinearLayout>
+
+
                 </LinearLayout>
 
+
+                <Button
+                    android:id="@+id/submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_margin="@dimen/value_15dp"
+                    android:background="@drawable/yellow_drawable"
+                    android:text="@string/label_submit"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
             </LinearLayout>
 
 

@@ -1,8 +1,12 @@
 package com.apollopharmacy.vishwam.ui.home.drugmodule
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +19,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -24,8 +29,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.Image
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
-import com.apollopharmacy.vishwam.databinding.FragmentDrugBinding
-import com.apollopharmacy.vishwam.databinding.ViewImageItemBinding
+import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
@@ -49,6 +53,8 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     lateinit var adapter: DrugImageRecyclerView
 
     var imageList = ArrayList<Image>();
+
+
     var imagesList = ArrayList<DrugRequest.Image>()
 
     var imageFromCameraFile: File? = null
@@ -100,6 +106,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 }.show(childFragmentManager, "")
             }
         }
+
 
 
 
@@ -222,6 +229,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         adapter = DrugImageRecyclerView(imageList, this)
         viewBinding.imageRecyclerView.adapter = adapter
 
+
+
+
+
+
+
+
+
+
         viewBinding.fromDateText.setOnClickListener {
             isFromDateSelected = true
             openDateDialog()
@@ -242,7 +258,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 return@setOnClickListener
             } else
                 cameraIntent()
-//            viewBinding.addImage.visibility = View.GONE
         }
 
         viewBinding.addImage1.setOnClickListener {
@@ -251,7 +266,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 return@setOnClickListener
             } else
                 cameraIntent()
-//            viewBinding.addImage1.visibility = View.GONE
 
         }
 
@@ -261,7 +275,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 return@setOnClickListener
             } else
                 cameraIntent()
-//            viewBinding.addImage2.visibility = View.GONE
 
         }
         viewBinding.addImage3.setOnClickListener {
@@ -270,7 +283,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 return@setOnClickListener
             } else
                 cameraIntent()
-//            viewBinding.addImage3.visibility = View.GONE
 
         }
 
@@ -303,6 +315,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
                 .show()
         }
+
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
@@ -358,6 +371,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             imageList.add(Image(imageFromCameraFile!!, "", ""))
             adapter.notifyAdapter(imageList)
+
+            if (imageList.size == 4) {
+                viewBinding.addImage.visibility = View.GONE
+                viewBinding.addImage1.visibility = View.GONE
+                viewBinding.addImage2.visibility = View.GONE
+                viewBinding.addImage3.visibility = View.GONE
+
+            }
+
         }
     }
 
@@ -382,32 +404,37 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val barCode = viewBinding.barCode.text.toString().trim()
 
         if (site.isEmpty()) {
-            viewBinding.siteId.error = "Please Select Site id"
+            viewBinding.siteIdSelect.requestFocus()
+            viewBinding.siteIdSelect.error = "Please Select Site id"
             showErrorMsg(context?.resources?.getString(R.string.err_msg_select_site))
             return false
 
         } else if (categoryName.isEmpty()) {
-            viewBinding.selectCategoryText.error = "Please Select Category "
+            viewBinding.selectCategory.requestFocus()
+            viewBinding.selectCategory.error = "Please Select Category "
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_cat)
             )
             return false
         } else if (itemName.isEmpty()) {
-            viewBinding.branchNameTextInput.error = "Please Enter Item Name"
+            viewBinding.itemName.requestFocus()
+            viewBinding.itemName.error = "Please Enter Item Name"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_nam)
             )
             return false
         } else if (manufDate.isEmpty()) {
-            viewBinding.fromDate.error = "Please Select Date"
+            viewBinding.fromDateText.requestFocus()
+            viewBinding.fromDateText.error = "Please Select Date"
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_mnfDate)
             )
             return false
         } else if (expDate.isEmpty()) {
-            viewBinding.toDate.error = "Please Select Date"
+            viewBinding.toDateText.requestFocus()
+            viewBinding.toDateText.error = "Please Select Date"
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_expiry_date)
             )
@@ -415,49 +442,62 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 //
         else if (batchNo.isEmpty()) {
-            viewBinding.BatchTextInput.error = "Please Enter Batch No"
+            viewBinding.batchNo.requestFocus()
+
+            viewBinding.batchNo.error = "Please Enter Batch No"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_batc)
             )
             return false
         } else if (mrp.isEmpty()) {
-            viewBinding.MrpTextInput.error = "Please Enter Mrp Price"
+            viewBinding.mrpp.requestFocus()
+            viewBinding.mrpp.error = "Please Enter Mrp Price"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_mrp)
             )
             return false
         } else if (purchasePrice.isEmpty()) {
-            viewBinding.purchasePriceTextInput.error = "Please Enter Purchase Price"
+            viewBinding.purchasePrice.requestFocus()
+
+            viewBinding.purchasePrice.error = "Please Enter Purchase Price"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_purprice)
             )
             return false
         } else if (barCode.isEmpty()) {
-            viewBinding.barCodeL.error = "Please Enter Barcode No"
+            viewBinding.barCode.requestFocus()
+
+            viewBinding.barCode.error = "Please Enter Barcode No"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_bar)
             )
             return false
         } else if (hsnCode.isEmpty()) {
-            viewBinding.hsnText.error = "Please Enter HSN Code"
+            viewBinding.hsnCode.requestFocus()
+
+            viewBinding.hsnCode.error = "Please Enter HSN Code"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_hsn)
             )
             return false
         } else if (gst.isEmpty()) {
-            viewBinding.gst.error = "Please Enter Gst No"
+            viewBinding.selectDepartment.requestFocus()
+            viewBinding.selectDepartment.error = "Please Select Gst"
+
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_gst)
             )
             return false
         } else if (packsize.isEmpty()) {
-            viewBinding.pasckizel.error = "Please Enter Pack Size"
+            viewBinding.packsize.requestFocus()
+
+            viewBinding.packsize.error = "Please Enter Pack Size"
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_packsize)
@@ -477,26 +517,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
-    override fun deleteImage(position: Int) {
-
-
-        adapter.deleteImage(position)
-        adapter.notifyAdapter(imageList)
-
-
-    }
-
-    override fun onItemClick(position: Int, imagePath: String) {
-        PhotoPopupWindow(context, R.layout.layout_image_fullview, view, imagePath, null)
-    }
-
     override fun selectDepartment(departmentDto: String) {
         viewBinding.selectCategory.setText(departmentDto)
+        viewBinding.selectCategory.error = null
     }
 
     override fun selectSite(departmentDto: StoreListItem) {
 
         viewBinding.siteIdSelect.setText(departmentDto.site + "," + departmentDto.store_name)
+        viewBinding.siteIdSelect.error = null
     }
 
     fun imageType(pathname: File): String? {
@@ -547,32 +576,37 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.barCode.setText("")
 
 
-        viewBinding.siteId.error=null
-        viewBinding.selectCategoryText.error=null
-        viewBinding.branchNameTextInput.error=null
-        viewBinding.fromDate.error=null
-        viewBinding.toDate.error=null
-        viewBinding.BatchTextInput.error=null
-        viewBinding.MrpTextInput.error=null
-        viewBinding.purchasePriceTextInput.error=null
-        viewBinding.hsnText.error=null
-        viewBinding.pasckizel.error=null
-        viewBinding.siteIdSelect.error=null
-        viewBinding.barCodeL.error=null
-        viewBinding.gst.error=null
-
+        viewBinding.siteId.error = null
+        viewBinding.selectCategoryText.error = null
+        viewBinding.branchNameTextInput.error = null
+        viewBinding.fromDate.error = null
+        viewBinding.toDate.error = null
+        viewBinding.BatchTextInput.error = null
+        viewBinding.MrpTextInput.error = null
+        viewBinding.purchasePriceTextInput.error = null
+        viewBinding.hsnText.error = null
+        viewBinding.pasckizel.error = null
+        viewBinding.siteIdSelect.error = null
+        viewBinding.barCodeL.error = null
+        viewBinding.gst.error = null
+        viewBinding.addImage.visibility = View.VISIBLE
+        viewBinding.addImage1.visibility = View.VISIBLE
+        viewBinding.addImage2.visibility = View.VISIBLE
+        viewBinding.addImage3.visibility = View.VISIBLE
 
         imageList.clear()
-        imageList.clear()
+        imagesList.clear()
         adapter.notifyAdapter(imageList)
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             viewBinding.fromDateText.setText(showingDate)
+            viewBinding.fromDateText.error = null
 
         } else {
             viewBinding.toDateText.setText(showingDate)
+            viewBinding.toDateText.error = null
         }
     }
 
@@ -581,10 +615,46 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     override fun selectGST(gst: String) {
         viewBinding.selectDepartment.setText(gst)
+        viewBinding.selectDepartment.error = null
     }
 
     override fun confirmsavetheticket() {
         RefreshView()
+    }
+
+    override fun deleteImage(position: Int) {
+
+
+
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(LayoutInflater.from(requireContext()), R.layout.dialog_delete, null, false)
+        val customDialog = AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+            if (imageList.size < 5) {
+                viewBinding.addImage.visibility = View.VISIBLE
+                viewBinding.addImage1.visibility = View.VISIBLE
+                viewBinding.addImage2.visibility = View.VISIBLE
+                viewBinding.addImage3.visibility = View.VISIBLE
+            }
+            adapter.deleteImage(position)
+            adapter.notifyAdapter(imageList)
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }
+
+    }
+
+
+
+    override fun onItemClick(position: Int, imagePath: String) {
+        PhotoPopupWindow(context, R.layout.layout_image_fullview, view, imagePath, null)
     }
 }
 
@@ -593,12 +663,12 @@ class DrugImageRecyclerView(
     var orderData: ArrayList<Image>,
     val imageClicklistner: ImagesListner
 ) :
-    SimpleRecyclerView<ViewImageItemBinding, Image>(
+    SimpleRecyclerView<ViewimageBinding, Image>(
         orderData,
-        R.layout.view_image_item
+        R.layout.viewimage
     ) {
     override fun bindItems(
-        binding: ViewImageItemBinding,
+        binding: ViewimageBinding,
         items: Image,
         position: Int,
     ) {
