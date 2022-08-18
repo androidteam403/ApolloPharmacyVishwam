@@ -205,10 +205,10 @@
 
     <string name="label_reason_acknowledgement">Reason</string>
     <string name="label_site_list">Site: </string>
-    <string name="label_store_id_u0020">Store ID:\u0020</string>
-    <string name="label_on_u0020">On:\u0020</string>
-    <string name="label_by_u0020">By:\u0020</string>
-    <string name="label_status_u0020">Status:\u0020</string>
+    <string name="label_store_id_u0020">Store ID: </string>
+    <string name="label_on_u0020">on: </string>
+    <string name="label_by_u0020">by: </string>
+    <string name="label_status_u0020">Status: </string>
     <string name="label_pending">Pending</string>
     <string name="label_accepted">Accepted</string>
     <string name="label_rejected">Rejected</string>

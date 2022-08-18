@@ -79,4 +79,5 @@
     <dimen name="dimen25sp">25sp</dimen>
     <dimen name="eighteen18_dp">18dp</dimen>
     <dimen name="four_4sp">4sp</dimen>
+    <dimen name="seven7_sp">7sp</dimen>
 </resources>

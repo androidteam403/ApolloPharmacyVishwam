@@ -7,4 +7,6 @@ interface SwachhListCallback {
     fun onClickFromDate()
     fun onClickToDate()
     fun onClickSearch()
+    fun onClickApproved()
+    fun onClickPending()
 }

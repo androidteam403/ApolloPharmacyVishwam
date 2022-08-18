@@ -171,7 +171,7 @@
                 <LinearLayout
                     android:layout_marginBottom="@dimen/value_5dp"
                     android:id="@+id/uploadNowLayout"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_width="@dimen/value_130dp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/value_5dp"
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/six6_sp"
                     android:layout_marginTop="@dimen/value_7dp"
-                    android:background="@drawable/green_background">
+                    android:background="@drawable/grey_backgroundup">
 
                     <TextView
                         android:visibility="visible"
@@ -219,6 +219,41 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Wednesday"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/alreadyUploadedlayout"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:layout_width="220dp"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/six6_sp"
+                    android:layout_marginTop="@dimen/value_7dp"
+                    android:background="@drawable/ash_rounded_corners">
+
+                    <TextView
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Next Upload on "
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/upload_day"
+                        android:visibility="visible"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp"

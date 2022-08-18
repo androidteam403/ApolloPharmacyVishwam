@@ -84,9 +84,10 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
         if (status == "APPROVED") {
-            if (approvedDate != null && approvedDate != "") {
 
-                val strDate = approvedDate
+            if (uploadedDate != null && uploadedDate != "") {
+
+                val strDate = uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
@@ -94,6 +95,16 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
+//            if (approvedDate != null && approvedDate != "") {
+//
+//                val strDate = approvedDate
+//                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//                val date = dateFormat.parse(strDate)
+//                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+//                activityreShootBinding.uploadedDate.text = dateNewFormat
+//            } else {
+//                activityreShootBinding.uploadedDate.text = "--"
+//            }
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
@@ -102,9 +113,10 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 )
             );
         } else if (status == "PARTIALLY APPROVED") {
-            if (partiallyApprovedDate != null && partiallyApprovedDate != "") {
 
-                val strDate = partiallyApprovedDate
+            if (uploadedDate != null && uploadedDate != "") {
+
+                val strDate = uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
@@ -112,6 +124,16 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
+//            if (partiallyApprovedDate != null && partiallyApprovedDate != "") {
+//
+//                val strDate = partiallyApprovedDate
+//                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//                val date = dateFormat.parse(strDate)
+//                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+//                activityreShootBinding.uploadedDate.text = dateNewFormat
+//            } else {
+//                activityreShootBinding.uploadedDate.text = "--"
+//            }
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
@@ -120,9 +142,10 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 )
             );
         } else if (status == "RESHOOT") {
-            if (reshootDate != null && reshootDate != "") {
 
-                val strDate = reshootDate
+            if (uploadedDate != null && uploadedDate != "") {
+
+                val strDate = uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
@@ -130,6 +153,16 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             } else {
                 activityreShootBinding.uploadedDate.text = "--"
             }
+//            if (reshootDate != null && reshootDate != "") {
+//
+//                val strDate = reshootDate
+//                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+//                val date = dateFormat.parse(strDate)
+//                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+//                activityreShootBinding.uploadedDate.text = dateNewFormat
+//            } else {
+//                activityreShootBinding.uploadedDate.text = "--"
+//            }
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(

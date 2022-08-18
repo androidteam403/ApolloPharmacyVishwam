@@ -94,11 +94,11 @@ class GetStorePersonAdapter(
         }
         else if (getStorePersonlist?.get(position)?.status.equals("RESHOOT")) {
             holder.reshootLayout.visibility = View.VISIBLE
-            if (getStorePerson?.reshootDate == "") {
+            if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
 
-                val strDate =  getStorePerson?.reshootDate
+                val strDate =  getStorePerson?.uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
@@ -117,10 +117,10 @@ class GetStorePersonAdapter(
         else if (getStorePersonlist?.get(position)?.status.equals("PARTIALLY APPROVED")) {
             holder.partiallyApproved.visibility = View.VISIBLE
 
-            if (getStorePerson?.partiallyApprovedDate == "") {
+            if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
-                val strDate =  getStorePerson?.partiallyApprovedDate
+                val strDate =  getStorePerson?.uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)

@@ -14,46 +14,46 @@
 
 
         <LinearLayout
+            android:layout_marginTop="@dimen/value_5dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
 
             <LinearLayout
-                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginStart="@dimen/value_5dp"
                     android:id="@+id/categoryNameSwachRes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/five5_sp"
                     android:textStyle="bold"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_12sp"/>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:weightSum="1"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
 
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:layout_weight="0.5"
                     android:id="@+id/uploadlayoutrecyclerviewRes"
                     android:layout_width="wrap_content"
                     android:visibility="visible"
-
                     android:orientation="horizontal"
                     android:layout_height="wrap_content" />
 
                 <LinearLayout
+                    android:layout_weight="0.5"
                     android:layout_gravity="center"
                     android:id="@+id/reshoot_layoutRes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:orientation="vertical"
@@ -68,11 +68,13 @@
                         android:textColor="@color/black" />
 
                     <TextView
+                        android:layout_marginStart="@dimen/four_4sp"
                         android:layout_width="@dimen/value_100dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_7dp"
                         android:background="@drawable/red_rounded_corners"
                         android:padding="2dp"
+                        android:layout_gravity="center"
                         android:text="Re-Shoot"
                         android:textAlignment="center"
                         android:textColor="@color/white"
@@ -81,9 +83,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_weight="0.5"
                     android:layout_gravity="center"
                     android:id="@+id/partially_approved_res"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:orientation="vertical"
@@ -101,7 +104,7 @@
                         android:id="@+id/updateButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="end"
+                        android:layout_gravity="center"
 
                         android:padding="2sp"
                         android:text="Partially Approved"
@@ -114,9 +117,10 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_weight="0.5"
                     android:layout_gravity="center"
                     android:id="@+id/approved_layoutRes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:orientation="vertical"
@@ -131,6 +135,8 @@
                         android:textColor="@color/black" />
 
                     <LinearLayout
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -155,12 +161,14 @@
 
 
                 </LinearLayout>
+
                     <LinearLayout
+
+                        android:layout_weight="0.5"
                         android:layout_gravity="center"
                         android:id="@+id/pending_layoutRes"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_50dp"
                         android:orientation="vertical"
                         android:visibility="gone">
 
@@ -173,6 +181,8 @@
                             android:textColor="@color/black" />
 
                         <LinearLayout
+                            android:gravity="center"
+                            android:layout_gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -180,8 +190,7 @@
 
                             <TextView
                                 android:layout_width="@dimen/value_130dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_7dp"
+                                android:layout_height="match_parent"
                                 android:background="@drawable/red_rounded_corners"
                                 android:backgroundTint="@color/material_amber_accent_700"
                                 android:padding="@dimen/four_4sp"

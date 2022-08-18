@@ -95,6 +95,7 @@ object Preferences {
     private const val KEY_LOGIN_DATE = "KEY_LOGIN_DATE"
     private const val KEY_COMPANY = "KEY_COMPANY"
     private const val KEY_USER_PASSWORD ="KEY_PASSWORD"
+    private const val UPLOADED_DATE_DAY_WISE =""
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -185,5 +186,13 @@ object Preferences {
 
     fun getCompany(): String {
         return sharedPreferences.getString(KEY_COMPANY, "")!!
+    }
+
+    fun setUploadedDateDayWise(company: String) {
+        sharedPreferences.edit().putString(UPLOADED_DATE_DAY_WISE, company).apply()
+    }
+
+    fun getUploadedDateDayWise(): String {
+        return sharedPreferences.getString(UPLOADED_DATE_DAY_WISE, "")!!
     }
 }
