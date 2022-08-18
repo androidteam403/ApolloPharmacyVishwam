@@ -48,6 +48,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.bill.BillCompletedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
+import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
@@ -294,6 +295,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 break;
+            case "Drug Request":
+                headerText.setText("Drug Request");
+                fragment=new Drug();
+                break;
+
             case "Logout":
                 dialogExit();
                 break;
@@ -602,6 +608,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
                 }
+
+                  listView.addHeaderModel(
+                    new HeaderModel("Drug", Color.WHITE, true, R.drawable.ic_baseline_article)
+                            .addChildModel(new ChildModel("Drug Request")));
+
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                                .addChildModel(new ChildModel("Upload Module"))
@@ -615,7 +626,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 4) {
+                            } else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -636,7 +647,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
                             } else if (groupPosition == 4 && childPosition == 0) {
-                                displaySelectedScreen("Swacch Images Upload");
+                                displaySelectedScreen("Drug Request");
                             } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swacch List");
                             } else if (groupPosition == 3 && childPosition == 0) {
@@ -813,7 +824,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Orders Menu
                         Common.showToast(context, "Discount");
                         drawer.closeDrawer(GravityCompat.START);
-                    } */ else if (id == 4) {
+                    } */ else if (id == 5) {
                                 //Logout
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);

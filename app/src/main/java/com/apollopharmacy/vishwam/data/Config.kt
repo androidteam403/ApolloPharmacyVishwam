@@ -22,6 +22,7 @@ object Config {
     val SWACHH_IMAGE_KEY="h72genrSSNFivOi/cfiX3A=="
     val SWACHAPI_HEADER = "h72genrSSNFivOi/cfiX3A=="
     val SWACHH_IMAGES_APPROVE="h72genrSSNFivOi/cfiX3A=="
+    val DRUG_KEY=" h72genrSSNFivOi/cfiX3A=="
 
     val CMS_GLOBAL_API = "https://viswam.apollopharmacy.org/apolloutil/api/Encryptiondecryption"
     val CMS_GLOABL_KEY = "wyDoHg0wG3U5O9sRWncACA=="
