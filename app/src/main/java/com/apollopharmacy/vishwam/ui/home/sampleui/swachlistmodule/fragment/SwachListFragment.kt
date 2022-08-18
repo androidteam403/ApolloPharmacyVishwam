@@ -3,7 +3,9 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -18,6 +20,7 @@ import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.model.Dialog
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.Utils
@@ -33,6 +36,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     SwachhListCallback {
     var pendingAndApprovedList = ArrayList<PendingAndApproved>()
     var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
+    var pendingListAdapter: PendingListAdapter? = null
     var isFromDateSelected: Boolean = false
     var fromDate = String()
     var toDate = String()
@@ -40,6 +44,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var userDesignation = ""
     var getApprovedList: List<GetpendingAndApprovedListResponse.GetApproved>? = null
     var getPendingList: List<GetpendingAndApprovedListResponse.GetPending>? = null
+
+    var approvedList = ArrayList<PendingAndApproved>()
+
+    var pendingList = ArrayList<PendingAndApproved>()
     override val layoutRes: Int
         get() = R.layout.fragment_swachh_list
 
@@ -51,7 +59,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         viewBinding.callback = this
-        viewBinding.userIdSwachlist.text=Preferences.getToken()
+        viewBinding.userIdSwachlist.text = Preferences.getToken()
         val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -90,6 +98,12 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         viewBinding.storeId = Preferences.getSiteId()
+        userDesignation = "EXECUTIVE"
+        if (userDesignation.equals("EXECUTIVE")) {
+            viewBinding.tabsforexecutive.visibility = View.VISIBLE
+        } else {
+            viewBinding.tabsforexecutive.visibility = View.GONE
+        }
 
         viewModel.getpendingAndApprovedListResponse.observe(viewLifecycleOwner, {
             Utlis.hideLoading()
@@ -110,7 +124,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     }
                     pendingAndApprovedList.clear()
                     if (getApprovedList != null) {
+
                         for (i in getApprovedList!!) {
+
                             val pendingAndApproved = PendingAndApproved()
                             pendingAndApproved.swachhid = i.swachhid
                             pendingAndApproved.storeId = i.storeId
@@ -124,10 +140,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.uploadedBy = i.uploadedBy
                             pendingAndApproved.uploadedDate = i.uploadedDate
                             pendingAndApproved.status = i.status
+                            approvedList.add(pendingAndApproved)
                             pendingAndApprovedList.add(pendingAndApproved)
+
 
                         }
                     }
+
                     if (getPendingList != null && userDesignation.equals("EXECUTIVE")) {
                         for (i in getPendingList!!) {
                             val pendingAndApproved = PendingAndApproved()
@@ -143,18 +162,30 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.uploadedBy = i.uploadedBy
                             pendingAndApproved.uploadedDate = i.uploadedDate
                             pendingAndApproved.status = i.status
+                            pendingList.add(pendingAndApproved)
                             pendingAndApprovedList.add(pendingAndApproved)
                         }
                     }
 
 
+                    for (i in pendingAndApprovedList.indices) {
+                        if (pendingAndApprovedList.get(i).uploadedDate != "") {
+                            val strDate = pendingAndApprovedList.get(i).uploadedDate
+                            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                            val date = dateFormat.parse(strDate)
+                            val dateNewFormat =
+                                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                            pendingAndApprovedList.get(i).uploadedDate = dateNewFormat.toString()
+                        }
+                    }
+
                     pendingApprovedListAdapter =
                         PendingApprovedListAdapter(context, pendingAndApprovedList, this)
-                    viewBinding.pendingAndApprovedListRecyclerview.layoutManager =
+                    viewBinding.approvedListRecyclerview.layoutManager =
                         LinearLayoutManager(
                             context
                         )
-                    viewBinding.pendingAndApprovedListRecyclerview.adapter =
+                    viewBinding.approvedListRecyclerview.adapter =
                         pendingApprovedListAdapter
 
                 }
@@ -187,6 +218,61 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             fromDate,
             toDate
         )
+    }
+
+    override fun onClickApproved() {
+        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
+        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        if (pendingList != null && pendingAndApprovedList.size > 0) {
+            viewBinding.noOrdersFound.visibility = View.GONE
+            viewBinding.pendingListRecyclerview.visibility = View.GONE
+            viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
+            pendingApprovedListAdapter =
+                PendingApprovedListAdapter(context, pendingAndApprovedList, this)
+            viewBinding.approvedListRecyclerview.layoutManager =
+                LinearLayoutManager(
+                    context
+                )
+            viewBinding.approvedListRecyclerview.adapter =
+                pendingApprovedListAdapter
+        } else {
+            viewBinding.pendingListRecyclerview.visibility = View.GONE
+            viewBinding.noOrdersFound.visibility = View.VISIBLE
+        }
+
+    }
+
+    override fun onClickPending() {
+        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
+        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
+        if (pendingList != null && pendingList.size > 0) {
+            for (i in pendingList.indices) {
+                if (pendingList.get(i).uploadedDate != "") {
+                    val strDate = pendingList.get(i).uploadedDate
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                    val date = dateFormat.parse(strDate)
+                    val dateNewFormat =
+                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                    pendingList.get(i).uploadedDate = dateNewFormat.toString()
+                }
+            }
+            viewBinding.approvedListRecyclerview.visibility = View.GONE
+            viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
+            pendingListAdapter =
+                PendingListAdapter(context, pendingList, this)
+            viewBinding.pendingListRecyclerview.layoutManager =
+                LinearLayoutManager(
+                    context
+                )
+            viewBinding.pendingListRecyclerview.adapter =
+                pendingListAdapter
+        } else {
+            viewBinding.approvedListRecyclerview.visibility = View.GONE
+            viewBinding.noOrdersFound.visibility = View.VISIBLE
+
+        }
+
+
     }
 
     fun openDateDialog() {

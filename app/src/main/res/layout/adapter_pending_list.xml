@@ -156,14 +156,14 @@
                             android:gravity="end"
                             android:textAlignment="viewEnd">
 
-<!--                            <TextView-->
-<!--                                android:layout_width="wrap_content"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:text="10/10"-->
-<!--                                android:textColor="@color/black"-->
-<!--                                android:textSize="@dimen/text_12sp"-->
-<!--                                android:textStyle="bold"-->
-<!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+                            <!--                            <TextView-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:text="10/10"-->
+                            <!--                                android:textColor="@color/black"-->
+                            <!--                                android:textSize="@dimen/text_12sp"-->
+                            <!--                                android:textStyle="bold"-->
+                            <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
 
                             <TextView
                                 android:id="@+id/updateButton"

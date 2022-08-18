@@ -60,36 +60,76 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/eighteen18_dp"
+                    android:layout_marginStart="@dimen/text_14sp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/calender_from"
-                        android:layout_width="@dimen/text_22sp"
-                        android:layout_height="@dimen/text_22sp"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/app_name"
-                        android:onClick="@{()-> callback.onClickFromDate()}"
-                        android:src="@drawable/calendar" />
+                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_8dp"
+                        android:orientation="vertical">
+
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="From: "
+                             android:textStyle="bold"
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_12sp" />
+
+
+                         <ImageView
+                             android:layout_marginTop="@dimen/three3_sp"
+                             android:id="@+id/calender_from"
+                             android:layout_width="@dimen/text_22sp"
+                             android:layout_height="@dimen/text_22sp"
+                             android:layout_gravity="center"
+                             android:contentDescription="@string/app_name"
+                             android:onClick="@{()-> callback.onClickFromDate()}"
+                             android:src="@drawable/calendar" />
+
+
+                     </LinearLayout>
+
+
 
                     <TextView
+                        android:layout_marginTop="@dimen/six6_sp"
                         android:id="@+id/from_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_12sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:layout_marginTop="@dimen/seven7_sp"
+                       android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_5dp"
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:text="-" />
 
+                     <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_8dp"
+                        android:orientation="vertical">
+
+
+                         <TextView
+                             android:layout_width="wrap_content"
+                             android:layout_height="wrap_content"
+                             android:text="To: "
+                             android:textStyle="bold"
+                             android:textColor="@color/black"
+                             android:textSize="@dimen/text_12sp" />
+
                     <ImageView
+                        android:layout_marginTop="@dimen/three3_sp"
                         android:id="@+id/calender_to"
                         android:layout_width="@dimen/text_22sp"
                         android:layout_height="@dimen/text_22sp"
@@ -98,8 +138,12 @@
                         android:onClick="@{()-> callback.onClickToDate()}"
                         android:src="@drawable/calendar" />
 
+                     </LinearLayout>
+
                     <TextView
+                        android:layout_marginTop="@dimen/seven7_sp"
                         android:id="@+id/to_date"
+                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_5dp"
@@ -111,6 +155,7 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:layout_marginTop="@dimen/value_3dp"
                     android:id="@+id/cameraDelete"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_40dp"
@@ -126,6 +171,7 @@
                         android:src="@drawable/ic_search_circle" />
 
                     <ImageView
+                        android:visibility="gone"
                         android:layout_width="@dimen/value_25dp"
                         android:layout_height="@dimen/value_25dp"
                         android:layout_alignParentEnd="true"
@@ -168,8 +214,71 @@
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/value_7dp"
+                android:weightSum="1"
+                android:id="@+id/tabsforexecutive"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:textAlignment="center"
+                    android:id="@+id/approvedListButton"
+                    android:onClick="@{()-> callback.onClickApproved()}"
+                    android:visibility="visible"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/white"
+                    android:text="APPROVED"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/black"/>
+
+
+                <Button
+                    android:onClick="@{()-> callback.onClickPending()}"
+                    android:layout_weight="0.5"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:id="@+id/pendingListButton"
+                    android:visibility="visible"
+                    android:textColor="@color/colorPrimary"
+                    android:background="@color/white"
+                    android:textAlignment="center"
+                    android:text="PENDING"/>
+
+            </LinearLayout>
+
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/pending_and_approved_list_recyclerview"
+                android:id="@+id/approved_list_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginStart="@dimen/value_5dp"
+                android:layout_marginEnd="@dimen/value_5dp" />
+
+
+            <TextView
+                android:layout_marginTop="@dimen/value_30dp"
+                android:visibility="gone"
+                android:id="@+id/noOrdersFound"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No List Found"
+                android:textColor="@color/red"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="gone"
+                android:id="@+id/pending_list_recyclerview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/value_9dp"

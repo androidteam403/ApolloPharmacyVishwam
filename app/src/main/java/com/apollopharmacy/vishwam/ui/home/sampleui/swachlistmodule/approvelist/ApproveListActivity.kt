@@ -214,7 +214,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
     override fun onePendingStatus() {
         activityApproveListBinding.reshootButton.visibility = View.GONE
-        activityApproveListBinding.buttonForPending.visibility = View.VISIBLE
+        activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
     }
 
     override fun onBackPressed() {
@@ -264,6 +264,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 activityApproveListBinding.categoryListRecycler.adapter =
                     approveListAdapter
                 report()
+                activityApproveListBinding.reshootButton.visibility=View.VISIBLE
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
             }
         }
     }

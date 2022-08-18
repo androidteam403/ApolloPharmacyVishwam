@@ -47,6 +47,12 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun setup() {
         viewModel.swachImagesRegisters()
 
+
+        val sdf = SimpleDateFormat("dd MMM, yyyy")
+        val todaysUpdate = sdf.format(Date())
+
+        viewBinding.todaysDate.text =todaysUpdate
+
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -102,8 +108,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-//                it.friday=false
-//                it.wednesday=true
+                it.friday=false
+                it.thursday=true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -136,9 +142,18 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 //                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
                 if (dayofCharArray == dayOfTheWeek) {
-                    viewBinding.uploadOnLayout.visibility = View.GONE
-                    viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                    if(Preferences.getUploadedDateDayWise().equals(todaysUpdate)){
+                        viewBinding.alreadyUploadedlayout.visibility = View.VISIBLE
+                        viewBinding.uploadDay.text= dayofCharArray
+                        viewBinding.uploadOnLayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.GONE
+                    }else{
+                        viewBinding.uploadOnLayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                    }
+
                 } else {
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadNowLayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.VISIBLE
                     viewBinding.dayoftheweekLayout.text = dayofCharArray
@@ -161,10 +176,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                    viewBinding.uploadedOn.text = "--"
 //                }
 
-                val sdf = SimpleDateFormat("dd MMM, yyyy")
-                val currentDate = sdf.format(Date())
 
-                viewBinding.todaysDate.text =currentDate
 
 
                 getStorePersonAdapter =

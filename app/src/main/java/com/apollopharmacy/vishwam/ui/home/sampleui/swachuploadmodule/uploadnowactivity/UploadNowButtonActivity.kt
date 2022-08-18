@@ -106,6 +106,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             if (it != null && it.status == true) {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
                 super.onBackPressed()
+                Preferences.setUploadedDateDayWise(currentDate)
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
 
