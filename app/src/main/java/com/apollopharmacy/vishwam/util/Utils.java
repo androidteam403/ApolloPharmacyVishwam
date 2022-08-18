@@ -457,7 +457,7 @@ public class Utils {
         String maskedStr = "";
         for (char c : employeeID.toCharArray()) {
             if (Character.isLetter(c)) {
-                maskedStr = maskedStr + "" + Character.toUpperCase(c);
+              //  maskedStr = maskedStr + "" + Character.toUpperCase(c);
             } else {
                 maskedStr = maskedStr + "X";
             }
