@@ -28,12 +28,6 @@
     <string name="label_submit">Submit</string>
 
 
-
-
-
-
-
-
     <string name="err_msg_select_gst">Please Select GST</string>
     <string name="err_msg_select_site">Please Select Site Id</string>
     <string name="err_msg_select_cat">Please Select Category</string>
@@ -50,8 +44,6 @@
     <string name="err_msg_select_hsn">Please Enter HSN Code</string>
 
     <string name="err_msg_select_packsize">Please Enter Pack Size</string>
-
-
 
 
     <!--CMS App-->
@@ -222,4 +214,10 @@
     <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>
     <string name="label_region">Region: </string>
     <string name="label_location">Location: </string>
+    <string name="title_activity_select_site">SelectSiteActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
 </resources>

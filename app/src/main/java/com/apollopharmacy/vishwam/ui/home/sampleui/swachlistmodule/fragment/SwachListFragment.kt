@@ -28,6 +28,8 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adap
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
@@ -83,6 +85,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         viewBinding.fromDate.text = dateNewFormat
 
         if(MainActivity.siteIdScreen==true){
+            val intent = Intent(context, SelectSiteActivityy::class.java)
+            startActivity(intent)
 
         }
 

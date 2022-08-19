@@ -509,7 +509,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                         imageUrl.url =
                             getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
                         imageUrl.categoryid =
-                            getImageUrlsList.get(0).categoryList!!.get(i).categoryname
+                            getImageUrlsList.get(0).categoryList!!.get(i).categoryid
                         imageUrl.imageId = getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
                         imageUrlsList.add(imageUrl)
                     }
