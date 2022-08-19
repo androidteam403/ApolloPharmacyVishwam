@@ -3,7 +3,6 @@ package com.apollopharmacy.vishwam.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.apollopharmacy.vishwam.data.Config.VISWAM_PREFERENCE
-import com.apollopharmacy.vishwam.data.model.cms.StoreData
 
 object Preferences {
 
@@ -13,7 +12,9 @@ object Preferences {
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
 
-    private const val KEY_SITE_DETAILS="KEY_SITE_DETAILS"
+    private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
+    private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
+    private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -23,8 +24,7 @@ object Preferences {
         return sharedPreferences.getString(KEY_SAVING_TOKEN, "")!!
     }
 
-    fun savingStoreData(storedata:String)
-    {
+    fun savingStoreData(storedata: String) {
         sharedPreferences.edit().putString(KEY_SITE_DETAILS, storedata).apply()
     }
 
@@ -72,7 +72,7 @@ object Preferences {
         return sharedPreferences.getString(KEY_PROFILE, "")!!
     }
 
-    fun savePassword(password: String){
+    fun savePassword(password: String) {
         sharedPreferences.edit().putString(KEY_USER_PASSWORD, password).apply()
     }
 
@@ -94,8 +94,8 @@ object Preferences {
     private const val PREF_KEY_FCM_UPDATED = "PREF_KEY_FCM_UPDATED"
     private const val KEY_LOGIN_DATE = "KEY_LOGIN_DATE"
     private const val KEY_COMPANY = "KEY_COMPANY"
-    private const val KEY_USER_PASSWORD ="KEY_PASSWORD"
-    private const val UPLOADED_DATE_DAY_WISE =""
+    private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
+    private const val UPLOADED_DATE_DAY_WISE = ""
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -113,7 +113,6 @@ object Preferences {
     fun getSwachhApi(): String {
         return sharedPreferences.getString(KEY_API, "")!!
     }
-
 
 
     fun saveSiteId(siteId: String) {
@@ -194,5 +193,21 @@ object Preferences {
 
     fun getUploadedDateDayWise(): String {
         return sharedPreferences.getString(UPLOADED_DATE_DAY_WISE, "")!!
+    }
+
+    fun setSiteIdListFetched(isSiteIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED, isSiteIdListFetched).apply()
+    }
+
+    fun isSiteIdListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
+    }
+
+    fun setSiteIdList(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
+    }
+
+    fun getSiteIdListJson(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
 }

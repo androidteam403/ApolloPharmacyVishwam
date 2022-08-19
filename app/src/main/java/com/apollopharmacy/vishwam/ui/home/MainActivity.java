@@ -680,7 +680,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 3 && childPosition == 0) {
                                 if (userDesignation.equalsIgnoreCase("NODATA")) {
                                     displaySelectedScreen("Upload");
-                                } else if (userDesignation.equalsIgnoreCase("manager") || userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive") || userDesignation.equalsIgnoreCase("ceo")) {
+                                } else if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
                                     displaySelectedScreen("List");
                                 }
                             } else if (groupPosition == 3 && childPosition == 1) {

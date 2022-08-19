@@ -67,6 +67,8 @@ class Dialog : DialogFragment() {
             })
         return viewBinding.root
     }
+
+
 }
 
 class CustomRecyclerViews(

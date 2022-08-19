@@ -76,6 +76,7 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Command.MpinValidation -> {
                     if (command.value.Status) {
+                        Preferences.setSiteIdListFetched(false)
                         val homeIntent = Intent(this, ValidatePinActivity::class.java)
                         startActivity(homeIntent)
                         finish()

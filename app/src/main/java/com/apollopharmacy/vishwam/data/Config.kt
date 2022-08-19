@@ -7,11 +7,18 @@ object Config {
     val PROBLEM_SINCE_DAYS = 30
     var URL_MAIN = "http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"
     var DEVICE_ID = "34.87.87.09.909"
-    var KEY = "2034" //Producation : 2034 UAT : 2027
+    var KEY = "2039" //Producation : 2034 UAT : 2027
     var TYPE_REJECT = "REJECT"
     var TYPE_ACCEPT = "ACCEPT"
     var ENCRIPTION_KEY = "discount"
     var REQUEST_CODE_CAMERA = 2234243
+    var REQUEST_BACK_CAMERA = 2234241
+    var REQUEST_SIDE_CAMERA = 2234240
+    var REQUEST_BILL_CAMERA = 2234242
+
+
+
+
     var APP_ENC_KEY = "Madhan"
     var VALIDATE_VENDOR_TOKEN = "JzCBMp8NNovOPRM4z3FP8GKjNz8XG3Tp"
     var VALIDATEVENDOR_ENCRIPTION_KEY = "globevendor"

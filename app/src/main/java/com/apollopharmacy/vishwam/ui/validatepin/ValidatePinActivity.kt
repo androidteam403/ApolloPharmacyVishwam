@@ -1,11 +1,8 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +14,6 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.ui.createpin.CreatePinActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.util.ForgotPinActivity

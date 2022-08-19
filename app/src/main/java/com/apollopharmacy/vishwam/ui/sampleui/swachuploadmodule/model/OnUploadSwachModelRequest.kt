@@ -29,5 +29,9 @@ class OnUploadSwachModelRequest : Serializable {
         @SerializedName("URL")
         @Expose
         var url: String? = null
+
+        @SerializedName("IMAGEID")
+        @Expose
+        var imageId: String? = null
     }
 }
