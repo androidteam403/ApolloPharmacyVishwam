@@ -11,9 +11,7 @@ import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.CommandsNew
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import com.google.gson.Gson
@@ -22,7 +20,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class SampleSwachViewModel : ViewModel(){
+class SampleSwachViewModel : ViewModel() {
     val commands = LiveEvent<CommandsNewSwachFrag>()
     val state = MutableLiveData<State>()
     var swachhapolloModel = MutableLiveData<SwachModelResponse>()
@@ -34,16 +32,14 @@ class SampleSwachViewModel : ViewModel(){
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.swachImagesRegister()
+                SwachApiRepo.swachImagesRegister(Preferences.getSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
-                    if (result.value.status?:null == true) {
+                    if (result.value.status ?: null == true) {
                         state.value = State.ERROR
                         swachhapolloModel.value = result.value
-                    }
-
-                    else {
+                    } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
@@ -73,21 +69,18 @@ class SampleSwachViewModel : ViewModel(){
     }
 
 
-
     fun checkDayWiseAccess() {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiiRepo.checkDayWiseAccess("16001")
+                SwachApiiRepo.checkDayWiseAccess(Preferences.getSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
-                    if (result.value.status?:null == true && result.value.message == "SUCCESS") {
+                    if (result.value.status ?: null == true && result.value.message == "SUCCESS") {
                         state.value = State.ERROR
                         checkDayWiseAccess.value = result.value
-                    }
-
-                    else {
+                    } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
@@ -148,7 +141,7 @@ class SampleSwachViewModel : ViewModel(){
                     getStorePersonHistory.value = response.value
 
 
-                    if(response.value.status?:null == false) {
+                    if (response.value.status ?: null == false) {
                         state.value = State.ERROR
                         CommandsNewSwachImp.ShowToast(response.value.message)
                         getStorePersonHistory.value?.message = response.value.message
@@ -181,8 +174,6 @@ class SampleSwachViewModel : ViewModel(){
 //            }
 //        }
     }
-
-
 
 
     sealed class CommandsNewSwachFrag {

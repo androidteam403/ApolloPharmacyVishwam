@@ -65,7 +65,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         showLoading()
         var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
         getStoreHistoryRequest.storeid = Preferences.getSiteId()
-        getStoreHistoryRequest.empid = Preferences.getToken()
+        getStoreHistoryRequest.empid = Preferences.getValidatedEmpId()
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
         getStoreHistoryRequest.startpageno =0

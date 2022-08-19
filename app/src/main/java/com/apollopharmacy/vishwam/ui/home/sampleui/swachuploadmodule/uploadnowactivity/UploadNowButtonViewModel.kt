@@ -36,7 +36,7 @@ class UploadNowButtonViewModel : ViewModel() {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.swachImagesRegister()
+                SwachApiRepo.swachImagesRegister(Preferences.getSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
