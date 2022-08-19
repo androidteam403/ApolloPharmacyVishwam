@@ -27,6 +27,7 @@
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_20dp"
                     android:layout_marginRight="@dimen/value_15dp"
+                    android:focusable="true"
                     android:textColorHint="@color/black"
 
                     app:layout_constraintTop_toTopOf="parent">
@@ -39,7 +40,7 @@
                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                         android:editable="false"
                         android:enabled="true"
-                        android:focusableInTouchMode="true"
+                        android:focusable="false"
                         android:hint="@string/label_select_site_id"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
@@ -74,6 +75,7 @@
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                             android:editable="false"
+                            android:focusable="false"
                             android:hint="@string/label_select_category"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -88,6 +90,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
+
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
                         android:textColorHint="@color/black">
@@ -99,6 +102,7 @@
                             android:hint="Item Name *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
+
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
@@ -121,6 +125,7 @@
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
                             android:editable="false"
+                            android:focusable="false"
                             android:hint="Manufacture Date *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -146,6 +151,7 @@
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
                             android:editable="false"
+                            android:focusable="false"
                             android:hint="Expire Date *"
                             android:paddingStart="@dimen/value_7dp"
                             android:paddingEnd="@dimen/value_7dp"
@@ -301,6 +307,7 @@
                             android:editable="false"
                             android:hint="Select Gst *"
                             android:paddingStart="@dimen/value_10dp"
+                            android:focusable="false"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
@@ -596,62 +603,97 @@
                     </LinearLayout>
 
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/imageRecyclerView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginBottom="@dimen/value_5dp"
-                        android:orientation="horizontal"
-                        android:visibility="visible"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:orientation="horizontal">
 
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageRecyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_12dp"
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
                         <ImageView
                             android:id="@+id/addImage"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginStart="26dp"
+                            android:layout_marginLeft="@dimen/value_32dp"
                             android:contentDescription="@string/app_name"
-
                             android:paddingStart="2sp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_capture_image"
                             android:visibility="visible" />
 
 
+
                         <ImageView
                             android:id="@+id/addImage1"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginLeft="48dp"
+                            android:layout_marginLeft="@dimen/value_120dp"
                             android:contentDescription="@string/app_name"
                             android:paddingStart="2sp"
                             android:scaleType="fitCenter"
+                            android:src="@drawable/ic_capture_image"
+                            android:visibility="visible" />
 
-                            android:src="@drawable/ic_capture_image" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageRecyclerView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_100dp"
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageRecyclerView4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="270dp"
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
                         <ImageView
                             android:id="@+id/addImage2"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginLeft="@dimen/value_42dp"
+                            android:layout_marginLeft="@dimen/value_200dp"
                             android:contentDescription="@string/app_name"
                             android:paddingStart="2sp"
                             android:scaleType="fitCenter"
 
                             android:src="@drawable/ic_capture_image" />
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageRecyclerView2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="185dp"
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
 
                         <ImageView
                             android:id="@+id/addImage3"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginLeft="@dimen/value_45dp"
+                            android:layout_marginLeft="285dp"
                             android:contentDescription="@string/app_name"
                             android:paddingStart="2sp"
                             android:scaleType="fitCenter"
@@ -659,7 +701,7 @@
                             android:src="@drawable/ic_capture_image" />
 
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
 
                 </LinearLayout>
