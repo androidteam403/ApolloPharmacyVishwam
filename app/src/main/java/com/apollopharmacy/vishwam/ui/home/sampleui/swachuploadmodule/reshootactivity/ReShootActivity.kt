@@ -477,7 +477,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
             Utlis.showLoading(this)
-            viewModel.connectToAzure(resizedImage)
+            viewModel.connectToAzure(imageFromCameraFile)
+
+            // viewModel.connectToAzure(resizedImage)
 
 
         }
@@ -501,6 +503,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                             getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
                         imageUrl.categoryid =
                             getImageUrlsList.get(0).categoryList!!.get(i).categoryname
+                        imageUrl.imageId = getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
                         imageUrlsList.add(imageUrl)
                     }
 

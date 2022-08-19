@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +20,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
                 android:layout_marginTop="@dimen/value_2dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/created_des_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -30,12 +33,13 @@
                 <View
                     android:id="@+id/viewCreated"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/created_des_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/created"
@@ -47,18 +51,30 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_2dp"
-                    android:maxLines="2"
-                    android:textColor="@color/status_created"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/createdDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
+                    
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/created_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -74,23 +90,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/hold_process_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_hold_process"/>
+                    android:src="@drawable/status_create"/>
 
                 <View
                     android:id="@+id/viewHoldProcess"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/hold_process_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/holdProcess"
@@ -102,16 +121,15 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_minus_3dp"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
-                    android:textColor="@color/status_hold_process"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/holdProcessDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
+                    
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -122,9 +140,21 @@
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
                     android:visibility="gone"
-                    android:maxLines="1"
+                    
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/hold_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -140,23 +170,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/process_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_process"/>
+                    android:src="@drawable/status_create"/>
 
                 <View
                     android:id="@+id/viewProcess"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/process_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/process"
@@ -167,10 +200,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_progress"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/processDate"
@@ -178,7 +210,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:textColor="@color/black"
-                    android:maxLines="1"
                     android:textSize="@dimen/text_14sp" />
 
                 <TextView
@@ -187,10 +218,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
+                    
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/process_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -206,23 +249,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/closed_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_closed" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewClosed"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/closed_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/closed"
@@ -233,17 +279,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_closed"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/closedDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -253,10 +297,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+
+                <TextView
+                    android:id="@+id/closed_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -272,23 +328,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/lOne_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_lone" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewLOne"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lOne_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/lOne"
@@ -299,17 +358,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_lone"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/lOneDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -319,10 +376,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/lone_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -338,23 +406,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/lTwo_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_ltwo" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewLTwo"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lTwo_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/lTwo"
@@ -365,17 +436,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_ltwo"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/lTwoDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -385,10 +454,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/lTwo_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -404,23 +484,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/lThree_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_lthree" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewLThree"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/lThree_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/lThree"
@@ -431,17 +514,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_lthree"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/lThreeDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -451,10 +532,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/lThree_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -470,23 +562,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/reOpen_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_reopen_request" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewReopenRequest"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/reOpen_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/reopenRequest"
@@ -497,17 +592,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_reopen_request"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/reopenRequestDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -517,10 +610,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/reopenRequest_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -536,23 +640,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/acknowledged_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_acknowledge" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewAcknowledged"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/acknowledged_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/acknowledged"
@@ -563,17 +670,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_acknowledge"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/acknowledgedDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -583,10 +688,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/acknowledged_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -602,23 +718,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/reOpenPrecess_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_reopen_process" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewReopenedForProcess"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/reOpenPrecess_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/reopenedForProcess"
@@ -629,17 +748,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_reopen_for_process"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/reopenedForProcessDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -649,10 +766,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/reopenedFroProcess_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -668,7 +796,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
                 android:layout_marginTop="@dimen/value_2dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignBottom="@+id/viewreOpen_desc_layout"
+                android:layout_alignParentTop="true">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
@@ -679,12 +809,13 @@
                 <View
                     android:id="@+id/viewReOpen"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/viewreOpen_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/reOpen"
@@ -696,16 +827,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_minus_2dp"
-                    android:maxLines="2"
-                    android:textColor="@color/status_created"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/reOpenDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -715,10 +844,21 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/reOpen_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -734,23 +874,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_20dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_alignParentTop="true"
+                android:layout_alignBottom="@+id/accept_desc_layout">
 
                 <ImageView
                     android:layout_width="@dimen/value_12dp"
                     android:layout_height="@dimen/value_12dp"
                     android:contentDescription="@string/app_name"
-                    android:src="@drawable/status_closed" />
+                    android:src="@drawable/status_create" />
 
                 <View
                     android:id="@+id/viewAccept"
                     android:layout_width="@dimen/value_2dp"
-                    android:layout_height="@dimen/value_45dp"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/value_5dp"
                     android:background="@drawable/dashed_line" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/accept_desc_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toEndOf="@+id/accept"
@@ -761,17 +904,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="2"
                     android:layout_marginTop="@dimen/value_minus_3dp"
-                    android:textColor="@color/status_closed"
-                    android:textSize="@dimen/text_14sp" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
                     android:id="@+id/acceptDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
@@ -781,10 +922,22 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
                     android:layout_marginEnd="@dimen/value_15dp"
-                    android:maxLines="1"
                     android:visibility="gone"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_13sp" />
+                <TextView
+                    android:id="@+id/accept_comment_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/fadedTextColor"
+                    android:textSize="@dimen/text_13sp"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:textStyle="italic"
+                    android:layout_marginStart="@dimen/value_15dp"
+                    android:gravity="center_vertical"
+                    android:drawablePadding="@dimen/value_5dp"
+                    app:drawableStartCompat="@drawable/icon_chat"
+                    android:paddingEnd="@dimen/value_5dp"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

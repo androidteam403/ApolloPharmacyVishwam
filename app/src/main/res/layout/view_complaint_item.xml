@@ -37,48 +37,101 @@
                     android:layout_weight="2.7"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/ticketNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_5dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_13sp" />
-
-                    <androidx.constraintlayout.widget.ConstraintLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/value_3dp"
-                        android:layout_marginBottom="@dimen/value_5dp">
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/regDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="@string/label_complaint_ticket_number"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp" />
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
 
                         <TextView
-                            android:id="@+id/closedDate"
+                            android:id="@+id/ticketNumber"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp" />
                     </LinearLayout>
 
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_3dp"
+                        android:layout_marginBottom="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <LinearLayout
+                                android:id="@+id/registerd_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/label_registered_date"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/regDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:layout_marginStart="@dimen/value_5dp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/closed_date_layout"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Closed Date: "
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/closedDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:layout_marginStart="@dimen/value_5dp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
                         <TextView
+                            android:id="@+id/status_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/label_status"
+                            android:textColor="@color/black"
+                            android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/cmpStatus"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -90,10 +143,10 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintBottom_toBottomOf="@+id/status_label"
+                            app:layout_constraintTop_toTopOf="@+id/status_label" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
-
 
 
                 <RelativeLayout
@@ -108,8 +161,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/rightarrow"
                         android:rotation="-90"
+                        android:src="@drawable/rightarrow"
                         android:visibility="gone" />
 
                     <ImageView
@@ -119,8 +172,8 @@
                         android:layout_alignParentEnd="true"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/rightarrow"
                         android:rotation="90"
+                        android:src="@drawable/rightarrow"
                         android:visibility="visible" />
                 </RelativeLayout>
             </LinearLayout>
@@ -142,18 +195,20 @@
                     android:orientation="vertical">
 
 
-
                     <RelativeLayout
+                        android:id="@+id/siteId_layout"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
 
                         <TextView
                             android:id="@+id/siteid_lable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/fadedTextColor"
                             android:text="@string/label_site_list"
-                            android:textSize="@dimen/text_13sp" />
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
 
 
                         <TextView
@@ -164,10 +219,67 @@
                             android:layout_marginEnd="@dimen/value_5dp"
                             android:layout_toEndOf="@+id/siteid_lable"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_15sp"/>
+                            android:textSize="@dimen/text_13sp" />
 
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:id="@+id/region_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/region_lable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_region"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/region"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/region_lable"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/location_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/location_lable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_location"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/location_lable"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                    </RelativeLayout>
 
 
                     <RelativeLayout
@@ -178,19 +290,20 @@
                             android:id="@+id/departmetnName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/fadedTextColor"
                             android:text="@string/label_department"
-                            android:textSize="@dimen/text_13sp" />
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/departmentName"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/departmetnName"
                             android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/departmetnName"
                             android:maxLines="1"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_14sp" />
+                            android:textSize="@dimen/text_13sp" />
                     </RelativeLayout>
 
                 </LinearLayout>
@@ -204,7 +317,6 @@
                     android:orientation="vertical">
 
 
-
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
@@ -215,17 +327,18 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_problem_since"
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp" />
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/problemSinceText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/orderid"
                             android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/orderid"
                             android:maxLines="1"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_14sp" />
+                            android:textSize="@dimen/text_13sp" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -238,17 +351,18 @@
                             android:layout_height="wrap_content"
                             android:text="@string/label_staff_name"
                             android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp" />
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/staffNameText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@+id/staffName"
                             android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/staffName"
                             android:maxLines="1"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_14sp" />
+                            android:textSize="@dimen/text_13sp" />
                     </RelativeLayout>
                 </LinearLayout>
 
@@ -263,7 +377,8 @@
                         android:layout_height="wrap_content"
                         android:text="@string/label_description"
                         android:textColor="@color/fadedTextColor"
-                        android:textSize="@dimen/text_13sp" />
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/complainDetails"
@@ -273,11 +388,8 @@
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:layout_marginBottom="@dimen/value_5dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_15sp"/>
+                        android:textSize="@dimen/text_13sp" />
                 </RelativeLayout>
-
-
-
 
 
                 <LinearLayout
@@ -312,7 +424,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_15dp"
                         android:text="@string/label_tracking_status"
-                        android:textSize="@dimen/text_15sp" />
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold" />
 
                     <View
                         android:layout_width="match_parent"

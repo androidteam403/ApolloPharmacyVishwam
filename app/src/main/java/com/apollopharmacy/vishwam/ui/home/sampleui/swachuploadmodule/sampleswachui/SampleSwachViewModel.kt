@@ -78,7 +78,7 @@ class SampleSwachViewModel : ViewModel(){
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiiRepo.checkDayWiseAccess()
+                SwachApiiRepo.checkDayWiseAccess("16001")
             }
             when (result) {
                 is ApiResult.Success -> {

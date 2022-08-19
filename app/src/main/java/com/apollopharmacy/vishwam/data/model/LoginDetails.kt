@@ -23,6 +23,7 @@ data class LoginDetails(
         val DCNAME: String,
         val STATEID: String,
         val DC: String,
+        val IsSelectedStore: Boolean,
     )
 }
 

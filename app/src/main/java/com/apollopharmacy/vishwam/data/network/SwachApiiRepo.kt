@@ -1,9 +1,6 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
@@ -16,9 +13,9 @@ import java.util.concurrent.TimeoutException
 
 object SwachApiiRepo {
 
-    suspend fun checkDayWiseAccess(): ApiResult<CheckDayWiseAccessResponse> {
+    suspend fun checkDayWiseAccess(storeId: String): ApiResult<CheckDayWiseAccessResponse> {
         return try {
-            val response = Api.getClient().checkDayWiseAccess(Config.ATTENDANCE_API_HEADER)
+            val response = Api.getClient().checkDayWiseAccess(Config.ATTENDANCE_API_HEADER, storeId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -51,7 +48,7 @@ object SwachApiiRepo {
 
     suspend fun onUploadSwach(
         token: String,
-       onUploadSwachModelRequest: OnUploadSwachModelRequest
+        onUploadSwachModelRequest: OnUploadSwachModelRequest,
     ): ApiResult<OnUploadSwachModelResponse> {
         return try {
             val response = Api.getClient().onUploadSwacch(token, onUploadSwachModelRequest)
@@ -87,7 +84,7 @@ object SwachApiiRepo {
 
     suspend fun onUploadSwachRes(
         token: String,
-        onUploadSwachModelRequest: OnUploadSwachModelRequest
+        onUploadSwachModelRequest: OnUploadSwachModelRequest,
     ): ApiResult<OnUploadSwachModelResponse> {
         return try {
             val response = Api.getClient().onUploadSwacchRes(token, onUploadSwachModelRequest)
@@ -122,13 +119,13 @@ object SwachApiiRepo {
     }
 
 
-
     suspend fun getStorePersonHistory(
         token: String,
-       getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest
+        getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest,
     ): ApiResult<GetStorePersonHistoryodelResponse> {
         return try {
-            val response = Api.getClient().getStorePersonHistory(token, getStorePersonHistoryodelRequest)
+            val response =
+                Api.getClient().getStorePersonHistory(token, getStorePersonHistoryodelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -162,7 +159,7 @@ object SwachApiiRepo {
 
     suspend fun getImageUrl(
         token: String,
-      getImageUrlModelRequest: GetImageUrlModelRequest
+        getImageUrlModelRequest: GetImageUrlModelRequest,
     ): ApiResult<GetImageUrlModelResponse> {
         return try {
             val response = Api.getClient().getImageUrlApi(token, getImageUrlModelRequest)

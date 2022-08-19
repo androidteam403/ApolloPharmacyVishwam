@@ -31,7 +31,7 @@ class ComplainListViewModel : ViewModel() {
     var command = LiveEvent<CmsCommand>()
     val state = MutableLiveData<State>()
     val TAG = "ComplainListViewModel"
-
+    var resLiveData = MutableLiveData<ResponseNewTicketlist>()
     var tickethistory = ArrayList<ResponseNewTicketlist.NewTicketHistoryResponse.Row>()
 
     lateinit var Ticketlistdata: ResponseNewTicketlist
@@ -52,7 +52,7 @@ class ComplainListViewModel : ViewModel() {
                         RegistrationRepo.getDetails(
                             "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
-                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}",
+                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10",
                                 "GET",
                                 "The",
                                 "",
@@ -73,8 +73,9 @@ class ComplainListViewModel : ViewModel() {
                                             ResponseNewTicketlist::class.java
                                         )
                                     if (responseNewTicketlist.success) {
-                                        newcomplainLiveData.value =
-                                            responseNewTicketlist.data.listData.rows
+                                        resLiveData.value = responseNewTicketlist
+//                                        newcomplainLiveData.value =
+//                                            responseNewTicketlist.data.listData.rows
                                     } else {
                                         command.value =
                                             CmsCommand.ShowToast(responseNewTicketlist.message.toString())
