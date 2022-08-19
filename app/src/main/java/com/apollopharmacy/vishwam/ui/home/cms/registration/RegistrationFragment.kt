@@ -84,7 +84,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         ArrayList<ReasonmasterV2Response.TicketSubCategory>()
 
     private var reasonsListSelected = ArrayList<ReasonmasterV2Response.Row>()
-
+    var repo : LoginDetails? = null
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -468,7 +468,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             hideLoading()
 //            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
-
+            repo?.let { it1 -> LoginRepo.saveProfile(it1,LoginRepo.getPassword()) }
             SubmitcomplaintDialog().apply {
                 arguments =
                     SubmitcomplaintDialog().generateParsedData(it)
@@ -1314,7 +1314,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             departmentDto.site,
             departmentDto.dc_code?.code
         )
-        LoginRepo.saveStoreData(storedata)
+//        LoginRepo.saveStoreData(storedata)
 
 
     }
@@ -1353,11 +1353,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                selectedStoreItem.site.toString(),
                selectedStoreItem.dc_code?.code.toString(),
                 true)
-           val repo = LoginRepo.getProfile()
+            repo = LoginRepo.getProfile()
             repo?.STOREDETAILS?.clear()
             repo?.STOREDETAILS?.add(store)
             if (repo != null) {
-                LoginRepo.saveProfile(repo,LoginRepo.getPassword())
+//                LoginRepo.saveProfile(repo,LoginRepo.getPassword())
                 Log.e("Saved prif data", Gson().toJson(repo))
                 viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
                 viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)

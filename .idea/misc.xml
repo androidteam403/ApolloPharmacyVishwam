@@ -15,6 +15,7 @@
         <entry key="app/src/main/res/layout/activity_verify_user.xml" value="0.11730072463768115" />
         <entry key="app/src/main/res/layout/custom_forgot_pin.xml" value="0.12919310970081596" />
         <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/dialog_confirm_site.xml" value="0.1453804347826087" />
         <entry key="app/src/main/res/layout/fragment_complaints.xml" value="0.1586582048957389" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.1" />
         <entry key="app/src/main/res/layout/progressbar.xml" value="0.1453804347826087" />

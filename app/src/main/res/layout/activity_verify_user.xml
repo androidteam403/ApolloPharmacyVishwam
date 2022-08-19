@@ -96,7 +96,7 @@
                         android:hint="Please Enter Your Employee ID"
                         android:imeOptions="actionDone"
                         android:inputType="textPersonName"
-                        android:digits="aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyY zZ0123456789"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"
