@@ -139,6 +139,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         imageView.setOnClickListener(v -> {
 
             siteIdScreen = true;
+            headerText.setText("SWACHH LIST");
+           Fragment fragment = new SwachListFragment();
 
                 });
 
