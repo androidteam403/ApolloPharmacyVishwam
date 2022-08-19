@@ -2,23 +2,24 @@ package com.apollopharmacy.vishwam.ui.home.drugmodule
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.view.marginLeft
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -27,7 +28,7 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.Image
-import com.apollopharmacy.vishwam.data.model.ImageDataDto
+import com.apollopharmacy.vishwam.data.model.ImageFile
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
@@ -37,9 +38,8 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.bumptech.glide.Glide
-import okhttp3.internal.notify
+import com.squareup.picasso.Picasso
 import java.io.File
-import java.io.FileFilter
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -51,13 +51,28 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     Dialog.DialogClickListner, GstDialog.GstDialogClickListner {
 
     lateinit var adapter: DrugImageRecyclerView
+    lateinit var adapter1: DrugImageRecyclerView1
+    lateinit var adapter2: DrugImageRecyclerView2
+    lateinit var adapter3: DrugImageRecyclerView3
+
 
     var imageList = ArrayList<Image>();
 
+    var frontImageList = ArrayList<Image>();
+    var backImageList = ArrayList<Image>();
+    var sideImageList = ArrayList<Image>();
+    var billImageList = ArrayList<Image>();
+
+
+    var newImageList = ArrayList<ImageFile>()
 
     var imagesList = ArrayList<DrugRequest.Image>()
 
     var imageFromCameraFile: File? = null
+    var imageFromBackCameraFile: File? = null
+    var imageFromSideCameraFile: File? = null
+    var imageFromBillCameraFile: File? = null
+
     var imageFromGallery: File? = null
 
     var isFromDateSelected: Boolean = false
@@ -83,6 +98,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
 
+
         viewModel.siteId()
         viewBinding.selectCategory.setOnClickListener {
             Dialog().apply {
@@ -106,6 +122,157 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 }.show(childFragmentManager, "")
             }
         }
+
+
+
+
+
+
+        viewBinding.itemName.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.branchNameTextInput.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+
+
+        viewBinding.batchNo.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.BatchTextInput.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+        viewBinding.mrpp.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.MrpTextInput.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+        viewBinding.purchasePrice.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.purchasePriceTextInput.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+        viewBinding.barCode.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.barCodeL.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+
+        viewBinding.hsnCode.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.hsnText.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+
+
+        viewBinding.packsize.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length == 1) {
+                        viewBinding.pasckizel.error = null
+
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+
+        })
+
+
+
+
+
+
+
+
+
 
 
 
@@ -226,8 +393,20 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 
 
-        adapter = DrugImageRecyclerView(imageList, this)
+        adapter3 = DrugImageRecyclerView3(billImageList, this)
+        viewBinding.imageRecyclerView4.adapter = adapter3
+
+        adapter = DrugImageRecyclerView(frontImageList, this)
         viewBinding.imageRecyclerView.adapter = adapter
+
+        adapter1 = DrugImageRecyclerView1(backImageList, this)
+        viewBinding.imageRecyclerView1.adapter = adapter1
+
+
+        adapter2 = DrugImageRecyclerView2(sideImageList, this)
+        viewBinding.imageRecyclerView2.adapter = adapter2
+
+
 
 
 
@@ -258,6 +437,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 return@setOnClickListener
             } else
                 cameraIntent()
+
         }
 
         viewBinding.addImage1.setOnClickListener {
@@ -265,7 +445,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 askPermissions(Config.REQUEST_CODE_CAMERA)
                 return@setOnClickListener
             } else
-                cameraIntent()
+                backCameraIntent()
 
         }
 
@@ -274,15 +454,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 askPermissions(Config.REQUEST_CODE_CAMERA)
                 return@setOnClickListener
             } else
-                cameraIntent()
-
+                sideCameraIntent()
         }
         viewBinding.addImage3.setOnClickListener {
             if (!checkPermission()) {
                 askPermissions(Config.REQUEST_CODE_CAMERA)
                 return@setOnClickListener
             } else
-                cameraIntent()
+                billCameraIntent()
 
         }
 
@@ -291,7 +470,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
     private fun cameraIntent() {
-        if (imageList.size <= 3) {
+        if (frontImageList.size < 1) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageFromCameraFile =
                 File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
@@ -320,6 +499,105 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
     }
+
+
+    private fun backCameraIntent() {
+        if (imageList.size <= 3) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            imageFromBackCameraFile =
+                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBackCameraFile))
+            } else {
+                val photoUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().packageName + ".provider",
+                    imageFromBackCameraFile!!
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            }
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+            startActivityForResult(intent, Config.REQUEST_BACK_CAMERA)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "You Already Uploaded All Images",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+
+//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(cameraIntent, cameraRequest)
+    }
+
+
+    private fun sideCameraIntent() {
+        if (imageList.size <= 3) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            imageFromSideCameraFile =
+                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromSideCameraFile))
+            } else {
+                val photoUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().packageName + ".provider",
+                    imageFromSideCameraFile!!
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            }
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(intent, Config.REQUEST_SIDE_CAMERA)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "You Already Uploaded All Images",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+
+//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(cameraIntent, cameraRequest)
+    }
+
+
+    private fun billCameraIntent() {
+        if (imageList.size <= 3) {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            imageFromBillCameraFile =
+                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBillCameraFile))
+            } else {
+                val photoUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    requireContext().packageName + ".provider",
+                    imageFromBillCameraFile!!
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            }
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
+        } else {
+            Toast.makeText(
+                requireContext(),
+                "You Already Uploaded All Images",
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+
+//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(cameraIntent, cameraRequest)
+    }
+
 
     private fun checkPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
@@ -366,21 +644,71 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+        super.startActivityForResult(intent, requestCode)
+
+
+    }
+
+    override fun startActivityForResult(intent: Intent?, requestCode: Int, options: Bundle?) {
+        super.startActivityForResult(intent, requestCode, options)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-            imageList.add(Image(imageFromCameraFile!!, "", ""))
-            adapter.notifyAdapter(imageList)
 
-            if (imageList.size == 4) {
-                viewBinding.addImage.visibility = View.GONE
-                viewBinding.addImage1.visibility = View.GONE
-                viewBinding.addImage2.visibility = View.GONE
-                viewBinding.addImage3.visibility = View.GONE
+        if (requestCode==Config.REQUEST_CODE_CAMERA) {
+            if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+                frontImageList.add(Image(imageFromCameraFile!!, "", "Front"))
+                imageList.add(Image(imageFromCameraFile!!,"",""))
+
+                    viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                    viewBinding.addImage.visibility = View.GONE
+
+                adapter.notifyAdapter(frontImageList)
 
             }
-
         }
+        else if (requestCode == Config.REQUEST_BACK_CAMERA) {
+            if (requestCode == Config.REQUEST_BACK_CAMERA && imageFromBackCameraFile != null && resultCode == Activity.RESULT_OK) {
+                backImageList.add(Image(imageFromBackCameraFile!!, "", "Back"))
+                imageList.add(Image(imageFromBackCameraFile!!,"",""))
+
+                viewBinding.imageRecyclerView1.visibility = View.VISIBLE
+                viewBinding.addImage1.visibility = View.GONE
+
+                adapter1.notifyAdapter(backImageList)
+            }
+        } else if (requestCode == Config.REQUEST_SIDE_CAMERA ) {
+
+            if (requestCode == Config.REQUEST_SIDE_CAMERA && imageFromSideCameraFile != null && resultCode == Activity.RESULT_OK) {
+
+                sideImageList.add(Image(imageFromSideCameraFile!!, "", "Side"))
+                imageList.add(Image(imageFromSideCameraFile!!,"",""))
+
+                viewBinding.imageRecyclerView2.visibility = View.VISIBLE
+                viewBinding.addImage2.visibility = View.GONE
+
+
+
+                adapter2.notifyAdapter(sideImageList)
+            }
+
+        } else if (requestCode == Config.REQUEST_BILL_CAMERA){
+            if (requestCode == Config.REQUEST_BILL_CAMERA && imageFromBillCameraFile != null && resultCode == Activity.RESULT_OK) {
+
+                billImageList.add(Image(imageFromBillCameraFile!!, "", "Bill"))
+                imageList.add(Image(imageFromBillCameraFile!!,"",""))
+
+                viewBinding.imageRecyclerView4.visibility = View.VISIBLE
+                viewBinding.addImage3.visibility = View.GONE
+
+                adapter3.notifyAdapter(billImageList)
+
+            }
+        }
+
+
     }
 
 
@@ -389,6 +717,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun validationCheck(): Boolean {
         val gst = viewBinding.selectDepartment.text.toString().trim()
         val categoryName = viewBinding.selectCategory.text.toString().trim()
@@ -404,14 +733,13 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val barCode = viewBinding.barCode.text.toString().trim()
 
         if (site.isEmpty()) {
-            viewBinding.siteIdSelect.requestFocus()
-            viewBinding.siteIdSelect.error = "Please Select Site id"
-            showErrorMsg(context?.resources?.getString(R.string.err_msg_select_site))
+
+            showErrorMsg(
+                "Please Select Site id"
+            )
             return false
 
         } else if (categoryName.isEmpty()) {
-            viewBinding.selectCategory.requestFocus()
-            viewBinding.selectCategory.error = "Please Select Category "
 
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_cat)
@@ -419,22 +747,19 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             return false
         } else if (itemName.isEmpty()) {
             viewBinding.itemName.requestFocus()
-            viewBinding.itemName.error = "Please Enter Item Name"
+            viewBinding.branchNameTextInput.error = "Please Enter Item Name"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_nam)
-            )
+
             return false
         } else if (manufDate.isEmpty()) {
-            viewBinding.fromDateText.requestFocus()
-            viewBinding.fromDateText.error = "Please Select Date"
+
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_mnfDate)
             )
             return false
         } else if (expDate.isEmpty()) {
-            viewBinding.toDateText.requestFocus()
-            viewBinding.toDateText.error = "Please Select Date"
+
+
             showErrorMsg(
                 context?.resources?.getString(R.string.err_msg_select_expiry_date)
             )
@@ -442,52 +767,37 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 //
         else if (batchNo.isEmpty()) {
-            viewBinding.batchNo.requestFocus()
+            viewBinding.BatchTextInput.requestFocus()
 
-            viewBinding.batchNo.error = "Please Enter Batch No"
+            viewBinding.BatchTextInput.error = "Please Enter Batch No"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_batc)
-            )
+
             return false
         } else if (mrp.isEmpty()) {
-            viewBinding.mrpp.requestFocus()
-            viewBinding.mrpp.error = "Please Enter Mrp Price"
+            viewBinding.MrpTextInput.requestFocus()
+            viewBinding.MrpTextInput.error = "Please Enter Mrp Price"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_mrp)
-            )
+
             return false
         } else if (purchasePrice.isEmpty()) {
-            viewBinding.purchasePrice.requestFocus()
+            viewBinding.purchasePriceTextInput.requestFocus()
 
-            viewBinding.purchasePrice.error = "Please Enter Purchase Price"
+            viewBinding.purchasePriceTextInput.error = "Please Enter Purchase Price"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_purprice)
-            )
             return false
         } else if (barCode.isEmpty()) {
-            viewBinding.barCode.requestFocus()
+            viewBinding.barCodeL.requestFocus()
 
-            viewBinding.barCode.error = "Please Enter Barcode No"
+            viewBinding.barCodeL.error = "Please Enter Barcode No"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_bar)
-            )
+
             return false
         } else if (hsnCode.isEmpty()) {
-            viewBinding.hsnCode.requestFocus()
+            viewBinding.hsnText.requestFocus()
 
-            viewBinding.hsnCode.error = "Please Enter HSN Code"
-
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_hsn)
-            )
+            viewBinding.hsnText.error = "Please Enter HSN Code"
             return false
         } else if (gst.isEmpty()) {
-            viewBinding.selectDepartment.requestFocus()
-            viewBinding.selectDepartment.error = "Please Select Gst"
 
 
             showErrorMsg(
@@ -495,17 +805,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             return false
         } else if (packsize.isEmpty()) {
-            viewBinding.packsize.requestFocus()
+            viewBinding.pasckizel.requestFocus()
 
-            viewBinding.packsize.error = "Please Enter Pack Size"
+            viewBinding.pasckizel.error = "Please Enter Pack Size"
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_packsize)
-            )
             return false
 
         } else {
-            if (imageList.size <= 3) {
+            if (frontImageList.isEmpty()||backImageList.isEmpty()|| billImageList.isEmpty()||sideImageList.isEmpty()) {
 
                 showErrorMsg(
                     "Please Upload All Images"
@@ -519,13 +826,13 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     override fun selectDepartment(departmentDto: String) {
         viewBinding.selectCategory.setText(departmentDto)
-        viewBinding.selectCategory.error = null
+        viewBinding.selectCategoryText.error = null
     }
 
     override fun selectSite(departmentDto: StoreListItem) {
 
         viewBinding.siteIdSelect.setText(departmentDto.site + "," + departmentDto.store_name)
-        viewBinding.siteIdSelect.error = null
+        viewBinding.siteId.error = null
     }
 
     fun imageType(pathname: File): String? {
@@ -596,17 +903,22 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         imageList.clear()
         imagesList.clear()
-        adapter.notifyAdapter(imageList)
+        frontImageList.clear()
+        backImageList.clear()
+        sideImageList.clear()
+        billImageList.clear()
+        adapter.notifyAdapter(frontImageList)
+
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             viewBinding.fromDateText.setText(showingDate)
-            viewBinding.fromDateText.error = null
+            viewBinding.fromDate.error = null
 
         } else {
             viewBinding.toDateText.setText(showingDate)
-            viewBinding.toDateText.error = null
+            viewBinding.toDate.error = null
         }
     }
 
@@ -615,7 +927,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     override fun selectGST(gst: String) {
         viewBinding.selectDepartment.setText(gst)
-        viewBinding.selectDepartment.error = null
+        viewBinding.gst.error = null
     }
 
     override fun confirmsavetheticket() {
@@ -625,9 +937,13 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun deleteImage(position: Int) {
 
 
-
         val dialogBinding: DialogDeleteBinding? =
-            DataBindingUtil.inflate(LayoutInflater.from(requireContext()), R.layout.dialog_delete, null, false)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
         val customDialog = AlertDialog.Builder(requireContext(), 0).create()
         customDialog.apply {
 
@@ -635,14 +951,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             setCancelable(false)
         }.show()
         dialogBinding?.yesBtn?.setOnClickListener {
-            if (imageList.size < 5) {
-                viewBinding.addImage.visibility = View.VISIBLE
-                viewBinding.addImage1.visibility = View.VISIBLE
-                viewBinding.addImage2.visibility = View.VISIBLE
-                viewBinding.addImage3.visibility = View.VISIBLE
-            }
+
+
             adapter.deleteImage(position)
-            adapter.notifyAdapter(imageList)
+            frontImageList.clear()
+            viewBinding.addImage.visibility = View.VISIBLE
+            viewBinding.imageRecyclerView.visibility = View.GONE
+
+            adapter.notifyAdapter(frontImageList)
             customDialog.dismiss()
         }
         dialogBinding?.cancelButton?.setOnClickListener {
@@ -651,6 +967,98 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     }
 
+    override fun backdeleteImage(position: Int) {
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
+        val customDialog = AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+
+
+            adapter1.deleteImage(position)
+
+            backImageList.clear()
+            viewBinding.addImage1.visibility = View.VISIBLE
+            viewBinding.imageRecyclerView1.visibility = View.GONE
+
+
+            adapter1.notifyAdapter(backImageList)
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }
+    }
+
+    override fun sidedeleteImage(position: Int) {
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
+        val customDialog = AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+
+
+            adapter2.deleteImage(position)
+
+            sideImageList.clear()
+            viewBinding.addImage2.visibility = View.VISIBLE
+            viewBinding.imageRecyclerView2.visibility = View.GONE
+
+            adapter2.notifyAdapter(sideImageList)
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }
+    }
+
+    override fun billdeleteImage(position: Int) {
+        val dialogBinding: DialogDeleteBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.dialog_delete,
+                null,
+                false
+            )
+        val customDialog = AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        dialogBinding?.yesBtn?.setOnClickListener {
+
+
+            adapter3.deleteImage(position)
+            billImageList.clear()
+            viewBinding.addImage3.visibility = View.VISIBLE
+            viewBinding.imageRecyclerView4.visibility = View.GONE
+
+            adapter3.notifyAdapter(billImageList)
+            customDialog.dismiss()
+        }
+        dialogBinding?.cancelButton?.setOnClickListener {
+            customDialog.dismiss()
+        }
+    }
 
 
     override fun onItemClick(position: Int, imagePath: String) {
@@ -701,9 +1109,139 @@ class DrugImageRecyclerView(
 }
 
 
+class DrugImageRecyclerView1(
+    var orderData: ArrayList<Image>,
+    val imageClicklistner: ImagesListner
+) :
+    SimpleRecyclerView<ViewimageBinding, Image>(
+        orderData,
+        R.layout.viewimage
+    ) {
+    override fun bindItems(
+        binding: ViewimageBinding,
+        items: Image,
+        position: Int,
+    ) {
+
+        binding.image.setImageURI(Uri.parse(items.file.toString()))
+        Glide.with(ViswamApp.context).load(items.file.toString())
+            .placeholder(R.drawable.thumbnail_image)
+            .into(binding.image)
+        binding.image.setOnClickListener {
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+        }
+
+        binding.deleteImage.setOnClickListener {
+            imageClicklistner.backdeleteImage(position)
+        }
+    }
+
+    fun notifyAdapter(userList: ArrayList<Image>) {
+        this.orderData = userList
+        notifyDataSetChanged()
+    }
+
+    fun deleteImage(position: Int) {
+        orderData.removeAt(position)
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, orderData.size)
+
+
+    }
+}
+
+
+class DrugImageRecyclerView2(
+    var orderData: ArrayList<Image>,
+    val imageClicklistner: ImagesListner
+) :
+    SimpleRecyclerView<ViewimageBinding, Image>(
+        orderData,
+        R.layout.viewimage
+    ) {
+    override fun bindItems(
+        binding: ViewimageBinding,
+        items: Image,
+        position: Int,
+    ) {
+
+        binding.image.setImageURI(Uri.parse(items.file.toString()))
+        Glide.with(ViswamApp.context).load(items.file.toString())
+            .placeholder(R.drawable.thumbnail_image)
+            .into(binding.image)
+        binding.image.setOnClickListener {
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+        }
+
+        binding.deleteImage.setOnClickListener {
+            imageClicklistner.sidedeleteImage(position)
+        }
+    }
+
+    fun notifyAdapter(userList: ArrayList<Image>) {
+        this.orderData = userList
+        notifyDataSetChanged()
+    }
+
+    fun deleteImage(position: Int) {
+        orderData.removeAt(position)
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, orderData.size)
+
+
+    }
+}
+
+
+class DrugImageRecyclerView3(
+    var orderData: ArrayList<Image>,
+    val imageClicklistner: ImagesListner
+) :
+    SimpleRecyclerView<ViewimageBinding, Image>(
+        orderData,
+        R.layout.viewimage
+    ) {
+    override fun bindItems(
+        binding: ViewimageBinding,
+        items: Image,
+        position: Int,
+    ) {
+
+        binding.image.setImageURI(Uri.parse(items.file.toString()))
+        Glide.with(ViswamApp.context).load(items.file.toString())
+            .placeholder(R.drawable.thumbnail_image)
+            .into(binding.image)
+        binding.image.setOnClickListener {
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+        }
+
+        binding.deleteImage.setOnClickListener {
+            imageClicklistner.billdeleteImage(position)
+        }
+    }
+
+    fun notifyAdapter(userList: ArrayList<Image>) {
+        this.orderData = userList
+        notifyDataSetChanged()
+    }
+
+    fun deleteImage(position: Int) {
+        orderData.removeAt(position)
+        notifyItemRemoved(position);
+        notifyItemRangeChanged(position, orderData.size)
+
+
+    }
+}
+
+
 interface ImagesListner {
 
     fun deleteImage(position: Int)
+    fun backdeleteImage(position: Int)
+    fun sidedeleteImage(position: Int)
+    fun billdeleteImage(position: Int)
+
 
     fun onItemClick(position: Int, imagePath: String)
 
