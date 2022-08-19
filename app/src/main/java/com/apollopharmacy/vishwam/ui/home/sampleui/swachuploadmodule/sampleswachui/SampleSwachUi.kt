@@ -64,8 +64,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         var toDate = currentDate
         showLoading()
         var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
-        getStoreHistoryRequest.storeid = "16001"
-        getStoreHistoryRequest.empid = "APL0001"
+        getStoreHistoryRequest.storeid = Preferences.getSiteId()
+        getStoreHistoryRequest.empid = Preferences.getValidatedEmpId()
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
         getStoreHistoryRequest.startpageno =0
@@ -110,8 +110,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-                it.friday = false
-                it.thursday = true
+//                it.friday = false
+//                it.thursday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())

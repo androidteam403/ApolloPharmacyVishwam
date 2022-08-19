@@ -16,9 +16,9 @@ import java.util.concurrent.TimeoutException
 
 object SwachApiRepo {
 
-    suspend fun swachImagesRegister(): ApiResult<SwachModelResponse> {
+    suspend fun swachImagesRegister(storeId: String): ApiResult<SwachModelResponse> {
         return try {
-            val response = Api.getClient().swachhImagesUpload(Config.ATTENDANCE_API_HEADER)
+            val response = Api.getClient().swachhImagesUpload(Config.ATTENDANCE_API_HEADER, storeId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -50,10 +50,9 @@ object SwachApiRepo {
     }
 
 
-
     suspend fun onSubmitSwacch(
         token: String,
-        onSubmitModelRequest: ArrayList<OnSubmitSwachModelRequest>
+        onSubmitModelRequest: ArrayList<OnSubmitSwachModelRequest>,
     ): ApiResult<OnSubmitSwachModelResponse> {
         return try {
             val response = Api.getClient().onSubmitSwacch(token, onSubmitModelRequest)

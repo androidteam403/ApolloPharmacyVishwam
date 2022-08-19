@@ -37,7 +37,7 @@ class SwachListViewModel : ViewModel() {
         state.postValue(State.LOADING)
         val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
 //        getpendingAndApprovedListRequest.empid = empiD
-        getpendingAndApprovedListRequest.empid = "APL49396"
+        getpendingAndApprovedListRequest.empid = Preferences.getValidatedEmpId()
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
         getpendingAndApprovedListRequest.storeId = ""

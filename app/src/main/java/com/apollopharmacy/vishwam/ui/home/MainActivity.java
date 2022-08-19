@@ -625,12 +625,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                }
                 if (userDesignation.equalsIgnoreCase("NODATA")) {
                     listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
-                            .addChildModel(new ChildModel("Upload"))
-                            .addChildModel(new ChildModel("List")));
+                            .addChildModel(new ChildModel("Upload")));
+//                            .addChildModel(new ChildModel("List")));
 
                 } else {
                     listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
-                            .addChildModel(new ChildModel("Upload"))
+//                            .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
@@ -678,14 +678,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swacch List");
                             } else if (groupPosition == 3 && childPosition == 0) {
-//                                if (userDesignation.equalsIgnoreCase("NODATA")) {
+                                if (userDesignation.equalsIgnoreCase("NODATA")) {
                                     displaySelectedScreen("Upload");
-//                                } else if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
-//                                    displaySelectedScreen("List");
-//                                }
-                            } else if (groupPosition == 3 && childPosition == 1) {
-                                displaySelectedScreen("List");
+                                } else if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+                                    displaySelectedScreen("List");
+                                }
                             }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                displaySelectedScreen("List");
+//                            }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
                         });

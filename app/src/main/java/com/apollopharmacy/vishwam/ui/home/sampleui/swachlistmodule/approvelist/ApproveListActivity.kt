@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
@@ -179,11 +180,11 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     override fun onClickSubmit() {
         val saveAcceptAndReshootRequest = SaveAcceptAndReshootRequest()
         saveAcceptAndReshootRequest.swachhid = pendingAndApproved!!.swachhid
-        saveAcceptAndReshootRequest.storeid = "16001"// Preferences.getSiteId()
+        saveAcceptAndReshootRequest.storeid = Preferences.getSiteId()
         saveAcceptAndReshootRequest.statusid = overallStatus
         saveAcceptAndReshootRequest.reamrks = activityApproveListBinding.comment.text.toString()
         saveAcceptAndReshootRequest.rating = ""
-        saveAcceptAndReshootRequest.userid = "APL49396"
+        saveAcceptAndReshootRequest.userid = Preferences.getSiteId()
         val imageUrlsList = ArrayList<SaveAcceptAndReshootRequest.Imageurl>()
         for (i in getImageUrlsResponses.categoryList!!) {
             for (j in i.imageUrls!!) {

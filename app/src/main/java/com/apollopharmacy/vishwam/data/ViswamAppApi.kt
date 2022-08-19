@@ -276,9 +276,9 @@ interface ViswamAppApi {
     ): ResponseBody
 
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseCategoryDetails?Storeid=16001")
+    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseCategoryDetails")//?Storeid=16001
     suspend fun swachhImagesUpload(
-        @Header("token") token: String,
+        @Header("token") token: String, @Query("StoreId") storeId: String,
     ): SwachModelResponse
 
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
@@ -288,7 +288,7 @@ interface ViswamAppApi {
     ): OnSubmitSwachModelResponse
 
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails?StoreId=16001")
+    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
     suspend fun checkDayWiseAccess(
         @Header("token") token: String, @Query("StoreId") storeId: String,
     ): CheckDayWiseAccessResponse
