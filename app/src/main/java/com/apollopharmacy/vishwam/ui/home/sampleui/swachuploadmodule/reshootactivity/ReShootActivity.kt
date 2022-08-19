@@ -477,7 +477,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
             Utlis.showLoading(this)
-            viewModel.connectToAzure(resizedImage)
+            viewModel.connectToAzure(imageFromCameraFile)
+
+            // viewModel.connectToAzure(resizedImage)
 
 
         }

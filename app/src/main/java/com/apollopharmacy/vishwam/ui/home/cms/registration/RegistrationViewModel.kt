@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -64,60 +65,73 @@ class RegistrationViewModel : ViewModel() {
     var responsenewcomplaintregistration = MutableLiveData<ResponseNewComplaintRegistration>()
 
     fun siteId() {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
-                val baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
-                viewModelScope.launch {
-                    state.value = State.SUCCESS
-                    val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "The",
-                                "",
-                                ""
-                            )
-                        )
-//                        RegistrationRepo.selectSiteId(token, baseUrl)
-                    }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            state.value = State.ERROR
-                            val resp: String = response.value.string()
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val reasonmasterV2Response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    SiteDto::class.java
-                                )
+        if (Preferences.isSiteIdListFetched()) {
+            siteLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getSiteIdListJson()
+            val type = object : TypeToken<List<StoreListItem?>?>() {}.type
 
-                            if (reasonmasterV2Response.status) {
-                                siteLiveData.clear()
-                                reasonmasterV2Response.siteData?.listData?.rows?.map { siteLiveData.add(it) }
-                                // getDepartment()
-                                command.value = CmsCommand.ShowSiteInfo("")
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    reasonmasterV2Response.message.toString()
+            this.siteLiveData =
+                gson.fromJson<List<StoreListItem>>(siteIdList, type) as ArrayList<StoreListItem>
+            command.value = CmsCommand.ShowSiteInfo("")
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    val token = data.APIS[i].TOKEN
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(
+                                "h72genrSSNFivOi/cfiX3A==",
+                                GetDetailsRequest(
+                                    baseUrl,
+                                    "GET",
+                                    "The",
+                                    "",
+                                    ""
                                 )
+                            )
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        SiteDto::class.java
+                                    )
+
+                                if (reasonmasterV2Response.status) {
+                                    siteLiveData.clear()
+                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                        siteLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    command.value = CmsCommand.ShowSiteInfo("")
+                                } else {
+                                    command.value = CmsCommand.ShowToast(
+                                        reasonmasterV2Response.message.toString()
+                                    )
+                                }
                             }
-                        }
-                        is ApiResult.GenericError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.NetworkError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownHostException -> {
-                            state.value = State.ERROR
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
                         }
                     }
                 }
@@ -732,7 +746,9 @@ class RegistrationViewModel : ViewModel() {
                                             responseNewComplaintRegistration
                                     } else {
                                         command.value =
-                                            CmsCommand.ShowToast(responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString())
+                                            CmsCommand.ShowToast(
+                                                responseNewComplaintRegistration.data?.errors?.get(
+                                                    0)?.msg.toString())
                                     }
 
 
@@ -800,7 +816,8 @@ class RegistrationViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            command.value = CmsCommand.RefreshPageOnSuccess(response.value.message)
+                            command.value =
+                                CmsCommand.RefreshPageOnSuccess(response.value.message)
                         }
                         is ApiResult.GenericError -> {
                             command.value = CmsCommand.ShowToast(
@@ -958,7 +975,9 @@ class RegistrationViewModel : ViewModel() {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
             val response =
-                ConnectionAzure.connectToAzur(image, CONTAINER_NAME, STORAGE_CONNECTION_FOR_CCR_APP)
+                ConnectionAzure.connectToAzur(image,
+                    CONTAINER_NAME,
+                    STORAGE_CONNECTION_FOR_CCR_APP)
             command.postValue(CmsCommand.ImageIsUploadedInAzur(response, tag))
         }
     }
