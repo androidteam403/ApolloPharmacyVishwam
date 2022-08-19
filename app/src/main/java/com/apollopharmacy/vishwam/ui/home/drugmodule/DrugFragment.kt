@@ -470,7 +470,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
     private fun cameraIntent() {
-        if (frontImageList.size < 1) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageFromCameraFile =
                 File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
@@ -486,23 +485,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "You Already Uploaded All Images",
-                Toast.LENGTH_SHORT
-            )
-                .show()
         }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-    }
+
 
 
     private fun backCameraIntent() {
-        if (imageList.size <= 3) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageFromBackCameraFile =
                 File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
@@ -520,23 +511,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
             startActivityForResult(intent, Config.REQUEST_BACK_CAMERA)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "You Already Uploaded All Images",
-                Toast.LENGTH_SHORT
-            )
-                .show()
         }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-    }
+
 
 
     private fun sideCameraIntent() {
-        if (imageList.size <= 3) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageFromSideCameraFile =
                 File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
@@ -552,23 +535,15 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivityForResult(intent, Config.REQUEST_SIDE_CAMERA)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "You Already Uploaded All Images",
-                Toast.LENGTH_SHORT
-            )
-                .show()
         }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-    }
+
 
 
     private fun billCameraIntent() {
-        if (imageList.size <= 3) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             imageFromBillCameraFile =
                 File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
@@ -584,19 +559,11 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "You Already Uploaded All Images",
-                Toast.LENGTH_SHORT
-            )
-                .show()
         }
-
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-    }
+
 
 
     private fun checkPermission(): Boolean {
@@ -644,15 +611,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
-    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
-        super.startActivityForResult(intent, requestCode)
 
-
-    }
-
-    override fun startActivityForResult(intent: Intent?, requestCode: Int, options: Bundle?) {
-        super.startActivityForResult(intent, requestCode, options)
-    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -908,6 +867,9 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         sideImageList.clear()
         billImageList.clear()
         adapter.notifyAdapter(frontImageList)
+        adapter1.notifyAdapter(backImageList)
+        adapter2.notifyAdapter(sideImageList)
+        adapter3.notifyAdapter(billImageList)
 
     }
 
