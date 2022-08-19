@@ -98,7 +98,6 @@ class ValidatePinActivity : AppCompatActivity() {
     }
 
     private fun handleNextIntent() {
-        Preferences.setSiteIdListFetched(false)
         Preferences.setIsPinCreated(true)
         val homeIntent = Intent(this, MainActivity::class.java)
         startActivity(homeIntent)
