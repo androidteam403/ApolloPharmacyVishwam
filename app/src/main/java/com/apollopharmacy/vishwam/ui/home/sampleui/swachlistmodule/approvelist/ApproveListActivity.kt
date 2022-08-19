@@ -213,6 +213,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     }
 
     override fun onePendingStatus() {
+        activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
         activityApproveListBinding.reshootButton.visibility = View.GONE
         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
     }

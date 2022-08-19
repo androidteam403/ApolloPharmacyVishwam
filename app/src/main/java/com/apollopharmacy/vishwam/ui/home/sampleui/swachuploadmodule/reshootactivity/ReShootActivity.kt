@@ -1,9 +1,12 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
+import android.R.attr.bitmap
+import android.R.attr.orientation
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.ExifInterface
@@ -38,10 +41,11 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
+import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import me.echodev.resizer.Resizer
-import org.w3c.dom.Text
 import java.io.File
 import java.text.SimpleDateFormat
+
 
 class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackInterface,
     OnClickStatusClickAdapter.CallbackInterfaceOnClick {
@@ -460,6 +464,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             val exif: ExifInterface = ExifInterface(imageFromCameraFile!!) //Since API Level 5
 
             val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
+
+
+       
 
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)

@@ -96,7 +96,7 @@
 
 
                     <TextView
-                        android:layout_marginTop="@dimen/six6_sp"
+                        android:layout_marginTop="9sp"
                         android:id="@+id/from_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_marginTop="@dimen/seven7_sp"
+                        android:layout_marginTop="9sp"
                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                      </LinearLayout>
 
                     <TextView
-                        android:layout_marginTop="@dimen/seven7_sp"
+                        android:layout_marginTop="9sp"
                         android:id="@+id/to_date"
                         android:gravity="center"
                         android:layout_width="wrap_content"
@@ -164,6 +164,7 @@
                     android:visibility="visible">
 
                     <ImageView
+                        android:layout_marginTop="@dimen/four_4sp"
                         android:layout_width="@dimen/value_25dp"
                         android:layout_height="@dimen/value_25dp"
                         android:contentDescription="@string/app_name"
@@ -224,6 +225,7 @@
                 android:layout_height="wrap_content">
 
                 <Button
+
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
@@ -232,7 +234,7 @@
                     android:onClick="@{()-> callback.onClickApproved()}"
                     android:visibility="visible"
                     android:textColor="@color/colorPrimary"
-                    android:background="@color/white"
+                    android:background="@color/light_ash"
                     android:text="APPROVED"/>
 
                 <View

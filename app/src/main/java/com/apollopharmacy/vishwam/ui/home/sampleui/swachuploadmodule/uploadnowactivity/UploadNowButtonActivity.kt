@@ -349,14 +349,54 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         }
     }
 
-
     private fun openCamera() {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            imageFromCameraFile =
+                File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+            } else {
+                val photoUri = FileProvider.getUriForFile(
+                    context,
+                    context.packageName + ".provider",
+                    imageFromCameraFile!!
+                )
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+            }
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+
+
+//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        startActivityForResult(cameraIntent, cameraRequest)
+    }
+
+
+//    private fun openCamera() {
+////        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+////        val extStorageDirectory =
+////            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+////                .toString()
+////        imageFromCameraFile =
+////            File(extStorageDirectory, "${System.currentTimeMillis()}.jpg")
+////        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+////            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+////        } else {
+////            val photoUri = FileProvider.getUriForFile(
+////                context,
+////                context.packageName + ".provider",
+////                imageFromCameraFile!!
+////            )
+////            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+////        }
+////        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+////        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+//
 //        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        val extStorageDirectory =
-//            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-//                .toString()
 //        imageFromCameraFile =
-//            File(extStorageDirectory, "${System.currentTimeMillis()}.jpg")
+//            File(ViswamApp.Companion.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+//        fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
 //        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
 //            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
 //        } else {
@@ -369,24 +409,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //        }
 //        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
-
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFromCameraFile =
-            File(ViswamApp.Companion.context.cacheDir, "${System.currentTimeMillis()}.jpg")
-        fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
-        } else {
-            val photoUri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                imageFromCameraFile!!
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-        }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
-    }
+//    }
 
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -396,9 +419,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //            var capture: File? = null
 
 
-            val exif: ExifInterface = ExifInterface(imageFromCameraFile!!) //Since API Level 5
 
-            val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
 
 //            val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
@@ -432,6 +453,9 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
 //                    Environment.DIRECTORY_PICTURES).getAbsolutePath())
 //                .compressToFile(imageFromCameraFile);
+
+
+
 
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
@@ -483,6 +507,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         )
         configListAdapter.notifyDataSetChanged()
     }
+
+
 
 
     fun addImageToGallery(filePath: String?, context: Context) {
