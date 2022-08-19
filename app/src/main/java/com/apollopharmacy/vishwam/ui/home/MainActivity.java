@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private String currentItem = "";
     private TextView textCartItemCount;
     private int mCartItemCount = 16;
-
+    public static boolean siteIdScreen = false;
     private final String TAG = "MainActivity";
     public String locationLatitude = "";
     public String locationLongitude = "";
@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
+    public ImageView imageView;
     public static Boolean isAtdLogout = false;
     private Context context;
 
@@ -131,8 +132,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
+//       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+        imageView = findViewById(R.id.siteIdList);
+
+        imageView.setOnClickListener(v -> {
+
+            siteIdScreen = true;
+
+                });
+
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -160,6 +169,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        drawer.setDrawerListener(toggle);
 //        toggle.syncState();
 
+
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         navigationView = findViewById(R.id.nav_view);
         TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
@@ -244,60 +257,74 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "HOME":
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
                 fragment = new AttendanceFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "History":
                 headerText.setText("History");
                 fragment = new HistoryFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Approved":
                 headerText.setText("Approved List");
                 fragment = new ApprovedFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Bill":
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
+                imageView.setVisibility(View.GONE);
                 break;
             case "Swacch Images Upload":
                 headerText.setText("Swacch Images");
                 fragment = new SwacchImagesUploadFragment();
+                imageView.setVisibility(View.GONE);
                 break;
 
             case "Swacch List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
+                imageView.setVisibility(View.GONE);
                 break;
 
             case "Upload":
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
+                imageView.setVisibility(View.GONE);
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
+                imageView.setVisibility(View.VISIBLE);
                 break;
             case "Drug Request":
                 headerText.setText("Drug Request");
-                fragment=new Drug();
+                fragment = new Drug();
+                imageView.setVisibility(View.GONE);
                 break;
 
             case "Logout":
@@ -609,9 +636,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            .addChildModel(new ChildModel("List Module")));
                 }
 
-                  listView.addHeaderModel(
-                    new HeaderModel("Drug", Color.WHITE, true, R.drawable.ic_baseline_article)
-                            .addChildModel(new ChildModel("Drug Request")));
+                listView.addHeaderModel(
+                        new HeaderModel("Drug", Color.WHITE, true, R.drawable.ic_baseline_article)
+                                .addChildModel(new ChildModel("Drug Request")));
 
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)

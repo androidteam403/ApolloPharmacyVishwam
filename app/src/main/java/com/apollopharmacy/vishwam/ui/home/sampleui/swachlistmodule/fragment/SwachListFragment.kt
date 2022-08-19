@@ -6,10 +6,14 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -18,6 +22,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.FragmentSwachhListBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.model.Dialog
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingListAdapter
@@ -60,7 +65,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     override fun setup() {
         viewBinding.callback = this
         viewBinding.userIdSwachlist.text = Preferences.getToken()
-        val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -69,8 +74,27 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         fromDate = simpleDateFormat.format(cal.time)
         toDate = currentDate
 
-        viewBinding.fromDate.text = fromDate
-        viewBinding.toDate.text = toDate
+
+
+        val strDate = fromDate
+        val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+        val date = dateFormat.parse(strDate)
+        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+        viewBinding.fromDate.text = dateNewFormat
+
+        if(MainActivity.siteIdScreen==true){
+
+        }
+
+
+
+        val strDateToDate = toDate
+        val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+        val dateToDate = dateFormatToDate.parse(strDateToDate)
+        val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy").format(dateToDate)
+        viewBinding.toDate.text = dateNewFormatToDate
+
+
 
         val loginJson = getLoginJson()
         var loginData: LoginDetails? = null
@@ -140,7 +164,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.uploadedBy = i.uploadedBy
                             pendingAndApproved.uploadedDate = i.uploadedDate
                             pendingAndApproved.status = i.status
-                            approvedList.add(pendingAndApproved)
+//                            approvedList.add(pendingAndApproved)
                             pendingAndApprovedList.add(pendingAndApproved)
 
 
@@ -163,7 +187,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             pendingAndApproved.uploadedDate = i.uploadedDate
                             pendingAndApproved.status = i.status
                             pendingList.add(pendingAndApproved)
-                            pendingAndApprovedList.add(pendingAndApproved)
+//                            pendingAndApprovedList.add(pendingAndApproved)
                         }
                     }
 
@@ -279,17 +303,17 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         if (isFromDateSelected) {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.fromDate.text.toString(),
+                    fromDate,
                     false,
-                    viewBinding.fromDate.text.toString()
+                    fromDate
                 )
             }.show(childFragmentManager, "")
         } else {
             ComplaintListCalendarDialog().apply {
                 arguments = generateParsedData(
-                    viewBinding.toDate.text.toString(),
+                    toDate,
                     true,
-                    viewBinding.fromDate.text.toString()
+                    fromDate
                 )
             }.show(childFragmentManager, "")
         }
@@ -299,7 +323,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         if (isFromDateSelected) {
             isFromDateSelected = false
             if (Utils.getDateDifference(showingDate, toDate) > 0) {
-                viewBinding.fromDate.setText(showingDate)
+
+                val strDate = showingDate
+                val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                viewBinding.fromDate.text = dateNewFormat
+//                viewBinding.fromDate.setText(showingDate)
                 this.fromDate = showingDate
             } else {
                 Toast.makeText(
@@ -310,7 +340,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             }
         } else {
             if (Utils.getDateDifference(fromDate, showingDate) > 0) {
-                viewBinding.toDate.setText(showingDate)
+
+                val strDate = showingDate
+                val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
+                viewBinding.toDate.text = dateNewFormat
+
+//                viewBinding.toDate.setText(showingDate)
                 toDate = showingDate
             } else {
                 Toast.makeText(

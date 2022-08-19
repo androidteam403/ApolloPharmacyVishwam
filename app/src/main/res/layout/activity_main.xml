@@ -35,6 +35,16 @@
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp" />
 
+        <ImageView
+            android:layout_centerHorizontal="true"
+           android:layout_margin="@dimen/value_20dp"
+            android:visibility="visible"
+            android:id="@+id/siteIdList"
+            android:layout_width="@dimen/value_20dp"
+            android:layout_height="@dimen/value_20dp"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/filtersnew" />
+
         <FrameLayout
             android:id="@+id/notificationLayout"
             style="?attr/actionButtonStyle"
