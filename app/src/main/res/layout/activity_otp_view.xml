@@ -112,7 +112,7 @@
                         android:layout_height="@dimen/value_50dp"
                         android:hint="Employee ID"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textNoSuggestions|textVisiblePassword"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"

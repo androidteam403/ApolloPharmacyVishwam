@@ -9,7 +9,7 @@
         <entry key="app/src/main/res/drawable/dashed_line.xml" value="0.217" />
         <entry key="app/src/main/res/drawable/status_create.xml" value="0.217" />
         <entry key="app/src/main/res/layout/activity_create_pin.xml" value="0.12919310970081596" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.11730072463768115" />
         <entry key="app/src/main/res/layout/activity_otp_view.xml" value="0.165" />
         <entry key="app/src/main/res/layout/activity_verify_user.xml" value="0.11730072463768115" />

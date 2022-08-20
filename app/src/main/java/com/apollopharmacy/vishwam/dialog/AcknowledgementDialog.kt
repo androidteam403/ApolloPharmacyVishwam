@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.dialog
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -37,7 +38,9 @@ class AcknowledgementDialog : DialogFragment() {
     var token:String?=null
 
     var closingstatus:Boolean=false
-
+    lateinit var datanew: ResponseTicktResolvedapi.Data
+    var ticketCloseApi:Boolean=false
+    protected var mProgressDialog: ProgressDialog? = null
     companion object {
         const val KEY_DATA_ACK = "acknowledgement"
     }
@@ -73,7 +76,7 @@ class AcknowledgementDialog : DialogFragment() {
         viewModel = ViewModelProviders.of(requireActivity())[RegistrationViewModel::class.java]
         viewBinding.viewModel = viewModel
        // val data = arguments?.getSerializable(SiteDialog.KEY_DATA) as ArrayList<DataItem>
-        val datanew = arguments?.getSerializable(SiteDialog.KEY_DATA) as ResponseTicktResolvedapi.Data
+        datanew = arguments?.getSerializable(SiteDialog.KEY_DATA) as ResponseTicktResolvedapi.Data
        // Utils.printMessage(TAG, "Acknowledgement Data :: " + data.toString())
       /*  viewBinding.ticketNo.text =
             context?.resources?.getString(R.string.label_complaint_ticket_number) + "  ${data[0].ticketNo}"
@@ -100,13 +103,7 @@ class AcknowledgementDialog : DialogFragment() {
             viewBinding.closeDate.text =
                 context?.resources?.getString(R.string.label_close_date) + "  ${convertCmsDate(data[0].closeTime.toString())}"
         }*/
-        val userData = LoginRepo.getProfile()
 
-        var cmsLogin = RequestCMSLogin()
-       // cmsLogin.appUserName = "APL49365"
-        cmsLogin.appUserName =userData!!.EMPID
-        cmsLogin.appPassword = LoginRepo.getPassword()
-        viewModel.getCMSLoginApi(cmsLogin)
         viewModel.getTicketRatingApi()
 
 
@@ -114,7 +111,11 @@ class AcknowledgementDialog : DialogFragment() {
         viewModel.cmsloginapiresponse.observe(viewLifecycleOwner, {
             cmsloginresponse=it.data;
             token=it.data.token
-            viewModel.getTicketRatingApi()
+            if (ticketCloseApi)
+                ticketCloseAPI()
+            else
+                ticketReOpenApi()
+//            viewModel.getTicketRatingApi()
            // var cmsloginresponse: ResponseCMSLogin
            // cmsloginresponse=it
 
@@ -132,6 +133,7 @@ class AcknowledgementDialog : DialogFragment() {
         viewModel.cmsticketclosingapiresponse.observe(viewLifecycleOwner,{
             if(closingstatus) {
                 closingstatus=false
+                hideLoading()
                 Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                 dismiss()
             }
@@ -155,23 +157,17 @@ class AcknowledgementDialog : DialogFragment() {
             }
 
             if (checkValidation(true)) {
-                viewModel.getTicketclosingApi(
-                    token,
-                    RequestClosedticketApi(
-                        RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
-                        comment = viewBinding.remark.text.toString().trim(),
-                        uid = datanew.ticket_uid,
-                        RequestClosedticketApi.Status(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "closed"),
-                        RequestClosedticketApi.Action(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "close"),
-                        RequestClosedticketApi.Level(datanew.ticket_level_uid),
-                        ticket_id = datanew.ticket_id,
-                        RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                        action_name = "Closed",
-                        RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
-                        RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
-                    )
+                ticketCloseApi = true
+                showLoading()
+                val userData = LoginRepo.getProfile()
 
-                )
+                var cmsLogin = RequestCMSLogin()
+                // cmsLogin.appUserName = "APL49365"
+                cmsLogin.appUserName =userData!!.EMPID
+                cmsLogin.appPassword = LoginRepo.getPassword()
+                viewModel.getCMSLoginApi(cmsLogin)
+
+
                /* viewModel.submitRequestOfAcknowledgment(
                     SubmitAcknowledge(
                        // data[0].ticketNo,
@@ -200,22 +196,16 @@ class AcknowledgementDialog : DialogFragment() {
             }
 
             if (checkValidation(false)) {
-                viewModel.getTicketclosingApi(
-                    token,
-                    RequestClosedticketApi(
-                        RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
-                        comment = viewBinding.remark.text.toString().trim(),
-                        uid = datanew.ticket_uid,
-                        RequestClosedticketApi.Status(uid = "97A318ACE84930236386DB1A70944825",code = "reopened"),
-                        RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",code = "reopen"),
-                        RequestClosedticketApi.Level(datanew.ticket_level_uid),
-                        ticket_id = datanew.ticket_id,
-                        RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                        action_name = "Reopened",
-                        RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
-                        RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
-                    )
-                )
+                ticketCloseApi =false
+                showLoading()
+                val userData = LoginRepo.getProfile()
+
+                var cmsLogin = RequestCMSLogin()
+                // cmsLogin.appUserName = "APL49365"
+                cmsLogin.appUserName =userData!!.EMPID
+                cmsLogin.appPassword = LoginRepo.getPassword()
+                viewModel.getCMSLoginApi(cmsLogin)
+
 
                 /*viewModel.submitRequestOfAcknowledgment(
                     SubmitAcknowledge(
@@ -266,5 +256,55 @@ class AcknowledgementDialog : DialogFragment() {
             return false
         }
         return true
+    }
+
+    fun ticketCloseAPI(){
+        viewModel.getTicketclosingApi(
+            token,
+            RequestClosedticketApi(
+                RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
+                comment = viewBinding.remark.text.toString().trim(),
+                uid = datanew.ticket_uid,
+                RequestClosedticketApi.Status(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "closed"),
+                RequestClosedticketApi.Action(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "close"),
+                RequestClosedticketApi.Level(datanew.ticket_level_uid),
+                ticket_id = datanew.ticket_id,
+                RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
+                action_name = "Closed",
+                RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
+                RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
+            )
+
+        )
+    }
+
+    fun ticketReOpenApi(){
+        viewModel.getTicketclosingApi(
+            token,
+            RequestClosedticketApi(
+                RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
+                comment = viewBinding.remark.text.toString().trim(),
+                uid = datanew.ticket_uid,
+                RequestClosedticketApi.Status(uid = "97A318ACE84930236386DB1A70944825",code = "reopened"),
+                RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",code = "reopen"),
+                RequestClosedticketApi.Level(datanew.ticket_level_uid),
+                ticket_id = datanew.ticket_id,
+                RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
+                action_name = "Reopened",
+                RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
+                RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
+            )
+        )
+    }
+
+    fun showLoading() {
+        hideLoading()
+        mProgressDialog = Utils.showLoadingDialog(this.context)
+    }
+
+    fun hideLoading() {
+        if (mProgressDialog != null && mProgressDialog!!.isShowing()) {
+            mProgressDialog!!.cancel()
+        }
     }
 }

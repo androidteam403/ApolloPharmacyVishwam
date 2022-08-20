@@ -342,7 +342,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
 
-        viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
+//        viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
             SearchArticleCodeDialog().apply { }.show(childFragmentManager, "")
         }
