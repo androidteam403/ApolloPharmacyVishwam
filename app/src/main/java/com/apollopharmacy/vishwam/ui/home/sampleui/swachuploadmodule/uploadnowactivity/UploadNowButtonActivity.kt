@@ -457,17 +457,17 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
 
-            val resizedImage = Resizer(this)
-                .setTargetLength(1080)
-                .setQuality(100)
-                .setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
-                .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
-                )
-
-                .setSourceImage(imageFromCameraFile)
-                .resizedFile
+//            val resizedImage = Resizer(this)
+//                .setTargetLength(1080)
+//                .setQuality(100)
+//                .setOutputFormat("JPG")
+////                .setOutputFilename(fileNameForCompressedImage)
+//                .setOutputDirPath(
+//                    ViswamApp.Companion.context.cacheDir.toString()
+//                )
+//
+//                .setSourceImage(imageFromCameraFile)
+//                .resizedFile
             // Environment.getExternalStoragePublicDirectory(
             //                        Environment.DIRECTORY_PICTURES
             //                    ).getAbsolutePath()
@@ -482,7 +482,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
-            )?.file = resizedImage
+            )?.file = imageFromCameraFile// resizedImage
 //
 
 

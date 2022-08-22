@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout android:background="@color/light_blue"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:background="@color/light_blue">
 
 
     <LinearLayout
@@ -13,20 +13,20 @@
         android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
-            android:layout_marginEnd="@dimen/value_5dp"
-            android:layout_marginBottom="@dimen/value_5dp"
-            app:cardElevation="@dimen/value_5dp"
             android:layout_width="@dimen/onehundred_ten_dp"
             android:layout_height="@dimen/value_100dp"
+            android:layout_marginEnd="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_5dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/value_10dp">
+            app:cardCornerRadius="@dimen/value_10dp"
+            app:cardElevation="@dimen/value_5dp">
 
 
             <RelativeLayout
-                android:visibility="visible"
                 android:id="@+id/beforecapturelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:visibility="visible"
                 tools:ignore="Orientation">
 
                 <LinearLayout
@@ -34,107 +34,103 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:orientation="vertical">
+
                     <ImageView
-                        android:layout_gravity="center"
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
-                        android:src="@drawable/ash_color_caera"/>
+                        android:layout_gravity="center"
+                        android:src="@drawable/ash_color_caera" />
+
                     <TextView
                         android:id="@+id/imageTextandNumber"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:text="Image"
                         android:textColor="@color/ashcolor"
-                        android:textStyle="bold"
                         android:textSize="@dimen/text_12sp"
-                        android:layout_gravity="center"/>
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="visible"
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/value_3dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_margin="@dimen/four4_dp"
                     android:background="@drawable/green_backgroundplus"
-                    android:layout_height="wrap_content">
+                    android:padding="@dimen/value_3dp"
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/plusSysmbol"
-                        android:layout_gravity="center"
-                        android:padding="3dp"
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
-                        android:src="@drawable/plus"/>
+                        android:layout_gravity="center"
+                        android:padding="3dp"
+                        android:src="@drawable/plus" />
                 </LinearLayout>
-
-
-
 
 
             </RelativeLayout>
 
             <RelativeLayout
-                android:visibility="gone"
                 android:id="@+id/aftercapturelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:ignore="Orientation">
+                android:visibility="gone">
+
+
                 <ImageView
-                    android:alpha="0.5"
                     android:id="@+id/aftercapturedimage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:alpha="0.5"
                     android:contentDescription="@string/app_name"
+
                     android:scaleType="fitXY"
                     android:src="@drawable/capture" />
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/redTrash"
                     android:layout_width="wrap_content"
-                    android:padding="@dimen/value_4dp"
-                    android:layout_alignParentBottom="true"
+                    android:layout_height="@dimen/value_30dp"
                     android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
                     android:layout_margin="@dimen/six6_sp"
                     android:background="@drawable/red_rounded_corners"
-                    android:layout_height="@dimen/value_30dp">
+                    android:padding="@dimen/value_4dp"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/showcapturedimage"
-                        android:layout_gravity="center"
-                        android:padding="@dimen/value_3dp"
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
-                        android:src="@drawable/trash"/>
+                        android:layout_gravity="center"
+                        android:padding="@dimen/value_3dp"
+                        android:src="@drawable/trash" />
 
 
                 </LinearLayout>
 
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/eyeImage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true">
+                    android:layout_centerInParent="true"
+                    android:visibility="gone">
 
                     <ImageView
                         android:layout_width="@dimen/value_30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/eye2withbackground"/>
+                        android:src="@drawable/eye2withbackground" />
                 </LinearLayout>
 
 
-
-
-
             </RelativeLayout>
-
-
 
 
         </androidx.cardview.widget.CardView>

@@ -10,7 +10,9 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+import com.bumptech.glide.Glide
 import java.io.File
 
 class ImagesCardViewAdapter(
@@ -55,7 +57,11 @@ class ImagesCardViewAdapter(
         if(SwachModelResponse?.file!=null){
             holder.beforeCaptureLayout.visibility = View.GONE
             holder.afterCaptureLayout.visibility = View.VISIBLE
-            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
+            Glide.with(ViswamApp.context).load(SwachModelResponse?.file.toString())
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.afterCaptureImage)
+
+//            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
             holder.eyeImage.visibility = View.VISIBLE
             holder.redTrashLayout.visibility = View.VISIBLE
         }else{

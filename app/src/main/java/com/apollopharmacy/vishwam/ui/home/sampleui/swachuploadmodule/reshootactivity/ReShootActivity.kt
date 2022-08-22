@@ -1,12 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
-import android.R.attr.bitmap
-import android.R.attr.orientation
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.ExifInterface
@@ -41,7 +38,6 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
@@ -56,7 +52,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     var uploadedCount: Int = 0
     private lateinit var dialog: Dialog
     var overallreshootcount: Int = 0
-
+    var swachId: String? = ""
 
     private lateinit var onClickStatusClickAdapter: OnClickStatusClickAdapter
 
@@ -69,7 +65,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         )
         viewModel = ViewModelProvider(this)[ReShootActivityViewModel::class.java]
-        val swachId = intent.getStringExtra("swachhid")
+        swachId = intent.getStringExtra("swachhid")
         val status = intent.getStringExtra("status")
         val approvedDate = intent.getStringExtra("approvedDate")
         val storeId = intent.getStringExtra("storeId")
@@ -360,7 +356,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -438,7 +434,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         configPositionRes: Int,
         url: String?,
         view: View,
-        position: Int
+        position: Int,
     ) {
         PhotoPopupWindow(
             context, R.layout.layout_image_fullview, view,
@@ -466,8 +462,6 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
 
-       
-
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
                 .setQuality(100)
@@ -486,7 +480,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             Utlis.showLoading(this)
 //            viewModel.connectToAzure(imageFromCameraFile)
 
-             viewModel.connectToAzure(resizedImage)
+            viewModel.connectToAzure(resizedImage)
 
 
         }
@@ -500,6 +494,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 var submit = OnUploadSwachModelRequest()
                 submit.actionEvent = "RESHOOT"
                 submit.storeid = Preferences.getSiteId()
+                submit.swachhId = swachId
                 submit.userid = Preferences.getToken()
                 var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
@@ -510,7 +505,8 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                             getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
                         imageUrl.categoryid =
                             getImageUrlsList.get(0).categoryList!!.get(i).categoryname
-                        imageUrl.imageId = getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
+                        imageUrl.imageId =
+                            getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
                         imageUrlsList.add(imageUrl)
                     }
 
