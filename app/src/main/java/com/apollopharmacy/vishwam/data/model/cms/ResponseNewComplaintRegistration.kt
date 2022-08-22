@@ -33,6 +33,8 @@ data class ResponseNewComplaintRegistration(
         @field:SerializedName("isUpdate")
         val isUpdate: Boolean,
 
+        @field:SerializedName("errors")
+        val errors: ArrayList<Error>? = null,
         ) : Serializable
 }
 
