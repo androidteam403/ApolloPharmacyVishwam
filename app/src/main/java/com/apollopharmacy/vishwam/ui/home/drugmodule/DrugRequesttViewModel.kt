@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.google.gson.Gson
 import com.google.gson.JsonSyntaxException
+import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -40,8 +41,8 @@ import java.util.concurrent.TimeoutException
 class DrugFragmentViewModel: ViewModel() {
     val commands = LiveEvent<Commands>()
     val state = MutableLiveData<State>()
-//    var command = LiveEvent<CmsCommand>()
-var siteLiveData = ArrayList<StoreListItem>()
+    //    var command = LiveEvent<CmsCommand>()
+    var siteLiveData = ArrayList<StoreListItem>()
     private var storeDetailsSend = StoreListItem()
 
     var drugList = MutableLiveData<DrugResponse>()
@@ -103,67 +104,80 @@ var siteLiveData = ArrayList<StoreListItem>()
     }
 
     fun siteId() {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
-                val baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
-                viewModelScope.launch {
-                    state.value = State.SUCCESS
-                    val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "The",
-                                "",
-                                ""
+        if (Preferences.isSiteIdListFetched()) {
+            siteLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getSiteIdListJson()
+            val type = object : TypeToken<List<StoreListItem?>?>() {}.type
+
+            this.siteLiveData =
+                gson.fromJson<List<StoreListItem>>(siteIdList, type) as ArrayList<StoreListItem>
+            commands.value = Commands.ShowSiteInfo("")
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    val token = data.APIS[i].TOKEN
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(
+                                "h72genrSSNFivOi/cfiX3A==",
+                                GetDetailsRequest(
+                                    baseUrl,
+                                    "GET",
+                                    "The",
+                                    "",
+                                    ""
+                                )
                             )
-                        )
 //                        RegistrationRepo.selectSiteId(token, baseUrl)
-                    }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            state.value = State.ERROR
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        SiteDto::class.java
+                                    )
 
-                            val resp: String = response.value.string()
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val reasonmasterV2Response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    SiteDto::class.java
-                                )
-
-                            if (reasonmasterV2Response.status) {
-                                siteLiveData.clear()
-                                reasonmasterV2Response.siteData?.listData?.rows?.map { siteLiveData.add(it) }
-                                // getDepartment()
-                                commands.value = Commands.ShowSiteInfo("")
-                            } else {
-                                commands.value = Commands.ShowToast(
-                                    reasonmasterV2Response.message.toString()
-                                )
+                                if (reasonmasterV2Response.status) {
+                                    siteLiveData.clear()
+                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                        siteLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    commands.value = Commands.ShowSiteInfo("")
+                                } else {
+                                    commands.value = Commands.ShowToast(
+                                        reasonmasterV2Response.message.toString()
+                                    )
+                                }
                             }
-                        }
-                        is ApiResult.GenericError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.NetworkError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownHostException -> {
-                            state.value = State.ERROR
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
                         }
                     }
                 }
             }
         }
     }
+
 
 
 
@@ -222,6 +236,10 @@ var siteLiveData = ArrayList<StoreListItem>()
         data class ShowToast(val message: String?) : Commands()
         data class DrugImagesUploadInAzur(val filePath: ArrayList<Image>) :
             Commands()
+        data class CheckValidatedUserWithSiteID(
+            val message: String,
+            val slectedStoreItem: StoreListItem,
+        ) : Commands()
 
 
         data class ShowSiteInfo(val message: String) : Commands()

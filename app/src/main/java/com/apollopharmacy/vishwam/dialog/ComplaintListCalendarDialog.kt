@@ -86,7 +86,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
             "Date is :: " + day + "/" + month + "/" + year + ",  DT : " + selectedDate + ", : " + month)
 
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
-        dataPickerBinding.datePicker.maxDate = (Date().time*(1000*60*60*24*7))
+        dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
         if(arguments?.getBoolean(KEY_IS_TO) == true){
             val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
             dataPickerBinding.datePicker.minDate =date.time

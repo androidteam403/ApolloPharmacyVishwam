@@ -49,6 +49,33 @@
                         android:textSize="@dimen/text_15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/dcTextInput"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:textColorHint="@color/black"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/dcCode"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:editable="false"
+                        android:enabled="false"
+                        android:hint="@string/label_distribution_center"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp"
+                        android:visibility="gone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
                 <LinearLayout
                     android:id="@+id/departmentLayout"
                     android:layout_width="match_parent"
@@ -90,43 +117,45 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
-
+                        android:textColorHint="@color/black"
                         android:layout_marginTop="@dimen/value_10dp"
-                        android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:layout_marginRight="@dimen/value_15dp">
 
                         <EditText
                             android:id="@+id/itemName"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789"
                             android:hint="Item Name *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
-
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/fromDate"
+                        android:id="@+id/location"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:focusable="true"
+                        android:textColorHint="@color/black"
 
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/fromDateText"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/loactionSelect"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
                             android:clickable="true"
-                            android:drawableEnd="@drawable/ic_baseline_date_range_24"
                             android:editable="false"
+                            android:enabled="true"
                             android:focusable="false"
-                            android:hint="Manufacture Date *"
+                            android:hint="Select Location *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -134,50 +163,28 @@
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/toDate"
+                        android:id="@+id/pasckizel"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
+                        android:hint="Pack Size *"
+                        android:textColorHint="@color/black"
+
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        >
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/toDateText"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_55dp"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_baseline_date_range_24"
-                            android:editable="false"
-                            android:focusable="false"
-                            android:hint="Expire Date *"
-                            android:paddingStart="@dimen/value_7dp"
-                            android:paddingEnd="@dimen/value_7dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="@dimen/text_14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/BatchTextInput"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/value_15dp"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/batchNo"
+                            android:id="@+id/packsize"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
                             android:editable="true"
                             android:enabled="true"
-                            android:hint="Batch Number *"
+                            android:inputType="number"
+
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -235,6 +242,166 @@
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/selectRemarksText"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:focusable="true"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/selectRemarks"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz0123456789"
+                            android:focusable="true"
+                            android:hint="Remarks "
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createdInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black"
+                        android:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/createdBy"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:editable="false"
+                            android:enabled="false"
+                            android:hint="Created By *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp"
+                            android:visibility="visible" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createdOnInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black"
+                        android:visibility="visible">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/createdOn"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                            android:editable="false"
+                            android:enabled="false"
+                            android:hint="Created on *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp"
+                            android:visibility="visible" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/BatchTextInput"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/batchNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:editable="true"
+                            android:enabled="true"
+                            android:hint="Batch Number *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/fromDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/fromDateText"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="Manufacturing Date *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/toDate"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/toDateText"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_55dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="Expiry Date *"
+                            android:paddingStart="@dimen/value_7dp"
+                            android:paddingEnd="@dimen/value_7dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -305,39 +472,44 @@
                             android:clickable="true"
                             android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                             android:editable="false"
+                            android:focusable="false"
                             android:hint="Select Gst *"
                             android:paddingStart="@dimen/value_10dp"
-                            android:focusable="false"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/pasckizel"
+                        android:id="@+id/description"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="500"
+                        app:layout_constraintTop_toBottomOf="@+id/extraLayout">
 
                         <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/packsize"
+                            android:id="@+id/descriptionText"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:editable="true"
-                            android:enabled="true"
-                            android:hint="Pack Size *"
+                            android:layout_height="@dimen/value_100dp"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+                            android:gravity="top|start"
+                            android:hint="Product Description "
+                            android:maxLength="500"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
+                            android:scrollbars="vertical"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
-
 
                     <LinearLayout
                         android:id="@+id/extraLayout"
@@ -566,9 +738,9 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="@dimen/value_5dp"
                             android:padding="@dimen/value_3dp"
-                            android:text="Front Image "
+                            android:text="Front Image *"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -576,9 +748,9 @@
                             android:layout_marginLeft="@dimen/text_17sp"
                             android:layout_marginTop="@dimen/value_5dp"
                             android:paddingStart="1sp"
-                            android:text="Back Image"
+                            android:text="Back Image *"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="11sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -586,9 +758,9 @@
                             android:layout_marginLeft="@dimen/value_20dp"
                             android:layout_marginTop="@dimen/value_5dp"
                             android:padding="@dimen/value_3dp"
-                            android:text="Side Image"
+                            android:text="Side Image *"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="11sp" />
 
 
                         <TextView
@@ -596,9 +768,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="26dp"
                             android:layout_marginTop="@dimen/value_5dp"
-                            android:text="Bill Image"
+                            android:text="Bill Image *"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp" />
+                            android:textSize="11sp" />
 
                     </LinearLayout>
 
@@ -614,7 +786,7 @@
                             android:id="@+id/imageRecyclerView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/value_12dp"
+                            android:layout_marginLeft="8dp"
                             android:layout_marginBottom="@dimen/value_5dp"
                             android:orientation="horizontal"
                             android:visibility="gone"
@@ -624,13 +796,13 @@
                             android:id="@+id/addImage"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginLeft="@dimen/value_32dp"
+                            android:layout_marginLeft="28dp"
                             android:contentDescription="@string/app_name"
                             android:paddingStart="2sp"
+
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_capture_image"
                             android:visibility="visible" />
-
 
 
                         <ImageView
@@ -649,7 +821,7 @@
                             android:id="@+id/imageRecyclerView1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/value_100dp"
+                            android:layout_marginLeft="94dp"
                             android:layout_marginBottom="@dimen/value_5dp"
                             android:orientation="horizontal"
                             android:visibility="gone"
@@ -659,7 +831,7 @@
                             android:id="@+id/imageRecyclerView4"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="270dp"
+                            android:layout_marginLeft="267dp"
                             android:layout_marginBottom="@dimen/value_5dp"
                             android:orientation="horizontal"
                             android:visibility="gone"
@@ -682,7 +854,7 @@
                             android:id="@+id/imageRecyclerView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="185dp"
+                            android:layout_marginLeft="181dp"
                             android:layout_marginBottom="@dimen/value_5dp"
                             android:orientation="horizontal"
                             android:visibility="gone"
@@ -693,7 +865,7 @@
                             android:id="@+id/addImage3"
                             android:layout_width="@dimen/value_40dp"
                             android:layout_height="@dimen/value_40dp"
-                            android:layout_marginLeft="285dp"
+                            android:layout_marginLeft="288dp"
                             android:contentDescription="@string/app_name"
                             android:paddingStart="2sp"
                             android:scaleType="fitCenter"
