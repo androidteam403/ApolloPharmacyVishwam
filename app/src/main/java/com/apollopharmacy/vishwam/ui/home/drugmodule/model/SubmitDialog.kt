@@ -65,7 +65,7 @@ class SubmitDialog : DialogFragment(){
              }*/
             //datanew.message
             val datanew = arguments?.getSerializable(KEY_DATA) as DrugResponse
-            viewBinding.messagetext.text="Successfully Request is Created"+"\n"+"Your ReferenceId is"+datanew.referenceId
+            viewBinding.messagetext.text="Request raised Successfully"+"\n"+"Your ReferenceId is"+datanew.referenceId
         }
 
         interface AbstractDialogSubmitClickListner {

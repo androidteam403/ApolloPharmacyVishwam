@@ -50,7 +50,7 @@ class GstDialog: DialogFragment() {
         ): View? {
             dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             viewBinding = DialogCustomBinding.inflate(inflater, container, false)
-            viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_category)
+            viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_gst)
             viewBinding.closeDialog.setOnClickListener { dismiss() }
 
             viewBinding.searchSite.visibility = View.GONE

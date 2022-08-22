@@ -39,20 +39,44 @@
                 android:src="@drawable/logo_vishwam" />
 
             <RelativeLayout
+                android:id="@+id/entitiy_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_50dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/value_20dp"
                 android:layout_marginTop="@dimen/value_40dp"
-                android:layout_marginRight="@dimen/value_20dp"
-                android:background="@drawable/spinner_background">
+                android:layout_marginRight="@dimen/value_20dp">
 
-                <Spinner
-                    android:id="@+id/company_spinner"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/entity_text_input"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:textSize="16sp" />
+                    android:textColorHint="@color/white"
+                    android:theme="@style/TextLabel">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/entity_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="@string/label_entity"
+                        android:imeOptions="actionNext"
+                        android:inputType="none"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="@dimen/text_17sp"
+                        android:enabled="false"/>
+                </com.google.android.material.textfield.TextInputLayout>
+<!--                <Spinner-->
+<!--                    android:id="@+id/company_spinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@null"-->
+<!--                    android:minHeight="0dp"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:clickable="false"/>-->
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -73,7 +97,7 @@
                 android:layout_marginRight="@dimen/value_20dp"
                 android:textColorHint="@color/white"
                 android:theme="@style/TextLabel"
-                app:layout_constraintTop_toBottomOf="@+id/image">
+                app:layout_constraintTop_toBottomOf="@+id/entitiy_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit_text"
@@ -110,6 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
                     android:hint="@string/label_password"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()-_+="
                     android:inputType="textPassword"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"

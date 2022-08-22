@@ -13,13 +13,10 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.view.marginLeft
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -38,7 +35,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
+import com.google.gson.Gson
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -46,7 +43,7 @@ import kotlin.collections.ArrayList
 
 
 class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
-    ComplaintListCalendarDialog.DateSelected, ImagesListner,
+    ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,
     SiteNewDialog.NewDialogSiteClickListner, SubmitDialog.AbstractDialogSubmitClickListner,
     Dialog.DialogClickListner, GstDialog.GstDialogClickListner {
 
@@ -83,7 +80,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
 
 
@@ -99,7 +96,26 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun setup() {
 
 
-        viewModel.siteId()
+        viewModel.commands.observe(viewLifecycleOwner, {
+            when (it) {
+                is DrugFragmentViewModel.Commands.ShowSiteInfo -> {
+                    hideLoading()
+
+                    SiteNewDialog().apply {
+
+                        Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                        Preferences.setSiteIdListFetched(true)
+                        arguments =
+                            SiteNewDialog().generateParsedData(viewModel.getSiteData())
+                    }.show(childFragmentManager, "")
+
+                }
+            }
+        })
+
+
+
+
         viewBinding.selectCategory.setOnClickListener {
             Dialog().apply {
                 arguments =
@@ -111,17 +127,12 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 
         viewBinding.siteIdSelect.setOnClickListener {
-            if (viewModel.getSiteData().isEmpty()) {
-                viewModel.siteId()
+            showLoading()
+            viewModel.siteId()
 
 
-            } else {
-                SiteNewDialog().apply {
-                    arguments =
-                        SiteNewDialog().generateParsedData(viewModel.getSiteData())
-                }.show(childFragmentManager, "")
-            }
         }
+
 
 
 
@@ -289,8 +300,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-        val currentDate: String = simpleDateFormat.format(Date())
 
 
 
@@ -361,14 +370,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             viewBinding.hsnCode.getText().toString(),
                             viewBinding.selectDepartment.getText().toString(),
                             Preferences.getSiteId(),
-                            currentDate,
+                            viewBinding.createdOn.getText().toString(),
                             "0",
                             "0",
 
 
                             "",
-                            "",
-                            Preferences.getToken(),
+                            viewBinding.selectRemarks.getText().toString(),
+                            viewBinding.createdBy.getText().toString(),
                             "",
                             "",
                             "",
@@ -424,8 +433,8 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
 
         viewBinding.toDateText.setOnClickListener {
-            isFromDateSelected = false
-            openDateDialog()
+            isFromDateSelected = true
+            dateDialog()
 
         }
 
@@ -470,100 +479,96 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
     private fun cameraIntent() {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            imageFromCameraFile =
-                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
-            } else {
-                val photoUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().packageName + ".provider",
-                    imageFromCameraFile!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            }
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+    }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-
 
 
     private fun backCameraIntent() {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            imageFromBackCameraFile =
-                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBackCameraFile))
-            } else {
-                val photoUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().packageName + ".provider",
-                    imageFromBackCameraFile!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            }
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-
-            startActivityForResult(intent, Config.REQUEST_BACK_CAMERA)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromBackCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBackCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromBackCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+
+        startActivityForResult(intent, Config.REQUEST_BACK_CAMERA)
+    }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-
 
 
     private fun sideCameraIntent() {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            imageFromSideCameraFile =
-                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromSideCameraFile))
-            } else {
-                val photoUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().packageName + ".provider",
-                    imageFromSideCameraFile!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            }
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, Config.REQUEST_SIDE_CAMERA)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromSideCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromSideCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromSideCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, Config.REQUEST_SIDE_CAMERA)
+    }
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-
 
 
     private fun billCameraIntent() {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            imageFromBillCameraFile =
-                File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBillCameraFile))
-            } else {
-                val photoUri = FileProvider.getUriForFile(
-                    requireContext(),
-                    requireContext().packageName + ".provider",
-                    imageFromBillCameraFile!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            }
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromBillCameraFile =
+            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromBillCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                requireContext().packageName + ".provider",
+                imageFromBillCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
+    }
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-
 
 
     private fun checkPermission(): Boolean {
@@ -611,39 +616,36 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode==Config.REQUEST_CODE_CAMERA) {
+        if (requestCode == Config.REQUEST_CODE_CAMERA) {
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
                 frontImageList.add(Image(imageFromCameraFile!!, "", "Front"))
-                imageList.add(Image(imageFromCameraFile!!,"",""))
+                imageList.add(Image(imageFromCameraFile!!, "", ""))
 
-                    viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                    viewBinding.addImage.visibility = View.GONE
+                viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                viewBinding.addImage.visibility = View.GONE
 
                 adapter.notifyAdapter(frontImageList)
 
             }
-        }
-        else if (requestCode == Config.REQUEST_BACK_CAMERA) {
+        } else if (requestCode == Config.REQUEST_BACK_CAMERA) {
             if (requestCode == Config.REQUEST_BACK_CAMERA && imageFromBackCameraFile != null && resultCode == Activity.RESULT_OK) {
                 backImageList.add(Image(imageFromBackCameraFile!!, "", "Back"))
-                imageList.add(Image(imageFromBackCameraFile!!,"",""))
+                imageList.add(Image(imageFromBackCameraFile!!, "", ""))
 
                 viewBinding.imageRecyclerView1.visibility = View.VISIBLE
                 viewBinding.addImage1.visibility = View.GONE
 
                 adapter1.notifyAdapter(backImageList)
             }
-        } else if (requestCode == Config.REQUEST_SIDE_CAMERA ) {
+        } else if (requestCode == Config.REQUEST_SIDE_CAMERA) {
 
             if (requestCode == Config.REQUEST_SIDE_CAMERA && imageFromSideCameraFile != null && resultCode == Activity.RESULT_OK) {
 
                 sideImageList.add(Image(imageFromSideCameraFile!!, "", "Side"))
-                imageList.add(Image(imageFromSideCameraFile!!,"",""))
+                imageList.add(Image(imageFromSideCameraFile!!, "", ""))
 
                 viewBinding.imageRecyclerView2.visibility = View.VISIBLE
                 viewBinding.addImage2.visibility = View.GONE
@@ -653,11 +655,11 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 adapter2.notifyAdapter(sideImageList)
             }
 
-        } else if (requestCode == Config.REQUEST_BILL_CAMERA){
+        } else if (requestCode == Config.REQUEST_BILL_CAMERA) {
             if (requestCode == Config.REQUEST_BILL_CAMERA && imageFromBillCameraFile != null && resultCode == Activity.RESULT_OK) {
 
                 billImageList.add(Image(imageFromBillCameraFile!!, "", "Bill"))
-                imageList.add(Image(imageFromBillCameraFile!!,"",""))
+                imageList.add(Image(imageFromBillCameraFile!!, "", ""))
 
                 viewBinding.imageRecyclerView4.visibility = View.VISIBLE
                 viewBinding.addImage3.visibility = View.GONE
@@ -682,6 +684,11 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val categoryName = viewBinding.selectCategory.text.toString().trim()
         val itemName = viewBinding.itemName.text.toString().trim()
         val manufDate = viewBinding.fromDateText.text.toString().trim()
+
+        val createdBy = viewBinding.createdBy.text.toString().trim()
+        val createdOn = viewBinding.createdOn.text.toString().trim()
+
+        val remarks = viewBinding.selectRemarks.text.toString().trim()
         val expDate = viewBinding.toDateText.text.toString().trim()
         val batchNo = viewBinding.batchNo.text.toString().trim()
         val mrp = viewBinding.mrpp.text.toString().trim()
@@ -690,92 +697,106 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val packsize = viewBinding.packsize.text.toString().trim()
         val site = viewBinding.siteIdSelect.text.toString().trim()
         val barCode = viewBinding.barCode.text.toString().trim()
+        val location = viewBinding.loactionSelect.text.toString().trim()
 
         if (site.isEmpty()) {
+            popUpdialog()
 
-            showErrorMsg(
-                "Please Select Site id"
-            )
             return false
 
         } else if (categoryName.isEmpty()) {
+            popUpdialog()
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_cat)
-            )
+
             return false
         } else if (itemName.isEmpty()) {
+            popUpdialog()
+
             viewBinding.itemName.requestFocus()
-            viewBinding.branchNameTextInput.error = "Please Enter Item Name"
+            viewBinding.branchNameTextInput.error=""
 
 
             return false
-        } else if (manufDate.isEmpty()) {
+        } else if (location.isEmpty()) {
+            popUpdialog()
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_mnfDate)
-            )
-            return false
-        } else if (expDate.isEmpty()) {
-
-
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_expiry_date)
-            )
-            return false
-        }
-//
-        else if (batchNo.isEmpty()) {
-            viewBinding.BatchTextInput.requestFocus()
-
-            viewBinding.BatchTextInput.error = "Please Enter Batch No"
+            viewBinding.loactionSelect.requestFocus()
 
 
             return false
+        } else if (packsize.isEmpty()) {
+            popUpdialog()
+
+            viewBinding.pasckizel.requestFocus()
+
+
+            return false
+
         } else if (mrp.isEmpty()) {
+            popUpdialog()
             viewBinding.MrpTextInput.requestFocus()
-            viewBinding.MrpTextInput.error = "Please Enter Mrp Price"
 
 
             return false
         } else if (purchasePrice.isEmpty()) {
+            popUpdialog()
             viewBinding.purchasePriceTextInput.requestFocus()
 
-            viewBinding.purchasePriceTextInput.error = "Please Enter Purchase Price"
 
             return false
-        } else if (barCode.isEmpty()) {
+        }  else if (createdBy.isEmpty()) {
+            popUpdialog()
+            viewBinding.createdInput.requestFocus()
+
+            return false
+        } else if (createdOn.isEmpty()) {
+
+            popUpdialog()
+            viewBinding.createdOnInput.requestFocus()
+
+            return false
+        }
+
+        else if (batchNo.isEmpty()) {
+            popUpdialog()
+            viewBinding.BatchTextInput.requestFocus()
+
+
+
+            return false
+        }
+
+        else if (manufDate.isEmpty()) {
+
+            popUpdialog()
+            return false
+        } else if (expDate.isEmpty()) {
+
+
+            popUpdialog()
+            return false
+        }
+//
+        else if (barCode.isEmpty()) {
             viewBinding.barCodeL.requestFocus()
 
-            viewBinding.barCodeL.error = "Please Enter Barcode No"
-
+            popUpdialog()
 
             return false
         } else if (hsnCode.isEmpty()) {
             viewBinding.hsnText.requestFocus()
 
-            viewBinding.hsnText.error = "Please Enter HSN Code"
+            popUpdialog()
             return false
         } else if (gst.isEmpty()) {
 
 
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_gst)
-            )
+            popUpdialog()
             return false
-        } else if (packsize.isEmpty()) {
-            viewBinding.pasckizel.requestFocus()
+        }  else {
+            if (frontImageList.isEmpty() || backImageList.isEmpty() || billImageList.isEmpty() || sideImageList.isEmpty()) {
 
-            viewBinding.pasckizel.error = "Please Enter Pack Size"
-
-            return false
-
-        } else {
-            if (frontImageList.isEmpty()||backImageList.isEmpty()|| billImageList.isEmpty()||sideImageList.isEmpty()) {
-
-                showErrorMsg(
-                    "Please Upload All Images"
-                )
+                popUpdialog()
                 return false
             }
         }
@@ -790,8 +811,26 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     override fun selectSite(departmentDto: StoreListItem) {
 
-        viewBinding.siteIdSelect.setText(departmentDto.site + "," + departmentDto.store_name)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val currentDate: String = simpleDateFormat.format(Date())
+
+
+        val site = viewBinding.siteIdSelect.text.toString().trim()
+
+        viewBinding.siteIdSelect.setText(departmentDto.site + " - " + departmentDto.store_name)
         viewBinding.siteId.error = null
+
+        viewBinding.dcTextInput.visibility = View.VISIBLE
+        viewBinding.dcCode.visibility = View.VISIBLE
+
+        viewBinding.dcCode.setText("" + (departmentDto.dc_code?.code
+            ?: String()) + " - " + departmentDto.dc_code?.name ?: String())
+
+        viewBinding.createdOn.setText(currentDate)
+        viewBinding.createdBy.setText(Preferences.getToken())
+        viewBinding.loactionSelect.setText(departmentDto.store_name)
+
+
     }
 
     fun imageType(pathname: File): String? {
@@ -814,8 +853,13 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     viewBinding.fromDateText.text.toString()
                 )
             }.show(childFragmentManager, "")
-        } else {
-            ComplaintListCalendarDialog().apply {
+        }
+    }
+
+
+    fun dateDialog() {
+        if (isFromDateSelected) {
+            CalenderNew().apply {
                 arguments = generateParsedData(
                     viewBinding.toDateText.text.toString(),
                     false,
@@ -824,6 +868,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }.show(childFragmentManager, "")
         }
     }
+
 
     fun RefreshView() {
 
@@ -840,6 +885,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.packsize.setText("")
         viewBinding.siteIdSelect.setText("")
         viewBinding.barCode.setText("")
+        viewBinding.selectRemarks.setText("")
+        viewBinding.createdOn.setText("")
+        viewBinding.createdBy.setText("")
+        viewBinding.descriptionText.setText("")
+
+        viewBinding.dcCode.setText(" ")
+        viewBinding.dcCode.visibility = View.GONE
+        viewBinding.dcTextInput.visibility = View.GONE
 
 
         viewBinding.siteId.error = null
@@ -855,6 +908,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.siteIdSelect.error = null
         viewBinding.barCodeL.error = null
         viewBinding.gst.error = null
+
         viewBinding.addImage.visibility = View.VISIBLE
         viewBinding.addImage1.visibility = View.VISIBLE
         viewBinding.addImage2.visibility = View.VISIBLE
@@ -878,10 +932,11 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             viewBinding.fromDateText.setText(showingDate)
             viewBinding.fromDate.error = null
 
-        } else {
-            viewBinding.toDateText.setText(showingDate)
-            viewBinding.toDate.error = null
         }
+//        else {
+//            viewBinding.toDateText.setText(showingDate)
+//            viewBinding.toDate.error = null
+//        }
     }
 
     override fun selectedDatefrom(dateSelected: String, showingDate: String) {
@@ -895,6 +950,38 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun confirmsavetheticket() {
         RefreshView()
     }
+
+
+    fun popUpdialog() {
+
+
+        val dialogBinding: LayoutErrorBinding? =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.layout_error,
+                null,
+                false
+            )
+        val customDialog = AlertDialog.Builder(requireContext(), 0).create()
+        customDialog.apply {
+
+            setView(dialogBinding?.root)
+            setCancelable(false)
+        }.show()
+        if (dialogBinding != null) {
+            dialogBinding.cancelButton.setOnClickListener {
+                customDialog.dismiss()
+
+            }
+
+            dialogBinding.close.setOnClickListener {
+                customDialog.dismiss()
+
+            }
+
+        }
+    }
+
 
     override fun deleteImage(position: Int) {
 
@@ -1026,19 +1113,26 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun onItemClick(position: Int, imagePath: String) {
         PhotoPopupWindow(context, R.layout.layout_image_fullview, view, imagePath, null)
     }
+
+    override fun selectedDate(dateSelected: String, showingDate: String) {
+        if (isFromDateSelected) {
+            viewBinding.toDateText.setText(showingDate)
+
+        }
+    }
 }
 
 
 class DrugImageRecyclerView(
     var orderData: ArrayList<Image>,
-    val imageClicklistner: ImagesListner
+    val imageClicklistner: ImagesListner,
 ) :
-    SimpleRecyclerView<ViewimageBinding, Image>(
+    SimpleRecyclerView<ImageviewDrugBinding, Image>(
         orderData,
-        R.layout.viewimage
+        R.layout.imageview_drug
     ) {
     override fun bindItems(
-        binding: ViewimageBinding,
+        binding: ImageviewDrugBinding,
         items: Image,
         position: Int,
     ) {
@@ -1073,14 +1167,14 @@ class DrugImageRecyclerView(
 
 class DrugImageRecyclerView1(
     var orderData: ArrayList<Image>,
-    val imageClicklistner: ImagesListner
+    val imageClicklistner: ImagesListner,
 ) :
-    SimpleRecyclerView<ViewimageBinding, Image>(
+    SimpleRecyclerView<ImageviewDrugBinding, Image>(
         orderData,
-        R.layout.viewimage
+        R.layout.imageview_drug
     ) {
     override fun bindItems(
-        binding: ViewimageBinding,
+        binding: ImageviewDrugBinding,
         items: Image,
         position: Int,
     ) {
@@ -1115,14 +1209,14 @@ class DrugImageRecyclerView1(
 
 class DrugImageRecyclerView2(
     var orderData: ArrayList<Image>,
-    val imageClicklistner: ImagesListner
+    val imageClicklistner: ImagesListner,
 ) :
-    SimpleRecyclerView<ViewimageBinding, Image>(
+    SimpleRecyclerView<ImageviewDrugBinding, Image>(
         orderData,
-        R.layout.viewimage
+        R.layout.imageview_drug
     ) {
     override fun bindItems(
-        binding: ViewimageBinding,
+        binding: ImageviewDrugBinding,
         items: Image,
         position: Int,
     ) {
@@ -1157,14 +1251,14 @@ class DrugImageRecyclerView2(
 
 class DrugImageRecyclerView3(
     var orderData: ArrayList<Image>,
-    val imageClicklistner: ImagesListner
+    val imageClicklistner: ImagesListner,
 ) :
-    SimpleRecyclerView<ViewimageBinding, Image>(
+    SimpleRecyclerView<ImageviewDrugBinding, Image>(
         orderData,
-        R.layout.viewimage
+        R.layout.imageview_drug
     ) {
     override fun bindItems(
-        binding: ViewimageBinding,
+        binding: ImageviewDrugBinding,
         items: Image,
         position: Int,
     ) {
@@ -1173,7 +1267,7 @@ class DrugImageRecyclerView3(
         Glide.with(ViswamApp.context).load(items.file.toString())
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
-        binding.image.setOnClickListener {
+        binding.eyeImageRes.setOnClickListener {
             items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
         }
 
