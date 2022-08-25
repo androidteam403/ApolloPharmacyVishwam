@@ -115,8 +115,8 @@
     <string name="label_problem_since">Created Date Time: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
-    <string name="label_select_site">Select Site</string>
-    <string name="label_search_site_id">Search Site Id</string>
+    <string name="label_select_site">Select Sites</string>
+    <string name="label_search_site_id">Search Site Id or Site Name</string>
     <string name="label_site_not_available">Site Not Available</string>
     <string name="label_sub_category_list">Sub Category List</string>
     <string name="label_reasonlist_list">Reason List</string>
@@ -220,4 +220,5 @@
     values-round/strings.xml for round devices.
     -->
     <string name="hello_world">Hello Square World!</string>
+    <string name="game_message">You have already selected this siteId</string>
 </resources>

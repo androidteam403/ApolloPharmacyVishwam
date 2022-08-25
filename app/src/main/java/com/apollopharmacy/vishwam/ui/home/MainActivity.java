@@ -52,6 +52,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
@@ -92,7 +93,8 @@ import java.util.Date;
 import kotlin.jvm.internal.Intrinsics;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    public static MainActivity mInstance;
+    public MainActivityCallback mainActivityCallback;
     public static boolean isSuperAdmin = false;
     public static boolean isAttendanceRequired = false;
     public static boolean isCMSRequired = false;
@@ -132,16 +134,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mInstance=this;
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         imageView = findViewById(R.id.siteIdList);
 
         imageView.setOnClickListener(v -> {
-
-            siteIdScreen = true;
-            headerText.setText("SWACHH LIST");
-           Fragment fragment = new SwachListFragment();
-
+            if(mainActivityCallback!=null){
+            mainActivityCallback.onClickFilterIcon();
+        }
                 });
 
 
@@ -193,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
+            Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();
@@ -328,6 +330,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new Drug();
                 imageView.setVisibility(View.GONE);
                 break;
+
+//            case "Select Site":
+//                headerText.setText("Select Site ID");
+//                fragment = new SelectSiteActivityy();
+//                imageView.setVisibility(View.GONE);
+//                break;
 
             case "Logout":
                 dialogExit();
@@ -628,7 +636,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (userDesignation.equalsIgnoreCase("NODATA")) {
                     listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
-//                            .addChildModel(new ChildModel("List")));
+//                          .addChildModel(new ChildModel("List")));
 
                 } else {
                     listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
@@ -685,7 +693,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 } else if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
                                     displaySelectedScreen("List");
                                 }
-                            }
+                           }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                if (userDesignation.equalsIgnoreCase("NODATA")) {
+//                                    displaySelectedScreen("List");
+//                                }
+//                            }
 //                            else if (groupPosition == 3 && childPosition == 1) {
 //                                displaySelectedScreen("List");
 //                            }
@@ -919,4 +932,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
+    public void onClickFilterIcon() {
+        Intent i = new Intent(MainActivity.this, SelectSiteActivityy.class);
+        startActivity(i);
+    }
+
+
 }
+
+

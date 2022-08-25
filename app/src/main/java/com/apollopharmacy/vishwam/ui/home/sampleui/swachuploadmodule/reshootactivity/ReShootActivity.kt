@@ -199,12 +199,14 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         submit.storeid = storeId
         submit.swachhId = swachId
         Utlis.showLoading(this)
+
         viewModel.getImageUrl(submit)
 
         viewModel.getImageUrlsList.observeForever {
             if (it != null && it.categoryList != null) {
                 getImageUrlsList.add(it)
 
+                activityreShootBinding.comments.text = it.remarks?.get(0)?.remarks
 
 //                getImageUrlsList.get(0).categoryList?.get(0)?.imageUrls?.get(0)?.status = "2"
 //                getImageUrlsList.get(0).categoryList?.get(1)?.imageUrls?.get(0)?.status = "1"
@@ -360,7 +362,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -438,7 +440,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         configPositionRes: Int,
         url: String?,
         view: View,
-        position: Int
+        position: Int,
     ) {
         PhotoPopupWindow(
             context, R.layout.layout_image_fullview, view,
@@ -466,8 +468,6 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
 
-       
-
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
                 .setQuality(100)
@@ -486,7 +486,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             Utlis.showLoading(this)
 //            viewModel.connectToAzure(imageFromCameraFile)
 
-             viewModel.connectToAzure(resizedImage)
+            viewModel.connectToAzure(resizedImage)
 
 
         }
@@ -510,7 +510,8 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                             getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
                         imageUrl.categoryid =
                             getImageUrlsList.get(0).categoryList!!.get(i).categoryid
-                        imageUrl.imageId = getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
+                        imageUrl.imageId =
+                            getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
                         imageUrlsList.add(imageUrl)
                     }
 

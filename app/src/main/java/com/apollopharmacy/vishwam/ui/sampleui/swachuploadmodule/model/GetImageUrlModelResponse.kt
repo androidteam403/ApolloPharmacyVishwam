@@ -13,9 +13,49 @@ class GetImageUrlModelResponse : Serializable {
     @Expose
     var status: Boolean? = null
 
+    @SerializedName("REMARKS")
+    @Expose
+    var remarks: List<Remark>? = null
+
     @SerializedName("CATEGORY_LIST")
     @Expose
     var categoryList: List<Category>? = null
+
+     class Remark : Serializable {
+        @SerializedName("RECID")
+        @Expose
+        var recid: Int? = null
+
+        @SerializedName("SWACHH_ID")
+        @Expose
+        var swachhId: String? = null
+
+        @SerializedName("STORE_ID")
+        @Expose
+        var storeId: String? = null
+
+        @SerializedName("REMARKS")
+        @Expose
+        var remarks: String? = null
+
+        @SerializedName("RATING")
+        @Expose
+        var rating: Int? = null
+
+        @SerializedName("USERID")
+        @Expose
+        var userid: String? = null
+
+        @SerializedName("CREATED_DATE")
+        @Expose
+        var createdDate: String? = null
+
+        @SerializedName("STATUS")
+        @Expose
+        var status: Any? = null
+
+
+    }
 
     inner class Category : Serializable {
         @SerializedName("CATEGORYID")

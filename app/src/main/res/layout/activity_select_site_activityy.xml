@@ -7,6 +7,19 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <TextView
+            android:layout_centerInParent="true"
+            android:id="@+id/no_order_found_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:text="No Site Id's Found"
+            android:textColor="@color/red"
+            android:textSize="@dimen/text_14sp"
+            android:visibility="gone" />
+
         <RelativeLayout
             android:id="@+id/header_layout"
             android:layout_width="match_parent"
@@ -14,6 +27,8 @@
             android:background="@color/splash_start_color"
             android:paddingTop="@dimen/value_15dp"
             android:paddingBottom="@dimen/value_15dp">
+
+
 
             <TextView
                 android:id="@+id/textHead"
@@ -26,6 +41,7 @@
                 android:textStyle="bold" />
 
             <ImageView
+                android:onClick="@{()-> callback.onClickCancel()}"
                 android:id="@+id/close_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,8 +74,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
                     android:hint="@string/label_search_site_id"
-                    android:inputType="number|text"
-                    android:maxLength="5"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
@@ -80,6 +94,19 @@
                 android:textSize="@dimen/text_18sp"
                 android:visibility="gone" />
 
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="visible"
+                android:layout_marginStart="@dimen/value_12dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:id="@+id/storeIdsRecyclerView"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/value_5dp"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/fieldRecyclerView"
                 android:layout_width="match_parent"
@@ -87,6 +114,38 @@
                 android:layout_margin="@dimen/value_5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/view_item_row" />
+
+
         </LinearLayout>
+
+<!--        <LinearLayout-->
+<!--            android:onClick="@{()-> callback.onClickSubmit()}"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:id="@+id/completeButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/value_50dp"-->
+<!--            android:background="@color/greenn"-->
+<!--            android:gravity="center"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="@dimen/value_12dp">-->
+
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:gravity="center"-->
+<!--            android:text="SUBMIT"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textSize="@dimen/text_17sp"-->
+<!--            android:textStyle="bold" />-->
+<!--    </LinearLayout>-->
+
+
     </RelativeLayout>
+    <data>
+    <variable
+        name="callback"
+        type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteIdCallback" />
+    </data>
+
 </layout>

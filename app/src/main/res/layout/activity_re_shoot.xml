@@ -779,6 +779,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/comments"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_10dp"
