@@ -83,6 +83,7 @@ class OtpViewActivity : AppCompatActivity() {
         otpViewModel.validateOtpModel.observeForever {
             Utlis.hideLoading()
             if (it.STATUS) {
+                otpViewBinding.buttonLayout.visibility =View.GONE
                 otpViewBinding.customerMobileNum.visibility = View.VISIBLE
                 otpViewBinding.customerMobileNum.setText("")
                 otpViewBinding.customerMobileNum.setText(resources.getText(R.string.please_type_the_verification_code_sent_to_))
@@ -91,8 +92,8 @@ class OtpViewActivity : AppCompatActivity() {
                 otpViewBinding.otpView.visibility = View.VISIBLE
                 otpViewBinding.fabNext.visibility = View.VISIBLE
                 otpViewBinding.timer.visibility = View.VISIBLE
-                otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
-                otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+//                otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//                otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
                 otpViewBinding.updateButton.isClickable = true
                 otpViewBinding.confirmButton.isClickable = false
                 otpViewBinding.updateIdLayout.visibility = View.GONE
@@ -103,7 +104,12 @@ class OtpViewActivity : AppCompatActivity() {
                 otpViewBinding.confirmButton.isClickable = true
                 otpViewBinding.employeeIdET.isEnabled = true
                 otpViewBinding.proceedButton.isClickable = true
-                Toast.makeText(this, it.MESSAGE, Toast.LENGTH_SHORT).show()
+                otpViewBinding.buttonLayout.visibility =View.GONE
+                otpViewBinding.updateIdLayout.visibility = View.VISIBLE
+                otpViewBinding.employeeIdET.setText(empVal)
+                otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
+                otpViewBinding.employeeIdET.requestFocus()
+//                Toast.makeText(this, it.MESSAGE, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -158,8 +164,8 @@ class OtpViewActivity : AppCompatActivity() {
 
         otpViewBinding.confirmButton.setOnClickListener {
             isTimerStarted = true
-            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
-            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+//            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
 //            otpViewBinding.updateButton.isClickable = true
 //            otpViewBinding.confirmButton.isClickable = false
             otpViewBinding.updateIdLayout.visibility = View.GONE

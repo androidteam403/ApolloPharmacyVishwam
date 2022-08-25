@@ -647,8 +647,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
 
                 listView.addHeaderModel(
-                        new HeaderModel("Drug", Color.WHITE, true, R.drawable.ic_baseline_article)
-                                .addChildModel(new ChildModel("Drug Request")));
+                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
+                                .addChildModel(new ChildModel("New Drug Request")));
 
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)

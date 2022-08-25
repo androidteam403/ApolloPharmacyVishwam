@@ -35,6 +35,7 @@ class OtpViewModel : ViewModel() {
                         validateOtpModel.value = result.value
                     } else {
                         state.value = State.ERROR
+                        validateOtpModel.value = result.value
                         commands.value = Command.ShowToast(result.value.MESSAGE)
                     }
                 }
