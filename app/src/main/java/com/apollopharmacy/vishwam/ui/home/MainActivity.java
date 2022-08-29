@@ -326,7 +326,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 imageView.setVisibility(View.VISIBLE);
                 break;
             case "Drug Request":
-                headerText.setText("Drug Request");
+                headerText.setText("New Drug Request");
                 fragment = new Drug();
                 imageView.setVisibility(View.GONE);
                 break;

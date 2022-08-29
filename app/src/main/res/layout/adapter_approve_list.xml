@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -13,140 +14,77 @@
             android:layout_marginBottom="@dimen/value_10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/category_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/five5_sp"
-                android:text="@{model.categoryname}"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12sp"
-                android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/image_urls_recycler"
-                    android:layout_width="@dimen/dimen170dp"
-                    android:layout_height="@dimen/dimen65dp" />
-                <!--                <androidx.cardview.widget.CardView-->
-                <!--                    android:layout_width="@dimen/value_80dp"-->
-                <!--                    android:layout_height="65dp"-->
-                <!--                    app:cardBackgroundColor="@color/white"-->
-                <!--                    app:cardCornerRadius="@dimen/value_10dp">-->
-
-                <!--                    <RelativeLayout-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="match_parent"-->
-                <!--                        tools:ignore="Orientation">-->
-
-                <!--                        <ImageView-->
-                <!--                            android:layout_width="match_parent"-->
-                <!--                            android:layout_height="match_parent"-->
-                <!--                            android:contentDescription="@string/app_name"-->
-                <!--                            android:scaleType="fitXY"-->
-                <!--                            android:src="@drawable/capture" />-->
-
-                <!--                        <LinearLayout-->
-                <!--                            android:layout_width="wrap_content"-->
-                <!--                            android:layout_height="wrap_content"-->
-                <!--                            android:layout_centerInParent="true"-->
-                <!--                            android:background="@drawable/red_rounded_corners"-->
-                <!--                            android:padding="@dimen/value_4dp"-->
-                <!--                            android:visibility="gone">-->
-
-                <!--                            <ImageView-->
-                <!--                                android:layout_width="@dimen/value_20dp"-->
-                <!--                                android:layout_height="@dimen/value_20dp"-->
-                <!--                                android:layout_gravity="center"-->
-                <!--                                android:src="@drawable/ic_baseline_camera_alt_24" />-->
-                <!--                        </LinearLayout>-->
-                <!--                    </RelativeLayout>-->
-                <!--                </androidx.cardview.widget.CardView>-->
-
-                <!--                <androidx.cardview.widget.CardView-->
-                <!--                    android:layout_width="@dimen/value_80dp"-->
-                <!--                    android:layout_height="65dp"-->
-                <!--                    android:layout_marginStart="@dimen/value_7dp"-->
-                <!--                    app:cardBackgroundColor="@color/white"-->
-                <!--                    app:cardCornerRadius="@dimen/value_10dp">-->
-
-
-                <!--                    <RelativeLayout-->
-                <!--                        android:layout_width="match_parent"-->
-                <!--                        android:layout_height="match_parent"-->
-                <!--                        tools:ignore="Orientation">-->
-
-                <!--                        <ImageView-->
-
-                <!--                            android:layout_width="match_parent"-->
-                <!--                            android:layout_height="match_parent"-->
-                <!--                            android:contentDescription="@string/app_name"-->
-                <!--                            android:scaleType="fitXY"-->
-                <!--                            android:src="@drawable/capture" />-->
-
-                <!--                        <LinearLayout-->
-                <!--                            android:layout_width="wrap_content"-->
-                <!--                            android:layout_height="wrap_content"-->
-                <!--                            android:layout_centerInParent="true"-->
-                <!--                            android:background="@drawable/red_rounded_corners"-->
-                <!--                            android:padding="@dimen/value_4dp"-->
-                <!--                            android:visibility="gone">-->
-
-                <!--                            <ImageView-->
-                <!--                                android:layout_width="@dimen/text_18sp"-->
-                <!--                                android:layout_height="@dimen/text_18sp"-->
-                <!--                                android:layout_gravity="center"-->
-                <!--                                android:src="@drawable/camerawhite" />-->
-                <!--                        </LinearLayout>-->
-
-
-                <!--                    </RelativeLayout>-->
-
-
-                <!--                </androidx.cardview.widget.CardView>-->
-
-
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="@dimen/value_20dp">
+                    android:layout_marginStart="5dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:text="@{approvedAndTotalCount}"
-                        android:textAlignment="center"
+                        android:id="@+id/category_name"
+                        android:layout_width="215dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="@dimen/five5_sp"
+                        android:text="@{model.categoryname + ' ' + '('+approvedAndTotalCount+')'}"
                         android:textColor="@{status.equalsIgnoreCase(`1`) ? @color/black : @color/grey}"
-                        android:textSize="@dimen/text_20sp" />
+
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold" />
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_marginTop="3dp"-->
+                    <!--                        android:padding="1dp"-->
+                    <!--                        android:text="("-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="@dimen/text_13sp"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_gravity="center"-->
+                    <!--                        android:layout_marginLeft="1dp"-->
+
+                    <!--                        android:layout_marginTop="3dp"-->
+                    <!--                        android:text="@{approvedAndTotalCount}"-->
+                    <!--                        android:textColor="@{status.equalsIgnoreCase(`1`) ? @color/black : @color/grey}"-->
+                    <!--                        android:textSize="@dimen/text_14sp"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="8dp"-->
+                    <!--                        android:layout_height="match_parent"-->
+                    <!--                        android:layout_marginLeft="1dp"-->
+                    <!--                        android:layout_marginTop="3dp"-->
+                    <!--                        android:padding="1dp"-->
+                    <!--                        android:text=")"-->
+                    <!--                        android:textColor="@color/black"-->
+                    <!--                        android:textSize="@dimen/text_13sp"-->
+                    <!--                        android:textStyle="bold" />-->
                 </LinearLayout>
 
                 <LinearLayout
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_marginLeft="@dimen/value_35dp"
+
                     android:orientation="vertical">
 
 
-                    <TextView
-                        android:layout_gravity="center"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Status"
-                        android:textAlignment="center"
-                        android:textColor="@color/black" />
-
                     <LinearLayout
-                        android:layout_marginBottom="6dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -158,77 +96,183 @@
                             android:text="Partially"
                             android:textAlignment="center"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/text_16sp"
+                            android:textSize="@dimen/text_14sp"
                             android:textStyle="bold"
                             android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
 
                         <LinearLayout
 
-                            android:layout_gravity="center"
-                            android:gravity="center"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center"
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}"
-                                android:layout_gravity="center"
-                                android:gravity="center"
                                 android:layout_width="@dimen/value_100dp"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}">
 
-                            <ImageView
-                                android:layout_width="@dimen/text_20sp"
-                                android:layout_height="@dimen/text_20sp"
-                                android:src="@drawable/ic_baseline_done_24" />
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
 
-                            <TextView
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="wrap_content"
-                                android:text="Approved"
-                                android:textColor="@color/greenn"
-                                android:textSize="@dimen/text_16sp"
-                                android:textStyle="bold"
-                                />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_4dp"
+                                        android:text="Approved"
+                                        android:textColor="@color/greenn"
+                                        android:textSize="@dimen/text_14sp"
+                                        android:textStyle="bold" />
+
+                                    <!--                                    <ImageView-->
+                                    <!--                                        android:layout_width="@dimen/twenty_three23_sp"-->
+                                    <!--                                        android:layout_height="@dimen/twenty_three23_sp"-->
+                                    <!--                                        android:layout_marginLeft="@dimen/value_3dp"-->
+                                    <!--                                        android:src="@drawable/ic_baseline_done_24" />-->
+
+
+                                </LinearLayout>
+
+
                             </LinearLayout>
 
 
+                            <TextView
+                                android:layout_width="@dimen/value_100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/three3_sp"
+                                android:layout_marginBottom="@dimen/three3_sp"
+                                android:background="@drawable/red_rounded_corners"
+                                android:padding="@dimen/five5_sp"
+                                android:text="Re-Shoot"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_14sp"
+                                android:textStyle="bold"
+                                android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
-                        <TextView
-                            android:layout_width="@dimen/value_100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="@dimen/three3_sp"
-                            android:layout_marginTop="@dimen/three3_sp"
-                            android:background="@drawable/red_rounded_corners"
-                            android:padding="@dimen/five5_sp"
-                            android:text="Re-Shoot"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold"
-                            android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
-
-                        <TextView
-                            android:layout_marginStart="@dimen/text_20sp"
-                            android:layout_width="@dimen/value_100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:background="@drawable/red_rounded_corners"
-                            android:backgroundTint="@color/material_amber_accent_700"
-                            android:padding="@dimen/five5_sp"
-                            android:text="Pending"
-                            android:textAlignment="center"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_16sp"
-                            android:textStyle="bold"
-                            android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
+                            <TextView
+                                android:layout_width="@dimen/value_100dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/text_20sp"
+                                android:layout_marginTop="@dimen/value_3dp"
+                                android:background="@drawable/red_rounded_corners"
+                                android:backgroundTint="@color/material_amber_accent_700"
+                                android:padding="@dimen/five5_sp"
+                                android:text="Pending"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_14sp"
+                                android:textStyle="bold"
+                                android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
 
 
             </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/value_10dp"
+                android:background="@color/transparent"
+                android:orientation="horizontal">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/image_urls_recycler"
+                    android:layout_width="wrap_content"
+                    android:scrollbars="horizontal"
+                    android:elevation="@dimen/twenty20_dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_10dp" />
+            </LinearLayout>
+            <!--                <androidx.cardview.widget.CardView-->
+            <!--                    android:layout_width="@dimen/value_80dp"-->
+            <!--                    android:layout_height="65dp"-->
+            <!--                    app:cardBackgroundColor="@color/white"-->
+            <!--                    app:cardCornerRadius="@dimen/value_10dp">-->
+
+            <!--                    <RelativeLayout-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="match_parent"-->
+            <!--                        tools:ignore="Orientation">-->
+
+            <!--                        <ImageView-->
+            <!--                            android:layout_width="match_parent"-->
+            <!--                            android:layout_height="match_parent"-->
+            <!--                            android:contentDescription="@string/app_name"-->
+            <!--                            android:scaleType="fitXY"-->
+            <!--                            android:src="@drawable/capture" />-->
+
+            <!--                        <LinearLayout-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_centerInParent="true"-->
+            <!--                            android:background="@drawable/red_rounded_corners"-->
+            <!--                            android:padding="@dimen/value_4dp"-->
+            <!--                            android:visibility="gone">-->
+
+            <!--                            <ImageView-->
+            <!--                                android:layout_width="@dimen/value_20dp"-->
+            <!--                                android:layout_height="@dimen/value_20dp"-->
+            <!--                                android:layout_gravity="center"-->
+            <!--                                android:src="@drawable/ic_baseline_camera_alt_24" />-->
+            <!--                        </LinearLayout>-->
+            <!--                    </RelativeLayout>-->
+            <!--                </androidx.cardview.widget.CardView>-->
+
+            <!--                <androidx.cardview.widget.CardView-->
+            <!--                    android:layout_width="@dimen/value_80dp"-->
+            <!--                    android:layout_height="65dp"-->
+            <!--                    android:layout_marginStart="@dimen/value_7dp"-->
+            <!--                    app:cardBackgroundColor="@color/white"-->
+            <!--                    app:cardCornerRadius="@dimen/value_10dp">-->
+
+
+            <!--                    <RelativeLayout-->
+            <!--                        android:layout_width="match_parent"-->
+            <!--                        android:layout_height="match_parent"-->
+            <!--                        tools:ignore="Orientation">-->
+
+            <!--                        <ImageView-->
+
+            <!--                            android:layout_width="match_parent"-->
+            <!--                            android:layout_height="match_parent"-->
+            <!--                            android:contentDescription="@string/app_name"-->
+            <!--                            android:scaleType="fitXY"-->
+            <!--                            android:src="@drawable/capture" />-->
+
+            <!--                        <LinearLayout-->
+            <!--                            android:layout_width="wrap_content"-->
+            <!--                            android:layout_height="wrap_content"-->
+            <!--                            android:layout_centerInParent="true"-->
+            <!--                            android:background="@drawable/red_rounded_corners"-->
+            <!--                            android:padding="@dimen/value_4dp"-->
+            <!--                            android:visibility="gone">-->
+
+            <!--                            <ImageView-->
+            <!--                                android:layout_width="@dimen/text_18sp"-->
+            <!--                                android:layout_height="@dimen/text_18sp"-->
+            <!--                                android:layout_gravity="center"-->
+            <!--                                android:src="@drawable/camerawhite" />-->
+            <!--                        </LinearLayout>-->
+
+
+            <!--                    </RelativeLayout>-->
+
+
+            <!--                </androidx.cardview.widget.CardView>-->
+
+
 
 
         </LinearLayout>

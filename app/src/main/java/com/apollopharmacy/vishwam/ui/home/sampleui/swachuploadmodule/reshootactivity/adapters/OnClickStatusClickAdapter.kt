@@ -79,7 +79,7 @@ class OnClickStatusClickAdapter(
 
 
         imagesCardViewAdapter =
-            ImagesCardViewAdapterRes(position, catergoryResponse?.imageUrls, callbackInterface)
+            ImagesCardViewAdapterRes(position, catergoryResponse?.imageUrls, callbackInterface,categoryList)
         holder.imageRecyclerView.layoutManager = LinearLayoutManager(
             ViswamApp.context,
             LinearLayoutManager.HORIZONTAL, false
