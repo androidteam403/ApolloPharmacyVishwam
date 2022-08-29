@@ -27,11 +27,11 @@
                 <TextView
                     android:layout_marginStart="@dimen/value_5dp"
                     android:id="@+id/categoryNameSwachRes"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/dimen170dp"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp"/>
+                    android:textSize="@dimen/text_14sp"/>
 
                 <LinearLayout
                     android:weightSum="1"
