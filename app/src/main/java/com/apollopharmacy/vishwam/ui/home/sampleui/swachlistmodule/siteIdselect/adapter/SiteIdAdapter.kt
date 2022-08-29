@@ -13,14 +13,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.AdapterSiteIdListmoduleBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteIdCallback
-import java.util.*
+import kotlin.collections.ArrayList
 
 class SiteIdAdapter(
     val applicationContext: Context,
     var siteData: ArrayList<StoreListItem>,
     val selectSiteIdCallback: SelectSiteIdCallback,
     val selectsiteIdList: ArrayList<String>,
-    val tickMarkDelete: Boolean,
 ) :
     RecyclerView.Adapter<SiteIdAdapter.ViewHolder>() {
 
@@ -40,14 +39,18 @@ class SiteIdAdapter(
         val items = siteData.get(position)
         holder.adapterSiteIdListmoduleBinding.itemName.text = "${items.site}, ${items.store_name}"
 
-        if(tickMarkDelete){
+
+        if(siteData.get(position).isSelected!=null &&siteData.get(position).isSelected!!.equals(true)){
+            holder.adapterSiteIdListmoduleBinding.tickMark.visibility=View.VISIBLE
+        }else if(siteData.get(position).isSelected!=null && siteData.get(position).isSelected!!.equals(false)) {
             holder.adapterSiteIdListmoduleBinding.tickMark.visibility=View.GONE
         }
 
+
         holder.itemView.setOnClickListener {
             if(selectsiteIdList.size<=9){
-                selectSiteIdCallback.onClickSiteId(siteData.get(position))
-                holder.adapterSiteIdListmoduleBinding.tickMark.visibility=View.VISIBLE
+
+                selectSiteIdCallback.onClickSiteId(items.site, position)
 
             }else{
                 Toast.makeText(applicationContext,

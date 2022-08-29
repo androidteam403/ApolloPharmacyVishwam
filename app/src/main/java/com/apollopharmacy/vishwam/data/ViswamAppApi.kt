@@ -336,4 +336,11 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
+
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
+    suspend fun RATING_BAR_API(
+        @Header("token") token: String,
+        @Body data: RatingModelRequest?,
+    ): RatingModelResponse
 }

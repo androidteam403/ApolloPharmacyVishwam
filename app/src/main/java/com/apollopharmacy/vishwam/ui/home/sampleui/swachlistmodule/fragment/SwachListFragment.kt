@@ -77,7 +77,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         MainActivity.mInstance.mainActivityCallback=this
         viewBinding.callback = this
         viewBinding.userIdSwachlist.text = Preferences.getToken()
-        selectedSiteids= Preferences.getSiteId()
+//        selectedSiteids= Preferences.getSiteId()
 
 
 //        val i = getIntent()
@@ -135,9 +135,17 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //        getpendingAndApprovedListRequest.startpageno = 0
 //        getpendingAndApprovedListRequest.endpageno = 100
 
+        siteIdDisplayAdapter =
+            SiteIdDisplayAdapter(context, selectsiteIdList, this)
+        viewBinding.storeIdsRecyclerView.layoutManager =
+            LinearLayoutManager(
+                context, LinearLayoutManager.HORIZONTAL,
+                false
+            )
+
 
         viewBinding.storeId = Preferences.getSiteId()
-//      userDesignation = "EXECUTIVE"
+//    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {
@@ -209,8 +217,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
                   if(isApprovedTab){
-                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
-                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
+                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#2582a1"))
+                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
                       if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
                           viewBinding.noOrdersFound.visibility = View.GONE
 
@@ -242,8 +250,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     }
                     else if(isPendingTab){
 
-                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
-                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
+                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
+                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
                       if (pendingList != null && pendingList.size > 0) {
                           viewBinding.noOrdersFound.visibility = View.GONE
                           viewBinding.noOrdersFound.visibility = View.GONE
@@ -449,6 +457,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+
             if (requestCode == ApproveListActivity().APPROVE_LIST_ACTIVITY) {
                 Utlis.showLoading(requireContext())
                 viewModel.getPendingAndApprovedListApiCall(
@@ -464,6 +473,17 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 Utlis.showLoading(requireContext())
 
                 selectsiteIdList = data?.getStringArrayListExtra("selectsiteIdList")!!
+                siteIdDisplayAdapter =
+                    SiteIdDisplayAdapter(context, selectsiteIdList, this)
+                viewBinding.storeIdsRecyclerView.layoutManager =
+                    LinearLayoutManager(
+                        context, LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
+
+                viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
+
                 selectedSiteids = TextUtils.join(", ", selectsiteIdList)
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
@@ -471,18 +491,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     toDate,
                     selectedSiteids
                 )
-                if(selectsiteIdList!=null && selectsiteIdList.size>0){
-                    siteIdDisplayAdapter =
-                        SiteIdDisplayAdapter(context, selectsiteIdList, this)
-                    viewBinding.storeIdsRecyclerView.layoutManager =
-                        LinearLayoutManager(
-                            context, LinearLayoutManager.HORIZONTAL,
-                            false
-                        )
-                    viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
 
 //                   Toast.makeText(context, ""+ selectedSiteids, Toast.LENGTH_SHORT).show()
-                }
+
 
 
             }

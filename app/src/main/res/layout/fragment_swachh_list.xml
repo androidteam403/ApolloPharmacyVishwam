@@ -16,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -66,6 +66,7 @@
                     android:orientation="horizontal">
 
                      <LinearLayout
+                         android:layout_marginTop="@dimen/value_3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_8dp"
@@ -116,9 +117,10 @@
 
 
                      <LinearLayout
+                         android:layout_marginTop="@dimen/value_3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_8dp"
+                        android:layout_marginStart="11dp"
                         android:orientation="vertical">
 
 
@@ -200,9 +202,10 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:visibility="visible"
                 android:layout_marginStart="@dimen/value_12dp"
-                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_5dp"
                 android:id="@+id/storeIdsRecyclerView"
                 android:layout_width="match_parent"
+                android:layout_marginBottom="2dp"
 
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/value_5dp"
@@ -228,8 +231,8 @@
                     android:id="@+id/approvedListButton"
                     android:onClick="@{()-> callback.onClickApproved()}"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/light_ash"
+                    android:textColor="@color/white"
+                    android:background="@color/header_blue"
                     android:text="APPROVED"/>
 
                 <View
@@ -245,8 +248,8 @@
                     android:layout_height="48dp"
                     android:id="@+id/pendingListButton"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/white"
+                    android:textColor="@color/white"
+                    android:background="@color/grey"
                     android:textAlignment="center"
                     android:text="PENDING"/>
 

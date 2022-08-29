@@ -91,7 +91,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Store ID"
-                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/grey"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -129,7 +130,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Uploaded"
-                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/grey"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -166,7 +168,8 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="Status: "
-                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textColor="@color/grey"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView

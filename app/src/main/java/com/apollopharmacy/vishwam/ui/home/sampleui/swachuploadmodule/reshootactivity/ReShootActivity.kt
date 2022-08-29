@@ -196,7 +196,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
         var submit = GetImageUrlModelRequest()
-        submit.storeid = storeId
+        submit.storeid =  Preferences.getSiteId()
         submit.swachhId = swachId
         Utlis.showLoading(this)
 
@@ -206,7 +206,11 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (it != null && it.categoryList != null) {
                 getImageUrlsList.add(it)
 
-                activityreShootBinding.comments.text = it.remarks?.get(0)?.remarks
+                if( it.remarks?.size!!>0&& it.remarks?.get(0)?.remarks!= ""){
+                    activityreShootBinding.comments.text = it.remarks?.get(0)?.remarks
+                }
+
+
 
 //                getImageUrlsList.get(0).categoryList?.get(0)?.imageUrls?.get(0)?.status = "2"
 //                getImageUrlsList.get(0).categoryList?.get(1)?.imageUrls?.get(0)?.status = "1"
