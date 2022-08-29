@@ -102,7 +102,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@{model.status.equals(`PENDING`) ? model.uploadedBy : model.status.equals(`APPROVED`) ? model.approvedBy : model.status.equals(`RESHOOT`) ? model.reshootBy : model.status.equals(`PARTIALLY APPROVED`) ? model.partiallyApprovedBy : `-`}"
+                            android:text="@{model.status.equals(`PENDING`) ? model.uploadedBy : model.status.equals(`APPROVED`) ? model.uploadedBy : model.status.equals(`RESHOOT`) ? model.uploadedBy : model.status.equals(`PARTIALLY APPROVED`) ? model.uploadedBy : `-`}"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />

@@ -66,10 +66,10 @@ class GetStorePersonAdapter(
                 holder.onDetails.text = dateNewFormat.toString()
             }
 
-            if (getStorePerson?.approvedBy == "") {
+            if (getStorePerson?.uploadedBy == "") {
                 holder.byDetails.text = "--"
             } else {
-                holder.byDetails.text = getStorePerson?.approvedBy
+                holder.byDetails.text = getStorePerson?.uploadedBy
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("PENDING")) {
@@ -105,10 +105,10 @@ class GetStorePersonAdapter(
                 holder.onDetails.text = dateNewFormat.toString()
             }
 
-            if (getStorePerson?.reshootBy == "") {
+            if (getStorePerson?.uploadedBy == "") {
                 holder.byDetails.text = "--"
             } else {
-                holder.byDetails.text = getStorePerson?.reshootBy
+                holder.byDetails.text = getStorePerson?.uploadedBy
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
@@ -127,10 +127,10 @@ class GetStorePersonAdapter(
                 holder.onDetails.text = dateNewFormat.toString()
             }
 
-            if (getStorePerson?.partiallyApprovedBy == "") {
+            if (getStorePerson?.uploadedBy == "") {
                 holder.byDetails.text = "--"
             } else {
-                holder.byDetails.text = getStorePerson?.partiallyApprovedBy
+                holder.byDetails.text = getStorePerson?.uploadedBy
             }
         }
 

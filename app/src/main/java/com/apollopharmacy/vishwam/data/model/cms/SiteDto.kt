@@ -43,8 +43,8 @@ data class SiteDto(
 
         @field:SerializedName("store_name")
         val store_name: String? = null,
-        @field:SerializedName("tick_mark_delete")
-        var tickmark: Boolean? = null,
+
+        var isSelected: Boolean? = false,
 
         @field:SerializedName("site")
         val site: String? = null,

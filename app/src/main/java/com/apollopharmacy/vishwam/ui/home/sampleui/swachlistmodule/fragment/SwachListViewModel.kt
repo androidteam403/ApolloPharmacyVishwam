@@ -33,7 +33,7 @@ class SwachListViewModel : ViewModel() {
         getpendingAndApprovedListRequest.empid = Preferences.getValidatedEmpId()
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
-        getpendingAndApprovedListRequest.storeId = selectedSiteids
+        getpendingAndApprovedListRequest.storeId = Preferences.getSiteId() + "," +selectedSiteids
         getpendingAndApprovedListRequest.startpageno = 0
         getpendingAndApprovedListRequest.endpageno = 100
 

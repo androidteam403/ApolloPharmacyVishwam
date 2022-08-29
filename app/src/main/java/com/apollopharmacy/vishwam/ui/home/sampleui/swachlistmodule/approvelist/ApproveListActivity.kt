@@ -1,9 +1,12 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
+import android.widget.RatingBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -12,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utlis
 
@@ -29,6 +34,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     private var getImageUrlsResponses = GetImageUrlsResponse()
     private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
     private var overallStatus: String? = null
+    var ratingbar: RatingBar? = null
+    var rating: String? = null
     var view: View? = null
     val APPROVE_LIST_ACTIVITY = 101
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,11 +44,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
             this,
             R.layout.activity_approve_list
         )
-
+        ratingbar = findViewById(R.id.ratingBar);
         approveListViewModel = ViewModelProvider(this)[ApproveListViewModel::class.java]
         setUp()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setUp() {
         activityApproveListBinding.callback = this
         pendingAndApproved =
@@ -54,9 +62,45 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
             }
         }
+
+
+
+
+
+        ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+            var submitRating = RatingModelRequest()
+                submitRating.type = "REMARKS"
+                submitRating.swachhid = pendingAndApproved?.swachhid
+                submitRating.storeid = Preferences.getSiteId()
+                submitRating.statusid = "1"
+                submitRating.reamrks = "TESTING"
+                submitRating.rating = rating.toString()
+                submitRating.userid = Preferences.getValidatedEmpId()
+            Utlis.showLoading(this)
+                approveListViewModel.submitRatingBar(submitRating)
+//            Toast.makeText(applicationContext, "Rating: $rating", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+
+
         errorMessage()
         getImageUrlsApiResponse()
         saveAcceptandReshoot()
+        getRatingResponse()
+    }
+
+    private fun getRatingResponse() {
+        approveListViewModel.ratingBarResponse.observeForever {
+            Utlis.hideLoading()
+            if (it.message == "success") {
+              Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
+            }
+
+        }
     }
 
     private fun getImageUrlsApiResponse() {
@@ -78,6 +122,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 }
             }
         }
+
     }
 
     private fun saveAcceptandReshoot() {
@@ -217,7 +262,9 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
         activityApproveListBinding.reshootButton.visibility = View.GONE
         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+        activityApproveListBinding.ratingBarLayout.visibility=View.VISIBLE
     }
+
 
     override fun onBackPressed() {
         val intent = Intent()
@@ -266,8 +313,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 activityApproveListBinding.categoryListRecycler.adapter =
                     approveListAdapter
                 report()
-                activityApproveListBinding.reshootButton.visibility=View.VISIBLE
-                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.reshootButton.visibility = View.VISIBLE
+                activityApproveListBinding.startReviewButton.visibility = View.GONE
             }
         }
     }
