@@ -67,7 +67,7 @@ class ApproveListAdapter(
 
         if ((category.imageUrls != null && category.imageUrls!!.size > 0) == true) {
             val imageUrlAdapter =
-                ImageUrlAdapter(mContext, category.imageUrls!!, approveListcallback, isAccepted)
+                ImageUrlAdapter(mContext, category.imageUrls!!, approveListcallback, categoryList,position,isAccepted)
             holder.adapterApproveListBinding.imageUrlsRecycler.layoutManager =
                 LinearLayoutManager(
                     mContext, LinearLayoutManager.HORIZONTAL, false

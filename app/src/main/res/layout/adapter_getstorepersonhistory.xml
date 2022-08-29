@@ -72,11 +72,11 @@
                             android:layout_height="@dimen/value_15dp">
 
 
-                            <ImageView
-                                android:layout_width="@dimen/text_13sp"
-                                android:layout_height="@dimen/text_13sp"
-                                android:src="@drawable/threedots"
-                                android:layout_gravity="end"/>
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/threedots"-->
+<!--                                android:layout_gravity="end"/>-->
 
 
                         </LinearLayout>
