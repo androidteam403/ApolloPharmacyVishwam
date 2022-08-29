@@ -1,4 +1,4 @@
-package com.apollopharmacy.eposmobileapp.ui.dashboard
+package com.apollopharmacy.vishwam.dialog
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -11,34 +11,33 @@ import android.view.Window
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
-import com.apollopharmacy.vishwam.databinding.DialogConfirmSiteBinding
+import com.apollopharmacy.vishwam.databinding.ConfirmationDialogBinding
 
-class ConfirmSiteDialog : DialogFragment() {
-
-    private lateinit var viewBinding: DialogConfirmSiteBinding
+class DeleteSiteDialog : DialogFragment() {
+    private lateinit var viewBinding: ConfirmationDialogBinding
     lateinit var onSiteClickListener: OnSiteClickListener
-    lateinit var siteDataItem: StoreListItem
+    lateinit var siteDataItem: String
 
     init {
         setCancelable(false)
     }
 
-    companion object {
-        const val KEY_STORE_ITEM = "store_item"
+    interface OnSiteClickListener {
+        fun deleteSite(siteDataItem: String)
+
+        fun doNotDeleteSite()
     }
 
+    companion object {
+        const val KEY_STORE_DELETE_ITEM = "store_item"
+    }
 
-    fun generateParsedData(data: StoreListItem): Bundle {
+    fun generateParsedData(data: String): Bundle {
         return Bundle().apply {
-            putSerializable(KEY_STORE_ITEM, data)
+            putSerializable(DeleteSiteDialog.KEY_STORE_DELETE_ITEM, data)
         }
     }
 
-    interface OnSiteClickListener {
-        fun confirmSite(departmentDto: StoreListItem)
-
-        fun cancelledSite()
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,22 +46,25 @@ class ConfirmSiteDialog : DialogFragment() {
     ): View? {
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        viewBinding = DialogConfirmSiteBinding.inflate(inflater, container, false)
+        viewBinding = ConfirmationDialogBinding.inflate(inflater, container, false)
 
         onSiteClickListener = parentFragment as OnSiteClickListener
-        siteDataItem = arguments?.getSerializable(KEY_STORE_ITEM) as StoreListItem
+        siteDataItem =
+            arguments?.getSerializable(KEY_STORE_DELETE_ITEM) as String
         return viewBinding.root
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewBinding.cancelButton.setOnClickListener {
-            onSiteClickListener.cancelledSite()
+        viewBinding.noBtnExit.setOnClickListener {
+//            onSiteClickListener.doNotDeleteSite()
             dismiss()
         }
-        viewBinding.signOutButton.setOnClickListener {
-            onSiteClickListener.confirmSite(siteDataItem)
+        viewBinding.yesBtnExit.setOnClickListener {
+            onSiteClickListener.deleteSite(siteDataItem)
             dismiss()
         }
     }

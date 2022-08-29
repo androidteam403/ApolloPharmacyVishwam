@@ -84,14 +84,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store ID"
-                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/storeId"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="16015"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -123,7 +123,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="User ID"
-                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -160,7 +161,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Today's Update"
-                            android:textColor="@color/black"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView

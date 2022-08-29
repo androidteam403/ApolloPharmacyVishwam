@@ -9,4 +9,5 @@ interface SwachhListCallback {
     fun onClickSearch()
     fun onClickApproved()
     fun onClickPending()
+    fun onClickCrossButton(get: String, position: Int)
 }

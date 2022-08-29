@@ -28,12 +28,6 @@
     <string name="label_submit">Submit</string>
 
 
-
-
-
-
-
-
     <string name="err_msg_select_gst">Please Select GST</string>
     <string name="err_msg_select_site">Please Select Site Id</string>
     <string name="err_msg_select_cat">Please Select Category</string>
@@ -52,8 +46,6 @@
     <string name="err_msg_select_packsize">Please Enter Pack Size</string>
 
 
-
-
     <!--CMS App-->
     <string name="label_complaint_reg">Complaint Registration</string>
     <string name="label_complaint_list">Complaint List</string>
@@ -63,7 +55,7 @@
     <string name="label_select_category">Select Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_remarks">Select Reason  <font color='#FF0000'>*</font></string>
-    <string name="label_select_gst">Select Gst  <font color='#FF0000'>*</font></string>
+    <string name="label_select_gst">Select GST  <font color='#FF0000'>*</font></string>
 
     <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
 
@@ -124,8 +116,8 @@
     <string name="label_problem_since">Created Date Time: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
-    <string name="label_select_site">Select Site</string>
-    <string name="label_search_site_id">Search Site Id</string>
+    <string name="label_select_site">Select Sites</string>
+    <string name="label_search_site_id">Search Site Id or Site Name</string>
     <string name="label_site_not_available">Site Not Available</string>
     <string name="label_sub_category_list">Sub Category List</string>
     <string name="label_reasonlist_list">Reason List</string>
@@ -223,5 +215,12 @@
     <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>
     <string name="label_region">Region: </string>
     <string name="label_location">Location: </string>
+    <string name="title_activity_select_site">SelectSiteActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="game_message">You have already selected this siteId</string>
     <string name="label_entity">Entity</string>
 </resources>

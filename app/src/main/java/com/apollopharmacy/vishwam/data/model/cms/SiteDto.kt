@@ -44,6 +44,8 @@ data class SiteDto(
         @field:SerializedName("store_name")
         val store_name: String? = null,
 
+        var isSelected: Boolean? = false,
+
         @field:SerializedName("site")
         val site: String? = null,
 

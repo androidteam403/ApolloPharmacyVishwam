@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do you really want to exit?"
+            android:text="Do you really want to delete?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_15sp" />
 
@@ -34,7 +34,7 @@
             android:layout_marginBottom="@dimen/value_5dp">
 
             <TextView
-                android:id="@+id/no_btnExit"
+                android:id="@+id/no_btnSite"
                 android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_30dp"
                 android:layout_gravity="center"
@@ -47,7 +47,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_15sp"/>
             <TextView
-                android:id="@+id/yes_btnExit"
+                android:id="@+id/yes_btnSite"
                 android:textStyle="bold"
                 android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_30dp"

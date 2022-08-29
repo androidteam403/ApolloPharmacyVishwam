@@ -6,13 +6,19 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/value_5dp">
+        >
 
         <androidx.cardview.widget.CardView
-            android:layout_width="@dimen/value_80dp"
-            android:layout_height="@dimen/sixty_five65_dp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/value_5dp"
+            android:layout_width="@dimen/value_75dp"
+            android:layout_height="73dp"
+            android:elevation="@dimen/value_10dp"
+            android:layout_marginStart="@dimen/value_7dp"
             app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="@dimen/value_10dp">
+            app:cardCornerRadius="4dp">
+
 
             <RelativeLayout
                 android:layout_width="match_parent"

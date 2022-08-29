@@ -218,7 +218,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             var submit = OnUploadSwachModelRequest()
             submit.actionEvent = "SUBMIT"
             submit.storeid = Preferences.getSiteId()
-            submit.userid = Preferences.getToken()
+            submit.userid = Preferences.getValidatedEmpId()
             var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
             for (i in swacchApolloList.get(0).configlist!!.indices) {

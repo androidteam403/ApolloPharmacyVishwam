@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide
 class ImagesCardViewAdapterRes(
     private var configPositionRes: Int,
     private var imageUrlsList: List<GetImageUrlModelResponse.Category.ImageUrl>?,
-    private var callbackInterface: CallbackInterface
+    private var callbackInterface: CallbackInterface,
+    private var categoryList: List<GetImageUrlModelResponse.Category>?
+
 ) : RecyclerView.Adapter<ImagesCardViewAdapterRes.ViewHolder>() {
 
 
@@ -68,7 +70,12 @@ class ImagesCardViewAdapterRes(
 
 
         holder.eyeImage.setOnClickListener{
-            callbackInterface.capturedImageReviewRes(configPositionRes,imageUrls?.url, it, position)
+            categoryList?.get(configPositionRes)?.let { it1 ->
+                it1.categoryname?.let { it2 ->
+                    callbackInterface.capturedImageReviewRes(configPositionRes,imageUrls?.url, it, position,
+                        it2)
+                }
+            }
         }
 
 
@@ -107,6 +114,6 @@ class ImagesCardViewAdapterRes(
 
         fun onClickCamera(position: Int, configPositionRes: Int)
         fun deleteImageCallBackRes(configPositionRes: Int, position: Int)
-        fun capturedImageReviewRes(configPositionRes: Int, url: String?, view: View, position: Int)
+        fun capturedImageReviewRes(configPositionRes: Int, url: String?, view: View, position: Int,category:String)
     }
 }

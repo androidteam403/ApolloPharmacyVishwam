@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -15,7 +16,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -42,7 +43,7 @@
                             android:layout_height="wrap_content"
                             android:text="User ID"
                             android:textStyle="bold"
-                            android:textColor="@color/black"
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -65,19 +66,13 @@
                     android:orientation="horizontal">
 
                      <LinearLayout
+                         android:layout_marginTop="@dimen/value_3dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/value_8dp"
                         android:orientation="vertical">
 
 
-                         <TextView
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:text="From: "
-                             android:textStyle="bold"
-                             android:textColor="@color/black"
-                             android:textSize="@dimen/text_12sp" />
 
 
                          <ImageView
@@ -93,40 +88,43 @@
 
                      </LinearLayout>
 
-
-
-                    <TextView
-                        android:layout_marginTop="9sp"
-                        android:id="@+id/from_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:layout_marginTop="9sp"
-                       android:gravity="center"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_5dp"
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:text="-" />
-
-                     <LinearLayout
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/value_8dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_8dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="From"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12sp" />
+
+
+                        <TextView
+                            android:id="@+id/from_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+
+
+                     <LinearLayout
+                         android:layout_marginTop="@dimen/value_3dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="11dp"
                         android:orientation="vertical">
 
 
-                         <TextView
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:text="To: "
-                             android:textStyle="bold"
-                             android:textColor="@color/black"
-                             android:textSize="@dimen/text_12sp" />
+
 
                     <ImageView
                         android:layout_marginTop="@dimen/three3_sp"
@@ -140,16 +138,31 @@
 
                      </LinearLayout>
 
-                    <TextView
-                        android:layout_marginTop="9sp"
-                        android:id="@+id/to_date"
-                        android:gravity="center"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_marginStart="@dimen/value_8dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_5dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="To"
+                            android:textStyle="bold"
+                            android:textColor="@color/grey"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/to_date"
+                            android:gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
 
                 </LinearLayout>
@@ -186,34 +199,19 @@
 
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <androidx.recyclerview.widget.RecyclerView
+                android:visibility="visible"
                 android:layout_marginStart="@dimen/value_12dp"
-                android:layout_marginTop="@dimen/value_10dp"
-                android:background="@drawable/darkblue_roundedcorners"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:id="@+id/storeIdsRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_marginBottom="2dp"
+
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/value_5dp"
                 android:orientation="horizontal"
-                android:padding="@dimen/value_4dp">
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"/>
 
-
-                <TextView
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{`ID:`+ storeId}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_15sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:layout_marginStart="@dimen/value_3dp"
-                    android:layout_width="@dimen/text_15sp"
-                    android:layout_height="@dimen/text_15sp"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="@dimen/value_3dp"
-                    android:src="@drawable/ic_baseline_clear_24" />
-
-            </LinearLayout>
 
 
             <LinearLayout
@@ -233,8 +231,8 @@
                     android:id="@+id/approvedListButton"
                     android:onClick="@{()-> callback.onClickApproved()}"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/light_ash"
+                    android:textColor="@color/white"
+                    android:background="@color/header_blue"
                     android:text="APPROVED"/>
 
                 <View
@@ -250,8 +248,8 @@
                     android:layout_height="48dp"
                     android:id="@+id/pendingListButton"
                     android:visibility="visible"
-                    android:textColor="@color/colorPrimary"
-                    android:background="@color/white"
+                    android:textColor="@color/white"
+                    android:background="@color/grey"
                     android:textAlignment="center"
                     android:text="PENDING"/>
 
@@ -267,7 +265,8 @@
 
 
             <TextView
-                android:layout_marginTop="@dimen/value_30dp"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/value_100dp"
                 android:visibility="gone"
                 android:id="@+id/noOrdersFound"
                 android:textStyle="bold"

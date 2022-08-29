@@ -5,15 +5,12 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
+import android.text.TextUtils
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -21,13 +18,17 @@ import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.FragmentSwachhListBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
+import com.apollopharmacy.vishwam.dialog.DeleteSiteDialog
 import com.apollopharmacy.vishwam.dialog.model.Dialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingListAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.SiteIdDisplayAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
@@ -36,25 +37,35 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBinding>(),
     ComplaintListCalendarDialog.DateSelected, Dialog.DateSelecter,
-    SwachhListCallback {
+    SwachhListCallback, MainActivityCallback, DeleteSiteDialog.OnSiteClickListener {
     var pendingAndApprovedList = ArrayList<PendingAndApproved>()
     var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
     var pendingListAdapter: PendingListAdapter? = null
     var isFromDateSelected: Boolean = false
     var fromDate = String()
     var toDate = String()
+    var isApprovedTab: Boolean= true
+    var isPendingTab:Boolean=false
+    var isdateFormatted:Boolean=false
+    var selectedSiteids: String?=null
     var day = 0
+    var selectsiteIdList = java.util.ArrayList<String>()
     var userDesignation = ""
+      var siteIdDisplayAdapter: SiteIdDisplayAdapter? = null
     var getApprovedList: List<GetpendingAndApprovedListResponse.GetApproved>? = null
     var getPendingList: List<GetpendingAndApprovedListResponse.GetPending>? = null
-
+    var list: List<String> = ArrayList()
     var approvedList = ArrayList<PendingAndApproved>()
+    private lateinit var dialog: Dialog
 
     var pendingList = ArrayList<PendingAndApproved>()
     override val layoutRes: Int
         get() = R.layout.fragment_swachh_list
+
+
 
     override fun retrieveViewModel(): SwachListViewModel {
         return ViewModelProvider(this).get(SwachListViewModel::class.java)
@@ -63,8 +74,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
+        MainActivity.mInstance.mainActivityCallback=this
         viewBinding.callback = this
         viewBinding.userIdSwachlist.text = Preferences.getToken()
+//        selectedSiteids= Preferences.getSiteId()
+
+
+//        val i = getIntent()
+//        list = i.getSerializableExtra("selectsiteIdList") as List<String>
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -82,9 +99,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
         viewBinding.fromDate.text = dateNewFormat
 
-        if(MainActivity.siteIdScreen==true){
 
-        }
 
 
 
@@ -110,7 +125,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
-            toDate
+            toDate,selectedSiteids
         )
 //        val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
 //        getpendingAndApprovedListRequest.empid = "APL49396"
@@ -120,9 +135,17 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //        getpendingAndApprovedListRequest.startpageno = 0
 //        getpendingAndApprovedListRequest.endpageno = 100
 
+        siteIdDisplayAdapter =
+            SiteIdDisplayAdapter(context, selectsiteIdList, this)
+        viewBinding.storeIdsRecyclerView.layoutManager =
+            LinearLayoutManager(
+                context, LinearLayoutManager.HORIZONTAL,
+                false
+            )
+
 
         viewBinding.storeId = Preferences.getSiteId()
-        userDesignation = "EXECUTIVE"
+//    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {
@@ -131,6 +154,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
         viewModel.getpendingAndApprovedListResponse.observe(viewLifecycleOwner, {
             Utlis.hideLoading()
+
             val getpendingAndApprovedListResponse: GetpendingAndApprovedListResponse
             getpendingAndApprovedListResponse = it
 
@@ -170,7 +194,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                         }
                     }
-
+                    pendingList.clear()
                     if (getPendingList != null && userDesignation.equals("EXECUTIVE")) {
                         for (i in getPendingList!!) {
                             val pendingAndApproved = PendingAndApproved()
@@ -192,30 +216,83 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     }
 
 
-                    for (i in pendingAndApprovedList.indices) {
-                        if (pendingAndApprovedList.get(i).uploadedDate != "") {
-                            val strDate = pendingAndApprovedList.get(i).uploadedDate
-                            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                            val date = dateFormat.parse(strDate)
-                            val dateNewFormat =
-                                SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                            pendingAndApprovedList.get(i).uploadedDate = dateNewFormat.toString()
-                        }
+                  if(isApprovedTab){
+                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#2582a1"))
+                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
+                      if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
+                          viewBinding.noOrdersFound.visibility = View.GONE
+
+                          for (i in pendingAndApprovedList.indices) {
+                              if (pendingAndApprovedList.get(i).uploadedDate != "") {
+                                  val strDate = pendingAndApprovedList.get(i).uploadedDate
+                                  val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                  val date = dateFormat.parse(strDate)
+                                  val dateNewFormat =
+                                      SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                  pendingAndApprovedList.get(i).uploadedDate = dateNewFormat.toString()
+
+                              }
+                          }
+                          viewBinding.pendingListRecyclerview.visibility = View.GONE
+                          viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
+                          pendingApprovedListAdapter =
+                              PendingApprovedListAdapter(context, pendingAndApprovedList, this)
+                          viewBinding.approvedListRecyclerview.layoutManager =
+                              LinearLayoutManager(
+                                  context
+                              )
+                          viewBinding.approvedListRecyclerview.adapter =
+                              pendingApprovedListAdapter
+                      } else {
+                          viewBinding.pendingListRecyclerview.visibility = View.GONE
+                          viewBinding.noOrdersFound.visibility = View.VISIBLE
+                      }
+                    }
+                    else if(isPendingTab){
+
+                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
+                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
+                      if (pendingList != null && pendingList.size > 0) {
+                          viewBinding.noOrdersFound.visibility = View.GONE
+                          viewBinding.noOrdersFound.visibility = View.GONE
+
+                          for (i in pendingList.indices) {
+                              if (pendingList.get(i).uploadedDate != "") {
+                                  val strDate = pendingList.get(i).uploadedDate
+                                  val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                  val date = dateFormat.parse(strDate)
+                                  val dateNewFormat =
+                                      SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                  pendingList.get(i).uploadedDate = dateNewFormat.toString()
+
+                              }
+                          }
+
+
+                          viewBinding.approvedListRecyclerview.visibility = View.GONE
+                          viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
+                          pendingListAdapter =
+                              PendingListAdapter(context, pendingList, this)
+                          viewBinding.pendingListRecyclerview.layoutManager =
+                              LinearLayoutManager(
+                                  context
+                              )
+                          viewBinding.pendingListRecyclerview.adapter =
+                              pendingListAdapter
+                      } else {
+                          viewBinding.approvedListRecyclerview.visibility = View.GONE
+                          viewBinding.noOrdersFound.visibility = View.VISIBLE
+
+                      }
                     }
 
-                    pendingApprovedListAdapter =
-                        PendingApprovedListAdapter(context, pendingAndApprovedList, this)
-                    viewBinding.approvedListRecyclerview.layoutManager =
-                        LinearLayoutManager(
-                            context
-                        )
-                    viewBinding.approvedListRecyclerview.adapter =
-                        pendingApprovedListAdapter
 
                 }
             }
 
         })
+
+
     }
 
     override fun onClickUpdate(pendingAndApproved: PendingAndApproved) {
@@ -240,64 +317,57 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
-            toDate
+            toDate,
+            selectedSiteids
         )
+
     }
 
     override fun onClickApproved() {
-        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
-        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        if (pendingList != null && pendingAndApprovedList.size > 0) {
-            viewBinding.noOrdersFound.visibility = View.GONE
-            viewBinding.pendingListRecyclerview.visibility = View.GONE
-            viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
-            pendingApprovedListAdapter =
-                PendingApprovedListAdapter(context, pendingAndApprovedList, this)
-            viewBinding.approvedListRecyclerview.layoutManager =
-                LinearLayoutManager(
-                    context
-                )
-            viewBinding.approvedListRecyclerview.adapter =
-                pendingApprovedListAdapter
-        } else {
-            viewBinding.pendingListRecyclerview.visibility = View.GONE
-            viewBinding.noOrdersFound.visibility = View.VISIBLE
-        }
+        isApprovedTab=true
+        isPendingTab=false
+
+        viewModel.getPendingAndApprovedListApiCall(
+            Preferences.getValidatedEmpId(),
+            fromDate,
+            toDate,
+            selectedSiteids
+        )
+
+
 
     }
 
     override fun onClickPending() {
-        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#D3D3D3"))
-        if (pendingList != null && pendingList.size > 0) {
-            for (i in pendingList.indices) {
-                if (pendingList.get(i).uploadedDate != "") {
-                    val strDate = pendingList.get(i).uploadedDate
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                    val date = dateFormat.parse(strDate)
-                    val dateNewFormat =
-                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                    pendingList.get(i).uploadedDate = dateNewFormat.toString()
-                }
-            }
-            viewBinding.approvedListRecyclerview.visibility = View.GONE
-            viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
-            pendingListAdapter =
-                PendingListAdapter(context, pendingList, this)
-            viewBinding.pendingListRecyclerview.layoutManager =
-                LinearLayoutManager(
-                    context
-                )
-            viewBinding.pendingListRecyclerview.adapter =
-                pendingListAdapter
-        } else {
-            viewBinding.approvedListRecyclerview.visibility = View.GONE
-            viewBinding.noOrdersFound.visibility = View.VISIBLE
+        isApprovedTab=false
+        isPendingTab=true
 
-        }
+        viewModel.getPendingAndApprovedListApiCall(
+            Preferences.getValidatedEmpId(),
+            fromDate,
+            toDate,
+            selectedSiteids
+        )
+
+
+
 
 
     }
+
+    override fun onClickCrossButton(deleteSiteId: String, position: Int) {
+
+
+            DeleteSiteDialog().apply {
+                arguments =
+                    DeleteSiteDialog().generateParsedData(deleteSiteId)
+            }.show(childFragmentManager, "")
+
+
+        siteIdDisplayAdapter?.notifyDataSetChanged()
+    }
+
+
 
     fun openDateDialog() {
         if (isFromDateSelected) {
@@ -387,15 +457,65 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+
             if (requestCode == ApproveListActivity().APPROVE_LIST_ACTIVITY) {
                 Utlis.showLoading(requireContext())
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
                     fromDate,
-                    toDate
+                    toDate,
+                    selectedSiteids
                 )
+
+            }
+
+            else if (requestCode == 887) {
+                Utlis.showLoading(requireContext())
+
+                selectsiteIdList = data?.getStringArrayListExtra("selectsiteIdList")!!
+                siteIdDisplayAdapter =
+                    SiteIdDisplayAdapter(context, selectsiteIdList, this)
+                viewBinding.storeIdsRecyclerView.layoutManager =
+                    LinearLayoutManager(
+                        context, LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
+                viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
+
+                viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
+
+                selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+                viewModel.getPendingAndApprovedListApiCall(
+                    Preferences.getValidatedEmpId(),
+                    fromDate,
+                    toDate,
+                    selectedSiteids
+                )
+
+//                   Toast.makeText(context, ""+ selectedSiteids, Toast.LENGTH_SHORT).show()
+
+
+
             }
         }
+    }
+    override fun onClickFilterIcon() {
+                val intent = Intent(context, SelectSiteActivityy::class.java)
+        intent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+            startActivityForResult(intent, 887)
+    }
+
+//    override fun deleteSite(siteDataItem: StoreListItem) {
+//
+//    }
+
+    override fun deleteSite(siteDataItem: String) {
+        selectsiteIdList.remove(siteDataItem)
+        siteIdDisplayAdapter?.notifyDataSetChanged()
+    }
+
+    override fun doNotDeleteSite() {
+
     }
 }
 

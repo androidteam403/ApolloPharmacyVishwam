@@ -11,7 +11,6 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.m
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 
@@ -59,7 +58,7 @@ interface ViswamAppApi {
     @POST("https://online.apollopharmacy.org/ITEMMASTER/AddArticle")
     suspend fun DrugResponse(
         @Header("token") token: String,
-        @Body data: DrugRequest,
+        @Body data: DrugRequest
     ): DrugResponse
 
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
@@ -338,10 +337,10 @@ interface ViswamAppApi {
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetLastUploadedDate")
-    suspend fun GET_LAST_UPLOADED_DATE(
+
+    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
+    suspend fun RATING_BAR_API(
         @Header("token") token: String,
-        @Query("STOREID") storeId: String,
-        @Query("USERID") userId: String,
-    ): LastUploadedDateResponse
+        @Body data: RatingModelRequest?,
+    ): RatingModelResponse
 }

@@ -55,6 +55,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
         viewBinding.todaysDate.text = todaysUpdate
 
+        showLoading()
+        viewModel.checkDayWiseAccess()
+
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -65,7 +68,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         showLoading()
         var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
         getStoreHistoryRequest.storeid = Preferences.getSiteId()
-        getStoreHistoryRequest.empid = Preferences.getValidatedEmpId()
+        getStoreHistoryRequest.empid = Preferences.getToken()
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
         getStoreHistoryRequest.startpageno = 0
@@ -104,8 +107,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         }
 
 
-        showLoading()
-        viewModel.checkDayWiseAccess()
+
         viewModel.checkDayWiseAccess.observeForever {
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
@@ -178,16 +180,21 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                }else{
 //                    viewBinding.uploadedOn.text = "--"
 //                }
+                if (getStorePersonHistoryList != null && getStorePersonHistoryList.size > 0) {
+                    viewBinding.noOrdersFound.visibility = View.GONE
 
+                    getStorePersonAdapter =
+                        GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this)
+                    val layoutManager = LinearLayoutManager(ViswamApp.context)
+                    viewBinding.imageRecyclerView.layoutManager = layoutManager
+                    viewBinding.imageRecyclerView.itemAnimator =
+                        DefaultItemAnimator()
+                    viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+                    hideLoading()
+                }else{
+                    viewBinding.noOrdersFound.visibility = View.VISIBLE
 
-                getStorePersonAdapter =
-                    GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this)
-                val layoutManager = LinearLayoutManager(ViswamApp.context)
-                viewBinding.imageRecyclerView.layoutManager = layoutManager
-                viewBinding.imageRecyclerView.itemAnimator =
-                    DefaultItemAnimator()
-                viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
-                hideLoading()
+                }
 
             }
         }
