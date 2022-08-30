@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
@@ -206,12 +207,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         }
     }
 
-    override fun onClickImage(position: Int, imagePath: String, viewClick: View) {
+    override fun onClickImage(position: Int, imagePath: String, viewClick: View,category:String) {
 
 
-        PhotoPopupWindow(
+        PopUpWIndow(
             ViswamApp.context, R.layout.layout_image_fullview, viewClick,
-            imagePath, null
+            imagePath, null,category
         )
 
 //        val intent = Intent(this, PreviewLastImageActivity::class.java)

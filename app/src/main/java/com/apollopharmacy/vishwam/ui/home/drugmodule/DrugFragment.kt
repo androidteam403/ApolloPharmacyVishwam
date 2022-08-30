@@ -1,9 +1,14 @@
 package com.apollopharmacy.vishwam.ui.home.drugmodule
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -13,6 +18,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -34,9 +41,11 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -132,7 +141,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
         }
-
 
 
 
@@ -480,9 +488,13 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     private fun cameraIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+
+
         imageFromCameraFile =
             File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+
+
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
@@ -490,6 +502,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 requireContext().packageName + ".provider",
                 imageFromCameraFile!!
             )
+
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -545,10 +558,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        startActivityForResult(cameraIntent, cameraRequest)
-
-
     private fun billCameraIntent() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromBillCameraFile =
@@ -566,9 +575,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
     }
-
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        startActivityForResult(cameraIntent, cameraRequest)
 
 
     private fun checkPermission(): Boolean {
@@ -616,13 +622,60 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun rotateImage(bitmap: Bitmap) {
+        var exifInterface: ExifInterface? = null
+        try {
+            exifInterface = imageFromCameraFile?.let { ExifInterface(it.absolutePath) }
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        val orientation = exifInterface!!.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED)
+        val matrix = Matrix()
+        when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> matrix.setRotate(180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> matrix.setRotate(270f)
+
+            else -> {
+            }
+        }
+        val rotatedBitMap =
+            Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+
+    }
+
+    private fun setReducedSize(): Bitmap {
+
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(imageFromCameraFile?.absolutePath, bmOptions)
+        val camWidth = bmOptions.outWidth
+        val camHeight = bmOptions.outHeight
+        val scalefactor = Math.min(camWidth / 75, camHeight / 73)
+        bmOptions.inSampleSize = scalefactor
+        bmOptions.inJustDecodeBounds = false
+        return BitmapFactory.decodeFile(imageFromCameraFile?.absolutePath, bmOptions)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
+        val matrix = Matrix()
         if (requestCode == Config.REQUEST_CODE_CAMERA) {
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+
                 frontImageList.add(Image(imageFromCameraFile!!, "", "Front"))
                 imageList.add(Image(imageFromCameraFile!!, "", ""))
+
+                rotateImage(setReducedSize())
+
+
+
+
 
                 viewBinding.imageRecyclerView.visibility = View.VISIBLE
                 viewBinding.addImage.visibility = View.GONE
@@ -713,7 +766,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             popUpdialog()
 
             viewBinding.itemName.requestFocus()
-            viewBinding.branchNameTextInput.error=""
+            viewBinding.branchNameTextInput.error = ""
 
 
             return false
@@ -744,7 +797,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
             return false
-        }  else if (createdBy.isEmpty()) {
+        } else if (createdBy.isEmpty()) {
             popUpdialog()
             viewBinding.createdInput.requestFocus()
 
@@ -755,18 +808,14 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             viewBinding.createdOnInput.requestFocus()
 
             return false
-        }
-
-        else if (batchNo.isEmpty()) {
+        } else if (batchNo.isEmpty()) {
             popUpdialog()
             viewBinding.BatchTextInput.requestFocus()
 
 
 
             return false
-        }
-
-        else if (manufDate.isEmpty()) {
+        } else if (manufDate.isEmpty()) {
 
             popUpdialog()
             return false
@@ -793,8 +842,8 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             popUpdialog()
             return false
-        }  else {
-            if (frontImageList.isEmpty() || backImageList.isEmpty() || billImageList.isEmpty() || sideImageList.isEmpty()) {
+        } else {
+            if (frontImageList.isEmpty() || backImageList.isEmpty()) {
 
                 popUpdialog()
                 return false
@@ -809,9 +858,10 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.selectCategoryText.error = null
     }
 
+    @SuppressLint("ResourceType")
     override fun selectSite(departmentDto: StoreListItem) {
 
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-YYYY")
         val currentDate: String = simpleDateFormat.format(Date())
 
 
@@ -825,8 +875,12 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         viewBinding.dcCode.setText("" + (departmentDto.dc_code?.code
             ?: String()) + " - " + departmentDto.dc_code?.name ?: String())
-
+        viewBinding.dcTextInput.setBoxBackgroundColorResource(R.color.cement)
+        viewBinding.createdInput.setBoxBackgroundColorResource(R.color.cement)
         viewBinding.createdOn.setText(currentDate)
+        viewBinding.createdOnInput.setBoxBackgroundColorResource(R.color.cement)
+        viewBinding.location.setBoxBackgroundColorResource(R.color.cement)
+
         viewBinding.createdBy.setText(Preferences.getToken())
         viewBinding.loactionSelect.setText(departmentDto.store_name)
 
@@ -873,6 +927,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     fun RefreshView() {
 
 
+        viewBinding.scrollView.fullScroll(ScrollView.FOCUS_UP);
         viewBinding.selectDepartment.setText("")
         viewBinding.selectCategory.setText("")
         viewBinding.itemName.setText("")
@@ -889,6 +944,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.createdOn.setText("")
         viewBinding.createdBy.setText("")
         viewBinding.descriptionText.setText("")
+        viewBinding.loactionSelect.setText("")
 
         viewBinding.dcCode.setText(" ")
         viewBinding.dcCode.visibility = View.GONE
@@ -905,6 +961,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.purchasePriceTextInput.error = null
         viewBinding.hsnText.error = null
         viewBinding.pasckizel.error = null
+        viewBinding.location.error = null
         viewBinding.siteIdSelect.error = null
         viewBinding.barCodeL.error = null
         viewBinding.gst.error = null
@@ -1110,8 +1167,8 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
 
-    override fun onItemClick(position: Int, imagePath: String) {
-        PhotoPopupWindow(context, R.layout.layout_image_fullview, view, imagePath, null)
+    override fun onItemClick(position: Int, imagePath: String,name: String) {
+        PopUpWIndow(context, R.layout.layout_image_fullview, view, imagePath, null,name)
     }
 
     override fun selectedDate(dateSelected: String, showingDate: String) {
@@ -1137,12 +1194,25 @@ class DrugImageRecyclerView(
         position: Int,
     ) {
 
-        binding.image.setImageURI(Uri.parse(items.file.toString()))
-        Glide.with(ViswamApp.context).load(items.file.toString())
-            .placeholder(R.drawable.thumbnail_image)
-            .into(binding.image)
+        binding.image.setImageBitmap(BitmapFactory.decodeFile(items.file.absolutePath))
+//
+//            val myBitmap: Bitmap = BitmapFactory.decodeFile(items.file
+//                .absolutePath)
+//            binding.image.setImageBitmap(myBitmap)
+//            binding.image.setRotation(90F)
+//
+
+
+//        Picasso.load(Uri.parse(image.getProductGalleryImage().toString()))
+//            .error(R.drawable.placeholder_image).into(holder.adapterItemPartsBinding.image)
+//        Picasso.get().load(items.file).into(binding.image)
+//        binding.image.setImageURI(Uri.parse(items.file.toString()))
+
+//        Glide.with(ViswamApp.context).load(items.file.toString())
+//            .placeholder(R.drawable.thumbnail_image)
+//            .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Front View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1184,7 +1254,7 @@ class DrugImageRecyclerView1(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Back View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1226,7 +1296,7 @@ class DrugImageRecyclerView2(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Side View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1268,7 +1338,7 @@ class DrugImageRecyclerView3(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.eyeImageRes.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1) }
+            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Bill View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1299,7 +1369,7 @@ interface ImagesListner {
     fun billdeleteImage(position: Int)
 
 
-    fun onItemClick(position: Int, imagePath: String)
+    fun onItemClick(position: Int, imagePath: String,name:String)
 
 }
 

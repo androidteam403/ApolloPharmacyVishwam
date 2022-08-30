@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="navy">#dceaf4</color>
+    <color name="cement">#EFEFEF</color>
 
     <color name="splash_start_color">#173b5e</color>
     <color name="splash_end_color">#269aba</color>

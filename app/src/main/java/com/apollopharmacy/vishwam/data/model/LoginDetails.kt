@@ -14,7 +14,7 @@ data class LoginDetails(
     val IS_DISCOUNTAPP: Boolean,
     val IS_CMSAPP: Boolean,
     val IS_ATTANDENCEAPP: Boolean,
-    val APPLEVELDESIGNATION: String,
+    var APPLEVELDESIGNATION: String,
     val IS_SUPERADMIN: Boolean,
 ) : Serializable {
     data class StoreData(

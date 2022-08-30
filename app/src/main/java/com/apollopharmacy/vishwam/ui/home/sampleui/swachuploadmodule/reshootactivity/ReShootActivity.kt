@@ -40,6 +40,7 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.OnClickStatusClickAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import me.echodev.resizer.Resizer
@@ -445,10 +446,11 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         url: String?,
         view: View,
         position: Int,
+        category: String
     ) {
-        PhotoPopupWindow(
+        PopUpWIndow(
             context, R.layout.layout_image_fullview, view,
-            url.toString(), null
+            url.toString(), null,category
         )
 
 

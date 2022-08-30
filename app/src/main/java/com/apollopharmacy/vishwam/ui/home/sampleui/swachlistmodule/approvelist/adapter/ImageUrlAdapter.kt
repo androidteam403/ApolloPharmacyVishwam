@@ -8,12 +8,17 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterImageUrlsBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListcallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import com.bumptech.glide.Glide
 
 class ImageUrlAdapter(
     val mContext: Context,
     val imageUrlsList: List<GetImageUrlsResponse.ImageUrl>,
     val approveListcallback: ApproveListcallback,
+    private var categoryList: List<GetImageUrlsResponse.Category>?,
+    private var configPositionRes: Int,
+
+
     val isApproved: Boolean
 ) : RecyclerView.Adapter<ImageUrlAdapter.ViewHolder>() {
     private lateinit var scaleGestureDetector: ScaleGestureDetector
@@ -37,7 +42,13 @@ class ImageUrlAdapter(
 
 
             imageUrl.url?.let {
-                    it1 -> approveListcallback.onClickImage(position, it1,it)
+                    it1 ->
+                categoryList?.get(configPositionRes)?.let { it2 ->
+                    it2.categoryname?.let { it3 ->
+                        approveListcallback.onClickImage(position, it1,it,
+                            it3)
+                    }
+                }
             }
         }
 

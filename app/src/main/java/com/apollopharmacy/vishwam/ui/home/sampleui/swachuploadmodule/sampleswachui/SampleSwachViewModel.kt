@@ -9,6 +9,7 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
@@ -23,6 +24,7 @@ import kotlinx.coroutines.withContext
 class SampleSwachViewModel : ViewModel() {
     val commands = LiveEvent<CommandsNewSwachFrag>()
     val state = MutableLiveData<State>()
+    val lastUploadedDateResponse = MutableLiveData<LastUploadedDateResponse>()
     var swachhapolloModel = MutableLiveData<SwachModelResponse>()
     var checkDayWiseAccess = MutableLiveData<CheckDayWiseAccessResponse>()
     var getStorePersonHistory = MutableLiveData<GetStorePersonHistoryodelResponse>()
@@ -175,6 +177,47 @@ class SampleSwachViewModel : ViewModel() {
 //        }
     }
 
+    fun getLastUploadedDate() {
+        state.postValue(State.LOADING)
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                SwachApiRepo.getLastUploadedDate("h72genrSSNFivOi/cfiX3A==",
+                    Preferences.getSiteId(),
+                    Preferences.getValidatedEmpId())
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status ?: null == true) {
+                        state.value = State.ERROR
+                        lastUploadedDateResponse.value = result.value
+                    } else {
+                        state.value = State.ERROR
+                        commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(
+                        result.error?.let {
+                            CommandsNewSwachFrag.ShowToast(it)
+                        }
+                    )
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
     sealed class CommandsNewSwachFrag {
         data class ShowToast(val message: String?) : CommandsNewSwachFrag()

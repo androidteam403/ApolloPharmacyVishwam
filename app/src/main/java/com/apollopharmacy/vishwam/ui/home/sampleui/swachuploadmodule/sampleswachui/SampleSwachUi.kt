@@ -13,13 +13,12 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
-
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,9 +46,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
+        viewModel.getLastUploadedDate()
         viewModel.swachImagesRegisters()
 
-
+        onSuccessLastUpdatedDate()
         val sdf = SimpleDateFormat("dd MMM, yyyy")
         val todaysUpdate = sdf.format(Date())
 
@@ -71,8 +71,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         getStoreHistoryRequest.empid = Preferences.getToken()
         getStoreHistoryRequest.fromdate = fromdate
         getStoreHistoryRequest.todate = toDate
-        getStoreHistoryRequest.startpageno =0
-        getStoreHistoryRequest.endpageno =100
+        getStoreHistoryRequest.startpageno = 0
+        getStoreHistoryRequest.endpageno = 100
         viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
@@ -113,7 +113,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
 //                it.friday = false
-//                it.thursday = true
+//                it.monday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -191,7 +191,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                         DefaultItemAnimator()
                     viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
                     hideLoading()
-                }else{
+                } else {
                     viewBinding.noOrdersFound.visibility = View.VISIBLE
 
                 }
@@ -212,6 +212,23 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     }
 
+    fun onSuccessLastUpdatedDate() {
+        viewModel.lastUploadedDateResponse.observeForever {
+            if (it != null && it.status == true) {
+                if (it.uploadedDate != null && !it.uploadedDate!!.isEmpty()) {
+                    val strDate = it.uploadedDate
+                    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                    val date = dateFormat.parse(strDate)
+                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                    viewBinding.uploadedOn.text = dateNewFormat
+                } else {
+                    viewBinding.uploadedOn.text = "--"
+
+                }
+            }
+        }
+    }
+
     override fun onClickStatus(
         position: Int,
         swachhid: String?,
@@ -220,7 +237,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         storeId: String?,
         uploadedDate: String?,
         reshootDate: String?,
-        partiallyApprovedDate: String?
+        partiallyApprovedDate: String?,
     ) {
         val intent = Intent(context, ReShootActivity::class.java)
         intent.putExtra("swachhid", swachhid)
