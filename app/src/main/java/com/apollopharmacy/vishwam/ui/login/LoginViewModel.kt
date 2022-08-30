@@ -27,9 +27,9 @@ class LoginViewModel : ViewModel() {
             commands.postValue(Command.ShowToast("Please Enter User ID"))
         } else if (loginRequest.PASSWORD.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter Password"))
-        } else if(loginRequest.COMPANY.isEmpty()){
+        } else if (loginRequest.COMPANY.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Select company"))
-        } else{
+        } else {
             state.postValue(State.LOADING)
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -46,7 +46,7 @@ class LoginViewModel : ViewModel() {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
-                                    LoginRepo.saveProfile(result.value,loginRequest.PASSWORD)
+                                    LoginRepo.saveProfile(result.value, loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
                                     Preferences.saveDesignation(result.value.DESIGNATION)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
@@ -97,7 +97,7 @@ class LoginViewModel : ViewModel() {
                 is ApiResult.GenericError -> {
                     commands.postValue(
                         result.error?.let {
-                           Command.ShowToast(it)
+                            Command.ShowToast(it)
                         }
                     )
                     state.value = State.ERROR
@@ -124,9 +124,11 @@ sealed class Command {
     data class NavigateTo(
         val value: LoginDetails,
     ) : Command()
+
     data class MpinValidation(
         val value: MPinResponse,
     ) : Command()
+
     data class ShowButtonSheet(
         val fragment: Class<out BottomSheetDialogFragment>,
         val arguments: Bundle,

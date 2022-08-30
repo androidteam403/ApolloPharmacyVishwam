@@ -191,7 +191,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                         DefaultItemAnimator()
                     viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
                     hideLoading()
-                }else{
+                } else {
                     viewBinding.noOrdersFound.visibility = View.VISIBLE
 
                 }
@@ -215,11 +215,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     fun onSuccessLastUpdatedDate() {
         viewModel.lastUploadedDateResponse.observeForever {
             if (it != null && it.status == true) {
-                val strDate = it.uploadedDate
-                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-                val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
-                viewBinding.uploadedOn.text = dateNewFormat
+                if (it.uploadedDate != null && !it.uploadedDate!!.isEmpty()) {
+                    val strDate = it.uploadedDate
+                    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                    val date = dateFormat.parse(strDate)
+                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                    viewBinding.uploadedOn.text = dateNewFormat
+                } else {
+                    viewBinding.uploadedOn.text = "--"
+
+                }
             }
         }
     }
