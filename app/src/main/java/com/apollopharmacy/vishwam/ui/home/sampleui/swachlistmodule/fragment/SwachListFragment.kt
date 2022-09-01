@@ -9,6 +9,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
@@ -121,11 +122,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         }
         userDesignation = loginData?.APPLEVELDESIGNATION!!
 
+
+
         Utlis.showLoading(requireContext())
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
-            toDate,selectedSiteids
+            toDate, selectedSiteids
         )
 //        val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
 //        getpendingAndApprovedListRequest.empid = "APL49396"
@@ -216,74 +219,77 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     }
 
 
-                  if(isApprovedTab){
-                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#2582a1"))
-                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
-                      if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
-                          viewBinding.noOrdersFound.visibility = View.GONE
+                    if (isApprovedTab) {
+                        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#2582a1"))
+                        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
+                        if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
+                            viewBinding.noOrdersFound.visibility = View.GONE
 
-                          for (i in pendingAndApprovedList.indices) {
-                              if (pendingAndApprovedList.get(i).uploadedDate != "") {
-                                  val strDate = pendingAndApprovedList.get(i).uploadedDate
-                                  val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                                  val date = dateFormat.parse(strDate)
-                                  val dateNewFormat =
-                                      SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                                  pendingAndApprovedList.get(i).uploadedDate = dateNewFormat.toString()
+                            for (i in pendingAndApprovedList.indices) {
+                                if (pendingAndApprovedList.get(i).uploadedDate != "") {
+                                    val strDate = pendingAndApprovedList.get(i).uploadedDate
+                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                    val date = dateFormat.parse(strDate)
+                                    val dateNewFormat =
+                                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                    pendingAndApprovedList.get(i).uploadedDate =
+                                        dateNewFormat.toString()
 
-                              }
-                          }
-                          viewBinding.pendingListRecyclerview.visibility = View.GONE
-                          viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
-                          pendingApprovedListAdapter =
-                              PendingApprovedListAdapter(context, pendingAndApprovedList, this)
-                          viewBinding.approvedListRecyclerview.layoutManager =
-                              LinearLayoutManager(
-                                  context
-                              )
-                          viewBinding.approvedListRecyclerview.adapter =
-                              pendingApprovedListAdapter
-                      } else {
-                          viewBinding.pendingListRecyclerview.visibility = View.GONE
-                          viewBinding.noOrdersFound.visibility = View.VISIBLE
-                      }
-                    }
-                    else if(isPendingTab){
+                                }
+                            }
+                            viewBinding.pendingListRecyclerview.visibility = View.GONE
+                            viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
+                            pendingApprovedListAdapter =
+                                PendingApprovedListAdapter(context,
+                                    pendingAndApprovedList,
+                                    this,
+                                    loginData.EMPNAME)
+                            viewBinding.approvedListRecyclerview.layoutManager =
+                                LinearLayoutManager(
+                                    context
+                                )
+                            viewBinding.approvedListRecyclerview.adapter =
+                                pendingApprovedListAdapter
+                        } else {
+                            viewBinding.pendingListRecyclerview.visibility = View.GONE
+                            viewBinding.noOrdersFound.visibility = View.VISIBLE
+                        }
+                    } else if (isPendingTab) {
 
-                      viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
-                      viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
-                      if (pendingList != null && pendingList.size > 0) {
-                          viewBinding.noOrdersFound.visibility = View.GONE
-                          viewBinding.noOrdersFound.visibility = View.GONE
+                        viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
+                        viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
+                        if (pendingList != null && pendingList.size > 0) {
+                            viewBinding.noOrdersFound.visibility = View.GONE
+                            viewBinding.noOrdersFound.visibility = View.GONE
 
-                          for (i in pendingList.indices) {
-                              if (pendingList.get(i).uploadedDate != "") {
-                                  val strDate = pendingList.get(i).uploadedDate
-                                  val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                                  val date = dateFormat.parse(strDate)
-                                  val dateNewFormat =
-                                      SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                                  pendingList.get(i).uploadedDate = dateNewFormat.toString()
+                            for (i in pendingList.indices) {
+                                if (pendingList.get(i).uploadedDate != "") {
+                                    val strDate = pendingList.get(i).uploadedDate
+                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                    val date = dateFormat.parse(strDate)
+                                    val dateNewFormat =
+                                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                    pendingList.get(i).uploadedDate = dateNewFormat.toString()
 
-                              }
-                          }
+                                }
+                            }
 
 
-                          viewBinding.approvedListRecyclerview.visibility = View.GONE
-                          viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
-                          pendingListAdapter =
-                              PendingListAdapter(context, pendingList, this)
-                          viewBinding.pendingListRecyclerview.layoutManager =
-                              LinearLayoutManager(
-                                  context
-                              )
-                          viewBinding.pendingListRecyclerview.adapter =
-                              pendingListAdapter
-                      } else {
-                          viewBinding.approvedListRecyclerview.visibility = View.GONE
-                          viewBinding.noOrdersFound.visibility = View.VISIBLE
+                            viewBinding.approvedListRecyclerview.visibility = View.GONE
+                            viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
+                            pendingListAdapter =
+                                PendingListAdapter(context, pendingList, this, loginData.EMPNAME)
+                            viewBinding.pendingListRecyclerview.layoutManager =
+                                LinearLayoutManager(
+                                    context
+                                )
+                            viewBinding.pendingListRecyclerview.adapter =
+                                pendingListAdapter
+                        } else {
+                            viewBinding.approvedListRecyclerview.visibility = View.GONE
+                            viewBinding.noOrdersFound.visibility = View.VISIBLE
 
-                      }
+                        }
                     }
 
 
@@ -454,6 +460,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //        }
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
@@ -483,6 +491,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
 
                 viewBinding.storeIdsRecyclerView.adapter = siteIdDisplayAdapter
+
+
 
                 selectedSiteids = TextUtils.join(", ", selectsiteIdList)
                 viewModel.getPendingAndApprovedListApiCall(

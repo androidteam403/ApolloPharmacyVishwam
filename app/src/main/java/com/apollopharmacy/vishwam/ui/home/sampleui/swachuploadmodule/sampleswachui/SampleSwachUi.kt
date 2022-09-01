@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import android.view.View
@@ -12,6 +13,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
@@ -20,6 +22,8 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.S
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -31,6 +35,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     //    private lateinit var configListAdapter: ConfigListAdapterSwach
     var dayofCharArray: String? = null
+    var backPressed:Boolean = false
     private lateinit var getStorePersonAdapter: GetStorePersonAdapter
     var positionofday: Int? = null
     private var charArray = ArrayList<String>()
@@ -65,6 +70,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
         var fromdate = simpleDateFormat.format(cal.time)
         var toDate = currentDate
+
+
+        val loginJson = Preferences.getLoginJson()
+        var loginData: LoginDetails? = null
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            loginData = gson.fromJson(loginJson, LoginDetails::class.java)
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
         showLoading()
         var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
         getStoreHistoryRequest.storeid = Preferences.getSiteId()
@@ -112,8 +127,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-//                it.friday = false
-//                it.monday = true
+                it.monday = false
+                it.thursday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -151,6 +166,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                         viewBinding.uploadDay.text = dayofCharArray
                         viewBinding.uploadOnLayout.visibility = View.GONE
                         viewBinding.uploadNowLayout.visibility = View.GONE
+
                     } else {
                         viewBinding.alreadyUploadedlayout.visibility = View.GONE
                         viewBinding.uploadOnLayout.visibility = View.GONE
@@ -184,7 +200,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.noOrdersFound.visibility = View.GONE
 
                     getStorePersonAdapter =
-                        GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this)
+                        GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this,
+                            loginData?.EMPNAME!!)
                     val layoutManager = LinearLayoutManager(ViswamApp.context)
                     viewBinding.imageRecyclerView.layoutManager = layoutManager
                     viewBinding.imageRecyclerView.itemAnimator =
@@ -195,7 +212,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.noOrdersFound.visibility = View.VISIBLE
 
                 }
-
+//                Toast.makeText(context, "success api", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -206,7 +223,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
         viewBinding.uploadNowLayout.setOnClickListener {
             val intent = Intent(context, UploadNowButtonActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, 779)
         }
 
 
@@ -249,5 +266,37 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
         startActivity(intent)
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 779) {
+
+//                val flag: String? = data?.getStringExtra("MESSAGE")
+
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DATE, -7)
+                val currentDate: String = simpleDateFormat.format(Date())
+
+                var fromdate = simpleDateFormat.format(cal.time)
+                var toDate = currentDate
+                showLoading()
+                var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
+                getStoreHistoryRequest.storeid = Preferences.getSiteId()
+                getStoreHistoryRequest.empid = Preferences.getToken()
+                getStoreHistoryRequest.fromdate = fromdate
+                getStoreHistoryRequest.todate = toDate
+                getStoreHistoryRequest.startpageno = 0
+                getStoreHistoryRequest.endpageno = 100
+                viewModel.getStorePersonHistory(getStoreHistoryRequest)
+                viewModel.checkDayWiseAccess()
+            }
+
+        }
+    }
+
+
 
 }

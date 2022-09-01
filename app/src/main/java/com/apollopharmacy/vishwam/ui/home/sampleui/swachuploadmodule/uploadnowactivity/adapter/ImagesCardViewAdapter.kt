@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter
 
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +17,9 @@ import java.io.File
 class ImagesCardViewAdapter(
     private val configPosition: Int,
     private val imageDataDto: MutableList<SwachModelResponse.Config.ImgeDtcl>?,
-    private val  callbackInterface: CallbackInterface,
-    private val configlist: List<SwachModelResponse.Config>?
+    private val callbackInterface: CallbackInterface,
+    private val configlist: List<SwachModelResponse.Config>?,
+    private  val categoryName: String?
 ) : RecyclerView.Adapter<ImagesCardViewAdapter.ViewHolder>() {
 
     interface CallbackInterface {
@@ -29,7 +29,8 @@ class ImagesCardViewAdapter(
             capturedImagepos: Int,
             capturedImage: File?,
             view: View,
-            position: Int
+            position: Int,
+            categoryName: String?
         )
     }
 
@@ -86,7 +87,7 @@ class ImagesCardViewAdapter(
 
 
         holder.eyeImage.setOnClickListener{
-            callbackInterface.capturedImageReview(configPosition,SwachModelResponse?.file, it, position)
+            callbackInterface.capturedImageReview(configPosition,SwachModelResponse?.file, it, position, categoryName)
         }
 
     }

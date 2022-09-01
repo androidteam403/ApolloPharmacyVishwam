@@ -15,5 +15,7 @@ class PendingAndApproved : Serializable {
     var uploadedBy: String? = null
     var uploadedDate: String? = null
     var status: String? = null
+    var empName:String?=null
+
 
 }

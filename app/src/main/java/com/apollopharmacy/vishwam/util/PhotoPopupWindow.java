@@ -49,7 +49,9 @@ public class PhotoPopupWindow extends PopupWindow {
 
         photoView = view.findViewById(R.id.image);
         loading = view.findViewById(R.id.loading);
-        textView=view.findViewById(R.id.category_naePop);
+//        textView=view.findViewById(R.id.category_naePop);
+//        imagePositionTextView = view.findViewById(R.id.count_category);
+//        imagePositionTextView.setText(imagePosition);
 
 
 

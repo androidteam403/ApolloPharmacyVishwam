@@ -8,14 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterPendingApprovedListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachhListCallback
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
-import java.text.SimpleDateFormat
 
 class PendingApprovedListAdapter(
     val mContext: Context?,
     val pendingApprovedList: ArrayList<PendingAndApproved>,
     val mCallback: SwachhListCallback,
+    val empName: String,
 ) :
     RecyclerView.Adapter<PendingApprovedListAdapter.ViewHolder>() {
 
@@ -33,6 +32,9 @@ class PendingApprovedListAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
+            pendingApprovedList.get(position).uploadedBy?.toUpperCase()
+            pendingApprovedList.get(position).empName= empName
             holder.pendingApprovedListBinding.model = pendingApprovedList.get(position)
 
 //        if( pendingApprovedList.get(position).uploadedDate!="") {

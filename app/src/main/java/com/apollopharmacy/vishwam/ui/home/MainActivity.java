@@ -101,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isDiscountRequired = false;
     public static String userDesignation = "";
     private TextView headerText;
+    public Boolean isListScreen = false;
+    public Boolean isUploadScreen=false;
     private LinearLayout gpsLoaderLayout;
     private String previousItem = "";
     private String currentItem = "";
@@ -237,16 +239,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (isAtdLogout) {
-                super.onBackPressed();
-            } else {
-                dialogExit();
-            }
 
+        if(isListScreen || isUploadScreen){
+            displaySelectedScreen("HOME");
+            drawer.closeDrawer(GravityCompat.START);
+        }else{
+            if (drawer.isDrawerOpen(GravityCompat.START)) {
+                drawer.closeDrawer(GravityCompat.START);
+            } else {
+                if (isAtdLogout) {
+                    super.onBackPressed();
+                } else {
+                    dialogExit();
+                }
+
+            }
         }
+
+
+
     }
 
     private void displaySelectedScreen(String itemName) {
@@ -319,11 +330,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 imageView.setVisibility(View.GONE);
+                isUploadScreen=true;
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 imageView.setVisibility(View.VISIBLE);
+                isListScreen=true;
                 break;
             case "Drug Request":
                 headerText.setText("New Drug Request");

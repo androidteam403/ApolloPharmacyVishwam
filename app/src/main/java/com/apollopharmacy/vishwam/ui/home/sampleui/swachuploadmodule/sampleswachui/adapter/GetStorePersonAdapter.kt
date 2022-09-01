@@ -12,7 +12,8 @@ import java.text.SimpleDateFormat
 
 class GetStorePersonAdapter(
     private var getStorePersonlist: List<GetStorePersonHistoryodelResponse.Get>?,
-    private var callBackInterface: getStoreHistory
+    private var callBackInterface: getStoreHistory,
+    private var empname: String
 ) :
     RecyclerView.Adapter<GetStorePersonAdapter.ViewHolder>() {
 
@@ -42,6 +43,10 @@ class GetStorePersonAdapter(
         val getStorePerson = getStorePersonlist?.get(position)
 
 
+        holder.swachId.text=getStorePerson?.swachhid
+        getStorePersonlist?.get(position)?.uploadedBy?.toUpperCase()
+//        getStorePersonlist?.get(position).empName= empName
+
 
 
 
@@ -70,6 +75,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
+                holder.empName.text = " - " + empname
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("PENDING")) {
@@ -89,6 +95,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
+                holder.empName.text = " - " +empname
             }
             holder.pendingpLayout.visibility = View.VISIBLE
         }
@@ -109,6 +116,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
+                holder.empName.text = " - " +empname
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
@@ -131,6 +139,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
+                holder.empName.text = " - " +empname
             }
         }
 
@@ -165,6 +174,8 @@ class GetStorePersonAdapter(
         val overAllLayout: LinearLayout = itemView.findViewById(R.id.overallLayout)
         val partiallyApproved: LinearLayout = itemView.findViewById(R.id.partially_approved_layout)
         val threeDots: LinearLayout = itemView.findViewById(R.id.three_dots)
+        val swachId: TextView = itemView.findViewById(R.id.swachidgetStore)
+        val empName: TextView = itemView.findViewById(R.id.empNamegetStore)
 
 
     }

@@ -37,7 +37,7 @@ class ConfigAdapterSwach(
         holder.textView.text = SwachModelResponse?.categoryName
 
         imagesCardViewAdapter =
-            ImagesCardViewAdapter(position, SwachModelResponse?.imageDataDto, callbackInterface, configLst.configlist)
+            ImagesCardViewAdapter(position, SwachModelResponse?.imageDataDto, callbackInterface, configLst.configlist, SwachModelResponse?.categoryName)
         holder.imageRecyclerView.layoutManager = LinearLayoutManager(
             ViswamApp.context,
             LinearLayoutManager.HORIZONTAL, false)

@@ -10,7 +10,6 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -38,9 +37,9 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.S
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -53,7 +52,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     lateinit var activityUploadNowButtonBinding: ActivityUploadNowButtonBinding
     private var swacchApolloList = ArrayList<SwachModelResponse>()
     lateinit var viewModel: UploadNowButtonViewModel
-    private lateinit var configListAdapter: ConfigAdapterSwach
+    private  var configListAdapter: ConfigAdapterSwach?=null
     var imageFromCameraFile: File? = null
     private lateinit var dialog: Dialog
     public var allImagesUploadedSwach: Boolean = false
@@ -96,7 +95,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             }
         }
         activityUploadNowButtonBinding.backButton.setOnClickListener {
-            onBackPressed()
+            super.onBackPressed()
         }
 
 
@@ -105,12 +104,12 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             hideLoading()
             if (it != null && it.status == true) {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
-                super.onBackPressed()
+                onBackPressed()
                 Preferences.setUploadedDateDayWise(currentDate)
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
-
-                super.onBackPressed()
+                Preferences.setUploadedDateDayWise(currentDate)
+                onBackPressed()
             } else {
                 Toast.makeText(context, "Please try again!!", Toast.LENGTH_SHORT).show()
             }
@@ -121,7 +120,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
             if (it != null && it.status ?: null == true) {
                 swacchApolloList.add(it)
-
+                activityUploadNowButtonBinding.noOrdersFound.visibility = View.GONE
                 for ((index, value) in it.configlist!!.withIndex()) {
                     val countUpload = value.categoryImageUploadCount?.toInt()
                     var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
@@ -144,12 +143,14 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 activityUploadNowButtonBinding.recyclerViewimageswach.adapter = configListAdapter
 
 
+            }else{
+                activityUploadNowButtonBinding.noOrdersFound.visibility = View.VISIBLE
             }
             Utlis.hideLoading()
         }
 
         viewModel.commandsNewSwach.observeForever({
-            configListAdapter.notifyDataSetChanged()
+            configListAdapter?.notifyDataSetChanged()
             Utlis.hideLoading()
             when (it) {
                 is CommandsNewSwachImp.ImageIsUploadedInAzur -> {
@@ -208,7 +209,11 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
     override fun onBackPressed() {
 
-        exitDialog()
+        val intent = Intent()
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
+
 
     }
 
@@ -277,7 +282,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             activityUploadNowButtonBinding.imageCountSwach.text =
                 uploadedImageCount.toString() + "/" + overallImageCount
             activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#a6a6a6"));
-            configListAdapter.notifyDataSetChanged()
+            configListAdapter?.notifyDataSetChanged()
             checkAllImagesUploaded()
             dialog.dismiss()
         }
@@ -291,12 +296,18 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         capturedImagepos: Int,
         capturedImage: File?,
         view: View,
-        position: Int
+        position: Int,
+        categoryName: String?,
     ) {
-        PhotoPopupWindow(
+//        PhotoPopupWindow(
+//            context, R.layout.layout_image_fullview, view,
+//            capturedImage.toString(), null
+//        )
+
+        PopUpWIndow(
             context, R.layout.layout_image_fullview, view,
-            capturedImage.toString(), null
-        )
+            capturedImage.toString(), null,categoryName,position
+       )
 
     }
 
@@ -329,7 +340,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
@@ -350,22 +361,22 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     }
 
     private fun openCamera() {
-            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            imageFromCameraFile =
-                File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromCameraFile =
+            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
-            } else {
-                val photoUri = FileProvider.getUriForFile(
-                    context,
-                    context.packageName + ".provider",
-                    imageFromCameraFile!!
-                )
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-            }
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                context,
+                context.packageName + ".provider",
+                imageFromCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
@@ -419,9 +430,6 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //            var capture: File? = null
 
 
-
-
-
 //            val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
 
 //          val fileSizeInKBC = fileSizeInBytesC / 1024
@@ -455,8 +463,6 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //                .compressToFile(imageFromCameraFile);
 
 
-
-
 //            val resizedImage = Resizer(this)
 //                .setTargetLength(1080)
 //                .setQuality(100)
@@ -486,7 +492,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 
 
-            configListAdapter.notifyDataSetChanged()
+            configListAdapter?.notifyDataSetChanged()
             swacchApolloList.get(0).configlist!!.get(configPosition).imageUploaded = true
             swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
                 uploadPosition
@@ -505,10 +511,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 uploadPosition
             )
         )
-        configListAdapter.notifyDataSetChanged()
+        configListAdapter?.notifyDataSetChanged()
     }
-
-
 
 
     fun addImageToGallery(filePath: String?, context: Context) {

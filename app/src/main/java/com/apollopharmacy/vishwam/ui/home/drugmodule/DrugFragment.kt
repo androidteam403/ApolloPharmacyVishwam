@@ -1168,7 +1168,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
     override fun onItemClick(position: Int, imagePath: String,name: String) {
-        PopUpWIndow(context, R.layout.layout_image_fullview, view, imagePath, null,name)
+        PopUpWIndow(context, R.layout.layout_image_fullview, view, imagePath, null,name,position )
     }
 
     override fun selectedDate(dateSelected: String, showingDate: String) {

@@ -7,18 +7,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterPendingListBinding
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachhListCallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
-import java.text.SimpleDateFormat
 
 class PendingListAdapter(
     val context: Context?,
     val pendingList: ArrayList<PendingAndApproved>,
-    val mCallback: SwachhListCallback
+    val mCallback: SwachhListCallback,
+    val empName: String,
 ) : RecyclerView.Adapter<PendingListAdapter.ViewHolder>() {
-
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,6 +30,8 @@ class PendingListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        pendingList.get(position).uploadedBy?.toUpperCase()
+        pendingList.get(position).empName = empName
         holder.pendingListBinding.model = pendingList.get(position)
 //
 //        if( pendingList.get(position).uploadedDate!="") {
@@ -58,8 +57,7 @@ class PendingListAdapter(
     }
 
 
-
-    class ViewHolder (val pendingListBinding: AdapterPendingListBinding) :
+    class ViewHolder(val pendingListBinding: AdapterPendingListBinding) :
         RecyclerView.ViewHolder(pendingListBinding.root) {
 
     }

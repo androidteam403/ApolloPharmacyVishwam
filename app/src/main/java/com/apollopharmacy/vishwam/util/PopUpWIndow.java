@@ -26,11 +26,12 @@ public class PopUpWIndow extends PopupWindow {
     Context mContext;
     PhotoView photoView;
     ProgressBar loading;
-    TextView textView;
+    TextView textView, imagePositionTextView;
+
     ViewGroup parent;
     private static PhotoPopupWindow instance = null;
 
-    public PopUpWIndow(Context ctx, int layout, View v, String imageUrl, Bitmap bitmap, String category) {
+    public PopUpWIndow(Context ctx, int layout, View v, String imageUrl, Bitmap bitmap, String category, int imagePosition) {
         super(((LayoutInflater) ctx.getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.popup_imageview, null), ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
 
@@ -49,8 +50,14 @@ public class PopUpWIndow extends PopupWindow {
         photoView = view.findViewById(R.id.image);
         loading = view.findViewById(R.id.loading);
         textView = view.findViewById(R.id.category_naePop);
+        imagePositionTextView = view.findViewById(R.id.count_category);
 
         textView.setText(category);
+        int addOne = 1;
+        int myInt = imagePosition+addOne;
+
+//        int myInt = Integer.parseInt(String.valueOf(imagePosition).addOne);
+      imagePositionTextView.setText(String.valueOf(myInt));
 
         photoView.setMaximumScale(6);
         parent = (ViewGroup) photoView.getParent();

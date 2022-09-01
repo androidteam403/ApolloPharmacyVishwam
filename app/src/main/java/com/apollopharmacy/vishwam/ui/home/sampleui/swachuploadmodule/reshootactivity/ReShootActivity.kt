@@ -272,7 +272,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         }
         activityreShootBinding.backButton.setOnClickListener {
-            onBackPressed()
+            super.onBackPressed()
         }
 
         viewModel.commands.observeForever({
@@ -388,8 +388,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
 
-        exitDialog()
+//        exitDialog()
 
     }
 
@@ -448,9 +449,14 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         position: Int,
         category: String
     ) {
+//        PopUpWIndow(
+//            context, R.layout.layout_image_fullview, view,
+//            url.toString(), null,category,position
+//        )
+
         PopUpWIndow(
-            context, R.layout.layout_image_fullview, view,
-            url.toString(), null,category
+            context, R.layout.popup_imageview, view,
+            url.toString(), null,category,position
         )
 
 

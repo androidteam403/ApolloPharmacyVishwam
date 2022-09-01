@@ -212,7 +212,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
         PopUpWIndow(
             ViswamApp.context, R.layout.layout_image_fullview, viewClick,
-            imagePath, null,category
+            imagePath, null,category,position
         )
 
 //        val intent = Intent(this, PreviewLastImageActivity::class.java)
