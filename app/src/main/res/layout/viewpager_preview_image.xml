@@ -8,11 +8,9 @@
         android:gravity="center">
 
         <com.github.chrisbanes.photoview.PhotoView
-            android:layout_marginStart="@dimen/value_15dp"
-            android:layout_marginEnd="@dimen/value_15dp"
             android:id="@+id/viewpager_image"
             android:layout_width="match_parent"
-            android:layout_height="550dp"
+            android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY"
             android:src="@drawable/capture"
