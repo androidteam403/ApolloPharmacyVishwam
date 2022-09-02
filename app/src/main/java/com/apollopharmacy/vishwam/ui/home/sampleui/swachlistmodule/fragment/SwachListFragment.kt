@@ -148,7 +148,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         viewBinding.storeId = Preferences.getSiteId()
-//    userDesignation = "EXECUTIVE"
+    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {

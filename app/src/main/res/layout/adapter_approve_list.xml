@@ -159,6 +159,7 @@
                                 android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
                             <TextView
+                                android:layout_marginBottom="@dimen/five5_sp"
                                 android:layout_width="@dimen/value_100dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/text_20sp"

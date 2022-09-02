@@ -21,6 +21,7 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.a
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
@@ -206,20 +207,21 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
         }
     }
-
+    var previewClicked: Boolean=false
     override fun onClickImage(position: Int, imagePath: String, viewClick: View,category:String) {
+        previewClicked=true
 
+//        PopUpWIndow(
+//            ViswamApp.context, R.layout.layout_image_fullview, viewClick,
+//            imagePath, null,category,position
+//        )
 
-        PopUpWIndow(
-            ViswamApp.context, R.layout.layout_image_fullview, viewClick,
-            imagePath, null,category,position
-        )
-
-//        val intent = Intent(this, PreviewLastImageActivity::class.java)
-//        intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
-//        intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
-//        startActivityForResult(intent, PreviewLastImageActivity().PREVIEW_LAST_IMAGE_ACTIVITY)
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        val intent = Intent(this, PreviewImageActivity::class.java)
+        intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
+        intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
+        intent.putExtra("previewClicked", previewClicked)
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 //
     }
 

@@ -272,9 +272,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 779) {
-
-//                val flag: String? = data?.getStringExtra("MESSAGE")
-
                 val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -7)
