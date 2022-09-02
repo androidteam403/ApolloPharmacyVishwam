@@ -1,12 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
-import android.R.attr.bitmap
-import android.R.attr.orientation
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.ExifInterface
@@ -39,10 +36,8 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.ReShootActivityViewModel
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.OnClickStatusClickAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
-import com.bumptech.glide.load.resource.bitmap.TransformationUtils.rotateImage
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
@@ -57,6 +52,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     var uploadedCount: Int = 0
     private lateinit var dialog: Dialog
     var overallreshootcount: Int = 0
+    var swachId: String? = null
 
 
     private lateinit var onClickStatusClickAdapter: OnClickStatusClickAdapter
@@ -70,7 +66,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         )
         viewModel = ViewModelProvider(this)[ReShootActivityViewModel::class.java]
-        val swachId = intent.getStringExtra("swachhid")
+        swachId = intent.getStringExtra("swachhid")
         val status = intent.getStringExtra("status")
         val approvedDate = intent.getStringExtra("approvedDate")
         val storeId = intent.getStringExtra("storeId")
@@ -197,7 +193,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
         var submit = GetImageUrlModelRequest()
-        submit.storeid =  Preferences.getSiteId()
+        submit.storeid = Preferences.getSiteId()
         submit.swachhId = swachId
         Utlis.showLoading(this)
 
@@ -207,10 +203,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (it != null && it.categoryList != null) {
                 getImageUrlsList.add(it)
 
-                if( it.remarks?.size!!>0&& it.remarks?.get(0)?.remarks!= ""){
+                if (it.remarks?.size!! > 0 && it.remarks?.get(0)?.remarks != "") {
                     activityreShootBinding.comments.text = it.remarks?.get(0)?.remarks
                 }
-
 
 
 //                getImageUrlsList.get(0).categoryList?.get(0)?.imageUrls?.get(0)?.status = "2"
@@ -447,7 +442,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         url: String?,
         view: View,
         position: Int,
-        category: String
+        category: String,
     ) {
 //        PopUpWIndow(
 //            context, R.layout.layout_image_fullview, view,
@@ -456,7 +451,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         PopUpWIndow(
             context, R.layout.popup_imageview, view,
-            url.toString(), null,category,position
+            url.toString(), null, category, position
         )
 
 
@@ -513,18 +508,25 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 submit.actionEvent = "RESHOOT"
                 submit.storeid = Preferences.getSiteId()
                 submit.userid = Preferences.getToken()
+                submit.swachhIdRehoot = swachId
+                submit.status = "0"
+
                 var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
                 for (i in getImageUrlsList.get(0).categoryList?.indices!!) {
                     for (j in getImageUrlsList.get(0).categoryList!!.get(i).imageUrls!!.indices) {
-                        var imageUrl = submit.ImageUrl()
-                        imageUrl.url =
-                            getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
-                        imageUrl.categoryid =
-                            getImageUrlsList.get(0).categoryList!!.get(i).categoryid
-                        imageUrl.imageId =
-                            getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
-                        imageUrlsList.add(imageUrl)
+                        if (getImageUrlsList.get(0).categoryList!!.get(i).imageUrls!!.get(j).status.equals(
+                                "2")
+                        ) {
+                            var imageUrl = submit.ImageUrl()
+                            imageUrl.url =
+                                getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.url
+                            imageUrl.categoryid =
+                                getImageUrlsList.get(0).categoryList!!.get(i).categoryid
+                            imageUrl.imageId =
+                                getImageUrlsList.get(0).categoryList!!.get(i).imageUrls?.get(j)?.imageid
+                            imageUrlsList.add(imageUrl)
+                        }
                     }
 
                 }

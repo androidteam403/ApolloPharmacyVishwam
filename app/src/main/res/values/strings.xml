@@ -223,4 +223,9 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="game_message">You have already selected this siteId</string>
     <string name="label_entity">Entity</string>
+    <string name="label_new">New</string>
+    <string name="label_in_progress">In Progress</string>
+    <string name="label_resolved">Resolved</string>
+    <string name="label_reopen">Reopen</string>
+    <string name="label_closed">Closed</string>
 </resources>
