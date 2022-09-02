@@ -116,9 +116,9 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 currentPosition = position
                 activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(position)
                 activityPreviewLastImageBinding.totalImages = "${position + 1}/${imageUrlsList.size - 1}"
+                previewImageViewPager?.notifyDataSetChanged()
             }
             activityPreviewLastImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
-
         }else{
             currentPosition = position
             if (currentPosition != imageUrlsList.size - 1) {

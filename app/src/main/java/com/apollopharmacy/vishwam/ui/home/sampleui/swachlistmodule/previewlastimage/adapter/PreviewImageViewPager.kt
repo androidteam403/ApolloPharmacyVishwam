@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 
 class PreviewImageViewPager(
     val mContext: Context,
-    val imageUrl: List<GetImageUrlsResponse.ImageUrl>,
+    val imageUrl: List<GetImageUrlsResponse.ImageUrl>
 ) :
     PagerAdapter() {
 
@@ -24,12 +24,6 @@ class PreviewImageViewPager(
             container,
             false
         )
-
-//        if(previewClicked){
-//            viewpagerPreviewImageBinding.isPreviewClicked=true
-//        }
-
-
         if (position == imageUrl.size - 1) {
             viewpagerPreviewImageBinding.isLastPos = true
             var accepted = 0
@@ -42,7 +36,7 @@ class PreviewImageViewPager(
                         rejected++
                     }
             }
-            viewpagerPreviewImageBinding.totalImages = "${imageUrl.size-1}"
+            viewpagerPreviewImageBinding.totalImages = "${imageUrl.size - 1}"
             viewpagerPreviewImageBinding.accepted = "$accepted"
             viewpagerPreviewImageBinding.rejected = "$rejected"
 
@@ -58,10 +52,16 @@ class PreviewImageViewPager(
         return viewpagerPreviewImageBinding.root
     }
 
+
+
     override fun getCount(): Int {
         return imageUrl.size
     }
 
+    override fun getItemPosition(`object`: Any): Int {
+        return POSITION_NONE
+        //super.getItemPosition(`object`)
+    }
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
         container.removeView(`object` as View)
     }
