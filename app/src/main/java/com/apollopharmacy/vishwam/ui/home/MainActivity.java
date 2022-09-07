@@ -194,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
-            Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();
