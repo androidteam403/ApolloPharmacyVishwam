@@ -127,12 +127,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ImageView imageView;
     public static Boolean isAtdLogout = false;
     private Context context;
+    public View filterIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
+        filterIndicator = (View) findViewById(R.id.filter_indication);
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         imageView = findViewById(R.id.siteIdList);

@@ -2,12 +2,12 @@ package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -47,10 +47,19 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
 
     lateinit var storeData: LoginDetails.StoreData
 
-    var complaintListStatus: String = ""
+    var complaintListStatus: String = "new,inprogress,solved,reopened,closed"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
 
+    override fun onPause() {
+        super.onPause()
+        MainActivity.mInstance.filterIndicator.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setFilterIndication()
+    }
 
     override val layoutRes: Int
         get() = R.layout.fragment_complaints
@@ -71,6 +80,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
+        setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
@@ -202,6 +212,20 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         })
     }
 
+    fun setFilterIndication() {
+        if (!this.complaintListStatus.contains("new")
+            || !this.complaintListStatus.contains("inprogress")
+            || !this.complaintListStatus.contains("solved")
+            || !this.complaintListStatus.contains("reopened")
+            || !this.complaintListStatus.contains("closed")
+        ) {
+            MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
+        } else {
+            MainActivity.mInstance.filterIndicator.visibility = View.GONE
+
+        }
+    }
+
     private fun loadMore() {
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
@@ -258,7 +282,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                     toDate,
                     userData.EMPID,
                     page
-                )
+                ), complaintListStatus
             )
 
         } else {
@@ -1065,34 +1089,143 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
             DataBindingUtil.inflate(
                 LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false)
         complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding.root)
+        complaintListStatusFilterDialog.getWindow()
+            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
         dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
             complaintListStatusFilterDialog.dismiss()
         }
-        var complaintListStatusTemp = this.complaintListStatus
-        dialogComplaintListFilterBinding.status = complaintListStatusTemp
-
-        dialogComplaintListFilterBinding.statusRadioGroup.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
-            if (i == R.id.new_status) {
-                complaintListStatusTemp = "new"
-            } else if (i == R.id.in_progress_status) {
-                complaintListStatusTemp = "inprogress"
-            } else if (i == R.id.resolved_status) {
-                complaintListStatusTemp = "solved"
-            } else if (i == R.id.reopen_status) {
-                complaintListStatusTemp = "reopened"
-            } else if (i == R.id.closed_status) {
-                complaintListStatusTemp = "closed"
-            }
+        if (this.complaintListStatus.contains("new")) {
+            dialogComplaintListFilterBinding.isNewChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isNewChecked = false
         }
+        if (this.complaintListStatus.contains("inprogress")) {
+            dialogComplaintListFilterBinding.isInProgressChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isInProgressChecked = false
+        }
+        if (this.complaintListStatus.contains("solved")) {
+            dialogComplaintListFilterBinding.isResolvedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isResolvedChecked = false
+        }
+        if (this.complaintListStatus.contains("reopened")) {
+            dialogComplaintListFilterBinding.isReopenChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isReopenChecked = false
+        }
+        if (this.complaintListStatus.contains("closed")) {
+            dialogComplaintListFilterBinding.isClosedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isClosedChecked = false
+        }
+
+
+        submitButtonEnable(dialogComplaintListFilterBinding)
+
+
+        dialogComplaintListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+
+//        var complaintListStatusTemp = this.complaintListStatus
+//        dialogComplaintListFilterBinding.status = complaintListStatusTemp
+
+//        dialogComplaintListFilterBinding.statusRadioGroup.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+//            if (i == R.id.new_status) {
+//                complaintListStatusTemp = "new"
+//            } else if (i == R.id.in_progress_status) {
+//                complaintListStatusTemp = "inprogress"
+//            } else if (i == R.id.resolved_status) {
+//                complaintListStatusTemp = "solved"
+//            } else if (i == R.id.reopen_status) {
+//                complaintListStatusTemp = "reopened"
+//            } else if (i == R.id.closed_status) {
+//                complaintListStatusTemp = "closed"
+//            }
+//        }
+
+
         dialogComplaintListFilterBinding.submit.setOnClickListener {
-            this.complaintListStatus = complaintListStatusTemp
+//            this.complaintListStatus = complaintListStatusTemp
+            this.complaintListStatus = ""
+            if (dialogComplaintListFilterBinding.newStatus.isChecked) {
+                this.complaintListStatus = "new"
+            }
+            if (dialogComplaintListFilterBinding.inProgressStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "inprogress"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},inprogress"
+                }
+            }
+            if (dialogComplaintListFilterBinding.resolvedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "solved"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},solved"
+                }
+            }
+            if (dialogComplaintListFilterBinding.reopenStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "reopened"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},reopened"
+                }
+            }
+            if (dialogComplaintListFilterBinding.closedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "closed"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},closed"
+                }
+            }
+
+
             if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
                 complaintListStatusFilterDialog.dismiss()
+                callAPI(1)
+
+
             }
+            setFilterIndication()
         }
         complaintListStatusFilterDialog.show()
     }
 }
+
+fun setFilterIndication() {
+
+}
+
+fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
+    if (!dialogComplaintListFilterBinding.newStatus.isChecked
+        && !dialogComplaintListFilterBinding.inProgressStatus.isChecked
+        && !dialogComplaintListFilterBinding.resolvedStatus.isChecked
+        && !dialogComplaintListFilterBinding.reopenStatus.isChecked
+        && !dialogComplaintListFilterBinding.closedStatus.isChecked
+    ) {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+        dialogComplaintListFilterBinding.isSubmitEnable = false
+    } else {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+        dialogComplaintListFilterBinding.isSubmitEnable = true
+    }
+}
+
 
 interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)

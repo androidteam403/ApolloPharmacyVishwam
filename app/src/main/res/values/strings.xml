@@ -228,4 +228,7 @@
     <string name="label_resolved">Resolved</string>
     <string name="label_reopen">Reopen</string>
     <string name="label_closed">Closed</string>
+    <string name="label_complaint_list_status_filter">Complaint list status filter</string>
+    <string name="label_filters_by_status">Filters by status</string>
+    <string name="label_apply">Apply</string>
 </resources>
