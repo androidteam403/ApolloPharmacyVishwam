@@ -44,7 +44,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
             this,
             R.layout.activity_approve_list
         )
-        ratingbar = findViewById(R.id.ratingBar);
+//        ratingbar = findViewById(R.id.ratingBar);
         approveListViewModel = ViewModelProvider(this)[ApproveListViewModel::class.java]
         setUp()
     }
@@ -55,7 +55,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
         if(pendingAndApproved!!.status!=null && pendingAndApproved!!.status=="APPROVED"){
-            activityApproveListBinding.submitRating.visibility=View.VISIBLE
+//            activityApproveListBinding.submitRating.visibility=View.VISIBLE
 //            activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
 //            activityApproveListBinding.ratingBarLayout.visibility = View.VISIBLE
 //            activityApproveListBinding.submitReviewandRating.visibility=View.VISIBLE
@@ -73,12 +73,6 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
 
 
-        ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-
-            ratingforsubmit = rating.toString()
-
-//          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
-        }
 
 
 
@@ -199,11 +193,11 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
             overallStatus = "2"
-            activityApproveListBinding.submitRating.visibility=View.VISIBLE
+//            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else {
             activityApproveListBinding.status = "3"
             overallStatus = "3"
-            activityApproveListBinding.submitRating.visibility=View.VISIBLE
+//            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         }
     }
     var previewClicked: Boolean=false
@@ -292,30 +286,44 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     }
 
     override fun onClickSubmitRatingButton() {
+
         dialog = Dialog(this)
         dialog.setContentView(R.layout.rating_review_dialog)
        val comments = dialog.findViewById<EditText>(R.id.comment)
         val submitButton = dialog.findViewById<LinearLayout>(R.id.submitforreview)
         val closeButton = dialog.findViewById<ImageView>(R.id.close_dialogRating)
-        ratingbar!!.setRating(4.toFloat())
+        ratingbar =  dialog.findViewById<RatingBar>(R.id.ratingBarDialog)
+
 
         closeButton.setOnClickListener {
             dialog.dismiss()
         }
+        ratingforsubmit="4"
+        ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
+            ratingforsubmit = rating.toString().substring(0,1)
+
+//          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
+        }
 
         submitButton.setOnClickListener {
-            var submitRating = RatingModelRequest()
-            submitRating.type = "REMARKS"
-            submitRating.swachhid = pendingAndApproved?.swachhid
-            submitRating.storeid = Preferences.getSiteId()
-            submitRating.statusid = "1"
-            submitRating.reamrks = comments.getText().toString()
-            submitRating.rating = ratingforsubmit.toString()
-            submitRating.userid = Preferences.getValidatedEmpId()
-            Utlis.showLoading(this)
-            approveListViewModel.submitRatingBar(submitRating)
-            dialog.dismiss()
+            if( comments.getText().toString()!=null &&  comments.getText().toString()!=""){
+                var submitRating = RatingModelRequest()
+                submitRating.type = "REMARKS"
+                submitRating.swachhid = pendingAndApproved?.swachhid
+                submitRating.storeid = Preferences.getSiteId()
+                submitRating.statusid = "1"
+                submitRating.reamrks = comments.getText().toString()
+                submitRating.rating = ratingforsubmit.toString()
+                submitRating.userid = Preferences.getValidatedEmpId()
+                Utlis.showLoading(this)
+                approveListViewModel.submitRatingBar(submitRating)
+                dialog.dismiss()
+                super.onBackPressed()
+            }else{
+                Toast.makeText(applicationContext, "Please enter comments",Toast.LENGTH_SHORT).show()
+            }
+
         }
 
 

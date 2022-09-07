@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_marginTop="28dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_marginBottom="@dimen/value_5dp"
                 android:orientation="vertical"
@@ -52,7 +52,7 @@
                     android:layout_marginTop="@dimen/value_5dp"
                     android:autofillHints="@string/app_name"
                     android:background="@drawable/edit_comment_bg"
-                    android:hint="Enter comment"
+                    android:hint="Enter your Comments"
                     android:lines="4"
                     android:inputType="textMultiLine"
                     android:padding="@dimen/value_10dp" />
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
-                android:layout_marginTop="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_5dp"
                 android:orientation="vertical"
                 android:visibility="visible">
 
@@ -76,12 +76,13 @@
 
 
                 <RatingBar
-                    android:id="@+id/ratingBar"
+                    android:id="@+id/ratingBarDialog"
                     style="?android:attr/ratingBarStyleIndicator"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:isIndicator="false"
                     android:max="5"
+                    android:rating="4"
                     android:numStars="5"
                     android:scaleX=".7"
                     android:scaleY=".7"

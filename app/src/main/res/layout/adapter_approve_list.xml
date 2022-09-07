@@ -78,98 +78,138 @@
                 <LinearLayout
                     android:layout_weight="0.2"
                     android:layout_width="0dp"
-                    android:layout_marginEnd="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:gravity="end"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-
-
-                    <LinearLayout
-                       android:gravity=""
-                        android:layout_marginEnd="@dimen/value_5dp"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="6dp"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="@dimen/value_3dp"
+                        android:text="Partial"
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold"
+                        android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_4dp"
+                        android:text="Approved"
+                        android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}"
+                        android:textColor="@color/greenn"
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/three3_sp"
+                        android:layout_marginBottom="@dimen/three3_sp"
+                        android:text="Re-Shoot"
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold"
+                        android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
-                        <TextView
-                            android:layout_width="@dimen/value_100dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_3dp"
-                            android:padding="@dimen/five5_sp"
-                            android:text="Partial"
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_3dp"
+                        android:layout_marginBottom="@dimen/three3_sp"
+                        android:text="Pending"
+                        android:textColor="@color/material_amber_accent_700"
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold"
+                        android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
-                            android:textColor="@color/color_red"
-                            android:textSize="@dimen/text_14sp"
-                            android:textStyle="bold"
-                            android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
+<!--                    <LinearLayout-->
+<!--                        android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginBottom="6dp"-->
+<!--                        android:gravity="end"-->
+<!--                        android:orientation="horizontal">-->
 
-                        <LinearLayout
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/value_3dp"-->
+<!--                            android:padding="@dimen/five5_sp"-->
+<!--                            android:text="Partial"-->
+<!--                            android:textColor="@color/color_red"-->
+<!--                            android:textSize="@dimen/text_14sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />-->
 
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+<!--                    </LinearLayout>-->
+<!--                    <LinearLayout-->
 
-                            <LinearLayout
-                                android:layout_width="@dimen/value_100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:orientation="horizontal"
-                                android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}">
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:orientation="horizontal">-->
 
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:gravity="end"-->
+<!--                            android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}">-->
 
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="@dimen/value_4dp"
-                                        android:text="Approved"
-                                        android:textColor="@color/greenn"
-                                        android:textSize="@dimen/text_14sp"
-                                        android:textStyle="bold" />
-
-                                    <!--                                    <ImageView-->
-                                    <!--                                        android:layout_width="@dimen/twenty_three23_sp"-->
-                                    <!--                                        android:layout_height="@dimen/twenty_three23_sp"-->
-                                    <!--                                        android:layout_marginLeft="@dimen/value_3dp"-->
-                                    <!--                                        android:src="@drawable/ic_baseline_done_24" />-->
-
-
-                                </LinearLayout>
-
-
-                            </LinearLayout>
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="horizontal">-->
 
 
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginTop="@dimen/value_4dp"-->
+<!--                                    android:text="Approved"-->
+<!--                                    android:textColor="@color/greenn"-->
+<!--                                    android:textSize="@dimen/text_14sp"-->
+<!--                                    android:textStyle="bold" />-->
 
-                            <TextView
-                                android:layout_width="@dimen/value_100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/three3_sp"
-                                android:layout_marginBottom="@dimen/three3_sp"
-                                android:padding="@dimen/five5_sp"
-                                android:text="Re-Shoot"
-                                android:textColor="@color/color_red"
-                                android:textSize="@dimen/text_14sp"
-                                android:textStyle="bold"
-                                android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
+<!--                                &lt;!&ndash;                                    <ImageView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                        android:layout_width="@dimen/twenty_three23_sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                        android:layout_height="@dimen/twenty_three23_sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                        android:layout_marginLeft="@dimen/value_3dp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                        android:src="@drawable/ic_baseline_done_24" />&ndash;&gt;-->
 
-                            <TextView
-                                android:layout_width="@dimen/value_100dp"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_3dp"
-                                android:layout_marginBottom="@dimen/three3_sp"
-                                android:padding="@dimen/five5_sp"
-                                android:text="Pending"
-                                android:textColor="@color/material_amber_accent_700"
-                                android:textSize="@dimen/text_14sp"
-                                android:textStyle="bold"
-                                android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
-                        </LinearLayout>
-                    </LinearLayout>
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+
+
+<!--                        <TextView-->
+<!--                            android:layout_width="@dimen/value_100dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/three3_sp"-->
+<!--                            android:layout_marginBottom="@dimen/three3_sp"-->
+<!--                            android:padding="@dimen/five5_sp"-->
+<!--                            android:text="Re-Shoot"-->
+<!--                            android:textColor="@color/color_red"-->
+<!--                            android:textSize="@dimen/text_14sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="@dimen/value_100dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginTop="@dimen/value_3dp"-->
+<!--                            android:layout_marginBottom="@dimen/three3_sp"-->
+<!--                            android:padding="@dimen/five5_sp"-->
+<!--                            android:text="Pending"-->
+<!--                            android:textColor="@color/material_amber_accent_700"-->
+<!--                            android:textSize="@dimen/text_14sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />-->
+<!--                    </LinearLayout>-->
+
                 </LinearLayout>
 
 

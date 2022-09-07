@@ -967,7 +967,7 @@
                                     android:layout_marginBottom="@dimen/five5_sp"
                                     android:background="@drawable/green_background"
                                     android:padding="@dimen/five5_sp"
-                                    android:text="Accepted"
+                                    android:text="Approved"
                                     android:textAlignment="center"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_16sp"
@@ -1003,33 +1003,38 @@
                                     android:textStyle="bold"
                                     android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
+                                <LinearLayout
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:gravity="end"
+                                    android:visibility="gone"
+                                    android:id="@+id/submitRating"
+                                    android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:background="@drawable/seablue_roundedcorners"
+                                        android:gravity="center"
+                                        android:padding="@dimen/value_6dp"
+                                        android:text="Submit Rating"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_16sp"
+                                        android:textStyle="bold" />
+
+                                </LinearLayout>
+
+
+
                             </LinearLayout>
                         </LinearLayout>
 
-                        <LinearLayout
-                            android:visibility="gone"
-                            android:id="@+id/submitRating"
-                            android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
-                            android:layout_marginTop="@dimen/value_15dp"
-                            android:layout_marginStart="@dimen/value_10dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_7dp"
-                                android:layout_marginBottom="@dimen/five5_sp"
-                                android:background="@drawable/seablue_roundedcorners"
-                                android:gravity="center"
-                                android:padding="@dimen/value_6dp"
-                                android:text="Submit Rating"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_16sp"
-                                android:textStyle="bold" />
-
-                        </LinearLayout>
 
 
 
