@@ -33,9 +33,15 @@ class PendingApprovedListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-            pendingApprovedList.get(position).uploadedBy?.toUpperCase()
-            pendingApprovedList.get(position).empName= empName
-            holder.pendingApprovedListBinding.model = pendingApprovedList.get(position)
+        var upperCaseUploadedBy: String = pendingApprovedList.get(position).uploadedBy!!
+
+        pendingApprovedList.get(position).uploadedBy = upperCaseUploadedBy.toUpperCase()
+//        pendingApprovedList.get(position).empName = empName
+        holder.pendingApprovedListBinding.model = pendingApprovedList.get(position)
+
+//        if(pendingApprovedList.get(position).status.equals("APPROVED")){
+//
+//        }
 
 //        if( pendingApprovedList.get(position).uploadedDate!="") {
 //            val strDate = pendingApprovedList.get(position).uploadedDate
@@ -71,12 +77,16 @@ class PendingApprovedListAdapter(
 //        }
 
 
-
         holder.pendingApprovedListBinding.cardview
             .setOnClickListener {
                 mCallback.onClickUpdate(
                     pendingApprovedList.get(position)
                 )
+            }
+
+        holder.pendingApprovedListBinding.reviewButton
+            .setOnClickListener {
+                mCallback.onClickReview( pendingApprovedList.get(position).swachhid)
             }
 
     }

@@ -2,9 +2,11 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewImage
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityPreviewImageBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
@@ -15,10 +17,12 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 
     lateinit var activityPreviewImageBinding: ActivityPreviewImageBinding
     private var previewImgViewPagerAdapter: PreviewImgViewPagerAdapter? = null
-    private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
+     var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
     private var getImageUrlsResponse: GetImageUrlsResponse? = null
+    private var getImageUrlsResponseList: GetImageUrlsResponse.Category? = null
     private var pendingAndApproved: PendingAndApproved? = null
     private var currentPosition: Int = 0
+    private var configPosition: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,15 +35,43 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 
     private fun setUp() {
         activityPreviewImageBinding.callback = this
-        activityPreviewImageBinding.countCategoryPreview.text= "1"
+//        activityPreviewImageBinding.countCategoryPreview.text= "1"
 
         getImageUrlsResponse =
             intent.getSerializableExtra("GET_IMAGE_URLS_RESPONSE") as GetImageUrlsResponse
+        getImageUrlsResponseList=intent.getSerializableExtra("GET_IMAGE_URLS_RESPONSE_LIST") as GetImageUrlsResponse.Category
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
+        currentPosition = getIntent().getExtras()?.getInt("position")!!
+        configPosition=getIntent().getExtras()?.getInt("configPosition")!!
 
-        for (i in getImageUrlsResponse!!.categoryList!!) {
-            for (j in i.imageUrls!!) {
+
+
+//        for (i in getImageUrlsResponse!!.categoryList!!) {
+//            var categoryList = GetImageUrlsResponse.Category()
+//            var imageUrlsCategoryList = ArrayList<GetImageUrlsResponse.ImageUrl>()
+//            for (j in i.imageUrls!!) {
+//
+//                val imageUrl = GetImageUrlsResponse.ImageUrl()
+//                imageUrl.url = j.url
+//                imageUrl.status = j.status
+//                imageUrl.remarks = j.remarks
+//                imageUrl.categoryid = j.categoryid
+//                imageUrl.imageid = j.imageid
+//                imageUrl.isVerified = j.isVerified
+//                imageUrl.categoryname = i.categoryname
+//                imageUrl.mainCategoryId = i.categoryid
+//                imageUrlsCategoryList.add(imageUrl)
+//
+//            }
+//            categoryList.imageUrls?.add(imageUrlsCategoryList)
+//            imageUrlsList=categoryList
+//        }
+
+//       for (i in getImageUrlsResponse!!.categoryList!!) {
+//        var imageUrlsListCategory = ArrayList<GetImageUrlsResponse.ImageUrl>()
+            for (j in getImageUrlsResponseList?.imageUrls!!) {
+
                 val imageUrl = GetImageUrlsResponse.ImageUrl()
                 imageUrl.url = j.url
                 imageUrl.status = j.status
@@ -47,21 +79,40 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
                 imageUrl.categoryid = j.categoryid
                 imageUrl.imageid = j.imageid
                 imageUrl.isVerified = j.isVerified
-                imageUrl.categoryname = i.categoryname
-                imageUrl.mainCategoryId = i.categoryid
+                imageUrl.categoryname = getImageUrlsResponseList?.categoryname
+                imageUrl.mainCategoryId = getImageUrlsResponseList?.categoryid
                 imageUrlsList.add(imageUrl)
-            }
-        }
+           }
+////            imageUrlsList = imageUrlsListCategory
+//      }
 
+
+        activityPreviewImageBinding.totalImages = "1/${imageUrlsList.size}"
         activityPreviewImageBinding.imageUrlModel = imageUrlsList.get(0)
         activityPreviewImageBinding.pendingAndApprovedModel = pendingAndApproved
 
+
         previewImgViewPagerAdapter = PreviewImgViewPagerAdapter(
-            this, imageUrlsList)
+            this, imageUrlsList, this)
 
         activityPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewImageBinding.previewImageViewpager.adapter = previewImgViewPagerAdapter
         activityPreviewImageBinding.previewImageViewpager.setCurrentItem(0, true)
+
+        onPageSelected(currentPosition)
+
+
+            if (imageUrlsList.get(0).status.equals("0")) {
+                activityPreviewImageBinding.statusDisplay.text="PENDING"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.material_amber_accent_700));
+            } else if (imageUrlsList.get(0).status.equals("1")) {
+                activityPreviewImageBinding.statusDisplay.text="ACCEPTED"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.greenn));
+            } else if (imageUrlsList.get(0).status.equals("2")) {
+                activityPreviewImageBinding.statusDisplay.text="RESHOOT"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
+            }
+
     }
 
     override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -71,10 +122,26 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
     override fun onPageSelected(position: Int) {
 
         activityPreviewImageBinding.imageUrlModel = imageUrlsList.get(position)
-        var myInt : Int =1
+        activityPreviewImageBinding.totalImages = "${position + 1}/${imageUrlsList.size}"
 
-        activityPreviewImageBinding.countCategoryPreview.text= (position+myInt).toString()
-        previewImgViewPagerAdapter?.notifyDataSetChanged()
+
+            if (imageUrlsList.get(position).status.equals("0")) {
+                activityPreviewImageBinding.statusDisplay.text="PENDING"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.material_amber_accent_700));
+            } else if (imageUrlsList.get(position).status.equals("1")) {
+                activityPreviewImageBinding.statusDisplay.text="ACCEPTED"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.greenn));
+            } else if (imageUrlsList.get(position).status.equals("2")) {
+                activityPreviewImageBinding.statusDisplay.text="RESHOOT"
+                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
+            }
+
+
+
+//        var myInt : Int =1
+
+//        activityPreviewImageBinding.countCategoryPreview.text= (position+myInt).toString()
+//        previewImgViewPagerAdapter?.notifyDataSetChanged()
 
 
 //        if (position == imageUrlsList.size - 1) {
@@ -121,5 +188,21 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 
     override fun onClickBack() {
        super.onBackPressed()
+    }
+
+    override fun statusDisplay(position: Int, status: String?) {
+
+
+//        if (imageUrlsList.get(0).status.equals(status)) {
+//            activityPreviewImageBinding.statusDisplay.text="PENDING"
+//            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.material_amber_accent_700));
+//        } else if (imageUrlsList.get(0).status.equals(status)) {
+//            activityPreviewImageBinding.statusDisplay.text="ACCEPTED"
+//            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.greenn));
+//        } else if (imageUrlsList.get(0).status.equals(status)) {
+//            activityPreviewImageBinding.statusDisplay.text="RESHOOT"
+//            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
+//        }
+
     }
 }

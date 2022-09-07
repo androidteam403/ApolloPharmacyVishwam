@@ -30,8 +30,11 @@ class PendingListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        pendingList.get(position).uploadedBy?.toUpperCase()
-        pendingList.get(position).empName = empName
+        var upperCaseUploadedBy: String = pendingList.get(position).uploadedBy!!
+
+        pendingList.get(position).uploadedBy = upperCaseUploadedBy.toUpperCase()
+
+//        pendingList.get(position).empName = empName
         holder.pendingListBinding.model = pendingList.get(position)
 //
 //        if( pendingList.get(position).uploadedDate!="") {
@@ -49,6 +52,12 @@ class PendingListAdapter(
                     pendingList.get(position)
                 )
             }
+
+        holder.pendingListBinding.reviewButton
+            .setOnClickListener {
+                mCallback.onClickReview( pendingList.get(position).swachhid)
+            }
+
 
     }
 

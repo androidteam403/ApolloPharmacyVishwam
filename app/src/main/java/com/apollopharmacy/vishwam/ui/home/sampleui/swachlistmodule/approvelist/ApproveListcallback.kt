@@ -1,16 +1,19 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist
 
 import android.view.View
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 
 interface ApproveListcallback {
 
     fun onClickImage(
         position: Int, imagePath: String, view: View,
-        category: String
+        category: String,
+        configPositionRes: Int
     )
     fun onClickSubmit()
     fun onClickBack()
     fun onClickStartReiew()
     fun onePendingStatus()
+    fun onClickSubmitRatingReview()
+    fun onClickSubmitRatingButton()
+//    fun ratingComments()
 }

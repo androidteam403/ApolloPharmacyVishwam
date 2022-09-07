@@ -79,12 +79,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         val partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")
 
         activityreShootBinding.storeId.text = storeId
-
-
-
-
-
-
+        activityreShootBinding.swachId.text=swachId
 
 
 
@@ -143,7 +138,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.material_amber_accent_700
+                    R.color.color_red
                 )
             );
         } else if (status == "RESHOOT") {
@@ -190,7 +185,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
                     context,
-                    R.color.sea_blue
+                    R.color.material_amber_accent_700
                 )
             );
         }

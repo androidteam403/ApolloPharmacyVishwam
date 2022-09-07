@@ -56,7 +56,10 @@
                             android:textStyle="bold" />
 
 
+
+
                     </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -133,13 +136,13 @@
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text=" - "
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_12sp"
-                            android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text=" - "-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_12sp"-->
+<!--                            android:textStyle="bold" />-->
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -188,7 +191,7 @@
                             android:layout_height="wrap_content"
                             android:text="@{model.status}"
                             android:textAlignment="center"
-                            android:textColor="@{model.status.equals(`PENDING`) ? @color/sea_blue : model.status.equals(`APPROVED`) ? @color/greenn : model.status.equals(`RESHOOT`) ? @color/color_red : model.status.equals(`PARTIALLY APPROVED`) ? @color/material_amber_accent_700 : @color/black}"
+                            android:textColor="@{model.status.equals(`PENDING`) ? @color/material_amber_accent_700 : model.status.equals(`APPROVED`) ? @color/greenn : model.status.equals(`RESHOOT`) ? @color/color_red : model.status.equals(`PARTIALLY APPROVED`) ? @color/color_red : @color/black}"
                             android:textSize="@dimen/text_12sp" />
 
                         <RelativeLayout
@@ -208,18 +211,17 @@
 <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
 
                             <TextView
-                                android:id="@+id/updateButton"
+                                android:id="@+id/reviewButton"
                                 android:layout_width="@dimen/value_60dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
                                 android:background="@drawable/seablue_roundedcorners"
                                 android:padding="2sp"
-                                android:text="Update"
+                                android:text="Review"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_12sp"
-                                android:textStyle="bold"
-                                android:visibility="@{!model.isApproved() ? view.VISIBLE : view.GONE}" />
+                                android:textStyle="bold" />
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>

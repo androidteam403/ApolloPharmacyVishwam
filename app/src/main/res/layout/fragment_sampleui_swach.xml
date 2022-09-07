@@ -191,6 +191,29 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:id="@+id/uploadNowGrey"
+                    android:visibility="gone"
+                    android:layout_width="@dimen/value_130dp"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/value_5dp"
+                    android:layout_marginTop="@dimen/value_7dp"
+                    android:background="@drawable/grey_backgroundup">
+
+                    <TextView
+                        android:visibility="visible"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Upload Now"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:visibility="gone"
                     android:id="@+id/uploadOnLayout"
                     android:layout_gravity="center"

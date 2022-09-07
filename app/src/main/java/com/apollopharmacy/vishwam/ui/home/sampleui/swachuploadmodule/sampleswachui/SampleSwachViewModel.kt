@@ -12,9 +12,7 @@ import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -28,6 +26,7 @@ class SampleSwachViewModel : ViewModel() {
     var swachhapolloModel = MutableLiveData<SwachModelResponse>()
     var checkDayWiseAccess = MutableLiveData<CheckDayWiseAccessResponse>()
     var getStorePersonHistory = MutableLiveData<GetStorePersonHistoryodelResponse>()
+    var uploadSwachModel = MutableLiveData<OnUploadSwachModelResponse>()
 
 
     fun swachImagesRegisters() {
@@ -68,6 +67,72 @@ class SampleSwachViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun onUploadSwach(onUploadSwachModelRequest: OnUploadSwachModelRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
+//                val baseUrl = data.APIS[i].URL
+//                val token = data.APIS[i].TOKEN
+        /*  val baseUrl =
+              "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
+//                val onSubmitSwachModelRequestJson =
+//                    Gson().toJson(onSubmitSwachModelRequest)
+
+//                val header = "application/json"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                SwachApiiRepo.onUploadSwach(
+                    "h72genrSSNFivOi/cfiX3A==", onUploadSwachModelRequest)
+
+//                        RegistrationRepo.NewComplaintRegistration(
+//                            baseUrl,
+//                            header,
+//                            requestNewComplaintRegistration
+//                        )
+            }
+            when (response) {
+
+                is ApiResult.Success -> {
+
+                    state.value = State.ERROR
+                    uploadSwachModel.value = response.value
+
+
+                    if(response.value.status?:null == false) {
+                        state.value = State.ERROR
+                        CommandsNewSwachImp.ShowToast(response.value.message)
+                        uploadSwachModel.value?.message = response.value.message
+
+
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(
+                        response.error?.let {
+                            CommandsNewSwachFrag.ShowToast(it)
+                        }
+                    )
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(CommandsNewSwachFrag.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+//            }
+//        }
     }
 
 

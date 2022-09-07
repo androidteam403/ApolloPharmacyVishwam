@@ -21,7 +21,7 @@ object ConnectionAzureSwacch {
 //        val imageArrayList = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
         var imageBlob: CloudBlockBlob? = null
 
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N && image?.file!=null) {
                 ReduceSize.reduceImageSize(image?.file!!)
             }
             val cloudStorageAccount = CloudStorageAccount.parse(storageConnection)
@@ -33,9 +33,12 @@ object ConnectionAzureSwacch {
             containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
             container.uploadPermissions(containerPermissions);
             imageBlob = container.getBlockBlobReference(image?.file.toString())
+        if(image?.file!=null){
             imageBlob.upload(FileInputStream(image?.file), image?.file?.length()!!)
+        }
+
             val imageBlog = imageBlob!!.storageUri.primaryUri.toString()
-        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(image?.file, image.integerButtonCount, imageBlog, image.positionLoop))
+        imagedtcl = (SwachModelResponse.Config.ImgeDtcl(image?.file, image!!.integerButtonCount, imageBlog, image.positionLoop))
 
         return imagedtcl!!
     }

@@ -486,9 +486,12 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //            val fileSizeInMB = fileSizeInKB / 1024
 
-            swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-                uploadPosition
-            )?.file = imageFromCameraFile// resizedImage
+    if(imageFromCameraFile!=null){
+        swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+            uploadPosition
+        )?.file = imageFromCameraFile// resizedImage
+    }
+
 //
 
 

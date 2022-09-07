@@ -45,7 +45,7 @@ class ImageUrlAdapter(
                 categoryList?.get(configPositionRes)?.let { it2 ->
                     it2.categoryname?.let { it3 ->
                         approveListcallback.onClickImage(position, it1,it,
-                            it3)
+                            it3, configPositionRes)
 
                     }
                 }

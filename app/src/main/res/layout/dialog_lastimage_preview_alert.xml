@@ -61,7 +61,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/grey_rectangle"
                 android:gravity="center"
-                android:text="@string/label_cancel"
+                android:text="No"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />
@@ -75,7 +75,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/yellow_drawable"
                 android:gravity="center"
-                android:text="Ok"
+                android:text="Yes"
                 android:textAllCaps="false"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />

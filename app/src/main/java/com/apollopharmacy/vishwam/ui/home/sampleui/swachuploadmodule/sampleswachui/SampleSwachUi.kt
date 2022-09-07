@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswac
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.Toast
@@ -16,12 +17,15 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import java.text.SimpleDateFormat
@@ -35,6 +39,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     //    private lateinit var configListAdapter: ConfigListAdapterSwach
     var dayofCharArray: String? = null
+    var alreadyUploadedMessage: String? = null
     var backPressed:Boolean = false
     private lateinit var getStorePersonAdapter: GetStorePersonAdapter
     var positionofday: Int? = null
@@ -53,6 +58,12 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun setup() {
         viewModel.getLastUploadedDate()
         viewModel.swachImagesRegisters()
+
+        viewBinding.storeId.text = Preferences.getSiteId()
+        viewBinding.userId.text = Preferences.getToken()
+
+
+
 
         onSuccessLastUpdatedDate()
         val sdf = SimpleDateFormat("dd MMM, yyyy")
@@ -120,15 +131,39 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             }
         }
+        viewModel.uploadSwachModel.observeForever {
+            alreadyUploadedMessage=it.message
 
+            if (it != null && it.status == true) {
+//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
+                Utlis.hideLoading()
+
+            } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
+//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
+                viewBinding.uploadNowLayout.visibility=View.GONE
+                viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                viewBinding.uploadOnLayout.visibility = View.GONE
+                viewBinding.uploadNowGrey.visibility=View.VISIBLE
+                Utlis.hideLoading()
+
+            } else {
+//                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
+                viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                viewBinding.uploadNowGrey.visibility=View.GONE
+                viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                viewBinding.uploadOnLayout.visibility = View.GONE
+                Utlis.hideLoading()
+            }
+        }
 
 
         viewModel.checkDayWiseAccess.observeForever {
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-                it.monday = false
-                it.thursday = true
+//                it.thursday = false
+//                it.friday = false
+//                it.wednesday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -161,17 +196,29 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 //                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
                 if (dayofCharArray == dayOfTheWeek) {
-                    if (Preferences.getUploadedDateDayWise().equals(todaysUpdate)) {
-                        viewBinding.alreadyUploadedlayout.visibility = View.VISIBLE
-                        viewBinding.uploadDay.text = dayofCharArray
-                        viewBinding.uploadOnLayout.visibility = View.GONE
-                        viewBinding.uploadNowLayout.visibility = View.GONE
 
-                    } else {
-                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                        viewBinding.uploadOnLayout.visibility = View.GONE
-                        viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                    if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                        var submit = OnUploadSwachModelRequest()
+                        submit.actionEvent = "SUBMIT"
+                        submit.storeid = Preferences.getSiteId()
+                        submit.userid = Preferences.getValidatedEmpId()
+//            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+//
+//            for (i in swacchApolloList.get(0).configlist!!.indices) {
+//                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+//                    var imageUrl = submit.ImageUrl()
+//                    imageUrl.url =
+//                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+//                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
+//                    imageUrlsList.add(imageUrl)
+//                }
+//
+//            }
+//            submit.imageUrls = imageUrlsList
+                        viewModel.onUploadSwach(submit)
+
                     }
+
 
                 } else {
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
@@ -186,7 +233,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
 
+
+
         viewModel.getStorePersonHistory.observeForever {
+            getStorePersonHistoryList.clear()
             if (it != null) {
                 getStorePersonHistoryList.add(it)
                 viewBinding.storeId.text = Preferences.getSiteId()
@@ -200,19 +250,20 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.noOrdersFound.visibility = View.GONE
 
                     getStorePersonAdapter =
-                        GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this,
-                            loginData?.EMPNAME!!)
+                        GetStorePersonAdapter(getStorePersonHistoryList.get(0).getList, this
+                        )
                     val layoutManager = LinearLayoutManager(ViswamApp.context)
                     viewBinding.imageRecyclerView.layoutManager = layoutManager
                     viewBinding.imageRecyclerView.itemAnimator =
                         DefaultItemAnimator()
                     viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+//                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
                     hideLoading()
                 } else {
                     viewBinding.noOrdersFound.visibility = View.VISIBLE
 
                 }
-//                Toast.makeText(context, "success api", Toast.LENGTH_SHORT).show()
+
             }
         }
 
@@ -267,6 +318,12 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         startActivity(intent)
     }
 
+    override fun onClickReview(swachhid: String?) {
+        val intent = Intent(context, RatingReviewActivity::class.java)
+        intent.putExtra("swachhid", swachhid)
+        startActivity(intent)
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -279,6 +336,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                 var fromdate = simpleDateFormat.format(cal.time)
                 var toDate = currentDate
+                getStorePersonHistoryList.clear()
                 showLoading()
                 var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
                 getStoreHistoryRequest.storeid = Preferences.getSiteId()
@@ -290,6 +348,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewModel.getStorePersonHistory(getStoreHistoryRequest)
                 viewModel.checkDayWiseAccess()
             }
+            getStorePersonAdapter.notifyDataSetChanged()
+
 
         }
     }

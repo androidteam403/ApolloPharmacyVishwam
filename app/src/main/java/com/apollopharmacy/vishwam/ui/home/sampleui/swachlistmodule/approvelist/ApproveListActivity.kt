@@ -2,20 +2,19 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import android.widget.RatingBar
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApproveListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.adapter.ApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
@@ -24,8 +23,6 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
-import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 
 class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
@@ -37,7 +34,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
     private var overallStatus: String? = null
     var ratingbar: RatingBar? = null
-    var rating: String? = null
+    var ratingforsubmit: String? = null
+    private lateinit var dialog: Dialog
     var view: View? = null
     val APPROVE_LIST_ACTIVITY = 101
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +54,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         activityApproveListBinding.callback = this
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
+        if(pendingAndApproved!!.status!=null && pendingAndApproved!!.status=="APPROVED"){
+            activityApproveListBinding.submitRating.visibility=View.VISIBLE
+//            activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
+//            activityApproveListBinding.ratingBarLayout.visibility = View.VISIBLE
+//            activityApproveListBinding.submitReviewandRating.visibility=View.VISIBLE
+        }
         when (pendingAndApproved != null) {
             true -> {
                 activityApproveListBinding.model = pendingAndApproved
@@ -70,17 +74,10 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
 
         ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
-            var submitRating = RatingModelRequest()
-                submitRating.type = "REMARKS"
-                submitRating.swachhid = pendingAndApproved?.swachhid
-                submitRating.storeid = Preferences.getSiteId()
-                submitRating.statusid = "1"
-                submitRating.reamrks = "TESTING"
-                submitRating.rating = rating.toString()
-                submitRating.userid = Preferences.getValidatedEmpId()
-            Utlis.showLoading(this)
-                approveListViewModel.submitRatingBar(submitRating)
-//            Toast.makeText(applicationContext, "Rating: $rating", Toast.LENGTH_SHORT).show()
+
+            ratingforsubmit = rating.toString()
+
+//          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
         }
 
 
@@ -198,17 +195,25 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         } else if (isAccepted) {
             activityApproveListBinding.status = "1"
             overallStatus = "1"
+            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
             overallStatus = "2"
+            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else {
             activityApproveListBinding.status = "3"
             overallStatus = "3"
-
+            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         }
     }
     var previewClicked: Boolean=false
-    override fun onClickImage(position: Int, imagePath: String, viewClick: View,category:String) {
+    override fun onClickImage(
+        position: Int,
+        imagePath: String,
+        viewClick: View,
+        category: String,
+        configPositionRes: Int
+    ) {
         previewClicked=true
 
 //        PopUpWIndow(
@@ -216,10 +221,14 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 //            imagePath, null,category,position
 //        )
 
+
+
         val intent = Intent(this, PreviewImageActivity::class.java)
         intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
+        intent.putExtra("GET_IMAGE_URLS_RESPONSE_LIST", getImageUrlsResponses.categoryList?.get(configPositionRes))
         intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
-        intent.putExtra("previewClicked", previewClicked)
+        intent.putExtra("position", position)
+        intent.putExtra("configPositionRes", configPositionRes)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 //
@@ -230,7 +239,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         saveAcceptAndReshootRequest.swachhid = pendingAndApproved!!.swachhid
         saveAcceptAndReshootRequest.storeid = Preferences.getSiteId()
         saveAcceptAndReshootRequest.statusid = overallStatus
-        saveAcceptAndReshootRequest.reamrks = activityApproveListBinding.comment.text.toString()
+       saveAcceptAndReshootRequest.reamrks = ""
         saveAcceptAndReshootRequest.rating = ""
         saveAcceptAndReshootRequest.userid = Preferences.getSiteId()
         val imageUrlsList = ArrayList<SaveAcceptAndReshootRequest.Imageurl>()
@@ -262,10 +271,56 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     }
 
     override fun onePendingStatus() {
-        activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
-        activityApproveListBinding.reshootButton.visibility = View.GONE
+//        activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
+       activityApproveListBinding.reshootButton.visibility = View.GONE
         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
-        activityApproveListBinding.ratingBarLayout.visibility=View.VISIBLE
+//        activityApproveListBinding.ratingBarLayout.visibility=View.VISIBLE
+    }
+
+    override fun onClickSubmitRatingReview() {
+//        var submitRating = RatingModelRequest()
+//        submitRating.type = "REMARKS"
+//        submitRating.swachhid = pendingAndApproved?.swachhid
+//        submitRating.storeid = Preferences.getSiteId()
+//        submitRating.statusid = "1"
+//        submitRating.reamrks = activityApproveListBinding.comment.getText().toString()
+//        submitRating.rating = ratingforsubmit.toString()
+//        submitRating.userid = Preferences.getValidatedEmpId()
+//        Utlis.showLoading(this)
+//        approveListViewModel.submitRatingBar(submitRating)
+//        Toast.makeText(applicationContext, "Rating: $ratingforsubmit + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClickSubmitRatingButton() {
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.rating_review_dialog)
+       val comments = dialog.findViewById<EditText>(R.id.comment)
+        val submitButton = dialog.findViewById<LinearLayout>(R.id.submitforreview)
+        val closeButton = dialog.findViewById<ImageView>(R.id.close_dialogRating)
+        ratingbar!!.setRating(4.toFloat())
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+
+        submitButton.setOnClickListener {
+            var submitRating = RatingModelRequest()
+            submitRating.type = "REMARKS"
+            submitRating.swachhid = pendingAndApproved?.swachhid
+            submitRating.storeid = Preferences.getSiteId()
+            submitRating.statusid = "1"
+            submitRating.reamrks = comments.getText().toString()
+            submitRating.rating = ratingforsubmit.toString()
+            submitRating.userid = Preferences.getValidatedEmpId()
+            Utlis.showLoading(this)
+            approveListViewModel.submitRatingBar(submitRating)
+            dialog.dismiss()
+        }
+
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
 

@@ -25,6 +25,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     private var getImageUrlsResponse: GetImageUrlsResponse? = null
     private var previewImageViewPager: PreviewImageViewPager? = null
     private var imageUrlsList = ArrayList<GetImageUrlsResponse.ImageUrl>()
+
     private var currentPosition: Int = 0
 
     val PREVIEW_LAST_IMAGE_ACTIVITY: Int = 100
@@ -59,8 +60,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrlsList.add(imageUrl)
             }
         }
-        val imageUrl = GetImageUrlsResponse.ImageUrl()
-        imageUrlsList.add(imageUrl)
+
 
         activityPreviewLastImageBinding.pendingAndApprovedModel = pendingAndApproved
         activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(0)
@@ -243,11 +243,11 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
             imagesStatusAlertDialog.dismiss()
-            onClickCompleted()
+            finish()
         }
         dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
             imagesStatusAlertDialog.dismiss()
-            finish()
+            onClickCompleted()
         }
         dialogLastimagePreviewAlertBinding.close.setOnClickListener {
             imagesStatusAlertDialog.dismiss()

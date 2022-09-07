@@ -14,7 +14,7 @@
             android:layout_marginEnd="@dimen/value_5dp"
             android:layout_width="@dimen/value_75dp"
             android:layout_height="73dp"
-            android:elevation="@dimen/value_10dp"
+            android:elevation="@dimen/twenty20_dp"
             android:layout_marginStart="@dimen/value_7dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="4dp">

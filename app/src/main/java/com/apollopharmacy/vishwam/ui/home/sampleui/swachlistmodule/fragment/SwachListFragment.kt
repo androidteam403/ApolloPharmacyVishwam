@@ -9,7 +9,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
@@ -30,6 +29,7 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adap
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
@@ -148,7 +148,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         viewBinding.storeId = Preferences.getSiteId()
-    userDesignation = "EXECUTIVE"
+//    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {
@@ -373,6 +373,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         siteIdDisplayAdapter?.notifyDataSetChanged()
     }
 
+    override fun onClickReview(swachhid: String?) {
+        val intent = Intent(context, RatingReviewActivity::class.java)
+        intent.putExtra("swachhid", swachhid)
+        startActivity(intent)
+    }
 
 
     fun openDateDialog() {

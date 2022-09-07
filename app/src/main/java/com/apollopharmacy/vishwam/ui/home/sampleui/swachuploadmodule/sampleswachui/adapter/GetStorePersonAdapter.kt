@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -12,8 +13,7 @@ import java.text.SimpleDateFormat
 
 class GetStorePersonAdapter(
     private var getStorePersonlist: List<GetStorePersonHistoryodelResponse.Get>?,
-    private var callBackInterface: getStoreHistory,
-    private var empname: String
+    private var callBackInterface: getStoreHistory
 ) :
     RecyclerView.Adapter<GetStorePersonAdapter.ViewHolder>() {
 
@@ -29,6 +29,8 @@ class GetStorePersonAdapter(
             reshootDate: String?,
             partiallyApprovedDate: String?
         )
+
+        fun onClickReview(swachhid: String?)
     }
 
 
@@ -44,7 +46,10 @@ class GetStorePersonAdapter(
 
 
         holder.swachId.text=getStorePerson?.swachhid
-        getStorePersonlist?.get(position)?.uploadedBy?.toUpperCase()
+        var upperCaseUploadedBy: String = getStorePersonlist?.get(position)?.uploadedBy!!
+
+        getStorePersonlist?.get(position)?.uploadedBy= upperCaseUploadedBy.toUpperCase()
+
 //        getStorePersonlist?.get(position).empName= empName
 
 
@@ -75,7 +80,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
-                holder.empName.text = " - " + empname
+//                holder.empName.text = " - " + empname
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("PENDING")) {
@@ -95,9 +100,10 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
-                holder.empName.text = " - " +empname
+//                holder.empName.text = " - " +empname
             }
             holder.pendingpLayout.visibility = View.VISIBLE
+
         }
         else if (getStorePersonlist?.get(position)?.status.equals("RESHOOT")) {
             holder.reshootLayout.visibility = View.VISIBLE
@@ -116,7 +122,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
-                holder.empName.text = " - " +empname
+//                holder.empName.text = " - " +empname
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
@@ -139,7 +145,7 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = "--"
             } else {
                 holder.byDetails.text = getStorePerson?.uploadedBy
-                holder.empName.text = " - " +empname
+//                holder.empName.text = " - " +empname
             }
         }
 
@@ -154,6 +160,20 @@ class GetStorePersonAdapter(
                 getStorePerson?.reshootDate,
                 getStorePerson?.partiallyApprovedDate,
             )
+        }
+
+
+        holder.reviewLayoutAccepted.setOnClickListener {
+            callBackInterface.onClickReview( getStorePerson?.swachhid)
+        }
+        holder.reviewLayoutPending.setOnClickListener {
+            callBackInterface.onClickReview( getStorePerson?.swachhid)
+        }
+        holder.reviewLayoutReshoot.setOnClickListener {
+            callBackInterface.onClickReview( getStorePerson?.swachhid)
+        }
+        holder.reviewLayoutPartial.setOnClickListener {
+            callBackInterface.onClickReview( getStorePerson?.swachhid)
         }
 
 
@@ -176,6 +196,11 @@ class GetStorePersonAdapter(
         val threeDots: LinearLayout = itemView.findViewById(R.id.three_dots)
         val swachId: TextView = itemView.findViewById(R.id.swachidgetStore)
         val empName: TextView = itemView.findViewById(R.id.empNamegetStore)
+        val reviewLayoutAccepted: RelativeLayout = itemView.findViewById(R.id.reviewButtonApproved)
+        val reviewLayoutPending: RelativeLayout = itemView.findViewById(R.id.reviewButtonPending)
+        val reviewLayoutReshoot: RelativeLayout = itemView.findViewById(R.id.reviewButtonReshoot)
+        val reviewLayoutPartial: RelativeLayout = itemView.findViewById(R.id.reviewButtonpartial)
+
 
 
     }

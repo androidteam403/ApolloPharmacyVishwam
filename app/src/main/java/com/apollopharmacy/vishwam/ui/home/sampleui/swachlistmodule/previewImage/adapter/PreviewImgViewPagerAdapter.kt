@@ -8,14 +8,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.PagerAdapter
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ViewpagerPreviewAdapterBinding
-import com.apollopharmacy.vishwam.databinding.ViewpagerPreviewImageBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewImage.PreviewImageCallback
 import com.bumptech.glide.Glide
 
 class PreviewImgViewPagerAdapter(
     val  context: Context,
-    val imageUrlsList: ArrayList<GetImageUrlsResponse.ImageUrl>
+    val imageUrlsList: ArrayList<GetImageUrlsResponse.ImageUrl>,
+    val previewImageCallback: PreviewImageCallback
 ) : PagerAdapter()  {
 
 
@@ -32,6 +32,9 @@ class PreviewImgViewPagerAdapter(
         Glide.with(context).load(imageUrlsList.get(position).url)
                 .error(R.drawable.placeholder_image)
                 .into(viewpagerPreviewAdapterBinding.viewpagerImage)
+        previewImageCallback.statusDisplay(position,imageUrlsList.get(position).status)
+
+
 
 
         container.addView(viewpagerPreviewAdapterBinding.root)

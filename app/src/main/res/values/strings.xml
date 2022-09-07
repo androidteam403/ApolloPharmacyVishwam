@@ -203,13 +203,13 @@
     <string name="label_by_u0020">by: </string>
     <string name="label_status_u0020">Status: </string>
     <string name="label_pending">Pending</string>
-    <string name="label_accepted">Accepted</string>
-    <string name="label_rejected">Rejected</string>
+    <string name="label_accepted">Approved</string>
+    <string name="label_rejected">Re-shoot</string>
     <string name="label_add_comments">Add Comments</string>
     <string name="label_report">Report</string>
     <string name="label_total_images">Total Images</string>
     <string name="label_this_store_review_ncompleted_successfully">This store review\ncompleted successfully</string>
-    <string name="label_the_images_status_will_be_changed">The images status will be changed</string>
+    <string name="label_the_images_status_will_be_changed">Do you want to cancel this review?</string>
     <string name="label_alert">Alert!</string>
     <string name="label_completed_successfully">Completed successfully</string>
     <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>

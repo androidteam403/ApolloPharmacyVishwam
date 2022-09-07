@@ -17,7 +17,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/header_blue"
+                android:background="@color/splash_start_color"
                 android:orientation="horizontal"
                 android:padding="@dimen/four4_dp">
 
@@ -29,25 +29,59 @@
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@{imageUrlModel.categoryname}"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_17sp"
-                    android:textStyle="bold"
-                    android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
 
-                <TextView
+
+
+                <LinearLayout
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:textColor="@color/white"
-                    android:text="@string/label_completed_successfully"
-                    android:textSize="@dimen/text_17sp"
-                    android:textStyle="bold"
-                    android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}" />
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SWACHH REVIEW"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_17sp"
+                        android:textStyle="bold" />
+
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/three3_sp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="@{imageUrlModel.categoryname}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_15sp"
+                            android:textStyle="bold"
+                            android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:textColor="@color/white"
+                            android:text="@string/label_completed_successfully"
+                            android:textSize="@dimen/text_15sp"
+                            android:textStyle="bold"
+                            android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}" />
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
 
 
 
@@ -119,7 +153,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Store ID"
-                                android:textColor="@color/black"
+                                android:textColor="@color/grey"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
@@ -157,7 +191,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Uploaded"
-                                android:textColor="@color/black"
+                                android:textColor="@color/grey"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
