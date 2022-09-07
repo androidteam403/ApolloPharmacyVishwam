@@ -241,7 +241,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         saveAcceptAndReshootRequest.statusid = overallStatus
        saveAcceptAndReshootRequest.reamrks = ""
         saveAcceptAndReshootRequest.rating = ""
-        saveAcceptAndReshootRequest.userid = Preferences.getSiteId()
+        saveAcceptAndReshootRequest.userid = Preferences.getValidatedEmpId()
         val imageUrlsList = ArrayList<SaveAcceptAndReshootRequest.Imageurl>()
         for (i in getImageUrlsResponses.categoryList!!) {
             for (j in i.imageUrls!!) {

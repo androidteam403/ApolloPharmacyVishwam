@@ -37,7 +37,7 @@ class ComplainListViewModel : ViewModel() {
     lateinit var Ticketlistdata: ResponseNewTicketlist
 
     //get ticket list api........................................................
-    fun getNewticketlist(requestComplainList: RequestComplainList) {
+    fun getNewticketlist(requestComplainList: RequestComplainList, status: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -52,7 +52,7 @@ class ComplainListViewModel : ViewModel() {
                         RegistrationRepo.getDetails(
                             "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
-                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10",
+                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10",
                                 "GET",
                                 "The",
                                 "",

@@ -17,6 +17,14 @@ class OnUploadSwachModelRequest : Serializable {
     @Expose
     var swachhId: String? = null
 
+    @SerializedName("SWACHH_ID")
+    @Expose
+    var swachhIdRehoot: String? = null
+
+    @SerializedName("STATUS")
+    @Expose
+    var status: String? = null
+
     @SerializedName("STOREID")
     @Expose
     var storeid: String? = null

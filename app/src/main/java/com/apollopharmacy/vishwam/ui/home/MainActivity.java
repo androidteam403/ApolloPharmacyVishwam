@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +15,6 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +26,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static String userDesignation = "";
     private TextView headerText;
     public Boolean isListScreen = false;
-    public Boolean isUploadScreen=false;
+    public Boolean isUploadScreen = false;
     private LinearLayout gpsLoaderLayout;
     private String previousItem = "";
     private String currentItem = "";
@@ -131,21 +127,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ImageView imageView;
     public static Boolean isAtdLogout = false;
     private Context context;
+    public View filterIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mInstance=this;
+        mInstance = this;
+        filterIndicator = (View) findViewById(R.id.filter_indication);
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         imageView = findViewById(R.id.siteIdList);
 
         imageView.setOnClickListener(v -> {
-            if(mainActivityCallback!=null){
-            mainActivityCallback.onClickFilterIcon();
-        }
-                });
+            if (mainActivityCallback != null) {
+                mainActivityCallback.onClickFilterIcon();
+            }
+        });
 
 
         FirebaseMessaging.getInstance().getToken()
@@ -240,10 +238,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
 
-        if(isListScreen || isUploadScreen){
+        if (isListScreen || isUploadScreen) {
             displaySelectedScreen("HOME");
             drawer.closeDrawer(GravityCompat.START);
-        }else{
+        } else {
             if (drawer.isDrawerOpen(GravityCompat.START)) {
                 drawer.closeDrawer(GravityCompat.START);
             } else {
@@ -255,7 +253,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         }
-
 
 
     }
@@ -282,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Complaint List":
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
-                imageView.setVisibility(View.GONE);
+                imageView.setVisibility(View.VISIBLE);
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
@@ -330,13 +327,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 imageView.setVisibility(View.GONE);
-                isUploadScreen=true;
+                isUploadScreen = true;
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 imageView.setVisibility(View.VISIBLE);
-                isListScreen=true;
+                isListScreen = true;
                 break;
             case "Drug Request":
                 headerText.setText("New Drug Request");
@@ -706,7 +703,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 } else if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
                                     displaySelectedScreen("List");
                                 }
-                           }
+                            }
 //                            else if (groupPosition == 3 && childPosition == 1) {
 //                                if (userDesignation.equalsIgnoreCase("NODATA")) {
 //                                    displaySelectedScreen("List");
