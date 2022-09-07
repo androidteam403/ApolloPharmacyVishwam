@@ -21,6 +21,7 @@ import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URLEncoder
 import java.util.*
 
 class ComplainListViewModel : ViewModel() {
@@ -46,13 +47,37 @@ class ComplainListViewModel : ViewModel() {
                 // "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/list/reason-list?page=1&rows=100"
                 //val token = data.APIS[i].TOKEN
 
+                val new = if (status.contains("new")) "new" else ""
+                val inprogress = if (status.contains("inprogress")) "inprogress" else ""
+                val solved = if (status.contains("solved")) "solved" else ""
+                val reopened = if (status.contains("reopened")) "reopened" else ""
+                val closed = if (status.contains("closed")) "closed" else ""
+
+                val url: String =
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&${
+                        URLEncoder.encode("status[0]",
+                            "utf-8")
+                    }=${new}&${
+                        URLEncoder.encode("status[1]",
+                            "utf-8")
+                    }=${inprogress}&${
+                        URLEncoder.encode("status[2]",
+                            "utf-8")
+                    }=${solved}&${
+                        URLEncoder.encode("status[3]",
+                            "utf-8")
+                    }=${reopened}&${
+                        URLEncoder.encode("status[4]",
+                            "utf-8")
+                    }=${closed}"
+//"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
                             "h72genrSSNFivOi/cfiX3A==",
                             GetDetailsRequest(
-                                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10",
+                                url,
                                 "GET",
                                 "The",
                                 "",
