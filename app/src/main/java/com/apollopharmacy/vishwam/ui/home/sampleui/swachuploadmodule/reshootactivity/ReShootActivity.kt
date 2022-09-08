@@ -252,7 +252,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         viewModel.uploadSwachModelRes.observeForever {
             if (it != null) {
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
-                super.onBackPressed()
+               onBackPressed()
             }
 
 //            viewModel.onUploadSwachRes(submit)
@@ -262,7 +262,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         }
         activityreShootBinding.backButton.setOnClickListener {
-            super.onBackPressed()
+           super.onBackPressed()
         }
 
         viewModel.commands.observeForever({
@@ -378,7 +378,10 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+        val intent = Intent()
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
 
 //        exitDialog()
 

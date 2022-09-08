@@ -36,6 +36,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     var ratingbar: RatingBar? = null
     var ratingforsubmit: String? = null
     private lateinit var dialog: Dialog
+    var isApprovedAdapter:Boolean?=null
     var view: View? = null
     val APPROVE_LIST_ACTIVITY = 101
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +55,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         activityApproveListBinding.callback = this
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
+        isApprovedAdapter =
+            intent.getBooleanExtra("isApprovedAdapter",false) as Boolean
         if(pendingAndApproved!!.status!=null && pendingAndApproved!!.status=="APPROVED"){
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
 //            activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
@@ -146,7 +149,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
             }
         }
     }
-
+        var pendingCountforValidation=0
     private fun report() {
         var pendingCount = 0
         var acceptedCount = 0
@@ -173,6 +176,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 }
             }
         }
+        pendingCountforValidation = pendingCount
         activityApproveListBinding.pendingCount = "" + pendingCount
         activityApproveListBinding.acceptedCount = "" + acceptedCount
         activityApproveListBinding.reShootCount = "" + reShootCount
@@ -319,7 +323,11 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 Utlis.showLoading(this)
                 approveListViewModel.submitRatingBar(submitRating)
                 dialog.dismiss()
-                super.onBackPressed()
+                if(isApprovedAdapter!!){
+                    super.onBackPressed()
+                }else{
+                    dialog.dismiss()
+                }
             }else{
                 Toast.makeText(applicationContext, "Please enter comments",Toast.LENGTH_SHORT).show()
             }
@@ -379,8 +387,15 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 activityApproveListBinding.categoryListRecycler.adapter =
                     approveListAdapter
                 report()
-                activityApproveListBinding.reshootButton.visibility = View.VISIBLE
-                activityApproveListBinding.startReviewButton.visibility = View.GONE
+
+                if(pendingCountforValidation.equals(0)){
+                    activityApproveListBinding.reshootButton.visibility = View.VISIBLE
+                    activityApproveListBinding.startReviewButton.visibility = View.GONE
+                }else{
+                    activityApproveListBinding.reshootButton.visibility = View.GONE
+                    activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+                }
+
             }
         }
     }

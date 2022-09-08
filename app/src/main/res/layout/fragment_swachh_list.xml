@@ -264,18 +264,7 @@
                 android:layout_marginEnd="@dimen/value_5dp" />
 
 
-            <TextView
-                android:gravity="center"
-                android:layout_marginTop="@dimen/value_100dp"
-                android:visibility="gone"
-                android:id="@+id/noOrdersFound"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No List Found"
-                android:textColor="@color/red"
-                android:textAlignment="center"
-                android:layout_gravity="center"/>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:visibility="gone"
@@ -773,7 +762,18 @@
 
             <!--            </androidx.cardview.widget.CardView>-->
         </LinearLayout>
-
+        <TextView
+            android:layout_centerInParent="true"
+            android:layout_marginTop="@dimen/value_100dp"
+            android:visibility="gone"
+            android:id="@+id/noOrdersFound"
+            android:textStyle="bold"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No List Found"
+            android:textColor="@color/red"
+            android:textAlignment="center"
+            android:layout_gravity="center"/>
 
     </RelativeLayout>
 

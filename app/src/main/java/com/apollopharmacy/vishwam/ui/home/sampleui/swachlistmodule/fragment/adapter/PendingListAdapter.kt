@@ -45,11 +45,12 @@ class PendingListAdapter(
 //            pendingList.get(position).uploadedDate = dateNewFormat.toString()
 //        }
 
-
+        val isApprovedAdapter:Boolean=false
         holder.pendingListBinding.cardview
             .setOnClickListener {
                 mCallback.onClickUpdate(
-                    pendingList.get(position)
+                    pendingList.get(position),
+                    isApprovedAdapter
                 )
             }
 

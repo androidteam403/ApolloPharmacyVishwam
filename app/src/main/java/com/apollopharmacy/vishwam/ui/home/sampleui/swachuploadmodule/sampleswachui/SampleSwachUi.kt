@@ -161,9 +161,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-//                it.thursday = false
-//                it.friday = false
-//                it.wednesday = true
+                it.thursday = false
+                it.friday = false
+                it.thursday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -246,7 +246,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                }else{
 //                    viewBinding.uploadedOn.text = "--"
 //                }
-                if (getStorePersonHistoryList != null && getStorePersonHistoryList.size > 0) {
+                if (getStorePersonHistoryList != null && getStorePersonHistoryList.size > 0 && getStorePersonHistoryList.get(0).getList!=null && getStorePersonHistoryList.get(0).getList!!.size>0 ) {
                     viewBinding.noOrdersFound.visibility = View.GONE
 
                     getStorePersonAdapter =
@@ -261,6 +261,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     hideLoading()
                 } else {
                     viewBinding.noOrdersFound.visibility = View.VISIBLE
+                    hideLoading()
 
                 }
 
@@ -315,7 +316,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         intent.putExtra("uploadedDate", uploadedDate)
         intent.putExtra("reshootDate", reshootDate)
         intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
-        startActivity(intent)
+        startActivityForResult(intent, 780)
     }
 
     override fun onClickReview(swachhid: String?) {
@@ -328,7 +329,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 779) {
+            if (requestCode == 779 || requestCode == 780) {
                 val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -7)
@@ -348,7 +349,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewModel.getStorePersonHistory(getStoreHistoryRequest)
                 viewModel.checkDayWiseAccess()
             }
-            getStorePersonAdapter.notifyDataSetChanged()
+//            getStorePersonAdapter.notifyDataSetChanged()
 
 
         }

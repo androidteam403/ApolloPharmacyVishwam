@@ -119,18 +119,17 @@
 
 
                     <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:gravity="end"
                         android:padding="2sp"
                         android:text="Pending"
-                        android:layout_gravity="end"
                         android:textAlignment="center"
                         android:textColor="@color/material_amber_accent_700"
                         android:textSize="@dimen/text_14sp"
+                        android:layout_gravity="end"
                         android:textStyle="bold"
                         tools:ignore="RtlCompat" />
-
                 </LinearLayout>
             </LinearLayout>
 

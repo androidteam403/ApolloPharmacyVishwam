@@ -865,6 +865,7 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/pendingCountforValid"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="@{pendingCount}"

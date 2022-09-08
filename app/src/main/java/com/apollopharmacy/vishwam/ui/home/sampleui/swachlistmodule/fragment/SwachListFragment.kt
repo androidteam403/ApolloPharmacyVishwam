@@ -301,9 +301,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     }
 
-    override fun onClickUpdate(pendingAndApproved: PendingAndApproved) {
+    override fun onClickUpdate(pendingAndApproved: PendingAndApproved, isApprovedAdapter: Boolean) {
         val intent = Intent(context, ApproveListActivity::class.java)
         intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
+        intent.putExtra("isApprovedAdapter", isApprovedAdapter)
         startActivityForResult(intent, ApproveListActivity().APPROVE_LIST_ACTIVITY)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }

@@ -76,11 +76,11 @@ class PendingApprovedListAdapter(
 //            pendingApprovedList.get(position).partiallyApprovedDate = dateNewFormat4.toString()
 //        }
 
-
+        val isApprovedAdapter:Boolean=true
         holder.pendingApprovedListBinding.cardview
             .setOnClickListener {
                 mCallback.onClickUpdate(
-                    pendingApprovedList.get(position)
+                    pendingApprovedList.get(position), isApprovedAdapter
                 )
             }
 

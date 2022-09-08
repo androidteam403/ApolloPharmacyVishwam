@@ -97,9 +97,9 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 
         activityPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewImageBinding.previewImageViewpager.adapter = previewImgViewPagerAdapter
-        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(0, true)
+        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(currentPosition, true)
 
-        onPageSelected(currentPosition)
+//        onPageSelected(currentPosition)
 
 
             if (imageUrlsList.get(0).status.equals("0")) {

@@ -60,7 +60,9 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrlsList.add(imageUrl)
             }
         }
-
+        val imageUrl = GetImageUrlsResponse.ImageUrl()
+        imageUrl.url = ""
+        imageUrlsList.add(imageUrl)
 
         activityPreviewLastImageBinding.pendingAndApprovedModel = pendingAndApproved
         activityPreviewLastImageBinding.imageUrlModel = imageUrlsList.get(0)
@@ -226,6 +228,13 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
     override fun onClickCompleted() {
         val intent = Intent()
+//        for (i in imageUrlsList){
+//            if (i.url.equals("DUMMY")){
+//                imageUrlsList.remove(i)
+//
+//            }
+//        }
+
         imageUrlsList.removeAt(imageUrlsList.size - 1)
         intent.putExtra("IMAGE_URLS_OBJECT", imageUrlsList)
         setResult(Activity.RESULT_OK, intent)
