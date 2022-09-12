@@ -50,6 +50,7 @@ class ComplainListViewModel : ViewModel() {
                 val new = if (status.contains("new")) "new" else ""
                 val inprogress = if (status.contains("inprogress")) "inprogress" else ""
                 val solved = if (status.contains("solved")) "solved" else ""
+                val rejected = if (status.contains("rejected")) "rejected" else ""
                 val reopened = if (status.contains("reopened")) "reopened" else ""
                 val closed = if (status.contains("closed")) "closed" else ""
 
@@ -66,8 +67,11 @@ class ComplainListViewModel : ViewModel() {
                     }=${solved}&${
                         URLEncoder.encode("status[3]",
                             "utf-8")
-                    }=${reopened}&${
+                    }=${rejected}&${
                         URLEncoder.encode("status[4]",
+                            "utf-8")
+                    }=${reopened}&${
+                        URLEncoder.encode("status[5]",
                             "utf-8")
                     }=${closed}"
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
@@ -98,7 +102,7 @@ class ComplainListViewModel : ViewModel() {
                                             ResponseNewTicketlist::class.java
                                         )
                                     if (responseNewTicketlist.success) {
-                                        resLiveData.value = responseNewTicketlist
+                                         resLiveData.value = responseNewTicketlist
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
                                     } else {

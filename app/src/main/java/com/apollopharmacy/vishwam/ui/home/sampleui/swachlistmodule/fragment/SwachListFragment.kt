@@ -252,6 +252,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                 pendingApprovedListAdapter
                         } else {
                             viewBinding.pendingListRecyclerview.visibility = View.GONE
+                            viewBinding.approvedListRecyclerview.visibility = View.GONE
                             viewBinding.noOrdersFound.visibility = View.VISIBLE
                         }
                     } else if (isPendingTab) {
@@ -286,6 +287,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             viewBinding.pendingListRecyclerview.adapter =
                                 pendingListAdapter
                         } else {
+                            viewBinding.pendingListRecyclerview.visibility = View.GONE
                             viewBinding.approvedListRecyclerview.visibility = View.GONE
                             viewBinding.noOrdersFound.visibility = View.VISIBLE
 

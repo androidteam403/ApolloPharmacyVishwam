@@ -226,6 +226,7 @@
     <string name="label_new">New</string>
     <string name="label_in_progress">In Progress</string>
     <string name="label_resolved">Resolved</string>
+    <string name="label_rejectedd">Rejected</string>
     <string name="label_reopen">Reopen</string>
     <string name="label_closed">Closed</string>
     <string name="label_complaint_list_status_filter">Complaint list status filter</string>

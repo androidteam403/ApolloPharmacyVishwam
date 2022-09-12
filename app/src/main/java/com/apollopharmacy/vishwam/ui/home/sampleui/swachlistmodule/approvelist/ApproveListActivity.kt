@@ -39,6 +39,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     var isApprovedAdapter:Boolean?=null
     var view: View? = null
     val APPROVE_LIST_ACTIVITY = 101
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityApproveListBinding = DataBindingUtil.setContentView(
@@ -56,13 +57,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         pendingAndApproved =
             intent.getSerializableExtra("PENDING_AND_APPROVED") as PendingAndApproved
         isApprovedAdapter =
-            intent.getBooleanExtra("isApprovedAdapter",false) as Boolean
-        if(pendingAndApproved!!.status!=null && pendingAndApproved!!.status=="APPROVED"){
-//            activityApproveListBinding.submitRating.visibility=View.VISIBLE
-//            activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
-//            activityApproveListBinding.ratingBarLayout.visibility = View.VISIBLE
-//            activityApproveListBinding.submitReviewandRating.visibility=View.VISIBLE
-        }
+            intent.getBooleanExtra("isApprovedAdapter", false) as Boolean
+
+
+
+
+
         when (pendingAndApproved != null) {
             true -> {
                 activityApproveListBinding.model = pendingAndApproved
@@ -71,20 +71,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
             }
         }
-
-
-
-
-
-
-
-
-
-
         errorMessage()
         getImageUrlsApiResponse()
         saveAcceptandReshoot()
         getRatingResponse()
+
+
     }
 
     private fun getRatingResponse() {
@@ -115,6 +107,12 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     activityApproveListBinding.categoryListRecycler.adapter =
                         approveListAdapter
                     report()
+
+                    if (!pendingCountforValidation.equals(0) && !isApprovedAdapter!!) {
+                        activityApproveListBinding.reshootButton.visibility = View.GONE
+                        activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+                        activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
+                    }
                 }
             }
         }
@@ -210,7 +208,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         imagePath: String,
         viewClick: View,
         category: String,
-        configPositionRes: Int
+        configPositionRes: Int,
     ) {
         previewClicked=true
 
@@ -223,7 +221,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
         val intent = Intent(this, PreviewImageActivity::class.java)
         intent.putExtra("GET_IMAGE_URLS_RESPONSE", getImageUrlsResponses)
-        intent.putExtra("GET_IMAGE_URLS_RESPONSE_LIST", getImageUrlsResponses.categoryList?.get(configPositionRes))
+        intent.putExtra("GET_IMAGE_URLS_RESPONSE_LIST", getImageUrlsResponses.categoryList?.get(
+            configPositionRes))
         intent.putExtra("PENDING_AND_APPROVED", pendingAndApproved)
         intent.putExtra("position", position)
         intent.putExtra("configPositionRes", configPositionRes)
@@ -272,6 +271,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 //        activityApproveListBinding.commentsLayout.visibility = View.VISIBLE
        activityApproveListBinding.reshootButton.visibility = View.GONE
         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+        activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
 //        activityApproveListBinding.ratingBarLayout.visibility=View.VISIBLE
     }
 
@@ -305,7 +305,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         ratingforsubmit="4"
         ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
 
-            ratingforsubmit = rating.toString().substring(0,1)
+            ratingforsubmit = rating.toString().substring(0, 1)
 
 //          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
         }
@@ -329,7 +329,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     dialog.dismiss()
                 }
             }else{
-                Toast.makeText(applicationContext, "Please enter comments",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Please enter comments", Toast.LENGTH_SHORT).show()
             }
 
         }
@@ -391,9 +391,11 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 if(pendingCountforValidation.equals(0)){
                     activityApproveListBinding.reshootButton.visibility = View.VISIBLE
                     activityApproveListBinding.startReviewButton.visibility = View.GONE
+                    activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
                 }else{
                     activityApproveListBinding.reshootButton.visibility = View.GONE
                     activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+                    activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
                 }
 
             }

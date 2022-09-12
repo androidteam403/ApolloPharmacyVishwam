@@ -18,6 +18,10 @@
             type="Boolean" />
 
         <variable
+            name="isRejectedChecked"
+            type="Boolean" />
+
+        <variable
             name="isReopenChecked"
             type="Boolean" />
 
@@ -121,6 +125,21 @@
                 android:buttonTint="@color/splash_start_color"
                 android:checked="@{isResolvedChecked}"
                 android:text="@string/label_resolved" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/rejected_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/splash_start_color"
+                android:checked="@{isRejectedChecked}"
+                android:text="@string/label_rejectedd" />
 
             <View
                 android:layout_width="match_parent"
