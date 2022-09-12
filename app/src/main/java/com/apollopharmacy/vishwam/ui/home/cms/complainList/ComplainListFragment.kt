@@ -47,7 +47,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
 
     lateinit var storeData: LoginDetails.StoreData
 
-    var complaintListStatus: String = "new,inprogress,solved,reopened,closed"
+    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
 
@@ -216,6 +216,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         if (!this.complaintListStatus.contains("new")
             || !this.complaintListStatus.contains("inprogress")
             || !this.complaintListStatus.contains("solved")
+            || !this.complaintListStatus.contains("rejected")
             || !this.complaintListStatus.contains("reopened")
             || !this.complaintListStatus.contains("closed")
         ) {
@@ -1110,6 +1111,11 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         } else {
             dialogComplaintListFilterBinding.isResolvedChecked = false
         }
+        if (this.complaintListStatus.contains("rejected")) {
+            dialogComplaintListFilterBinding.isRejectedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isRejectedChecked = false
+        }
         if (this.complaintListStatus.contains("reopened")) {
             dialogComplaintListFilterBinding.isReopenChecked = true
         } else {
@@ -1132,6 +1138,9 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
             submitButtonEnable(dialogComplaintListFilterBinding)
         }
         dialogComplaintListFilterBinding.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
             submitButtonEnable(dialogComplaintListFilterBinding)
         }
         dialogComplaintListFilterBinding.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
@@ -1179,6 +1188,13 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                     this.complaintListStatus = "${this.complaintListStatus},solved"
                 }
             }
+            if (dialogComplaintListFilterBinding.rejectedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "rejected"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},rejected"
+                }
+            }
             if (dialogComplaintListFilterBinding.reopenStatus.isChecked) {
                 if (this.complaintListStatus.isEmpty()) {
                     this.complaintListStatus = "reopened"
@@ -1215,6 +1231,7 @@ fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilt
     if (!dialogComplaintListFilterBinding.newStatus.isChecked
         && !dialogComplaintListFilterBinding.inProgressStatus.isChecked
         && !dialogComplaintListFilterBinding.resolvedStatus.isChecked
+        && !dialogComplaintListFilterBinding.rejectedStatus.isChecked
         && !dialogComplaintListFilterBinding.reopenStatus.isChecked
         && !dialogComplaintListFilterBinding.closedStatus.isChecked
     ) {

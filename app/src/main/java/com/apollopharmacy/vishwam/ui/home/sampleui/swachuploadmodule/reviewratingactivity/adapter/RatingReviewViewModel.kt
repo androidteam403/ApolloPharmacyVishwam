@@ -56,6 +56,7 @@ class RatingReviewViewModel: ViewModel() {
                     if (response.value.status ?: null == false) {
                         state.value = State.ERROR
                         CommandsNeww.ShowToast(response.value.message)
+                        getImageUrlsList.value = response.value
                         getImageUrlsList.value?.message = response.value.message
 
 
@@ -65,6 +66,7 @@ class RatingReviewViewModel: ViewModel() {
                     commands.postValue(
                         response.error?.let {
                             CommandsNewSwachFrags.ShowToast(it)
+
                         }
                     )
                     state.value = State.ERROR

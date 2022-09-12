@@ -9,8 +9,6 @@
         tools:context=".ui.home.sampleui.swachuploadmodule.ReShootActivity">
 
         <LinearLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -70,9 +68,9 @@
             </LinearLayout>
 
             <ScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/value_50dp"
                 android:background="@color/light_blue_background"
                 android:baselineAligned="false">
 
@@ -1170,6 +1168,13 @@
 
 
                     </LinearLayout>
+
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/viewformarginBottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"/>
+
                 </LinearLayout>
 
             </ScrollView>

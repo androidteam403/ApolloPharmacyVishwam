@@ -41,12 +41,12 @@ class RatingReviewActivity : AppCompatActivity() {
         var submit = GetImageUrlModelRequest()
         submit.storeid =  Preferences.getSiteId()
         submit.swachhId = swachId
-        Utlis.showLoading(this)
+       Utlis.showLoading(this)
 
         viewModel.getImageUrl(submit)
 
         viewModel.getImageUrlsList.observeForever {
-            if (it != null && it.categoryList != null) {
+            if (it != null) {
 
             if(it.remarks!=null && it.remarks!!.size>0){
                 ratingReviewBinding.noOrdersFound.visibility = View.GONE
@@ -64,6 +64,9 @@ class RatingReviewActivity : AppCompatActivity() {
             }
 
 
+            } else{
+                ratingReviewBinding.noOrdersFound.visibility = View.VISIBLE
+                Utlis.hideLoading()
             }
         }
 
