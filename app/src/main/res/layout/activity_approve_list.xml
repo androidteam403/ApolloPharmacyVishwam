@@ -9,8 +9,6 @@
         tools:context=".ui.home.sampleui.swachuploadmodule.ReShootActivity">
 
         <LinearLayout
-
-
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -23,9 +21,9 @@
                 android:padding="@dimen/value_10dp">
 
                 <ImageView
-                    android:layout_marginTop="@dimen/value_3dp"
                     android:layout_width="@dimen/value_40dp"
                     android:layout_height="@dimen/value_40dp"
+                    android:layout_marginTop="@dimen/value_3dp"
                     android:contentDescription="@string/app_name"
                     android:onClick="@{()-> callback.onClickBack()}"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
@@ -45,24 +43,22 @@
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
-                 <LinearLayout
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"
-                     android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
 
-                     <TextView
-                         android:layout_width="wrap_content"
-                         android:layout_height="wrap_content"
-                         android:layout_marginTop="@dimen/three3_sp"
-                         android:text="@{model.swachhid}"
-                         android:textColor="@color/white"
-                         android:textSize="@dimen/text_14sp"
-                         android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/three3_sp"
+                            android:text="@{model.swachhid}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp"
+                            android:textStyle="bold" />
 
-                 </LinearLayout>
-
-
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -72,7 +68,6 @@
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/value_50dp"
                 android:background="@color/light_blue_background"
                 android:baselineAligned="false">
 
@@ -175,12 +170,12 @@
                         </LinearLayout>
 
                         <androidx.recyclerview.widget.RecyclerView
-                            android:elevation="@dimen/value_50dp"
-                            android:fadingEdgeLength="@dimen/value_200dp"
                             android:id="@+id/category_list_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_10dp" />
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:elevation="@dimen/value_50dp"
+                            android:fadingEdgeLength="@dimen/value_200dp" />
 
                         <!--                <LinearLayout-->
                         <!--                    android:layout_width="match_parent"-->
@@ -1005,14 +1000,14 @@
                                     android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
                                 <LinearLayout
+                                    android:id="@+id/submitRating"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:gravity="end"
-                                    android:visibility="gone"
-                                    android:id="@+id/submitRating"
                                     android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:visibility="gone">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -1031,145 +1026,141 @@
                                 </LinearLayout>
 
 
-
                             </LinearLayout>
                         </LinearLayout>
 
 
+                        <!--                        <LinearLayout-->
+                        <!--                            android:weightSum="1"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:orientation="horizontal">-->
+
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_weight="0.7"-->
+                        <!--                                android:layout_width="0dp"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:orientation="vertical">-->
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:id="@+id/comments_layout"-->
+                        <!--                                    android:layout_width="match_parent"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_marginStart="@dimen/value_10dp"-->
+                        <!--                                    android:layout_marginTop="@dimen/value_20dp"-->
+                        <!--                                    android:layout_marginEnd="@dimen/value_10dp"-->
+                        <!--                                    android:layout_marginBottom="@dimen/value_5dp"-->
+                        <!--                                    android:orientation="vertical"-->
+                        <!--                                    android:visibility="visible">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginStart="@dimen/value_3dp"-->
+                        <!--                                        android:text="@string/label_add_comments"-->
+                        <!--                                        android:textColor="@color/black" />-->
+
+                        <!--                                    <EditText-->
+                        <!--                                        android:id="@+id/comment"-->
+                        <!--                                        android:layout_width="match_parent"-->
+                        <!--                                        android:layout_height="@dimen/value_40dp"-->
+                        <!--                                        android:layout_marginTop="@dimen/value_5dp"-->
+                        <!--                                        android:autofillHints="@string/app_name"-->
+                        <!--                                        android:background="@drawable/edit_comment_bg"-->
+                        <!--                                        android:hint="Enter comment"-->
+                        <!--                                        android:inputType="text"-->
+                        <!--                                        android:padding="@dimen/value_5dp" />-->
+                        <!--                                </LinearLayout>-->
+
+                        <!--                                <LinearLayout-->
+                        <!--                                    android:id="@+id/ratingBarLayout"-->
+                        <!--                                    android:layout_width="wrap_content"-->
+                        <!--                                    android:layout_height="wrap_content"-->
+                        <!--                                    android:layout_marginStart="@dimen/value_10dp"-->
+                        <!--                                    android:layout_marginTop="@dimen/value_15dp"-->
+                        <!--                                    android:orientation="vertical"-->
+                        <!--                                    android:visibility="visible">-->
+
+                        <!--                                    <TextView-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:layout_marginStart="@dimen/value_3dp"-->
+                        <!--                                        android:text="Rating"-->
+                        <!--                                        android:textColor="@color/black"-->
+                        <!--                                        android:textSize="@dimen/text_15sp" />-->
 
 
+                        <!--                                    <RatingBar-->
+                        <!--                                        android:id="@+id/ratingBar"-->
+                        <!--                                        style="?android:attr/ratingBarStyleIndicator"-->
+                        <!--                                        android:layout_width="wrap_content"-->
+                        <!--                                        android:layout_height="wrap_content"-->
+                        <!--                                        android:isIndicator="false"-->
+                        <!--                                        android:max="5"-->
+                        <!--                                        android:numStars="5"-->
+                        <!--                                        android:scaleX=".7"-->
+                        <!--                                        android:scaleY=".7"-->
+                        <!--                                        android:stepSize="1"-->
+                        <!--                                        android:theme="@style/RatingBar"-->
+                        <!--                                        android:transformPivotX="0dp"-->
+                        <!--                                        android:transformPivotY="0dp" />-->
+
+                        <!--                                    &lt;!&ndash;                            <TextView&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:layout_marginBottom="3sp"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:layout_width="@dimen/value_60dp"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:onClick="@{()-> callback.onClickSubmitRating()}"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:padding="@dimen/value_3dp"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:background="@drawable/green_background"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:text="Submit"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+                        <!--                                    &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
 
 
-<!--                        <LinearLayout-->
-<!--                            android:weightSum="1"-->
-<!--                            android:layout_width="match_parent"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:orientation="horizontal">-->
+                        <!--                                </LinearLayout>-->
 
-<!--                            <LinearLayout-->
-<!--                                android:layout_weight="0.7"-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:orientation="vertical">-->
+                        <!--                            </LinearLayout>-->
 
-<!--                                <LinearLayout-->
-<!--                                    android:id="@+id/comments_layout"-->
-<!--                                    android:layout_width="match_parent"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginStart="@dimen/value_10dp"-->
-<!--                                    android:layout_marginTop="@dimen/value_20dp"-->
-<!--                                    android:layout_marginEnd="@dimen/value_10dp"-->
-<!--                                    android:layout_marginBottom="@dimen/value_5dp"-->
-<!--                                    android:orientation="vertical"-->
-<!--                                    android:visibility="visible">-->
-
-<!--                                    <TextView-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_marginStart="@dimen/value_3dp"-->
-<!--                                        android:text="@string/label_add_comments"-->
-<!--                                        android:textColor="@color/black" />-->
-
-<!--                                    <EditText-->
-<!--                                        android:id="@+id/comment"-->
-<!--                                        android:layout_width="match_parent"-->
-<!--                                        android:layout_height="@dimen/value_40dp"-->
-<!--                                        android:layout_marginTop="@dimen/value_5dp"-->
-<!--                                        android:autofillHints="@string/app_name"-->
-<!--                                        android:background="@drawable/edit_comment_bg"-->
-<!--                                        android:hint="Enter comment"-->
-<!--                                        android:inputType="text"-->
-<!--                                        android:padding="@dimen/value_5dp" />-->
-<!--                                </LinearLayout>-->
-
-<!--                                <LinearLayout-->
-<!--                                    android:id="@+id/ratingBarLayout"-->
-<!--                                    android:layout_width="wrap_content"-->
-<!--                                    android:layout_height="wrap_content"-->
-<!--                                    android:layout_marginStart="@dimen/value_10dp"-->
-<!--                                    android:layout_marginTop="@dimen/value_15dp"-->
-<!--                                    android:orientation="vertical"-->
-<!--                                    android:visibility="visible">-->
-
-<!--                                    <TextView-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_marginStart="@dimen/value_3dp"-->
-<!--                                        android:text="Rating"-->
-<!--                                        android:textColor="@color/black"-->
-<!--                                        android:textSize="@dimen/text_15sp" />-->
+                        <!--                            <LinearLayout-->
+                        <!--                                android:layout_weight="0.3"-->
+                        <!--                                android:id="@+id/submitforreview"-->
+                        <!--                                android:layout_marginTop="@dimen/value_15dp"-->
+                        <!--                                android:onClick="@{()-> callback.onClickSubmitRatingReview()}"-->
+                        <!--                                android:layout_width="0dp"-->
+                        <!--                                android:layout_height="wrap_content"-->
+                        <!--                                android:visibility="visible"-->
+                        <!--                                android:layout_gravity="center"-->
+                        <!--                                android:gravity="center">-->
 
 
-<!--                                    <RatingBar-->
-<!--                                        android:id="@+id/ratingBar"-->
-<!--                                        style="?android:attr/ratingBarStyleIndicator"-->
-<!--                                        android:layout_width="wrap_content"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:isIndicator="false"-->
-<!--                                        android:max="5"-->
-<!--                                        android:numStars="5"-->
-<!--                                        android:scaleX=".7"-->
-<!--                                        android:scaleY=".7"-->
-<!--                                        android:stepSize="1"-->
-<!--                                        android:theme="@style/RatingBar"-->
-<!--                                        android:transformPivotX="0dp"-->
-<!--                                        android:transformPivotY="0dp" />-->
+                        <!--                                <TextView-->
+                        <!--                                    android:layout_width="102dp"-->
+                        <!--                                    android:layout_height="wrap_content"-->
 
-<!--                                    &lt;!&ndash;                            <TextView&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:layout_marginBottom="3sp"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:layout_width="@dimen/value_60dp"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:onClick="@{()-> callback.onClickSubmitRating()}"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:padding="@dimen/value_3dp"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:background="@drawable/green_background"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:text="Submit"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
-<!--                                    &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+                        <!--                                    android:layout_marginTop="@dimen/value_7dp"-->
+                        <!--                                    android:layout_marginBottom="@dimen/five5_sp"-->
+                        <!--                                    android:background="@drawable/green_background"-->
+                        <!--                                    android:gravity="center"-->
+                        <!--                                    android:padding="@dimen/five5_sp"-->
+                        <!--                                    android:text="Submit"-->
+                        <!--                                    android:textAlignment="center"-->
+                        <!--                                    android:textColor="@color/white"-->
+                        <!--                                    android:textSize="@dimen/text_16sp"-->
+                        <!--                                    android:textStyle="bold" />-->
+
+                        <!--                            </LinearLayout>-->
 
 
-<!--                                </LinearLayout>-->
-
-<!--                            </LinearLayout>-->
-
-<!--                            <LinearLayout-->
-<!--                                android:layout_weight="0.3"-->
-<!--                                android:id="@+id/submitforreview"-->
-<!--                                android:layout_marginTop="@dimen/value_15dp"-->
-<!--                                android:onClick="@{()-> callback.onClickSubmitRatingReview()}"-->
-<!--                                android:layout_width="0dp"-->
-<!--                                android:layout_height="wrap_content"-->
-<!--                                android:visibility="visible"-->
-<!--                                android:layout_gravity="center"-->
-<!--                                android:gravity="center">-->
-
-
-<!--                                <TextView-->
-<!--                                    android:layout_width="102dp"-->
-<!--                                    android:layout_height="wrap_content"-->
-
-<!--                                    android:layout_marginTop="@dimen/value_7dp"-->
-<!--                                    android:layout_marginBottom="@dimen/five5_sp"-->
-<!--                                    android:background="@drawable/green_background"-->
-<!--                                    android:gravity="center"-->
-<!--                                    android:padding="@dimen/five5_sp"-->
-<!--                                    android:text="Submit"-->
-<!--                                    android:textAlignment="center"-->
-<!--                                    android:textColor="@color/white"-->
-<!--                                    android:textSize="@dimen/text_16sp"-->
-<!--                                    android:textStyle="bold" />-->
-
-<!--                            </LinearLayout>-->
-
-
-
-
-<!--                        </LinearLayout>-->
-
+                        <!--                        </LinearLayout>-->
 
 
                     </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp" />
                 </LinearLayout>
 
             </ScrollView>
@@ -1205,33 +1196,33 @@
 
         </LinearLayout>
 
-<!--        <LinearLayout-->
-<!--            android:id="@+id/submitReviewandRating"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="@dimen/value_50dp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:background="@color/greenn"-->
+        <!--        <LinearLayout-->
+        <!--            android:id="@+id/submitReviewandRating"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="@dimen/value_50dp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:background="@color/greenn"-->
 
-<!--            android:orientation="horizontal"-->
-<!--            android:padding="@dimen/value_12dp"-->
-<!--            android:visibility="gone">-->
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/submit_review_button"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginStart="@dimen/value_10dp"-->
-<!--                android:gravity="center"-->
-
-<!--                android:text="SUBMIT RATING AND REVIEW"-->
-<!--                android:textAllCaps="true"-->
-<!--                android:textColor="@color/white"-->
-<!--                android:textSize="@dimen/text_17sp"-->
-<!--                android:textStyle="bold" />-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:padding="@dimen/value_12dp"-->
+        <!--            android:visibility="gone">-->
 
 
-<!--        </LinearLayout>-->
+        <!--            <TextView-->
+        <!--                android:id="@+id/submit_review_button"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_marginStart="@dimen/value_10dp"-->
+        <!--                android:gravity="center"-->
+
+        <!--                android:text="SUBMIT RATING AND REVIEW"-->
+        <!--                android:textAllCaps="true"-->
+        <!--                android:textColor="@color/white"-->
+        <!--                android:textSize="@dimen/text_17sp"-->
+        <!--                android:textStyle="bold" />-->
+
+
+        <!--        </LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/startReviewButton"
