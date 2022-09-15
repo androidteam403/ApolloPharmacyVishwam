@@ -120,9 +120,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 )
                 LoginRepo.saveStoreData(storedata)
 
-                showLoading()
-                // viewModel.getDepartment()
-                viewModel.getRemarksMasterList()
+
                 // viewModel.getListOfPendingAcknowledgement(storeItem)
                 viewModel.getSelectedStoreDetails(storeItem)
                 storeInfo =
@@ -148,6 +146,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     ).show()
                 }
            }
+
+        showLoading()
+        // viewModel.getDepartment()
+        viewModel.getRemarksMasterList()
 //            else {
 //                if (Preferences.getSiteId().isEmpty()) {
 //                    showLoading()
@@ -922,7 +924,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         LoginRepo.saveStoreData(storedata)
         // viewModel.getListOfPendingAcknowledgement(storeItem)
 
-        viewModel.getRemarksMasterList()
+//        viewModel.getRemarksMasterList()
         viewModel.getSelectedStoreDetails(storeItem)
         storeInfo =
             storeData.SITEID + " - " + storeData.SITENAME
@@ -1343,7 +1345,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 showLoading()
             }
             // viewModel.getListOfPendingAcknowledgement(selectedStoreItem)
-            viewModel.getRemarksMasterList()
+//            viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
            val store =  LoginDetails.StoreData(

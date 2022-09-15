@@ -217,7 +217,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (isAtdLogout) {
                 super.onBackPressed();
             } else {
-                dialogExit();
+                if(currentItem.equalsIgnoreCase("HOME")){
+                    dialogExit();
+                }else {
+                    displaySelectedScreen("HOME");
+                }
             }
 
         }
