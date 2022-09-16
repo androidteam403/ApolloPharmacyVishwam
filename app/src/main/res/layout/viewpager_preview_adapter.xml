@@ -3,18 +3,19 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/light_blue"
         android:gravity="center">
 
         <com.github.chrisbanes.photoview.PhotoView
-            android:layout_marginStart="@dimen/value_15dp"
-            android:layout_marginEnd="@dimen/value_15dp"
+
             android:id="@+id/viewpager_image"
             android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:background="@color/white"
+            android:layout_centerHorizontal="true"
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
-            android:scaleType="fitXY"
             android:src="@drawable/capture" />
 
 

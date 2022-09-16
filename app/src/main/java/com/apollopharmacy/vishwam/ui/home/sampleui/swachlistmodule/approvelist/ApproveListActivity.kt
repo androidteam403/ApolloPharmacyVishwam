@@ -59,7 +59,10 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         isApprovedAdapter =
             intent.getBooleanExtra("isApprovedAdapter", false) as Boolean
 
-
+        if(isApprovedAdapter!!){
+            activityApproveListBinding.startReviewButton.visibility = View.GONE
+            activityApproveListBinding.startReviewButtonGrey.visibility = View.VISIBLE
+        }
 
 
 
@@ -111,6 +114,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     if (!pendingCountforValidation.equals(0) && !isApprovedAdapter!!) {
                         activityApproveListBinding.reshootButton.visibility = View.GONE
                         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+                        activityApproveListBinding.submitRatingButton.setBackgroundColor(getResources().getColor(R.color.grey));
                         activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
                     }
                 }
@@ -191,7 +195,10 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         } else if (isAccepted) {
             activityApproveListBinding.status = "1"
             overallStatus = "1"
-            activityApproveListBinding.submitRating.visibility=View.VISIBLE
+            activityApproveListBinding.submitRatingButtonGrey.visibility=View.GONE
+            activityApproveListBinding.submitRatingButton.visibility=View.VISIBLE
+
+
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
             overallStatus = "2"

@@ -47,6 +47,9 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 
 
 
+
+
+
 //        for (i in getImageUrlsResponse!!.categoryList!!) {
 //            var categoryList = GetImageUrlsResponse.Category()
 //            var imageUrlsCategoryList = ArrayList<GetImageUrlsResponse.ImageUrl>()
@@ -91,6 +94,18 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
         activityPreviewImageBinding.imageUrlModel = imageUrlsList.get(0)
         activityPreviewImageBinding.pendingAndApprovedModel = pendingAndApproved
 
+        if (imageUrlsList.get(currentPosition).status.equals("0")) {
+            activityPreviewImageBinding.statusDisplay.text="PENDING"
+            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.material_amber_accent_700));
+        } else if (imageUrlsList.get(currentPosition).status.equals("1")) {
+            activityPreviewImageBinding.statusDisplay.text="ACCEPTED"
+            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.greenn));
+        } else if (imageUrlsList.get(currentPosition).status.equals("2")) {
+            activityPreviewImageBinding.statusDisplay.text="RESHOOT"
+            activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
+        }
+
+
 
         previewImgViewPagerAdapter = PreviewImgViewPagerAdapter(
             this, imageUrlsList, this)
@@ -102,16 +117,6 @@ class PreviewImageActivity: AppCompatActivity(), PreviewImageCallback , ViewPage
 //        onPageSelected(currentPosition)
 
 
-            if (imageUrlsList.get(0).status.equals("0")) {
-                activityPreviewImageBinding.statusDisplay.text="PENDING"
-                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.material_amber_accent_700));
-            } else if (imageUrlsList.get(0).status.equals("1")) {
-                activityPreviewImageBinding.statusDisplay.text="ACCEPTED"
-                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.greenn));
-            } else if (imageUrlsList.get(0).status.equals("2")) {
-                activityPreviewImageBinding.statusDisplay.text="RESHOOT"
-                activityPreviewImageBinding.statusDisplay.setTextColor(ContextCompat.getColor(context, R.color.color_red));
-            }
 
     }
 

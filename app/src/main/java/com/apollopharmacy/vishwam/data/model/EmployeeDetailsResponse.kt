@@ -1,0 +1,67 @@
+package com.apollopharmacy.vishwam.data.model
+
+import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.Expose
+import java.io.Serializable
+
+class EmployeeDetailsResponse : Serializable {
+    @SerializedName("message")
+    @Expose
+    var message: Any? = null
+
+    @SerializedName("success")
+    @Expose
+    var success: Boolean? = null
+
+    @SerializedName("data")
+    @Expose
+    var data: Data? = null
+
+    @SerializedName("zcServerDateTime")
+    @Expose
+    var zcServerDateTime: String? = null
+
+    @SerializedName("zcServerIp")
+    @Expose
+    var zcServerIp: String? = null
+
+    @SerializedName("zcServerHost")
+    @Expose
+    var zcServerHost: String? = null
+
+    inner class Data : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("first_name")
+        @Expose
+        var firstName: String? = null
+
+        @SerializedName("last_name")
+        @Expose
+        var lastName: Any? = null
+
+        @SerializedName("middle_name")
+        @Expose
+        var middleName: Any? = null
+
+        @SerializedName("role")
+        @Expose
+        var role: Role? = null
+
+        inner class Role : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("code")
+            @Expose
+            var code: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+        }
+    }
+}

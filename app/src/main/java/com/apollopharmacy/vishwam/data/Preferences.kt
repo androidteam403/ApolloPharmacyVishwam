@@ -96,6 +96,7 @@ object Preferences {
     private const val KEY_COMPANY = "KEY_COMPANY"
     private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
     private const val UPLOADED_DATE_DAY_WISE = ""
+    private const val EMPLOYEE_ROLE = ""
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -210,4 +211,12 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+    fun setEmployeeRole(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE, role).apply()
+    }
+
+    fun getEmployeeRole(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
+    }
+
 }
