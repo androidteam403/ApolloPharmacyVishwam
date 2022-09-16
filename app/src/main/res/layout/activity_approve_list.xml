@@ -188,7 +188,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_weight="0.7"
+                                android:layout_weight="0.65"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -290,7 +290,7 @@
 
                             <LinearLayout
                                 android:layout_marginTop="@dimen/value_6dp"
-                                android:layout_weight="0.3"
+                                android:layout_weight="0.35"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -1544,6 +1544,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_60dp"
                 android:weightSum="1"
+                android:background="@color/light_blue"
                 android:orientation="horizontal">
 
 

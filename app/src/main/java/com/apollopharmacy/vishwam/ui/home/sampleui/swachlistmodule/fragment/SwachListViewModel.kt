@@ -34,7 +34,7 @@ class SwachListViewModel : ViewModel() {
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
         if(selectedSiteids!=null && selectedSiteids.length>0){
-            getpendingAndApprovedListRequest.storeId = Preferences.getSiteId() + "," + selectedSiteids
+            getpendingAndApprovedListRequest.storeId = selectedSiteids
         }else{
             getpendingAndApprovedListRequest.storeId = ""
         }

@@ -117,12 +117,13 @@ class ValidatePinViewModel : ViewModel() {
                                 )
                             if (responseNewTicketlist.success!!) {
                                 employeeDetails.value = responseNewTicketlist
-                                Preferences.setEmployeeRoleUid(responseNewTicketlist.data?.uploadSwach?.uid!!)
-                                Preferences.getEmployeeRoleUid()
+
+//                                Preferences.getEmployeeRoleUid()
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
                             }
                             else {
+                                employeeDetails.value = responseNewTicketlist
 //                                commands.value =
 //                                 Command.ShowToast(responseNewTicketlist.message.toString())
                             }

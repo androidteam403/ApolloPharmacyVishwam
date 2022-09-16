@@ -71,6 +71,8 @@ class ValidatePinActivity : AppCompatActivity() {
                 }
             }
         })
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,15 +80,26 @@ class ValidatePinActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ENABLE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
+                viewModel.getRole(Preferences.getValidatedEmpId())
+                viewModel.employeeDetails.observeForever {
+                    if(it.data?.uploadSwach?.uid!=null){
+                        Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+                    }else{
+                        Preferences.setEmployeeRoleUid("")
+                    }
 
-                if (dialogStatus) {
-                    handleCreatePinIntent()
-                    viewModel.getRole(Preferences.getValidatedEmpId())
+                    if (dialogStatus) {
+//                    viewModel.getRole(Preferences.getValidatedEmpId())
+                        handleCreatePinIntent()
+
 //                    handlePlayStoreIntent()
-                } else {
-                    handleNextIntent()
-                    viewModel.getRole(Preferences.getValidatedEmpId())
+                    } else {
+//                    viewModel.getRole(Preferences.getValidatedEmpId())
+                        handleNextIntent()
+
+                    }
                 }
+
             } else {
                 Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)
                     .show()

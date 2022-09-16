@@ -114,11 +114,11 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 
 
     override fun onClickSiteId(selectedSiteId: String?, position1: Int) {
-        if (siteDataList != null && siteDataList.size>0 && !selectedSiteId.equals(Preferences.getSiteId())) {
+        if (siteDataList != null && siteDataList.size>0) {
 
                 var isSameId: Boolean = false
                 for( i in selectsiteIdList.indices){
-                    if(selectedSiteId?.equals(selectsiteIdList.get(i))!! || selectedSiteId.equals(Preferences.getSiteId())){
+                    if(selectedSiteId?.equals(selectsiteIdList.get(i))!!){
                         val builder = AlertDialog.Builder(this)
                         builder.setMessage("You have already selected this site ID")
 
@@ -180,7 +180,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 //            }
 
 
-        }else if(siteDataList == null && siteDataList.size==0 && !selectedSiteId.equals(Preferences.getSiteId())) {
+        }else if(siteDataList == null && siteDataList.size==0 ) {
             selectsiteIdList.add(selectedSiteId!!)
             var pos: Int?=null
             for(i in siteDataList.indices){
@@ -200,21 +200,22 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 //                SiteIdAdapter(applicationContext, siteDataList, this, selectsiteIdList)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.adapter = siteIdAdapter
-        }else if(selectedSiteId.equals(Preferences.getSiteId())){
-            val builder = AlertDialog.Builder(this)
-            builder.setMessage("This Site Id is already selected")
-
-            val alert = builder.create()
-            alert.show()
-
-            val timer = Timer()
-            timer.schedule(object : TimerTask() {
-                override fun run() {
-                    alert.dismiss()
-                    timer.cancel()
-                }
-            }, 3000)
         }
+//        else if(selectedSiteId.equals(Preferences.getSiteId())){
+//            val builder = AlertDialog.Builder(this)
+//            builder.setMessage("This Site Id is already selected")
+//
+//            val alert = builder.create()
+//            alert.show()
+//
+//            val timer = Timer()
+//            timer.schedule(object : TimerTask() {
+//                override fun run() {
+//                    alert.dismiss()
+//                    timer.cancel()
+//                }
+//            }, 3000)
+//        }
 
 
 
