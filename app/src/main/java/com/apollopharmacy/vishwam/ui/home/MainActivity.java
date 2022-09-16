@@ -200,7 +200,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userDesignation = loginData.getAPPLEVELDESIGNATION();
             employeeRole= Preferences.INSTANCE.getEmployeeRoleUid();
 //            userDesignation="EXECUTIVE";
-           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
+//           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();

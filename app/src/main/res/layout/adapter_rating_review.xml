@@ -49,12 +49,18 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Comments: "
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
                             android:id="@+id/comments"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="bold" />
 
 
 
@@ -75,8 +81,15 @@
                             android:id="@+id/ratingBarLayout"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_30dp"
-                            android:orientation="vertical"
+                            android:orientation="horizontal"
                             android:visibility="visible">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Rating: "
+                                android:textSize="@dimen/text_12sp" />
+
 
 
                             <RatingBar
@@ -129,7 +142,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="By "
+                            android:text="Approved By: "
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -138,7 +151,7 @@
                             android:layout_height="match_parent"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="bold" />
 
 
 
@@ -155,11 +168,10 @@
                         android:layout_marginEnd="@dimen/value_5dp"
                         android:orientation="horizontal">
 
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="On "
+                            android:text="Approved Date:"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -168,7 +180,7 @@
                             android:layout_height="match_parent"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
-                            android:textStyle="normal" />
+                            android:textStyle="bold" />
 
 
 
