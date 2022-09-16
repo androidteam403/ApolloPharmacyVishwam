@@ -163,7 +163,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 val d = Date()
 //                it.thursday = false
 //                it.friday = false
-//                it.wednesday = true
+//                it.thursday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
