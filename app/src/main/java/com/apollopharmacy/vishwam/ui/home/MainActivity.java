@@ -95,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isAttendanceRequired = false;
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
-    private MainActivityController mainActivityController;
     public static String userDesignation = "";
     private TextView headerText;
     public Boolean isListScreen = false;
@@ -142,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
         imageView = findViewById(R.id.siteIdList);
-        mainActivityController = new MainActivityController(this);
 
         imageView.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
@@ -200,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
-            employeeRole= Preferences.INSTANCE.getEmployeeRole();
+            employeeRole= Preferences.INSTANCE.getEmployeeRoleUid();
 //            userDesignation="EXECUTIVE";
            Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
@@ -674,7 +672,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
-                if (Preferences.INSTANCE.getEmployeeRole().equalsIgnoreCase("store_executive")) {
+                if (Preferences.INSTANCE.getEmployeeRoleUid()!=null &&Preferences.INSTANCE.getEmployeeRoleUid()!="" && Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
                     listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
 //                          .addChildModel(new ChildModel("List")));
@@ -729,7 +727,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swacch List");
                             } else if (groupPosition == 3 && childPosition == 0) {
-                                if (Preferences.INSTANCE.getEmployeeRole().equalsIgnoreCase("store_executive")) {
+                                if (Preferences.INSTANCE.getEmployeeRoleUid()!=null &&Preferences.INSTANCE.getEmployeeRoleUid()!=""&&Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
                                     displaySelectedScreen("Upload");
                                 } else {
                                     displaySelectedScreen("List");

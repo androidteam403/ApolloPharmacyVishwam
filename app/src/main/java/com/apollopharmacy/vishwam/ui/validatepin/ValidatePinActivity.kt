@@ -78,11 +78,14 @@ class ValidatePinActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ENABLE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
+
                 if (dialogStatus) {
                     handleCreatePinIntent()
+                    viewModel.getRole(Preferences.getValidatedEmpId())
 //                    handlePlayStoreIntent()
                 } else {
                     handleNextIntent()
+                    viewModel.getRole(Preferences.getValidatedEmpId())
                 }
             } else {
                 Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)

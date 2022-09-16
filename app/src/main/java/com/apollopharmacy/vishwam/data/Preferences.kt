@@ -211,11 +211,11 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
-    fun setEmployeeRole(role: String) {
+    fun setEmployeeRoleUid(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE, role).apply()
     }
 
-    fun getEmployeeRole(): String {
+    fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
 

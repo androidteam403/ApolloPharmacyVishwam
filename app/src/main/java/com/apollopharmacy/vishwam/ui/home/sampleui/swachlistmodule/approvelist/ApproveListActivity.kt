@@ -114,8 +114,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     if (!pendingCountforValidation.equals(0) && !isApprovedAdapter!!) {
                         activityApproveListBinding.reshootButton.visibility = View.GONE
                         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
-                        activityApproveListBinding.submitRatingButton.setBackgroundColor(getResources().getColor(R.color.grey));
-                        activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
+                        activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                        activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
                     }
                 }
             }
@@ -189,6 +189,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         if (isPending) {
             activityApproveListBinding.status = "0"
             overallStatus = "0"
+            activityApproveListBinding.submitRatingButton.visibility=View.GONE
+            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
 //            activityApproveListBinding.reshootButton.visibility = View.GONE
 //            activityApproveListBinding.buttonForPending.visibility = View.VISIBLE
 
@@ -202,10 +204,14 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
             overallStatus = "2"
+            activityApproveListBinding.submitRatingButton.visibility=View.GONE
+            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else {
             activityApproveListBinding.status = "3"
             overallStatus = "3"
+            activityApproveListBinding.submitRatingButton.visibility=View.GONE
+            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         }
     }
@@ -395,14 +401,15 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     approveListAdapter
                 report()
 
-                if(pendingCountforValidation.equals(0)){
+                if(!isApprovedAdapter!! && pendingCountforValidation.equals(0)){
                     activityApproveListBinding.reshootButton.visibility = View.VISIBLE
                     activityApproveListBinding.startReviewButton.visibility = View.GONE
                     activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
+
                 }else{
                     activityApproveListBinding.reshootButton.visibility = View.GONE
                     activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
-                    activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
+
                 }
 
             }

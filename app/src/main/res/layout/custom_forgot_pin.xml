@@ -49,7 +49,7 @@
             android:layout_height="@dimen/value_35dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginEnd="@dimen/value_10dp"
-            android:background="@drawable/grey_rectangle1"
+            android:background="@drawable/grey_rectangle"
             android:gravity="center"
             android:text="No"
             android:textAllCaps="false"

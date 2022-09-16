@@ -4,64 +4,65 @@ import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
 import java.io.Serializable
 
-class EmployeeDetailsResponse : Serializable {
-    @SerializedName("message")
-    @Expose
-    var message: Any? = null
 
-    @SerializedName("success")
-    @Expose
-    var success: Boolean? = null
-
-    @SerializedName("data")
-    @Expose
-    var data: Data? = null
-
-    @SerializedName("zcServerDateTime")
-    @Expose
-    var zcServerDateTime: String? = null
-
-    @SerializedName("zcServerIp")
-    @Expose
-    var zcServerIp: String? = null
-
-    @SerializedName("zcServerHost")
-    @Expose
-    var zcServerHost: String? = null
-
-    inner class Data : Serializable {
-        @SerializedName("uid")
+     class EmployeeDetailsResponse : Serializable {
+        @SerializedName("message")
         @Expose
-        var uid: String? = null
+        var message: Any? = null
 
-        @SerializedName("first_name")
+        @SerializedName("success")
         @Expose
-        var firstName: String? = null
+        var success: Boolean? = null
 
-        @SerializedName("last_name")
+        @SerializedName("data")
         @Expose
-        var lastName: Any? = null
+        var data: Data? = null
 
-        @SerializedName("middle_name")
+        @SerializedName("zcServerDateTime")
         @Expose
-        var middleName: Any? = null
+        var zcServerDateTime: String? = null
 
-        @SerializedName("role")
+        @SerializedName("zcServerIp")
         @Expose
-        var role: Role? = null
+        var zcServerIp: String? = null
 
-        inner class Role : Serializable {
+        @SerializedName("zcServerHost")
+        @Expose
+        var zcServerHost: String? = null
+
+        inner class Data : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
 
-            @SerializedName("code")
+            @SerializedName("upload_swach")
             @Expose
-            var code: String? = null
+            var uploadSwach: UploadSwach? = null
 
-            @SerializedName("name")
-            @Expose
-            var name: String? = null
+            inner class UploadSwach : Serializable {
+                @SerializedName("uid")
+                @Expose
+                var uid: String? = null
+
+                @SerializedName("name")
+                @Expose
+                var name: String? = null
+
+                @SerializedName("other")
+                @Expose
+                var other: Other? = null
+
+                @SerializedName("icon")
+                @Expose
+                var icon: Any? = null
+
+                inner class Other : Serializable {
+                    @SerializedName("color")
+                    @Expose
+                    var color: Any? = null
+
+
+                }
+            }
         }
     }
-}

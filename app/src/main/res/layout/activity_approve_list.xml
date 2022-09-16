@@ -1554,7 +1554,7 @@
                     android:layout_width="0dp"
                     android:onClick="@{()-> callback.onClickSubmitRatingButton()}"
                     android:layout_marginTop="@dimen/value_10dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_height="match_parent"
                     android:background="@color/sea_blue"
                     android:orientation="horizontal">
@@ -1633,7 +1633,7 @@
 
 
                 <LinearLayout
-                    android:visibility="gone"
+                    android:visibility="visible"
                     android:id="@+id/startReviewButton"
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
@@ -1682,7 +1682,7 @@
                     android:id="@+id/startReviewButtonGrey"
                     android:layout_weight="0.5"
                     android:layout_width="0dp"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:background="@color/grey"
                     android:layout_marginStart="@dimen/value_4dp"
@@ -1735,7 +1735,7 @@
                     android:orientation="horizontal">
 
                     <LinearLayout
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
@@ -1752,7 +1752,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/value_50dp"
                             android:layout_marginStart="@dimen/value_5dp"
-
                             android:textSize="@dimen/text_16sp"
                             android:onClick="@{()-> callback.onClickSubmit()}"
                             android:background="@color/greenn"

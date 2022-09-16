@@ -148,7 +148,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         viewBinding.storeId = Preferences.getSiteId()
-//    userDesignation = "EXECUTIVE"
+    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {
@@ -260,6 +260,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
                         viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
                         if (pendingList != null && pendingList.size > 0) {
+                            viewBinding.approvedListRecyclerview.visibility = View.GONE
+                            viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
                             viewBinding.noOrdersFound.visibility = View.GONE
                             viewBinding.noOrdersFound.visibility = View.GONE
 
@@ -276,8 +278,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             }
 
 
-                            viewBinding.approvedListRecyclerview.visibility = View.GONE
-                            viewBinding.pendingListRecyclerview.visibility = View.VISIBLE
+
                             pendingListAdapter =
                                 PendingListAdapter(context, pendingList, this, loginData.EMPNAME)
                             viewBinding.pendingListRecyclerview.layoutManager =

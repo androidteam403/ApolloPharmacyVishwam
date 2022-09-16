@@ -149,7 +149,7 @@ class LoginActivity : AppCompatActivity() {
 //
 //        }
         onCheckBuildDetails()
-        loginViewModel.getRole(Preferences.getValidatedEmpId())
+
     }
 
     private fun signIn() {
