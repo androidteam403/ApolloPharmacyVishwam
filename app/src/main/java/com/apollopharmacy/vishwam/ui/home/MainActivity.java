@@ -24,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -35,7 +36,6 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-import com.apollopharmacy.vishwam.ui.home.SwachhApollo.Swachhapollo;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -44,8 +44,14 @@ import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.bill.BillCompletedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
+import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -82,20 +88,24 @@ import java.util.Date;
 
 import kotlin.jvm.internal.Intrinsics;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityCallback {
+    public static MainActivity mInstance;
+    public MainActivityCallback mainActivityCallback;
     public static boolean isSuperAdmin = false;
     public static boolean isAttendanceRequired = false;
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
+    private MainActivityController mainActivityController;
     public static String userDesignation = "";
     private TextView headerText;
+    public Boolean isListScreen = false;
+    public Boolean isUploadScreen = false;
     private LinearLayout gpsLoaderLayout;
     private String previousItem = "";
     private String currentItem = "";
     private TextView textCartItemCount;
     private int mCartItemCount = 16;
-
+    public static boolean siteIdScreen = false;
     private final String TAG = "MainActivity";
     public String locationLatitude = "";
     public String locationLongitude = "";
@@ -110,20 +120,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LocationCallback mLocationCallback = null;
     private Location mCurrentLocation = null;
     private Boolean mRequestingLocationUpdates = false;
-
+    private Toolbar toolbar;
     private DrawerLayout drawer;
+    public String employeeRole;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
+    public ImageView imageView;
     public static Boolean isAtdLogout = false;
     private Context context;
+    public View filterIndicator;
+
+    private boolean isHomeScreen = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
+        mInstance = this;
+        filterIndicator = (View) findViewById(R.id.filter_indication);
+//       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+        imageView = findViewById(R.id.siteIdList);
+        mainActivityController = new MainActivityController(this);
+
+        imageView.setOnClickListener(v -> {
+            if (mainActivityCallback != null) {
+                mainActivityCallback.onClickFilterIcon();
+            }
+        });
+
+
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -144,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listView = findViewById(R.id.expandable_navigation);
 
+
         drawer = findViewById(R.id.drawer_layout);
 //        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
 //                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -151,6 +179,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        toggle.syncState();
 
 
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+//        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         navigationView = findViewById(R.id.nav_view);
         TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
@@ -169,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
+            employeeRole= Preferences.INSTANCE.getEmployeeRole();
+//            userDesignation="EXECUTIVE";
+           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();
@@ -203,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         gpsLoaderLayout = findViewById(R.id.gpsLoaderLayout);
 
-        if(isAttendanceRequired) {
+        if (isAttendanceRequired) {
             initPermission();
             checkExternalPermission();
         }
@@ -211,20 +245,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
+        if (isHomeScreen){
+            finish();
+        }else {
+            displaySelectedScreen("HOME");
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            if (isAtdLogout) {
-                super.onBackPressed();
-            } else {
-                if(currentItem.equalsIgnoreCase("HOME")){
-                    dialogExit();
-                }else {
-                    displaySelectedScreen("HOME");
-                }
-            }
-
         }
+
+
+
+
+//        if (isListScreen || isUploadScreen) {
+//            displaySelectedScreen("HOME");
+//            drawer.closeDrawer(GravityCompat.START);
+//        } else {
+//            if (drawer.isDrawerOpen(GravityCompat.START)) {
+//                drawer.closeDrawer(GravityCompat.START);
+//            } else {
+//                if (isAtdLogout) {
+//                    super.onBackPressed();
+//                } else {
+//                    dialogExit();
+//                }
+//
+//            }
+//        }
+
+
     }
 
     private void displaySelectedScreen(String itemName) {
@@ -239,39 +286,97 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "HOME":
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = true;
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
+                imageView.setVisibility(View.VISIBLE);
+                isHomeScreen = false;
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
                 fragment = new AttendanceFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "History":
                 headerText.setText("History");
                 fragment = new HistoryFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "Approved":
                 headerText.setText("Approved List");
                 fragment = new ApprovedFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
             case "Bill":
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
                 break;
+            case "Swacch Images Upload":
+                headerText.setText("Swacch Images");
+                fragment = new SwacchImagesUploadFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Swacch List":
+                headerText.setText("SWACHH LIST");
+                fragment = new SwacchFragment();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Upload":
+                headerText.setText("SWACHH LIST");
+                fragment = new SampleSwachUi();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
+                isUploadScreen = true;
+                break;
+            case "List":
+                headerText.setText("SWACHH LIST");
+                fragment = new SwachListFragment();
+                imageView.setVisibility(View.VISIBLE);
+                isHomeScreen = false;
+                isListScreen = true;
+                break;
+            case "Drug Request":
+                headerText.setText("New Drug Request");
+                fragment = new Drug();
+                imageView.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+//            case "Select Site":
+//                headerText.setText("Select Site ID");
+//                fragment = new SelectSiteActivityy();
+//                imageView.setVisibility(View.GONE);
+//                break;
 
             case "Logout":
                 dialogExit();
@@ -472,7 +577,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired) {
+
         switch (isAttendanceRequired + "-" + isCMSRequired + "-" + isDiscountRequired) {
+
+
             case "false-false-true":
                 listView.init(this)
                         .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home))
@@ -491,8 +599,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -528,8 +635,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -559,17 +665,46 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Pending"))
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
-                                        .addChildModel(new ChildModel("Bill"))
-                        )
-                        .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
+                                        .addChildModel(new ChildModel("Bill")));
+//                        ).addHeaderModel(
+//                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                                .addChildModel(new ChildModel("Swacch Images Upload"))
+//                                .addChildModel(new ChildModel("Swacch List")));
+//                if ( Designation.equalsIgnoreCase("manager")||userDesignation.equalsIgnoreCase("GeneralManager") || userDesignation.equalsIgnoreCase("executive")||userDesignation.equalsIgnoreCase("ceo") ) {
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
+//                }
+                if (Preferences.INSTANCE.getEmployeeRole().equalsIgnoreCase("store_executive")) {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload")));
+//                          .addChildModel(new ChildModel("List")));
+
+                } else {
+                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+//                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
+//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                            .addChildModel(new ChildModel("List Module")));
+                }
+
+                listView.addHeaderModel(
+                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
+                                .addChildModel(new ChildModel("New Drug Request")));
+
+//                ).addHeaderModel(
+//                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+//                                .addChildModel(new ChildModel("Upload Module"))
+//                                .addChildModel(new ChildModel("List Module"))
+
+
+                listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
                             if (id == 0) {
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -589,7 +724,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
+                            } else if (groupPosition == 4 && childPosition == 0) {
+                                displaySelectedScreen("Drug Request");
+                            } else if (groupPosition == 4 && childPosition == 1) {
+                                displaySelectedScreen("Swacch List");
+                            } else if (groupPosition == 3 && childPosition == 0) {
+                                if (Preferences.INSTANCE.getEmployeeRole().equalsIgnoreCase("store_executive")) {
+                                    displaySelectedScreen("Upload");
+                                } else {
+                                    displaySelectedScreen("List");
+//                                    if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))
+                                }
                             }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                if (userDesignation.equalsIgnoreCase("NODATA")) {
+//                                    displaySelectedScreen("List");
+//                                }
+//                            }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                displaySelectedScreen("List");
+//                            }
                             drawer.closeDrawer(GravityCompat.START);
                             return false;
                         });
@@ -609,7 +763,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }  else if (id == 2) {
+                            } else if (id == 2) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -649,8 +803,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -695,8 +848,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 3) {
+                            } else if (id == 3) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -757,8 +909,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         //Orders Menu
                         Common.showToast(context, "Discount");
                         drawer.closeDrawer(GravityCompat.START);
-                    } */
-                            else if (id == 4) {
+                    } */ else if (id == 5) {
                                 //Logout
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
@@ -799,8 +950,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            }
-                            else if (id == 1) {
+                            } else if (id == 1) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -824,4 +974,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
+
+
+    public void onClickFilterIcon() {
+        Intent i = new Intent(MainActivity.this, SelectSiteActivityy.class);
+        startActivity(i);
+    }
+
+
 }
+
+

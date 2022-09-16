@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="navy">#dceaf4</color>
+    <color name="cement">#EFEFEF</color>
 
     <color name="splash_start_color">#173b5e</color>
     <color name="splash_end_color">#269aba</color>
@@ -50,5 +52,18 @@
     <color name="green">#33cc33</color>
     <color name="material_amber_accent_700">#FFAB00</color>
     <color name="pastel_orange_light">#FBE8DF</color>
+    <color name="light_blue">#ecf6f8</color>
+    <color name="dark_blue">#173b5f</color>
+    <color name="color_ash">#f0f0f0</color>
+    <color name="greenn">#00a651</color>
+    <color name="light_pink">#fde8e9</color>
+    <color name="header_blue">#2582a1</color>
+    <color name="color_red">#ed1c24</color>
+    <color name="light_blue_background">#d8eaef</color>
+    <color name="ashcolor">#c7c7c7</color>
+    <color name="sea_blue">#49c3f3</color>
+    <color name="ash_dark">#b3b3b3</color>
+    <color name="ashh">#a6a6a6</color>
+    <color name="light_ash">#D3D3D3</color>
 
 </resources>

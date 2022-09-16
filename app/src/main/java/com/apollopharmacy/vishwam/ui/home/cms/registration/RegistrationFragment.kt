@@ -39,7 +39,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
+class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
     CustomDialog.AbstractDialogClickListner, CategoryDialog.SubCategoryDialogClickListner,
     SubCategoryDialog.SubSubCategoryDialogClickListner, CalendarDialog.DateSelected,
     ImageClickListner, SiteDialog.AbstractDialogSiteClickListner,
@@ -84,7 +84,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         ArrayList<ReasonmasterV2Response.TicketSubCategory>()
 
     private var reasonsListSelected = ArrayList<ReasonmasterV2Response.Row>()
-    var repo : LoginDetails? = null
+
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -101,55 +101,53 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 //            showLoading()
 //            viewModel.siteId()
 //        } else {
-            if (userData.STOREDETAILS.get(0).IsSelectedStore) {
-                viewBinding.departmentLayout.visibility = View.VISIBLE
-                val storeItem = StoreListItem(
-                    userData.STOREDETAILS.get(0).SITENAME,
-                    userData.STOREDETAILS.get(0).STATEID,
-                    userData.STOREDETAILS.get(0).DCNAME,
-                    userData.STOREDETAILS.get(0).SITEID,
-                    userData.STOREDETAILS.get(0).DC
-                )
-                Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
-                var storedata = StoreData(
-                    userData.STOREDETAILS.get(0).SITEID,
-                    userData.STOREDETAILS.get(0).SITENAME,
-                    userData.STOREDETAILS.get(0).DCNAME,
-                    userData.STOREDETAILS.get(0).STATEID,
-                    userData.STOREDETAILS.get(0).DC
-                )
-                LoginRepo.saveStoreData(storedata)
+        if (userData.STOREDETAILS.get(0).IsSelectedStore) {
+            viewBinding.departmentLayout.visibility = View.VISIBLE
+            val storeItem = StoreListItem(
+                userData.STOREDETAILS.get(0).SITENAME,
+                userData.STOREDETAILS.get(0).STATEID,
+                userData.STOREDETAILS.get(0).DCNAME,
+                userData.STOREDETAILS.get(0).SITEID,
+                userData.STOREDETAILS.get(0).DC
+            )
+            Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
+            var storedata = StoreData(
+                userData.STOREDETAILS.get(0).SITEID,
+                userData.STOREDETAILS.get(0).SITENAME,
+                userData.STOREDETAILS.get(0).DCNAME,
+                userData.STOREDETAILS.get(0).STATEID,
+                userData.STOREDETAILS.get(0).DC
+            )
+            LoginRepo.saveStoreData(storedata)
+
+            showLoading()
+            // viewModel.getDepartment()
+            viewModel.getRemarksMasterList()
+            // viewModel.getListOfPendingAcknowledgement(storeItem)
+            viewModel.getSelectedStoreDetails(storeItem)
+            storeInfo =
+                userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
+            dcInfo =
+                userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
+            viewBinding.siteIdSelect.setText(storeInfo)
+            viewBinding.branchName.setText(dcInfo)
+
+            val c = Calendar.getInstance().time
+            println("Current time => $c")
+            val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            var formattedDate = df.format(c);
+            viewBinding.dateOfProblem.setText(formattedDate)
+            viewBinding.dateOfProblem.isEnabled = false
 
 
-                // viewModel.getListOfPendingAcknowledgement(storeItem)
-                viewModel.getSelectedStoreDetails(storeItem)
-                storeInfo =
-                    userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
-                dcInfo =
-                    userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
-                viewBinding.siteIdSelect.setText(storeInfo)
-                viewBinding.branchName.setText(dcInfo)
-
-                val c = Calendar.getInstance().time
-                println("Current time => $c")
-                val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                var formattedDate = df.format(c);
-                viewBinding.dateOfProblem.setText(formattedDate)
-                viewBinding.dateOfProblem.isEnabled = false
-
-
-                viewBinding.siteIdSelect.setOnClickListener {
-                    Toast.makeText(
-                        context,
-                        context?.resources?.getString(R.string.label_site_change_alert),
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-           }
-
-        showLoading()
-        // viewModel.getDepartment()
-        viewModel.getRemarksMasterList()
+            viewBinding.siteIdSelect.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    context?.resources?.getString(R.string.label_site_change_alert),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 //            else {
 //                if (Preferences.getSiteId().isEmpty()) {
 //                    showLoading()
@@ -274,11 +272,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                   viewModel.getTicketRatingApi()*/
 
 
-                  AcknowledgementDialog().apply {
-                      arguments = AcknowledgementDialog()
-                          .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
-                  }
-                      .show(childFragmentManager, "")
+                AcknowledgementDialog().apply {
+                    arguments = AcknowledgementDialog()
+                        .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
+                }
+                    .show(childFragmentManager, "")
             }
 
         })
@@ -344,7 +342,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
 
-//        viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
+        viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
             SearchArticleCodeDialog().apply { }.show(childFragmentManager, "")
         }
@@ -384,7 +382,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                      )
                      )
                  }
-                 else {
+                 else {connectToAzure
                      statusInventory = "NOTBATCH"
                      viewModel.connectToAzure(fileArrayList, statusInventory!!)
                  }*/
@@ -417,7 +415,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             //RequestNewComplaintRegistration.Site("12067"),
                             RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!,reasonSla!!),
+                            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
                         )
@@ -454,7 +452,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             // RequestNewComplaintRegistration.Site("12067"),
                             RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!,reasonSla!!),
+                            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
                         )
@@ -470,7 +468,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             hideLoading()
 //            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
-            repo?.let { it1 -> LoginRepo.saveProfile(it1,LoginRepo.getPassword()) }
+
             SubmitcomplaintDialog().apply {
                 arguments =
                     SubmitcomplaintDialog().generateParsedData(it)
@@ -532,7 +530,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             // RequestNewComplaintRegistration.Site("12067"),
                             RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!,reasonSla!!),
+                            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
                         )
@@ -574,7 +572,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             // RequestNewComplaintRegistration.Site("12067"),
                             RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!,reasonSla!!),
+                            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
                         )
@@ -622,7 +620,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             //RequestNewComplaintRegistration.Site("12067"),
                             RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!,reasonSla!!),
+                            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
                         )
@@ -645,6 +643,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.ShowSiteInfo -> {
                     hideLoading()
                     SiteDialog().apply {
+
+                        Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                        Preferences.setSiteIdListFetched(true)
                         arguments =
                             SiteDialog().generateParsedData(viewModel.getSiteData())
                     }.show(childFragmentManager, "")
@@ -654,6 +655,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 }
             }
         })
+
+
+
+
+
+
+
+
+
+
+
+
         viewModel.pendingListLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (it.status.equals("true")) {
@@ -924,7 +937,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         LoginRepo.saveStoreData(storedata)
         // viewModel.getListOfPendingAcknowledgement(storeItem)
 
-//        viewModel.getRemarksMasterList()
+        viewModel.getRemarksMasterList()
         viewModel.getSelectedStoreDetails(storeItem)
         storeInfo =
             storeData.SITEID + " - " + storeData.SITENAME
@@ -1316,7 +1329,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             departmentDto.site,
             departmentDto.dc_code?.code
         )
-//        LoginRepo.saveStoreData(storedata)
+        LoginRepo.saveStoreData(storedata)
 
 
     }
@@ -1345,21 +1358,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 showLoading()
             }
             // viewModel.getListOfPendingAcknowledgement(selectedStoreItem)
-//            viewModel.getRemarksMasterList()
+            viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-           val store =  LoginDetails.StoreData(
-               selectedStoreItem.site.toString(),
-               selectedStoreItem.store_name.toString(),
-               selectedStoreItem.dc_code?.name.toString(),
-               selectedStoreItem.site.toString(),
-               selectedStoreItem.dc_code?.code.toString(),
+            val store = LoginDetails.StoreData(
+                selectedStoreItem.site.toString(),
+                selectedStoreItem.store_name.toString(),
+                selectedStoreItem.dc_code?.name.toString(),
+                selectedStoreItem.site.toString(),
+                selectedStoreItem.dc_code?.code.toString(),
                 true)
-            repo = LoginRepo.getProfile()
+            val repo = LoginRepo.getProfile()
             repo?.STOREDETAILS?.clear()
             repo?.STOREDETAILS?.add(store)
             if (repo != null) {
-//                LoginRepo.saveProfile(repo,LoginRepo.getPassword())
+                LoginRepo.saveProfile(repo, LoginRepo.getPassword())
                 Log.e("Saved prif data", Gson().toJson(repo))
                 viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
                 viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)

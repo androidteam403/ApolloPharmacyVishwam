@@ -27,6 +27,25 @@
     <string name="label_cancel">Cancel</string>
     <string name="label_submit">Submit</string>
 
+
+    <string name="err_msg_select_gst">Please Select GST</string>
+    <string name="err_msg_select_site">Please Select Site Id</string>
+    <string name="err_msg_select_cat">Please Select Category</string>
+
+    <string name="err_msg_select_mnfDate">Please Select Date</string>
+    <string name="err_msg_select_expDate">Please Select Date</string>
+    <string name="err_msg_select_nam">Please Enter Item Name</string>
+
+    <string name="err_msg_select_batc">Please Enter Batch Number</string>
+    <string name="err_msg_select_mrp">Please Enter Mrp</string>
+    <string name="err_msg_select_purprice">Please Enter Purchase Price</string>
+
+    <string name="err_msg_select_bar">Please Enter Bar Code</string>
+    <string name="err_msg_select_hsn">Please Enter HSN Code</string>
+
+    <string name="err_msg_select_packsize">Please Enter Pack Size</string>
+
+
     <!--CMS App-->
     <string name="label_complaint_reg">Complaint Registration</string>
     <string name="label_complaint_list">Complaint List</string>
@@ -36,8 +55,9 @@
     <string name="label_select_category">Select Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_remarks">Select Reason  <font color='#FF0000'>*</font></string>
+    <string name="label_select_gst">Select GST  <font color='#FF0000'>*</font></string>
 
-  <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
+    <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
 
     <string name="label_since_problem_raise">Date of Occurrence <font color='#FF0000'>*</font></string>
     <string name="label_problem_with">Problem With  <font color='#FF0000'>*</font></string>
@@ -55,7 +75,7 @@
     <string name="label_enter_mrp">Enter MRP</string>
     <string name="label_enter_purchase_price">Enter Purchase Price</string>
     <string name="label_select_expire_date">Select Expire Date</string>
-  <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
+    <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
     <string name="label_problem_description">Complaint Description  <font color='#FF0000'>*</font></string>
     <!--<string name="label_upload_image">Upload Image For The Following</string>-->
     <string name="label_upload_image">Capture and Upload Image</string>
@@ -96,8 +116,8 @@
     <string name="label_problem_since">Created Date Time: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
-    <string name="label_select_site">Select Site</string>
-    <string name="label_search_site_id">Search Site Id</string>
+    <string name="label_select_site">Select Sites</string>
+    <string name="label_search_site_id">Search Site Id or Site Name</string>
     <string name="label_site_not_available">Site Not Available</string>
     <string name="label_sub_category_list">Sub Category List</string>
     <string name="label_reasonlist_list">Reason List</string>
@@ -163,6 +183,8 @@
     <string name="not_now">Not now</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
     <string-array name="company_list">
@@ -176,7 +198,38 @@
 
     <string name="label_reason_acknowledgement">Reason: </string>
     <string name="label_site_list">Site: </string>
+    <string name="label_store_id_u0020">Store ID: </string>
+    <string name="label_on_u0020">on: </string>
+    <string name="label_by_u0020">by: </string>
+    <string name="label_status_u0020">Status: </string>
+    <string name="label_pending">Pending</string>
+    <string name="label_accepted">Approved</string>
+    <string name="label_rejected">Re-shoot</string>
+    <string name="label_add_comments">Add Comments</string>
+    <string name="label_report">Report</string>
+    <string name="label_total_images">Total Images</string>
+    <string name="label_this_store_review_ncompleted_successfully">This store review\ncompleted successfully</string>
+    <string name="label_the_images_status_will_be_changed">Do you want to cancel this review?</string>
+    <string name="label_alert">Alert!</string>
+    <string name="label_completed_successfully">Completed successfully</string>
+    <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>
     <string name="label_region">Region: </string>
     <string name="label_location">Location: </string>
+    <string name="title_activity_select_site">SelectSiteActivity</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="game_message">You have already selected this siteId</string>
     <string name="label_entity">Entity</string>
+    <string name="label_new">New</string>
+    <string name="label_in_progress">In Progress</string>
+    <string name="label_resolved">Resolved</string>
+    <string name="label_rejectedd">Rejected</string>
+    <string name="label_reopen">Reopen</string>
+    <string name="label_closed">Closed</string>
+    <string name="label_complaint_list_status_filter">Complaint list status filter</string>
+    <string name="label_filters_by_status">Filters by status</string>
+    <string name="label_apply">Apply</string>
 </resources>

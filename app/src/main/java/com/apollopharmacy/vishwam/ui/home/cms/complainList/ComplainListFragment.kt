@@ -1,7 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList
 
-import android.annotation.SuppressLint
+import android.app.Dialog
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
 import android.view.LayoutInflater
@@ -20,31 +21,45 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.LoginDetails
-import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse
+import com.apollopharmacy.vishwam.data.model.cms.RequestComplainList
+import com.apollopharmacy.vishwam.data.model.cms.RequestTicketHistory
+import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.databinding.FragmentComplaintsBinding
-import com.apollopharmacy.vishwam.databinding.ViewComplaintItemBinding
-import com.apollopharmacy.vishwam.databinding.ViewImageShowBinding
-import com.apollopharmacy.vishwam.databinding.ViewOrderStatusBinding
+import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
-import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
-import com.apollopharmacy.vishwam.util.*
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.PhotoPopupWindow
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.getDateDifference
-import com.apollopharmacy.vishwam.util.Utlis.convertCmsDate
+import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import java.util.*
 
-class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
-    ImageClickListener, ComplaintListCalendarDialog.DateSelected {
+class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
+    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback {
 
     var isFromDateSelected: Boolean = false
 
     lateinit var storeData: LoginDetails.StoreData
 
+    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed"
+
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
 
+    override fun onPause() {
+        super.onPause()
+        MainActivity.mInstance.filterIndicator.visibility = View.GONE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setFilterIndication()
+    }
 
     override val layoutRes: Int
         get() = R.layout.fragment_complaints
@@ -54,7 +69,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     lateinit var responseData: ResponseNewTicketlist
     private var isLoading: Boolean = false
     private var isFirstTime: Boolean = true
-    lateinit var layoutManager : LinearLayoutManager
+    lateinit var layoutManager: LinearLayoutManager
     var handler: Handler = Handler()
 
     override fun retrieveViewModel(): ComplainListViewModel {
@@ -63,7 +78,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun setup() {
+        MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
+        setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
@@ -81,6 +98,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
 
 
+
         viewModel.resLiveData.observe(viewLifecycleOwner) {
             Utlis.hideLoading()
             if (viewBinding.pullToRefresh.isRefreshing) {
@@ -93,14 +111,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 responseData = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
-                if (isLoading){
+                if (isLoading) {
                     adapter.getData().removeAt(adapter.getData().size - 1)
                     var listSize = adapter.getData().size
                     adapter.notifyItemRemoved(listSize)
                     adapter.getData().addAll(it.data.listData.rows)
                     adapter.notifyDataSetChanged()
                     isLoading = false
-                }else{
+                } else {
                     adapter = ApproveRecyclerView(it.data.listData.rows, this)
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
@@ -178,32 +196,43 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         addScrollerListener()
     }
 
-    private fun addScrollerListener()
-    {
+    private fun addScrollerListener() {
         //attaches scrollListener with RecyclerView
-        viewBinding.recyclerViewApproved.addOnScrollListener(object : RecyclerView.OnScrollListener()
-        {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int)
-            {
+        viewBinding.recyclerViewApproved.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading && !isFirstTime)
-                {
+                if (!isLoading && !isFirstTime) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.getData().size - 1)
-                    {
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter.getData().size - 1) {
                         loadMore()
                     }
                 }
             }
         })
     }
-    private fun loadMore()
-    {
+
+    fun setFilterIndication() {
+        if (!this.complaintListStatus.contains("new")
+            || !this.complaintListStatus.contains("inprogress")
+            || !this.complaintListStatus.contains("solved")
+            || !this.complaintListStatus.contains("rejected")
+            || !this.complaintListStatus.contains("reopened")
+            || !this.complaintListStatus.contains("closed")
+        ) {
+            MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
+        } else {
+            MainActivity.mInstance.filterIndicator.visibility = View.GONE
+
+        }
+    }
+
+    private fun loadMore() {
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
-            if(responseData.data.listData.total!! > responseData.data.listData.page!!) {
+            if (responseData.data.listData.total!! > responseData.data.listData.page!!) {
                 isLoading = true
                 val newdata = ResponseNewTicketlist.Row(
                     "",
@@ -232,12 +261,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 )
                 adapter.getData().add(newdata)
                 adapter.notifyItemInserted(adapter.getData().size - 1)
-                callAPI(responseData.data.listData.page!!+1)
+                callAPI(responseData.data.listData.page!! + 1)
             }
         })
     }
 
-    fun callAPI(page: Int){
+    fun callAPI(page: Int) {
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
             var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
@@ -255,7 +284,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     toDate,
                     userData.EMPID,
                     page
-                )
+                ), complaintListStatus
             )
 
         } else {
@@ -285,14 +314,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
 
     }
+
     fun openDateDialog() {
         if (isFromDateSelected) {
             ComplaintListCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.fromDateText.text.toString(),false,viewBinding.fromDateText.text.toString())
+                arguments = generateParsedData(viewBinding.fromDateText.text.toString(),
+                    false,
+                    viewBinding.fromDateText.text.toString())
             }.show(childFragmentManager, "")
         } else {
             ComplaintListCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.toDateText.text.toString(),true,viewBinding.fromDateText.text.toString())
+                arguments = generateParsedData(viewBinding.toDateText.text.toString(),
+                    true,
+                    viewBinding.fromDateText.text.toString())
             }.show(childFragmentManager, "")
         }
     }
@@ -302,25 +336,21 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         var orderData: ArrayList<ResponseNewTicketlist.Row>,
         val imageClickListener: ImageClickListener,
 
-        ) :RecyclerView.Adapter<RecyclerView.ViewHolder>()
-         {
+        ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var orderItemsId = ArrayList<String>()
         var tickethistory = ArrayList<NewTicketHistoryResponse.Row>()
 
         //var historyitem : NewTicketHistoryResponse.Row()
         var tickethistoryresponsenew = ArrayList<NewTicketHistoryResponse.Row>()
-        companion object
-        {
+
+        companion object {
             private const val VIEW_TYPE_DATA = 0;
             private const val VIEW_TYPE_PROGRESS = 1;
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder
-        {
-            return when (viewtype)
-            {
-                VIEW_TYPE_DATA ->
-                {//inflates row layout
+        override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
+            return when (viewtype) {
+                VIEW_TYPE_DATA -> {//inflates row layout
                     val binding = DataBindingUtil.inflate<ViewComplaintItemBinding>(
                         LayoutInflater.from(parent.context),
                         R.layout.view_complaint_item,
@@ -329,52 +359,52 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     )
                     DataViewHolder(binding)
                 }
-                VIEW_TYPE_PROGRESS ->
-                {//inflates progressbar layout
-                    val view = LayoutInflater.from(parent.context).inflate(R.layout.progressbar,parent,false)
+                VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+                    val view = LayoutInflater.from(parent.context)
+                        .inflate(R.layout.progressbar, parent, false)
                     ProgressViewHolder(view)
                 }
                 else -> throw IllegalArgumentException("Different View type")
             }
         }
 
-        fun getData () : ArrayList<ResponseNewTicketlist.Row>{
-        return orderData
+        fun getData(): ArrayList<ResponseNewTicketlist.Row> {
+            return orderData
         }
-             fun getItem(position: Int): ResponseNewTicketlist.Row {
-                 return orderData[position]
-             }
 
-             override fun getItemCount(): Int
-             {
-                 return orderData.size
-             }
-             override fun getItemViewType(position: Int): Int
-             {
-                 var viewtype = orderData.get(position)
-                 //if data is load, returns PROGRESSBAR viewtype.
-                 return if(viewtype.uid.isNullOrEmpty()){
-                     VIEW_TYPE_PROGRESS
-                 } else VIEW_TYPE_DATA
+        fun getItem(position: Int): ResponseNewTicketlist.Row {
+            return orderData[position]
+        }
 
-             }
-             override fun onBindViewHolder(holder: RecyclerView.ViewHolder, p1: Int)
-             {
-                 if (holder is DataViewHolder)
-                 {
-                     holder.bind(getItem(p1))
-                 }
-             }
+        override fun getItemCount(): Int {
+            return orderData.size
+        }
 
-             inner class DataViewHolder(private val binding: ViewComplaintItemBinding) : RecyclerView.ViewHolder(binding.root)
-             {
-                 fun bind(items: ResponseNewTicketlist.Row) {
-                     bindItems(binding, items, adapterPosition)
-                 }
-             }
-             inner class ProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+        override fun getItemViewType(position: Int): Int {
+            var viewtype = orderData.get(position)
+            //if data is load, returns PROGRESSBAR viewtype.
+            return if (viewtype.uid.isNullOrEmpty()) {
+                VIEW_TYPE_PROGRESS
+            } else VIEW_TYPE_DATA
 
-         fun bindItems(
+        }
+
+        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, p1: Int) {
+            if (holder is DataViewHolder) {
+                holder.bind(getItem(p1))
+            }
+        }
+
+        inner class DataViewHolder(private val binding: ViewComplaintItemBinding) :
+            RecyclerView.ViewHolder(binding.root) {
+            fun bind(items: ResponseNewTicketlist.Row) {
+                bindItems(binding, items, adapterPosition)
+            }
+        }
+
+        inner class ProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+        fun bindItems(
             binding: ViewComplaintItemBinding,
             items: ResponseNewTicketlist.Row,
             position: Int,
@@ -382,10 +412,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             ) {
             binding.ticketNumber.text = items.ticket_id
             binding.regDate.text = items.created_time?.let {
-                    Utlis.cmsComplaintDateFormat(
-                        it
-                    )
-                }
+                Utlis.cmsComplaintDateFormat(
+                    it
+                )
+            }
 
             lateinit var userData: LoginDetails
             userData = LoginRepo.getProfile()!!
@@ -395,7 +425,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //            if(items.status.code != "new")
 //                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
 //            else
-                binding.staffNameText.text =  items.created_id?.first_name + (if(items.created_id?.middle_name != null)  " "+ items.created_id?.middle_name else "" )+(if(items.created_id?.last_name != null) " "+ items.created_id?.last_name else "")
+            binding.staffNameText.text =
+                items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "")
             binding.departmentName.text = items.department?.name
             binding.problemSinceText.text = items.created_time?.let {
                 Utlis.convertCmsDate(it)
@@ -403,18 +434,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             binding.complainDetails.text =
                 items.description?.trim()?.replace("\\s+".toRegex(), " ")
 
-            if(items.site?.uid== null){
-                binding.siteidLable.text= "Ticket type: "
+            if (items.site?.uid == null) {
+                binding.siteidLable.text = "Ticket type: "
                 binding.siteid.text = "Self"
-                binding.regionLayout.visibility =View.VISIBLE
+                binding.regionLayout.visibility = View.VISIBLE
                 binding.locationLayout.visibility = View.VISIBLE
                 binding.region.text = items.region?.name
                 binding.location.text = items.location?.name
-            }else {
+            } else {
                 binding.siteid.text = items.site?.site + "-" + items.site?.store_name
             }
 //            binding.siteName.text = items.site.store_name
-
 
 
             binding.pendingLayout.setOnClickListener {
@@ -541,8 +571,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.createdPerson.text = remarks.description
-                         if(!remarks.workflow_comment.isNullOrEmpty()){
-                             remarkBinding.createdCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.createdCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.createdCommentTxt.visibility = View.GONE
                         remarkBinding.createdDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -562,8 +592,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.processPerson.text = remarks.description
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.processCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.processCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.processCommentTxt.visibility = View.GONE
                         remarkBinding.processDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -592,8 +622,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.closedPerson.text = remarks.description
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.closedCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.closedCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.closedCommentTxt.visibility = View.GONE
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -622,8 +652,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.closedPerson.text = remarks.description
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.closedCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.closedCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.closedCommentTxt.visibility = View.GONE
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -650,10 +680,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.reopenedForProcessLayout.visibility = View.GONE
                         remarkBinding.reOpenLayout.visibility = View.GONE
                         remarkBinding.acceptLayout.visibility = View.GONE
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.closedCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.closedCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.closedCommentTxt.visibility = View.GONE
-                        remarkBinding.closedPerson.text = remarks.description //+" ("+remarks.created_id.role?.name +" "+ remarks.created_id.role?.name+")"
+                        remarkBinding.closedPerson.text =
+                            remarks.description //+" ("+remarks.created_id.role?.name +" "+ remarks.created_id.role?.name+")"
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
                         }
@@ -683,8 +714,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.closedPerson.text = remarks.description
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.closedCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.closedCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.closedCommentTxt.visibility = View.GONE
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -715,8 +746,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         remarkBinding.acceptLayout.visibility = View.GONE
 
                         remarkBinding.closedPerson.text = remarks.description
-                        if(!remarks.workflow_comment.isNullOrEmpty()){
-                            remarkBinding.closedCommentTxt.text =  remarks.workflow_comment
+                        if (!remarks.workflow_comment.isNullOrEmpty()) {
+                            remarkBinding.closedCommentTxt.text = remarks.workflow_comment
                         } else remarkBinding.closedCommentTxt.visibility = View.GONE
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
@@ -1050,7 +1081,169 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             viewBinding.toDateText.setText(showingDate)
         }
     }
+
+    override fun selectedDatefrom(dateSelected: String, showingDate: String) {
+    }
+
+    override fun onClickFilterIcon() {
+        val complaintListStatusFilterDialog = context?.let { Dialog(it) }
+        val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false)
+        complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding.root)
+        complaintListStatusFilterDialog.getWindow()
+            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
+            complaintListStatusFilterDialog.dismiss()
+        }
+        if (this.complaintListStatus.contains("new")) {
+            dialogComplaintListFilterBinding.isNewChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isNewChecked = false
+        }
+        if (this.complaintListStatus.contains("inprogress")) {
+            dialogComplaintListFilterBinding.isInProgressChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isInProgressChecked = false
+        }
+        if (this.complaintListStatus.contains("solved")) {
+            dialogComplaintListFilterBinding.isResolvedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isResolvedChecked = false
+        }
+        if (this.complaintListStatus.contains("rejected")) {
+            dialogComplaintListFilterBinding.isRejectedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isRejectedChecked = false
+        }
+        if (this.complaintListStatus.contains("reopened")) {
+            dialogComplaintListFilterBinding.isReopenChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isReopenChecked = false
+        }
+        if (this.complaintListStatus.contains("closed")) {
+            dialogComplaintListFilterBinding.isClosedChecked = true
+        } else {
+            dialogComplaintListFilterBinding.isClosedChecked = false
+        }
+
+
+        submitButtonEnable(dialogComplaintListFilterBinding)
+
+
+        dialogComplaintListFilterBinding.newStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.inProgressStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.resolvedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.rejectedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.reopenStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+
+//        var complaintListStatusTemp = this.complaintListStatus
+//        dialogComplaintListFilterBinding.status = complaintListStatusTemp
+
+//        dialogComplaintListFilterBinding.statusRadioGroup.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+//            if (i == R.id.new_status) {
+//                complaintListStatusTemp = "new"
+//            } else if (i == R.id.in_progress_status) {
+//                complaintListStatusTemp = "inprogress"
+//            } else if (i == R.id.resolved_status) {
+//                complaintListStatusTemp = "solved"
+//            } else if (i == R.id.reopen_status) {
+//                complaintListStatusTemp = "reopened"
+//            } else if (i == R.id.closed_status) {
+//                complaintListStatusTemp = "closed"
+//            }
+//        }
+
+
+        dialogComplaintListFilterBinding.submit.setOnClickListener {
+//            this.complaintListStatus = complaintListStatusTemp
+            this.complaintListStatus = ""
+            if (dialogComplaintListFilterBinding.newStatus.isChecked) {
+                this.complaintListStatus = "new"
+            }
+            if (dialogComplaintListFilterBinding.inProgressStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "inprogress"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},inprogress"
+                }
+            }
+            if (dialogComplaintListFilterBinding.resolvedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "solved"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},solved"
+                }
+            }
+            if (dialogComplaintListFilterBinding.rejectedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "rejected"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},rejected"
+                }
+            }
+            if (dialogComplaintListFilterBinding.reopenStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "reopened"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},reopened"
+                }
+            }
+            if (dialogComplaintListFilterBinding.closedStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "closed"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},closed"
+                }
+            }
+
+
+            if (complaintListStatusFilterDialog != null && complaintListStatusFilterDialog.isShowing) {
+                complaintListStatusFilterDialog.dismiss()
+                callAPI(1)
+
+
+            }
+            setFilterIndication()
+        }
+        complaintListStatusFilterDialog.show()
+    }
 }
+
+fun setFilterIndication() {
+
+}
+
+fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
+    if (!dialogComplaintListFilterBinding.newStatus.isChecked
+        && !dialogComplaintListFilterBinding.inProgressStatus.isChecked
+        && !dialogComplaintListFilterBinding.resolvedStatus.isChecked
+        && !dialogComplaintListFilterBinding.rejectedStatus.isChecked
+        && !dialogComplaintListFilterBinding.reopenStatus.isChecked
+        && !dialogComplaintListFilterBinding.closedStatus.isChecked
+    ) {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+        dialogComplaintListFilterBinding.isSubmitEnable = false
+    } else {
+        dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+        dialogComplaintListFilterBinding.isSubmitEnable = true
+    }
+}
+
 
 interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)

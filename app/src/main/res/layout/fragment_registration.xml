@@ -194,15 +194,18 @@
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
+                    android:editable="false"
+                    android:clickable="false"
                     android:textColorHint="@color/black">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/dateOfProblem"
+                        android:editable="false"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
-                        android:clickable="true"
+                        android:clickable="false"
                         android:drawableEnd="@drawable/ic_baseline_date_range_24"
-                        android:focusable="false"
+                        android:enabled="false"
                         android:hint="@string/label_since_problem_raise"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"

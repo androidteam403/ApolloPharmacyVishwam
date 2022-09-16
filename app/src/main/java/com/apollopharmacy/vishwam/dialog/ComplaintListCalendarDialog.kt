@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.dialog
 
 import android.os.Bundle
+import android.provider.ContactsContract.ProfileSyncState.set
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DialogDatePickerBinding
 import com.apollopharmacy.vishwam.util.Utils
+import java.lang.reflect.Array.set
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -18,6 +20,8 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
     interface DateSelected {
         fun selectedDateTo(dateSelected: String, showingDate: String)
+        fun selectedDatefrom(dateSelected: String, showingDate: String)
+
     }
 
     private lateinit var dateSelectedListner: DateSelected
@@ -84,9 +88,10 @@ class ComplaintListCalendarDialog : DialogFragment() {
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
         dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
         if(arguments?.getBoolean(KEY_IS_TO) == true){
-            val date = SimpleDateFormat("dd-MMM-yyyy").parse(arguments?.getString(KEY_FROM_DATE))
+            val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
             dataPickerBinding.datePicker.minDate =date.time
         }
+
 
         dataPickerBinding.ok.setOnClickListener {
             val _year = dataPickerBinding.datePicker.year
