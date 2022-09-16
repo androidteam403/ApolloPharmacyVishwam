@@ -61,6 +61,7 @@ class LoginActivity : AppCompatActivity() {
         loginBinding.loginButton.setOnClickListener {
             signIn()
         }
+
         loginViewModel.commands.observeForever({ command ->
             hideLoading()
             when (command) {
@@ -148,6 +149,7 @@ class LoginActivity : AppCompatActivity() {
 //
 //        }
         onCheckBuildDetails()
+        loginViewModel.getRole(Preferences.getValidatedEmpId())
     }
 
     private fun signIn() {

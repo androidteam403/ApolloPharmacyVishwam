@@ -236,11 +236,11 @@ interface ViswamAppApi {
         @Query("ticket_uid") ticketuid: String,
     ): ResponseNewTicketlist.NewTicketHistoryResponse
 
-    /* @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?")
-    suspend fun getresolvedticketstatus(
-        @Query("site%5Bsite%5D") site: String?,
-        @Query("department%5Buid%5D") department:String?,
-        ): ResponseTicktResolvedapi*/
+// @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?")
+//    suspend fun getresolvedticketstatus(
+//        @Query("site%5Bsite%5D") site: String?,
+//        @Query("department%5Buid%5D") department:String?,
+//        ): ResponseTicktResolvedapi
 
     @GET
     suspend fun getresolvedticketstatus(

@@ -216,7 +216,7 @@
                     android:layout_marginTop="@dimen/text_10sp"
                     android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/value_60dp" />
 
 
