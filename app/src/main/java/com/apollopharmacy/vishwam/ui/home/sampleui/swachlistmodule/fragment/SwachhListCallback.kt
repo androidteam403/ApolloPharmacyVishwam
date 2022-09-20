@@ -10,5 +10,5 @@ interface SwachhListCallback {
     fun onClickApproved()
     fun onClickPending()
     fun onClickCrossButton(get: String, position: Int)
-    fun onClickReview(swachhid: String?)
+    fun onClickReview(swachhid: String?, storeId: String?)
 }

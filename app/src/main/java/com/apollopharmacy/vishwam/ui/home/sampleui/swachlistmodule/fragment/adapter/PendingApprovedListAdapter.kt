@@ -86,7 +86,7 @@ class PendingApprovedListAdapter(
 
         holder.pendingApprovedListBinding.reviewButton
             .setOnClickListener {
-                mCallback.onClickReview( pendingApprovedList.get(position).swachhid)
+                mCallback.onClickReview( pendingApprovedList.get(position).swachhid, pendingApprovedList.get(position).storeId)
             }
 
     }

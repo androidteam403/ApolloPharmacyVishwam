@@ -86,9 +86,9 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         approveListViewModel.ratingBarResponse.observeForever {
             Utlis.hideLoading()
             if (it.message == "success") {
-              Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
+//              Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
             }else{
-                Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
             }
 
         }
@@ -130,7 +130,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 true -> {
                     when (saveAcceptAndReshootResponse.status == true) {
                         true -> {
-                            Toast.makeText(this, "Status has been updated", Toast.LENGTH_SHORT)
+                            onClickSubmitRatingButton()
+                            Toast.makeText(this, "Review has been completed", Toast.LENGTH_SHORT)
                                 .show()
                             onBackPressed()
                         }
@@ -246,8 +247,9 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
     override fun onClickSubmit() {
         val saveAcceptAndReshootRequest = SaveAcceptAndReshootRequest()
+        saveAcceptAndReshootRequest.type=""
         saveAcceptAndReshootRequest.swachhid = pendingAndApproved!!.swachhid
-        saveAcceptAndReshootRequest.storeid = Preferences.getSiteId()
+        saveAcceptAndReshootRequest.storeid = pendingAndApproved!!.storeId
         saveAcceptAndReshootRequest.statusid = overallStatus
        saveAcceptAndReshootRequest.reamrks = ""
         saveAcceptAndReshootRequest.rating = ""
@@ -328,7 +330,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 var submitRating = RatingModelRequest()
                 submitRating.type = "REMARKS"
                 submitRating.swachhid = pendingAndApproved?.swachhid
-                submitRating.storeid = Preferences.getSiteId()
+                submitRating.storeid = pendingAndApproved?.storeId
                 submitRating.statusid = "1"
                 submitRating.reamrks = comments.getText().toString()
                 submitRating.rating = ratingforsubmit.toString()

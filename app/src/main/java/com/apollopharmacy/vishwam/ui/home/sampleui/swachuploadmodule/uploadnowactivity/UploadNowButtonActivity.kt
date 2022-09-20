@@ -103,7 +103,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         viewModel.uploadSwachModel.observeForever {
             hideLoading()
             if (it != null && it.status == true) {
-                Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
+               Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
                 onBackPressed()
                 Preferences.setUploadedDateDayWise(currentDate)
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {

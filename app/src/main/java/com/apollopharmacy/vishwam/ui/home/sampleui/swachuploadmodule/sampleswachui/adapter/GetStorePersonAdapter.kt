@@ -30,7 +30,7 @@ class GetStorePersonAdapter(
             partiallyApprovedDate: String?
         )
 
-        fun onClickReview(swachhid: String?)
+        fun onClickReview(swachhid: String?, storeId: String?)
     }
 
 
@@ -164,16 +164,16 @@ class GetStorePersonAdapter(
 
 
         holder.reviewLayoutAccepted.setOnClickListener {
-            callBackInterface.onClickReview( getStorePerson?.swachhid)
+            callBackInterface.onClickReview( getStorePerson?.swachhid,  getStorePerson?.storeId )
         }
         holder.reviewLayoutPending.setOnClickListener {
-            callBackInterface.onClickReview( getStorePerson?.swachhid)
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
         }
         holder.reviewLayoutReshoot.setOnClickListener {
-            callBackInterface.onClickReview( getStorePerson?.swachhid)
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
         }
         holder.reviewLayoutPartial.setOnClickListener {
-            callBackInterface.onClickReview( getStorePerson?.swachhid)
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
         }
 
 

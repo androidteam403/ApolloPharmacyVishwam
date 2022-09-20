@@ -35,11 +35,12 @@ class RatingReviewActivity : AppCompatActivity() {
         )
         viewModel = ViewModelProvider(this)[RatingReviewViewModel::class.java]
         val swachId = intent.getStringExtra("swachhid")
+        val storeId = intent.getStringExtra("storeId")
         ratingReviewBinding.swachId.text= swachId
 
 
         var submit = GetImageUrlModelRequest()
-        submit.storeid =  Preferences.getSiteId()
+        submit.storeid =  storeId
         submit.swachhId = swachId
        Utlis.showLoading(this)
 

@@ -72,6 +72,15 @@ class ValidatePinActivity : AppCompatActivity() {
             }
         })
 
+//        viewModel.employeeDetails.observeForever {
+//            if(it.data?.uploadSwach?.uid!=null){
+//                Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+//            }else{
+//                Preferences.setEmployeeRoleUid("")
+//            }
+//
+//        }
+
 
     }
 
@@ -82,11 +91,15 @@ class ValidatePinActivity : AppCompatActivity() {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
                 viewModel.getRole(Preferences.getValidatedEmpId())
                 viewModel.employeeDetails.observeForever {
-                    if(it.data?.uploadSwach?.uid!=null){
-                        Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                    }else{
-                        Preferences.setEmployeeRoleUid("")
-                    }
+                  if (it.data != null && it.data?.uploadSwach!=null){
+                      if(it.data?.uploadSwach?.uid!=null){
+                          Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+                      }else{
+                          Preferences.setEmployeeRoleUid("")
+                      }
+                  }else{
+                      Preferences.setEmployeeRoleUid("")
+                  }
 
                     if (dialogStatus) {
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
@@ -98,7 +111,21 @@ class ValidatePinActivity : AppCompatActivity() {
                         handleNextIntent()
 
                     }
+
                 }
+
+
+
+//                if (dialogStatus) {
+////                    viewModel.getRole(Preferences.getValidatedEmpId())
+//                    handleCreatePinIntent()
+//
+////                    handlePlayStoreIntent()
+//                } else {
+////                    viewModel.getRole(Preferences.getValidatedEmpId())
+//                    handleNextIntent()
+//
+//                }
 
             } else {
                 Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)

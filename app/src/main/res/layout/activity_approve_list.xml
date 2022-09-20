@@ -117,7 +117,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Store ID"
-                                            android:textColor="@color/grey"
+                                            android:textColor="@color/dark_grey"
                                             android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />
 
@@ -157,8 +157,9 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="Uploaded"
-                                            android:textColor="@color/grey"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textColor="@color/dark_grey"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -188,7 +189,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
-                                android:layout_weight="0.65"
+                                android:layout_weight="0.7"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -216,8 +217,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_pending"
-                                            android:textColor="@color/grey"
-                                            android:textSize="@dimen/text_15sp"
+                                            android:textColor="@color/dark_grey"
+                                            android:textSize="@dimen/text_14sp"
                                             android:textStyle="bold" />
 
                                         <TextView
@@ -226,7 +227,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@{pendingCount}"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/twenty_three23_sp"
+                                            android:textSize="21sp"
                                             android:textStyle="bold" />
 
 
@@ -242,8 +243,8 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_accepted"
-                                            android:textColor="@color/grey"
-                                            android:textSize="@dimen/text_15sp"
+                                            android:textColor="@color/dark_grey"
+                                            android:textSize="@dimen/text_14sp"
                                             android:textStyle="bold" />
 
                                         <TextView
@@ -251,7 +252,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@{acceptedCount}"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/twenty_three23_sp"
+                                            android:textSize="21sp"
                                             android:textStyle="bold" />
 
 
@@ -267,8 +268,9 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="@string/label_rejected"
-                                            android:textColor="@color/grey"
-                                            android:textSize="@dimen/text_15sp"
+                                            android:textColor="@color/dark_grey"
+
+                                            android:textSize="@dimen/text_14sp"
                                             android:textStyle="bold" />
 
                                         <TextView
@@ -276,7 +278,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="@{reShootCount}"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/twenty_three23_sp"
+                                            android:textSize="21sp"
                                             android:textStyle="bold" />
 
 
@@ -290,7 +292,7 @@
 
                             <LinearLayout
                                 android:layout_marginTop="@dimen/value_6dp"
-                                android:layout_weight="0.35"
+                                android:layout_weight="0.3"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
@@ -331,12 +333,12 @@
                                         <ImageView
                                             android:layout_marginStart="@dimen/four_4sp"
                                             android:layout_gravity="center"
-                                            android:layout_width="@dimen/text_20sp"
-                                            android:layout_height="@dimen/text_20sp"
+                                            android:layout_width="@dimen/text_18sp"
+                                            android:layout_height="@dimen/text_18sp"
                                             android:src="@drawable/whitee_icon"/>
 
                                         <TextView
-                                            android:layout_width="@dimen/value_80dp"
+                                            android:layout_width="@dimen/value_75dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/four_4sp"
                                             android:layout_marginBottom="@dimen/five5_sp"
