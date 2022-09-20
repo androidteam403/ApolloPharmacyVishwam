@@ -52,6 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Comments: "
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -88,6 +89,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Rating: "
+                                android:textColor="@color/heading_blue"
                                 android:textSize="@dimen/text_12sp" />
 
 
@@ -143,6 +145,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Approved By: "
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -171,7 +174,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approved Date:"
+                            android:text="Approved Date: "
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView

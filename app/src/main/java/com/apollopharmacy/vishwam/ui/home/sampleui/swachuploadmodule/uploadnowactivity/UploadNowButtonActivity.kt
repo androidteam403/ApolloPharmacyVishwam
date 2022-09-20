@@ -36,10 +36,11 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowac
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -101,16 +102,18 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
         viewModel.uploadSwachModel.observeForever {
-            hideLoading()
             if (it != null && it.status == true) {
+                hideLoading()
                Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
                 onBackPressed()
                 Preferences.setUploadedDateDayWise(currentDate)
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
+                hideLoading()
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
                 Preferences.setUploadedDateDayWise(currentDate)
                 onBackPressed()
             } else {
+                hideLoading()
                 Toast.makeText(context, "Please try again!!", Toast.LENGTH_SHORT).show()
             }
         }
@@ -148,33 +151,42 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             }
             Utlis.hideLoading()
         }
-
+        var count:Int=0
         viewModel.commandsNewSwach.observeForever({
             configListAdapter?.notifyDataSetChanged()
             Utlis.hideLoading()
             when (it) {
                 is CommandsNewSwachImp.ImageIsUploadedInAzur -> {
-                    for (i in swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto!!.indices) {
-                        if (swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.get(
-                                i
-                            )?.positionLoop?.equals(it.filePath.positionLoop)!!
-                        ) {
-                            val imageDtcl = SwachModelResponse.Config.ImgeDtcl(
-                                it.filePath.file,
-                                it.filePath.integerButtonCount,
-                                it.filePath.base64Images,
-                                it.filePath.positionLoop
-                            )
-                            swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.set(
-                                i,
-                                imageDtcl
-                            )
+
+                    uploadApi()
+//                    System.out.println(swac"test")
+//                    for (i in swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto!!.indices) {
+//                        for(i in it.filePath.indices){
+//                            if (swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.get(
+//                                    i
+//                                )?.positionLoop?.equals(it.filePath.get(i).positionLoop)!!
+//                            ) {
+//                                val imageDtcl = SwachModelResponse.Config.ImgeDtcl(
+//                                    it.filePath.get(i).file,
+//                                    it.filePath.get(i).integerButtonCount,
+//                                    it.filePath.get(i).base64Images,
+//                                    it.filePath.get(i).positionLoop
+//                                )
+//                                swacchApolloList.get(0).configlist!!.get(configPosition).imageDataDto?.set(
+//                                    i,
+//                                    imageDtcl
+//                                )
+//
+//
+//                                break
+//                            }
+//                        }
+//
+//
+//                    }
+//
 
 
-                            break
-                        }
-
-                    }
 
 
                 }
@@ -184,6 +196,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
         activityUploadNowButtonBinding.uploadnowbutton.setOnClickListener {
+            showLoading(this)
             updateButtonValidation()
 
         }
@@ -220,6 +233,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     private fun uploadApi() {
 
         if (NetworkUtil.isNetworkConnected(context)) {
+            Utlis.showLoading(this)
             var submit = OnUploadSwachModelRequest()
             submit.actionEvent = "SUBMIT"
             submit.storeid = Preferences.getSiteId()
@@ -428,7 +442,18 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 //            var capture: File? = null
+    imageFromCameraFile?.length()
+            val resizedImage = Resizer(this)
+                .setTargetLength(1080)
+                .setQuality(100)
+                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                .setOutputDirPath(
+                    ViswamApp.Companion.context.cacheDir.toString()
+                )
 
+                .setSourceImage(imageFromCameraFile)
+                .resizedFile
 
 //            val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
 
@@ -486,10 +511,10 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //            val fileSizeInMB = fileSizeInKB / 1024
 
-    if(imageFromCameraFile!=null){
+    if(resizedImage!=null){
         swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
             uploadPosition
-        )?.file = imageFromCameraFile// resizedImage
+        )?.file = resizedImage// resizedImage
     }
 
 //
@@ -505,16 +530,18 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 uploadedImageCount.toString() + "/" + overallImageCount
             checkAllImagesUploaded()
 
+//            Utlis.showLoading(this)
+//            viewModel.connectToAzure(
+//                swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+//                    uploadPosition
+//                )
+//            )
+            configListAdapter?.notifyDataSetChanged()
+
 
         }
 
-        Utlis.showLoading(this)
-        viewModel.connectToAzure(
-            swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-                uploadPosition
-            )
-        )
-        configListAdapter?.notifyDataSetChanged()
+
     }
 
 
@@ -557,15 +584,13 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             activityUploadNowButtonBinding.uploadnowbutton.setBackgroundColor(Color.parseColor("#00a651"));
 //            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
 
-            for (i in swacchApolloList.get(0).configlist?.indices!!) {
-                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.indices!!) {
-                    viewModel.connectToAzure(
-                        swacchApolloList.get(0).configlist?.get(i)?.imageDataDto?.get(j)
-                    )
-                }
-            }
+//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+                viewModel.connectToAzure(
+                    swacchApolloList)
 
-            uploadApi()
+//            }
+
+
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()

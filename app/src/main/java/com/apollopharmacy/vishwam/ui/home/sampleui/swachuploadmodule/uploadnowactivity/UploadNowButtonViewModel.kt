@@ -11,13 +11,9 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.CommandsNew
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelResponse
-import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -74,11 +70,11 @@ class UploadNowButtonViewModel : ViewModel() {
         }
     }
 
-    fun connectToAzure(image: SwachModelResponse.Config.ImgeDtcl?) {
+    fun connectToAzure(swachhModelResponseList: ArrayList<SwachModelResponse>) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
             val response =
-                ConnectionAzureSwacch.connectToAzur(image,
+                ConnectionAzureSwacch.connectToAzurList(swachhModelResponseList!!,
                     Config.CONTAINER_NAME,
                     Config.STORAGE_CONNECTION_FOR_CCR_APP
                 )
@@ -161,6 +157,6 @@ class UploadNowButtonViewModel : ViewModel() {
 
 sealed class CommandsNewSwachImp {
     data class ShowToast(val message: String?) : CommandsNewSwachImp()
-    data class ImageIsUploadedInAzur(val filePath: SwachModelResponse.Config.ImgeDtcl) :
+    data class ImageIsUploadedInAzur(val filePath: ArrayList<SwachModelResponse>) :
         CommandsNewSwachImp()
 }

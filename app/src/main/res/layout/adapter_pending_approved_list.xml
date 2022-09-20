@@ -52,7 +52,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Swachh ID: "
-                                android:textColor="@color/dark_grey"
+                                android:textColor="@color/heading_blue"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
@@ -82,7 +82,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Store Id: "
-                                android:textColor="@color/dark_grey"
+                                android:textColor="@color/heading_blue"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
@@ -109,7 +109,7 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/dark_grey"
+                                android:textColor="@color/heading_blue"
                                 android:text="Created Date: " />
 
                             <TextView
@@ -136,7 +136,7 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/dark_grey"
+                                android:textColor="@color/heading_blue"
                                 android:text="Created By: " />
 
                             <TextView
@@ -197,7 +197,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Status: "
-                            android:textColor="@color/dark_grey"
+                            android:textColor="@color/black"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp" />
 
@@ -205,6 +205,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@{model.status}"
+                            android:textStyle="bold"
                             android:textAlignment="center"
                             android:textColor="@{model.status.equals(`PENDING`) ? @color/material_amber_accent_700 : model.status.equals(`APPROVED`) ? @color/greenn : model.status.equals(`RESHOOT`) ? @color/color_red : model.status.equals(`PARTIALLY APPROVED`) ? @color/color_red : @color/black}"
                             android:textSize="@dimen/text_12sp" />
@@ -212,7 +213,7 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_7dp"
+
                             android:gravity="end"
                             android:textAlignment="viewEnd">
 
@@ -227,7 +228,7 @@
 
                             <TextView
                                 android:id="@+id/reviewButton"
-                                android:layout_width="@dimen/value_60dp"
+                                android:layout_width="@dimen/value_80dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end"
                                 android:background="@drawable/seablue_roundedcorners"
@@ -235,7 +236,7 @@
                                 android:text="Review"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
-                                android:textSize="@dimen/text_12sp"
+                                android:textSize="@dimen/text_13sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
                     </LinearLayout>
