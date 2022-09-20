@@ -38,6 +38,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
     private lateinit var dialog: Dialog
     var isApprovedAdapter:Boolean?=null
     var view: View? = null
+    var isAllapproved:Boolean?=false
     val APPROVE_LIST_ACTIVITY = 101
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +62,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
 
         if(isApprovedAdapter!!){
             activityApproveListBinding.startReviewButton.visibility = View.GONE
-            activityApproveListBinding.startReviewButtonGrey.visibility = View.VISIBLE
+            activityApproveListBinding.submitRatingButton.visibility = View.VISIBLE
+            activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
         }
 
 
@@ -86,6 +88,9 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         approveListViewModel.ratingBarResponse.observeForever {
             Utlis.hideLoading()
             if (it.message == "success") {
+                Toast.makeText(this, "Review has been completed", Toast.LENGTH_SHORT)
+                    .show()
+                onBackPressed()
 //              Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
             }else{
 //                Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
@@ -115,7 +120,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                         activityApproveListBinding.reshootButton.visibility = View.GONE
                         activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
                         activityApproveListBinding.submitRatingButton.visibility=View.GONE
-                        activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
+                        activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
                     }
                 }
             }
@@ -130,12 +135,65 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 true -> {
                     when (saveAcceptAndReshootResponse.status == true) {
                         true -> {
-                            onClickSubmitRatingButton()
-                            Toast.makeText(this, "Review has been completed", Toast.LENGTH_SHORT)
-                                .show()
-                            onBackPressed()
+
+                           if(isAllapproved!!){
+
+
+                            dialog = Dialog(this)
+                            dialog.setContentView(R.layout.rating_review_dialog)
+                            val comments = dialog.findViewById<EditText>(R.id.comment)
+                            val submitButton = dialog.findViewById<LinearLayout>(R.id.submitforreview)
+                            val closeButton = dialog.findViewById<ImageView>(R.id.close_dialogRating)
+                            ratingbar =  dialog.findViewById<RatingBar>(R.id.ratingBarDialog)
+
+
+                            closeButton.setOnClickListener {
+                                dialog.dismiss()
+                            }
+                            ratingforsubmit="4"
+                            ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+
+                                ratingforsubmit = rating.toString().substring(0, 1)
+
+//          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
+                            }
+
+                            submitButton.setOnClickListener {
+                                if( comments.getText().toString()!=null &&  comments.getText().toString()!=""){
+                                    var submitRating = RatingModelRequest()
+                                    submitRating.type = "REMARKS"
+                                    submitRating.swachhid = pendingAndApproved?.swachhid
+                                    submitRating.storeid = pendingAndApproved?.storeId
+                                    submitRating.statusid = "1"
+                                    submitRating.reamrks = comments.getText().toString()
+                                    submitRating.rating = ratingforsubmit.toString()
+                                    submitRating.userid = Preferences.getValidatedEmpId()
+                                    Utlis.showLoading(this)
+                                    approveListViewModel.submitRatingBar(submitRating)
+                                    dialog.dismiss()
+                                    if(isApprovedAdapter!!){
+                                        super.onBackPressed()
+                                    }else{
+                                        dialog.dismiss()
+                                    }
+                                }else{
+                                    Toast.makeText(applicationContext, "Please enter comments", Toast.LENGTH_SHORT).show()
+                                }
+
+                            }
+
+
+                            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                            dialog.show()
+
+                        }else{
+                               Toast.makeText(this, "Review has been completed", Toast.LENGTH_SHORT)
+                                   .show()
+                               onBackPressed()
+                           }
                         }
                     }
+
                 }
             }
         }
@@ -190,29 +248,41 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         if (isPending) {
             activityApproveListBinding.status = "0"
             overallStatus = "0"
-            activityApproveListBinding.submitRatingButton.visibility=View.GONE
-            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
-//            activityApproveListBinding.reshootButton.visibility = View.GONE
-//            activityApproveListBinding.buttonForPending.visibility = View.VISIBLE
+            if(isApprovedAdapter!!){
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                activityApproveListBinding.viewformarginBottom.visibility=View.GONE
+            }
 
         } else if (isAccepted) {
             activityApproveListBinding.status = "1"
             overallStatus = "1"
-            activityApproveListBinding.submitRatingButtonGrey.visibility=View.GONE
-            activityApproveListBinding.submitRatingButton.visibility=View.VISIBLE
-
+            isAllapproved =true
+            if(isApprovedAdapter!!){
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.submitRatingButton.visibility=View.VISIBLE
+                activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
+            }
 
         } else if (isReShoot) {
             activityApproveListBinding.status = "2"
             overallStatus = "2"
-            activityApproveListBinding.submitRatingButton.visibility=View.GONE
-            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
+
+            if(isApprovedAdapter!!){
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                activityApproveListBinding.viewformarginBottom.visibility=View.GONE
+            }
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else {
             activityApproveListBinding.status = "3"
             overallStatus = "3"
-            activityApproveListBinding.submitRatingButton.visibility=View.GONE
-            activityApproveListBinding.submitRatingButtonGrey.visibility=View.VISIBLE
+            if(isApprovedAdapter!!){
+                activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                activityApproveListBinding.viewformarginBottom.visibility=View.GONE
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+            }
+
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         }
     }
@@ -411,6 +481,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 }else{
                     activityApproveListBinding.reshootButton.visibility = View.GONE
                     activityApproveListBinding.startReviewButton.visibility = View.VISIBLE
+                    activityApproveListBinding.viewformarginBottom.visibility=View.VISIBLE
 
                 }
 

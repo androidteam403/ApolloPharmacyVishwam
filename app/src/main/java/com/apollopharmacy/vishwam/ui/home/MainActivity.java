@@ -672,7 +672,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
-                if (Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
+                if (employeeRole.equalsIgnoreCase("Yes")) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
 //                          .addChildModel(new ChildModel("List")));
@@ -727,7 +727,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 4 && childPosition == 1) {
                                 displaySelectedScreen("Swachh List");
                             } else if (groupPosition == 3 && childPosition == 0) {
-                                if (Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
+                                if (employeeRole.equalsIgnoreCase("Yes")) {
                                     displaySelectedScreen("Upload");
                                 } else {
                                     displaySelectedScreen("List");

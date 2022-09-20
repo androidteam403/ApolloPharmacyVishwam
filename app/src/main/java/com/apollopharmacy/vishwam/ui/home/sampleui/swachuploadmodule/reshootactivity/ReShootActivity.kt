@@ -251,7 +251,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         viewModel.uploadSwachModelRes.observeForever {
             if (it != null) {
-                Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
                onBackPressed()
             }
 

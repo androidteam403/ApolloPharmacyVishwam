@@ -45,7 +45,7 @@
                             android:layout_height="wrap_content"
                             android:text="Store ID"
                             android:textStyle="bold"
-                            android:textColor="@color/dark_grey"
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -83,7 +83,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="User ID"
-                            android:textColor="@color/dark_grey"
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -120,7 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Last Uploaded"
-                            android:textColor="@color/dark_grey"
+                            android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView

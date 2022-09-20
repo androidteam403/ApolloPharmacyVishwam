@@ -48,14 +48,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var isFromDateSelected: Boolean = false
     var fromDate = String()
     var toDate = String()
-    var isApprovedTab: Boolean= true
-    var isPendingTab:Boolean=false
-    var isdateFormatted:Boolean=false
-    var selectedSiteids: String?=null
+    var isApprovedTab: Boolean = true
+    var isPendingTab: Boolean = false
+    var isdateFormatted: Boolean = false
+    var selectedSiteids: String? = null
     var day = 0
     var selectsiteIdList = java.util.ArrayList<String>()
     var userDesignation = ""
-      var siteIdDisplayAdapter: SiteIdDisplayAdapter? = null
+    var siteIdDisplayAdapter: SiteIdDisplayAdapter? = null
     var getApprovedList: List<GetpendingAndApprovedListResponse.GetApproved>? = null
     var getPendingList: List<GetpendingAndApprovedListResponse.GetPending>? = null
     var list: List<String> = ArrayList()
@@ -67,7 +67,6 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         get() = R.layout.fragment_swachh_list
 
 
-
     override fun retrieveViewModel(): SwachListViewModel {
         return ViewModelProvider(this).get(SwachListViewModel::class.java)
     }
@@ -75,7 +74,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
-        MainActivity.mInstance.mainActivityCallback=this
+        MainActivity.mInstance.mainActivityCallback = this
         viewBinding.callback = this
         viewBinding.userIdSwachlist.text = Preferences.getToken()
 //        selectedSiteids= Preferences.getSiteId()
@@ -93,7 +92,6 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         toDate = currentDate
 
 
-
         val strDate = fromDate
         val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
         val date = dateFormat.parse(strDate)
@@ -101,15 +99,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         viewBinding.fromDate.text = dateNewFormat
 
 
-
-
-
         val strDateToDate = toDate
         val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
         val dateToDate = dateFormatToDate.parse(strDateToDate)
         val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy").format(dateToDate)
         viewBinding.toDate.text = dateNewFormatToDate
-
 
 
         val loginJson = getLoginJson()
@@ -125,6 +119,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         Utlis.showLoading(requireContext())
+        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
@@ -324,6 +319,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     override fun onClickSearch() {
         Utlis.showLoading(requireContext())
+        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
@@ -334,33 +330,29 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     override fun onClickApproved() {
-        isApprovedTab=true
-        isPendingTab=false
-
+        isApprovedTab = true
+        isPendingTab = false
+        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
             toDate,
             selectedSiteids
         )
-
 
 
     }
 
     override fun onClickPending() {
-        isApprovedTab=false
-        isPendingTab=true
-
+        isApprovedTab = false
+        isPendingTab = true
+        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         viewModel.getPendingAndApprovedListApiCall(
             Preferences.getValidatedEmpId(),
             fromDate,
             toDate,
             selectedSiteids
         )
-
-
-
 
 
     }
@@ -368,13 +360,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     override fun onClickCrossButton(deleteSiteId: String, position: Int) {
 
 
-            DeleteSiteDialog().apply {
-                arguments =
-                    DeleteSiteDialog().generateParsedData(deleteSiteId)
-            }.show(childFragmentManager, "")
+        DeleteSiteDialog().apply {
+            arguments =
+                DeleteSiteDialog().generateParsedData(deleteSiteId)
+        }.show(childFragmentManager, "")
 
 
-        siteIdDisplayAdapter?.notifyDataSetChanged()
+//        siteIdDisplayAdapter?.notifyDataSetChanged()
+
     }
 
     override fun onClickReview(swachhid: String?, storeId: String?) {
@@ -471,13 +464,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
 
             if (requestCode == ApproveListActivity().APPROVE_LIST_ACTIVITY) {
                 Utlis.showLoading(requireContext())
+                selectedSiteids = TextUtils.join(", ", selectsiteIdList)
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
                     fromDate,
@@ -485,9 +478,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     selectedSiteids
                 )
 
-            }
-
-            else if (requestCode == 887) {
+            } else if (requestCode == 887) {
                 Utlis.showLoading(requireContext())
 
                 selectsiteIdList = data?.getStringArrayListExtra("selectsiteIdList")!!
@@ -515,14 +506,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //                   Toast.makeText(context, ""+ selectedSiteids, Toast.LENGTH_SHORT).show()
 
 
-
             }
         }
     }
+
     override fun onClickFilterIcon() {
-                val intent = Intent(context, SelectSiteActivityy::class.java)
+        val intent = Intent(context, SelectSiteActivityy::class.java)
         intent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
-            startActivityForResult(intent, 887)
+        startActivityForResult(intent, 887)
     }
 
 //    override fun deleteSite(siteDataItem: StoreListItem) {
@@ -531,7 +522,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     override fun deleteSite(siteDataItem: String) {
         selectsiteIdList.remove(siteDataItem)
+
+
+        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         siteIdDisplayAdapter?.notifyDataSetChanged()
+        viewModel.getPendingAndApprovedListApiCall(
+            Preferences.getValidatedEmpId(),
+            fromDate,
+            toDate, selectedSiteids
+        )
     }
 
     override fun doNotDeleteSite() {

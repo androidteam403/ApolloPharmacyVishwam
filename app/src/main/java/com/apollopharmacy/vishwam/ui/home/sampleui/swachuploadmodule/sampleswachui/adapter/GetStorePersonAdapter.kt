@@ -58,7 +58,9 @@ class GetStorePersonAdapter(
 
         if (getStorePersonlist?.get(position)?.status.equals("APPROVED")) {
             holder.approvedLayout.visibility = View.VISIBLE
-            holder.threeDots.visibility = View.VISIBLE
+            holder.pendingpLayout.visibility=View.GONE
+            holder.partiallyApproved.visibility=View.GONE
+            holder.reshootLayout.visibility=View.GONE
             if (getStorePerson?.approvedDate == "") {
                 holder.onDetails.text = "--"
             } else {
@@ -84,7 +86,10 @@ class GetStorePersonAdapter(
             }
         }
         else if (getStorePersonlist?.get(position)?.status.equals("PENDING")) {
-
+            holder.approvedLayout.visibility = View.GONE
+            holder.pendingpLayout.visibility = View.VISIBLE
+            holder.partiallyApproved.visibility=View.GONE
+            holder.reshootLayout.visibility=View.GONE
             if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
@@ -102,11 +107,14 @@ class GetStorePersonAdapter(
                 holder.byDetails.text = getStorePerson?.uploadedBy
 //                holder.empName.text = " - " +empname
             }
-            holder.pendingpLayout.visibility = View.VISIBLE
+
 
         }
         else if (getStorePersonlist?.get(position)?.status.equals("RESHOOT")) {
-            holder.reshootLayout.visibility = View.VISIBLE
+            holder.approvedLayout.visibility = View.GONE
+            holder.pendingpLayout.visibility = View.GONE
+            holder.partiallyApproved.visibility=View.GONE
+            holder.reshootLayout.visibility=View.VISIBLE
             if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
@@ -130,6 +138,9 @@ class GetStorePersonAdapter(
         }
         else if (getStorePersonlist?.get(position)?.status.equals("PARTIALLY APPROVED")) {
             holder.partiallyApproved.visibility = View.VISIBLE
+            holder.approvedLayout.visibility = View.GONE
+            holder.pendingpLayout.visibility = View.GONE
+            holder.reshootLayout.visibility=View.GONE
 
             if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
