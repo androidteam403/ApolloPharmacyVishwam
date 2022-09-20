@@ -159,10 +159,10 @@ data class ReasonmasterV2Response(
              val default_tat_mins: Default_tat_mins,
              @Expose
              @SerializedName("bh_end_time")
-             val bh_end_time: String?,
+             var bh_end_time: String?,
              @Expose
              @SerializedName("bh_start_time")
-             val bh_start_time: String?,
+             var bh_start_time: String?,
 
          ):Serializable
 
