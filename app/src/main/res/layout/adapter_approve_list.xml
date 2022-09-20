@@ -36,7 +36,7 @@
                         android:layout_marginTop="3dp"
                         android:layout_marginBottom="@dimen/five5_sp"
                         android:text="@{model.categoryname + ' ' + '('+approvedAndTotalCount+')'}"
-                        android:textColor="@{status.equalsIgnoreCase(`1`) ? @color/black : @color/grey}"
+                        android:textColor="@color/black"
 
                         android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />

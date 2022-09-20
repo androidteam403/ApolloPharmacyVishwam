@@ -52,6 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Swachh ID: "
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -83,6 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Created Date: "
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -129,6 +131,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Created By: "
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -143,6 +146,40 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                            android:id="@+id/empNamegetStore"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/four4_dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Total Ratings: "
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/total_ratings"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -180,6 +217,7 @@
                             android:layout_height="wrap_content"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/dark_grey"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Status: " />
 

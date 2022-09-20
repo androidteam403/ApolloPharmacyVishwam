@@ -65,5 +65,6 @@
     <color name="ash_dark">#b3b3b3</color>
     <color name="ashh">#a6a6a6</color>
     <color name="light_ash">#D3D3D3</color>
+    <color name="dark_grey">#696969</color>
 
 </resources>

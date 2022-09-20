@@ -52,6 +52,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Swachh ID: "
+                                android:textColor="@color/dark_grey"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
@@ -81,6 +82,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Store Id: "
+                                android:textColor="@color/dark_grey"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
@@ -107,6 +109,7 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/dark_grey"
                                 android:text="Created Date: " />
 
                             <TextView
@@ -133,6 +136,7 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:textColor="@color/dark_grey"
                                 android:text="Created By: " />
 
                             <TextView
@@ -193,6 +197,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Status: "
+                            android:textColor="@color/dark_grey"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp" />
 

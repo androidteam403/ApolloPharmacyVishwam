@@ -43,7 +43,7 @@
                             android:layout_height="wrap_content"
                             android:text="User ID"
                             android:textStyle="bold"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:text="From"
                             android:textStyle="bold"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
 
@@ -149,7 +149,7 @@
                             android:layout_height="wrap_content"
                             android:text="To"
                             android:textStyle="bold"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/dark_grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView

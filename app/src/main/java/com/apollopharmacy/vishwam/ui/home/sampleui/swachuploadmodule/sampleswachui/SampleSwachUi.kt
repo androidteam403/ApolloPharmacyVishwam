@@ -2,7 +2,6 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswac
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.widget.Toast
@@ -161,9 +160,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (it != null) {
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
-//                it.thursday = false
-//                it.friday = false
-//                it.thursday = true
+                it.thursday = false
+                it.saturday = false
+                it.monday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -319,9 +318,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         startActivityForResult(intent, 780)
     }
 
-    override fun onClickReview(swachhid: String?) {
+    override fun onClickReview(swachhid: String?, storeId: String?) {
         val intent = Intent(context, RatingReviewActivity::class.java)
         intent.putExtra("swachhid", swachhid)
+        intent.putExtra("storeId", storeId)
         startActivity(intent)
     }
 

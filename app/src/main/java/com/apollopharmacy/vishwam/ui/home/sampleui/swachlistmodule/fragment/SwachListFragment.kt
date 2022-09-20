@@ -148,7 +148,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         viewBinding.storeId = Preferences.getSiteId()
-    userDesignation = "EXECUTIVE"
+//    userDesignation = "EXECUTIVE"
         if (userDesignation.equals("EXECUTIVE")) {
             viewBinding.tabsforexecutive.visibility = View.VISIBLE
         } else {
@@ -377,9 +377,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         siteIdDisplayAdapter?.notifyDataSetChanged()
     }
 
-    override fun onClickReview(swachhid: String?) {
+    override fun onClickReview(swachhid: String?, storeId: String?) {
         val intent = Intent(context, RatingReviewActivity::class.java)
         intent.putExtra("swachhid", swachhid)
+        intent.putExtra("storeId", storeId)
         startActivity(intent)
     }
 

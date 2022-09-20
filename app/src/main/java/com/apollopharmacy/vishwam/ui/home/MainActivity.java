@@ -335,14 +335,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 imageView.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-            case "Swacch Images Upload":
-                headerText.setText("Swacch Images");
+            case "Swachh Images Upload":
+                headerText.setText("Swachh Images");
                 fragment = new SwacchImagesUploadFragment();
                 imageView.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
-            case "Swacch List":
+            case "Swachh List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
                 imageView.setVisibility(View.GONE);
@@ -673,12 +673,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
                 if (Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
-                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
 //                          .addChildModel(new ChildModel("List")));
 
                 } else {
-                    listView.addHeaderModel(new HeaderModel("Swacch", Color.WHITE, true, R.drawable.apollo_icon)
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
 //                            .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
@@ -725,7 +725,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 4 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
                             } else if (groupPosition == 4 && childPosition == 1) {
-                                displaySelectedScreen("Swacch List");
+                                displaySelectedScreen("Swachh List");
                             } else if (groupPosition == 3 && childPosition == 0) {
                                 if (Preferences.INSTANCE.getEmployeeRoleUid().equalsIgnoreCase("Yes")) {
                                     displaySelectedScreen("Upload");
