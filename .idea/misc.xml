@@ -17,7 +17,7 @@
         <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.25" />
         <entry key="app/src/main/res/layout/dialog_confirm_site.xml" value="0.1453804347826087" />
         <entry key="app/src/main/res/layout/fragment_complaints.xml" value="0.1586582048957389" />
-        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.165" />
         <entry key="app/src/main/res/layout/progressbar.xml" value="0.1453804347826087" />
         <entry key="app/src/main/res/layout/view_complaint_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_image_item.xml" value="0.15416666666666667" />

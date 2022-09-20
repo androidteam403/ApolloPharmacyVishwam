@@ -232,4 +232,18 @@
     <string name="label_complaint_list_status_filter">Complaint list status filter</string>
     <string name="label_filters_by_status">Filters by status</string>
     <string name="label_apply">Apply</string>
+    <string name="label_item_code">Item Code (Enter 5 minimum characters of article code/name) *</string>
+    <string name="label_Batch_No">Batch No. *</string>
+    <string name="label_Barcode">Barcode</string>
+    <string name="label_Expiry_Date">Expiry Date</string>
+    <string name="label_MRP">MRP *</string>
+    <string name="label_New_MRP">New MRP *</string>
+    <string name="label_Purchase_Rate">Purchase Rate *</string>
+    <string name="label_Product_Front_Image">Product Front Image *</string>
+    <string name="label_Product_Back_Image">Product Back Image *</string>
+    <string name="label_Other_Image">Other Image</string>
+    <string name="label_Add_Inventory_Item">Add Inventory Item</string>
+
+
+
 </resources>

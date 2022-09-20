@@ -695,6 +695,12 @@ class RegistrationViewModel : ViewModel() {
 
     //newcomplaint registration  api.................
     fun submitNewcomplaintregApi(requestNewComplaintRegistration: RequestNewComplaintRegistration) {
+        if(requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time == null){
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time = requestNewComplaintRegistration.reason.reason_sla[0].default_tat_hrs.toString()
+        }
+        if(requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time == null){
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time = requestNewComplaintRegistration.reason.reason_sla[0].default_tat_mins.uid
+        }
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
