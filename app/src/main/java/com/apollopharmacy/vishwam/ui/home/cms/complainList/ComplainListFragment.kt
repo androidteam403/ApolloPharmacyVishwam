@@ -1224,9 +1224,6 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
     }
 }
 
-fun setFilterIndication() {
-
-}
 
 fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
     if (!dialogComplaintListFilterBinding.newStatus.isChecked

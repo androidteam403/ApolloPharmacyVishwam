@@ -28,4 +28,8 @@ class GetStorePersonHistoryodelRequest : Serializable {
     @SerializedName("ENDPAGENO")
     @Expose
     var endpageno: Int? = null
+
+    @SerializedName("STATUS")
+    @Expose
+    var status: String? = null
 }

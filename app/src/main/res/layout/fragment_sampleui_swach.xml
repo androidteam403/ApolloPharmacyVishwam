@@ -139,9 +139,10 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_115dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/value_10dp"
+
                 android:background="@drawable/blue_rectangle"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -157,18 +158,18 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:layout_marginBottom="@dimen/value_5dp"
                     android:id="@+id/todaysDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_7dp"
-                    android:text="28 July, 2022"
                     android:textAlignment="center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_14sp"
                     android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_10dp"
                     android:id="@+id/uploadNowLayout"
                     android:visibility="gone"
                     android:layout_width="@dimen/value_130dp"
@@ -190,57 +191,79 @@
 
 
                 </LinearLayout>
-
+<!-- android:background="@drawable/grey_backgroundup"-->
                 <LinearLayout
-                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_10dp"
                     android:id="@+id/uploadNowGrey"
                     android:visibility="gone"
-                    android:layout_width="@dimen/value_130dp"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/value_5dp"
-                    android:layout_marginTop="@dimen/value_7dp"
-                    android:background="@drawable/grey_backgroundup">
+                    android:layout_marginTop="@dimen/value_7dp">
 
                     <TextView
                         android:visibility="visible"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload Now"
+                        android:text="Next Upload"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/text_16sp"
+                        android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/nextUploadDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+
+                    </LinearLayout>
+
 
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/value_10dp"
                     android:visibility="gone"
                     android:id="@+id/uploadOnLayout"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:layout_width="190dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/six6_sp"
                     android:layout_marginTop="@dimen/value_7dp"
-                    android:background="@drawable/grey_backgroundup">
+                  >
 
                     <TextView
                         android:visibility="visible"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Upload On "
+                        android:text="Next Upload on "
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:layout_marginTop="@dimen/value_7dp"
                         android:id="@+id/dayoftheweekLayout"
                         android:visibility="visible"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Wednesday"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_16sp"
@@ -250,6 +273,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_marginBottom="@dimen/value_10dp"
                     android:visibility="gone"
                     android:id="@+id/alreadyUploadedlayout"
                     android:layout_gravity="center"
@@ -289,15 +313,22 @@
 
             </LinearLayout>
 
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/pullToRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dateSelectionLayout">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/imageRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
+                    android:orientation="horizontal" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/imageRecyclerView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_marginEnd="@dimen/value_5dp"
-                            android:orientation="horizontal" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
 
 

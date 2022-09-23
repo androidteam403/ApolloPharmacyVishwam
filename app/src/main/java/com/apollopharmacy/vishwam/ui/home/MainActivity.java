@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
-    public ImageView imageView;
+    public ImageView filterIcon;
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
@@ -140,9 +140,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterIndicator = (View) findViewById(R.id.filter_indication);
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-        imageView = findViewById(R.id.siteIdList);
+        filterIcon = findViewById(R.id.filterIcon);
 
-        imageView.setOnClickListener(v -> {
+        filterIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickFilterIcon();
             }
@@ -284,89 +284,89 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "HOME":
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = true;
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
-                imageView.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
                 fragment = new AttendanceFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "History":
                 headerText.setText("History");
                 fragment = new HistoryFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Approved":
                 headerText.setText("Approved List");
                 fragment = new ApprovedFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Bill":
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
                 fragment = new SwacchImagesUploadFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
             case "Swachh List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
             case "Upload":
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isUploadScreen = true;
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
-                imageView.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isListScreen = true;
                 break;
             case "Drug Request":
                 headerText.setText("New Drug Request");
                 fragment = new Drug();
-                imageView.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 

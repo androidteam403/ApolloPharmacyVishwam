@@ -43,7 +43,7 @@
             android:layout_margin="@dimen/value_20dp">
 
             <ImageView
-                android:id="@+id/siteIdList"
+                android:id="@+id/filterIcon"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
                 android:src="@drawable/filtersnew"
