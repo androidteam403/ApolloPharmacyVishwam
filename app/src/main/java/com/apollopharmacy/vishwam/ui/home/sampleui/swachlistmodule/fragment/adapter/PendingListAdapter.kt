@@ -13,10 +13,21 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 class PendingListAdapter(
     val context: Context?,
     val pendingList: ArrayList<PendingAndApproved>,
-    val mCallback: SwachhListCallback,
-    val empName: String,
+    val mCallback: SwachhListCallback
 ) : RecyclerView.Adapter<PendingListAdapter.ViewHolder>() {
+    companion object {
+        private const val VIEW_TYPE_DATA = 0;
+        private const val VIEW_TYPE_PROGRESS = 1;
+    }
 
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = pendingList?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype?.swachhid.isNullOrEmpty()) {
+            VIEW_TYPE_PROGRESS
+        } else VIEW_TYPE_DATA
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val pendingListBinding: AdapterPendingListBinding =
@@ -61,6 +72,13 @@ class PendingListAdapter(
             }
 
 
+    }
+    fun getData(): ArrayList<PendingAndApproved> {
+        return pendingList
+    }
+
+    fun getItem(position: Int): PendingAndApproved {
+        return pendingList[position]
     }
 
     override fun getItemCount(): Int {

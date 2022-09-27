@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.ViewComplaintItemBinding
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
@@ -34,12 +37,42 @@ class GetStorePersonAdapter(
         fun onClickReview(swachhid: String?, storeId: String?)
     }
 
+    companion object {
+        private const val VIEW_TYPE_DATA = 0;
+        private const val VIEW_TYPE_PROGRESS = 1;
+    }
 
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = getStorePersonlist?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype?.swachhid.isNullOrEmpty()) {
+            VIEW_TYPE_PROGRESS
+        } else VIEW_TYPE_DATA
+
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
 
-        return ViewHolder(view)
+
+        return when (viewType) {
+           VIEW_TYPE_DATA -> {//inflates row layout
+               val view = LayoutInflater.from(parent.context)
+                   .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
+
+               ViewHolder(view)
+            }
+            VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.progressbar, parent, false)
+               ViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Different View type")
+        }
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
+//
+//        return ViewHolder(view)
+
+
     }
 
 

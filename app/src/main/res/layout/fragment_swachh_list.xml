@@ -255,25 +255,47 @@
 
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/approved_list_recyclerview"
+
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/pullToRefreshApproved"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:layout_marginEnd="@dimen/value_5dp" />
+                android:layout_below="@+id/dateSelectionLayout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/approved_list_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp" />
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 
 
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:visibility="gone"
-                android:id="@+id/pending_list_recyclerview"
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/pullToRefreshPending"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_9dp"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:layout_marginEnd="@dimen/value_5dp" />
+                android:layout_below="@+id/dateSelectionLayout">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:visibility="gone"
+                    android:id="@+id/pending_list_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_9dp"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp" />
+
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
             <!--            <androidx.cardview.widget.CardView-->
             <!--                android:layout_marginTop="@dimen/value_15dp"-->
             <!--                android:id="@+id/cardview"-->

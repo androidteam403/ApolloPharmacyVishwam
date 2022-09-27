@@ -57,6 +57,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     private var isLoading: Boolean = false
     private var isFirstTime: Boolean = true
 
+    var getStoreLists = ArrayList<GetStorePersonHistoryodelResponse.Get>()
     private lateinit var getStorePersonAdapter: GetStorePersonAdapter
     var positionofday: String? = null
     var nextUploadDate: LocalDate? = null
@@ -124,7 +125,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         //attaches LinearLayoutManager with RecyclerView
         viewBinding.imageRecyclerView.layoutManager = layoutManager
 
-        callAPI(startPage, endPageNum)
+        callAPI(startPage, endPageNum, complaintListStatus)
 //        showLoading()
 //        var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
 //        getStoreHistoryRequest.storeid = Preferences.getSiteId()
@@ -306,34 +307,44 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         viewModel.getStorePersonHistory.observeForever {
 
 
-
             Utlis.hideLoading()
             if (viewBinding.pullToRefresh.isRefreshing) {
                 viewBinding.pullToRefresh.isRefreshing = false
             }
-            if (it.getList?.size == 0){
-                viewBinding.imageRecyclerView.visibility = View.GONE
-                viewBinding.noOrdersFound.visibility = View.VISIBLE
-                hideLoading()
-            }else{
-                var getStoreList =it.getList
+//            if (it.getList?.size == 0){
+//                viewBinding.imageRecyclerView.visibility = View.GONE
+//                viewBinding.noOrdersFound.visibility = View.VISIBLE
+//                hideLoading()
+//            }
+            else {
+
+//                getStoreLists.addAll(it.getList!!)
+
+//                it.getList?.let { it1 -> getStoreLists?.addAll(it1) }
 
 
+//                Toast.makeText(context, ""+it.getList!!?.size, Toast.LENGTH_SHORT).show()
                 viewBinding.noOrdersFound.visibility = View.GONE
                 viewBinding.imageRecyclerView.visibility = View.VISIBLE
                 if (isLoading) {
                     hideLoading()
+
                     getStorePersonAdapter.getData()
-                        ?.removeAt(getStorePersonAdapter.getData()?.size!! - 1)
-                    var listSize = getStorePersonAdapter.getData()?.size
-                    getStorePersonAdapter.notifyItemRemoved(listSize!!)
-                    getStorePersonAdapter.getData()
-                        ?.addAll(getStoreList!!)
+                        ?.addAll((it.getList!! as ArrayList<GetStorePersonHistoryodelResponse.Get>?)!!)
                     getStorePersonAdapter.notifyDataSetChanged()
+
+                    if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
+                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                        viewBinding.noOrdersFound.visibility = View.GONE
+                    } else {
+                        viewBinding.imageRecyclerView.visibility = View.GONE
+                        viewBinding.noOrdersFound.visibility = View.VISIBLE
+                    }
                     isLoading = false
                 } else {
+
                     getStorePersonAdapter =
-                        GetStorePersonAdapter(getStoreList!! as ArrayList<GetStorePersonHistoryodelResponse.Get>?,
+                        GetStorePersonAdapter(it.getList,
                             this
                         )
                     layoutManager = LinearLayoutManager(ViswamApp.context)
@@ -341,27 +352,18 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.imageRecyclerView.itemAnimator =
                         DefaultItemAnimator()
                     viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+
+                    if (it.getList!= null && it.getList?.size!! > 0) {
+                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                        viewBinding.noOrdersFound.visibility = View.GONE
+                    } else {
+                        viewBinding.imageRecyclerView.visibility = View.GONE
+                        viewBinding.noOrdersFound.visibility = View.VISIBLE
+                    }
 //                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
                     hideLoading()
                 }
             }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //            getStorePersonHistoryList.clear()
@@ -495,7 +497,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         if (!viewBinding.pullToRefresh.isRefreshing)
             Utlis.showLoading(requireContext())
 
-        callAPI(startPage, endPageNum)
+        callAPI(startPage, endPageNum, complaintListStatus)
 
 
     }
@@ -506,11 +508,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         {
 
             isLoading = true
-            var startpages:Int = startPage +10
-            var endPages: Int = endPageNum + 10
-            callAPI(startPage, endPageNum)
-            startPage = startpages
-            endPageNum=endPages
+            startPage = startPage + 10
+            endPageNum = endPageNum + 10
+            callAPI(startPage, endPageNum, complaintListStatus)
 
 
         })
@@ -520,11 +520,11 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     }
 
-    fun callAPI(startPageNo: Int, endpageno: Int) {
+    fun callAPI(startPageNo: Int, endpageno: Int, updatedComplaintListStatus: String) {
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
 
-            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -7)
             val currentDate: String = simpleDateFormat.format(Date())
@@ -542,7 +542,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             getStoreHistoryRequest.todate = toDate
             getStoreHistoryRequest.startpageno = startPageNo
             getStoreHistoryRequest.endpageno = endpageno
-            getStoreHistoryRequest.status = complaintListStatus
+            getStoreHistoryRequest.status = updatedComplaintListStatus
             viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
         } else {
@@ -605,7 +605,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 779 || requestCode == 780) {
-                callAPI(startPage, endPageNum)
+                callAPI(startPage, endPageNum, complaintListStatus)
                 viewModel.checkDayWiseAccess()
             }
 //            getStorePersonAdapter.notifyDataSetChanged()
@@ -716,7 +716,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
                 uploadStatusFilterDialog.dismiss()
-                callAPI(startPage, endPageNum)
+                startPage=1
+                endPageNum=10
+                callAPI(startPage, endPageNum, complaintListStatus)
 
 
             }

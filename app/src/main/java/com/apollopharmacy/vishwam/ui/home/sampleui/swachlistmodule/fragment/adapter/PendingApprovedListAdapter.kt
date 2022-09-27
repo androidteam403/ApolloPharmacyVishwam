@@ -9,15 +9,27 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterPendingApprovedListBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachhListCallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 
 class PendingApprovedListAdapter(
     val mContext: Context?,
     val pendingApprovedList: ArrayList<PendingAndApproved>,
     val mCallback: SwachhListCallback,
-    val empName: String,
 ) :
     RecyclerView.Adapter<PendingApprovedListAdapter.ViewHolder>() {
+    companion object {
+        private const val VIEW_TYPE_DATA = 0;
+        private const val VIEW_TYPE_PROGRESS = 1;
+    }
 
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = pendingApprovedList?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype?.swachhid.isNullOrEmpty()) {
+            VIEW_TYPE_PROGRESS
+        } else VIEW_TYPE_DATA
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val pendingApprovedListBinding: AdapterPendingApprovedListBinding =
@@ -90,7 +102,13 @@ class PendingApprovedListAdapter(
             }
 
     }
+    fun getData(): ArrayList<PendingAndApproved> {
+        return pendingApprovedList
+    }
 
+    fun getItem(position: Int): PendingAndApproved {
+        return pendingApprovedList!![position]
+    }
 
     override fun getItemCount(): Int {
         return pendingApprovedList.size
