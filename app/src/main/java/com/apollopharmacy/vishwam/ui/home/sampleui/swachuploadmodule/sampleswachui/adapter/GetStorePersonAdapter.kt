@@ -6,13 +6,17 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.ViewComplaintItemBinding
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import java.text.SimpleDateFormat
+import kotlin.collections.ArrayList
 
 class GetStorePersonAdapter(
-    private var getStorePersonlist: List<GetStorePersonHistoryodelResponse.Get>?,
+    private var getStorePersonlist: ArrayList<GetStorePersonHistoryodelResponse.Get>?,
     private var callBackInterface: getStoreHistory
 ) :
     RecyclerView.Adapter<GetStorePersonAdapter.ViewHolder>() {
@@ -33,13 +37,49 @@ class GetStorePersonAdapter(
         fun onClickReview(swachhid: String?, storeId: String?)
     }
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
-
-        return ViewHolder(view)
+    companion object {
+        private const val VIEW_TYPE_DATA = 0;
+        private const val VIEW_TYPE_PROGRESS = 1;
     }
+
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = getStorePersonlist?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype?.swachhid.isNullOrEmpty()) {
+            VIEW_TYPE_PROGRESS
+        } else VIEW_TYPE_DATA
+
+    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+
+        return when (viewType) {
+           VIEW_TYPE_DATA -> {//inflates row layout
+               val view = LayoutInflater.from(parent.context)
+                   .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
+
+               ViewHolder(view)
+            }
+            VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.progressbar, parent, false)
+               ViewHolder(view)
+            }
+            else -> throw IllegalArgumentException("Different View type")
+        }
+//        val view = LayoutInflater.from(parent.context)
+//            .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
+//
+//        return ViewHolder(view)
+
+
+    }
+
+
+
+
+
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val getStorePerson = getStorePersonlist?.get(position)
@@ -56,17 +96,17 @@ class GetStorePersonAdapter(
 
 
 
-        if (getStorePersonlist?.get(position)?.status.equals("APPROVED")) {
+        if (getStorePersonlist?.get(position)?.status.equals("Approved")) {
             holder.approvedLayout.visibility = View.VISIBLE
             holder.pendingpLayout.visibility=View.GONE
             holder.partiallyApproved.visibility=View.GONE
             holder.reshootLayout.visibility=View.GONE
-            if (getStorePerson?.approvedDate == "") {
+            if (getStorePerson?.uploadedDate == "") {
                 holder.onDetails.text = "--"
             } else {
 
 
-                val strDate = getStorePerson?.approvedDate
+                val strDate = getStorePerson?.uploadedDate
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
                 val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
@@ -85,7 +125,7 @@ class GetStorePersonAdapter(
 //                holder.empName.text = " - " + empname
             }
         }
-        else if (getStorePersonlist?.get(position)?.status.equals("PENDING")) {
+        else if (getStorePersonlist?.get(position)?.status.equals("Pending")) {
             holder.approvedLayout.visibility = View.GONE
             holder.pendingpLayout.visibility = View.VISIBLE
             holder.partiallyApproved.visibility=View.GONE
@@ -110,7 +150,7 @@ class GetStorePersonAdapter(
 
 
         }
-        else if (getStorePersonlist?.get(position)?.status.equals("RESHOOT")) {
+        else if (getStorePersonlist?.get(position)?.status.equals("Reshoot")) {
             holder.approvedLayout.visibility = View.GONE
             holder.pendingpLayout.visibility = View.GONE
             holder.partiallyApproved.visibility=View.GONE
@@ -136,7 +176,7 @@ class GetStorePersonAdapter(
         else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
             holder.notUpdatedLayout.visibility = View.VISIBLE
         }
-        else if (getStorePersonlist?.get(position)?.status.equals("PARTIALLY APPROVED")) {
+        else if (getStorePersonlist?.get(position)?.status.equals("Partially Approved")) {
             holder.partiallyApproved.visibility = View.VISIBLE
             holder.approvedLayout.visibility = View.GONE
             holder.pendingpLayout.visibility = View.GONE
@@ -190,9 +230,20 @@ class GetStorePersonAdapter(
 
     }
 
+
+    fun getData(): ArrayList<GetStorePersonHistoryodelResponse.Get>? {
+        return getStorePersonlist
+    }
+
+    fun getItem(position: Int): GetStorePersonHistoryodelResponse.Get {
+        return getStorePersonlist!![position]
+    }
+
+
     override fun getItemCount(): Int {
         return getStorePersonlist?.size!!
     }
+
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -211,6 +262,7 @@ class GetStorePersonAdapter(
         val reviewLayoutPending: RelativeLayout = itemView.findViewById(R.id.reviewButtonPending)
         val reviewLayoutReshoot: RelativeLayout = itemView.findViewById(R.id.reviewButtonReshoot)
         val reviewLayoutPartial: RelativeLayout = itemView.findViewById(R.id.reviewButtonpartial)
+
 
 
 

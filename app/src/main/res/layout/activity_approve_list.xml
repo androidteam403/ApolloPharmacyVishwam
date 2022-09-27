@@ -306,42 +306,40 @@
                                     android:orientation="vertical">
 
 
-
-
-                                        <TextView
-                                            android:layout_width="@dimen/value_100dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_7dp"
-                                            android:layout_marginBottom="@dimen/five5_sp"
-                                            android:background="@drawable/ash_rounded_corners"
-                                            android:padding="@dimen/five5_sp"
-                                            android:text="Partial"
-                                            android:textAlignment="center"
-                                            android:textColor="@color/white"
-                                            android:textSize="@dimen/text_16sp"
-                                            android:textStyle="bold"
-                                            android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
+                                    <TextView
+                                        android:layout_width="@dimen/value_100dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:background="@drawable/red_rounded_corners"
+                                        android:padding="@dimen/five5_sp"
+                                        android:text="Partial"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_16sp"
+                                        android:textStyle="bold"
+                                        android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
 
 
                                     <LinearLayout
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="@dimen/value_30dp"
+                                        android:layout_marginTop="@dimen/value_7dp"
+                                        android:layout_marginBottom="@dimen/five5_sp"
+                                        android:layout_width="100dp"
+                                        android:layout_height="wrap_content"
                                         android:orientation="horizontal"
+                                        android:padding="@dimen/five5_sp"
                                         android:background="@drawable/green_background"
                                         android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" >
 
                                         <ImageView
-                                            android:layout_marginStart="@dimen/four_4sp"
                                             android:layout_gravity="center"
                                             android:layout_width="@dimen/text_18sp"
                                             android:layout_height="@dimen/text_18sp"
                                             android:src="@drawable/whitee_icon"/>
 
                                         <TextView
-                                            android:layout_width="@dimen/value_75dp"
+                                            android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/four_4sp"
-                                            android:layout_marginBottom="@dimen/five5_sp"
                                             android:text="Approved"
                                             android:textColor="@color/white"
                                             android:textSize="@dimen/text_16sp"

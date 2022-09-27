@@ -113,7 +113,7 @@ class ApproveListViewModel : ViewModel() {
                     if (response.value.status == true) {
                         ratingBarResponse.value = response.value
                     } else {
-                        errorMessage.value = response.value.message
+                        ratingBarResponse.value = response.value
                     }
                 }
                 is ApiResult.GenericError -> {

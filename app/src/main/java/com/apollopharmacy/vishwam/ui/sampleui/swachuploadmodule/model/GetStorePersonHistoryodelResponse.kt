@@ -15,7 +15,7 @@ class GetStorePersonHistoryodelResponse : Serializable {
 
     @SerializedName("getList")
     @Expose
-    var getList: List<Get>? = null
+    var getList: ArrayList<Get>? = null
 
     inner class Get : Serializable {
         @SerializedName("SWACHHID")

@@ -92,8 +92,8 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                     .show()
                 onBackPressed()
 //              Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
-            }else{
-//                Toast.makeText(getApplicationContext(), it.message, Toast.LENGTH_LONG).show();
+            }else if(it.message=="RATINGS ALREADY SUBMITTED"){
+               Toast.makeText(getApplicationContext(), "Rating is already submitted !", Toast.LENGTH_LONG).show();
             }
 
         }
