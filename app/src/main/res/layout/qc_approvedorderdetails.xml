@@ -37,7 +37,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.77">
+                    android:layout_weight="0.95">
 
                     <TextView
                         android:id="@+id/medicineNameHeader"
@@ -66,7 +66,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_weight="0.95">
 
                     <TextView
                         android:id="@+id/quantityHeader"
@@ -95,7 +95,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.75">
+                    android:layout_weight="0.95">
 
                     <TextView
                         android:id="@+id/priceHeader"
@@ -124,7 +124,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.4">
+                    android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/bulkDiscText"
@@ -136,45 +136,18 @@
                         android:textSize="@dimen/text_13sp"
                         app:fontFamily="@font/droidsans" />
 
-                    <ImageView
-                        android:id="@+id/subtract"
-                        android:layout_width="@dimen/value_35dp"
-                        android:layout_height="@dimen/value_35dp"
-                        android:layout_below="@+id/bulkDiscText"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="5dp"
-                        android:padding="@dimen/value_5dp"
-                        android:src="@drawable/minus" />
 
-                    <ImageView
-                        android:id="@+id/add"
-                        android:layout_width="@dimen/value_35dp"
-                        android:layout_height="@dimen/value_35dp"
-                        android:layout_below="@+id/bulkDiscText"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:padding="@dimen/value_5dp"
-                        android:src="@drawable/add_circle" />
-
-                    <EditText
-                        android:id="@+id/bulkDisc"
-                        android:layout_width="80dp"
-                        android:layout_height="30dp"
+                    <TextView
+                        android:id="@+id/discountTotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_below="@+id/bulkDiscText"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="2dp"
-                        android:layout_toLeftOf="@+id/add"
-                        android:layout_toRightOf="@+id/subtract"
-                        android:background="@drawable/bulk_discount_edittext"
-                        android:gravity="center"
-                        android:inputType="numberDecimal"
-                        android:text="0.00"
-                        android:imeOptions="flagNoExtractUi"
+                        android:text="100"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_13sp"
                         app:fontFamily="@font/droidsans" />
-
                 </RelativeLayout>
 
                 <RelativeLayout
