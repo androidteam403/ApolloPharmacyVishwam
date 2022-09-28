@@ -108,7 +108,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     R.color.greenn
                 )
             );
-        } else if (status == "PARTIALLY APPROVED") {
+        } else if (status == "Partially Approved") {
 
             if (uploadedDate != null && uploadedDate != "") {
 
@@ -137,7 +137,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     R.color.color_red
                 )
             );
-        } else if (status == "RESHOOT") {
+        } else if (status == "Reshoot") {
 
             if (uploadedDate != null && uploadedDate != "") {
 
@@ -166,7 +166,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     R.color.color_red
                 )
             );
-        } else if (status == "PENDING") {
+        } else if (status == "Pending") {
             if (uploadedDate != null && uploadedDate != "") {
 
                 val strDate = uploadedDate

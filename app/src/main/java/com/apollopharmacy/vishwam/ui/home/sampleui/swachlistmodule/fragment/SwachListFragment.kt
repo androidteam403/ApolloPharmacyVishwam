@@ -38,6 +38,7 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import okhttp3.internal.notify
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -48,8 +49,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     SwachhListCallback, MainActivityCallback, DeleteSiteDialog.OnSiteClickListener {
     var pendingAndApprovedList = ArrayList<PendingAndApproved>()
 
+    var approveddList = ArrayList<PendingAndApproved>()
+
     //    var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
-    private lateinit var pendingApprovedListAdapter: PendingApprovedListAdapter
+    private var pendingApprovedListAdapter: PendingApprovedListAdapter?=null
     private lateinit var pendingListAdapter: PendingListAdapter
 
     //    var pendingListAdapter: PendingListAdapter? = null
@@ -200,15 +203,22 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 true -> {
                     when (getpendingAndApprovedListResponse.getApprovedList != null) {
                         true -> {
-                            getApprovedList = getpendingAndApprovedListResponse.getApprovedList!!
+                            getApprovedList = getpendingAndApprovedListResponse.getApprovedList
                         }
                     }
+
                     when (getpendingAndApprovedListResponse.getPendingList != null) {
                         true -> {
-                            getPendingList = getpendingAndApprovedListResponse.getPendingList!!
+                            getPendingList = getpendingAndApprovedListResponse.getPendingList
                         }
                     }
-                    pendingAndApprovedList.clear()
+
+                    if(isApprovedTab && isLoadingApproved && pendingAndApprovedList.size!=null && pendingAndApprovedList.size>0){
+                        pendingAndApprovedList.removeAt(pendingAndApprovedList.size-1)
+                    }else if(!isApprovedTab && isLoadingPending && pendingList.size!=null && pendingList.size>0){
+                        pendingList.removeAt(pendingList.size-1)
+                    }
+//                    pendingAndApprovedList.clear()
                     if (getApprovedList != null) {
 
                         for (i in getApprovedList!!) {
@@ -231,9 +241,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
                         }
-                        pendingAndApprovedList.size
+
+//                        if(pendingAndApprovedList.size>0){
+//                            pendingApprovedListAdapter?.getData()
+//                                ?.addAll(pendingAndApprovedList)
+//                        }
+
+
                     }
-                    pendingList.clear()
+//                    pendingList.clear()
                     if (getPendingList != null && userDesignation.equals("EXECUTIVE")) {
                         for (i in getPendingList!!) {
                             val pendingAndApproved = PendingAndApproved()
@@ -254,6 +270,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //                            pendingAndApprovedList.add(pendingAndApproved)
                         }
 
+//                        pendingApprovedListAdapter?.getData()
+//                            ?.addAll(approveddList)
+
                     }
 
 
@@ -261,19 +280,24 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                         viewBinding.approvedListButton.setBackgroundColor(Color.parseColor("#2582a1"))
                         viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#a9a9a9"))
-
+//
                         if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
-                            for (i in pendingAndApprovedList.indices) {
-                                if (pendingAndApprovedList.get(i).uploadedDate != "") {
-                                    val strDate = pendingAndApprovedList.get(i).uploadedDate
-                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                                    val date = dateFormat.parse(strDate)
-                                    val dateNewFormat =
-                                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                                    pendingAndApprovedList.get(i).uploadedDate =
-                                        dateNewFormat.toString()
 
+                            for (i in pendingAndApprovedList.indices) {
+                                if(!pendingAndApprovedList.get(i).isDateformat!!){
+                                    if (pendingAndApprovedList.get(i).uploadedDate != "" &&pendingAndApprovedList.get(i).uploadedDate != null ) {
+                                        val strDate = pendingAndApprovedList.get(i).uploadedDate
+                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                        val date = dateFormat.parse(strDate)
+                                        val dateNewFormat =
+                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                        pendingAndApprovedList.get(i).uploadedDate =
+                                            dateNewFormat.toString()
+                                        pendingAndApprovedList.get(i).isDateformat=true
+
+                                    }
                                 }
+
                             }
                         }
 
@@ -281,15 +305,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         if (viewBinding.pullToRefreshApproved.isRefreshing) {
                             viewBinding.pullToRefreshApproved.isRefreshing = false
                         } else {
-
                             if (isLoadingApproved) {
                                 hideLoading()
+//                                pendingApprovedListAdapter?.getData()
+//                                    ?.addAll(pendingAndApprovedList)
+                                pendingApprovedListAdapter?.notifyDataSetChanged()
 
-                                pendingApprovedListAdapter.getData()
-                                    .addAll(pendingAndApprovedList)
-                                pendingApprovedListAdapter.notifyDataSetChanged()
 
-                                if (pendingApprovedListAdapter.getData() != null && pendingApprovedListAdapter.getData()?.size!! > 0) {
+                                if (pendingApprovedListAdapter?.getData() != null && pendingApprovedListAdapter?.getData()?.size!! > 0) {
                                     viewBinding.approvedListRecyclerview.visibility = View.VISIBLE
                                     viewBinding.noOrdersFound.visibility = View.GONE
                                     viewBinding.pullToRefreshPending.visibility = View.GONE
@@ -300,6 +323,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                     viewBinding.pullToRefreshPending.visibility = View.GONE
                                     viewBinding.pullToRefreshApproved.visibility = View.GONE
                                     viewBinding.noOrdersFound.visibility = View.VISIBLE
+//                                    Toast.makeText(context, "pendingApprovedListAdapter?.getData()?.size!!", Toast.LENGTH_SHORT).show()
                                 }
                                 isLoadingApproved = false
                             } else {
@@ -375,15 +399,19 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
                         if (pendingList != null && pendingList.size > 0) {
                             for (i in pendingList.indices) {
-                                if (pendingList.get(i).uploadedDate != "") {
-                                    val strDate = pendingList.get(i).uploadedDate
-                                    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-                                    val date = dateFormat.parse(strDate)
-                                    val dateNewFormat =
-                                        SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                                    pendingList.get(i).uploadedDate = dateNewFormat.toString()
+                                if(pendingList.get(i).isDateformat==false){
+                                    if (pendingList.get(i).uploadedDate != "" && pendingList.get(i).uploadedDate != null) {
+                                        val strDate = pendingList.get(i).uploadedDate
+                                        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                                        val date = dateFormat.parse(strDate)
+                                        val dateNewFormat =
+                                            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                                        pendingList.get(i).uploadedDate = dateNewFormat.toString()
+                                        pendingList.get(i).isDateformat=true
 
+                                    }
                                 }
+
                             }
                         }
 
@@ -394,10 +422,12 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         } else {
 
                             if (isLoadingPending == true) {
+//                               pendingList.removeAt(pendingList.size-1)
+
                                 hideLoading()
 
-                                pendingListAdapter.getData()
-                                    .addAll(pendingList)
+//                                pendingListAdapter.getData()
+//                                    .addAll(pendingList)
                                 pendingListAdapter.notifyDataSetChanged()
 
                                 if (pendingListAdapter?.getData() != null && pendingListAdapter.getData().size > 0) {
@@ -519,25 +549,27 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     fun submitClickApproved() {
+//        pendingAndApprovedList.clear()
+//        pendingList.clear()
+//        isApprovedTab = true
 
-        isApprovedTab = true
-
-        if (!viewBinding.pullToRefreshApproved.isRefreshing)
-            Utlis.showLoading(requireContext())
-
-        callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
+//        if (!viewBinding.pullToRefreshApproved.isRefreshing)
+//            Utlis.showLoading(requireContext())
+//
+//        callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
 
     }
 
     fun submitClickPending() {
-
-        isApprovedTab = false
-
-        if (!viewBinding.pullToRefreshPending.isRefreshing)
-            Utlis.showLoading(requireContext())
-
-        callAPI(startPagePending, endPageNumPending, isApprovedTab)
+//        pendingAndApprovedList.clear()
+//        pendingList.clear()
+//        isApprovedTab = false
+//
+//        if (!viewBinding.pullToRefreshPending.isRefreshing)
+//            Utlis.showLoading(requireContext())
+//
+//        callAPI(startPagePending, endPageNumPending, isApprovedTab)
 
 
     }
@@ -551,7 +583,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 if (!isLoadingApproved && !isFirstTimeApproved) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManagerApproved.findLastCompletelyVisibleItemPosition() == pendingApprovedListAdapter.getData().size!! - 1) {
+                    if (layoutManagerApproved.findLastCompletelyVisibleItemPosition() == pendingApprovedListAdapter?.getData()?.size!! - 1) {
                         loadMoreApproved()
                     }
                 }
@@ -578,11 +610,22 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
+            if(pendingApprovedListAdapter?.getData()!!.size>=10){
+                var approvedEmptyObject= PendingAndApproved()
+                approvedEmptyObject.swachhid=null
+                pendingAndApprovedList.add(approvedEmptyObject)
+                pendingApprovedListAdapter?.notifyDataSetChanged()
 
-            isLoadingApproved = true
-            startPageApproved = startPageApproved + 10
-            endPageNumApproved = endPageNumApproved + 10
-            callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
+
+
+//            viewBinding.approvedListRecyclerview.scrollToPosition(pendingAndApprovedList.size-1)
+
+                isLoadingApproved = true
+                startPageApproved = startPageApproved + 10
+                endPageNumApproved = endPageNumApproved + 10
+                callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
+            }
+
 
 
         })
@@ -593,11 +636,21 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
+            if(pendingListAdapter.getData().size>=10){
+                var pendingEmptyObject= PendingAndApproved()
+                pendingEmptyObject.swachhid=null
+                pendingList.add(pendingEmptyObject)
+                pendingListAdapter?.notifyDataSetChanged()
 
-            isLoadingPending = true
-            startPagePending = startPagePending + 10
-            endPageNumPending = endPageNumPending + 10
-            callAPI(startPagePending, endPageNumPending, isApprovedTab)
+
+//           viewBinding.pendingListRecyclerview.scrollToPosition(pendingList.size-1)
+
+                isLoadingPending = true
+                startPagePending = startPagePending + 10
+                endPageNumPending = endPageNumPending + 10
+                callAPI(startPagePending, endPageNumPending, isApprovedTab)
+            }
+
 
 
         })
@@ -642,6 +695,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         isApprovedTab = true
         startPageApproved = 1
         endPageNumApproved = 10
+        pendingAndApprovedList.clear()
+
         selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
@@ -663,21 +718,28 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
             this.selectedSiteids = TextUtils.join(", ", selectsiteIdList)
             if (isApprovedAdapter) {
-                if (!isLoadingApproved)
+                if (!isLoadingApproved){
+
                     Utlis.showLoading(requireContext())
+
+                }
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
                     fromDate,
                     toDate, selectedSiteids, startPageNo, endpageno
                 )
+
             } else {
-                if (!isLoadingPending)
+                if (!isLoadingPending){
                     Utlis.showLoading(requireContext())
+
+                }
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
                     fromDate,
                     toDate, selectedSiteids, startPageNo, endpageno
                 )
+
             }
         } else {
             Toast.makeText(
@@ -693,6 +755,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         isApprovedTab = false
         startPagePending = 1
         endPageNumPending = 10
+        pendingList.clear()
         selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         callAPI(startPagePending, endPageNumPending, isApprovedTab)
 
@@ -816,11 +879,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 if (isApprovedTab) {
                     startPageApproved = 1
                     endPageNumApproved = 10
+                    pendingAndApprovedList.clear()
                     callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
                 } else {
                     startPagePending = 1
                     endPageNumPending = 10
+                    pendingList.clear()
                     callAPI(startPagePending, endPageNumPending, isApprovedTab)
                 }
 

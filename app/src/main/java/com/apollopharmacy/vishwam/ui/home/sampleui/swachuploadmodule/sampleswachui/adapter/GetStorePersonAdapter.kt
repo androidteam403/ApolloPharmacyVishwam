@@ -9,8 +9,12 @@ import android.widget.TextView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.AdapterGetstorepersonhistoryBinding
+import com.apollopharmacy.vishwam.databinding.AdapterPendingApprovedListBinding
 import com.apollopharmacy.vishwam.databinding.ViewComplaintItemBinding
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.adapter.PendingApprovedListAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import java.text.SimpleDateFormat
 import kotlin.collections.ArrayList
@@ -19,7 +23,7 @@ class GetStorePersonAdapter(
     private var getStorePersonlist: ArrayList<GetStorePersonHistoryodelResponse.Get>?,
     private var callBackInterface: getStoreHistory
 ) :
-    RecyclerView.Adapter<GetStorePersonAdapter.ViewHolder>() {
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
     interface getStoreHistory {
@@ -50,23 +54,43 @@ class GetStorePersonAdapter(
         } else VIEW_TYPE_DATA
 
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-           VIEW_TYPE_DATA -> {//inflates row layout
-               val view = LayoutInflater.from(parent.context)
-                   .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
-
-               ViewHolder(view)
+            VIEW_TYPE_DATA -> {//inflates row layout
+                val adapterGetStorePersonHistoryBinding: AdapterGetstorepersonhistoryBinding=
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.adapter_getstorepersonhistory,
+                        parent,
+                        false
+                    )
+                return DataViewHolder(adapterGetStorePersonHistoryBinding)
             }
             VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
                 val view = LayoutInflater.from(parent.context)
                     .inflate(R.layout.progressbar, parent, false)
-               ViewHolder(view)
+                ProgressViewHolder(view)
             }
             else -> throw IllegalArgumentException("Different View type")
         }
+
+
+
+//
+//        return when (viewType) {
+//           VIEW_TYPE_DATA -> {//inflates row layout
+//               val view = LayoutInflater.from(parent.context)
+//                   .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
+//
+//               ViewHolder(view)
+//            }
+//            VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+//                val view = LayoutInflater.from(parent.context)
+//                    .inflate(R.layout.progressbar, parent, false)
+//               ViewHolder(view)
+//            }
+//            else -> throw IllegalArgumentException("Different View type")
+//        }
 //        val view = LayoutInflater.from(parent.context)
 //            .inflate(R.layout.adapter_getstorepersonhistory, parent, false)
 //
@@ -81,153 +105,27 @@ class GetStorePersonAdapter(
 
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val getStorePerson = getStorePersonlist?.get(position)
-
-
-        holder.swachId.text=getStorePerson?.swachhid
-        var upperCaseUploadedBy: String = getStorePersonlist?.get(position)?.uploadedBy!!
-
-        getStorePersonlist?.get(position)?.uploadedBy= upperCaseUploadedBy.toUpperCase()
-
-//        getStorePersonlist?.get(position).empName= empName
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
 
 
 
 
-        if (getStorePersonlist?.get(position)?.status.equals("Approved")) {
-            holder.approvedLayout.visibility = View.VISIBLE
-            holder.pendingpLayout.visibility=View.GONE
-            holder.partiallyApproved.visibility=View.GONE
-            holder.reshootLayout.visibility=View.GONE
-            if (getStorePerson?.uploadedDate == "") {
-                holder.onDetails.text = "--"
-            } else {
-
-
-                val strDate = getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                holder.onDetails.text = dateNewFormat.toString()
-
-
-
-
-                holder.onDetails.text = dateNewFormat.toString()
-            }
-
-            if (getStorePerson?.uploadedBy == "") {
-                holder.byDetails.text = "--"
-            } else {
-                holder.byDetails.text = getStorePerson?.uploadedBy
-//                holder.empName.text = " - " + empname
-            }
-        }
-        else if (getStorePersonlist?.get(position)?.status.equals("Pending")) {
-            holder.approvedLayout.visibility = View.GONE
-            holder.pendingpLayout.visibility = View.VISIBLE
-            holder.partiallyApproved.visibility=View.GONE
-            holder.reshootLayout.visibility=View.GONE
-            if (getStorePerson?.uploadedDate == "") {
-                holder.onDetails.text = "--"
-            } else {
-
-                val strDate = getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                holder.onDetails.text = dateNewFormat.toString()
-            }
-
-            if (getStorePerson?.uploadedBy == "") {
-                holder.byDetails.text = "--"
-            } else {
-                holder.byDetails.text = getStorePerson?.uploadedBy
-//                holder.empName.text = " - " +empname
-            }
-
-
-        }
-        else if (getStorePersonlist?.get(position)?.status.equals("Reshoot")) {
-            holder.approvedLayout.visibility = View.GONE
-            holder.pendingpLayout.visibility = View.GONE
-            holder.partiallyApproved.visibility=View.GONE
-            holder.reshootLayout.visibility=View.VISIBLE
-            if (getStorePerson?.uploadedDate == "") {
-                holder.onDetails.text = "--"
-            } else {
-
-                val strDate =  getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                holder.onDetails.text = dateNewFormat.toString()
-            }
-
-            if (getStorePerson?.uploadedBy == "") {
-                holder.byDetails.text = "--"
-            } else {
-                holder.byDetails.text = getStorePerson?.uploadedBy
-//                holder.empName.text = " - " +empname
-            }
-        }
-        else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
-            holder.notUpdatedLayout.visibility = View.VISIBLE
-        }
-        else if (getStorePersonlist?.get(position)?.status.equals("Partially Approved")) {
-            holder.partiallyApproved.visibility = View.VISIBLE
-            holder.approvedLayout.visibility = View.GONE
-            holder.pendingpLayout.visibility = View.GONE
-            holder.reshootLayout.visibility=View.GONE
-
-            if (getStorePerson?.uploadedDate == "") {
-                holder.onDetails.text = "--"
-            } else {
-                val strDate =  getStorePerson?.uploadedDate
-                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-                val date = dateFormat.parse(strDate)
-                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-                holder.onDetails.text = dateNewFormat.toString()
-            }
-
-            if (getStorePerson?.uploadedBy == "") {
-                holder.byDetails.text = "--"
-            } else {
-                holder.byDetails.text = getStorePerson?.uploadedBy
-//                holder.empName.text = " - " +empname
-            }
-        }
-
-        holder.overAllLayout.setOnClickListener {
-            callBackInterface.onClickStatus(
-                position,
-                getStorePerson?.swachhid,
-                getStorePerson?.status,
-                getStorePerson?.approvedDate,
-                getStorePerson?.storeId,
-                getStorePerson?.uploadedDate,
-                getStorePerson?.reshootDate,
-                getStorePerson?.partiallyApprovedDate,
-            )
+        if (holder is DataViewHolder) {
+            holder.bind(getItem(position))
         }
 
 
-        holder.reviewLayoutAccepted.setOnClickListener {
-            callBackInterface.onClickReview( getStorePerson?.swachhid,  getStorePerson?.storeId )
-        }
-        holder.reviewLayoutPending.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
-        holder.reviewLayoutReshoot.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
-        holder.reviewLayoutPartial.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
 
 
+    }
+
+
+    inner class DataViewHolder(val adapterGetStorePersonHistoryBinding: AdapterGetstorepersonhistoryBinding) :
+        RecyclerView.ViewHolder(adapterGetStorePersonHistoryBinding.root) {
+        fun bind(items: GetStorePersonHistoryodelResponse.Get) {
+            bindItems(adapterGetStorePersonHistoryBinding, items, adapterPosition)
+        }
     }
 
 
@@ -243,28 +141,192 @@ class GetStorePersonAdapter(
     override fun getItemCount(): Int {
         return getStorePersonlist?.size!!
     }
+    inner class ProgressViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    fun bindItems(
+        binding: AdapterGetstorepersonhistoryBinding,
+        items: GetStorePersonHistoryodelResponse.Get,
+        position: Int,
+
+        ) {
+        val getStorePerson = getStorePersonlist?.get(position)
+
+
+        binding.swachidgetStore.text=getStorePerson?.swachhid
+        var upperCaseUploadedBy: String = getStorePersonlist?.get(position)?.uploadedBy!!
+
+        getStorePersonlist?.get(position)?.uploadedBy= upperCaseUploadedBy.toUpperCase()
+
+//        getStorePersonlist?.get(position).empName= empName
+//        val onDetails: TextView = itemView.findViewById(R.id.date_details)
+//        val byDetails: TextView = itemView.findViewById(R.id.by_details)
+//        val approvedLayout: LinearLayout = itemView.findViewById(R.id.green_approved_layot)
+//        val reshootLayout: LinearLayout = itemView.findViewById(R.id.re_shoot_layout)
+//        val pendingpLayout: LinearLayout = itemView.findViewById(R.id.pending_layout)
+//        val notUpdatedLayout: LinearLayout = itemView.findViewById(R.id.not_updated_layout)
+//        val overAllLayout: LinearLayout = itemView.findViewById(R.id.overallLayout)
+//        val partiallyApproved: LinearLayout = itemView.findViewById(R.id.partially_approved_layout)
+//        val threeDots: LinearLayout = itemView.findViewById(R.id.three_dots)
+//        val swachId: TextView = itemView.findViewById(R.id.swachidgetStore)
+//        val empName: TextView = itemView.findViewById(R.id.empNamegetStore)
+//        val reviewLayoutAccepted: RelativeLayout = itemView.findViewById(R.id.reviewButtonApproved)
+//        val reviewLayoutPending: RelativeLayout = itemView.findViewById(R.id.reviewButtonPending)
+//        val reviewLayoutReshoot: RelativeLayout = itemView.findViewById(R.id.reviewButtonReshoot)
+//        val reviewLayoutPartial: RelativeLayout = itemView.findViewById(R.id.reviewButtonpartial)
+
+        if (getStorePersonlist?.get(position)?.status.equals("Approved")) {
+            binding.greenApprovedLayot.visibility = View.VISIBLE
+            binding.pendingLayout.visibility=View.GONE
+           binding.partiallyApprovedLayout.visibility=View.GONE
+            binding.reShootLayout.visibility=View.GONE
+            if (getStorePerson?.uploadedDate == "") {
+                binding.dateDetails.text = "--"
+            } else {
+
+
+                val strDate = getStorePerson?.uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                binding.dateDetails.text = dateNewFormat.toString()
 
 
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val onDetails: TextView = itemView.findViewById(R.id.date_details)
-        val byDetails: TextView = itemView.findViewById(R.id.by_details)
-        val approvedLayout: LinearLayout = itemView.findViewById(R.id.green_approved_layot)
-        val reshootLayout: LinearLayout = itemView.findViewById(R.id.re_shoot_layout)
-        val pendingpLayout: LinearLayout = itemView.findViewById(R.id.pending_layout)
-        val notUpdatedLayout: LinearLayout = itemView.findViewById(R.id.not_updated_layout)
-        val overAllLayout: LinearLayout = itemView.findViewById(R.id.overallLayout)
-        val partiallyApproved: LinearLayout = itemView.findViewById(R.id.partially_approved_layout)
-        val threeDots: LinearLayout = itemView.findViewById(R.id.three_dots)
-        val swachId: TextView = itemView.findViewById(R.id.swachidgetStore)
-        val empName: TextView = itemView.findViewById(R.id.empNamegetStore)
-        val reviewLayoutAccepted: RelativeLayout = itemView.findViewById(R.id.reviewButtonApproved)
-        val reviewLayoutPending: RelativeLayout = itemView.findViewById(R.id.reviewButtonPending)
-        val reviewLayoutReshoot: RelativeLayout = itemView.findViewById(R.id.reviewButtonReshoot)
-        val reviewLayoutPartial: RelativeLayout = itemView.findViewById(R.id.reviewButtonpartial)
+
+                binding.dateDetails.text = dateNewFormat.toString()
+            }
+
+            if (getStorePerson?.uploadedBy == "") {
+                binding.byDetails.text = "--"
+            } else {
+                binding.byDetails.text = getStorePerson?.uploadedBy
+//                holder.empName.text = " - " + empname
+            }
+        }
+        else if (getStorePersonlist?.get(position)?.status.equals("Pending")) {
+            binding.greenApprovedLayot.visibility = View.GONE
+            binding.pendingLayout.visibility = View.VISIBLE
+            binding.partiallyApprovedLayout.visibility=View.GONE
+            binding.reShootLayout.visibility=View.GONE
+            if (getStorePerson?.uploadedDate == "") {
+                binding.dateDetails.text = "--"
+            } else {
+
+                val strDate = getStorePerson?.uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                binding.dateDetails.text = dateNewFormat.toString()
+            }
+
+            if (getStorePerson?.uploadedBy == "") {
+                binding.byDetails.text = "--"
+            } else {
+                binding.byDetails.text = getStorePerson?.uploadedBy
+//                holder.empName.text = " - " +empname
+            }
 
 
+        }
+        else if (getStorePersonlist?.get(position)?.status.equals("Reshoot")) {
+            binding.greenApprovedLayot.visibility = View.GONE
+            binding.pendingLayout.visibility = View.GONE
+            binding.partiallyApprovedLayout.visibility=View.GONE
+            binding.reShootLayout.visibility=View.VISIBLE
+            if (getStorePerson?.uploadedDate == "") {
+                binding.dateDetails.text = "--"
+            } else {
 
+                val strDate =  getStorePerson?.uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                binding.dateDetails.text = dateNewFormat.toString()
+            }
+
+            if (getStorePerson?.uploadedBy == "") {
+                binding.byDetails.text = "--"
+            } else {
+                binding.byDetails.text = getStorePerson?.uploadedBy
+//                holder.empName.text = " - " +empname
+            }
+        }
+//        else if (getStorePersonlist?.get(position)?.status.equals("NOT UPDATED")) {
+//            holder.notUpdatedLayout.visibility = View.VISIBLE
+//        }
+        else if (getStorePersonlist?.get(position)?.status.equals("Partially Approved")) {
+            binding.partiallyApprovedLayout.visibility = View.VISIBLE
+            binding.greenApprovedLayot.visibility = View.GONE
+            binding.pendingLayout.visibility = View.GONE
+            binding.reShootLayout.visibility=View.GONE
+
+            if (getStorePerson?.uploadedDate == "") {
+                binding.dateDetails.text = "--"
+            } else {
+                val strDate =  getStorePerson?.uploadedDate
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+                binding.dateDetails.text = dateNewFormat.toString()
+            }
+
+            if (getStorePerson?.uploadedBy == "") {
+                binding.byDetails.text = "--"
+            } else {
+                binding.byDetails.text = getStorePerson?.uploadedBy
+//                holder.empName.text = " - " +empname
+            }
+        }
+
+        binding.overallLayout.setOnClickListener {
+            callBackInterface.onClickStatus(
+                position,
+                getStorePerson?.swachhid,
+                getStorePerson?.status,
+                getStorePerson?.approvedDate,
+                getStorePerson?.storeId,
+                getStorePerson?.uploadedDate,
+                getStorePerson?.reshootDate,
+                getStorePerson?.partiallyApprovedDate,
+            )
+        }
+
+
+        binding.reviewButtonApproved.setOnClickListener {
+            callBackInterface.onClickReview( getStorePerson?.swachhid,  getStorePerson?.storeId )
+        }
+        binding.reviewButtonPending.setOnClickListener {
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+        }
+        binding.reviewButtonReshoot.setOnClickListener {
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+        }
+        binding.reviewButtonpartial.setOnClickListener {
+            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+        }
 
     }
+
+
+//    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+//        val onDetails: TextView = itemView.findViewById(R.id.date_details)
+//        val byDetails: TextView = itemView.findViewById(R.id.by_details)
+//        val approvedLayout: LinearLayout = itemView.findViewById(R.id.green_approved_layot)
+//        val reshootLayout: LinearLayout = itemView.findViewById(R.id.re_shoot_layout)
+//        val pendingpLayout: LinearLayout = itemView.findViewById(R.id.pending_layout)
+//        val notUpdatedLayout: LinearLayout = itemView.findViewById(R.id.not_updated_layout)
+//        val overAllLayout: LinearLayout = itemView.findViewById(R.id.overallLayout)
+//        val partiallyApproved: LinearLayout = itemView.findViewById(R.id.partially_approved_layout)
+//        val threeDots: LinearLayout = itemView.findViewById(R.id.three_dots)
+//        val swachId: TextView = itemView.findViewById(R.id.swachidgetStore)
+//        val empName: TextView = itemView.findViewById(R.id.empNamegetStore)
+//        val reviewLayoutAccepted: RelativeLayout = itemView.findViewById(R.id.reviewButtonApproved)
+//        val reviewLayoutPending: RelativeLayout = itemView.findViewById(R.id.reviewButtonPending)
+//        val reviewLayoutReshoot: RelativeLayout = itemView.findViewById(R.id.reviewButtonReshoot)
+//        val reviewLayoutPartial: RelativeLayout = itemView.findViewById(R.id.reviewButtonpartial)
+////
+//
+//
+//
+//    }
 }

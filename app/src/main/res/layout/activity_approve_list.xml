@@ -164,7 +164,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="@{model.status.equals(`PENDING`) ? model.uploadedDate : model.status.equals(`APPROVED`) ? model.uploadedDate : model.status.equals(`RESHOOT`) ? model.uploadedDate : model.status.equals(`PARTIALLY APPROVED`) ? model.uploadedDate : `-`}"
+                                            android:text="@{model.status.equals(`Pending`) ? model.uploadedDate : model.status.equals(`Approved`) ? model.uploadedDate : model.status.equals(`Reshoot`) ? model.uploadedDate : model.status.equals(`Partially Approved`) ? model.uploadedDate : `-`}"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />

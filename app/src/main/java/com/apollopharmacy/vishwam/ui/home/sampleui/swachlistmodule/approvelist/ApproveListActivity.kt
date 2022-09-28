@@ -272,6 +272,10 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 activityApproveListBinding.startReviewButton.visibility=View.GONE
                 activityApproveListBinding.submitRatingButton.visibility=View.GONE
                 activityApproveListBinding.viewformarginBottom.visibility=View.GONE
+            }else{
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                activityApproveListBinding.viewformarginBottom.visibility=View.GONE
             }
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE
         } else {
@@ -281,6 +285,10 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 activityApproveListBinding.submitRatingButton.visibility=View.GONE
                 activityApproveListBinding.viewformarginBottom.visibility=View.GONE
                 activityApproveListBinding.startReviewButton.visibility=View.GONE
+            }else{
+                activityApproveListBinding.startReviewButton.visibility=View.GONE
+                activityApproveListBinding.submitRatingButton.visibility=View.GONE
+                activityApproveListBinding.viewformarginBottom.visibility=View.GONE
             }
 
 //            activityApproveListBinding.submitRating.visibility=View.VISIBLE

@@ -199,7 +199,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{pendingAndApprovedModel.status.equals(`PENDING`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`APPROVED`) ? pendingAndApprovedModel.approvedDate : pendingAndApprovedModel.status.equals(`RESHOOT`) ? pendingAndApprovedModel.reshootDate : pendingAndApprovedModel.status.equals(`PARTIALLY APPROVED`) ? pendingAndApprovedModel.partiallyApprovedDate : `-`}"
+                                android:text="@{pendingAndApprovedModel.status.equals(`Pending`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Approved`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Reshoot`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Partially Approved`) ?pendingAndApprovedModel.uploadedDate : `-`}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
