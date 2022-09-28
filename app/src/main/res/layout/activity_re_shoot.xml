@@ -203,6 +203,7 @@
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
+                                        android:textAllCaps="true"
                                         android:layout_marginEnd="@dimen/value_2dp"
                                         android:id="@+id/statusTop"
                                         android:layout_width="wrap_content"

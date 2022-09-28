@@ -515,6 +515,10 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
             notifyDataSetChanged()
         }
 
+
+
+
+
         class RemarkAdapter(val remarkList: ArrayList<ResponseNewTicketlist.NewTicketHistoryResponse.Row>) :
             RecyclerView.Adapter<RemarkAdapter.ViewHolder>() {
             override fun onCreateViewHolder(

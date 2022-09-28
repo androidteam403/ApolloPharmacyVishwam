@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.databinding.DialogFilterUploadBinding
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
@@ -33,6 +34,7 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowac
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse.Get
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -57,7 +59,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     private var isLoading: Boolean = false
     private var isFirstTime: Boolean = true
 
-    var getStoreLists = ArrayList<GetStorePersonHistoryodelResponse.Get>()
+    var getStoreLists = ArrayList<Get>()
     private lateinit var getStorePersonAdapter: GetStorePersonAdapter
     var positionofday: String? = null
     var nextUploadDate: LocalDate? = null
@@ -211,8 +213,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
 //                it.wednesday = false
-//                it.thursday = false
-//                it.saturday = true
+//              it.thursday = false
+//               it.saturday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -285,7 +287,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                     }
                 }
-                if (!isSameDay) {
+                if (!isSameDay && positionofday!=null) {
                     calcNextFriday(dt, positionofday!!)
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadNowLayout.visibility = View.GONE
@@ -311,26 +313,17 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             if (viewBinding.pullToRefresh.isRefreshing) {
                 viewBinding.pullToRefresh.isRefreshing = false
             }
-//            if (it.getList?.size == 0){
-//                viewBinding.imageRecyclerView.visibility = View.GONE
-//                viewBinding.noOrdersFound.visibility = View.VISIBLE
-//                hideLoading()
-//            }
+
             else {
-
-//                getStoreLists.addAll(it.getList!!)
-
-//                it.getList?.let { it1 -> getStoreLists?.addAll(it1) }
-
-
-//                Toast.makeText(context, ""+it.getList!!?.size, Toast.LENGTH_SHORT).show()
                 viewBinding.noOrdersFound.visibility = View.GONE
                 viewBinding.imageRecyclerView.visibility = View.VISIBLE
                 if (isLoading) {
                     hideLoading()
-
+                    getStorePersonAdapter.getData()?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
+                    var listSize = getStorePersonAdapter.getData()!!.size
+                    getStorePersonAdapter.notifyItemRemoved(listSize)
                     getStorePersonAdapter.getData()
-                        ?.addAll((it.getList!! as ArrayList<GetStorePersonHistoryodelResponse.Get>?)!!)
+                        ?.addAll((it.getList!! as ArrayList<Get>?)!!)
                     getStorePersonAdapter.notifyDataSetChanged()
 
                     if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
@@ -507,10 +500,20 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         handler.post(Runnable
         {
 
-            isLoading = true
-            startPage = startPage + 10
-            endPageNum = endPageNum + 10
-            callAPI(startPage, endPageNum, complaintListStatus)
+           if( getStorePersonAdapter.getData()!!.size>=10){
+               var addemptyObject = GetStorePersonHistoryodelResponse.Get()
+               addemptyObject.swachhid=null
+               getStorePersonAdapter.getData()?.add(addemptyObject)
+               getStorePersonAdapter.notifyItemInserted(getStorePersonAdapter.getData()?.size!! - 1)
+
+
+               isLoading = true
+               startPage = startPage + 10
+               endPageNum = endPageNum + 10
+               callAPI(startPage, endPageNum, complaintListStatus)
+           }
+//            var emptyObject= ArrayList<GetStorePersonHistoryodelResponse.Get>()
+
 
 
         })

@@ -201,8 +201,9 @@
                             android:layout_height="wrap_content"
                             android:text="@{model.status}"
                             android:textStyle="bold"
+                            android:textAllCaps="true"
                             android:textAlignment="center"
-                            android:textColor="@{model.status.equals(`PENDING`) ? @color/material_amber_accent_700 : model.status.equals(`APPROVED`) ? @color/greenn : model.status.equals(`RESHOOT`) ? @color/color_red : model.status.equals(`PARTIALLY APPROVED`) ? @color/material_amber_accent_700 : @color/black}"
+                            android:textColor="@{model.status.equals(`Pending`) ? @color/material_amber_accent_700 : model.status.equals(`Approved`) ? @color/greenn : model.status.equals(`Reshoot`) ? @color/color_red : model.status.equals(`Partially Approved`) ? @color/color_red : @color/black}"
                             android:textSize="@dimen/text_12sp" />
 
                         <RelativeLayout
