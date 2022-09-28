@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/medicineNameOrg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="24dp"
+                android:text="Crocin"
+                android:layout_marginRight="24dp"
+                android:lines="1"
+                android:textColor="@color/backgroundColor"
+                android:textSize="@dimen/text_15sp"
+                app:fontFamily="@font/droidsans" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/medicineNameOrg"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.77">
+
+                    <TextView
+                        android:id="@+id/medicineNameHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Category"
+                        android:textColor="@color/heading_blue"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/medicineName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/medicineNameHeader"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:lines="2"
+                        android:text="Pharma"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:id="@+id/quantityHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Qty."
+                        android:textColor="@color/heading_blue"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/quantityText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/quantityHeader"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:text="100"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.75">
+
+                    <TextView
+                        android:id="@+id/priceHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Price"
+                        android:textColor="@color/heading_blue"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/priceText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/priceHeader"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:drawableLeft="@drawable/ic_rupee_indian"
+                        android:text="100"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.4">
+
+                    <TextView
+                        android:id="@+id/bulkDiscText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Disc Amount"
+                        android:textColor="@color/heading_blue"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <ImageView
+                        android:id="@+id/subtract"
+                        android:layout_width="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_below="@+id/bulkDiscText"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="5dp"
+                        android:padding="@dimen/value_5dp"
+                        android:src="@drawable/minus" />
+
+                    <ImageView
+                        android:id="@+id/add"
+                        android:layout_width="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_below="@+id/bulkDiscText"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
+                        android:padding="@dimen/value_5dp"
+                        android:src="@drawable/add_circle" />
+
+                    <EditText
+                        android:id="@+id/bulkDisc"
+                        android:layout_width="80dp"
+                        android:layout_height="30dp"
+                        android:layout_below="@+id/bulkDiscText"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:layout_toLeftOf="@+id/add"
+                        android:layout_toRightOf="@+id/subtract"
+                        android:background="@drawable/bulk_discount_edittext"
+                        android:gravity="center"
+                        android:inputType="numberDecimal"
+                        android:text="0.00"
+                        android:imeOptions="flagNoExtractUi"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/marginLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.6"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/marginHeader"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:text="Margin"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+
+                    <TextView
+                        android:id="@+id/marginText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/marginHeader"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="2dp"
+                        android:text="10%"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_13sp"
+                        app:fontFamily="@font/droidsans" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+</layout>

@@ -47,6 +47,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
@@ -149,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
-            employeeRole= Preferences.INSTANCE.getEmployeeRoleUid();
+            employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
 //            userDesignation="EXECUTIVE";
 //           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
@@ -243,14 +243,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (isHomeScreen){
+        if (isHomeScreen) {
             finish();
-        }else {
+        } else {
             displaySelectedScreen("HOME");
             drawer.closeDrawer(GravityCompat.START);
         }
-
-
 
 
 //        if (isListScreen || isUploadScreen) {
@@ -369,7 +367,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+            case "QcPending":
+                headerText.setText("Pending List");
+                fragment = new PendingFragment();
+                filterIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+            case "QcApproved":
+                headerText.setText("Approved List");
+                fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
+                filterIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
 
+            case "QcRejected":
+                headerText.setText("Rejected List");
+                fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
+                filterIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
 //            case "Select Site":
 //                headerText.setText("Select Site ID");
 //                fragment = new SelectSiteActivityy();
@@ -590,6 +606,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Bill"))
                         )
 
+
                         .addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout))
                         .build()
                         .addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -663,7 +680,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Pending"))
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
-                                        .addChildModel(new ChildModel("Bill")));
+                                        .addChildModel(new ChildModel("Bill")))
+                        .addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+                                .addChildModel(new ChildModel("Pending"))
+                                .addChildModel(new ChildModel("Approved"))
+                                .addChildModel(new ChildModel("Rejected")));
+
+
 //                        ).addHeaderModel(
 //                        new HeaderModel("Swacch Apollo", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                                .addChildModel(new ChildModel("Swacch Images Upload"))
@@ -702,7 +725,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 5) {
+                            } else if (id == 6) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -722,11 +745,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
-                            } else if (groupPosition == 4 && childPosition == 0) {
+                            }
+                            else if (groupPosition == 3 && childPosition == 0) {
+                                displaySelectedScreen("QcPending");
+                            }
+                            else if (groupPosition == 3 && childPosition == 1) {
+                                displaySelectedScreen("QcApproved");
+                            }
+                            else if (groupPosition == 3 && childPosition == 2) {
+                                displaySelectedScreen("QcRejected");
+                            }
+                            else if (groupPosition == 5 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
-                            } else if (groupPosition == 4 && childPosition == 1) {
+                            } else if (groupPosition == 5 && childPosition == 1) {
                                 displaySelectedScreen("Swachh List");
-                            } else if (groupPosition == 3 && childPosition == 0) {
+                            } else if (groupPosition == 4 && childPosition == 0) {
                                 if (employeeRole.equalsIgnoreCase("Yes")) {
                                     displaySelectedScreen("Upload");
                                 } else {
