@@ -680,11 +680,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Pending"))
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
-                                        .addChildModel(new ChildModel("Bill")))
-                        .addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
-                                .addChildModel(new ChildModel("Pending"))
-                                .addChildModel(new ChildModel("Approved"))
-                                .addChildModel(new ChildModel("Rejected")));
+                                        .addChildModel(new ChildModel("Bill")));
+//                        .addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+//                                .addChildModel(new ChildModel("Pending"))
+//                                .addChildModel(new ChildModel("Approved"))
+//                                .addChildModel(new ChildModel("Rejected")));
 
 
 //                        ).addHeaderModel(
@@ -725,7 +725,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 6) {
+                            } else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -746,20 +746,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
                             }
-                            else if (groupPosition == 3 && childPosition == 0) {
-                                displaySelectedScreen("QcPending");
-                            }
-                            else if (groupPosition == 3 && childPosition == 1) {
-                                displaySelectedScreen("QcApproved");
-                            }
-                            else if (groupPosition == 3 && childPosition == 2) {
-                                displaySelectedScreen("QcRejected");
-                            }
-                            else if (groupPosition == 5 && childPosition == 0) {
+//                            else if (groupPosition == 3 && childPosition == 0) {
+//                                displaySelectedScreen("QcPending");
+//                            }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                displaySelectedScreen("QcApproved");
+//                            }
+//                            else if (groupPosition == 3 && childPosition == 2) {
+//                                displaySelectedScreen("QcRejected");
+//                            }
+                            else if (groupPosition == 4 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
                             } else if (groupPosition == 5 && childPosition == 1) {
                                 displaySelectedScreen("Swachh List");
-                            } else if (groupPosition == 4 && childPosition == 0) {
+                            } else if (groupPosition == 3 && childPosition == 0) {
                                 if (employeeRole.equalsIgnoreCase("Yes")) {
                                     displaySelectedScreen("Upload");
                                 } else {

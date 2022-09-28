@@ -202,7 +202,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
         }
         viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            submitClick()
+            if (viewBinding.pullToRefresh.isRefreshing) {
+                viewBinding.pullToRefresh.isRefreshing = false
+            }
         })
 
 
@@ -211,9 +213,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 val sdf = SimpleDateFormat("EEEE")
                 val d = Date()
 
-
-//                it.wednesday = false
-//              it.thursday = false
+//
+//               it.wednesday = false
+//             it.thursday = true
 //               it.saturday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())

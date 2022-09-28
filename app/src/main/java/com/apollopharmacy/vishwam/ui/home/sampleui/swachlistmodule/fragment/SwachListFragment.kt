@@ -157,11 +157,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         userDesignation = loginData?.APPLEVELDESIGNATION!!
 
         viewBinding.pullToRefreshApproved.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            submitClickApproved()
+            if (viewBinding.pullToRefreshApproved.isRefreshing) {
+                viewBinding.pullToRefreshApproved.isRefreshing = false
+            }
         })
 
         viewBinding.pullToRefreshPending.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            submitClickPending()
+            if (viewBinding.pullToRefreshPending.isRefreshing) {
+                viewBinding.pullToRefreshPending.isRefreshing = false
+            }
         })
 
         Utlis.showLoading(requireContext())
@@ -549,27 +553,27 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     fun submitClickApproved() {
-//        pendingAndApprovedList.clear()
-//        pendingList.clear()
-//        isApprovedTab = true
+        pendingAndApprovedList.clear()
+        pendingList.clear()
+        isApprovedTab = true
 
-//        if (!viewBinding.pullToRefreshApproved.isRefreshing)
-//            Utlis.showLoading(requireContext())
-//
-//        callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
+        if (!viewBinding.pullToRefreshApproved.isRefreshing)
+            Utlis.showLoading(requireContext())
+
+        callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
 
     }
 
     fun submitClickPending() {
-//        pendingAndApprovedList.clear()
-//        pendingList.clear()
-//        isApprovedTab = false
-//
-//        if (!viewBinding.pullToRefreshPending.isRefreshing)
-//            Utlis.showLoading(requireContext())
-//
-//        callAPI(startPagePending, endPageNumPending, isApprovedTab)
+        pendingAndApprovedList.clear()
+        pendingList.clear()
+        isApprovedTab = false
+
+        if (!viewBinding.pullToRefreshPending.isRefreshing)
+            Utlis.showLoading(requireContext())
+
+        callAPI(startPagePending, endPageNumPending, isApprovedTab)
 
 
     }

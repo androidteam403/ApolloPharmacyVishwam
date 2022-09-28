@@ -307,7 +307,7 @@
 
 
                                     <TextView
-                                        android:layout_width="@dimen/value_100dp"
+                                        android:layout_width="@dimen/value_70dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/value_7dp"
                                         android:layout_marginBottom="@dimen/five5_sp"
@@ -316,7 +316,7 @@
                                         android:text="Partial"
                                         android:textAlignment="center"
                                         android:textColor="@color/white"
-                                        android:textSize="@dimen/text_16sp"
+                                        android:textSize="@dimen/text_12sp"
                                         android:textStyle="bold"
                                         android:visibility="@{status.equals(`3`) ? view.VISIBLE : view.GONE}" />
 
@@ -324,17 +324,19 @@
                                     <LinearLayout
                                         android:layout_marginTop="@dimen/value_7dp"
                                         android:layout_marginBottom="@dimen/five5_sp"
-                                        android:layout_width="100dp"
+                                        android:layout_width="@dimen/value_80dp"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal"
-                                        android:padding="@dimen/five5_sp"
+                                        android:padding="4dp"
+
+                                        android:gravity="center"
                                         android:background="@drawable/green_background"
                                         android:visibility="@{status.equals(`1`) ? view.VISIBLE : view.GONE}" >
 
                                         <ImageView
                                             android:layout_gravity="center"
-                                            android:layout_width="@dimen/text_18sp"
-                                            android:layout_height="@dimen/text_18sp"
+                                            android:layout_width="14sp"
+                                            android:layout_height="14sp"
                                             android:src="@drawable/whitee_icon"/>
 
                                         <TextView
@@ -342,7 +344,7 @@
                                             android:layout_height="wrap_content"
                                             android:text="Approved"
                                             android:textColor="@color/white"
-                                            android:textSize="@dimen/text_16sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold"
                                            />
 
@@ -351,7 +353,7 @@
 
 
                                         <TextView
-                                            android:layout_width="@dimen/value_100dp"
+                                            android:layout_width="@dimen/value_80dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_7dp"
                                             android:layout_marginBottom="@dimen/five5_sp"
@@ -360,12 +362,12 @@
                                             android:text="Re-Shoot"
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
-                                            android:textSize="@dimen/text_16sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold"
                                             android:visibility="@{status.equals(`2`) ? view.VISIBLE : view.GONE}" />
 
                                         <TextView
-                                            android:layout_width="@dimen/value_100dp"
+                                            android:layout_width="@dimen/value_70dp"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_7dp"
                                             android:layout_marginBottom="@dimen/five5_sp"
@@ -375,7 +377,7 @@
                                             android:text="Pending"
                                             android:textAlignment="center"
                                             android:textColor="@color/white"
-                                            android:textSize="@dimen/text_16sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold"
                                             android:visibility="@{status.equals(`0`) ? view.VISIBLE : view.GONE}" />
 
