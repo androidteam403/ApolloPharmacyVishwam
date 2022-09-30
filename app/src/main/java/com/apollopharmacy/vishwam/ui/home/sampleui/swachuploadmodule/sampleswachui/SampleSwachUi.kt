@@ -100,7 +100,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
         val todaysUpdate = sdf.format(Date())
 
-        viewBinding.todaysDate.text = todaysUpdate
+        viewBinding.todaysDateLayout.text = todaysUpdate
 
         showLoading()
         viewModel.checkDayWiseAccess()
@@ -171,7 +171,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         }
         viewModel.uploadSwachModel.observeForever {
             alreadyUploadedMessage = it.message
-//           it.message = "ALREADY UPLAODED"
+//          it.message = "ALREADY UPLAODED"
 
             if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -186,6 +186,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
                 viewBinding.uploadNowLayout.visibility = View.GONE
+                viewBinding.todaysDateLayout.visibility=View.GONE
+                viewBinding.todaysUpdateLayout.visibility=View.GONE
                 viewBinding.alreadyUploadedlayout.visibility = View.GONE
                 viewBinding.uploadOnLayout.visibility = View.GONE
                 viewBinding.uploadNowGrey.visibility = View.VISIBLE
@@ -216,7 +218,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //
 //               it.wednesday = false
 ////             it.thursday = true
-//              it.friday = true
+//             it.friday = false
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -291,6 +293,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 }
                 if (!isSameDay && positionofday!=null) {
                     calcNextFriday(dt, positionofday!!)
+                    viewBinding.todaysDateLayout.visibility=View.GONE
+                    viewBinding.todaysUpdateLayout.visibility=View.GONE
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadNowLayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.VISIBLE
