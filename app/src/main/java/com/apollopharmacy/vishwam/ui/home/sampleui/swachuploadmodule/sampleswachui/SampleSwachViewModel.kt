@@ -5,13 +5,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter.RatingReviewViewModel
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.CommandsNeww
@@ -36,7 +41,7 @@ class SampleSwachViewModel : ViewModel() {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.swachImagesRegister(Preferences.getSiteId())
+                SwachApiRepo.swachImagesRegister(Preferences.getSwachhSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -209,7 +214,7 @@ class SampleSwachViewModel : ViewModel() {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiiRepo.checkDayWiseAccess(Preferences.getSiteId())
+                SwachApiiRepo.checkDayWiseAccess(Preferences.getSwachhSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -316,7 +321,7 @@ class SampleSwachViewModel : ViewModel() {
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
                 SwachApiRepo.getLastUploadedDate("h72genrSSNFivOi/cfiX3A==",
-                    Preferences.getSiteId(),
+                    Preferences.getSwachhSiteId(),
                     Preferences.getValidatedEmpId())
             }
             when (result) {
@@ -351,6 +356,7 @@ class SampleSwachViewModel : ViewModel() {
                 }
             }
         }
+
     }
 
     sealed class CommandsNewSwachFrag {

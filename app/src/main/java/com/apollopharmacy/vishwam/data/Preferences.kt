@@ -98,6 +98,8 @@ object Preferences {
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
 
+    private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
+
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
     }
@@ -218,5 +220,11 @@ object Preferences {
     fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
+    fun setSwachhSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
+    }
 
+    fun getSwachhSiteId(): String {
+        return sharedPreferences.getString(KEY_SWACHH_SITEID, "")!!
+    }
 }

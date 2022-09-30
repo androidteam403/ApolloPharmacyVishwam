@@ -26,11 +26,12 @@ import com.apollopharmacy.vishwam.databinding.DialogFilterUploadBinding
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
@@ -86,48 +87,53 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
+        if (Preferences.getSwachhSiteId().isEmpty()) {
+            val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+            startActivityForResult(i, 781)
+        } else {
+
 //       viewBinding.callback=this
-        viewModel.getLastUploadedDate()
-        viewModel.swachImagesRegisters()
-        setFilterIndication()
-        viewBinding.storeId.text = Preferences.getSiteId()
-        viewBinding.userId.text = Preferences.getToken()
+            viewModel.getLastUploadedDate()
+            viewModel.swachImagesRegisters()
+            setFilterIndication()
+            viewBinding.storeId.text = Preferences.getSwachhSiteId()
+            viewBinding.userId.text = Preferences.getToken()
 
 
 
 
-        onSuccessLastUpdatedDate()
-        val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
-        val todaysUpdate = sdf.format(Date())
+            onSuccessLastUpdatedDate()
+            val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
+            val todaysUpdate = sdf.format(Date())
 
-        viewBinding.todaysDate.text = todaysUpdate
+            viewBinding.todaysDate.text = todaysUpdate
 
-        showLoading()
-        viewModel.checkDayWiseAccess()
+            showLoading()
+            viewModel.checkDayWiseAccess()
 
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
-        val currentDate: String = simpleDateFormat.format(Date())
+            val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.DATE, -7)
+            val currentDate: String = simpleDateFormat.format(Date())
 
-        var fromdate = simpleDateFormat.format(cal.time)
-        var toDate = currentDate
+            var fromdate = simpleDateFormat.format(cal.time)
+            var toDate = currentDate
 
 
-        val loginJson = Preferences.getLoginJson()
-        var loginData: LoginDetails? = null
-        try {
-            val gson = GsonBuilder().setPrettyPrinting().create()
-            loginData = gson.fromJson(loginJson, LoginDetails::class.java)
-        } catch (e: JsonParseException) {
-            e.printStackTrace()
-        }
+            val loginJson = Preferences.getLoginJson()
+            var loginData: LoginDetails? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                loginData = gson.fromJson(loginJson, LoginDetails::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
 
-        layoutManager = LinearLayoutManager(context)
-        //attaches LinearLayoutManager with RecyclerView
-        viewBinding.imageRecyclerView.layoutManager = layoutManager
+            layoutManager = LinearLayoutManager(context)
+            //attaches LinearLayoutManager with RecyclerView
+            viewBinding.imageRecyclerView.layoutManager = layoutManager
 
-        callAPI(startPage, endPageNum, complaintListStatus)
+            callAPI(startPage, endPageNum, complaintListStatus)
 //        showLoading()
 //        var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
 //        getStoreHistoryRequest.storeid = Preferences.getSiteId()
@@ -149,126 +155,126 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            )
 //                .show()
 //        }
-        viewModel.swachhapolloModel.observeForever {
-            if (it != null && it.status ?: null == true) {
-                swacchApolloList.add(it)
+            viewModel.swachhapolloModel.observeForever {
+                if (it != null && it.status ?: null == true) {
+                    swacchApolloList.add(it)
 
-                for ((index, value) in it.configlist!!.withIndex()) {
-                    val countUpload = value.categoryImageUploadCount?.toInt()
-                    var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
-                    for (count in 1..countUpload!!) {
+                    for ((index, value) in it.configlist!!.withIndex()) {
+                        val countUpload = value.categoryImageUploadCount?.toInt()
+                        var dtcl_list = ArrayList<SwachModelResponse.Config.ImgeDtcl>()
+                        for (count in 1..countUpload!!) {
 
-                        dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+                            dtcl_list.add(SwachModelResponse.Config.ImgeDtcl(null, count, "", 0))
+
+                        }
+                        swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
 
                     }
-                    swacchApolloList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
+
+                    hideLoading()
 
                 }
-
-                hideLoading()
-
             }
-        }
-        viewModel.uploadSwachModel.observeForever {
-            alreadyUploadedMessage = it.message
+            viewModel.uploadSwachModel.observeForever {
+                alreadyUploadedMessage = it.message
 //           it.message = "ALREADY UPLAODED"
 
-            if (it != null && it.status == true) {
+                if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                Utlis.hideLoading()
+                    Utlis.hideLoading()
 
-            } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
+                } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
-                val cal = Calendar.getInstance()
-                cal.add(Calendar.DATE, +7)
-                val nextUploadDate = simpleDateFormat.format(cal.time)
+                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
+                    val cal = Calendar.getInstance()
+                    cal.add(Calendar.DATE, +7)
+                    val nextUploadDate = simpleDateFormat.format(cal.time)
 
 
-                viewBinding.uploadNowLayout.visibility = View.GONE
-                viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                viewBinding.uploadOnLayout.visibility = View.GONE
-                viewBinding.uploadNowGrey.visibility = View.VISIBLE
-                viewBinding.nextUploadDate.text = nextUploadDate
-                Utlis.hideLoading()
+                    viewBinding.uploadNowLayout.visibility = View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadOnLayout.visibility = View.GONE
+                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+                    viewBinding.nextUploadDate.text = nextUploadDate
+                    Utlis.hideLoading()
 
-            } else {
+                } else {
 //                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
-                viewBinding.uploadNowLayout.visibility = View.VISIBLE
-                viewBinding.uploadNowGrey.visibility = View.GONE
-                viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                viewBinding.uploadOnLayout.visibility = View.GONE
-                Utlis.hideLoading()
+                    viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                    viewBinding.uploadNowGrey.visibility = View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadOnLayout.visibility = View.GONE
+                    Utlis.hideLoading()
+                }
             }
-        }
-        viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            if (viewBinding.pullToRefresh.isRefreshing) {
-                viewBinding.pullToRefresh.isRefreshing = false
-            }
-        })
+            viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+                if (viewBinding.pullToRefresh.isRefreshing) {
+                    viewBinding.pullToRefresh.isRefreshing = false
+                }
+            })
 
 
-        viewModel.checkDayWiseAccess.observeForever {
-            if (it != null) {
-                val sdf = SimpleDateFormat("EEEE")
-                val d = Date()
+            viewModel.checkDayWiseAccess.observeForever {
+                if (it != null) {
+                    val sdf = SimpleDateFormat("EEEE")
+                    val d = Date()
 
 //
 //               it.wednesday = false
 ////             it.thursday = true
 //              it.friday = true
-                val dayOfTheWeek: String = sdf.format(d)
-                charArray.add(it.sunday.toString())
-                charArray.add(it.monday.toString())
-                charArray.add(it.tuesday.toString())
-                charArray.add(it.wednesday.toString())
-                charArray.add(it.thursday.toString())
-                charArray.add(it.friday.toString())
-                charArray.add(it.saturday.toString())
+                    val dayOfTheWeek: String = sdf.format(d)
+                    charArray.add(it.sunday.toString())
+                    charArray.add(it.monday.toString())
+                    charArray.add(it.tuesday.toString())
+                    charArray.add(it.wednesday.toString())
+                    charArray.add(it.thursday.toString())
+                    charArray.add(it.friday.toString())
+                    charArray.add(it.saturday.toString())
 
-                for (i in charArray.indices) {
-                    if (charArray.get(i).equals("true")) {
+                    for (i in charArray.indices) {
+                        if (charArray.get(i).equals("true")) {
 //                        positionofday = i
-                        positionofftheDay.add(i)
+                            positionofftheDay.add(i)
+                        }
                     }
-                }
-                for (i in positionofftheDay.indices) {
-                    if (positionofftheDay.get(i) == 0) {
-                        dayofCharArray = "Sunday"
-                    } else if (positionofftheDay.get(i) == 1) {
-                        dayofCharArray = "Monday"
-                    } else if (positionofftheDay.get(i) == 2) {
-                        dayofCharArray = "Tuesday"
-                    } else if (positionofftheDay.get(i) == 3) {
-                        dayofCharArray = "Wednesday"
-                    } else if (positionofftheDay.get(i) == 4) {
-                        dayofCharArray = "Thursday"
-                    } else if (positionofftheDay.get(i) == 5) {
-                        dayofCharArray = "Friday"
-                    } else if (positionofftheDay.get(i) == 6) {
-                        dayofCharArray = "Saturday"
+                    for (i in positionofftheDay.indices) {
+                        if (positionofftheDay.get(i) == 0) {
+                            dayofCharArray = "Sunday"
+                        } else if (positionofftheDay.get(i) == 1) {
+                            dayofCharArray = "Monday"
+                        } else if (positionofftheDay.get(i) == 2) {
+                            dayofCharArray = "Tuesday"
+                        } else if (positionofftheDay.get(i) == 3) {
+                            dayofCharArray = "Wednesday"
+                        } else if (positionofftheDay.get(i) == 4) {
+                            dayofCharArray = "Thursday"
+                        } else if (positionofftheDay.get(i) == 5) {
+                            dayofCharArray = "Friday"
+                        } else if (positionofftheDay.get(i) == 6) {
+                            dayofCharArray = "Saturday"
+                        }
+                        dayOfCharArrayList.add(dayofCharArray!!)
                     }
-                    dayOfCharArrayList.add(dayofCharArray!!)
-                }
 
-                val dt = LocalDate.now()
+                    val dt = LocalDate.now()
 
 
 //                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
-                var isSameDay: Boolean = false;
-                for (i in dayOfCharArrayList.indices) {
-                    if (dayOfCharArrayList.get(0) == dayOfTheWeek) {
-                        positionofday = dayOfCharArrayList.get(1)
-                    } else {
-                        positionofday = dayOfCharArrayList.get(0)
-                    }
-                    if (dayOfCharArrayList.get(i) == dayOfTheWeek) {
-                        isSameDay = true
-                        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                            var submit = OnUploadSwachModelRequest()
-                            submit.actionEvent = "SUBMIT"
-                            submit.storeid = Preferences.getSiteId()
-                            submit.userid = Preferences.getValidatedEmpId()
+                    var isSameDay: Boolean = false;
+                    for (i in dayOfCharArrayList.indices) {
+                        if (dayOfCharArrayList.get(0) == dayOfTheWeek) {
+                            positionofday = dayOfCharArrayList.get(1)
+                        } else {
+                            positionofday = dayOfCharArrayList.get(0)
+                        }
+                        if (dayOfCharArrayList.get(i) == dayOfTheWeek) {
+                            isSameDay = true
+                            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                                var submit = OnUploadSwachModelRequest()
+                                submit.actionEvent = "SUBMIT"
+                                submit.storeid = Preferences.getSwachhSiteId()
+                                submit.userid = Preferences.getValidatedEmpId()
 //            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 //
 //            for (i in swacchApolloList.get(0).configlist!!.indices) {
@@ -282,83 +288,82 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //
 //            }
 //            submit.imageUrls = imageUrlsList
-                            viewModel.onUploadSwach(submit)
+                                viewModel.onUploadSwach(submit)
+
+                            }
+
 
                         }
-
-
+                    }
+                    if (!isSameDay && positionofday != null) {
+                        calcNextFriday(dt, positionofday!!)
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.GONE
+                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                        val strDate = calcNextFriday(dt, positionofday!!).toString()
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                        val date = dateFormat.parse(strDate.toString())
+                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                        viewBinding.dayoftheweekLayout.text = dateNewFormat
                     }
                 }
-                if (!isSameDay && positionofday!=null) {
-                    calcNextFriday(dt, positionofday!!)
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadNowLayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.VISIBLE
-                    val strDate = calcNextFriday(dt, positionofday!!).toString()
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                    val date = dateFormat.parse(strDate.toString())
-                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
-                    viewBinding.dayoftheweekLayout.text = dateNewFormat
-                }
+                hideLoading()
             }
-            hideLoading()
-        }
 
 
 //simpleDateFormat,siteid,transperent
 
 
-        viewModel.getStorePersonHistory.observeForever {
+            viewModel.getStorePersonHistory.observeForever {
 
 
-            Utlis.hideLoading()
-            if (viewBinding.pullToRefresh.isRefreshing) {
-                viewBinding.pullToRefresh.isRefreshing = false
-            }
-
-            else {
-                viewBinding.noOrdersFound.visibility = View.GONE
-                viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                if (isLoading) {
-                    hideLoading()
-                    getStorePersonAdapter.getData()?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
-                    var listSize = getStorePersonAdapter.getData()!!.size
-                    getStorePersonAdapter.notifyItemRemoved(listSize)
-                    getStorePersonAdapter.getData()
-                        ?.addAll((it.getList!! as ArrayList<Get>?)!!)
-                    getStorePersonAdapter.notifyDataSetChanged()
-
-                    if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
-                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                        viewBinding.noOrdersFound.visibility = View.GONE
-                    } else {
-                        viewBinding.imageRecyclerView.visibility = View.GONE
-                        viewBinding.noOrdersFound.visibility = View.VISIBLE
-                    }
-                    isLoading = false
+                Utlis.hideLoading()
+                if (viewBinding.pullToRefresh.isRefreshing) {
+                    viewBinding.pullToRefresh.isRefreshing = false
                 } else {
+                    viewBinding.noOrdersFound.visibility = View.GONE
+                    viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                    if (isLoading) {
+                        hideLoading()
+                        getStorePersonAdapter.getData()
+                            ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
+                        var listSize = getStorePersonAdapter.getData()!!.size
+                        getStorePersonAdapter.notifyItemRemoved(listSize)
+                        getStorePersonAdapter.getData()
+                            ?.addAll((it.getList!! as ArrayList<Get>?)!!)
+                        getStorePersonAdapter.notifyDataSetChanged()
 
-                    getStorePersonAdapter =
-                        GetStorePersonAdapter(it.getList,
-                            this
-                        )
-                    layoutManager = LinearLayoutManager(ViswamApp.context)
-                    viewBinding.imageRecyclerView.layoutManager = layoutManager
-                    viewBinding.imageRecyclerView.itemAnimator =
-                        DefaultItemAnimator()
-                    viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
-
-                    if (it.getList!= null && it.getList?.size!! > 0) {
-                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                        viewBinding.noOrdersFound.visibility = View.GONE
+                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
+                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                            viewBinding.noOrdersFound.visibility = View.GONE
+                        } else {
+                            viewBinding.imageRecyclerView.visibility = View.GONE
+                            viewBinding.noOrdersFound.visibility = View.VISIBLE
+                        }
+                        isLoading = false
                     } else {
-                        viewBinding.imageRecyclerView.visibility = View.GONE
-                        viewBinding.noOrdersFound.visibility = View.VISIBLE
-                    }
+
+                        getStorePersonAdapter =
+                            GetStorePersonAdapter(it.getList,
+                                this
+                            )
+                        layoutManager = LinearLayoutManager(ViswamApp.context)
+                        viewBinding.imageRecyclerView.layoutManager = layoutManager
+                        viewBinding.imageRecyclerView.itemAnimator =
+                            DefaultItemAnimator()
+                        viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+
+                        if (it.getList != null && it.getList?.size!! > 0) {
+                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                            viewBinding.noOrdersFound.visibility = View.GONE
+                        } else {
+                            viewBinding.imageRecyclerView.visibility = View.GONE
+                            viewBinding.noOrdersFound.visibility = View.VISIBLE
+                        }
 //                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
-                    hideLoading()
+                        hideLoading()
+                    }
                 }
-            }
 
 
 //            getStorePersonHistoryList.clear()
@@ -454,19 +459,19 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                }
 //
 //            }
-        }
+            }
 
 //        viewBinding.reshootCardView.setOnClickListener {
 //            val intent = Intent(context, ReShootActivity::class.java)
 //            startActivity(intent)
 //        }
 
-        viewBinding.uploadNowLayout.setOnClickListener {
-            val intent = Intent(context, UploadNowButtonActivity::class.java)
-            startActivityForResult(intent, 779)
+            viewBinding.uploadNowLayout.setOnClickListener {
+                val intent = Intent(context, UploadNowButtonActivity::class.java)
+                startActivityForResult(intent, 779)
+            }
+            addScrollerListener()
         }
-        addScrollerListener()
-
     }
 
     private fun addScrollerListener() {
@@ -502,20 +507,19 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         handler.post(Runnable
         {
 
-           if( getStorePersonAdapter.getData()!!.size>=10){
-               var addemptyObject = GetStorePersonHistoryodelResponse.Get()
-               addemptyObject.swachhid=null
-               getStorePersonAdapter.getData()?.add(addemptyObject)
-               getStorePersonAdapter.notifyItemInserted(getStorePersonAdapter.getData()?.size!! - 1)
+            if (getStorePersonAdapter.getData()!!.size >= 10) {
+                var addemptyObject = GetStorePersonHistoryodelResponse.Get()
+                addemptyObject.swachhid = null
+                getStorePersonAdapter.getData()?.add(addemptyObject)
+                getStorePersonAdapter.notifyItemInserted(getStorePersonAdapter.getData()?.size!! - 1)
 
 
-               isLoading = true
-               startPage = startPage + 10
+                isLoading = true
+                startPage = startPage + 10
 //               endPageNum = endPageNum + 10
-               callAPI(startPage, endPageNum, complaintListStatus)
-           }
+                callAPI(startPage, endPageNum, complaintListStatus)
+            }
 //            var emptyObject= ArrayList<GetStorePersonHistoryodelResponse.Get>()
-
 
 
         })
@@ -541,7 +545,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 Utlis.showLoading(requireContext())
 
             var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
-            getStoreHistoryRequest.storeid = Preferences.getSiteId()
+            getStoreHistoryRequest.storeid = Preferences.getSwachhSiteId()
             getStoreHistoryRequest.empid = Preferences.getToken()
             getStoreHistoryRequest.fromdate = fromdate
             getStoreHistoryRequest.todate = toDate
@@ -606,14 +610,19 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 779 || requestCode == 780) {
-                startPage=0
-                endPageNum=10
+                startPage = 0
+                endPageNum = 10
                 callAPI(startPage, endPageNum, complaintListStatus)
                 viewModel.checkDayWiseAccess()
+            } else if (requestCode == 781) {
+                startPage = 0
+                endPageNum = 10
+                setup()
             }
 //            getStorePersonAdapter.notifyDataSetChanged()
 
@@ -723,8 +732,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
                 uploadStatusFilterDialog.dismiss()
-                startPage=0
-                endPageNum=10
+                startPage = 0
+                endPageNum = 10
                 callAPI(startPage, endPageNum, complaintListStatus)
 
 
@@ -732,6 +741,11 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             setFilterIndication()
         }
         uploadStatusFilterDialog.show()
+    }
+
+    override fun onClickSiteIdIcon() {
+        val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+        startActivityForResult(i, 781)
     }
 
     fun submitButtonEnable(dialogFilterUploadBinding: DialogFilterUploadBinding) {

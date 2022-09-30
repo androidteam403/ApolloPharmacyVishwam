@@ -941,6 +941,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         startActivityForResult(intent, 887)
     }
 
+    override fun onClickSiteIdIcon() {
+
+    }
+
 //    override fun deleteSite(siteDataItem: StoreListItem) {
 //
 //    }

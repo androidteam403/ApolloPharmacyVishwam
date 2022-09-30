@@ -1226,6 +1226,10 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         }
         complaintListStatusFilterDialog.show()
     }
+
+    override fun onClickSiteIdIcon() {
+
+    }
 }
 
 
