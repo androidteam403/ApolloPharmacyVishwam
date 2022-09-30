@@ -74,7 +74,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     var complaintListStatus: String = "0,1,2,3"
     var isApprovedTab: Boolean = true
     var isPendingTab: Boolean = false
-    var startPage: Int = 1
+    var startPage: Int = 0
     var endPageNum: Int = 10
     override val layoutRes: Int
         get() = R.layout.fragment_sampleui_swach
@@ -139,16 +139,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //        getStoreHistoryRequest.status = complaintListStatus
 //        viewModel.getStorePersonHistory(getStoreHistoryRequest)
 
-        if (NetworkUtil.isNetworkConnected(requireContext())) {
-            showLoading()
-        } else {
-            Toast.makeText(
-                requireContext(),
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+//        if (NetworkUtil.isNetworkConnected(requireContext())) {
+//            showLoading()
+//        } else {
+//            Toast.makeText(
+//                requireContext(),
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
         viewModel.swachhapolloModel.observeForever {
             if (it != null && it.status ?: null == true) {
                 swacchApolloList.add(it)
@@ -171,7 +171,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         }
         viewModel.uploadSwachModel.observeForever {
             alreadyUploadedMessage = it.message
-//            it.message = "ALREADY UPLAODED"
+//           it.message = "ALREADY UPLAODED"
 
             if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -215,8 +215,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 //
 //               it.wednesday = false
-//             it.thursday = true
-//               it.saturday = true
+////             it.thursday = true
+//              it.friday = true
                 val dayOfTheWeek: String = sdf.format(d)
                 charArray.add(it.sunday.toString())
                 charArray.add(it.monday.toString())
@@ -511,7 +511,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                isLoading = true
                startPage = startPage + 10
-               endPageNum = endPageNum + 10
+//               endPageNum = endPageNum + 10
                callAPI(startPage, endPageNum, complaintListStatus)
            }
 //            var emptyObject= ArrayList<GetStorePersonHistoryodelResponse.Get>()
@@ -610,6 +610,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 779 || requestCode == 780) {
+                startPage=0
+                endPageNum=10
                 callAPI(startPage, endPageNum, complaintListStatus)
                 viewModel.checkDayWiseAccess()
             }
@@ -721,7 +723,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             if (uploadStatusFilterDialog != null && uploadStatusFilterDialog.isShowing) {
                 uploadStatusFilterDialog.dismiss()
-                startPage=1
+                startPage=0
                 endPageNum=10
                 callAPI(startPage, endPageNum, complaintListStatus)
 

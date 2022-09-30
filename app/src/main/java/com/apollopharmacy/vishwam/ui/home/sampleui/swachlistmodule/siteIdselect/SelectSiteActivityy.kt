@@ -51,7 +51,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
         viewModel = ViewModelProvider(this)[SelectSiteActivityViewModel::class.java]
 
         selectsiteIdList = intent.getStringArrayListExtra("selectsiteIdList")!!
-//        Utlis.showLoading(context)
+
 
         Utlis.showLoading(this)
         viewModel.siteId()

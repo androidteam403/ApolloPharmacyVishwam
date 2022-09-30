@@ -60,10 +60,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var fromDate = String()
     var toDate = String()
     var isApprovedTab: Boolean = true
-    var startPageApproved: Int = 1
+    var startPageApproved: Int = 0
     var endPageNumApproved: Int = 10
 
-    var startPagePending: Int = 1
+    var startPagePending: Int = 0
     var endPageNumPending: Int = 10
     var handler: Handler = Handler()
     var isPendingTab: Boolean = false
@@ -626,7 +626,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                 isLoadingApproved = true
                 startPageApproved = startPageApproved + 10
-                endPageNumApproved = endPageNumApproved + 10
+//                endPageNumApproved = endPageNumApproved + 10
                 callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
             }
 
@@ -651,7 +651,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                 isLoadingPending = true
                 startPagePending = startPagePending + 10
-                endPageNumPending = endPageNumPending + 10
+//                endPageNumPending = endPageNumPending + 10
                 callAPI(startPagePending, endPageNumPending, isApprovedTab)
             }
 
@@ -679,16 +679,20 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     override fun onClickSearch() {
-        startPageApproved = 1
-        endPageNumApproved = 10
-        startPagePending = 1
-        endPageNumPending = 10
+
+
         Utlis.showLoading(requireContext())
         selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         selectedSiteids = TextUtils.join(", ", selectsiteIdList)
         if (isApprovedTab) {
+            pendingAndApprovedList.clear()
+            startPageApproved = 0
+            endPageNumApproved = 10
             callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
         } else {
+            pendingList.clear()
+            startPagePending = 0
+            endPageNumPending = 10
             callAPI(startPagePending, endPageNumPending, isApprovedTab)
         }
 
@@ -697,7 +701,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     override fun onClickApproved() {
         isApprovedTab = true
-        startPageApproved = 1
+        startPageApproved = 0
         endPageNumApproved = 10
         pendingAndApprovedList.clear()
 
@@ -757,7 +761,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     override fun onClickPending() {
         isApprovedTab = false
-        startPagePending = 1
+        startPagePending = 0
         endPageNumPending = 10
         pendingList.clear()
         selectedSiteids = TextUtils.join(", ", selectsiteIdList)
@@ -881,13 +885,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 Utlis.showLoading(requireContext())
                 selectedSiteids = TextUtils.join(", ", selectsiteIdList)
                 if (isApprovedTab) {
-                    startPageApproved = 1
+                    startPageApproved = 0
                     endPageNumApproved = 10
                     pendingAndApprovedList.clear()
                     callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
                 } else {
-                    startPagePending = 1
+                    startPagePending = 0
                     endPageNumPending = 10
                     pendingList.clear()
                     callAPI(startPagePending, endPageNumPending, isApprovedTab)
@@ -912,13 +916,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
                 selectedSiteids = TextUtils.join(", ", selectsiteIdList)
                 if (isApprovedTab) {
-                    startPageApproved = 1
+                    startPageApproved = 0
                     endPageNumApproved = 10
+                    pendingAndApprovedList.clear()
                     callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
                 } else {
-                    startPagePending = 1
+                    startPagePending = 0
                     endPageNumPending = 10
+                    pendingList.clear()
                     callAPI(startPagePending, endPageNumPending, isApprovedTab)
                 }
 
@@ -947,13 +953,15 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         siteIdDisplayAdapter?.notifyDataSetChanged()
 
         if (isApprovedTab) {
-            startPageApproved = 1
+            startPageApproved = 0
             endPageNumApproved = 10
+            pendingAndApprovedList.clear()
             callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
         } else {
-            startPagePending = 1
+            startPagePending = 0
             endPageNumPending = 10
+            pendingList.clear()
             callAPI(startPagePending, endPageNumPending, isApprovedTab)
         }
 

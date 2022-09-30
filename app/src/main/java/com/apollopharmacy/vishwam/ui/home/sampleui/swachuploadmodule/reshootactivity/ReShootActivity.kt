@@ -2,6 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootact
 
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -37,6 +39,7 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.OnClickStatusClickAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.File
@@ -190,12 +193,14 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         var submit = GetImageUrlModelRequest()
         submit.storeid = Preferences.getSiteId()
         submit.swachhId = swachId
-        Utlis.showLoading(this)
 
+        showLoadingTemp(this)
         viewModel.getImageUrl(submit)
 
         viewModel.getImageUrlsList.observeForever {
+
             if (it != null && it.categoryList != null) {
+               hideLoadingTemp()
                 getImageUrlsList.add(it)
 
                 if (it.remarks?.size!! > 0 && it.remarks?.get(0)?.remarks != "") {
@@ -233,14 +238,16 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     OnClickStatusClickAdapter(getImageUrlsList.get(0).categoryList, this, this)
                 val layoutManager = LinearLayoutManager(context)
                 activityreShootBinding.imageRecyclerViewRes.layoutManager = layoutManager
-                activityreShootBinding.imageRecyclerViewRes.itemAnimator =
-                    DefaultItemAnimator()
+//                activityreShootBinding.imageRecyclerViewRes.itemAnimator =
+//                    DefaultItemAnimator()
                 activityreShootBinding.imageRecyclerViewRes.adapter = onClickStatusClickAdapter
-                Utlis.hideLoading()
-            } else {
 
+            } else {
+               hideLoadingTemp()
                 Toast.makeText(applicationContext, "Please try again", Toast.LENGTH_SHORT).show()
             }
+
+
         }
 
 
@@ -535,6 +542,27 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             Toast.makeText(context, "Please re-shoot all the images", Toast.LENGTH_SHORT).show()
         }
     }
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
 
-
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
 }
