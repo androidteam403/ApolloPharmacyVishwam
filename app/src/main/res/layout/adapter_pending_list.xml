@@ -209,7 +209,6 @@
                         <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_7dp"
                             android:gravity="end"
                             android:textAlignment="viewEnd">
 

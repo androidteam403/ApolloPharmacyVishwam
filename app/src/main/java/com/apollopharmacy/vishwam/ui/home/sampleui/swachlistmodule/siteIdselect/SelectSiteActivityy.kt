@@ -19,11 +19,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.cms.RequestNewComplaintRegistration
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
+import com.apollopharmacy.vishwam.data.model.cms.SubmitNewV2Response
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSiteActivityyBinding
+import com.apollopharmacy.vishwam.dialog.SiteDialog
+import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.adapter.SiteIdAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.adapter.SiteIdDisplay
+import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.Gson
+import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -81,13 +88,32 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
                 }
 
 
+
             siteIdAdapter =
                 SiteIdAdapter(applicationContext, siteDataList, this, selectsiteIdList)
 //            activitySelectSiteActivityBinding.fieldRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context)
             activitySelectSiteActivityBinding.fieldRecyclerView.adapter = siteIdAdapter
 //            Utlis.hideLoading()
             Utlis.hideLoading()
+
+
+
         }
+
+
+        viewModel.command.observeForever({
+            when (it) {
+                is SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo -> {
+                  Utlis.hideLoading()
+                        Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                        Preferences.setSiteIdListFetched(true)
+//                        arguments =
+//                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+            }
+        })
+
         searchByFulfilmentId()
     }
 

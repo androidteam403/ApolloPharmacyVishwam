@@ -82,7 +82,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
 
-        if (status == "APPROVED") {
+        if (status == "Approved") {
 
             if (uploadedDate != null && uploadedDate != "") {
 

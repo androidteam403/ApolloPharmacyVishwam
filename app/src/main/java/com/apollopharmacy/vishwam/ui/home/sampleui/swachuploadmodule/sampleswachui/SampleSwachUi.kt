@@ -106,7 +106,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
             val todaysUpdate = sdf.format(Date())
 
-            viewBinding.todaysDate.text = todaysUpdate
+//            viewBinding.todaysDate.text = todaysUpdate
+        viewBinding.todaysDateLayout.text = todaysUpdate
 
             showLoading()
             viewModel.checkDayWiseAccess()
@@ -173,11 +174,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                     hideLoading()
 
-                }
+//                }
+//            }
+//            viewModel.uploadSwachModel.observeForever {
+//                alreadyUploadedMessage = it.message
+////           it.message = "ALREADY UPLAODED"
             }
-            viewModel.uploadSwachModel.observeForever {
-                alreadyUploadedMessage = it.message
-//           it.message = "ALREADY UPLAODED"
+        }
+        viewModel.uploadSwachModel.observeForever {
+            alreadyUploadedMessage = it.message
+//          it.message = "ALREADY UPLAODED"
 
                 if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -191,12 +197,20 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     val nextUploadDate = simpleDateFormat.format(cal.time)
 
 
-                    viewBinding.uploadNowLayout.visibility = View.GONE
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.GONE
-                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
-                    viewBinding.nextUploadDate.text = nextUploadDate
-                    Utlis.hideLoading()
+//                    viewBinding.uploadNowLayout.visibility = View.GONE
+//                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+//                    viewBinding.uploadOnLayout.visibility = View.GONE
+//                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+//                    viewBinding.nextUploadDate.text = nextUploadDate
+//                    Utlis.hideLoading()
+                viewBinding.uploadNowLayout.visibility = View.GONE
+                viewBinding.todaysDateLayout.visibility=View.GONE
+                viewBinding.todaysUpdateLayout.visibility=View.GONE
+                viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                viewBinding.uploadOnLayout.visibility = View.GONE
+                viewBinding.uploadNowGrey.visibility = View.VISIBLE
+                viewBinding.nextUploadDate.text = nextUploadDate
+                Utlis.hideLoading()
 
                 } else {
 //                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
@@ -222,15 +236,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //
 //               it.wednesday = false
 ////             it.thursday = true
-//              it.friday = true
-                    val dayOfTheWeek: String = sdf.format(d)
-                    charArray.add(it.sunday.toString())
-                    charArray.add(it.monday.toString())
-                    charArray.add(it.tuesday.toString())
-                    charArray.add(it.wednesday.toString())
-                    charArray.add(it.thursday.toString())
-                    charArray.add(it.friday.toString())
-                    charArray.add(it.saturday.toString())
+//
+//             it.friday = false
+                val dayOfTheWeek: String = sdf.format(d)
+                charArray.add(it.sunday.toString())
+                charArray.add(it.monday.toString())
+                charArray.add(it.tuesday.toString())
+                charArray.add(it.wednesday.toString())
+                charArray.add(it.thursday.toString())
+                charArray.add(it.friday.toString())
+                charArray.add(it.saturday.toString())
 
                     for (i in charArray.indices) {
                         if (charArray.get(i).equals("true")) {
@@ -293,23 +308,25 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             }
 
 
-                        }
-                    }
-                    if (!isSameDay && positionofday != null) {
-                        calcNextFriday(dt, positionofday!!)
-                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                        viewBinding.uploadNowLayout.visibility = View.GONE
-                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
-                        val strDate = calcNextFriday(dt, positionofday!!).toString()
-                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                        val date = dateFormat.parse(strDate.toString())
-                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
-                        viewBinding.dayoftheweekLayout.text = dateNewFormat
+
                     }
                 }
-                hideLoading()
+                if (!isSameDay && positionofday!=null) {
+                    calcNextFriday(dt, positionofday!!)
+                    viewBinding.todaysDateLayout.visibility=View.GONE
+                    viewBinding.todaysUpdateLayout.visibility=View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadNowLayout.visibility = View.GONE
+                    viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                    val strDate = calcNextFriday(dt, positionofday!!).toString()
+                    val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                    val date = dateFormat.parse(strDate.toString())
+                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                    viewBinding.dayoftheweekLayout.text = dateNewFormat
+                }
             }
-
+            hideLoading()
+        }
 
 //simpleDateFormat,siteid,transperent
 

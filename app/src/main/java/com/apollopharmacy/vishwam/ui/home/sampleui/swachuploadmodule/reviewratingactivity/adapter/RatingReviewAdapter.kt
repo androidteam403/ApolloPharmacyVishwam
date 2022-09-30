@@ -36,7 +36,11 @@ class RatingReviewAdapter(val context: Context, val remarksList: List<GetImageUr
             holder.adapterRatingReviewBinding.comments.text="--"
         }
 
+
         if(imageUrls?.userid!=null && imageUrls?.userid!=""){
+            var upperCaseApprovedBy: String = imageUrls?.userid!!
+
+            remarksList?.get(position)!!.userid= upperCaseApprovedBy.toUpperCase()
             holder.adapterRatingReviewBinding.userId.text=imageUrls?.userid
         }else{
             holder.adapterRatingReviewBinding.userId.text="--"
