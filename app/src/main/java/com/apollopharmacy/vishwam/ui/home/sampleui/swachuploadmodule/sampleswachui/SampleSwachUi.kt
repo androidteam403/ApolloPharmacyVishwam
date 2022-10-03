@@ -2,6 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswac
 
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -109,7 +111,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            viewBinding.todaysDate.text = todaysUpdate
         viewBinding.todaysDateLayout.text = todaysUpdate
 
-            showLoading()
+//            showLoading()
             viewModel.checkDayWiseAccess()
 
             val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
@@ -172,7 +174,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                     }
 
-                    hideLoading()
+//                    hideLoading()
 
 //                }
 //            }
@@ -187,7 +189,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                 if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                    Utlis.hideLoading()
+//                    Utlis.hideLoading()
 
                 } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -210,7 +212,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.uploadOnLayout.visibility = View.GONE
                 viewBinding.uploadNowGrey.visibility = View.VISIBLE
                 viewBinding.nextUploadDate.text = nextUploadDate
-                Utlis.hideLoading()
+//                Utlis.hideLoading()
 
                 } else {
 //                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
@@ -218,7 +220,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.uploadNowGrey.visibility = View.GONE
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.GONE
-                    Utlis.hideLoading()
+//                    Utlis.hideLoading()
                 }
             }
             viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
@@ -229,7 +231,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
             viewModel.checkDayWiseAccess.observeForever {
-                if (it != null) {
+                if (it != null && it.message!="NO DATE FOUND") {
                     val sdf = SimpleDateFormat("EEEE")
                     val d = Date()
 
@@ -325,7 +327,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.dayoftheweekLayout.text = dateNewFormat
                 }
             }
-            hideLoading()
+//            hideLoading()
         }
 
 //simpleDateFormat,siteid,transperent
@@ -334,14 +336,15 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             viewModel.getStorePersonHistory.observeForever {
 
 
-                Utlis.hideLoading()
+              Utlis.hideLoading()
                 if (viewBinding.pullToRefresh.isRefreshing) {
                     viewBinding.pullToRefresh.isRefreshing = false
-                } else {
+                }
+                else {
                     viewBinding.noOrdersFound.visibility = View.GONE
                     viewBinding.imageRecyclerView.visibility = View.VISIBLE
                     if (isLoading) {
-                        hideLoading()
+//                        hideLoading()
                         getStorePersonAdapter.getData()
                             ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
                         var listSize = getStorePersonAdapter.getData()!!.size
@@ -378,9 +381,11 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             viewBinding.noOrdersFound.visibility = View.VISIBLE
                         }
 //                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
-                        hideLoading()
+//                        hideLoading()
                     }
                 }
+
+
 
 
 //            getStorePersonHistoryList.clear()
@@ -559,7 +564,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             var toDate = currentDate
 //            getStorePersonHistoryList.clear()
             if (!isLoading)
-                Utlis.showLoading(requireContext())
+//            Utlis.showLoading(requireContext())
+            showLoading()
 
             var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
             getStoreHistoryRequest.storeid = Preferences.getSwachhSiteId()
@@ -804,4 +810,28 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
 
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+  if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
 }

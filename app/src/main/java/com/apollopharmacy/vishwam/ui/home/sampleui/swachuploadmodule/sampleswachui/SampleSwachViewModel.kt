@@ -225,6 +225,7 @@ class SampleSwachViewModel : ViewModel() {
                     } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
+                        checkDayWiseAccess.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {
