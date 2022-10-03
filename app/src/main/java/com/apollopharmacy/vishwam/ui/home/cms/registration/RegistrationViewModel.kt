@@ -405,7 +405,6 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseticketRatingApi::class.java
                                         )
-                                    // cmsloginapiresponse.value = responseCMSLogin
                                     cmsticketRatingresponse.value = responseticketRatingApi
 
 
@@ -746,7 +745,6 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseNewComplaintRegistration::class.java
                                         )
-                                    // cmsloginapiresponse.value = responseCMSLogin
                                     if (responseNewComplaintRegistration.success) {
                                         responsenewcomplaintregistration.value =
                                             responseNewComplaintRegistration
