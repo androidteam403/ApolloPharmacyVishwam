@@ -191,7 +191,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
         var submit = GetImageUrlModelRequest()
-        submit.storeid = Preferences.getSiteId()
+        submit.storeid = Preferences.getSwachhSiteId()
         submit.swachhId = swachId
 
         showLoadingTemp(this)
@@ -511,7 +511,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             if (NetworkUtil.isNetworkConnected(context)) {
                 var submit = OnUploadSwachModelRequest()
                 submit.actionEvent = "RESHOOT"
-                submit.storeid = Preferences.getSiteId()
+                submit.storeid = Preferences.getSwachhSiteId()
                 submit.userid = Preferences.getToken()
                 submit.swachhIdRehoot = swachId
                 submit.status = "0"

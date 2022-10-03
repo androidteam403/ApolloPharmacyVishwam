@@ -34,6 +34,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -54,7 +55,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     lateinit var activityUploadNowButtonBinding: ActivityUploadNowButtonBinding
     private var swacchApolloList = ArrayList<SwachModelResponse>()
     lateinit var viewModel: UploadNowButtonViewModel
-    private  var configListAdapter: ConfigAdapterSwach?=null
+    private var configListAdapter: ConfigAdapterSwach? = null
     var imageFromCameraFile: File? = null
     private lateinit var dialog: Dialog
     public var allImagesUploadedSwach: Boolean = false
@@ -72,7 +73,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         )
         viewModel = ViewModelProvider(this)[UploadNowButtonViewModel::class.java]
 
-        activityUploadNowButtonBinding.storeId.text = Preferences.getSiteId()
+        activityUploadNowButtonBinding.storeId.text = Preferences.getSwachhSiteId()
         activityUploadNowButtonBinding.userId.text = Preferences.getToken()
         val sdf = SimpleDateFormat("dd MMM, yyyy")
         val currentDate = sdf.format(Date())
@@ -83,7 +84,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 //        if (NetworkUtil.isNetworkConnected(this)) {
         showLoadingTemp(this)
-            viewModel.swachImagesRegisters()
+        viewModel.swachImagesRegisters()
 //        } else {
 //            context?.let {
 //                Toast.makeText(
@@ -103,10 +104,16 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         viewModel.uploadSwachModel.observeForever {
             if (it != null && it.status == true) {
-                hideLoading()
-               Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
-                onBackPressed()
+                // hideLoading()
+                Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                // onBackPressed()
                 Preferences.setUploadedDateDayWise(currentDate)
+                onSuccessUpdateSwachhDefualtSiteid()
+                var updateSwachhDefaultSiteRequest = UpdateSwachhDefaultSiteRequest();
+                updateSwachhDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
+                updateSwachhDefaultSiteRequest.site = Preferences.getSwachhSiteId()
+                viewModel.updateSwachhSiteIdApiCall(updateSwachhDefaultSiteRequest)
+
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
                 hideLoading()
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -146,14 +153,14 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 activityUploadNowButtonBinding.recyclerViewimageswach.adapter = configListAdapter
 
 
-            }else{
+            } else {
                 activityUploadNowButtonBinding.noOrdersFound.visibility = View.VISIBLE
                 hideLoadingTemp()
 //                hideLoading()
             }
 //            hideLoading()
         }
-        var count:Int=0
+        var count: Int = 0
         viewModel.commandsNewSwach.observeForever({
             configListAdapter?.notifyDataSetChanged()
             hideLoading()
@@ -187,8 +194,6 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //                    }
 //
-
-
 
 
                 }
@@ -238,7 +243,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             showLoading(this)
             var submit = OnUploadSwachModelRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid = Preferences.getSiteId()
+            submit.storeid = Preferences.getSwachhSiteId()
             submit.userid = Preferences.getValidatedEmpId()
             var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
@@ -322,8 +327,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         PopUpWIndow(
             context, R.layout.layout_image_fullview, view,
-            capturedImage.toString(), null,categoryName,position
-       )
+            capturedImage.toString(), null, categoryName, position
+        )
 
     }
 
@@ -444,7 +449,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 //            var capture: File? = null
-    imageFromCameraFile?.length()
+            imageFromCameraFile?.length()
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
                 .setQuality(100)
@@ -513,11 +518,11 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //            val fileSizeInMB = fileSizeInKB / 1024
 
-    if(resizedImage!=null){
-        swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-            uploadPosition
-        )?.file = resizedImage// resizedImage
-    }
+            if (resizedImage != null) {
+                swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+                    uploadPosition
+                )?.file = resizedImage// resizedImage
+            }
 
 //
 
@@ -587,8 +592,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
 
 //            for (i in swacchApolloList.get(0).configlist?.indices!!) {
-                viewModel.connectToAzure(
-                    swacchApolloList)
+            viewModel.connectToAzure(
+                swacchApolloList)
 
 //            }
 
@@ -649,6 +654,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
             mProgressDialogTemp!!.dismiss()
         }
     }
+
     fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
         val progressDialog = ProgressDialog(context)
         progressDialog.show()
@@ -660,5 +666,16 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         progressDialog.setCancelable(false)
         progressDialog.setCanceledOnTouchOutside(false)
         return progressDialog
+    }
+
+    fun onSuccessUpdateSwachhDefualtSiteid() {
+        viewModel.updateSwachhDefaultSiteResponseModel.observeForever {
+            if (it != null && it.success ?: null == true) {
+                hideLoading()
+                onBackPressed()
+
+
+            }
+        }
     }
 }
