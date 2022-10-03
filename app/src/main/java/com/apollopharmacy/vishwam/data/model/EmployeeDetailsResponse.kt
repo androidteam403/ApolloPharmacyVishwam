@@ -30,7 +30,7 @@ class EmployeeDetailsResponse : Serializable {
     @Expose
     var zcServerHost: String? = null
 
-    inner class Data : Serializable {
+     class Data : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -39,12 +39,93 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var uploadSwach: UploadSwach? = null
 
+
+        @SerializedName("role")
+        @Expose
+        var role: Role? = null
+
+         class Role : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("code")
+            @Expose
+            var code: String? = null
+
+            @SerializedName("name")
+            @Expose
+            var name: String? = null
+
+        }
+
+
+        @SerializedName("site")
+        @Expose
+        var site: Site? = null
+
+
+         class Site : Serializable {
+            @SerializedName("uid")
+            @Expose
+            var uid: String? = null
+
+            @SerializedName("site")
+            @Expose
+            var site: String? = null
+
+            @SerializedName("store_name")
+            @Expose
+            var storeName: String? = null
+
+            @SerializedName("dc_code")
+            @Expose
+            var dcCode: DcCode? = null
+
+             class DcCode : Serializable {
+                @SerializedName("uid")
+                @Expose
+                var uid: String? = null
+
+                @SerializedName("code")
+                @Expose
+                var code: String? = null
+
+                @SerializedName("name")
+                @Expose
+                var name: String? = null
+
+
+            }
+
+            @SerializedName("state")
+            @Expose
+            var state: State? = null
+
+             class State : Serializable {
+                @SerializedName("uid")
+                @Expose
+                var uid: String? = null
+
+                @SerializedName("code")
+                @Expose
+                var code: String? = null
+
+                @SerializedName("name")
+                @Expose
+                var name: String? = null
+
+
+            }
+        }
+
+
         @SerializedName("swacch_default_site")
         @Expose
         var swacchDefaultSite: SwacchDefaultSite? = null
 
 
-        inner class UploadSwach : Serializable {
+         class UploadSwach : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
@@ -61,7 +142,7 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var icon: Any? = null
 
-            inner class Other : Serializable {
+             class Other : Serializable {
                 @SerializedName("color")
                 @Expose
                 var color: Any? = null
@@ -70,7 +151,7 @@ class EmployeeDetailsResponse : Serializable {
             }
         }
 
-        inner class SwacchDefaultSite : Serializable {
+         class SwacchDefaultSite : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null

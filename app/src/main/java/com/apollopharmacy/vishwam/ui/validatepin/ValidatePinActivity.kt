@@ -92,8 +92,9 @@ class ValidatePinActivity : AppCompatActivity() {
                 viewModel.getRole(Preferences.getValidatedEmpId())
                 viewModel.employeeDetails.observeForever {
                     if (it.data != null && it.data?.uploadSwach != null) {
+                        Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
                         if (it.data?.uploadSwach?.uid != null) {
-                            it.data?.uploadSwach?.uid ="Yes"
+                            it.data?.uploadSwach?.uid = "Yes"
                             it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
                             if (it.data?.uploadSwach?.uid!!.equals("yes",
@@ -101,7 +102,7 @@ class ValidatePinActivity : AppCompatActivity() {
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
                                     Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
-                                }else{
+                                } else {
                                     Preferences.setSwachhSiteId("")
                                 }
                             }
