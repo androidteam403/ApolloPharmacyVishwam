@@ -1,6 +1,7 @@
 
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -211,7 +212,7 @@ class SampleSwachViewModel : ViewModel() {
     }
 
 
-    fun checkDayWiseAccess() {
+    fun checkDayWiseAccess(sampleSwachUiCallback: SampleSwachUiCallback) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -221,7 +222,9 @@ class SampleSwachViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true && result.value.message == "SUCCESS") {
                         state.value = State.ERROR
-                        checkDayWiseAccess.value = result.value
+                        sampleSwachUiCallback.onSuccessDayWiseAccesss(result.value)
+
+//                        checkDayWiseAccess.value = result.value
                     } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)

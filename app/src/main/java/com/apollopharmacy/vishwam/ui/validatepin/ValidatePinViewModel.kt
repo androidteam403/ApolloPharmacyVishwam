@@ -85,8 +85,10 @@ class ValidatePinViewModel : ViewModel() {
 //                val reopened = if (status.contains("reopened")) "reopened" else ""
 //                val closed = if (status.contains("closed")) "closed" else ""
 
+      //
+        //https://apis.v35.dev.zeroco.de
         val baseUrl: String =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
 
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
         viewModelScope.launch {
