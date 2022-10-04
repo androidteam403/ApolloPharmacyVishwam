@@ -13,7 +13,8 @@ import com.bumptech.glide.Glide
 
 class PreviewImageViewPager(
     val mContext: Context,
-    val imageUrl: List<GetImageUrlsResponse.ImageUrl>
+    val imageUrl: List<GetImageUrlsResponse.ImageUrl>,
+    val swachhid: String?
 ) :
     PagerAdapter() {
 
@@ -24,6 +25,7 @@ class PreviewImageViewPager(
             container,
             false
         )
+        viewpagerPreviewImageBinding.swachhid=swachhid
         if (position == imageUrl.size - 1) {
             viewpagerPreviewImageBinding.isLastPos = true
             var accepted = 0

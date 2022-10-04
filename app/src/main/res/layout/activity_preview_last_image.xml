@@ -191,7 +191,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uploaded"
+                                android:text="Uploaded Date"
                                 android:textStyle="bold"
                                 android:textColor="@color/heading_blue"
                                 android:textSize="@dimen/text_12sp" />
@@ -258,7 +258,7 @@
                     android:layout_marginTop="@dimen/value_40dp"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
 
                     <TextView
@@ -434,7 +434,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="COMPLETE"
+                    android:text="@string/complete_button"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />

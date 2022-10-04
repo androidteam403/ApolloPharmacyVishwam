@@ -243,6 +243,7 @@
     <string name="label_Product_Back_Image">Product Back Image *</string>
     <string name="label_Other_Image">Other Image</string>
     <string name="label_Add_Inventory_Item">Add Inventory Item</string>
+    <string name="complete_button">COMPLETE and SUBMIT RATING</string>
 
 
 </resources>

@@ -601,6 +601,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
+            hideLoading()
         }
     }
 

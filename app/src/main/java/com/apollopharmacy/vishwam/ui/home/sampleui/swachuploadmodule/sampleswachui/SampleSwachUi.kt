@@ -111,7 +111,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            viewBinding.todaysDate.text = todaysUpdate
         viewBinding.todaysDateLayout.text = todaysUpdate
 
-//            showLoading()
+            showLoading()
             viewModel.checkDayWiseAccess()
 
             val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
@@ -174,7 +174,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                     }
 
-//                    hideLoading()
+                    hideLoading()
 
 //                }
 //            }
@@ -189,7 +189,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                 if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-//                    Utlis.hideLoading()
+                    Utlis.hideLoading()
 
                 } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -212,7 +212,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 viewBinding.uploadOnLayout.visibility = View.GONE
                 viewBinding.uploadNowGrey.visibility = View.VISIBLE
                 viewBinding.nextUploadDate.text = nextUploadDate
-//                Utlis.hideLoading()
+                Utlis.hideLoading()
 
                 } else {
 //                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
@@ -220,7 +220,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.uploadNowGrey.visibility = View.GONE
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.GONE
-//                    Utlis.hideLoading()
+                    Utlis.hideLoading()
                 }
             }
             viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
@@ -327,7 +327,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.dayoftheweekLayout.text = dateNewFormat
                 }
             }
-//            hideLoading()
+            hideLoading()
         }
 
 //simpleDateFormat,siteid,transperent
@@ -335,16 +335,15 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             viewModel.getStorePersonHistory.observeForever {
 
-
-              Utlis.hideLoading()
+                hideLoadingTemp()
+//                Utlis.hideLoading()
                 if (viewBinding.pullToRefresh.isRefreshing) {
                     viewBinding.pullToRefresh.isRefreshing = false
-                }
-                else {
+                } else {
                     viewBinding.noOrdersFound.visibility = View.GONE
                     viewBinding.imageRecyclerView.visibility = View.VISIBLE
                     if (isLoading) {
-//                        hideLoading()
+                        hideLoading()
                         getStorePersonAdapter.getData()
                             ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
                         var listSize = getStorePersonAdapter.getData()!!.size
@@ -381,11 +380,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             viewBinding.noOrdersFound.visibility = View.VISIBLE
                         }
 //                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
-//                        hideLoading()
+                        hideLoadingTemp()
                     }
                 }
-
-
 
 
 //            getStorePersonHistoryList.clear()
@@ -564,8 +561,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             var toDate = currentDate
 //            getStorePersonHistoryList.clear()
             if (!isLoading)
-//            Utlis.showLoading(requireContext())
-            showLoading()
+                showLoadingTemp(requireContext())
 
             var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
             getStoreHistoryRequest.storeid = Preferences.getSwachhSiteId()
@@ -809,7 +805,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     }
 
-
     var mProgressDialogTemp: ProgressDialog? = null
     fun showLoadingTemp(context: Context) {
         hideLoadingTemp()
@@ -817,7 +812,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
     fun hideLoadingTemp() {
-  if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
             mProgressDialogTemp!!.dismiss()
         }
     }
