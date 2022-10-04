@@ -1164,8 +1164,10 @@ class RegistrationViewModel : ViewModel() {
 
     fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest) {
         val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
+     //
+      //https://apis.v35.dev.zeroco.de-////apollocms
         val baseUrl: String =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/user/save-update/update-user-default-site"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {

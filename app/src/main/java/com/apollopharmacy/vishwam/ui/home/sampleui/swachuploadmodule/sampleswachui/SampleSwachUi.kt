@@ -2,6 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswac
 
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -31,8 +33,8 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratin
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse.Get
@@ -50,7 +52,7 @@ import kotlin.collections.ArrayList
 
 
 class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBinding>(),
-    GetStorePersonAdapter.getStoreHistory, MainActivityCallback {
+    GetStorePersonAdapter.getStoreHistory, MainActivityCallback, SampleSwachUiCallback {
     private var swacchApolloList = ArrayList<SwachModelResponse>()
 
     //    private lateinit var configListAdapter: ConfigListAdapterSwach
@@ -88,6 +90,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         if (Preferences.getSwachhSiteId().isEmpty()) {
+            showLoading()
             val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
             startActivityForResult(i, 781)
         } else {
@@ -107,10 +110,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             val todaysUpdate = sdf.format(Date())
 
 //            viewBinding.todaysDate.text = todaysUpdate
-        viewBinding.todaysDateLayout.text = todaysUpdate
+            viewBinding.todaysDateLayout.text = todaysUpdate
 
             showLoading()
-            viewModel.checkDayWiseAccess()
+            viewModel.checkDayWiseAccess(this)
 
             val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
             val cal = Calendar.getInstance()
@@ -156,6 +159,108 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            )
 //                .show()
 //        }
+            viewModel.checkDayWiseAccess.observeForever {
+//                if (it != null) {
+//                    var checkDayWiseAccessResponse = it
+//                    val sdf = SimpleDateFormat("EEEE")
+//                    val d = Date()
+//                    charArray.clear()
+//                    positionofftheDay.clear()
+//                    dayOfCharArrayList.clear()
+////
+////               it.wednesday = false
+//////             it.thursday = true
+////
+////             it.friday = false
+//                    val dayOfTheWeek: String = sdf.format(d)
+//                    charArray.add(checkDayWiseAccessResponse.sunday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.monday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.tuesday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.wednesday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.thursday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.friday.toString())
+//                    charArray.add(checkDayWiseAccessResponse.saturday.toString())
+//
+//                    for (i in charArray.indices) {
+//                        if (charArray.get(i).equals("true")) {
+////                        positionofday = i
+//                            positionofftheDay.add(i)
+//                        }
+//                    }
+//                    for (i in positionofftheDay.indices) {
+//                        if (positionofftheDay.get(i) == 0) {
+//                            dayofCharArray = "Sunday"
+//                        } else if (positionofftheDay.get(i) == 1) {
+//                            dayofCharArray = "Monday"
+//                        } else if (positionofftheDay.get(i) == 2) {
+//                            dayofCharArray = "Tuesday"
+//                        } else if (positionofftheDay.get(i) == 3) {
+//                            dayofCharArray = "Wednesday"
+//                        } else if (positionofftheDay.get(i) == 4) {
+//                            dayofCharArray = "Thursday"
+//                        } else if (positionofftheDay.get(i) == 5) {
+//                            dayofCharArray = "Friday"
+//                        } else if (positionofftheDay.get(i) == 6) {
+//                            dayofCharArray = "Saturday"
+//                        }
+//                        dayOfCharArrayList.add(dayofCharArray!!)
+//                    }
+//
+//                    val dt = LocalDate.now()
+//
+//
+////                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
+//                    var isSameDay: Boolean = false;
+//                    for (i in dayOfCharArrayList.indices) {
+//                        if (dayOfCharArrayList.get(0) == dayOfTheWeek) {
+//                            positionofday = dayOfCharArrayList.get(1)
+//                        } else {
+//                            positionofday = dayOfCharArrayList.get(0)
+//                        }
+//                        if (dayOfCharArrayList.get(i) == dayOfTheWeek) {
+//                            isSameDay = true
+//                            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                                var submit = OnUploadSwachModelRequest()
+//                                submit.actionEvent = "SUBMIT"
+//                                submit.storeid = Preferences.getSwachhSiteId()
+//                                submit.userid = Preferences.getValidatedEmpId()
+////            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+////
+////            for (i in swacchApolloList.get(0).configlist!!.indices) {
+////                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+////                    var imageUrl = submit.ImageUrl()
+////                    imageUrl.url =
+////                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+////                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
+////                    imageUrlsList.add(imageUrl)
+////                }
+////
+////            }
+////            submit.imageUrls = imageUrlsList
+//                                viewModel.onUploadSwach(submit)
+//
+//                            }
+//
+//
+//                        }
+//                    }
+//                    if (!isSameDay && positionofday != null) {
+//                        calcNextFriday(dt, positionofday!!)
+//                        viewBinding.todaysDateLayout.visibility = View.GONE
+//                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+//                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+//                        viewBinding.uploadNowLayout.visibility = View.GONE
+//                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
+//                        val strDate = calcNextFriday(dt, positionofday!!).toString()
+//                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+//                        val date = dateFormat.parse(strDate.toString())
+//                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+//                        viewBinding.dayoftheweekLayout.text = dateNewFormat
+//                    }
+//                }
+//                hideLoading()
+            }
+
             viewModel.swachhapolloModel.observeForever {
                 if (it != null && it.status ?: null == true) {
                     swacchApolloList.add(it)
@@ -172,22 +277,23 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                     }
 
-                    hideLoading()
+                    //  hideLoading()
 
 //                }
 //            }
 //            viewModel.uploadSwachModel.observeForever {
 //                alreadyUploadedMessage = it.message
 ////           it.message = "ALREADY UPLAODED"
+                }
             }
-        }
-        viewModel.uploadSwachModel.observeForever {
-            alreadyUploadedMessage = it.message
+            viewModel.uploadSwachModel.observeForever {
+                hideLoading()
+                alreadyUploadedMessage = it.message
 //          it.message = "ALREADY UPLAODED"
 
                 if (it != null && it.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                    Utlis.hideLoading()
+                    hideLoading()
 
                 } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -203,14 +309,14 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
 //                    viewBinding.nextUploadDate.text = nextUploadDate
 //                    Utlis.hideLoading()
-                viewBinding.uploadNowLayout.visibility = View.GONE
-                viewBinding.todaysDateLayout.visibility=View.GONE
-                viewBinding.todaysUpdateLayout.visibility=View.GONE
-                viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                viewBinding.uploadOnLayout.visibility = View.GONE
-                viewBinding.uploadNowGrey.visibility = View.VISIBLE
-                viewBinding.nextUploadDate.text = nextUploadDate
-                Utlis.hideLoading()
+                    viewBinding.uploadNowLayout.visibility = View.GONE
+                    viewBinding.todaysDateLayout.visibility = View.GONE
+                    viewBinding.todaysUpdateLayout.visibility = View.GONE
+                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                    viewBinding.uploadOnLayout.visibility = View.GONE
+                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+                    viewBinding.nextUploadDate.text = nextUploadDate
+                    hideLoading()
 
                 } else {
 //                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
@@ -218,7 +324,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.uploadNowGrey.visibility = View.GONE
                     viewBinding.alreadyUploadedlayout.visibility = View.GONE
                     viewBinding.uploadOnLayout.visibility = View.GONE
-                    Utlis.hideLoading()
+                    hideLoading()
                 }
             }
             viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
@@ -228,120 +334,119 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             })
 
 
-            viewModel.checkDayWiseAccess.observeForever {
-                if (it != null) {
-                    val sdf = SimpleDateFormat("EEEE")
-                    val d = Date()
-
+//            viewModel.checkDayWiseAccess.observeForever {
+//                if (it != null) {
+//                    val sdf = SimpleDateFormat("EEEE")
+//                    val d = Date()
+//                    charArray.clear()
+//                    positionofftheDay.clear()
+//                    dayOfCharArrayList.clear()
+////
+////               it.wednesday = false
+//////             it.thursday = true
+////
+////             it.friday = false
+//                    val dayOfTheWeek: String = sdf.format(d)
+//                    charArray.add(it.sunday.toString())
+//                    charArray.add(it.monday.toString())
+//                    charArray.add(it.tuesday.toString())
+//                    charArray.add(it.wednesday.toString())
+//                    charArray.add(it.thursday.toString())
+//                    charArray.add(it.friday.toString())
+//                    charArray.add(it.saturday.toString())
 //
-//               it.wednesday = false
-////             it.thursday = true
+//                    for (i in charArray.indices) {
+//                        if (charArray.get(i).equals("true")) {
+////                        positionofday = i
+//                            positionofftheDay.add(i)
+//                        }
+//                    }
+//                    for (i in positionofftheDay.indices) {
+//                        if (positionofftheDay.get(i) == 0) {
+//                            dayofCharArray = "Sunday"
+//                        } else if (positionofftheDay.get(i) == 1) {
+//                            dayofCharArray = "Monday"
+//                        } else if (positionofftheDay.get(i) == 2) {
+//                            dayofCharArray = "Tuesday"
+//                        } else if (positionofftheDay.get(i) == 3) {
+//                            dayofCharArray = "Wednesday"
+//                        } else if (positionofftheDay.get(i) == 4) {
+//                            dayofCharArray = "Thursday"
+//                        } else if (positionofftheDay.get(i) == 5) {
+//                            dayofCharArray = "Friday"
+//                        } else if (positionofftheDay.get(i) == 6) {
+//                            dayofCharArray = "Saturday"
+//                        }
+//                        dayOfCharArrayList.add(dayofCharArray!!)
+//                    }
 //
-//             it.friday = false
-                val dayOfTheWeek: String = sdf.format(d)
-                charArray.add(it.sunday.toString())
-                charArray.add(it.monday.toString())
-                charArray.add(it.tuesday.toString())
-                charArray.add(it.wednesday.toString())
-                charArray.add(it.thursday.toString())
-                charArray.add(it.friday.toString())
-                charArray.add(it.saturday.toString())
-
-                    for (i in charArray.indices) {
-                        if (charArray.get(i).equals("true")) {
-//                        positionofday = i
-                            positionofftheDay.add(i)
-                        }
-                    }
-                    for (i in positionofftheDay.indices) {
-                        if (positionofftheDay.get(i) == 0) {
-                            dayofCharArray = "Sunday"
-                        } else if (positionofftheDay.get(i) == 1) {
-                            dayofCharArray = "Monday"
-                        } else if (positionofftheDay.get(i) == 2) {
-                            dayofCharArray = "Tuesday"
-                        } else if (positionofftheDay.get(i) == 3) {
-                            dayofCharArray = "Wednesday"
-                        } else if (positionofftheDay.get(i) == 4) {
-                            dayofCharArray = "Thursday"
-                        } else if (positionofftheDay.get(i) == 5) {
-                            dayofCharArray = "Friday"
-                        } else if (positionofftheDay.get(i) == 6) {
-                            dayofCharArray = "Saturday"
-                        }
-                        dayOfCharArrayList.add(dayofCharArray!!)
-                    }
-
-                    val dt = LocalDate.now()
-
-
-//                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
-                    var isSameDay: Boolean = false;
-                    for (i in dayOfCharArrayList.indices) {
-                        if (dayOfCharArrayList.get(0) == dayOfTheWeek) {
-                            positionofday = dayOfCharArrayList.get(1)
-                        } else {
-                            positionofday = dayOfCharArrayList.get(0)
-                        }
-                        if (dayOfCharArrayList.get(i) == dayOfTheWeek) {
-                            isSameDay = true
-                            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                                var submit = OnUploadSwachModelRequest()
-                                submit.actionEvent = "SUBMIT"
-                                submit.storeid = Preferences.getSwachhSiteId()
-                                submit.userid = Preferences.getValidatedEmpId()
-//            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+//                    val dt = LocalDate.now()
 //
-//            for (i in swacchApolloList.get(0).configlist!!.indices) {
-//                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
-//                    var imageUrl = submit.ImageUrl()
-//                    imageUrl.url =
-//                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
-//                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
-//                    imageUrlsList.add(imageUrl)
+//
+////                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
+//                    var isSameDay: Boolean = false;
+//                    for (i in dayOfCharArrayList.indices) {
+//                        if (dayOfCharArrayList.get(0) == dayOfTheWeek) {
+//                            positionofday = dayOfCharArrayList.get(1)
+//                        } else {
+//                            positionofday = dayOfCharArrayList.get(0)
+//                        }
+//                        if (dayOfCharArrayList.get(i) == dayOfTheWeek) {
+//                            isSameDay = true
+//                            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                                var submit = OnUploadSwachModelRequest()
+//                                submit.actionEvent = "SUBMIT"
+//                                submit.storeid = Preferences.getSwachhSiteId()
+//                                submit.userid = Preferences.getValidatedEmpId()
+////            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+////
+////            for (i in swacchApolloList.get(0).configlist!!.indices) {
+////                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+////                    var imageUrl = submit.ImageUrl()
+////                    imageUrl.url =
+////                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+////                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
+////                    imageUrlsList.add(imageUrl)
+////                }
+////
+////            }
+////            submit.imageUrls = imageUrlsList
+//                                viewModel.onUploadSwach(submit)
+//
+//                            }
+//
+//
+//                        }
+//                    }
+//                    if (!isSameDay && positionofday != null) {
+//                        calcNextFriday(dt, positionofday!!)
+//                        viewBinding.todaysDateLayout.visibility = View.GONE
+//                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+//                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+//                        viewBinding.uploadNowLayout.visibility = View.GONE
+//                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
+//                        val strDate = calcNextFriday(dt, positionofday!!).toString()
+//                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+//                        val date = dateFormat.parse(strDate.toString())
+//                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+//                        viewBinding.dayoftheweekLayout.text = dateNewFormat
+//                    }
 //                }
-//
+//                hideLoading()
 //            }
-//            submit.imageUrls = imageUrlsList
-                                viewModel.onUploadSwach(submit)
-
-                            }
-
-
-
-                    }
-                }
-                if (!isSameDay && positionofday!=null) {
-                    calcNextFriday(dt, positionofday!!)
-                    viewBinding.todaysDateLayout.visibility=View.GONE
-                    viewBinding.todaysUpdateLayout.visibility=View.GONE
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadNowLayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.VISIBLE
-                    val strDate = calcNextFriday(dt, positionofday!!).toString()
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                    val date = dateFormat.parse(strDate.toString())
-                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
-                    viewBinding.dayoftheweekLayout.text = dateNewFormat
-                }
-            }
-            hideLoading()
-        }
 
 //simpleDateFormat,siteid,transperent
 
 
             viewModel.getStorePersonHistory.observeForever {
-
-
-                Utlis.hideLoading()
+                hideLoading()
                 if (viewBinding.pullToRefresh.isRefreshing) {
                     viewBinding.pullToRefresh.isRefreshing = false
                 } else {
                     viewBinding.noOrdersFound.visibility = View.GONE
                     viewBinding.imageRecyclerView.visibility = View.VISIBLE
                     if (isLoading) {
-                        hideLoading()
+                        //  hideLoading()
                         getStorePersonAdapter.getData()
                             ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
                         var listSize = getStorePersonAdapter.getData()!!.size
@@ -378,7 +483,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             viewBinding.noOrdersFound.visibility = View.VISIBLE
                         }
 //                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
-                        hideLoading()
+                        //  hideLoading()
                     }
                 }
 
@@ -559,7 +664,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             var toDate = currentDate
 //            getStorePersonHistoryList.clear()
             if (!isLoading)
-                Utlis.showLoading(requireContext())
+                showLoading()
+            // Utlis.showLoading(requireContext())
 
             var getStoreHistoryRequest = GetStorePersonHistoryodelRequest()
             getStoreHistoryRequest.storeid = Preferences.getSwachhSiteId()
@@ -635,11 +741,16 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 startPage = 0
                 endPageNum = 10
                 callAPI(startPage, endPageNum, complaintListStatus)
-                viewModel.checkDayWiseAccess()
+                viewModel.checkDayWiseAccess(this)
             } else if (requestCode == 781) {
-                startPage = 0
-                endPageNum = 10
-                setup()
+                showLoading()
+                // showLoadingTemp(con)
+//                Handler().postDelayed(Runnable {
+                    startPage = 0
+                    endPageNum = 10
+                    setup()
+//                }, 1000)
+
             }
 //            getStorePersonAdapter.notifyDataSetChanged()
 
@@ -761,6 +872,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
     override fun onClickSiteIdIcon() {
+        showLoading()
         val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
         startActivityForResult(i, 781)
     }
@@ -803,5 +915,142 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     }
 
+    override fun onClickApproved() {
+
+    }
+
+    override fun onClickPending() {
+    }
+
+    override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
+        if (checkDayWiseAccessResponse != null) {
+            val sdf = SimpleDateFormat("EEEE")
+            val d = Date()
+            charArray.clear()
+            positionofftheDay.clear()
+            dayOfCharArrayList.clear()
+//
+//               it.wednesday = false
+////             it.thursday = true
+//
+//             it.friday = false
+            val dayOfTheWeek: String = sdf.format(d)
+            charArray.add(checkDayWiseAccessResponse.sunday.toString())
+            charArray.add(checkDayWiseAccessResponse.monday.toString())
+            charArray.add(checkDayWiseAccessResponse.tuesday.toString())
+            charArray.add(checkDayWiseAccessResponse.wednesday.toString())
+            charArray.add(checkDayWiseAccessResponse.thursday.toString())
+            charArray.add(checkDayWiseAccessResponse.friday.toString())
+            charArray.add(checkDayWiseAccessResponse.saturday.toString())
+
+            for (i in charArray.indices) {
+                if (charArray.get(i).equals("true")) {
+//                        positionofday = i
+                    positionofftheDay.add(i)
+                }
+            }
+            for (i in positionofftheDay.indices) {
+                if (positionofftheDay.get(i) == 0) {
+                    dayofCharArray = "Sunday"
+                } else if (positionofftheDay.get(i) == 1) {
+                    dayofCharArray = "Monday"
+                } else if (positionofftheDay.get(i) == 2) {
+                    dayofCharArray = "Tuesday"
+                } else if (positionofftheDay.get(i) == 3) {
+                    dayofCharArray = "Wednesday"
+                } else if (positionofftheDay.get(i) == 4) {
+                    dayofCharArray = "Thursday"
+                } else if (positionofftheDay.get(i) == 5) {
+                    dayofCharArray = "Friday"
+                } else if (positionofftheDay.get(i) == 6) {
+                    dayofCharArray = "Saturday"
+                }
+                dayOfCharArrayList.add(dayofCharArray!!)
+            }
+
+            val dt = LocalDate.now()
+
+
+//                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
+            var isSameDay: Boolean = false;
+            for (i in dayOfCharArrayList.indices) {
+                if (dayOfCharArrayList.get(0).equals(dayOfTheWeek)) {
+                    positionofday = dayOfCharArrayList.get(1)
+                } else {
+                    positionofday = dayOfCharArrayList.get(0)
+                }
+                if (dayOfCharArrayList.get(i).equals(dayOfTheWeek)) {
+                    isSameDay = true
+
+
+                }
+            }
+            if (isSameDay
+            ) {
+                if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                    var submit = OnUploadSwachModelRequest()
+                    submit.actionEvent = "SUBMIT"
+                    submit.storeid = Preferences.getSwachhSiteId()
+                    submit.userid = Preferences.getValidatedEmpId()
+//            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
+//
+//            for (i in swacchApolloList.get(0).configlist!!.indices) {
+//                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+//                    var imageUrl = submit.ImageUrl()
+//                    imageUrl.url =
+//                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+//                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
+//                    imageUrlsList.add(imageUrl)
+//                }
+//
+//            }
+//            submit.imageUrls = imageUrlsList
+                    showLoading()
+                    viewModel.onUploadSwach(submit)
+
+                }
+            }
+            if (!isSameDay && positionofday != null) {
+                calcNextFriday(dt, positionofday!!)
+                viewBinding.todaysDateLayout.visibility = View.GONE
+                viewBinding.todaysUpdateLayout.visibility = View.GONE
+                viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                viewBinding.uploadNowLayout.visibility = View.GONE
+                viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                val strDate = calcNextFriday(dt, positionofday!!).toString()
+                val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                val date = dateFormat.parse(strDate.toString())
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                viewBinding.dayoftheweekLayout.text = dateNewFormat
+            }
+        }
+        // hideLoading()
+
+    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
 
 }

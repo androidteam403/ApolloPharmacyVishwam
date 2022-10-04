@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.apollopharmacy.vishwam.BuildConfig;
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
@@ -133,6 +134,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isHomeScreen = true;
 
+    private boolean isStoreSuperVisour;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +144,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterIndicator = (View) findViewById(R.id.filter_indication);
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+
+        String empDetailsResponseJson = Preferences.INSTANCE.getEmployeeDetailsResponseJson();
+        EmployeeDetailsResponse empDetailsResponses = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            empDetailsResponses = gson.fromJson(empDetailsResponseJson, EmployeeDetailsResponse.class);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        }
+
+        if (empDetailsResponses != null
+                && empDetailsResponses.getData() != null
+                && empDetailsResponses.getData().getRole() != null
+                && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor")
+        ) isStoreSuperVisour = true;
+        else isStoreSuperVisour = false;
+
+
         filterIcon = findViewById(R.id.filterIcon);
         siteIdIcon = findViewById(R.id.siteId_icon);
         siteIdIcon.setOnClickListener(v -> {
@@ -718,17 +739,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
-                if (employeeRole.equalsIgnoreCase("Yes")) {
+                if (employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                            .addChildModel(new ChildModel("Upload")));
-//                          .addChildModel(new ChildModel("List")));
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
 
-                } else {
+                } else if (!isStoreSuperVisour) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
 //                            .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
+                } else if (employeeRole.equalsIgnoreCase("Yes")) {
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload")));
+                }else{
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
                 }
 
                 listView.addHeaderModel(
@@ -782,12 +808,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Drug Request");
                             } else if (groupPosition == 5 && childPosition == 1) {
                                 displaySelectedScreen("Swachh List");
-                            } else if (groupPosition == 3 && childPosition == 0) {
-                                if (employeeRole.equalsIgnoreCase("Yes")) {
-                                    displaySelectedScreen("Upload");
-                                } else {
-                                    displaySelectedScreen("List");
+                            } else if (groupPosition == 3) {
+                                if (childPosition == 0) {
+                                    if ((employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) || employeeRole.equalsIgnoreCase("Yes")) {
+
+                                        displaySelectedScreen("Upload");
 //                                    if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))
+
+                                    } else {
+                                        displaySelectedScreen("List");
+
+                                    }
+                                } else if (childPosition == 1) {
+                                    displaySelectedScreen("List");
                                 }
                             }
 //                            else if (groupPosition == 3 && childPosition == 1) {
