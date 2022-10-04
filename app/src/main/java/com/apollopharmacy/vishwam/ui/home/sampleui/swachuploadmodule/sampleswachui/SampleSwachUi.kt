@@ -475,7 +475,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             DefaultItemAnimator()
                         viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
 
-                        if (it.getList != null && it.getList?.size!! > 0) {
+                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
                             viewBinding.imageRecyclerView.visibility = View.VISIBLE
                             viewBinding.noOrdersFound.visibility = View.GONE
                         } else {

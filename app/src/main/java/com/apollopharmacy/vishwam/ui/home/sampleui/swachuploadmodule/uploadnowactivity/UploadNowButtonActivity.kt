@@ -155,6 +155,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
             } else {
                 activityUploadNowButtonBinding.noOrdersFound.visibility = View.VISIBLE
+                Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT).show()
+                super.onBackPressed()
                 hideLoadingTemp()
 //                hideLoading()
             }

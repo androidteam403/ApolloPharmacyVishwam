@@ -47,6 +47,7 @@ class UploadNowButtonViewModel : ViewModel() {
                     } else {
                         state.value = State.ERROR
                         commandsNewSwach.value = CommandsNewSwachImp.ShowToast(result.value.message)
+                        swachhapolloModel.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {
