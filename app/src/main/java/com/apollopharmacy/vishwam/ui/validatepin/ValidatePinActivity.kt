@@ -93,7 +93,7 @@ class ValidatePinActivity : AppCompatActivity() {
                 viewModel.employeeDetails.observeForever {
                     if (it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
-//                        it.data!!.uploadSwach!!.uid = "No"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
                         Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
                         if (it.data?.uploadSwach?.uid != null) {
 //                            it.data?.uploadSwach?.uid = "Yes"
