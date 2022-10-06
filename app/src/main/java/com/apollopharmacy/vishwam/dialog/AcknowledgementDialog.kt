@@ -265,7 +265,7 @@ class AcknowledgementDialog : DialogFragment() {
                 RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
                 comment = viewBinding.remark.text.toString().trim(),
                 uid = datanew.ticket_uid,
-                RequestClosedticketApi.Status(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "closed"),
+                RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",code = "solved"),
                 RequestClosedticketApi.Action(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "close"),
                 RequestClosedticketApi.Level(datanew.ticket_level_uid),
                 ticket_id = datanew.ticket_id,
@@ -279,22 +279,28 @@ class AcknowledgementDialog : DialogFragment() {
     }
 
     fun ticketReOpenApi(){
-        viewModel.getTicketclosingApi(
-            token,
-            RequestClosedticketApi(
-                RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
-                comment = viewBinding.remark.text.toString().trim(),
-                uid = datanew.ticket_uid,
-                RequestClosedticketApi.Status(uid = "97A318ACE84930236386DB1A70944825",code = "reopened"),
-                RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",code = "reopen"),
-                RequestClosedticketApi.Level(datanew.ticket_level_uid),
-                ticket_id = datanew.ticket_id,
-                RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                action_name = "Reopened",
-                RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
-                RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
+        if(viewBinding.remark.text.toString().trim().isNotEmpty()) {
+            viewModel.getTicketclosingApi(
+                token,
+                RequestClosedticketApi(
+                    RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
+                    comment = viewBinding.remark.text.toString().trim(),
+                    uid = datanew.ticket_uid,
+                    RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",
+                        code = "solved"),
+                    RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",
+                        code = "reopen"),
+                    RequestClosedticketApi.Level(datanew.ticket_level_uid),
+                    ticket_id = datanew.ticket_id,
+                    RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
+                    action_name = "Reopened",
+                    RequestClosedticketApi.SessionUser(uid = cmsloginresponse?.uid,
+                        name = cmsloginresponse?.name,
+                        login_unique = cmsloginresponse?.login_unique),
+                    RequestClosedticketApi.Site(uid = datanew.ticket_site_uid)
+                )
             )
-        )
+        }
     }
 
     fun showLoading() {

@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
+import com.apollopharmacy.vishwam.util.Utlis
 
 class ConfigAdapterSwach(
     private val configLst: SwachModelResponse,
     private val frontview_fileArrayList: ArrayList<SwachModelResponse>,
     private val callbackInterface: ImagesCardViewAdapter.CallbackInterface,
+    private val context: Context,
 ) :
     RecyclerView.Adapter<ConfigAdapterSwach.ViewHolder>() {
 
@@ -42,6 +45,7 @@ class ConfigAdapterSwach(
             ViswamApp.context,
             LinearLayoutManager.HORIZONTAL, false)
         holder.imageRecyclerView.adapter = imagesCardViewAdapter
+
     }
 
 

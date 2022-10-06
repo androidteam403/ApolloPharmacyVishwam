@@ -40,12 +40,13 @@ abstract class BaseFragment<VM : ViewModel, DB : ViewDataBinding> : Fragment() {
 
     fun showLoading() {
         hideLoading()
+        mProgressDialog = null
         mProgressDialog = Utils.showLoadingDialog(this.context)
     }
 
     fun hideLoading() {
         if (mProgressDialog != null && mProgressDialog!!.isShowing()) {
-            mProgressDialog!!.cancel()
+            mProgressDialog!!.dismiss()
         }
     }
 }

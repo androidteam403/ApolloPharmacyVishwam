@@ -37,6 +37,16 @@ class ImageUrlAdapter(
         Glide.with(mContext).load(imageUrl.url)
             .error(R.drawable.placeholder_image)
             .into(holder.adapterImageUrlsBinding.image)
+
+        if(imageUrl.status.equals("0")){
+            holder.adapterImageUrlsBinding.imageStatus.setImageResource(R.drawable.clock_small)
+        }else if(imageUrl.status.equals("1")){
+            holder.adapterImageUrlsBinding.imageStatus.setImageResource(R.drawable.approved_greenn)
+        }else if(imageUrl.status.equals("2")){
+            holder.adapterImageUrlsBinding.imageStatus.setImageResource(R.drawable.action_reshoot)
+        }
+
+
         holder.adapterImageUrlsBinding.image.setOnClickListener {
 
 

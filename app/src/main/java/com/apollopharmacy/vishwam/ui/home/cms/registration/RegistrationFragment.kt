@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
@@ -32,8 +33,11 @@ import com.apollopharmacy.vishwam.dialog.AcknowledgementDialog.Companion.KEY_DAT
 import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCATEGORY
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -85,6 +89,8 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 
     private var reasonsListSelected = ArrayList<ReasonmasterV2Response.Row>()
 
+
+    var employeeDetailsResponse: EmployeeDetailsResponse? = null
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -101,22 +107,37 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 //            showLoading()
 //            viewModel.siteId()
 //        } else {
-        if (userData.STOREDETAILS.get(0).IsSelectedStore) {
+
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
+                EmployeeDetailsResponse::class.java)
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
             viewBinding.departmentLayout.visibility = View.VISIBLE
             val storeItem = StoreListItem(
-                userData.STOREDETAILS.get(0).SITENAME,
-                userData.STOREDETAILS.get(0).STATEID,
-                userData.STOREDETAILS.get(0).DCNAME,
-                userData.STOREDETAILS.get(0).SITEID,
-                userData.STOREDETAILS.get(0).DC
+                employeeDetailsResponse!!.data!!.site!!.storeName,
+                employeeDetailsResponse!!.data!!.site!!.state!!.code,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
+                employeeDetailsResponse!!.data!!.site!!.site,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
             )
-            Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
+            Preferences.setRegistrationSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
             var storedata = StoreData(
-                userData.STOREDETAILS.get(0).SITEID,
-                userData.STOREDETAILS.get(0).SITENAME,
-                userData.STOREDETAILS.get(0).DCNAME,
-                userData.STOREDETAILS.get(0).STATEID,
-                userData.STOREDETAILS.get(0).DC
+                employeeDetailsResponse!!.data!!.site!!.site,
+                employeeDetailsResponse!!.data!!.site!!.storeName,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
+                employeeDetailsResponse!!.data!!.site!!.state!!.code,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
             )
             LoginRepo.saveStoreData(storedata)
 
@@ -126,9 +147,9 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             // viewModel.getListOfPendingAcknowledgement(storeItem)
             viewModel.getSelectedStoreDetails(storeItem)
             storeInfo =
-                userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
+                employeeDetailsResponse!!.data!!.site!!.site + " - " + employeeDetailsResponse!!.data!!.site!!.storeName
             dcInfo =
-                userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code + " - " + employeeDetailsResponse!!.data!!.site!!.dcCode!!.name
             viewBinding.siteIdSelect.setText(storeInfo)
             viewBinding.branchName.setText(dcInfo)
 
@@ -147,7 +168,60 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                     Toast.LENGTH_SHORT
                 ).show()
             }
+
+
+        } else {
+            if (userData.STOREDETAILS.get(0).IsSelectedStore) {
+                viewBinding.departmentLayout.visibility = View.VISIBLE
+                val storeItem = StoreListItem(
+                    userData.STOREDETAILS.get(0).SITENAME,
+                    userData.STOREDETAILS.get(0).STATEID,
+                    userData.STOREDETAILS.get(0).DCNAME,
+                    userData.STOREDETAILS.get(0).SITEID,
+                    userData.STOREDETAILS.get(0).DC
+                )
+                Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
+                var storedata = StoreData(
+                    userData.STOREDETAILS.get(0).SITEID,
+                    userData.STOREDETAILS.get(0).SITENAME,
+                    userData.STOREDETAILS.get(0).DCNAME,
+                    userData.STOREDETAILS.get(0).STATEID,
+                    userData.STOREDETAILS.get(0).DC
+                )
+                LoginRepo.saveStoreData(storedata)
+
+                showLoading()
+                // viewModel.getDepartment()
+                viewModel.getRemarksMasterList()
+                // viewModel.getListOfPendingAcknowledgement(storeItem)
+                viewModel.getSelectedStoreDetails(storeItem)
+                storeInfo =
+                    userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
+                dcInfo =
+                    userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
+                viewBinding.siteIdSelect.setText(storeInfo)
+                viewBinding.branchName.setText(dcInfo)
+
+                val c = Calendar.getInstance().time
+                println("Current time => $c")
+                val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+                var formattedDate = df.format(c);
+                viewBinding.dateOfProblem.setText(formattedDate)
+                viewBinding.dateOfProblem.isEnabled = false
+
+
+                viewBinding.siteIdSelect.setOnClickListener {
+                    Toast.makeText(
+                        context,
+                        context?.resources?.getString(R.string.label_site_change_alert),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
         }
+
+
 //            else {
 //                if (Preferences.getSiteId().isEmpty()) {
 //                    showLoading()
@@ -405,6 +479,18 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                                  "",
                                  userData.EMPID
                              )*/
+                        var storeId: String? = null
+                        if (employeeDetailsResponse != null
+                            && employeeDetailsResponse!!.data != null
+                            && employeeDetailsResponse!!.data!!.role != null
+                            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+                        ) {
+                            storeId = employeeDetailsResponse!!.data!!.site!!.site.toString()
+                        } else {
+                            storeId = Preferences.getSiteId()
+                        }
+
+
                         viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
                             //"RH18344",
                             userData.EMPID,
@@ -414,7 +500,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             RequestNewComplaintRegistration.Category(categoryuid!!),
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             //RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
+                            RequestNewComplaintRegistration.Site(storeId),
                             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
@@ -441,7 +527,16 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                                  "",
                                  userData.EMPID
                              )*/
-
+                        var storeId: String? = null
+                        if (employeeDetailsResponse != null
+                            && employeeDetailsResponse!!.data != null
+                            && employeeDetailsResponse!!.data!!.role != null
+                            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+                        ) {
+                            storeId = employeeDetailsResponse!!.data!!.site!!.site.toString()
+                        } else {
+                            storeId = Preferences.getSiteId()
+                        }
                         viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
                             //"RH18344",
                             userData.EMPID,
@@ -451,7 +546,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             RequestNewComplaintRegistration.Category(categoryuid!!),
                             RequestNewComplaintRegistration.Department(deptuid!!),
                             // RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
+                            RequestNewComplaintRegistration.Site(storeId),
                             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
                             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
                             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
@@ -1276,6 +1371,23 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 
 
         RefreshView()
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
+            showLoading()
+            var updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+            updateUserDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
+            updateUserDefaultSiteRequest.site = employeeDetailsResponse!!.data!!.site!!.site
+            viewModel.updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest)
+        }
+        viewModel.updateUserDefaultSiteResponseMutable.observe(viewLifecycleOwner, {
+            hideLoading();
+            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+
+
+        })
 
 
     }
@@ -1313,23 +1425,79 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 
     override fun confirmSite(departmentDto: StoreListItem) {
         showLoading()
-        Preferences.saveSiteId(departmentDto.site!!)
-        RegistrationRepo.saveStoreInfo(departmentDto)
-        viewModel.registerUserWithSiteID(
-            UserSiteIDRegReqModel(
-                userData.EMPID,
-                departmentDto.site
-            ), departmentDto
-        )
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
+            var empDetailsResponses = Preferences.getEmployeeDetailsResponseJson()
+            var employeeDetailsResponsess: EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponsess =
+                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponses,
+                        EmployeeDetailsResponse::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            employeeDetailsResponsess!!.data!!.site!!.site = departmentDto.site
+            employeeDetailsResponsess!!.data!!.site!!.storeName = departmentDto.store_name
+            employeeDetailsResponsess!!.data!!.site!!.dcCode!!.name = departmentDto.DcName
+            employeeDetailsResponsess!!.data!!.site!!.state!!.code = departmentDto.sTATEID
+            employeeDetailsResponsess!!.data!!.site!!.dcCode!!.code = departmentDto.dcId
 
-        var storedata = StoreData(
-            departmentDto.site,
-            departmentDto.store_name,
-            departmentDto.dc_code?.name,
-            departmentDto.site,
-            departmentDto.dc_code?.code
-        )
-        LoginRepo.saveStoreData(storedata)
+            Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(employeeDetailsResponsess))
+
+            var empDetailsResponsezz = Preferences.getEmployeeDetailsResponseJson()
+
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponse =
+                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponsezz,
+                        EmployeeDetailsResponse::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+
+
+            Preferences.saveSiteId(departmentDto.site!!)
+            RegistrationRepo.saveStoreInfo(departmentDto)
+            viewModel.registerUserWithSiteID(
+                UserSiteIDRegReqModel(
+                    userData.EMPID,
+                    departmentDto.site
+                ), departmentDto
+            )
+
+            var storedata = StoreData(
+                departmentDto.site,
+                departmentDto.store_name,
+                departmentDto.dc_code?.name,
+                departmentDto.site,
+                departmentDto.dc_code?.code
+            )
+            LoginRepo.saveStoreData(storedata)
+
+
+        } else {
+            Preferences.saveSiteId(departmentDto.site!!)
+            RegistrationRepo.saveStoreInfo(departmentDto)
+            viewModel.registerUserWithSiteID(
+                UserSiteIDRegReqModel(
+                    userData.EMPID,
+                    departmentDto.site
+                ), departmentDto
+            )
+
+            var storedata = StoreData(
+                departmentDto.site,
+                departmentDto.store_name,
+                departmentDto.dc_code?.name,
+                departmentDto.site,
+                departmentDto.dc_code?.code
+            )
+            LoginRepo.saveStoreData(storedata)
+        }
 
 
     }

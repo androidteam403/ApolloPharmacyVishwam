@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowa
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
@@ -33,11 +34,12 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.apollopharmacy.vishwam.util.Utlis
+
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
@@ -53,7 +55,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     lateinit var activityUploadNowButtonBinding: ActivityUploadNowButtonBinding
     private var swacchApolloList = ArrayList<SwachModelResponse>()
     lateinit var viewModel: UploadNowButtonViewModel
-    private  var configListAdapter: ConfigAdapterSwach?=null
+    private var configListAdapter: ConfigAdapterSwach? = null
     var imageFromCameraFile: File? = null
     private lateinit var dialog: Dialog
     public var allImagesUploadedSwach: Boolean = false
@@ -71,7 +73,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         )
         viewModel = ViewModelProvider(this)[UploadNowButtonViewModel::class.java]
 
-        activityUploadNowButtonBinding.storeId.text = Preferences.getSiteId()
+        activityUploadNowButtonBinding.storeId.text = Preferences.getSwachhSiteId()
         activityUploadNowButtonBinding.userId.text = Preferences.getToken()
         val sdf = SimpleDateFormat("dd MMM, yyyy")
         val currentDate = sdf.format(Date())
@@ -80,21 +82,20 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         activityUploadNowButtonBinding.imageCountSwach.text =
             uploadedImageCount.toString() + "/" + overallImageCount
 
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            Utlis.hideKeyPad(this)
-            viewModel.swachImagesRegisters()
-        } else {
-            context?.let {
-                Toast.makeText(
-                    it,
-                    ViswamApp.context.resources?.getString(R.string.label_network_error)
-                        .toString(),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        }
+//        if (NetworkUtil.isNetworkConnected(this)) {
+        showLoadingTemp(this)
+        viewModel.swachImagesRegisters()
+//        } else {
+//            context?.let {
+//                Toast.makeText(
+//                    it,
+//                    ViswamApp.context.resources?.getString(R.string.label_network_error)
+//                        .toString(),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+//        }
         activityUploadNowButtonBinding.backButton.setOnClickListener {
             super.onBackPressed()
         }
@@ -103,10 +104,16 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         viewModel.uploadSwachModel.observeForever {
             if (it != null && it.status == true) {
-                hideLoading()
-               Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
-                onBackPressed()
+                // hideLoading()
+                Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
+                // onBackPressed()
                 Preferences.setUploadedDateDayWise(currentDate)
+                onSuccessUpdateSwachhDefualtSiteid()
+                var updateSwachhDefaultSiteRequest = UpdateSwachhDefaultSiteRequest();
+                updateSwachhDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
+                updateSwachhDefaultSiteRequest.site = Preferences.getSwachhSiteId()
+                viewModel.updateSwachhSiteIdApiCall(updateSwachhDefaultSiteRequest)
+
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
                 hideLoading()
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -120,8 +127,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
 
         viewModel.swachhapolloModel.observeForever {
-
             if (it != null && it.status ?: null == true) {
+                hideLoadingTemp()
                 swacchApolloList.add(it)
                 activityUploadNowButtonBinding.noOrdersFound.visibility = View.GONE
                 for ((index, value) in it.configlist!!.withIndex()) {
@@ -138,7 +145,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 activityUploadNowButtonBinding.imageCountSwach.text =
                     uploadedImageCount.toString() + "/" + overallImageCount
                 configListAdapter =
-                    ConfigAdapterSwach(it, swacchApolloList, this)
+                    ConfigAdapterSwach(it, swacchApolloList, this, context)
                 val layoutManager = LinearLayoutManager(context)
                 activityUploadNowButtonBinding.recyclerViewimageswach.layoutManager = layoutManager
                 activityUploadNowButtonBinding.recyclerViewimageswach.itemAnimator =
@@ -146,15 +153,19 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 activityUploadNowButtonBinding.recyclerViewimageswach.adapter = configListAdapter
 
 
-            }else{
+            } else {
                 activityUploadNowButtonBinding.noOrdersFound.visibility = View.VISIBLE
+                Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT).show()
+                super.onBackPressed()
+                hideLoadingTemp()
+//                hideLoading()
             }
-            Utlis.hideLoading()
+//            hideLoading()
         }
-        var count:Int=0
+        var count: Int = 0
         viewModel.commandsNewSwach.observeForever({
             configListAdapter?.notifyDataSetChanged()
-            Utlis.hideLoading()
+            hideLoading()
             when (it) {
                 is CommandsNewSwachImp.ImageIsUploadedInAzur -> {
 
@@ -185,8 +196,6 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //                    }
 //
-
-
 
 
                 }
@@ -233,10 +242,10 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     private fun uploadApi() {
 
         if (NetworkUtil.isNetworkConnected(context)) {
-            Utlis.showLoading(this)
+            showLoading(this)
             var submit = OnUploadSwachModelRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid = Preferences.getSiteId()
+            submit.storeid = Preferences.getSwachhSiteId()
             submit.userid = Preferences.getValidatedEmpId()
             var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
 
@@ -320,8 +329,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
         PopUpWIndow(
             context, R.layout.layout_image_fullview, view,
-            capturedImage.toString(), null,categoryName,position
-       )
+            capturedImage.toString(), null, categoryName, position
+        )
 
     }
 
@@ -442,7 +451,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 //            var capture: File? = null
-    imageFromCameraFile?.length()
+            imageFromCameraFile?.length()
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
                 .setQuality(100)
@@ -511,11 +520,11 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //
 //            val fileSizeInMB = fileSizeInKB / 1024
 
-    if(resizedImage!=null){
-        swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-            uploadPosition
-        )?.file = resizedImage// resizedImage
-    }
+            if (resizedImage != null) {
+                swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+                    uploadPosition
+                )?.file = resizedImage// resizedImage
+            }
 
 //
 
@@ -585,8 +594,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //            Toast.makeText(applicationContext, "UPLOADED", Toast.LENGTH_SHORT).show()
 
 //            for (i in swacchApolloList.get(0).configlist?.indices!!) {
-                viewModel.connectToAzure(
-                    swacchApolloList)
+            viewModel.connectToAzure(
+                swacchApolloList)
 
 //            }
 
@@ -594,6 +603,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
+            hideLoading()
         }
     }
 
@@ -635,4 +645,40 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 ////        mCurrentPhotoPath = image.absolutePath
 //        return image
 //    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
+    }
+
+    fun onSuccessUpdateSwachhDefualtSiteid() {
+        viewModel.updateSwachhDefaultSiteResponseModel.observeForever {
+            if (it != null && it.success ?: null == true) {
+                hideLoading()
+                onBackPressed()
+
+
+            }
+        }
+    }
 }

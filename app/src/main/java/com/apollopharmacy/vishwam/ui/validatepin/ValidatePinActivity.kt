@@ -91,15 +91,30 @@ class ValidatePinActivity : AppCompatActivity() {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
                 viewModel.getRole(Preferences.getValidatedEmpId())
                 viewModel.employeeDetails.observeForever {
-                  if (it.data != null && it.data?.uploadSwach!=null){
-                      if(it.data?.uploadSwach?.uid!=null){
-                          Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                      }else{
-                          Preferences.setEmployeeRoleUid("")
-                      }
-                  }else{
-                      Preferences.setEmployeeRoleUid("")
-                  }
+                    if (it.data != null && it.data?.uploadSwach != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                        if (it.data?.uploadSwach?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+                            if (it.data?.uploadSwach?.uid!!.equals("yes",
+                                    true)
+                            ) {
+                                if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
+                                    Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
+                                } else {
+                                    Preferences.setSwachhSiteId("")
+                                }
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUid("")
+                        }
+                    } else {
+                        Preferences.setEmployeeRoleUid("")
+                    }
 
                     if (dialogStatus) {
 //                    viewModel.getRole(Preferences.getValidatedEmpId())
@@ -113,7 +128,6 @@ class ValidatePinActivity : AppCompatActivity() {
                     }
 
                 }
-
 
 
 //                if (dialogStatus) {

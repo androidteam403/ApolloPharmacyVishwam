@@ -12,6 +12,7 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
+import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import java.io.File
 import com.hadilq.liveevent.LiveEvent
@@ -30,6 +31,7 @@ class ReShootActivityViewModel : ViewModel() {
 fun getImageUrl(getImageUrlModelRequest: GetImageUrlModelRequest) {
     val url = Preferences.getApi()
     val data = Gson().fromJson(url, ValidateResponse::class.java)
+
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL

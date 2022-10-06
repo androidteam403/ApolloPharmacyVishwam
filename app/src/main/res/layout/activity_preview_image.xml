@@ -168,7 +168,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Uploaded"
+                                android:text="Uploaded Date"
                                 android:textStyle="bold"
                                 android:textColor="@color/heading_blue"
                                 android:textSize="@dimen/text_12sp" />
@@ -176,7 +176,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@{pendingAndApprovedModel.status.equals(`PENDING`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`APPROVED`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`RESHOOT`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`PARTIALLY APPROVED`) ?pendingAndApprovedModel.uploadedDate : `-`}"
+                                android:text="@{pendingAndApprovedModel.status.equals(`Pending`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Approved`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Reshoot`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Partially Approved`) ?pendingAndApprovedModel.uploadedDate : `-`}"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />

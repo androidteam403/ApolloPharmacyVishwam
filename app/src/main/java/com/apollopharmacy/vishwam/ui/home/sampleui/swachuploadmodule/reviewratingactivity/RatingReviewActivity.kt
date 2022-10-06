@@ -1,5 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity
 
+import android.app.ProgressDialog
+import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -42,7 +46,7 @@ class RatingReviewActivity : AppCompatActivity() {
         var submit = GetImageUrlModelRequest()
         submit.storeid =  storeId
         submit.swachhId = swachId
-       Utlis.showLoading(this)
+        showLoadingTemp(this)
 
         viewModel.getImageUrl(submit)
 
@@ -58,16 +62,16 @@ class RatingReviewActivity : AppCompatActivity() {
                 ratingReviewBinding.ratingReviewRecyclerView.itemAnimator =
                     DefaultItemAnimator()
                 ratingReviewBinding.ratingReviewRecyclerView.adapter = ratingReviewAdapter
-                Utlis.hideLoading()
+                hideLoadingTemp()
             }else{
                 ratingReviewBinding.noOrdersFound.visibility = View.VISIBLE
-                Utlis.hideLoading()
+                hideLoadingTemp()
             }
 
 
             } else{
                 ratingReviewBinding.noOrdersFound.visibility = View.VISIBLE
-                Utlis.hideLoading()
+                hideLoadingTemp()
             }
         }
 
@@ -75,5 +79,29 @@ class RatingReviewActivity : AppCompatActivity() {
             super.onBackPressed()
         }
 
+    }
+
+    var mProgressDialogTemp: ProgressDialog? = null
+    fun showLoadingTemp(context: Context) {
+        hideLoadingTemp()
+        mProgressDialogTemp = showLoadingDialogTemp(context)
+    }
+
+    fun hideLoadingTemp() {
+        if (mProgressDialogTemp != null && mProgressDialogTemp!!.isShowing()) {
+            mProgressDialogTemp!!.dismiss()
+        }
+    }
+    fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
+        val progressDialog = ProgressDialog(context)
+        progressDialog.show()
+        if (progressDialog.window != null) {
+            progressDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        progressDialog.setContentView(R.layout.progress_dialog)
+        progressDialog.isIndeterminate = true
+        progressDialog.setCancelable(false)
+        progressDialog.setCanceledOnTouchOutside(false)
+        return progressDialog
     }
 }

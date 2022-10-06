@@ -16,6 +16,8 @@ object Preferences {
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
 
+    private const val PREF_KEY_EMP_DETAILS_JSON = "PREF_KEY_EMP_DETAILS_JSON"
+
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
     }
@@ -97,6 +99,10 @@ object Preferences {
     private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
+
+    private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
+
+    private const val KEY_REGISTRATION_SITE_ID = "KEY_REGISTRATION_SITE_ID"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -211,6 +217,7 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
     fun setEmployeeRoleUid(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE, role).apply()
     }
@@ -219,4 +226,35 @@ object Preferences {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
 
+    fun setSwachhSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
+    }
+
+    fun getSwachhSiteId(): String {
+        return sharedPreferences.getString(KEY_SWACHH_SITEID, "")!!
+    }
+
+    fun storeEmployeeDetailsResponseJson(employeeDetailsResponse: String) {
+        sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON, employeeDetailsResponse)
+            .apply()
+    }
+
+    fun getEmployeeDetailsResponseJson(): String {
+        return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON, "")!!
+//        val storeString = sharedPreferences.getString(PREF_KEY_LOGIN_JSON, "")
+//        return try {
+//            Gson().fromJson(storeString, LoginDetails::class.java)
+//        } catch (e: JsonParseException) {
+//            e.printStackTrace()
+//            return null
+//        }
+    }
+
+    fun setRegistrationSiteId(siteId: String) {
+        sharedPreferences.edit().putString(KEY_REGISTRATION_SITE_ID, siteId).apply()
+    }
+
+    fun getRegistrationSiteId(): String {
+        return sharedPreferences.getString(KEY_REGISTRATION_SITE_ID, "")!!
+    }
 }

@@ -24,7 +24,9 @@ class SwachListViewModel : ViewModel() {
         empiD: String,
         fromDate: String,
         toDate: String,
-        selectedSiteids: String?
+        selectedSiteids: String?,
+        startPage: Int,
+        endPageNum: Int
     ) {
         val state = MutableLiveData<State>()
         state.postValue(State.LOADING)
@@ -33,14 +35,16 @@ class SwachListViewModel : ViewModel() {
         getpendingAndApprovedListRequest.empid = Preferences.getValidatedEmpId()
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
+        getpendingAndApprovedListRequest.startpageno= startPage
+        getpendingAndApprovedListRequest.endpageno=endPageNum
         if(selectedSiteids!=null && selectedSiteids.length>0){
             getpendingAndApprovedListRequest.storeId = selectedSiteids
         }else{
             getpendingAndApprovedListRequest.storeId = ""
         }
 
-        getpendingAndApprovedListRequest.startpageno = 0
-        getpendingAndApprovedListRequest.endpageno = 100
+//        getpendingAndApprovedListRequest.startpageno = 0
+//        getpendingAndApprovedListRequest.endpageno = 100
 
         viewModelScope.launch {
             state.value = State.SUCCESS

@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.adapters
 
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +34,13 @@ class ImagesCardViewAdapterRes(
     override fun onBindViewHolder(holder: ImagesCardViewAdapterRes.ViewHolder, position: Int) {
         var imageUrls = imageUrlsList?.get(position)
 
+//        if(imageUrls!!.status.equals("0")){
+//            holder.imageStatus.setImageResource(R.drawable.clock_small)
+//        }else if(imageUrls!!.status.equals("1")){
+//            holder.imageStatus.setImageResource(R.drawable.approved_greenn)
+//        }else if(imageUrls!!.status.equals("2")){
+//            holder.imageStatus.setImageResource(R.drawable.action_reshoot)
+//        }
 
         if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
             Glide.with(context).load(imageUrls?.url).into(holder.iageView)
@@ -107,6 +115,7 @@ class ImagesCardViewAdapterRes(
         val iageView : ImageView = itemView.findViewById(R.id.imageViewRes)
         val redTrashLayout: LinearLayout = itemView.findViewById(R.id.redTrashRes)
         val eyeImage: LinearLayout = itemView.findViewById(R.id.eyeImageRes)
+//        val imageStatus: ImageView = itemView.findViewById(R.id.imageStatusReeshoot)
 
     }
 

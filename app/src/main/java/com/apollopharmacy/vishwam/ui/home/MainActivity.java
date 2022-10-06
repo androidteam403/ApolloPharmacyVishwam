@@ -34,6 +34,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.apollopharmacy.vishwam.BuildConfig;
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
@@ -126,12 +127,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
-    public ImageView filterIcon;
+    public ImageView filterIcon, siteIdIcon;
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
 
     private boolean isHomeScreen = true;
+
+    private boolean isStoreSuperVisour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,8 +144,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         filterIndicator = (View) findViewById(R.id.filter_indication);
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
-        filterIcon = findViewById(R.id.filterIcon);
 
+        String empDetailsResponseJson = Preferences.INSTANCE.getEmployeeDetailsResponseJson();
+        EmployeeDetailsResponse empDetailsResponses = null;
+        try {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            empDetailsResponses = gson.fromJson(empDetailsResponseJson, EmployeeDetailsResponse.class);
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        }
+
+        if (empDetailsResponses != null
+                && empDetailsResponses.getData() != null
+                && empDetailsResponses.getData().getRole() != null
+                && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor")
+        ) isStoreSuperVisour = true;
+        else isStoreSuperVisour = false;
+
+
+        filterIcon = findViewById(R.id.filterIcon);
+        siteIdIcon = findViewById(R.id.siteId_icon);
+        siteIdIcon.setOnClickListener(v -> {
+            if (mainActivityCallback != null) {
+                mainActivityCallback.onClickSiteIdIcon();
+            }
+        });
         filterIcon.setOnClickListener(v -> {
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickFilterIcon();
@@ -199,7 +225,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isSuperAdmin = loginData.getIS_SUPERADMIN();
             userDesignation = loginData.getAPPLEVELDESIGNATION();
             employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
-//            userDesignation="EXECUTIVE";
+//            employeeRole="Yes";
+//           userDesignation="EXECUTIVE";
 //           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
@@ -283,60 +310,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("HOME");
                 fragment = new HomeFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = true;
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
                 fragment = new RegistrationFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
                 fragment = new ComplainListFragment();
                 filterIcon.setVisibility(View.VISIBLE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
                 fragment = new AttendanceFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "History":
                 headerText.setText("History");
                 fragment = new HistoryFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Approved":
                 headerText.setText("Approved List");
                 fragment = new ApprovedFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
                 fragment = new RejectedFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Bill":
                 headerText.setText("Bill List");
                 fragment = new BillCompletedFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
                 fragment = new SwacchImagesUploadFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
@@ -344,6 +381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SwacchFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
@@ -351,6 +389,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SampleSwachUi();
                 filterIcon.setVisibility(View.VISIBLE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isUploadScreen = true;
                 break;
@@ -358,6 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
                 filterIcon.setVisibility(View.VISIBLE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 isListScreen = true;
                 break;
@@ -365,18 +405,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("New Drug Request");
                 fragment = new Drug();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "QcPending":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
             case "QcApproved":
                 headerText.setText("Approved List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 
@@ -384,6 +427,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 headerText.setText("Rejected List");
                 fragment = new com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment();
                 filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 //            case "Select Site":
@@ -680,11 +724,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Pending"))
                                         .addChildModel(new ChildModel("Approved"))
                                         .addChildModel(new ChildModel("Rejected"))
-                                        .addChildModel(new ChildModel("Bill")))
-                        .addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
-                                .addChildModel(new ChildModel("Pending"))
-                                .addChildModel(new ChildModel("Approved"))
-                                .addChildModel(new ChildModel("Rejected")));
+                                        .addChildModel(new ChildModel("Bill")));
+//                        .addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+//                                .addChildModel(new ChildModel("Pending"))
+//                                .addChildModel(new ChildModel("Approved"))
+//                                .addChildModel(new ChildModel("Rejected")));
 
 
 //                        ).addHeaderModel(
@@ -695,17 +739,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
-                if (employeeRole.equalsIgnoreCase("Yes")) {
+                if (employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                            .addChildModel(new ChildModel("Upload")));
-//                          .addChildModel(new ChildModel("List")));
+                            .addChildModel(new ChildModel("Upload"))
+                            .addChildModel(new ChildModel("List")));
 
-                } else {
+                } else if (!isStoreSuperVisour) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
 //                            .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
+                } else if (employeeRole.equalsIgnoreCase("Yes")) {
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("Upload")));
+                }else{
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
                 }
 
                 listView.addHeaderModel(
@@ -725,7 +774,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 6) {
+                            } else if (id == 5) {
                                 displaySelectedScreen("Logout");
                                 drawer.closeDrawer(GravityCompat.START);
                             }
@@ -746,25 +795,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
                             }
-                            else if (groupPosition == 3 && childPosition == 0) {
-                                displaySelectedScreen("QcPending");
-                            }
-                            else if (groupPosition == 3 && childPosition == 1) {
-                                displaySelectedScreen("QcApproved");
-                            }
-                            else if (groupPosition == 3 && childPosition == 2) {
-                                displaySelectedScreen("QcRejected");
-                            }
-                            else if (groupPosition == 5 && childPosition == 0) {
+//                            else if (groupPosition == 3 && childPosition == 0) {
+//                                displaySelectedScreen("QcPending");
+//                            }
+//                            else if (groupPosition == 3 && childPosition == 1) {
+//                                displaySelectedScreen("QcApproved");
+//                            }
+//                            else if (groupPosition == 3 && childPosition == 2) {
+//                                displaySelectedScreen("QcRejected");
+//                            }
+                            else if (groupPosition == 4 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
                             } else if (groupPosition == 5 && childPosition == 1) {
                                 displaySelectedScreen("Swachh List");
-                            } else if (groupPosition == 4 && childPosition == 0) {
-                                if (employeeRole.equalsIgnoreCase("Yes")) {
-                                    displaySelectedScreen("Upload");
-                                } else {
-                                    displaySelectedScreen("List");
+                            } else if (groupPosition == 3) {
+                                if (childPosition == 0) {
+                                    if ((employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) || employeeRole.equalsIgnoreCase("Yes")) {
+
+                                        displaySelectedScreen("Upload");
 //                                    if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))
+
+                                    } else {
+                                        displaySelectedScreen("List");
+
+                                    }
+                                } else if (childPosition == 1) {
+                                    displaySelectedScreen("List");
                                 }
                             }
 //                            else if (groupPosition == 3 && childPosition == 1) {
@@ -1010,6 +1066,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onClickFilterIcon() {
         Intent i = new Intent(MainActivity.this, SelectSiteActivityy.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onClickSiteIdIcon() {
+
     }
 
 

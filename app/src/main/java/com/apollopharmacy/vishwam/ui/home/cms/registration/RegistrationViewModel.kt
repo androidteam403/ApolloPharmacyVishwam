@@ -17,7 +17,10 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -63,6 +66,8 @@ class RegistrationViewModel : ViewModel() {
     var reasonlistapiresponse = MutableLiveData<ReasonmasterV2Response>()
 
     var responsenewcomplaintregistration = MutableLiveData<ResponseNewComplaintRegistration>()
+
+    var updateUserDefaultSiteResponseMutable = MutableLiveData<UpdateUserDefaultSiteResponse>()
 
     fun siteId() {
         if (Preferences.isSiteIdListFetched()) {
@@ -405,7 +410,6 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseticketRatingApi::class.java
                                         )
-                                    // cmsloginapiresponse.value = responseCMSLogin
                                     cmsticketRatingresponse.value = responseticketRatingApi
 
 
@@ -695,11 +699,13 @@ class RegistrationViewModel : ViewModel() {
 
     //newcomplaint registration  api.................
     fun submitNewcomplaintregApi(requestNewComplaintRegistration: RequestNewComplaintRegistration) {
-        if(requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time == null){
-            requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time = requestNewComplaintRegistration.reason.reason_sla[0].default_tat_hrs.toString()
+        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time =
+                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_hrs.toString()
         }
-        if(requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time == null){
-            requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time = requestNewComplaintRegistration.reason.reason_sla[0].default_tat_mins.uid
+        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time =
+                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_mins.uid
         }
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -746,7 +752,6 @@ class RegistrationViewModel : ViewModel() {
                                             BackShlash.removeSubString(res),
                                             ResponseNewComplaintRegistration::class.java
                                         )
-                                    // cmsloginapiresponse.value = responseCMSLogin
                                     if (responseNewComplaintRegistration.success) {
                                         responsenewcomplaintregistration.value =
                                             responseNewComplaintRegistration
@@ -1156,6 +1161,68 @@ class RegistrationViewModel : ViewModel() {
             }
         }
     }
+
+    fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest) {
+        val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
+     //
+      //https://apis.v35.dev.zeroco.de-////apollocms
+        val baseUrl: String =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                SwachApiiRepo.updateSwachhDefaultSite(
+                    "h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        updateUserDefaultSiteRequestJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val updateUserDefaultSiteResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    UpdateUserDefaultSiteResponse::class.java
+                                )
+                            if (updateUserDefaultSiteResponse.success!!) {
+                                updateUserDefaultSiteResponseMutable.value =
+                                    updateUserDefaultSiteResponse
+
+//                                updateSwachhDefaultSiteResponseModel.value =
+//                                    updateSwachhDefaultSiteResponse
+                            } else {
+
+                            }
+                        }
+                    } else {
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
 }
 
 sealed class CmsCommand {
