@@ -44,6 +44,13 @@
                     android:visibility="visible">
 
                     <ImageView
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:id="@+id/imageStatus"
+                        android:layout_width="@dimen/value_20dp"
+                        android:layout_height="@dimen/value_20dp"
+                        android:contentDescription="@string/app_name" />
+
+                    <ImageView
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
                         android:layout_gravity="center"
@@ -56,12 +63,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:layout_marginEnd="@dimen/value_5dp"
-            android:id="@+id/imageStatus"
-            android:layout_width="@dimen/value_20dp"
-            android:layout_height="@dimen/value_20dp"
-            android:contentDescription="@string/app_name" />
+
 
     </LinearLayout>
 

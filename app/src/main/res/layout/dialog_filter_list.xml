@@ -5,9 +5,6 @@
 
         <import type="android.view.View" />
 
-        <variable
-            name="isApprovedChecked"
-            type="Boolean" />
 
         <variable
             name="isPartiallyApprovedChecked"
@@ -21,13 +18,13 @@
             name="isReshootChecked"
             type="Boolean" />
 
-<!--        <variable-->
-<!--            name="isReopenChecked"-->
-<!--            type="Boolean" />-->
+        <!--        <variable-->
+        <!--            name="isReopenChecked"-->
+        <!--            type="Boolean" />-->
 
-<!--        <variable-->
-<!--            name="isClosedChecked"-->
-<!--            type="Boolean" />-->
+        <!--        <variable-->
+        <!--            name="isClosedChecked"-->
+        <!--            type="Boolean" />-->
 
         <variable
             name="isSubmitEnable"
@@ -95,20 +92,20 @@
                 android:checked="@{isPendingChecked}"
                 android:text="Pending" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="@dimen/value_2dp"
-                android:background="@color/grey" />
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0.5dp"-->
+<!--                android:layout_marginTop="@dimen/value_2dp"-->
+<!--                android:background="@color/grey" />-->
 
-            <CheckBox
-                android:id="@+id/approved_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_5dp"
-                android:buttonTint="@color/splash_start_color"
-                android:checked="@{isApprovedChecked}"
-                android:text="Approved" />
+<!--            <CheckBox-->
+<!--                android:id="@+id/approved_status"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="@dimen/value_5dp"-->
+<!--                android:buttonTint="@color/splash_start_color"-->
+<!--                android:checked="@{isPartiallyApprovedChecked}"-->
+<!--                android:text="Approved" />-->
 
             <View
                 android:layout_width="match_parent"
@@ -147,35 +144,35 @@
                 android:layout_marginTop="@dimen/value_2dp"
                 android:background="@color/grey" />
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/reopen_status"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/value_5dp"-->
-<!--                android:buttonTint="@color/splash_start_color"-->
-<!--                android:checked="@{isReopenChecked}"-->
-<!--                android:text="@string/label_reopen" />-->
+            <!--            <CheckBox-->
+            <!--                android:id="@+id/reopen_status"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:buttonTint="@color/splash_start_color"-->
+            <!--                android:checked="@{isReopenChecked}"-->
+            <!--                android:text="@string/label_reopen" />-->
 
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0.5dp"-->
-<!--                android:layout_marginTop="@dimen/value_2dp"-->
-<!--                android:background="@color/grey" />-->
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
-<!--            <CheckBox-->
-<!--                android:id="@+id/closed_status"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="@dimen/value_5dp"-->
-<!--                android:buttonTint="@color/splash_start_color"-->
-<!--                android:checked="@{isClosedChecked}"-->
-<!--                android:text="@string/label_closed" />-->
+            <!--            <CheckBox-->
+            <!--                android:id="@+id/closed_status"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginTop="@dimen/value_5dp"-->
+            <!--                android:buttonTint="@color/splash_start_color"-->
+            <!--                android:checked="@{isClosedChecked}"-->
+            <!--                android:text="@string/label_closed" />-->
 
-<!--            <View-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="0.5dp"-->
-<!--                android:layout_marginTop="@dimen/value_2dp"-->
-<!--                android:background="@color/grey" />-->
+            <!--            <View-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="0.5dp"-->
+            <!--                android:layout_marginTop="@dimen/value_2dp"-->
+            <!--                android:background="@color/grey" />-->
 
             <!--            </RadioGroup>-->
 

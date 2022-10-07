@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -70,12 +71,29 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     }
 
     override fun onClickCancel() {
-
+        if(!Preferences.getSwachhSiteId().isEmpty()){
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }else{
+            Toast.makeText(applicationContext, "Please select Site ID", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onBackPressed() {
+//        val intent = Intent()
+//        setResult(Activity.RESULT_OK, intent)
+//        finish()
 
+        if(!Preferences.getSwachhSiteId().isEmpty()){
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }else{
+            Toast.makeText(applicationContext, "Please select Site ID", Toast.LENGTH_SHORT).show()
+        }
     }
+
 
     override fun noOrdersFound(size: Int) {
         if (size > 0) {
