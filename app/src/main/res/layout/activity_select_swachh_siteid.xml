@@ -40,17 +40,17 @@
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
 
-<!--            <ImageView-->
-<!--                android:id="@+id/close_dialog"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentEnd="true"-->
-<!--                android:contentDescription="@string/app_name"-->
-<!--                android:onClick="@{()-> callback.onClickCancel()}"-->
-<!--                android:paddingStart="@dimen/value_10dp"-->
-<!--                android:paddingEnd="@dimen/value_10dp"-->
-<!--                android:src="@drawable/close_icon"-->
-<!--                android:tint="@color/white" />-->
+            <ImageView
+                android:id="@+id/close_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:onClick="@{()-> callback.onClickCancel()}"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:src="@drawable/close_icon"
+                android:tint="@color/white" />
         </RelativeLayout>
 
         <LinearLayout

@@ -337,7 +337,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 
     override fun onClickCancel() {
         if(selectsiteIdList.size==0){
-            Toast.makeText(applicationContext, "Please select siteId's", Toast.LENGTH_SHORT).show()
+            super.onBackPressed()
         }
         else if(selectsiteIdList.size!=null && selectsiteIdList.size>0 && selectsiteIdList.size<=10){
             val returnIntent = Intent()

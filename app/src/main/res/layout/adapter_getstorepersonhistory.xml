@@ -292,8 +292,6 @@
                         android:id="@+id/re_shoot_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:padding="@dimen/value_3dp"
                         android:layout_marginStart="@dimen/value_7dp"
                         android:layout_marginTop="@dimen/value_5dp"
@@ -323,36 +321,36 @@
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/red" />
-                        <RelativeLayout
-                            android:id="@+id/reviewButtonReshoot"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_7dp"
-                            android:gravity="end"
-                            android:textAlignment="viewEnd">
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonReshoot"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
 
-                            <!--                            <TextView-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:text="10/10"-->
-                            <!--                                android:textColor="@color/black"-->
-                            <!--                                android:textSize="@dimen/text_12sp"-->
-                            <!--                                android:textStyle="bold"-->
-                            <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
 
-                            <TextView
+<!--                            <TextView-->
 
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:background="@drawable/seablue_roundedcorners"
-                                android:padding="2sp"
-                                android:text="Review"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
+<!--                                android:layout_width="@dimen/value_80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
 
 
                     </LinearLayout>
@@ -362,8 +360,6 @@
                         android:id="@+id/pending_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:padding="@dimen/value_3dp"
                         android:layout_marginStart="@dimen/value_7dp"
                         android:layout_marginTop="@dimen/value_5dp"
@@ -394,36 +390,36 @@
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/material_amber_accent_700" />
 
-                        <RelativeLayout
-                            android:id="@+id/reviewButtonPending"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_7dp"
-                            android:gravity="end"
-                            android:textAlignment="viewEnd">
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonPending"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
 
-                            <!--                            <TextView-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:text="10/10"-->
-                            <!--                                android:textColor="@color/black"-->
-                            <!--                                android:textSize="@dimen/text_12sp"-->
-                            <!--                                android:textStyle="bold"-->
-                            <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
 
-                            <TextView
+<!--                            <TextView-->
 
-                                android:layout_width="80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:background="@drawable/seablue_roundedcorners"
-                                android:padding="2sp"
-                                android:text="Review"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
+<!--                                android:layout_width="80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
 
 
                     </LinearLayout>
@@ -434,8 +430,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/five5_sp"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:background="@color/light_pink"
                         android:orientation="horizontal">
 
@@ -483,8 +477,6 @@
                         android:id="@+id/partially_approved_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
                         android:padding="@dimen/value_3dp"
                         android:layout_marginStart="@dimen/value_7dp"
                         android:layout_marginTop="@dimen/value_5dp"
@@ -515,36 +507,36 @@
                             android:textSize="@dimen/text_12sp"
                             android:textColor="@color/color_red" />
 
-                        <RelativeLayout
-                            android:id="@+id/reviewButtonpartial"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_7dp"
-                            android:gravity="end"
-                            android:textAlignment="viewEnd">
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonpartial"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
 
-                            <!--                            <TextView-->
-                            <!--                                android:layout_width="wrap_content"-->
-                            <!--                                android:layout_height="wrap_content"-->
-                            <!--                                android:text="10/10"-->
-                            <!--                                android:textColor="@color/black"-->
-                            <!--                                android:textSize="@dimen/text_12sp"-->
-                            <!--                                android:textStyle="bold"-->
-                            <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
 
-                            <TextView
+<!--                            <TextView-->
 
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:background="@drawable/seablue_roundedcorners"
-                                android:padding="2sp"
-                                android:text="Review"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                android:textStyle="bold" />
-                        </RelativeLayout>
+<!--                                android:layout_width="@dimen/value_80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
 
 
                     </LinearLayout>

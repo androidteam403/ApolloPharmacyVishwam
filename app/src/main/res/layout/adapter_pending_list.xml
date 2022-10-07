@@ -221,18 +221,18 @@
                             <!--                                android:textStyle="bold"-->
                             <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
 
-                            <TextView
-                                android:id="@+id/reviewButton"
-                                android:layout_width="@dimen/value_80dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="end"
-                                android:background="@drawable/seablue_roundedcorners"
-                                android:padding="2sp"
-                                android:text="Review"
-                                android:textAlignment="center"
-                                android:textColor="@color/white"
-                                android:textSize="@dimen/text_13sp"
-                                android:textStyle="bold" />
+<!--                            <TextView-->
+<!--                                android:id="@+id/reviewButton"-->
+<!--                                android:layout_width="@dimen/value_80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
                         </RelativeLayout>
                     </LinearLayout>
                 </LinearLayout>

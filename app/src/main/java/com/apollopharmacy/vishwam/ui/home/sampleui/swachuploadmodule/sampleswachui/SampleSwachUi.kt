@@ -328,9 +328,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 }
             }
             viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-                if (viewBinding.pullToRefresh.isRefreshing) {
-                    viewBinding.pullToRefresh.isRefreshing = false
-                }
+                submitClick()
             })
 
 
@@ -619,6 +617,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         if (!viewBinding.pullToRefresh.isRefreshing)
             Utlis.showLoading(requireContext())
 
+
         callAPI(startPage, endPageNum, complaintListStatus)
 
 
@@ -771,24 +770,24 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             uploadStatusFilterDialog.dismiss()
         }
         if (this.complaintListStatus.contains("0")) {
-            dialogFilterUploadBinding.isApprovedChecked = true
-        } else {
-            dialogFilterUploadBinding.isApprovedChecked = false
-        }
-        if (this.complaintListStatus.contains("1")) {
-            dialogFilterUploadBinding.isPartiallyApprovedChecked = true
-        } else {
-            dialogFilterUploadBinding.isPartiallyApprovedChecked = false
-        }
-        if (this.complaintListStatus.contains("2")) {
             dialogFilterUploadBinding.isPendingChecked = true
         } else {
             dialogFilterUploadBinding.isPendingChecked = false
         }
-        if (this.complaintListStatus.contains("3")) {
+        if (this.complaintListStatus.contains("1")) {
+            dialogFilterUploadBinding.isApprovedChecked = true
+        } else {
+            dialogFilterUploadBinding.isApprovedChecked = false
+        }
+        if (this.complaintListStatus.contains("2")) {
             dialogFilterUploadBinding.isReshootChecked = true
         } else {
             dialogFilterUploadBinding.isReshootChecked = false
+        }
+        if (this.complaintListStatus.contains("3")) {
+            dialogFilterUploadBinding.isPartiallyApprovedChecked = true
+        } else {
+            dialogFilterUploadBinding.isPartiallyApprovedChecked = false
         }
 
 

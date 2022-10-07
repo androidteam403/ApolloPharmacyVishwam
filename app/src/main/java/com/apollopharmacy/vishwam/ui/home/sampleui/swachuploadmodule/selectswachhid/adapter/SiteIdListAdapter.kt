@@ -38,6 +38,7 @@ class SiteIdListAdapter(
         val items = siteData.get(position)
         holder.adapterSwachhSiteidListBinding.itemName.text = "${items.site}, ${items.store_name}"
 
+
         holder.itemView.setOnClickListener {
             if (selectSiteIdCallback != null) {
                 selectSiteIdCallback.onItemClick(items)

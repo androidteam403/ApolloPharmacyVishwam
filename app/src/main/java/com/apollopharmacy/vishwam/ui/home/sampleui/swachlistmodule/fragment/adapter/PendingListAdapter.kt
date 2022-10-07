@@ -124,11 +124,11 @@ class PendingListAdapter(
                     )
                 }
 
-            binding.reviewButton
-                .setOnClickListener {
-                    mCallback.onClickReview(pendingList.get(position).swachhid,
-                        pendingList.get(position).storeId)
-                }
+//            binding.reviewButton
+//                .setOnClickListener {
+//                    mCallback.onClickReview(pendingList.get(position).swachhid,
+//                        pendingList.get(position).storeId)
+//                }
 
 
         }
