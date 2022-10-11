@@ -396,8 +396,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
-                siteIdIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isListScreen = true;
                 break;
