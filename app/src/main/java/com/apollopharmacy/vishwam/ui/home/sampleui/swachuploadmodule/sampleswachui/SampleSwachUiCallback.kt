@@ -11,5 +11,7 @@ interface SampleSwachUiCallback {
 
     fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse)
 
+    fun onBackPressedUpload()
+
 
 }

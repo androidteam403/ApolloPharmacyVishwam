@@ -22,6 +22,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     lateinit var viewModel: SelectSwachhSiteIdViewModel
     private var siteIDListAdapter: SiteIdListAdapter? = null
     var siteDataList = ArrayList<StoreListItem>()
+    var isSiteIdEmpty:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,11 +73,17 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
 
     override fun onClickCancel() {
         if(!Preferences.getSwachhSiteId().isEmpty()){
+            isSiteIdEmpty=false
             val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }else{
-            Toast.makeText(applicationContext, "Please select Site ID", Toast.LENGTH_SHORT).show()
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
         }
     }
 
@@ -86,11 +93,17 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
 //        finish()
 
         if(!Preferences.getSwachhSiteId().isEmpty()){
+            isSiteIdEmpty=false
             val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
         }else{
-            Toast.makeText(applicationContext, "Please select Site ID", Toast.LENGTH_SHORT).show()
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
         }
     }
 

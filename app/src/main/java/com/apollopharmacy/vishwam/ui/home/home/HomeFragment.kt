@@ -6,6 +6,7 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
+import com.apollopharmacy.vishwam.util.Utlis
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
 
@@ -26,7 +27,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             viewBinding.customerName.setText("Welcome, " + userData.EMPNAME)
             viewBinding.customerID.setText("Emp ID: " + userData.EMPID)
         }
-
+        Utlis.hideLoading()
 
 
 
