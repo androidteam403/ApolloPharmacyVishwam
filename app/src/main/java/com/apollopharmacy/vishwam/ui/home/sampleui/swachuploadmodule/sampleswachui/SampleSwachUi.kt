@@ -467,13 +467,13 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             ?.addAll((it.getList!! as ArrayList<Get>?)!!)
                         getStorePersonAdapter.notifyDataSetChanged()
 
-                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
-                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                            viewBinding.noOrdersFound.visibility = View.GONE
-                        } else {
-                            viewBinding.imageRecyclerView.visibility = View.GONE
-                            viewBinding.noOrdersFound.visibility = View.VISIBLE
-                        }
+//                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
+//                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
+//                            viewBinding.noOrdersFound.visibility = View.GONE
+//                        } else {
+//                            viewBinding.imageRecyclerView.visibility = View.GONE
+//                            viewBinding.noOrdersFound.visibility = View.VISIBLE
+//                        }
                         isLoading = false
                     } else {
                         viewBinding.noOrdersFound.visibility = View.GONE
@@ -488,7 +488,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                             DefaultItemAnimator()
                         viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
 
-                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
+                        if (it.getList != null && it.getList?.size!! > 0) {
                             viewBinding.imageRecyclerView.visibility = View.VISIBLE
                             viewBinding.noOrdersFound.visibility = View.GONE
                         } else {
@@ -629,7 +629,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     fun submitClick() {
         startPage=0
         endPageNum=10
-        complaintListStatus="0,1,2,3"
+        getStorePersonAdapter.getData()!!.clear()
+//        complaintListStatus="0,1,2,3"
         if (!viewBinding.pullToRefresh.isRefreshing)
             Utlis.showLoading(requireContext())
 
@@ -767,9 +768,17 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     showLoading()
                     // showLoadingTemp(con)
 //                Handler().postDelayed(Runnable {
+//                    getStorePersonAdapter.getData()!!.clear()
                     startPage = 0
                     endPageNum = 10
-                    setup()
+                    viewBinding.storeId.text = Preferences.getSwachhSiteId()
+                    callAPI(startPage, endPageNum, complaintListStatus)
+                    viewModel.checkDayWiseAccess(this)
+                    viewModel.getLastUploadedDate()
+                    viewModel.swachImagesRegisters()
+//                    startPage = 0
+//                    endPageNum = 10
+//                    setup()
 //                }, 1000)
                 }
 
