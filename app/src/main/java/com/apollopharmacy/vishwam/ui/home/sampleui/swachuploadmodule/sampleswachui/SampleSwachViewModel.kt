@@ -290,7 +290,7 @@ class SampleSwachViewModel : ViewModel() {
                     if (response.value.status ?: null == false) {
                         state.value = State.ERROR
                         CommandsNewSwachImp.ShowToast(response.value.message)
-                        getStorePersonHistory.value?.message = response.value.message
+                        getStorePersonHistory.value = response.value
 
 
                     }

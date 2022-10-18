@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@string/label_select_site"
+                android:text="Select Site ID for Swachh Upload"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
@@ -127,7 +127,27 @@
         <!--            android:textStyle="bold" />-->
         <!--    </LinearLayout>-->
 
+<!--        <LinearLayout-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:id="@+id/completeButton"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/value_50dp"-->
+<!--            android:background="@color/greenn"-->
+<!--            android:gravity="center"-->
+<!--            android:onClick="@{()-> callback.onClickCompleted()}"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:padding="@dimen/value_12dp">-->
 
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:text="SUBMIT"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="@dimen/text_17sp"-->
+<!--                android:textStyle="bold" />-->
+<!--        </LinearLayout>-->
     </RelativeLayout>
 
     <data>

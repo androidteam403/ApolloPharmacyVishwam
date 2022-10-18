@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswac
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import androidx.databinding.DataBindingUtil
@@ -38,6 +39,11 @@ class SiteIdListAdapter(
         val items = siteData.get(position)
         holder.adapterSwachhSiteidListBinding.itemName.text = "${items.site}, ${items.store_name}"
 
+        if(siteData.get(position).isSelected!=null &&siteData.get(position).isSelected!!.equals(true)){
+            holder.adapterSwachhSiteidListBinding.tickMark.visibility= View.VISIBLE
+        }else if(siteData.get(position).isSelected!=null && siteData.get(position).isSelected!!.equals(false)) {
+            holder.adapterSwachhSiteidListBinding.tickMark.visibility= View.GONE
+        }
 
         holder.itemView.setOnClickListener {
             if (selectSiteIdCallback != null) {

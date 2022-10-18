@@ -52,8 +52,10 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUiCallback;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -396,8 +398,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
-                siteIdIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isListScreen = true;
                 break;

@@ -116,7 +116,7 @@
     <string name="label_problem_since">Created Date Time: </string>
     <string name="label_no_tasks">No Tasks Available</string>
     <string name="label_permission_denied">Permission Denied</string>
-    <string name="label_select_site">Select Site ID for Swachh Upload</string>
+    <string name="label_select_site">Select Site ID</string>
     <string name="label_search_site_id">Search Site Id or Site Name</string>
     <string name="label_site_not_available">Site Not Available</string>
     <string name="label_sub_category_list">Sub Category List</string>
@@ -211,7 +211,7 @@
     <string name="label_this_store_review_ncompleted_successfully">This store review\ncompleted successfully</string>
     <string name="label_the_images_status_will_be_changed">Do you want to cancel this review?</string>
     <string name="label_alert">Alert!</string>
-    <string name="label_completed_successfully">Completed successfully</string>
+    <string name="label_completed_successfully">Completed Successfully</string>
     <string name="label_this_store_review_is_completed_successfully">This store review is completed Successfully</string>
     <string name="label_region">Region: </string>
     <string name="label_location">Location: </string>

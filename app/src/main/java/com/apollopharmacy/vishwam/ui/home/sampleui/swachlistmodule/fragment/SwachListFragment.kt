@@ -1137,14 +1137,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     override fun onClickFilterIcon() {
-        val intent = Intent(context, SelectSiteActivityy::class.java)
-        intent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
-        startActivityForResult(intent, 887)
+
     }
 
 
     override fun onClickSiteIdIcon() {
-
+        val intent = Intent(context, SelectSiteActivityy::class.java)
+        intent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+        startActivityForResult(intent, 887)
     }
 
 //    override fun deleteSite(siteDataItem: StoreListItem) {
