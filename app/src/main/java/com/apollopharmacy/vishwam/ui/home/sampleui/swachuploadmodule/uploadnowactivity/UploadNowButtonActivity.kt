@@ -15,6 +15,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -32,6 +33,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
+import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
@@ -97,7 +99,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 //            }
 //        }
         activityUploadNowButtonBinding.backButton.setOnClickListener {
-            super.onBackPressed()
+            onClickBack()
         }
 
 
@@ -118,7 +120,10 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 hideLoading()
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()
                 Preferences.setUploadedDateDayWise(currentDate)
-                onBackPressed()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+//                onBackPressed()
             } else {
                 hideLoading()
                 Toast.makeText(context, "Please try again!!", Toast.LENGTH_SHORT).show()
@@ -155,7 +160,8 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
             } else {
                 activityUploadNowButtonBinding.noOrdersFound.visibility = View.VISIBLE
-                Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT)
+                    .show()
                 super.onBackPressed()
                 hideLoadingTemp()
 //                hideLoading()
@@ -230,13 +236,36 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     }
 
     override fun onBackPressed() {
+        onClickBack()
+//        val intent = Intent()
+//        setResult(Activity.RESULT_OK, intent)
+//        finish()
+    }
 
-        val intent = Intent()
-
-        setResult(Activity.RESULT_OK, intent)
-        finish()
-
-
+    fun onClickBack() {
+        val imagesStatusAlertDialog = Dialog(this)
+        val dialogBackPressedAllert: DialogLastimagePreviewAlertBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
+            )
+        imagesStatusAlertDialog.setContentView(dialogBackPressedAllert.root)
+        dialogBackPressedAllert.alertTitle.visibility = View.GONE
+        dialogBackPressedAllert.messege.text = "Do you want to exit?"
+//        imagesStatusAlertDialog.setCancelable(false)
+        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogBackPressedAllert.yesBtn.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        dialogBackPressedAllert.cancelButton.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
+        }
+        dialogBackPressedAllert.close.setOnClickListener {
+            imagesStatusAlertDialog.dismiss()
+        }
+        imagesStatusAlertDialog.show()
     }
 
     private fun uploadApi() {
@@ -675,7 +704,11 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         viewModel.updateSwachhDefaultSiteResponseModel.observeForever {
             if (it != null && it.success ?: null == true) {
                 hideLoading()
-                onBackPressed()
+//                onBackPressed(
+
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
 
 
             }

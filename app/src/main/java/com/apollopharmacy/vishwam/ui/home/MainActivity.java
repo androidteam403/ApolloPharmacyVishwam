@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,10 +53,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUiCallback;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
@@ -129,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
-    public ImageView filterIcon, siteIdIcon;
+    public ImageView siteIdIcon;
+    public RelativeLayout filterIcon;
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
@@ -755,7 +755,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (employeeRole.equalsIgnoreCase("Yes")) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
-                }else{
+                } else {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
                 }
 

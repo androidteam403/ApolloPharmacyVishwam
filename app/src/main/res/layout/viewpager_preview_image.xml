@@ -4,8 +4,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_blue"
-        android:gravity="center">
+        android:background="@color/light_blue">
 
         <com.github.chrisbanes.photoview.PhotoView
             android:id="@+id/viewpager_image"
@@ -13,15 +12,13 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/app_name"
             android:scaleType="fitXY"
-            android:src="@drawable/capture"
             android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
 
 
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}">
 
@@ -29,15 +26,17 @@
                     android:layout_marginBottom="@dimen/value_10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_50dp"
+                    android:layout_marginStart="@dimen/value_15dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Swachh ID: "
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_16sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:textColor="@color/heading_blue"
+                        android:textSize="@dimen/text_16sp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -57,22 +56,26 @@
                     android:text="@string/label_report"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_20sp"
+                    android:visibility="gone"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_10dp"
                     android:gravity="center"
                     android:text="@string/label_this_store_review_ncompleted_successfully"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_20sp"
+                    android:layout_marginTop="@dimen/value_50dp"
+                    android:layout_gravity="center_horizontal"
                     android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_15dp"
+                    android:textSize="@dimen/text_20sp"
+                    android:layout_marginTop="@dimen/value_50dp"
+                    android:layout_gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <LinearLayout
