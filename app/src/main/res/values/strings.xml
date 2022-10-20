@@ -56,6 +56,7 @@
     <string name="label_select_sub_category">Select Sub Category  <font color='#FF0000'>*</font></string>
     <string name="label_select_remarks">Select Reason  <font color='#FF0000'>*</font></string>
     <string name="label_select_gst">Select GST  <font color='#FF0000'>*</font></string>
+    <string name="label_select_reason">Select Reason  <font color='#FF0000'>*</font></string>
 
     <!--  <string name="label_since_problem_raise">Since when Problem Raises  <font color='#FF0000'>*</font></string>-->
 

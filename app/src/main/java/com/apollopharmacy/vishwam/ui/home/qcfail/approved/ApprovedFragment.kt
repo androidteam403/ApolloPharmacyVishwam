@@ -2,25 +2,36 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.approved
 
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
+import com.apollopharmacy.vishwam.databinding.FragmentApprovedQcBinding
+import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcList
-import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragment
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
-
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
-    QcImagesListner,
-    QcFilterFragment.QcFilterClicked {
+    QcListsCallback, QcFilterFragment.QcFilterClicked {
+    var dialogBinding: DialogRejectQcBinding? = null
+    var adapter: QcApproveListAdapter? = null
+    public var isBulkChecked: Boolean = false
+    var getStatusList: List<ActionResponse.Hsitorydetail>? = null
+    var statusList = ArrayList<ActionResponse.Hsitorydetail>()
 
-    lateinit var adapter: ApprovedRecycleView
-    private var isBulkChecked: Boolean = false
+    var getitemList: List<QcItemListResponse>? = null
+    var itemsList = ArrayList<QcItemListResponse>()
 
-    val names = ArrayList<QcList>();
+    var orderId: String = ""
+    var reason: String = ""
+    var qcreason: String = ""
+
 
 
     override val layoutRes: Int
@@ -31,14 +42,86 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun setup() {
-        var name = QcList()
-        name.setIschecked(false)
-        names.add(name)
-        var name1 = QcList()
-        name1.setIschecked(false)
-        names.add(name1)
-        adapter = ApprovedRecycleView(names, this)
-        viewBinding.recyclerViewPending.adapter = adapter
+        showLoading()
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val currentDate: String = simpleDateFormat.format(Date())
+        var fromDate = String()
+
+
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+
+
+        fromDate = simpleDateFormat.format(cal.time)
+
+
+        viewModel.getQcRegionList()
+        viewModel.getQcStoreist()
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate , "16001", "")
+
+
+
+
+        viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            getStatusList = it.hsitorydetails
+            val status: ActionResponse.Hsitorydetail
+
+
+            for (i in getStatusList!!) {
+                val items = ActionResponse.Hsitorydetail()
+                items.status = i.status
+
+                statusList.add(items)
+                adapter?.notifyDataSetChanged()
+            }
+        })
+
+
+        viewModel.qcItemsLists.observe(viewLifecycleOwner, Observer {
+            hideLoading()
+            getitemList = listOf(it)
+            val getQcItemListResponse: QcItemListResponse
+            getQcItemListResponse = it
+            getitemList = listOf(getQcItemListResponse)
+            for (i in getitemList!!) {
+                val items = QcItemListResponse()
+                items.itemlist = i.itemlist
+                items.setorderno(orderId)
+                items.status = i.status
+                itemsList.add(items)
+                adapter?.notifyDataSetChanged()
+            }
+
+
+
+
+
+            adapter?.notifyDataSetChanged()
+
+
+        })
+
+
+
+        viewModel.qcLists.observe(viewLifecycleOwner, { it ->
+            hideLoading()
+            if (it.approvedlist.isNullOrEmpty()) {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewApproved.visibility = View.GONE
+                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+            } else {
+                adapter =
+                    context?.let { it1 ->
+                        QcApproveListAdapter(it1,it.approvedlist as ArrayList<QcListsResponse.Approved>,
+                            this,
+                            itemsList, statusList)
+                    }
+            }
+            viewBinding.recyclerViewApproved.adapter = adapter
+
+        })
+
 
 
         viewBinding.filter.setOnClickListener {
@@ -47,9 +130,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         }
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
-                is Command.ShowButtonSheet -> {
+                is Command.ShowQcButtonSheet -> {
                     var dialog = command.fragment.newInstance()
                     dialog.arguments = command.arguments
+
                     dialog.setTargetFragment(this, 0)
                     activity?.supportFragmentManager?.let { dialog.show(it, "") }
                 }
@@ -57,7 +141,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     hideLoading()
                     if (command.message.equals("no data found.please check empid")) {
                         viewBinding.emptyList.visibility = View.VISIBLE
-                        viewBinding.recyclerViewPending.visibility = View.GONE
+                        viewBinding.recyclerViewApproved.visibility = View.GONE
                         Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT)
                             .show()
                     } else {
@@ -66,120 +150,49 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
             }
         }
+    }
+
+
+
+    override fun orderno(position: Int, orderno: String) {
+        showLoading()
+        orderId = orderno
+        viewModel.getQcItemsList(orderno)
+        viewModel.getQcStatusList(orderno)
+        adapter?.notifyDataSetChanged()
 
 
     }
 
-    class ApprovedRecycleView(
-        var orderData: ArrayList<QcList>,
-        val imageClicklistner: QcImagesListner,
-
-        ) :
-        SimpleRecyclerView<QcApprovedlayoutBinding, QcList>(
-            orderData,
-            R.layout.qc_approvedlayout
-        ) {
-
-
-        override fun bindItems(
-            binding: QcApprovedlayoutBinding,
-            items: QcList,
-            position: Int,
-        ) {
-            lateinit var orderadapter: ApproveOrderDetailsRecycleView
-            val names = ArrayList<String>();
-            names.add("a")
-
-            orderadapter = ApproveOrderDetailsRecycleView(names)
-            binding.recyclerView.adapter = orderadapter
-            var ischecked: Boolean = false
-
-
-            if (!items.isIschecked) {
-                binding.checkBox.setImageResource(R.drawable.ic_baseline_radio_button_unchecked_24)
-            } else {
-                binding.checkBox.setImageResource(R.drawable.ic_circle_tick)
-            }
-            binding.checkBoxLayout.setOnClickListener {
-
-                imageClicklistner.isChecked(orderData, position)
-
-//
-//                if (!ischecked) {
-//                    ischecked = true
-//                    binding.checkBox.setImageResource(R.drawable.icon_item_checked)
-//                } else {
-//                    binding.checkBox.setImageResource(R.drawable.icon_item_unchecked)
-//                    ischecked = false
-//                }
-
-
-            }
-
-
-            binding.arrow.setOnClickListener {
-                binding.arrowClose.visibility = View.VISIBLE
-                binding.arrow.visibility = View.GONE
-                binding.extraData.visibility = View.VISIBLE
-
-
-            }
-
-            binding.arrowClose.setOnClickListener {
-                binding.arrowClose.visibility = View.GONE
-                binding.arrow.visibility = View.VISIBLE
-                binding.extraData.visibility = View.GONE
-
-
-            }
-
-        }
+    override fun notify(position: Int, orderno: String) {
+        adapter?.notifyDataSetChanged()
     }
 
-
-    class ApproveOrderDetailsRecycleView(
-        var orderData: ArrayList<String>,
-
-        ) :
-        SimpleRecyclerView<QcApprovedorderdetailsBinding, String>(
-            orderData,
-            R.layout.qc_approvedorderdetails
-        ) {
-        override fun bindItems(
-            binding: QcApprovedorderdetailsBinding,
-            items: String,
-            position: Int,
-        ) {
-
-
-        }
+    override fun accept(position: Int, orderno: String, remarks: String) {
+        TODO("Not yet implemented")
     }
+
+    override fun reject(position: Int, orderno: String, remarks: String) {
+        TODO("Not yet implemented")
+    }
+
+    override fun isChecked(array: ArrayList<QcListsResponse.Pending>, position: Int) {
+        TODO("Not yet implemented")
+    }
+
 
     override fun clickedApply(
         selectedData: String,
-        data: ArrayList<String>,
+        data: ArrayList<QcStoreList.Store>,
+        regiondata: ArrayList<QcRegionList.Store>,
         tag: Int,
         toDate: String,
     ) {
 
     }
 
-    override fun isChecked(array: ArrayList<QcList>, position: Int) {
-        if (array[position].isIschecked) {
-            names[position].setIschecked(false)
-        } else {
-            names[position].setIschecked(true)
-        }
-        adapter.notifyDataSetChanged()
-    }
-
 
 }
 
-interface QcImagesListner {
-
-
-    fun isChecked(array: ArrayList<QcList>, position: Int)
-}
 
 

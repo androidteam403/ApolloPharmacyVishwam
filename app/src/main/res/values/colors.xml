@@ -48,6 +48,8 @@
     <color name="faded_background">#E2E4E6</color>
     <color name="faded_click">#7BBFD1</color>
     <color name="bill_colour">#85bb65</color>
+    <color name="qc_color">#D1F2E7</color>
+
     <color name="active_task_color">#c5e5c9</color>
     <color name="green">#33cc33</color>
     <color name="material_amber_accent_700">#FFAB00</color>

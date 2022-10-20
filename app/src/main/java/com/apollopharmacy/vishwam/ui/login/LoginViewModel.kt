@@ -9,9 +9,6 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.home.HomeViewModel
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
@@ -141,4 +138,11 @@ sealed class Command {
         val arguments: Bundle,
     ) :
         Command()
+
+    data class ShowQcButtonSheet(
+        val fragment: Class<out BottomSheetDialogFragment>,
+        val arguments: Bundle,
+    ) :
+        Command()
+
 }

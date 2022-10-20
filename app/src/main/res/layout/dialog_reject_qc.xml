@@ -12,19 +12,67 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:id="@+id/siteId_layout"
             android:layout_height="wrap_content">
 
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/siteId"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_40dp"
 
-            <ImageButton
+                android:layout_marginRight="@dimen/value_10dp"
+                android:focusable="true"
+                android:textColorHint="@color/black">
+
+                <EditText
+                    android:id="@+id/siteIdSelect_qc"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                    android:editable="false"
+                    android:enabled="true"
+                    android:focusable="false"
+                    android:hint="Select Reject Reason *"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <ImageView
                 android:id="@+id/close"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="@dimen/value_45dp"
+                android:layout_height="@dimen/value_45dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/close_icon"
-                android:visibility="gone"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:paddingBottom="15dp"
+
+
+                android:src="@drawable/qc_baseline_close_24"
+                android:visibility="visible" />
         </RelativeLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submit"
+            android:layout_width="@dimen/dimen160dp"
+            android:layout_height="@dimen/value_45dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/value_25dp"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:background="@drawable/qc_accept_background"
+            android:gravity="center"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp" />
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -32,6 +80,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/value_25dp"
             android:layout_marginBottom="@dimen/value_25dp"
+            android:visibility="gone"
+            android:id="@+id/message"
             android:gravity="center_horizontal"
             android:text="You are rejecting the Order Id for QC Fail\nDo You Want to Proceed ?"
             android:textColor="@color/black"
@@ -42,6 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/value_10dp"
+            android:id="@+id/buttomLayout"
+            android:visibility="gone"
+
             android:layout_marginBottom="@dimen/value_5dp"
             android:weightSum="2">
 
@@ -53,11 +106,11 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_weight="1"
-                android:background="@drawable/grey_rectangle"
+                android:background="@drawable/qc_reject_button"
                 android:gravity="center"
                 android:text="No"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_16sp" />
 
             <androidx.appcompat.widget.AppCompatButton
@@ -68,11 +121,11 @@
                 android:layout_marginStart="@dimen/value_10dp"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_weight="1"
-                android:background="@drawable/yellow_drawable"
+                android:background="@drawable/qc_accept_background"
                 android:gravity="center"
                 android:text="Yes"
                 android:textAllCaps="false"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_16sp" />
         </LinearLayout>
     </LinearLayout>

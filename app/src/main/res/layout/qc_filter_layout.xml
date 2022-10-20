@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/heaader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_70dp"
+            android:background="@color/app_center_color"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="@dimen/text_12sp"
+                android:layout_marginTop="@dimen/twenty20_dp"
+                android:src="@drawable/qc_fillter_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/value_70dp"
+                android:layout_marginStart="@dimen/twenty20_dp"
+                android:elevation="@dimen/value_5dp"
+                android:fontFamily="@font/droidsans"
+
+                android:layout_marginTop="@dimen/text_18sp"
+                android:text="Filters"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20sp" />
+
+            <ImageView
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/value_35dp"
+                android:layout_height="@dimen/value_35dp"
+                android:layout_marginStart="205dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/qc_white_close_24" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/filterLayoutTwo"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_300dp"
+            android:layout_below="@+id/heaader"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemRecyclerView"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:background="#D1F2E7"
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/storeIdsRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <LinearLayout
+                    android:id="@+id/dateLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_300dp"
+                    android:orientation="vertical">
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/fromDateText"
+
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/fromdate"
+
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/qccalender_24"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="From Date "
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/toDateText"
+
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:layout_width="match_parent"
+                            android:id="@+id/toDate"
+
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/qccalender_24"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="To Date "
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:layout_marginTop="368dp"
+            android:background="@color/faded_background"
+            />
+
+        <LinearLayout
+            android:id="@+id/buttomLayout"
+            android:layout_width="@dimen/dimen160dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filterLayoutTwo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/value_30dp"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:orientation="vertical"
+            android:weightSum="2">
+
+
+            <Button
+                android:id="@+id/applybutoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="@dimen/value_20dp"
+                android:layout_weight="1"
+                android:background="@drawable/qc_accept_background"
+                android:text="Apply"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

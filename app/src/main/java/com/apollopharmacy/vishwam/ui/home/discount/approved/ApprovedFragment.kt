@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.CustomFilterDialog
 import com.apollopharmacy.vishwam.dialog.DiscountCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
 import com.apollopharmacy.vishwam.util.NetworkUtil

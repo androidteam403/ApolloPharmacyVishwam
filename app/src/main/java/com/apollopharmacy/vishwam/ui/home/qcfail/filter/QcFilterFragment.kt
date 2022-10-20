@@ -6,37 +6,73 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.qc.QcFilterData
-import com.apollopharmacy.vishwam.databinding.FilterLayoutBinding
+import com.apollopharmacy.vishwam.data.model.qc.QcStoreFilterData
 import com.apollopharmacy.vishwam.databinding.MainFiltermenuLayoutBinding
+import com.apollopharmacy.vishwam.databinding.QcFilterLayoutBinding
 import com.apollopharmacy.vishwam.databinding.SubmenuFilterAdapterBinding
 import com.apollopharmacy.vishwam.dialog.DatePickerDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionList
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcStoreList
 import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMenuFilter,
     DatePickerDialog.DateSelected {
 
     companion object {
         const val KEY_PENDING_DATA_QC = "qcpendingdata"
+        const val KEY_REGION_DATA_QC = "qcdata"
+
     }
 
-    private lateinit var filterLayoutBinding: FilterLayoutBinding
-    private lateinit var pendingList: ArrayList<String>
+    private lateinit var filterLayoutBinding: QcFilterLayoutBinding
+    private lateinit var pendingList: ArrayList<QcStoreList.Store>
+    private lateinit var  qcregionIdList: ArrayList<QcRegionList.Store>
+    var regionlist: ArrayList<QcRegionList.Store>? = null
+    var regionWisetList = ArrayList<QcRegionList.Store>()
+
+    val fab: FloatingActionButton? = activity?.findViewById(R.id.filter)
     private var arrayList = ArrayList<QcFilterData>()
+    private var regionList = ArrayList<QcFilterData>()
+    private var arrayStoreList = ArrayList<QcStoreFilterData>()
+
     private lateinit var filterData: String
     private lateinit var listener: QcFilterClicked
     private var toDate: String = ""
     private var clickedTag: Int? = null
 
+//    fun generateParsedData(data: ArrayList<QcRegionList.Store>): Bundle {
+//
+//        return Bundle().apply {
+//            putSerializable(KEY_REGION_DATA_QC, data)
+//            regionlist =data
+//            for (i in regionlist!!) {
+//                val items = QcRegionList.Store()
+//                items.sitename = i.sitename
+//                items.siteid=i.siteid
+//                regionWisetList.add(items)
+//
+//
+//
+//            }
+//
+//
+//        }
+//    }
+
     interface QcFilterClicked {
         fun clickedApply(
             selectedData: String,
-            data: ArrayList<String>,
+            data: ArrayList<QcStoreList.Store>,
+            regiondata: ArrayList<QcRegionList.Store>,
+
             tag: Int,
             toDate: String,
         )
@@ -48,25 +84,44 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
         savedInstanceState: Bundle?,
     ): View? {
         filterLayoutBinding =
-            DataBindingUtil.inflate(inflater, R.layout.filter_layout, container, false)
-        pendingList =(arguments?.getSerializable(KEY_PENDING_DATA_QC)) as ArrayList<String>
+            DataBindingUtil.inflate(inflater, R.layout.qc_filter_layout, container, false)
+//        generateParsedData(regionWisetList)
+//        regionList=
+
+        if ((arguments?.getSerializable(KEY_REGION_DATA_QC))==null){
+
+        }else{
+            qcregionIdList = (arguments?.getSerializable(KEY_REGION_DATA_QC)) as ArrayList<QcRegionList.Store>
+
+
+        }
+        pendingList =
+            (arguments?.getSerializable(KEY_PENDING_DATA_QC)) as ArrayList<QcStoreList.Store>
+
+
         return filterLayoutBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         var viewModel = ViewModelProvider(this).get(QcFilterViewModel::class.java)
+
         viewModel.setFilterMenu()
         listener = targetFragment as QcFilterClicked
+
         viewModel.listFilterData.observe(viewLifecycleOwner, { filterList ->
             filterLayoutBinding.itemRecyclerView.adapter = MenuFilterAdapter(filterList, this)
         })
         filterLayoutBinding.applybutoon.setOnClickListener {
             if (::filterData.isInitialized) {
-                listener!!.clickedApply(filterData, pendingList, clickedTag!!, toDate!!)
-                dismiss()
+                regionlist?.let { it1 ->
+                    listener!!.clickedApply(filterData, pendingList,
+                        it1, clickedTag!!, toDate!!)
+                }
             }
+            dismiss()
         }
+
         filterLayoutBinding.fromdate.setOnClickListener {
             openDatePicker("from")
         }
@@ -88,65 +143,106 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
         }
     }
 
+
     /**
      * if 0 filter by date
      * if 1 filter by store
      * if 2 filter by region
      */
     override fun clickMenu(clickedMenu: Int) {
+
+
         if (clickedMenu == 0) {
             filterLayoutBinding.dateLayout.visibility = View.VISIBLE
-            filterLayoutBinding.searchRecyclerView.visibility = View.GONE
+            filterLayoutBinding.storeIdsRecyclerView.visibility = View.GONE
             clickedTag = 0
         } else if (clickedMenu == 1) {
-            menuWiseSubMenu(pendingList, clickedMenu)
-            filterLayoutBinding.searchRecyclerView.visibility = View.VISIBLE
-            filterLayoutBinding.dateLayout.visibility = View.GONE
+            menuWiseSubMenu(pendingList, qcregionIdList, clickedMenu)
             clickedTag = 1
         } else if (clickedMenu == 2) {
-            menuWiseSubMenu(pendingList, clickedMenu)
-            filterLayoutBinding.searchRecyclerView.visibility = View.VISIBLE
-            filterLayoutBinding.dateLayout.visibility = View.GONE
+            menuWiseSubMenu(pendingList, qcregionIdList, clickedMenu)
             clickedTag = 2
         }
     }
 
     private fun menuWiseSubMenu(
-        pending: ArrayList<String>,
+        pending: ArrayList<QcStoreList.Store>,
+        region: ArrayList<QcRegionList.Store>,
         clickedMenu: Int,
-    ) {
+
+        ) {
         arrayList.clear()
         val hs = HashSet<QcFilterData>()
         if (clickedMenu == 1) {
             for (i in pending.indices) {
-                if (!pending[i].isNullOrEmpty())
-                    arrayList.add(QcFilterData(pending[i]))
+                if (pending.isNullOrEmpty())
+                    pending[i].siteid+" - "+pending[i].sitename
+
+                arrayList.add(QcFilterData(pending[i].siteid + " - " + pending[i].sitename.toString()))
             }
         } else {
-            for (i in pending.indices) {
-                if (!pending[i].isNullOrEmpty())
-                    arrayList.add(QcFilterData(pending[i]))
+            for (j in region.indices) {
+                if (region.isNullOrEmpty())
+                    region[j].siteid
+                arrayList.add(QcFilterData(region[j].siteid.toString()))
+
             }
         }
         hs.addAll(arrayList)
         arrayList.clear()
         arrayList.addAll(hs)
-        filterLayoutBinding.searchRecyclerView.adapter =
+
+
+//        filterLayoutBinding.storeIdsRecyclerView.addOnScrollListener(object :
+//            RecyclerView.OnScrollListener() {
+//
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//            }
+//
+//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+//                super.onScrolled(recyclerView, dx, dy)
+//                if (dy < 0) {
+//                    if (fab != null) {
+//                        fab.show()
+//                    }
+//                } else if (dy > 0) {
+//                    if (fab != null) {
+//                        fab.hide()
+//                    }
+//                }
+//            }
+//
+//
+//        })
+
+
+filterLayoutBinding.storeIdsRecyclerView.removeAllViews()
+
+        val mLayoutManager1: RecyclerView.LayoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        filterLayoutBinding.storeIdsRecyclerView.layoutManager = mLayoutManager1
+
+        filterLayoutBinding.storeIdsRecyclerView.adapter =
             SubMenuAdapter(arrayList, object : SubMenuAdapter.UserSelected {
                 override fun clickedItem(subMenu: String) {
                     Utils.printMessage("subMenuClicked", subMenu)
                     filterData = subMenu
                 }
-            })
+            }, pendingList)
+        filterLayoutBinding.storeIdsRecyclerView.visibility = View.VISIBLE
+        filterLayoutBinding.dateLayout.visibility = View.GONE
+
     }
 
     override fun selectDateFrom(dateSelected: String, showingDate: String) {
-        filterLayoutBinding.fromdate.setText(Utlis.convertDate(dateSelected))
+        filterLayoutBinding.fromdate.setText(dateSelected)
         filterData = dateSelected
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
-        filterLayoutBinding.toDate.setText(Utlis.convertDate(dateSelected))
+        filterLayoutBinding.toDate.setText(dateSelected)
         toDate = dateSelected
     }
 }
@@ -157,20 +253,24 @@ class MenuFilterAdapter(filterDataList: List<QcFilterData>, var listner: ClickMe
         R.layout.main_filtermenu_layout
     ) {
     var menuFilter = 0
-    override fun bindItems(binding: MainFiltermenuLayoutBinding, items: QcFilterData, position: Int) {
+    override fun bindItems(
+        binding: MainFiltermenuLayoutBinding,
+        items: QcFilterData,
+        position: Int,
+    ) {
         binding.menuTitle.text = items.MenuTitle
         if (menuFilter == position) {
-            binding.root.setBackgroundResource(R.color.faded_click)
-            binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.white))
+            binding.root.setBackgroundResource(R.color.white)
+            binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.black))
             listner.clickMenu(position)
         } else {
-            binding.root.setBackgroundResource(R.color.faded_background)
+            binding.root.setBackgroundResource(R.color.qc_color)
             binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.black))
         }
         binding.root.setOnClickListener {
             if (menuFilter == position) {
-                binding.root.setBackgroundResource(R.color.faded_click)
-                binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.white))
+                binding.root.setBackgroundResource(R.color.white)
+                binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.black))
             } else {
                 binding.root.setBackgroundResource(R.color.faded_click)
                 binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.black))
@@ -186,7 +286,11 @@ class MenuFilterAdapter(filterDataList: List<QcFilterData>, var listner: ClickMe
     }
 }
 
-class SubMenuAdapter(subFilterData: List<QcFilterData>, var listner: UserSelected) :
+class SubMenuAdapter(
+    subFilterData: List<QcFilterData>,
+    var listner: UserSelected,
+    var storeList: ArrayList<QcStoreList.Store>,
+) :
     SimpleRecyclerView<SubmenuFilterAdapterBinding, QcFilterData>(
         subFilterData,
         R.layout.submenu_filter_adapter
@@ -198,6 +302,8 @@ class SubMenuAdapter(subFilterData: List<QcFilterData>, var listner: UserSelecte
         position: Int,
     ) {
         binding.menuTitle.text = items.MenuTitle
+
+
         if (menuFilter == position) {
             binding.root.setBackgroundResource(R.color.faded_click)
             binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.white))
@@ -217,6 +323,8 @@ class SubMenuAdapter(subFilterData: List<QcFilterData>, var listner: UserSelecte
             }
         }
     }
+
+
 
     interface UserSelected {
         fun clickedItem(subMenu: String)

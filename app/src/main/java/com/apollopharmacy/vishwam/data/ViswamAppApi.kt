@@ -5,6 +5,7 @@ import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
@@ -281,6 +282,42 @@ interface ViswamAppApi {
     suspend fun swachhImagesUpload(
         @Header("token") token: String, @Query("StoreId") storeId: String,
     ): SwachModelResponse
+
+
+
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+    suspend fun qcResponseList( @Query("EmpId") id: String,
+                                @Query("FromDate") fromDate: String,
+                                @Query("ToDate") tomDate: String,
+                                @Query("StoreId") storeId: String,
+                                @Query("REGIONID") region: String,
+    ): QcListsResponse
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
+    suspend fun qcItemsResponseList( @Query("ORDERNO") id: String,): QcItemListResponse
+
+    @POST("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/AcceptAndReject")
+    suspend fun QcAcceptRejectResponse(
+        @Body data: QcAcceptRejectRequest,
+    ): QcAcceptRejectResponse
+
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRemarksList")//qcfail
+    suspend fun qcRejectionList(): QcReasonList
+
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRegionList")//qcfail
+    suspend fun qcRegionList(): QcRegionList
+
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetStoreList")//qcfail
+    suspend fun qcStoreList(): QcStoreList
+
+    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
+    suspend fun qcStatusList(@Query("ORDERNO") id: String,): ActionResponse
+
+
+//    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+//    suspend fun deRegisterDevice(
+//        @Header("token") token: String,
+//        @Query("EmpId") id: String,
+//    ): DeviceDeRegResponse
 
     @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onSubmitSwacch(
