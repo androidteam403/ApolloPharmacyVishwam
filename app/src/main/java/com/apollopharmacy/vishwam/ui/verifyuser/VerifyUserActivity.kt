@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -20,6 +21,7 @@ import com.apollopharmacy.vishwam.ui.otpview.OtpViewActivity
 import com.apollopharmacy.vishwam.ui.splash.SplashActivity
 import com.apollopharmacy.vishwam.util.EncryptionManager
 import com.apollopharmacy.vishwam.util.Utils
+
 
 class VerifyUserActivity : AppCompatActivity() {
     lateinit var verifyUserViewModel: VerifyUserViewModel
@@ -54,7 +56,7 @@ class VerifyUserActivity : AppCompatActivity() {
 
         val companys = resources.getStringArray(R.array.company_list)
         val mySpinner = findViewById<Spinner>(R.id.company_spinner)
-        val spinnerAdapter= object : ArrayAdapter<String>(this,R.layout.dropdown_item, companys) {
+        val spinnerAdapter= object : ArrayAdapter<String>(this, R.layout.dropdown_item, companys) {
 
             override fun isEnabled(position: Int): Boolean {
                 // Disable the first item from Spinner
@@ -65,7 +67,7 @@ class VerifyUserActivity : AppCompatActivity() {
             override fun getDropDownView(
                 position: Int,
                 convertView: View?,
-                parent: ViewGroup
+                parent: ViewGroup,
             ): View {
                 val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
                 //set the color of first item in the drop down list to gray
@@ -79,6 +81,8 @@ class VerifyUserActivity : AppCompatActivity() {
             }
 
         }
+        verifyUserBinding.employeeId.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         mySpinner.adapter = spinnerAdapter
 
@@ -90,7 +94,7 @@ class VerifyUserActivity : AppCompatActivity() {
                 parent: AdapterView<*>?,
                 view: View?,
                 position: Int,
-                id: Long
+                id: Long,
             ) {
                 val value = parent!!.getItemAtPosition(position).toString()
                 if(value == companys[0]){

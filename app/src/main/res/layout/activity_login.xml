@@ -104,6 +104,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
                     android:hint="@string/label_user_name"
+                    android:textAllCaps="true"
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"

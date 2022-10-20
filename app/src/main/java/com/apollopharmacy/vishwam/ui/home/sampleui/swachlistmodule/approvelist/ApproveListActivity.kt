@@ -416,7 +416,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
         }
 
         submitButton.setOnClickListener {
-            if (comments.getText().toString() != null && comments.getText().toString() != "") {
+            if (comments.getText().toString() != null && comments.getText().toString().trim() != "") {
                 var submitRating = RatingModelRequest()
                 submitRating.type = "REMARKS"
                 submitRating.swachhid = pendingAndApproved?.swachhid

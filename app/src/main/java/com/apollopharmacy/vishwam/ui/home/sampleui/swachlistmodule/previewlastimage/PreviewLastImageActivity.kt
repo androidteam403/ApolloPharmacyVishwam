@@ -331,7 +331,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
                                 submitButton.setOnClickListener {
                                     if (comments.getText().toString() != null && comments.getText()
-                                            .toString() != ""
+                                            .toString().trim() != ""
                                     ) {
                                         var submitRating = RatingModelRequest()
                                         submitRating.type = "REMARKS"

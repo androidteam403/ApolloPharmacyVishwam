@@ -33,6 +33,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadNowButtonBinding
+import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ConfigAdapterSwach
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
@@ -243,29 +244,35 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
     }
 
     fun onClickBack() {
-        val imagesStatusAlertDialog = Dialog(this)
-        val dialogBackPressedAllert: DialogLastimagePreviewAlertBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
-            )
-        imagesStatusAlertDialog.setContentView(dialogBackPressedAllert.root)
-        dialogBackPressedAllert.alertTitle.visibility = View.GONE
-        dialogBackPressedAllert.messege.text = "Do you want to exit?"
-//        imagesStatusAlertDialog.setCancelable(false)
-        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogBackPressedAllert.yesBtn.setOnClickListener {
-            imagesStatusAlertDialog.dismiss()
-            val intent = Intent()
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+        if (uploadedImageCount > 0) {
+            val imagesStatusAlertDialog = Dialog(this)
+            val dialogBackPressedAllert: DialogForImageUploadBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_for_image_upload, null, false
+                )
+            imagesStatusAlertDialog.setContentView(dialogBackPressedAllert.root)
+//        dialogBackPressedAllert.alertTitle.visibility = View.GONE
+//        dialogBackPressedAllert.messege.text = "Do you want to exit?"
+//       imagesStatusAlertDialog.setCancelable(false)
+            imagesStatusAlertDialog.getWindow()
+                ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBackPressedAllert.yesBtn.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+
+            dialogBackPressedAllert.cancelButton.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+            }
+            dialogBackPressedAllert.close.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+            }
+            imagesStatusAlertDialog.show()
+        }else{
+            super.onBackPressed()
         }
-        dialogBackPressedAllert.cancelButton.setOnClickListener {
-            imagesStatusAlertDialog.dismiss()
-        }
-        dialogBackPressedAllert.close.setOnClickListener {
-            imagesStatusAlertDialog.dismiss()
-        }
-        imagesStatusAlertDialog.show()
     }
 
     private fun uploadApi() {

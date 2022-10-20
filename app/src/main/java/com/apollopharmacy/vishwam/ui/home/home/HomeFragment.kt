@@ -28,6 +28,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
             viewBinding.customerID.setText("Emp ID: " + userData.EMPID)
         }
         Utlis.hideLoading()
+        hideLoading()
 
 
 
