@@ -44,6 +44,7 @@ class RejectReasonsDialog: DialogFragment() {
 
     interface ResaonDialogClickListner {
         fun selectReason(gst: String)
+        fun reasonCode(reasonCode:String)
     }
 
     override fun onCreateView(
@@ -68,6 +69,11 @@ class RejectReasonsDialog: DialogFragment() {
 
 
                 }
+
+                override fun onSelectedcode(code: String) {
+                    abstractDialogClick.reasonCode(code)
+
+                }
             })
         return viewBinding.root
     }
@@ -90,12 +96,15 @@ class ReasonRecyclerViews(
 
         binding.root.setOnClickListener {
             items.reasonbase?.let { it1 -> onSelectedListner.onSelected(it1) }
+            items.reasonbase?.let { it1 -> onSelectedListner.onSelectedcode(it1) }
+
         }
     }
 }
 
 interface OnSelectionListner {
     fun onSelected(data: String)
+    fun onSelectedcode(code:String)
 }
 
 

@@ -108,29 +108,29 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
 
         viewModel.setFilterMenu()
         listener = targetFragment as QcFilterClicked
-
-        viewModel.listFilterData.observe(viewLifecycleOwner, { filterList ->
-            filterLayoutBinding.itemRecyclerView.adapter = MenuFilterAdapter(filterList, this)
-        })
-        filterLayoutBinding.applybutoon.setOnClickListener {
-            if (::filterData.isInitialized) {
-                regionlist?.let { it1 ->
-                    listener!!.clickedApply(filterData, pendingList,
-                        it1, clickedTag!!, toDate!!)
-                }
-            }
-            dismiss()
-        }
-
-        filterLayoutBinding.fromdate.setOnClickListener {
-            openDatePicker("from")
-        }
-        filterLayoutBinding.toDate.setOnClickListener {
-            openDatePicker("to")
-        }
-        filterLayoutBinding.cancel.setOnClickListener {
-            dismiss()
-        }
+//
+//        viewModel.listFilterData.observe(viewLifecycleOwner, { filterList ->
+//            filterLayoutBinding.itemRecyclerView.adapter = MenuFilterAdapter(filterList, this)
+//        })
+//        filterLayoutBinding.applybutoon.setOnClickListener {
+//            if (::filterData.isInitialized) {
+//                regionlist?.let { it1 ->
+//                    listener!!.clickedApply(filterData, pendingList,
+//                        it1, clickedTag!!, toDate!!)
+//                }
+//            }
+//            dismiss()
+//        }
+//
+//        filterLayoutBinding.fromdate.setOnClickListener {
+//            openDatePicker("from")
+//        }
+//        filterLayoutBinding.toDate.setOnClickListener {
+//            openDatePicker("to")
+//        }
+//        filterLayoutBinding.cancel.setOnClickListener {
+//            dismiss()
+//        }
     }
 
     private fun openDatePicker(tag: String) {
@@ -153,8 +153,8 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
 
 
         if (clickedMenu == 0) {
-            filterLayoutBinding.dateLayout.visibility = View.VISIBLE
-            filterLayoutBinding.storeIdsRecyclerView.visibility = View.GONE
+//            filterLayoutBinding.dateLayout.visibility = View.VISIBLE
+//            filterLayoutBinding.storeIdsRecyclerView.visibility = View.GONE
             clickedTag = 0
         } else if (clickedMenu == 1) {
             menuWiseSubMenu(pendingList, qcregionIdList, clickedMenu)
@@ -178,7 +178,7 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
                 if (pending.isNullOrEmpty())
                     pending[i].siteid+" - "+pending[i].sitename
 
-                arrayList.add(QcFilterData(pending[i].siteid + " - " + pending[i].sitename.toString()))
+                arrayList.add(QcFilterData(pending[i].siteid.toString() ))
             }
         } else {
             for (j in region.indices) {
@@ -216,33 +216,33 @@ class QcFilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMen
 //
 //        })
 
-
-filterLayoutBinding.storeIdsRecyclerView.removeAllViews()
-
-        val mLayoutManager1: RecyclerView.LayoutManager =
-            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-        filterLayoutBinding.storeIdsRecyclerView.layoutManager = mLayoutManager1
-
-        filterLayoutBinding.storeIdsRecyclerView.adapter =
-            SubMenuAdapter(arrayList, object : SubMenuAdapter.UserSelected {
-                override fun clickedItem(subMenu: String) {
-                    Utils.printMessage("subMenuClicked", subMenu)
-                    filterData = subMenu
-                }
-            }, pendingList)
-        filterLayoutBinding.storeIdsRecyclerView.visibility = View.VISIBLE
-        filterLayoutBinding.dateLayout.visibility = View.GONE
+//
+//filterLayoutBinding.storeIdsRecyclerView.removeAllViews()
+//
+//        val mLayoutManager1: RecyclerView.LayoutManager =
+//            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//
+//        filterLayoutBinding.storeIdsRecyclerView.layoutManager = mLayoutManager1
+//
+//        filterLayoutBinding.storeIdsRecyclerView.adapter =
+//            SubMenuAdapter(arrayList, object : SubMenuAdapter.UserSelected {
+//                override fun clickedItem(subMenu: String) {
+//                    Utils.printMessage("subMenuClicked", subMenu)
+//                    filterData = subMenu
+//                }
+//            }, pendingList)
+//        filterLayoutBinding.storeIdsRecyclerView.visibility = View.VISIBLE
+//        filterLayoutBinding.dateLayout.visibility = View.GONE
 
     }
 
     override fun selectDateFrom(dateSelected: String, showingDate: String) {
-        filterLayoutBinding.fromdate.setText(dateSelected)
+//        filterLayoutBinding.fromdate.setText(dateSelected)
         filterData = dateSelected
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
-        filterLayoutBinding.toDate.setText(dateSelected)
+//        filterLayoutBinding.toDate.setText(dateSelected)
         toDate = dateSelected
     }
 }

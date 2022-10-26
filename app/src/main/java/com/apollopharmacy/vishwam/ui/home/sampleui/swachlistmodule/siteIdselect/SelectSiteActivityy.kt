@@ -101,18 +101,18 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
         }
 
 
-        viewModel.command.observeForever({
+        viewModel.command.observeForever {
             when (it) {
                 is SelectSiteActivityViewModel.CmsCommandSelectSiteId.ShowSiteInfo -> {
-                  Utlis.hideLoading()
-                        Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
-                        Preferences.setSiteIdListFetched(true)
+                    Utlis.hideLoading()
+                    Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                    Preferences.setSiteIdListFetched(true)
 //                        arguments =
 //                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
                 }
             }
-        })
+        }
 
         searchByFulfilmentId()
     }
@@ -171,8 +171,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
                     }
                     siteIdDisplay =
                             SiteIdDisplay(applicationContext, selectsiteIdList, this)
-//                        activitySelectSiteActivityBinding.storeIdsRecyclerView.layoutManager = LinearLayoutManager(ViswamApp.context, LinearLayoutManager.VERTICAL, false)
-                        activitySelectSiteActivityBinding.storeIdsRecyclerView.adapter = siteIdDisplay
+                       activitySelectSiteActivityBinding.storeIdsRecyclerView.adapter = siteIdDisplay
 
                     siteDataList.get(pos!!).isSelected = true
                     siteIdAdapter?.notifyDataSetChanged()

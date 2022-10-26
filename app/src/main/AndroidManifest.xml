@@ -24,7 +24,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity"></activity>
+        <activity android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
+
+        </activity>
+        <activity android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity" />
         <activity android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity" />
         <activity android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity" />
         <activity android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy" />

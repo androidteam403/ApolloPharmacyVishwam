@@ -84,10 +84,6 @@ class QcApproveListAdapter(
 
         }
 
-        if (!statusList.isNullOrEmpty()){
-            holder.adapterApproveListBinding.approvebyText.setText(statusList[0].status)
-        }
-
         if (qcItemList.isNotEmpty()) {
 
             var item = QcItemListResponse()
@@ -147,9 +143,8 @@ class QcApproveListAdapter(
                 holder.adapterApproveListBinding.discountTotal.setText((Totaldiscount.sum()).toString())
             }
             if (qty.isNotEmpty()) {
-
                 holder.adapterApproveListBinding.remainingPayment.setText(String.format("%.2f",
-                    (TotalPrice.sum() ) - Totaldiscount.sum()))
+                    (TotalPrice.sum()) - Totaldiscount.sum()))
           }
 
             holder.adapterApproveListBinding.recyclerView.adapter =

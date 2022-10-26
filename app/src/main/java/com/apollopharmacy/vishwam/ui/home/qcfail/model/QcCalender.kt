@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.dialog
+package com.apollopharmacy.vishwam.ui.home.qcfail.model
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -17,13 +17,13 @@ import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
-class CalenderNew: DialogFragment()  {
+class QcCalender: DialogFragment()  {
 
 
 
 
         interface DateSelected {
-            fun selectedDate(dateSelected: String, showingDate: String)
+            fun fromDate(fromDate:  String, showingDate: String)
 
         }
 
@@ -58,7 +58,7 @@ class CalenderNew: DialogFragment()  {
             ) as DialogDatePickerBinding
 
 
-            dateSelectedListner = parentFragment as DateSelected
+            dateSelectedListner = activity as DateSelected
 
             val calendar = Calendar.getInstance()
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
@@ -88,17 +88,18 @@ class CalenderNew: DialogFragment()  {
             }
             Utils.printMessage("TAG",
                 "Date is :: " + day + "/" + month + "/" + year + ",  DT : " + selectedDate + ", : " + month)
-            dataPickerBinding.datePicker.minDate =c.timeInMillis
+//            dataPickerBinding.datePicker.minDate =c.timeInMillis
 
 //            var ca:Int
 //            ca=System.currentTimeMillis()-1000;
 
 
+            dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
 
-            dataPickerBinding.datePicker.maxDate = (Date().time*(500*60*60*24*7))
+//            dataPickerBinding.datePicker.maxDate = (Date().time*(500*60*60*24*7))
             if(arguments?.getBoolean(KEY_IS_TO) == true){
                 val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
-                dataPickerBinding.datePicker.minDate =c.timeInMillis
+                dataPickerBinding.datePicker.minDate =date.time
             }
 
 
@@ -110,7 +111,7 @@ class CalenderNew: DialogFragment()  {
                 val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
                 val getDate =
                     "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-                dateSelectedListner.selectedDate(getDate, getDate)
+                dateSelectedListner.fromDate(getDate, getDate)
                 dismiss()
             }
             return dataPickerBinding.root

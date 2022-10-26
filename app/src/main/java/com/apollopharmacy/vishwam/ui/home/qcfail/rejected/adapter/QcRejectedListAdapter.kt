@@ -70,51 +70,20 @@ class QcRejectedListAdapter(
             var discounts = 0.0
             if (item.itemlist?.isNotEmpty() == true) {
                 for (k in item.itemlist!!) {
+                    if (!k.qty.toString().isNullOrEmpty() && !k.price.toString().isNullOrEmpty()) {
 
-                    totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
-                    discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
-//                    var items: Double
-//                    var disc: Double
-//                    var qt: Double
-//
-//                    items = (k.price!!)
-//                    totalPrice.add(items)
-//                    disc = k.discamount!!
-//                    discount.add(disc)
-//                    if (k.qty !== null) {
-//                        qt = k.qty as Double
-//                        qty.add(qt)
-//                    }
-                }
-                println("Total price==============================="+totalPrices)
-                println("Discount price==============================="+discounts)
-
-                for (i in qty.indices){
-                    for (j in totalPrice.indices){
-                        if(i.equals(j)) {
-                            TotalPrice.add(qty[i] * totalPrice[j])
-                        }
+                        totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
+                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
                     }
+
                 }
-
-                for (i in qty.indices){
-                    for (j in discount.indices){
-                        if(i.equals(j)) {
-                            Totaldiscount.add(qty[i] * discount[j])
-                        }
-                    }
-                }
+                println("Total price===============================" + totalPrices)
+                println("Discount price===============================" + discounts)
+                holder.rejectListBinding.totalCost.setText(totalPrices.toString())
+                holder.rejectListBinding.discountTotal.setText(discounts.toString())
+                holder.rejectListBinding.remainingPayment.setText(String.format("%.2f",
+                    (totalPrices) - discounts))
             }
-            if (TotalPrice.isNotEmpty()) {
-                holder.rejectListBinding.totalCost.setText((TotalPrice.sum().toString()))
-            }
-
-            if (Totaldiscount.isNotEmpty()) {
-                holder.rejectListBinding.discountTotal.setText(Totaldiscount.sum().toString())
-            }
-
-            holder.rejectListBinding.remainingPayment.setText(String.format("%.2f",
-                    (TotalPrice.sum() ) - Totaldiscount.sum()))
 
             holder.rejectListBinding.recyclerView.adapter =
                 item.itemlist?.let {

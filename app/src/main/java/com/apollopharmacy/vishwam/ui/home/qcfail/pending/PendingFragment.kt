@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishw
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -19,6 +20,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAd
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utils
 import com.github.omadahealth.lollipin.lib.managers.AppLockActivity.TAG
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
@@ -37,7 +39,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
     var reason: String = ""
-    var qcreason: String = ""
+    var qcreasonCode: String = ""
 //     var reason= String
 
     var itemList = ArrayList<QcItemListResponse.Item>()
@@ -51,13 +53,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         return ViewModelProvider(this).get(QcPendingViewModel::class.java)
     }
 
+    @SuppressLint("ResourceType")
     override fun setup() {
         showLoading()
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
         viewModel.getQcPendingList("APL48627", "2022-10-01", "2022-10-19", "16001", "")
-
 
 
         val qcreject = QcAcceptRejectRequest.Order("RV000012",
@@ -120,7 +122,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
             } else {
                 adapter = context?.let { it1 ->
-                    QcPendingListAdapter(it1,it.pendinglist as ArrayList<QcListsResponse.Pending>,
+                    QcPendingListAdapter(it1, it.pendinglist as ArrayList<QcListsResponse.Pending>,
                         this,
                         itemsList)
                 }
@@ -140,10 +142,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             when (command) {
                 is Command.ShowQcButtonSheet -> {
                     var dialog = command.fragment.newInstance()
-                    dialog.arguments = command.arguments
+                    dialog = BottomSheetDialog(requireContext(), R.layout.qc_filter_layout)
 
-                    dialog.setTargetFragment(this, 0)
-                    activity?.supportFragmentManager?.let { dialog.show(it, "") }
+                    activity?.supportFragmentManager?.let { dialog.show() }
                 }
                 is Command.ShowToast -> {
                     hideLoading()
@@ -160,183 +161,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
         }
     }
-
-
-//    class PendingRecycleView(
-//        var orderData: ArrayList<QcListsResponse.Pending>,
-//        val imageClicklistner: QcImagesListner,
-//        var qcItemList: ArrayList<QcItemListResponse>,
-//        var qcrejList: ArrayList<QcAcceptRejectRequest.Order>,
-//
-//
-//        ) :
-//
-//        SimpleRecyclerView<QcPendingLayoutBinding, QcListsResponse.Pending>(orderData,
-//            R.layout.qc_pending_layout) {
-//        override fun bindItems(
-//            binding: QcPendingLayoutBinding,
-//            items: QcListsResponse.Pending,
-//            position: Int,
-//        ) {
-//            val ischecked: Boolean = false
-//            var value: Double = 0.0
-//
-//            if (items.dcCode == null) {
-//                binding.locationText.setText("-")
-//
-//            } else {
-//                binding.locationText.setText("-"+items.dcCode)
-//                              }
-//
-//            if (items.storeid == null) {
-//                binding.storeId.setText("-")
-//
-//            } else {
-//                binding.storeId.setText(items.storeid)
-//            }
-////            binding.storeId.setText(items.storeid)
-//            if (items.qcfaildate == null) {
-//                binding.postedDate.setText("-")
-//
-//            } else {
-//                binding.postedDate.setText(items.qcfaildate!!.substring(0,
-//                    Math.min(items.qcfaildate!!.length, 10)))            }
-//            binding.reqDate.setText(items.requesteddate!!.substring(0,
-//                Math.min(items.requesteddate!!.length, 10)))
-////            binding.locationText.setText(items.dcCode)
-//            binding.custName.setText(items.custname)
-////        binding.storeNameText.setText(items.omsorderno)
-//            binding.custNumber.setText("-" + items.mobileno)
-//            binding.orderid.setText(items.orderno)
-//
-//            binding.acceptClick.setOnClickListener {
-//
-//                imageClicklistner.accept(position,
-//                    items.orderno.toString(),
-//                    binding.writeRemarks.text.toString())
-//            }
-//
-//            binding.rejectClick.setOnClickListener {
-//                imageClicklistner.reject(position,
-//                    items.orderno.toString(),
-//                    binding.writeRemarks.text.toString())
-//            }
-//
-//            if (qcItemList.isNotEmpty()) {
-//
-//                var item = QcItemListResponse()
-//                for (i in qcItemList) {
-//                    if (i.orderno!!.equals(orderData.get(position).orderno)) {
-//                        item = i
-//                    }
-//                }
-//                var totalPrice = ArrayList<Double>()
-//                var discount = ArrayList<Double>()
-//                var qty = ArrayList<Double>()
-//
-////        var k= items.itemlist?.size
-//                if (item.itemlist?.isNotEmpty() == true) {
-//                    for (k in item.itemlist!!) {
-//                        var items: Double
-//                        var disc: Double
-//                        var qt: Double
-//
-//                        items = (k.price!!)
-//                        totalPrice.add(items)
-//                        disc= k.discamount!!
-//                        discount.add(disc)
-//                        if (k.qty!==null){
-//                            qt= k.qty as Double
-//                            qty.add(qt)
-//
-//                        }
-//
-//
-//                    }
-//                }
-//                if (totalPrice.isNotEmpty()) {
-//                    binding.totalCost.setText(totalPrice.sum().toString())
-//                }
-//
-//                if (discount.isNotEmpty()) {
-//                    binding.discountTotal.setText(discount.sum().toString())
-//                }
-//                if (qty.isNotEmpty()) {
-//                    value=qty.sum()
-//                    binding.remainingPayment.setText(String.format("%.2f",(value*totalPrice.sum())-discount.sum()).toString())
-//                }
-//
-//                binding.recyclerView.adapter =
-//                    item.itemlist?.let {
-//                        OrderDetailsRecycleView(it,
-//                            position,
-//                            orderData,
-//                            qcrejList)
-//                    }
-//                binding.recyclerView.scrollToPosition(position)
-//            }
-//
-//            if (orderData[position].isItemChecked) {
-//                binding.checkBox.setImageResource(R.drawable.qcright)
-//            } else {
-//                binding.checkBox.setImageResource(R.drawable.qc_checkbox)
-//            }
-//
-//
-//            binding.checkBox.setOnClickListener {
-//                imageClicklistner.isChecked(orderData, position)
-//            }
-//
-//
-//            binding.arrow.setOnClickListener {
-//                items.orderno?.let { imageClicklistner.orderno(position, it) }
-//                binding.arrowClose.visibility = View.VISIBLE
-//                binding.arrow.visibility = View.GONE
-//                binding.extraData.visibility = View.VISIBLE
-//
-//
-//            }
-//
-//            binding.arrowClose.setOnClickListener {
-//                binding.arrowClose.visibility = View.GONE
-//                binding.arrow.visibility = View.VISIBLE
-//                binding.extraData.visibility = View.GONE
-//
-//            }
-//
-//        }
-//    }
-//
-//
-//    class OrderDetailsRecycleView(
-//        var itemsList: List<QcItemListResponse.Item>,
-//        var pos: Int,
-//        var qcList: ArrayList<QcListsResponse.Pending>,
-//        var qcrejList: ArrayList<QcAcceptRejectRequest.Order>,
-//
-//
-//        ) :
-//        SimpleRecyclerView<QcOrderLayoutBinding, QcItemListResponse.Item>(
-//            itemsList,
-//            R.layout.qc_order_layout
-//        ) {
-//        override fun bindItems(
-//            binding: QcOrderLayoutBinding,
-//            items: QcItemListResponse.Item,
-//            position: Int,
-//        ) {
-//
-//            if (items != null)
-//
-//                binding.quantityText.setText(items.qty.toString())
-//            binding.medicineName.setText(items.itemname)
-//            binding.categoryName.setText("- " + items.category)
-//            binding.price.setText(items.price.toString())
-////            binding.discountTotal.setText(items.discamount.toString())
-//
-//
-//        }
-//    }
 
 
     override fun orderno(position: Int, orderno: String) {
@@ -430,7 +254,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             customDialog.dismiss()
             if (itemsList != null) {
                 viewModel.getAcceptRejectResult(QcAcceptRejectRequest("REJECT",
-                    "QTYMISMATCH",
+                    reason,
                     "REJ0001",
                     qcRejectList))
             }
@@ -456,12 +280,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     override fun selectReason(gst: String) {
         reason = gst
-        qcreason = gst
         dialogBinding?.siteIdSelectQc?.setText(gst)
         adapter?.notifyDataSetChanged()
     }
 
+    override fun reasonCode(reasonCode: String) {
+        qcreasonCode = reasonCode
 
+    }
 
 
     override fun clickedApply(

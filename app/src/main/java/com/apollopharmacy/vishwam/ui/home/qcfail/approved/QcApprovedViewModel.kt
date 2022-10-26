@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -254,7 +255,7 @@ class QcApprovedViewModel : ViewModel() {
 //            arguments=QcFilterFragment().generateParsedData(qcregionIdList as ArrayList<QcRegionList.Store>)
 //        }
 //
-        command.value = Command.ShowQcButtonSheet(QcFilterFragment::class.java, bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList), Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
+        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java, bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList), Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
 
     }
 

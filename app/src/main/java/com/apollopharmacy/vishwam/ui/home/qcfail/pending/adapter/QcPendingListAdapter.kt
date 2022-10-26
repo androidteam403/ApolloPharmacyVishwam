@@ -135,17 +135,25 @@ class QcPendingListAdapter(
 
             if (TotalPrice.isNotEmpty()) {
                 holder.pendingLayoutBinding.totalCost.setText(TotalPrice.sum().toString())
+            }else{
+                holder.pendingLayoutBinding.totalCost.setText("-")
             }
 
             if (Totaldiscount.isNotEmpty()) {
                 holder.pendingLayoutBinding.discountTotal.setText((Totaldiscount.sum()).toString())
             }
+            else{
+                holder.pendingLayoutBinding.discountTotal.setText("-")
 
+            }
+            if (qty.isNotEmpty()) {
 
                 holder.pendingLayoutBinding.remainingPayment.setText(String.format("%.2f",
                     (TotalPrice.sum() ) - Totaldiscount.sum()))
-
-
+            }
+            else{
+                holder.pendingLayoutBinding.remainingPayment.setText("-")
+            }
 
             holder.pendingLayoutBinding.recyclerView.adapter =
                 item.itemlist?.let {

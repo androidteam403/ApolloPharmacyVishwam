@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="navy">#dceaf4</color>
     <color name="cement">#EFEFEF</color>
+    <color name="filter_color">#D1F2E7</color>
 
     <color name="splash_start_color">#173b5e</color>
     <color name="splash_end_color">#269aba</color>

@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/value_50dp"
-        android:background="@color/colorWhite"
+        android:background="@color/transparent"
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/heaader"
@@ -125,11 +126,18 @@
                 android:editable="false"
                 android:focusable="false"
                 android:hint="From Date *"
+                android:visibility="visible"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/text_15sp" />
+            <CalendarView
+                android:id="@+id/fromDateCalender"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="wrap_content"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -161,7 +169,7 @@
         <Button
             android:id="@+id/submit"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_50dp"
+            android:layout_height="@dimen/value_60dp"
             android:layout_margin="@dimen/value_15dp"
             android:background="@drawable/qc_accept_background"
             android:text="Apply"

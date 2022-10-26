@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.util.Utils
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -140,7 +141,7 @@ sealed class Command {
         Command()
 
     data class ShowQcButtonSheet(
-        val fragment: Class<out BottomSheetDialogFragment>,
+        val fragment: Class<out BottomSheetDialog>,
         val arguments: Bundle,
     ) :
         Command()
