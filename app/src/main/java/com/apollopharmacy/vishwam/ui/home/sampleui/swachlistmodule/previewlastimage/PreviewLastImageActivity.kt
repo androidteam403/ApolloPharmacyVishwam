@@ -66,7 +66,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrl.remarks = j.remarks
                 imageUrl.categoryid = j.categoryid
                 imageUrl.imageid = j.imageid
-                imageUrl.isVerified = j.isVerified
+                imageUrl.isVerified = (j.status=="1"|| j.status=="2")
                 imageUrl.categoryname = i.categoryname
                 imageUrl.mainCategoryId = i.categoryid
                 imageUrlsList.add(imageUrl)

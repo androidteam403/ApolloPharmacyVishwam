@@ -34,7 +34,7 @@
             android:layout_height="@dimen/text_15sp"
             android:layout_gravity="center"
             android:layout_marginEnd="@dimen/value_3dp"
-            android:src="@drawable/ic_baseline_clear_24" />
+            android:src="@drawable/closee_whitee" />
 
     </LinearLayout>
 
