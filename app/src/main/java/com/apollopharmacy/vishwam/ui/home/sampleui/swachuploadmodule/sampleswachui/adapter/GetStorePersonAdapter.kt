@@ -295,15 +295,15 @@ class GetStorePersonAdapter(
         binding.reviewButtonApproved.setOnClickListener {
             callBackInterface.onClickReview( getStorePerson?.swachhid,  getStorePerson?.storeId )
         }
-        binding.reviewButtonPending.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
-        binding.reviewButtonReshoot.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
-        binding.reviewButtonpartial.setOnClickListener {
-            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
-        }
+//        binding.reviewButtonPending.setOnClickListener {
+//            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+//        }
+//        binding.reviewButtonReshoot.setOnClickListener {
+//            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+//        }
+//        binding.reviewButtonpartial.setOnClickListener {
+//            callBackInterface.onClickReview(getStorePerson?.swachhid, getStorePerson?.storeId)
+//        }
 
     }
 

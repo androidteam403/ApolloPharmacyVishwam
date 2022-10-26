@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -127,7 +128,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
-    public ImageView filterIcon, siteIdIcon;
+    public ImageView siteIdIcon;
+    public RelativeLayout filterIcon;
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
@@ -396,8 +398,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "List":
                 headerText.setText("SWACHH LIST");
                 fragment = new SwachListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
-                siteIdIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isListScreen = true;
                 break;
@@ -753,7 +755,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (employeeRole.equalsIgnoreCase("Yes")) {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
-                }else{
+                } else {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
                 }
 

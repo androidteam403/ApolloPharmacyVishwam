@@ -34,6 +34,7 @@
             android:layout_margin="@dimen/value_20dp"
             android:textColor="@color/colorWhite"
             android:textSize="@dimen/text_18sp" />
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -41,25 +42,27 @@
             android:layout_centerHorizontal="true"
             android:layout_margin="@dimen/value_20dp"
             android:orientation="horizontal">
+
             <ImageView
                 android:id="@+id/siteId_icon"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/siteid_icon"
-                android:visibility="visible"
-                android:contentDescription="@string/app_name" />
+                android:visibility="visible" />
+
             <RelativeLayout
+                android:id="@+id/filterIcon"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
                 android:layout_marginStart="@dimen/value_10dp">
 
                 <ImageView
-                    android:id="@+id/filterIcon"
                     android:layout_width="@dimen/value_20dp"
                     android:layout_height="@dimen/value_20dp"
+                    android:contentDescription="@string/app_name"
                     android:src="@drawable/filtersnew"
-                    android:visibility="visible"
-                    android:contentDescription="@string/app_name" />
+                    android:visibility="visible" />
 
                 <View
                     android:id="@+id/filter_indication"

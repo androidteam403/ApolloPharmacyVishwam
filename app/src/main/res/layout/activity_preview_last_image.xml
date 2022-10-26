@@ -155,14 +155,14 @@
                                 android:text="Store ID"
                                 android:textStyle="bold"
                                 android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_12sp" />
+                                android:textSize="@dimen/text_14sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@{pendingAndApprovedModel.storeId}"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_12sp"
+                                android:textSize="@dimen/text_14sp"
                                 android:textStyle="bold" />
 
 
@@ -194,14 +194,14 @@
                                 android:text="Uploaded Date"
                                 android:textStyle="bold"
                                 android:textColor="@color/heading_blue"
-                                android:textSize="@dimen/text_12sp" />
+                                android:textSize="@dimen/text_14sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="@{pendingAndApprovedModel.status.equals(`Pending`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Approved`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Reshoot`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Partially Approved`) ?pendingAndApprovedModel.uploadedDate : `-`}"
                                 android:textColor="@color/black"
-                                android:textSize="@dimen/text_12sp"
+                                android:textSize="@dimen/text_14sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
@@ -434,7 +434,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="@string/complete_button"
+                    android:text="Submit and Review"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />

@@ -24,17 +24,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
-            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar">
-
-        </activity>
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity" />
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity" />
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity" />
+        <activity android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:screenOrientation="portrait"

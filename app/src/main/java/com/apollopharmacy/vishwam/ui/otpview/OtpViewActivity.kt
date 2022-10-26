@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -151,6 +152,7 @@ class OtpViewActivity : AppCompatActivity() {
 //            otpViewBinding.employeeIdET.isEnabled = true
 //            otpViewBinding.proceedButton.isClickable = true
             otpViewBinding.updateIdLayout.visibility = View.VISIBLE
+            otpViewBinding.employeeIdET.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
             otpViewBinding.employeeIdET.setText(empVal)
             otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
             otpViewBinding.employeeIdET.requestFocus()

@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -21,6 +22,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     lateinit var viewModel: SelectSwachhSiteIdViewModel
     private var siteIDListAdapter: SiteIdListAdapter? = null
     var siteDataList = ArrayList<StoreListItem>()
+    var isSiteIdEmpty:Boolean=false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,12 +72,41 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     }
 
     override fun onClickCancel() {
-
+        if(!Preferences.getSwachhSiteId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
     }
 
     override fun onBackPressed() {
+//        val intent = Intent()
+//        setResult(Activity.RESULT_OK, intent)
+//        finish()
 
+        if(!Preferences.getSwachhSiteId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
     }
+
 
     override fun noOrdersFound(size: Int) {
         if (size > 0) {

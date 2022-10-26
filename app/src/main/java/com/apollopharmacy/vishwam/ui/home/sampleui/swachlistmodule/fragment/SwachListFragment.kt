@@ -4,12 +4,15 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +22,8 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.Preferences.getLoginJson
 import com.apollopharmacy.vishwam.data.model.LoginDetails
+import com.apollopharmacy.vishwam.databinding.DialogFilterListBinding
+import com.apollopharmacy.vishwam.databinding.DialogFilterUploadBinding
 import com.apollopharmacy.vishwam.databinding.FragmentSwachhListBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.DeleteSiteDialog
@@ -52,7 +57,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var approveddList = ArrayList<PendingAndApproved>()
 
     //    var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
-    private var pendingApprovedListAdapter: PendingApprovedListAdapter?=null
+    private var pendingApprovedListAdapter: PendingApprovedListAdapter? = null
     private lateinit var pendingListAdapter: PendingListAdapter
 
     //    var pendingListAdapter: PendingListAdapter? = null
@@ -62,7 +67,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var isApprovedTab: Boolean = true
     var startPageApproved: Int = 0
     var endPageNumApproved: Int = 10
-
+    var isfilterClicked: Boolean=false
     var startPagePending: Int = 0
     var endPageNumPending: Int = 10
     var handler: Handler = Handler()
@@ -87,7 +92,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var pendingList = ArrayList<PendingAndApproved>()
     override val layoutRes: Int
         get() = R.layout.fragment_swachh_list
-
+    var complaintListStatus: String = "Pending,Reshoot,Partially Approved"
 
     override fun retrieveViewModel(): SwachListViewModel {
         return ViewModelProvider(this).get(SwachListViewModel::class.java)
@@ -157,15 +162,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         userDesignation = loginData?.APPLEVELDESIGNATION!!
 
         viewBinding.pullToRefreshApproved.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            if (viewBinding.pullToRefreshApproved.isRefreshing) {
-                viewBinding.pullToRefreshApproved.isRefreshing = false
-            }
+            submitClickApproved()
         })
 
         viewBinding.pullToRefreshPending.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-            if (viewBinding.pullToRefreshPending.isRefreshing) {
-                viewBinding.pullToRefreshPending.isRefreshing = false
-            }
+         submitClickPending()
         })
 
         Utlis.showLoading(requireContext())
@@ -217,10 +218,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         }
                     }
 
-                    if(isApprovedTab && isLoadingApproved && pendingAndApprovedList.size!=null && pendingAndApprovedList.size>0){
-                        pendingAndApprovedList.removeAt(pendingAndApprovedList.size-1)
-                    }else if(!isApprovedTab && isLoadingPending && pendingList.size!=null && pendingList.size>0){
-                        pendingList.removeAt(pendingList.size-1)
+                    if (isApprovedTab && isLoadingApproved && pendingAndApprovedList.size != null && pendingAndApprovedList.size > 0) {
+                        pendingAndApprovedList.removeAt(pendingAndApprovedList.size - 1)
+                    } else if (!isApprovedTab && isLoadingPending && pendingList.size != null && pendingList.size > 0) {
+                        pendingList.removeAt(pendingList.size - 1)
                     }
 //                    pendingAndApprovedList.clear()
                     if (getApprovedList != null) {
@@ -256,20 +257,83 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //                    pendingList.clear()
                     if (getPendingList != null && userDesignation.equals("EXECUTIVE")) {
                         for (i in getPendingList!!) {
-                            val pendingAndApproved = PendingAndApproved()
-                            pendingAndApproved.swachhid = i.swachhid
-                            pendingAndApproved.storeId = i.storeId
-                            pendingAndApproved.approvedBy = i.approvedBy
-                            pendingAndApproved.reshootBy = i.reshootBy
-                            pendingAndApproved.partiallyApprovedBy = i.partiallyApprovedBy
-                            pendingAndApproved.approvedDate = i.approvedDate
-                            pendingAndApproved.reshootDate = i.reshootDate
-                            pendingAndApproved.partiallyApprovedDate = i.partiallyApprovedDate
-                            pendingAndApproved.isApproved = false
-                            pendingAndApproved.uploadedBy = i.uploadedBy
-                            pendingAndApproved.uploadedDate = i.uploadedDate
-                            pendingAndApproved.status = i.status
-                            pendingList.add(pendingAndApproved)
+//                            "Pending,Reshoot,Partially Approved"
+//                            val pendingAndApproved = PendingAndApproved()
+//                            if (complaintListStatus.equals("Pending")) {
+//                                if (i.status!!.equals("Pending")) {
+//
+//                                    pendingAndApproved.swachhid = i.swachhid
+//                                    pendingAndApproved.storeId = i.storeId
+//                                    pendingAndApproved.approvedBy = i.approvedBy
+//                                    pendingAndApproved.reshootBy = i.reshootBy
+//                                    pendingAndApproved.partiallyApprovedBy = i.partiallyApprovedBy
+//                                    pendingAndApproved.approvedDate = i.approvedDate
+//                                    pendingAndApproved.reshootDate = i.reshootDate
+//                                    pendingAndApproved.partiallyApprovedDate =
+//                                        i.partiallyApprovedDate
+//                                    pendingAndApproved.isApproved = false
+//                                    pendingAndApproved.uploadedBy = i.uploadedBy
+//                                    pendingAndApproved.uploadedDate = i.uploadedDate
+//                                    pendingAndApproved.status = i.status
+//                                    pendingList.add(pendingAndApproved)
+//                                }
+//
+//                            }
+//                            if (complaintListStatus.equals("Reshoot")) {
+//                                if (i.status!!.equals("Reshoot")) {
+//
+//                                    pendingAndApproved.swachhid = i.swachhid
+//                                    pendingAndApproved.storeId = i.storeId
+//                                    pendingAndApproved.approvedBy = i.approvedBy
+//                                    pendingAndApproved.reshootBy = i.reshootBy
+//                                    pendingAndApproved.partiallyApprovedBy = i.partiallyApprovedBy
+//                                    pendingAndApproved.approvedDate = i.approvedDate
+//                                    pendingAndApproved.reshootDate = i.reshootDate
+//                                    pendingAndApproved.partiallyApprovedDate =
+//                                        i.partiallyApprovedDate
+//                                    pendingAndApproved.isApproved = false
+//                                    pendingAndApproved.uploadedBy = i.uploadedBy
+//                                    pendingAndApproved.uploadedDate = i.uploadedDate
+//                                    pendingAndApproved.status = i.status
+//                                    pendingList.add(pendingAndApproved)
+//                                }
+//                            }
+//
+//                            if (complaintListStatus.equals("Partially Approved")) {
+//                                if (i.status!!.equals("Partially Approved")) {
+//                                    pendingAndApproved.swachhid = i.swachhid
+//                                    pendingAndApproved.storeId = i.storeId
+//                                    pendingAndApproved.approvedBy = i.approvedBy
+//                                    pendingAndApproved.reshootBy = i.reshootBy
+//                                    pendingAndApproved.partiallyApprovedBy = i.partiallyApprovedBy
+//                                    pendingAndApproved.approvedDate = i.approvedDate
+//                                    pendingAndApproved.reshootDate = i.reshootDate
+//                                    pendingAndApproved.partiallyApprovedDate =
+//                                        i.partiallyApprovedDate
+//                                    pendingAndApproved.isApproved = false
+//                                    pendingAndApproved.uploadedBy = i.uploadedBy
+//                                    pendingAndApproved.uploadedDate = i.uploadedDate
+//                                    pendingAndApproved.status = i.status
+//                                    pendingList.add(pendingAndApproved)
+//                                }
+//                            }
+                            if (complaintListStatus.contains(i.status!!)) {
+                                val pendingAndApproved = PendingAndApproved()
+                                pendingAndApproved.swachhid = i.swachhid
+                                pendingAndApproved.storeId = i.storeId
+                                pendingAndApproved.approvedBy = i.approvedBy
+                                pendingAndApproved.reshootBy = i.reshootBy
+                                pendingAndApproved.partiallyApprovedBy = i.partiallyApprovedBy
+                                pendingAndApproved.approvedDate = i.approvedDate
+                                pendingAndApproved.reshootDate = i.reshootDate
+                                pendingAndApproved.partiallyApprovedDate = i.partiallyApprovedDate
+                                pendingAndApproved.isApproved = false
+                                pendingAndApproved.uploadedBy = i.uploadedBy
+                                pendingAndApproved.uploadedDate = i.uploadedDate
+                                pendingAndApproved.status = i.status
+                                pendingList.add(pendingAndApproved)
+                            }
+
 
 //                            pendingAndApprovedList.add(pendingAndApproved)
                         }
@@ -288,8 +352,10 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         if (pendingAndApprovedList != null && pendingAndApprovedList.size > 0) {
 
                             for (i in pendingAndApprovedList.indices) {
-                                if(!pendingAndApprovedList.get(i).isDateformat!!){
-                                    if (pendingAndApprovedList.get(i).uploadedDate != "" &&pendingAndApprovedList.get(i).uploadedDate != null ) {
+                                if (!pendingAndApprovedList.get(i).isDateformat!!) {
+                                    if (pendingAndApprovedList.get(i).uploadedDate != "" && pendingAndApprovedList.get(
+                                            i).uploadedDate != null
+                                    ) {
                                         val strDate = pendingAndApprovedList.get(i).uploadedDate
                                         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
                                         val date = dateFormat.parse(strDate)
@@ -297,7 +363,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                             SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
                                         pendingAndApprovedList.get(i).uploadedDate =
                                             dateNewFormat.toString()
-                                        pendingAndApprovedList.get(i).isDateformat=true
+                                        pendingAndApprovedList.get(i).isDateformat = true
 
                                     }
                                 }
@@ -403,7 +469,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         viewBinding.pendingListButton.setBackgroundColor(Color.parseColor("#2582a1"))
                         if (pendingList != null && pendingList.size > 0) {
                             for (i in pendingList.indices) {
-                                if(pendingList.get(i).isDateformat==false){
+                                if (pendingList.get(i).isDateformat == false) {
                                     if (pendingList.get(i).uploadedDate != "" && pendingList.get(i).uploadedDate != null) {
                                         val strDate = pendingList.get(i).uploadedDate
                                         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
@@ -411,7 +477,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                                         val dateNewFormat =
                                             SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
                                         pendingList.get(i).uploadedDate = dateNewFormat.toString()
-                                        pendingList.get(i).isDateformat=true
+                                        pendingList.get(i).isDateformat = true
 
                                     }
                                 }
@@ -556,6 +622,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         pendingAndApprovedList.clear()
         pendingList.clear()
         isApprovedTab = true
+        startPageApproved=0
+        endPageNumApproved=10
 
         if (!viewBinding.pullToRefreshApproved.isRefreshing)
             Utlis.showLoading(requireContext())
@@ -569,6 +637,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         pendingAndApprovedList.clear()
         pendingList.clear()
         isApprovedTab = false
+        startPagePending=0
+        endPageNumPending-10
 
         if (!viewBinding.pullToRefreshPending.isRefreshing)
             Utlis.showLoading(requireContext())
@@ -614,12 +684,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
-            if(pendingApprovedListAdapter?.getData()!!.size>=10){
-                var approvedEmptyObject= PendingAndApproved()
-                approvedEmptyObject.swachhid=null
+            if (pendingApprovedListAdapter?.getData()!!.size >= 10) {
+                var approvedEmptyObject = PendingAndApproved()
+                approvedEmptyObject.swachhid = null
                 pendingAndApprovedList.add(approvedEmptyObject)
                 pendingApprovedListAdapter?.notifyDataSetChanged()
-
 
 
 //            viewBinding.approvedListRecyclerview.scrollToPosition(pendingAndApprovedList.size-1)
@@ -631,7 +700,6 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             }
 
 
-
         })
     }
 
@@ -640,9 +708,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
-            if(pendingListAdapter.getData().size>=10){
-                var pendingEmptyObject= PendingAndApproved()
-                pendingEmptyObject.swachhid=null
+            if (pendingListAdapter.getData().size >= 10) {
+                var pendingEmptyObject = PendingAndApproved()
+                pendingEmptyObject.swachhid = null
                 pendingList.add(pendingEmptyObject)
                 pendingListAdapter?.notifyDataSetChanged()
 
@@ -654,7 +722,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //                endPageNumPending = endPageNumPending + 10
                 callAPI(startPagePending, endPageNumPending, isApprovedTab)
             }
-
+//            else if( isfilterClicked){
+//               isLoadingPending = true
+//                startPagePending = startPagePending + 10
+//                callAPI(startPagePending, endPageNumPending, isApprovedTab)
+//            }
 
 
         })
@@ -701,7 +773,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
     override fun onClickApproved() {
 
-        if(!isApprovedTab){
+        if (!isApprovedTab) {
             isApprovedTab = true
             startPageApproved = 0
             endPageNumApproved = 10
@@ -710,8 +782,6 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             selectedSiteids = TextUtils.join(", ", selectsiteIdList)
             callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
         }
-
-
 
 
     }
@@ -731,7 +801,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
             this.selectedSiteids = TextUtils.join(", ", selectsiteIdList)
             if (isApprovedAdapter) {
-                if (!isLoadingApproved){
+                if (!isLoadingApproved) {
 
                     Utlis.showLoading(requireContext())
 
@@ -743,7 +813,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 )
 
             } else {
-                if (!isLoadingPending){
+                if (!isLoadingPending) {
                     Utlis.showLoading(requireContext())
 
                 }
@@ -765,7 +835,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     override fun onClickPending() {
-        if(isApprovedTab){
+        complaintListStatus="Pending,Reshoot,Partially Approved"
+        if (isApprovedTab) {
             isApprovedTab = false
             startPagePending = 0
             endPageNumPending = 10
@@ -943,14 +1014,137 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         }
     }
 
+//    override fun onClickFilterIcon() {
+//        val listStatusFilterDialog = context?.let { android.app.Dialog(it) }
+//        val dialogFilterListBinding: DialogFilterListBinding =
+//            DataBindingUtil.inflate(
+//                LayoutInflater.from(context), R.layout.dialog_filter_list, null, false)
+//        listStatusFilterDialog!!.setContentView(dialogFilterListBinding.root)
+//        listStatusFilterDialog.getWindow()
+//            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//
+//        dialogFilterListBinding.closeDialog.setOnClickListener {
+//            listStatusFilterDialog.dismiss()
+//        }
+//
+//        if (this.complaintListStatus.contains("Pending")) {
+//            dialogFilterListBinding.isPendingChecked = true
+//
+//        } else {
+//            dialogFilterListBinding.isPendingChecked = false
+//
+//        }
+//        if (this.complaintListStatus.contains("Reshoot")) {
+//            dialogFilterListBinding.isReshootChecked = true
+//        } else {
+//            dialogFilterListBinding.isReshootChecked = false
+//        }
+//        if (this.complaintListStatus.contains("Partially Approved")) {
+//
+//            dialogFilterListBinding.isPartiallyApprovedChecked = true
+//        } else {
+//
+//            dialogFilterListBinding.isPartiallyApprovedChecked = false
+//        }
+//
+//
+//        submitButtonEnable(dialogFilterListBinding)
+//
+//
+//
+//        dialogFilterListBinding.partialyApprovedStatus.setOnCheckedChangeListener { compoundButton, b ->
+//            submitButtonEnable(dialogFilterListBinding)
+//        }
+//        dialogFilterListBinding.pendingStatus.setOnCheckedChangeListener { compoundButton, b ->
+//            submitButtonEnable(dialogFilterListBinding)
+//        }
+//        dialogFilterListBinding.reshootStatus.setOnCheckedChangeListener { compoundButton, b ->
+//            submitButtonEnable(dialogFilterListBinding)
+//        }
+//
+//
+////        var complaintListStatusTemp = this.complaintListStatus
+////        dialogComplaintListFilterBinding.status = complaintListStatusTemp
+//
+////        dialogComplaintListFilterBinding.statusRadioGroup.setOnCheckedChangeListener { radioGroup: RadioGroup, i: Int ->
+////            if (i == R.id.new_status) {
+////                complaintListStatusTemp = "new"
+////            } else if (i == R.id.in_progress_status) {
+////                complaintListStatusTemp = "inprogress"
+////            } else if (i == R.id.resolved_status) {
+////                complaintListStatusTemp = "solved"
+////            } else if (i == R.id.reopen_status) {
+////                complaintListStatusTemp = "reopened"
+////            } else if (i == R.id.closed_status) {
+////                complaintListStatusTemp = "closed"
+////            }
+////        }
+//
+//
+//        dialogFilterListBinding.submit.setOnClickListener {
+//            isfilterClicked=true
+////            this.complaintListStatus = complaintListStatusTemp
+//            this.complaintListStatus = ""
+//            if (dialogFilterListBinding.pendingStatus.isChecked) {
+//                this.complaintListStatus = "Pending"
+//            }
+//
+//            if (dialogFilterListBinding.reshootStatus.isChecked) {
+//                if (this.complaintListStatus.isEmpty()) {
+//                    this.complaintListStatus = "Reshoot"
+//                } else {
+//                    this.complaintListStatus = "${this.complaintListStatus},Reshoot"
+//                }
+//            }
+//            if (dialogFilterListBinding.partialyApprovedStatus.isChecked) {
+//                if (this.complaintListStatus.isEmpty()) {
+//                    this.complaintListStatus = "Partially Approved"
+//                } else {
+//                    this.complaintListStatus = "${this.complaintListStatus},Partially Approved"
+//                }
+//            }
+//
+////            complaintListStatus.length
+//
+//
+//            if (listStatusFilterDialog != null && listStatusFilterDialog.isShowing) {
+//                listStatusFilterDialog.dismiss()
+//                startPagePending = 0
+//                endPageNumPending = 10
+//                startPageApproved = 0
+//                endPageNumApproved = 10
+//                pendingList.clear()
+//                pendingAndApprovedList.clear()
+//                callAPI(startPagePending, endPageNumApproved, isApprovedTab)
+//
+//
+//            }
+//        }
+//        listStatusFilterDialog.show()
+//    }
+
+    fun submitButtonEnable(dialogFilterListBinding: DialogFilterListBinding) {
+        if (!dialogFilterListBinding.partialyApprovedStatus.isChecked
+            && !dialogFilterListBinding.pendingStatus.isChecked
+            && !dialogFilterListBinding.reshootStatus.isChecked
+        ) {
+            dialogFilterListBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
+            dialogFilterListBinding.isSubmitEnable = false
+        } else {
+            dialogFilterListBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+            dialogFilterListBinding.isSubmitEnable = true
+        }
+    }
+
     override fun onClickFilterIcon() {
+
+    }
+
+
+    override fun onClickSiteIdIcon() {
         val intent = Intent(context, SelectSiteActivityy::class.java)
         intent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
         startActivityForResult(intent, 887)
-    }
-
-    override fun onClickSiteIdIcon() {
-
     }
 
 //    override fun deleteSite(siteDataItem: StoreListItem) {

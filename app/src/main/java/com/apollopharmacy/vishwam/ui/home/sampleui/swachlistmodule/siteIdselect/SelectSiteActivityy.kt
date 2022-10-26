@@ -335,17 +335,20 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
     }
 
     override fun onClickCancel() {
-        if(selectsiteIdList.size==0){
-            Toast.makeText(applicationContext, "Please select siteId's", Toast.LENGTH_SHORT).show()
-        }
-        else if(selectsiteIdList.size!=null && selectsiteIdList.size>0 && selectsiteIdList.size<=10){
-            val returnIntent = Intent()
-            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
-        }
+//        if(selectsiteIdList.size==0){
+//            val returnIntent = Intent()
+//            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+//            setResult(Activity.RESULT_OK, returnIntent)
+//            finish()
+//        }
+//        else if(selectsiteIdList.size!=null && selectsiteIdList.size>0 && selectsiteIdList.size<=10){
+//            val returnIntent = Intent()
+//            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+//            setResult(Activity.RESULT_OK, returnIntent)
+//            finish()
+//        }
 
-//        super.onBackPressed()
+       super.onBackPressed()
     }
 
     override fun noOrdersFound(size: Int) {
@@ -357,16 +360,12 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
 
-            val returnIntent = Intent()
-            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
-            setResult(Activity.RESULT_OK, returnIntent)
-            finish()
-
-
-
-
-
+//            val returnIntent = Intent()
+//            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+//            setResult(Activity.RESULT_OK, returnIntent)
+//            finish()
     }
 
     override fun onClickCrossButton(selectsiteId: String, position: Int) {
@@ -398,6 +397,13 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+    }
+
+    override fun onClickCompleted() {
+        val returnIntent = Intent()
+        returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
+        setResult(Activity.RESULT_OK, returnIntent)
+        finish()
     }
 
 
