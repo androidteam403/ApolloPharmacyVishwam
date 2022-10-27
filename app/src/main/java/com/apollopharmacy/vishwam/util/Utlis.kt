@@ -102,4 +102,19 @@ object Utlis {
         val convertedDate = sourceFormat.parse(dateToFormat)
         return destFormat.format(convertedDate)
     }
+    fun getDateSevenDaysEarlier(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
+    fun getCurrentDate(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(Date())
+    }
 }
