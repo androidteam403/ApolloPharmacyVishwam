@@ -143,23 +143,6 @@ class QcPendingListAdapter(
             var discounts = 0.0
 
             if (item.itemlist?.isNotEmpty() == true) {
-//                for (k in item.itemlist!!) {
-//                    var items: Double
-//                    var disc: Double
-//                    var qt: Int
-//
-//                    items = (k.price!!)
-//                    totalPrice.add(items)
-//                    disc = k.discamount!!
-//                    discount.add(disc)
-//                    if (k.qty !== null) {
-//                        qt = k.qty!!
-//                        qty.add(qt)
-//
-//                    }
-//
-//
-//                }
 
                 for (k in item.itemlist!!) {
                     if (k.qty != null && k.price != null) {
@@ -208,25 +191,6 @@ class QcPendingListAdapter(
             } else {
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }
-//            if (TotalPrice.isNotEmpty()) {
-//                holder.pendingLayoutBinding.totalCost.setText(TotalPrice.sum().toString())
-//            } else {
-//                holder.pendingLayoutBinding.totalCost.setText("-")
-//            }
-//
-//            if (Totaldiscount.isNotEmpty()) {
-//                holder.pendingLayoutBinding.discountTotal.setText((Totaldiscount.sum()).toString())
-//            } else {
-//                holder.pendingLayoutBinding.discountTotal.setText("-")
-//
-//            }
-//            if (qty.isNotEmpty()) {
-//
-//                holder.pendingLayoutBinding.remainingPayment.setText(String.format("%.2f",
-//                    (TotalPrice.sum()) - Totaldiscount.sum()))
-//            } else {
-//                holder.pendingLayoutBinding.remainingPayment.setText("-")
-//            }
 
             if (item.itemlist != null && item.itemlist!!.size > 0) {
                 var isAllApproveQtyZero = true

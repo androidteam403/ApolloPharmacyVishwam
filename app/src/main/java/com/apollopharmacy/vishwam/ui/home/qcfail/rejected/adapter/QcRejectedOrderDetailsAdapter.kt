@@ -10,12 +10,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcrejectorderdetailsBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 
 class QcRejectedOrderDetailsAdapter(
     val mContext: Context,
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
-    var qcApproveList: ArrayList<Any>,
+    var qcApproveList: ArrayList<QcListsResponse.Reject>,
     val imageClicklistner: QcListsCallback,
 ) :
     RecyclerView.Adapter<QcRejectedOrderDetailsAdapter.ViewHolder>() {
@@ -37,6 +38,9 @@ class QcRejectedOrderDetailsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = itemsList.get(position)
         if (items != null)
+
+
+            holder.orderdetailsBinding.reason.setText(items.remarks)
             holder.orderdetailsBinding.quantityText.setText(items.qty.toString())
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
         holder.orderdetailsBinding.categoryName.setText("- " + items.category)

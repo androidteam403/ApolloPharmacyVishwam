@@ -16,7 +16,7 @@ class QcListsResponse : Serializable {
 
     @SerializedName("REJECTEDLIST")
     @Expose
-    var rejectedlist: List<Any>? = null
+    var rejectedlist: List<Reject>? = null
 
     @SerializedName("STATUS")
     @Expose
@@ -35,7 +35,7 @@ class QcListsResponse : Serializable {
         return this
     }
 
-    fun withRejectedlist(rejectedlist: List<Any>?): QcListsResponse {
+    fun withRejectedlist(rejectedlist: List<Reject>?): QcListsResponse {
         this.rejectedlist = rejectedlist
         return this
     }
@@ -333,6 +333,148 @@ class QcListsResponse : Serializable {
         }
 
         fun withRejecteddate(rejecteddate: String?): Pending {
+            this.rejecteddate = rejecteddate
+            return this
+        }
+    }
+
+    class Reject {
+        @SerializedName("CUSTNAME")
+        @Expose
+        var custname: String? = null
+
+        @SerializedName("OMSORDERNO")
+        @Expose
+        var omsorderno: String? = null
+
+        @SerializedName("ORDERNO")
+        @Expose
+        var orderno: String? = null
+
+        @SerializedName("MOBILENO")
+        @Expose
+        var mobileno: String? = null
+
+        @SerializedName("STOREID")
+        @Expose
+        var storeid: String? = null
+
+        @SerializedName("DC_CODE")
+        @Expose
+        var dcCode: String? = null
+
+        @SerializedName("REQUESTEDDATE")
+        @Expose
+        var requesteddate: String? = null
+
+        @SerializedName("QCFAILDATE")
+        @Expose
+        var qcfaildate: String? = null
+
+        @SerializedName("TRACKINSTATUSGDESCRIPTION")
+        @Expose
+        var trackinstatusgdescription: String? = null
+
+        @SerializedName("STATUS")
+        @Expose
+        var status: String? = null
+
+        @SerializedName("USERID")
+        @Expose
+        var userid: String? = null
+
+        @SerializedName("REMARKSDESC")
+        @Expose
+        var remarksdesc: String? = null
+
+        @SerializedName("APPROVEDDATE")
+        @Expose
+        var approveddate: String? = null
+
+        @SerializedName("REJECTEDDATE")
+        @Expose
+        var rejecteddate: String? = null
+
+        var isItemChecked: Boolean = false
+
+        var isOrderExpanded: Boolean = false
+
+        fun setisItemChecked(checked: Boolean) {
+            isItemChecked = checked
+        }
+
+        var isClick: Boolean = false
+
+        fun setisClick(pos: Boolean) {
+            isClick = pos
+        }
+
+        fun withCustname(custname: String?): Reject {
+            this.custname = custname
+            return this
+        }
+
+        fun withOmsorderno(omsorderno: String?): Reject {
+            this.omsorderno = omsorderno
+            return this
+        }
+
+        fun withOrderno(orderno: String?): Reject {
+            this.orderno = orderno
+            return this
+        }
+
+        fun withMobileno(mobileno: String?): Reject {
+            this.mobileno = mobileno
+            return this
+        }
+
+        fun withStoreid(storeid: String?): Reject {
+            this.storeid = storeid
+            return this
+        }
+
+        fun withDcCode(dcCode: String?): Reject {
+            this.dcCode = dcCode
+            return this
+        }
+
+        fun withRequesteddate(requesteddate: String?): Reject {
+            this.requesteddate = requesteddate
+            return this
+        }
+
+        fun withQcfaildate(qcfaildate: String?): Reject {
+            this.qcfaildate = qcfaildate
+            return this
+        }
+
+        fun withTrackinstatusgdescription(trackinstatusgdescription: String?): Reject {
+            this.trackinstatusgdescription = trackinstatusgdescription
+            return this
+        }
+
+        fun withStatus(status: String?): Reject {
+            this.status = status
+            return this
+        }
+
+        fun withUserid(userid: String?): Reject {
+            this.userid = userid
+            return this
+        }
+
+        fun withRemarksdesc(remarksdesc: String?): Reject {
+            this.remarksdesc = remarksdesc
+            return this
+        }
+
+        fun withApproveddate(approveddate: String?): Reject {
+            this.approveddate = approveddate
+            return this
+        }
+
+        fun withRejecteddate(rejecteddate: String?): Reject {
             this.rejecteddate = rejecteddate
             return this
         }

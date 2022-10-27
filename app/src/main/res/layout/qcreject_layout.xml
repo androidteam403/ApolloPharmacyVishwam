@@ -36,7 +36,7 @@
                         android:layout_weight="1">
 
                         <TextView
-                            android:id="@+id/storeId"
+                            android:id="@+id/orderHeads"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
@@ -50,7 +50,7 @@
                             android:id="@+id/orderid"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/storeId"
+                            android:layout_below="@+id/orderHeads"
                             android:layout_alignParentEnd="true"
                             android:layout_marginEnd="4sp"
                             android:layout_marginBottom="10dp"

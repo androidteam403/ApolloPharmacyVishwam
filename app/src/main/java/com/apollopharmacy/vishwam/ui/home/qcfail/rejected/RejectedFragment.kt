@@ -28,7 +28,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
-    var getRejectList: ArrayList<Any>? = null
+    var getRejectList: ArrayList<QcListsResponse.Reject>? = null
 
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
@@ -108,7 +108,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            getRejectList = it.rejectedlist as ArrayList<Any>?
+            getRejectList = it.rejectedlist as ArrayList<QcListsResponse.Reject>?
 
 
             if (it.rejectedlist.isNullOrEmpty()) {

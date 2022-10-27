@@ -21,23 +21,23 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     var qcItemList = ArrayList<QcItemListResponse.Item>()
     var position: Int = 0
     var list = ArrayList<String>()
-    lateinit var imageUrlList : List<String>
+    lateinit var imageUrlList: List<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityQcPreviewImageBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_qc__preview__image)
-     if (intent != null) {
-         imageUrl =
-             getIntent().getExtras()?.getString("itemList")!!
-         orderNo =
-             getIntent().getExtras()?.getString("orderid")!!
-         itemName =
-             getIntent().getExtras()?.getString("itemName")!!
-        // currentPosition = getIntent().getExtras()?.getInt("position")!!
+        if (intent != null) {
+            imageUrl =
+                getIntent().getExtras()?.getString("itemList")!!
+            orderNo =
+                getIntent().getExtras()?.getString("orderid")!!
+            itemName =
+                getIntent().getExtras()?.getString("itemName")!!
+            // currentPosition = getIntent().getExtras()?.getInt("position")!!
 
-     }
-       val imageUrlList = imageUrl.split(";")
+        }
+        val imageUrlList = imageUrl.split(";")
 
 
         setUp()
@@ -52,19 +52,26 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
             finish()
         }
 
-        if (orderNo.equals("null")||orderNo.isNullOrEmpty()){
+
+        if (orderNo.equals("null") || orderNo.isNullOrEmpty()) {
             activityQcPreviewImageBinding.orderid.setText("-")
 
-        }else{
+        } else {
             activityQcPreviewImageBinding.orderid.setText(orderNo)
 
         }
         activityQcPreviewImageBinding.itemName.setText(itemName)
 
 
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
 
-
-        previewImageAdapter = QcPreviewAdapter(applicationContext, list, qcItemList, this, currentPosition, imageUrlList)
+        previewImageAdapter = QcPreviewAdapter(applicationContext,
+            list,
+            qcItemList,
+            this,
+            currentPosition,
+            imageUrlList)
 
 
         activityQcPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
@@ -83,6 +90,9 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     }
 
     override fun onPageSelected(position: Int) {
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
+
     }
 
     override fun onPageScrollStateChanged(state: Int) {

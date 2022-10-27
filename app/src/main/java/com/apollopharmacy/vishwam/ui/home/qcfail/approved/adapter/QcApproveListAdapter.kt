@@ -104,53 +104,44 @@ class QcApproveListAdapter(
 
             var Totaldiscount = ArrayList<Double>()
             var totalDiscount:Int
+            var totalPrices = 0.0
+            var discounts = 0.0
+
             if (item.itemlist?.isNotEmpty() == true) {
+
                 for (k in item.itemlist!!) {
-                    var items: Double
-                    var disc: Double
-                    var qt: Double
+                    if (k.qty != null && k.price != null) {
+                        totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
+                        discounts = discounts + k.discamount!!
 
-                    items = (k.price!!)
-                    totalPrice.add(items)
-                    disc = k.discamount!!
-                    discount.add(disc)
-                    if (k.qty !== null) {
-                        qt = k.qty!!.toDouble()
-                        qty.add(qt)
-
+//                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
                     }
-
 
                 }
             }
 
-            for (i in qty.indices){
-                for (j in totalPrice.indices){
-                    if(i.equals(j)) {
-                        TotalPrice.add(qty[i] * totalPrice[j])
-                    }
-                }
-            }
 
-            for (i in qty.indices){
-                for (j in discount.indices){
-                    if(i.equals(j)) {
-                        Totaldiscount.add(qty[i] * discount[j])
-                    }
-                }
-            }
+        if (totalPrices.toString().isNotEmpty()) {
+            holder.adapterApproveListBinding.totalCost.setText(totalPrices.toString())
+        } else {
+            holder.adapterApproveListBinding.totalCost.setText("-")
+        }
 
-            if (totalPrice.isNotEmpty()) {
-                holder.adapterApproveListBinding.totalCost.setText(TotalPrice.sum().toString())
-            }
+        if (discounts.toString().isNotEmpty()) {
+            holder.adapterApproveListBinding.discountTotal.setText(discounts.toString())
+        } else {
+            holder.adapterApproveListBinding.discountTotal.setText("-")
 
-            if (discount.isNotEmpty()) {
-                holder.adapterApproveListBinding.discountTotal.setText((Totaldiscount.sum()).toString())
-            }
-            if (qty.isNotEmpty()) {
-                holder.adapterApproveListBinding.remainingPayment.setText(String.format("%.2f",
-                    (TotalPrice.sum()) - Totaldiscount.sum()))
-          }
+        }
+
+        var netPayment = totalPrices - discounts
+        if (netPayment.toString().isNotEmpty()) {
+
+            holder.adapterApproveListBinding.remainingPayment.setText(String.format("%.2f",
+                netPayment))
+        } else {
+            holder.adapterApproveListBinding.remainingPayment.setText("-")
+        }
 
             holder.adapterApproveListBinding.recyclerView.adapter =
                 item.itemlist?.let {
