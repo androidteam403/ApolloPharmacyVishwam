@@ -63,7 +63,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "16001", "")
+        viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
 
@@ -195,7 +195,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId : String,
+        status : String
     ) {
         TODO("Not yet implemented")
     }
@@ -206,7 +207,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId : String,
+        status : String
     ) {
         TODO("Not yet implemented")
     }

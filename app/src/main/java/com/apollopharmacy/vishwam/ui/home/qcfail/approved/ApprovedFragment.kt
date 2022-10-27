@@ -15,15 +15,14 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.android.synthetic.main.activity_qc_filter.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),QcSiteDialog.NewDialogSiteClickListner,
+class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
+    QcSiteDialog.NewDialogSiteClickListner,
     QcListsCallback, QcFilterFragment.QcFilterClicked, QcFilterListCallBacks {
     var adapter: QcApproveListAdapter? = null
     var filterAdapter: QcFilterItemsAdapter? = null
@@ -68,7 +67,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         fromDate = simpleDateFormat.format(cal.time)
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "16001", "")
+        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
 
@@ -215,21 +214,22 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         val intent = Intent(context, QcPreviewImageActivity::class.java)
 
         intent.putExtra("itemList", imageUrl)
-        intent.putExtra("orderid",orderno)
-        intent.putExtra("itemName",itemName)
+        intent.putExtra("orderid", orderno)
+        intent.putExtra("itemName", itemName)
         intent.putExtra("position", position)
-        startActivity(intent)    }
+        startActivity(intent)
+    }
 
     override fun accept(
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId: String,
+        status: String,
     ) {
         TODO("Not yet implemented")
     }
-
 
 
     override fun reject(
@@ -237,7 +237,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId: String,
+        status: String,
     ) {
 
     }
@@ -256,7 +257,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     ) {
 
     }
-
 
 
     override fun clickMenu(clickedMenu: Int, name: ArrayList<MainMenuList>) {

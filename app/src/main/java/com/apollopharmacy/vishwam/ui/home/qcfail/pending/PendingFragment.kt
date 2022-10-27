@@ -207,8 +207,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         val intent = Intent(context, QcPreviewImageActivity::class.java)
 
         intent.putExtra("itemList", imageUrl)
-        intent.putExtra("orderid",orderno)
-        intent.putExtra("itemName",itemName)
+        intent.putExtra("orderid", orderno)
+        intent.putExtra("itemName", itemName)
         intent.putExtra("position", position)
         startActivity(intent)
     }
@@ -218,7 +218,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId: String,
+        status: String,
     ) {
 
 
@@ -233,7 +234,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
         qcAccepttList.clear()
         val qcreject = QcAcceptRejectRequest.Order(orderno,
-            "10",
+            status,
             "EXECUTIVE",
             Preferences.getValidatedEmpId(),
             storeId,
@@ -278,7 +279,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
-        storeId : String
+        storeId: String,
+        status: String,
     ) {
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -337,7 +339,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             qcRejectList.clear()
             val qcreject = QcAcceptRejectRequest.Order(orderno,
-                "10",
+                status,
                 "EXECUTIVE",
                 Preferences.getValidatedEmpId(),
                 storeId,

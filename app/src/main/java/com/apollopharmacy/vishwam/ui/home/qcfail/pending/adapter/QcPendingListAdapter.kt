@@ -252,7 +252,7 @@ class QcPendingListAdapter(
 
             holder.pendingLayoutBinding.recyclerView.adapter =
                 item.itemlist?.let {
-                    QcPendingOrderDetailsAdapter(mContext,imageClicklistner,
+                    QcPendingOrderDetailsAdapter(mContext, imageClicklistner,
                         it,
                         position,
                         pendingList,
@@ -267,14 +267,16 @@ class QcPendingListAdapter(
             imageClicklistner.accept(position,
                 pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
-                pendingOrders.storeid!!)
+                pendingOrders.storeid!!,
+                pendingOrders.status!!)
         }
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
             imageClicklistner.reject(position,
                 pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
-                pendingOrders.storeid!!)
+                pendingOrders.storeid!!,
+                pendingOrders.status!!)
         }
 
         if (pendingList[position].isItemChecked) {
