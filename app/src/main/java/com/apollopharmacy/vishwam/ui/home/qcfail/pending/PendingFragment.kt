@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
 import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
@@ -64,8 +65,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcPendingList("APL48627", Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!, Utlis.getCurrentDate("yyyy-MM-dd")!!, "16001", "")
-
+        viewModel.getQcPendingList(Preferences.getValidatedEmpId(),
+            Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!,
+            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+            "",
+            "")
+//APL48627
 
 //        val qcreject = QcAcceptRejectRequest.Order("RV000012",
 //            "10",
@@ -78,6 +83,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.qcAcceptRejectRequestList.observe(viewLifecycleOwner, {
             hideLoading()
+            if (names.size > acceptOrRejectItemPos) {
+                names.removeAt(acceptOrRejectItemPos)
+                adapter!!.notifyDataSetChanged()
+            }
         })
 
 
@@ -189,8 +198,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcPendingItemsList(orderno)
 
 
-
-        adapter?.notifyDataSetChanged()
+//        adapter?.notifyDataSetChanged()
 
     }
 
@@ -199,42 +207,45 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
-        if (imageUrl.isNullOrEmpty()){
+        if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             val intent = Intent(context, QcPreviewImageActivity::class.java)
 
             intent.putExtra("itemList", imageUrl)
-            intent.putExtra("orderid",orderno)
-            intent.putExtra("itemName",itemName)
+            intent.putExtra("orderid", orderno)
+            intent.putExtra("itemName", itemName)
             intent.putExtra("position", position)
             startActivity(intent)
         }
     }
 
+    var acceptOrRejectItemPos = -1
     override fun accept(
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
     ) {
 
-
+        acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
         for (i in itemlist!!) {
             val rejItems = QcAcceptRejectRequest.Item()
             rejItems.itemid = i.itemid
-            rejItems.qty = i.qty
-            rejItems.remarks = i.remarks
+            rejItems.qty = i.approvedqty
+            rejItems.remarks = ""
             qcRejectItemsList.add(rejItems)
 
         }
         qcAccepttList.clear()
-        val qcreject = QcAcceptRejectRequest.Order("RV000012",
-            "10",
+        val qcreject = QcAcceptRejectRequest.Order(orderno,
+            status,
             "EXECUTIVE",
-            "APL48627",
-            "16001",
+            Preferences.getValidatedEmpId(),
+            storeId,
             qcRejectItemsList)
         qcAccepttList.add(qcreject)
 
@@ -276,7 +287,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
     ) {
+        acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
             if (k.remarks.isNullOrEmpty()) {
@@ -326,18 +340,18 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             for (i in itemlist!!) {
                 val rejItems = QcAcceptRejectRequest.Item()
                 rejItems.itemid = i.itemid
-                rejItems.qty = i.qty
+                rejItems.qty = i.approvedqty
                 rejItems.remarks = i.remarks
                 qcRejectItemsList.add(rejItems)
 
             }
 
             qcRejectList.clear()
-            val qcreject = QcAcceptRejectRequest.Order("RV000012",
-                "10",
+            val qcreject = QcAcceptRejectRequest.Order(orderno,
+                status,
                 "EXECUTIVE",
-                "APL48627",
-                "16001",
+                Preferences.getValidatedEmpId(),
+                storeId,
                 qcRejectItemsList)
             qcRejectList.add(qcreject)
 
