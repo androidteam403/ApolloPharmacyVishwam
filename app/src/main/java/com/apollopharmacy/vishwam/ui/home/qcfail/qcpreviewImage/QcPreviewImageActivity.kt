@@ -63,8 +63,8 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
         activityQcPreviewImageBinding.itemName.setText(itemName)
 
 
-        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
-        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrlList.size+1).toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText(imageUrlList.size.toString()+" )")
 
         previewImageAdapter = QcPreviewAdapter(applicationContext,
             list,
@@ -90,8 +90,10 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     }
 
     override fun onPageSelected(position: Int) {
-        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
-        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
+//        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
+//        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrlList.size+1).toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText(imageUrlList.size.toString()+" )")
 
     }
 

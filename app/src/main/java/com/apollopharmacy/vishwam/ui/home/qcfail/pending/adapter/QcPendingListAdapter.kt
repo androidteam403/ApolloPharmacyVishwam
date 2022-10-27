@@ -75,6 +75,7 @@ class QcPendingListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pendingOrders = pendingList.get(position)
+        var orderId: String=""
 
 
         if (pendingOrders.dcCode == null) {
@@ -142,6 +143,7 @@ class QcPendingListAdapter(
             for (i in qcItemList) {
                 if (i.orderno!!.equals(pendingList.get(position).orderno)) {
                     item = i
+                    orderId= i.orderno!!
                 }
             }
             var totalPrice = ArrayList<Double>()
@@ -235,7 +237,7 @@ class QcPendingListAdapter(
                         position,
                         pendingList,
                         pendingFragmentCallback,
-                        this,
+                        this,orderId,
                         holder.pendingLayoutBinding)
                 }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)

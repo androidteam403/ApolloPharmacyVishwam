@@ -13,6 +13,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
+import com.apollopharmacy.vishwam.util.Utlis
 
 class QcRejectedListAdapter(
     val mContext: Context,
@@ -42,6 +43,7 @@ class QcRejectedListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = rejectList.get(position)
+        var orderId: String=""
 
 
         holder.rejectListBinding.remarks.setText(approvedOrders.remarksdesc)
@@ -65,18 +67,25 @@ class QcRejectedListAdapter(
             holder.rejectListBinding.reqDate.setText("-")
 
         } else {
-            holder.rejectListBinding.reqDate.setText(approvedOrders.requesteddate.toString()!!
+            var reqDate = approvedOrders.requesteddate.toString()!!
                 .substring(0,
-                    Math.min(approvedOrders.requesteddate.toString()!!.length, 10)))
+                    Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
+
+            holder.rejectListBinding.reqDate.text = Utlis.formatdate(reqDate)
+
         }
 
         if (approvedOrders.approveddate == null) {
             holder.rejectListBinding.rejectDate.setText("-")
 
         } else {
-            holder.rejectListBinding.rejectDate.setText(approvedOrders.rejecteddate.toString()!!
+            var rejDate = approvedOrders.rejecteddate.toString()!!
                 .substring(0,
-                    Math.min(approvedOrders.rejecteddate.toString()!!.length, 10)))
+                    Math.min(approvedOrders.rejecteddate.toString()!!.length, 10))
+
+            holder.rejectListBinding.rejectDate.text = Utlis.formatdate(rejDate)
+
+
         }
         if (approvedOrders.custname == null) {
             holder.rejectListBinding.custName.setText("-")
@@ -103,6 +112,7 @@ class QcRejectedListAdapter(
             for (i in qcItemList) {
                 if (i.orderno!!.equals(rejectList.get(position).orderno)) {
                     item = i
+                    orderId= i.orderno!!
                 }
             }
 
@@ -148,7 +158,7 @@ class QcRejectedListAdapter(
             holder.rejectListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcRejectedOrderDetailsAdapter(mContext,
-                        it, position, rejectList, imageClicklistner)
+                        it, position, rejectList, imageClicklistner,orderId)
                 }
             holder.rejectListBinding.recyclerView.scrollToPosition(position)
         }

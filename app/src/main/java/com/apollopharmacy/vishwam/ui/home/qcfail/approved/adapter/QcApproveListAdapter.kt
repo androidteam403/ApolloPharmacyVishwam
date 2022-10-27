@@ -40,7 +40,7 @@ class QcApproveListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
-
+        var orderId: String=""
 
 
         holder.adapterApproveListBinding.approvebyText.setText(approvedOrders.trackinstatusgdescription)
@@ -110,68 +110,56 @@ class QcApproveListAdapter(
             var item = QcItemListResponse()
             for (i in qcItemList) {
                 if (i.orderno!!.equals(approveList.get(position).orderno)) {
+                    orderId= i.orderno!!
                     item = i
                 }
             }
-            var totalPrice = ArrayList<Double>()
-            var discount = ArrayList<Double>()
-            var qty = ArrayList<Double>()
-            var TotalPrice = ArrayList<Double>()
+            var totalPrices = 0.0
+            var discounts = 0.0
 
-            var Totaldiscount = ArrayList<Double>()
-            var totalDiscount: Int
             if (item.itemlist?.isNotEmpty() == true) {
+
                 for (k in item.itemlist!!) {
-                    var items: Double
-                    var disc: Double
-                    var qt: Double
+                    if (k.qty != null && k.price != null) {
+                        totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
+                        discounts = discounts + k.discamount!!
 
-                    items = (k.price!!)
-                    totalPrice.add(items)
-                    disc = k.discamount!!
-                    discount.add(disc)
-                    if (k.qty !== null) {
-                        qt = k.qty!!.toDouble()
-                        qty.add(qt)
-
+//                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
                     }
-
 
                 }
             }
 
-            for (i in qty.indices) {
-                for (j in totalPrice.indices) {
-                    if (i.equals(j)) {
-                        TotalPrice.add(qty[i] * totalPrice[j])
-                    }
-                }
+
+            if (totalPrices.toString().isNotEmpty()) {
+                holder.adapterApproveListBinding.totalCost.setText(totalPrices.toString())
+            } else {
+                holder.adapterApproveListBinding.totalCost.setText("-")
             }
 
-            for (i in qty.indices) {
-                for (j in discount.indices) {
-                    if (i.equals(j)) {
-                        Totaldiscount.add(qty[i] * discount[j])
-                    }
-                }
+            if (discounts.toString().isNotEmpty()) {
+                holder.adapterApproveListBinding.discountTotal.setText(discounts.toString())
+            } else {
+                holder.adapterApproveListBinding.discountTotal.setText("-")
+
             }
 
-            if (totalPrice.isNotEmpty()) {
-                holder.adapterApproveListBinding.totalCost.setText(TotalPrice.sum().toString())
-            }
+            var netPayment = totalPrices - discounts
+            if (netPayment.toString().isNotEmpty()) {
 
-            if (discount.isNotEmpty()) {
-                holder.adapterApproveListBinding.discountTotal.setText((Totaldiscount.sum()).toString())
-            }
-            if (qty.isNotEmpty()) {
                 holder.adapterApproveListBinding.remainingPayment.setText(String.format("%.2f",
-                    (TotalPrice.sum()) - Totaldiscount.sum()))
+                    netPayment))
+            } else {
+                holder.adapterApproveListBinding.remainingPayment.setText("-")
             }
+
 
             holder.adapterApproveListBinding.recyclerView.adapter =
                 item.itemlist?.let {
-                    QcApprovedOrderDetailsAdapter(mContext,
-                        it, position, approveList, imageClicklistner)
+                    QcApprovedOrderDetailsAdapter(
+                        mContext,
+                        it, position, approveList, imageClicklistner,orderId
+                    )
                 }
             holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
         }

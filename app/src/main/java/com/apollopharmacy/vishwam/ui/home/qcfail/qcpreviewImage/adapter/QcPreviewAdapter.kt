@@ -26,7 +26,7 @@ class QcPreviewAdapter(
     val itemList: ArrayList<QcItemListResponse.Item>,
     val previewImageCallback: QcPreviewCallbacks,
     val currentPosition: Int,
-   val imageUrlList : List<String>
+    val imageUrlList: List<String>,
 ) : PagerAdapter() {
 
     var list = ArrayList<String>()
@@ -45,13 +45,9 @@ class QcPreviewAdapter(
 
 
 
-
-    Glide.with(context).load(imageUrlList.get(position)).error(R.drawable.placeholder_image).into(viewpagerPreviewAdapterBinding.viewpagerImage)
+        Glide.with(context).load(imageUrlList.get(position)).error(R.drawable.placeholder_image)
+            .into(viewpagerPreviewAdapterBinding.viewpagerImage)
 //    previewImageCallback.statusDisplay(position, list[i])
-
-
-
-
 
 
         container.addView(viewpagerPreviewAdapterBinding.root)

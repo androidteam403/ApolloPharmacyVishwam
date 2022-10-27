@@ -72,6 +72,7 @@
 
     </LinearLayout>
 
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/preview_image_viewpager"
         android:layout_width="match_parent"

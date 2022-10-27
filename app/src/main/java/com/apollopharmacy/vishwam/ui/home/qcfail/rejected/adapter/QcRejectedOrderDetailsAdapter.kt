@@ -18,7 +18,9 @@ class QcRejectedOrderDetailsAdapter(
     var pos: Int,
     var qcApproveList: ArrayList<QcListsResponse.Reject>,
     val imageClicklistner: QcListsCallback,
-) :
+    var orderId:String,
+
+    ) :
     RecyclerView.Adapter<QcRejectedOrderDetailsAdapter.ViewHolder>() {
 
 
@@ -57,7 +59,7 @@ class QcRejectedOrderDetailsAdapter(
                     Toast.makeText(mContext,"No Image Urls", Toast.LENGTH_LONG)
                 }
                 else{
-                    imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+                    imageClicklistner.imageData(position,orderId,items.itemname.toString(),items.imageurls.toString())
                 }
 
             }

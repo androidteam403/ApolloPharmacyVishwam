@@ -27,6 +27,8 @@ class QcPendingOrderDetailsAdapter(
     var qcPendingList: ArrayList<QcListsResponse.Pending>,
     var pendingFragmentCallback: PendingFragmentCallback,
     var qcPendingListAdapter: QcPendingListAdapter,
+    var orderId:String,
+
     val pendingLayoutBinding: QcPendingLayoutBinding,
 ) :
     RecyclerView.Adapter<QcPendingOrderDetailsAdapter.ViewHolder>() {
@@ -128,7 +130,7 @@ class QcPendingOrderDetailsAdapter(
                     Toast.makeText(mContext,"No Image Urls",Toast.LENGTH_LONG)
                 }
                 else{
-                    imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+                    imageClicklistner.imageData(position,orderId,items.itemname.toString(),items.imageurls.toString())
                 }
 
             }
