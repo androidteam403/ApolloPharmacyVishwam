@@ -41,10 +41,10 @@ class QcApproveListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders=approveList.get(position)
 
-        if (!statusList.isNullOrEmpty()){
-            holder.adapterApproveListBinding.approvebyText.setText(statusList[position].status)
 
-        }
+
+        holder.adapterApproveListBinding.approvebyText.setText(approvedOrders.trackinstatusgdescription)
+
 
 
         if (approvedOrders.dcCode == null) {

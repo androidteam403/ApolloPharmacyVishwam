@@ -200,7 +200,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         showLoading()
         orderId = orderno
         viewModel.getQcItemsList(orderno)
-        viewModel.getQcStatusList(orderno)
+//        viewModel.getQcStatusList(orderno)
         adapter?.notifyDataSetChanged()
 
 
@@ -211,14 +211,19 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
-        val intent = Intent(context, QcPreviewImageActivity::class.java)
 
-        intent.putExtra("itemList", imageUrl)
-        intent.putExtra("orderid", orderno)
-        intent.putExtra("itemName", itemName)
-        intent.putExtra("position", position)
-        startActivity(intent)
-    }
+        if (imageUrl.isNullOrEmpty()){
+            Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
+        }else{
+            val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+            intent.putExtra("itemList", imageUrl)
+            intent.putExtra("orderid",orderno)
+            intent.putExtra("itemName",itemName)
+            intent.putExtra("position", position)
+            startActivity(intent)
+        }
+     }
 
     override fun accept(
         position: Int,
