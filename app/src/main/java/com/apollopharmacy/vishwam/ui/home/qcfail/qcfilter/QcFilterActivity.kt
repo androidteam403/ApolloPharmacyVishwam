@@ -18,7 +18,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
     var selectsiteIdList = ArrayList<String>()
-
+    var getregionList = ArrayList<QcStoreList.Store>()
+    var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
@@ -43,6 +44,31 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
         }
+
+
+        viewModel.qcRegionLists.observeForever {
+            if (!it.storelist.isNullOrEmpty()) {
+
+                for (i in it.storelist!!) {
+                    val items = QcRegionList.Store()
+                    items.siteid = i.siteid
+                    items.sitename = i.sitename
+
+                    regionList.add(items)
+
+                }
+
+            }
+        }
+
+
+
+
+//        for (i in regionList.indices){
+//            if (regionList[i].isClick){
+//                activityQcFilterBinding.regionIdSelect.setText(regionList[i].siteid)
+//            }
+//        }
 
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
@@ -96,17 +122,30 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
     }
 
+    override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {
+
+
+        activityQcFilterBinding.siteIdSelect.setText(list.toString())    }
+
 
     override fun selectSite(departmentDto: QcStoreList.Store) {
-        activityQcFilterBinding.siteIdSelect.setText(departmentDto.siteid)
-        selectsiteIdList.add(departmentDto.siteid.toString())
+//        activityQcFilterBinding.siteIdSelect.setText(departmentDto.siteid)
+//        selectsiteIdList.add(departmentDto.siteid.toString())
 
 
     }
 
+    override fun onselectMultipleSites(list: ArrayList<String>, position: Int) {
+        activityQcFilterBinding.regionIdSelect.setText(list.toString())
+
+//        if (list[position].isClick){
+//            activityQcFilterBinding.regionIdSelect.setText(list[position].siteid)
+//        }
+    }
+
     override fun selectSite(regionId: QcRegionList.Store) {
-        activityQcFilterBinding.regionIdSelect.setText(regionId.siteid)
-        selectsiteIdList.add(regionId.siteid.toString())
+//        activityQcFilterBinding.regionIdSelect.setText(regionId.siteid)
+//        selectsiteIdList.add(regionId.siteid.toString())
     }
 
 

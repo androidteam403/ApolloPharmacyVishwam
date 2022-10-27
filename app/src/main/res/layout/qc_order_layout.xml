@@ -480,6 +480,7 @@
                         android:id="@+id/eyeImage"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@string/app_name"
+
                         android:src="@drawable/eye" />
 
                 </RelativeLayout>

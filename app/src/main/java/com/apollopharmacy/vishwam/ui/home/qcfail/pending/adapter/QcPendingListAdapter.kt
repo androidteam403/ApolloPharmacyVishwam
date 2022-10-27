@@ -12,6 +12,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
+import java.sql.Date
+import java.text.SimpleDateFormat
 
 class QcPendingListAdapter(
     val mContext: Context,
@@ -75,6 +77,18 @@ class QcPendingListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pendingOrders = pendingList.get(position)
 
+        val qcFaildate = pendingOrders.qcfaildate.toString()!!
+            .substring(0, Math.min(pendingOrders.qcfaildate.toString()!!.length, 10))
+        val reqdate = pendingOrders.requesteddate.toString()!!
+            .substring(0, Math.min(pendingOrders.requesteddate.toString()!!.length, 10))
+//        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyy")
+//        val date: Date = simpleDateFormat.parse(qcFaildate) as Date
+
+//        var date=StringBuilder()
+//        date.append(pendingOrders.qcfaildate.toString()!!
+//            .substring(0,
+//                Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)))
+
 
         if (pendingOrders.dcCode == null) {
             holder.pendingLayoutBinding.locationText.setText("-")
@@ -92,9 +106,7 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.reqDate.setText("-")
 
         } else {
-            holder.pendingLayoutBinding.reqDate.setText(pendingOrders.qcfaildate.toString()!!
-                .substring(0,
-                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)))
+            holder.pendingLayoutBinding.reqDate.setText(qcFaildate)
         }
 
         if (pendingOrders.requesteddate == null) {
@@ -164,26 +176,12 @@ class QcPendingListAdapter(
                 for (k in item.itemlist!!) {
                     if (k.qty != null && k.price != null) {
                         totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
-                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
+                        discounts = discounts
                     }
 
                 }
             }
-//            for (i in qty.indices) {
-//                for (j in totalPrice.indices) {
-//                    if (i.equals(j)) {
-//                        TotalPrice.add(qty[i] * totalPrice[j])
-//                    }
-//                }
-//            }
-//
-//            for (i in qty.indices) {
-//                for (j in discount.indices) {
-//                    if (i.equals(j)) {
-//                        Totaldiscount.add(qty[i] * discount[j])
-//                    }
-//                }
-//            }
+
 
             if (totalPrices.toString().isNotEmpty()) {
                 holder.pendingLayoutBinding.totalCost.setText(totalPrices.toString())
@@ -206,25 +204,7 @@ class QcPendingListAdapter(
             } else {
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }
-//            if (TotalPrice.isNotEmpty()) {
-//                holder.pendingLayoutBinding.totalCost.setText(TotalPrice.sum().toString())
-//            } else {
-//                holder.pendingLayoutBinding.totalCost.setText("-")
-//            }
-//
-//            if (Totaldiscount.isNotEmpty()) {
-//                holder.pendingLayoutBinding.discountTotal.setText((Totaldiscount.sum()).toString())
-//            } else {
-//                holder.pendingLayoutBinding.discountTotal.setText("-")
-//
-//            }
-//            if (qty.isNotEmpty()) {
-//
-//                holder.pendingLayoutBinding.remainingPayment.setText(String.format("%.2f",
-//                    (TotalPrice.sum()) - Totaldiscount.sum()))
-//            } else {
-//                holder.pendingLayoutBinding.remainingPayment.setText("-")
-//            }
+
 
             if (item.itemlist != null && item.itemlist!!.size > 0) {
                 var isAllApproveQtyZero = true
@@ -252,7 +232,7 @@ class QcPendingListAdapter(
 
             holder.pendingLayoutBinding.recyclerView.adapter =
                 item.itemlist?.let {
-                    QcPendingOrderDetailsAdapter(mContext,imageClicklistner,
+                    QcPendingOrderDetailsAdapter(mContext, imageClicklistner,
                         it,
                         position,
                         pendingList,
@@ -281,10 +261,10 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
 
-
-        holder.pendingLayoutBinding.checkBox.setOnClickListener {
-            imageClicklistner.isChecked(pendingList, position)
-        }
+//
+//        holder.pendingLayoutBinding.checkBox.setOnClickListener {
+//            imageClicklistner.isChecked(pendingList, position)
+//        }
 
         holder.pendingLayoutBinding.arrow.setOnClickListener {
             pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }

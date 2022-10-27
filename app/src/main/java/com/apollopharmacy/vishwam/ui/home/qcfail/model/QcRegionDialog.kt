@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -31,6 +32,8 @@ class QcRegionDialog : DialogFragment() {
         setCancelable(false)
     }
 
+    var selectsiteIdList = ArrayList<String>()
+
     lateinit var viewBinding: QcDialogSiteListBinding
     lateinit var abstractDialogClick: NewDialogSiteClickListner
     var regionDataArrayList = ArrayList<QcRegionList.Store>()
@@ -49,6 +52,7 @@ class QcRegionDialog : DialogFragment() {
 
     interface NewDialogSiteClickListner {
 
+        fun onselectMultipleSites(list: ArrayList<String>, position: Int)
 
         fun selectSite(regionId: QcRegionList.Store)
     }
@@ -75,8 +79,36 @@ class QcRegionDialog : DialogFragment() {
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                 sitereCyclerView = RegionRecyclerView(it, object : OnSelectListnerSite {
                     override fun onSelected(data: QcRegionList.Store) {
-                        abstractDialogClick.selectSite(data)
+//                        abstractDialogClick.selectSite(data)
 //                        dismiss()
+                    }
+
+                    override fun onClick(list: ArrayList<QcRegionList.Store>, position: Int) {
+                        if (list[position].isClick) {
+                            list[position].setisClick(false)
+                        } else {
+                            list[position].setisClick(true)
+                        }
+                        sitereCyclerView.notifyDataSetChanged()
+
+                        for (i in list.indices) {
+                            if (list[i].isClick) {
+                                selectsiteIdList.add(list[i].siteid.toString())
+                            }
+                        }
+
+
+                            abstractDialogClick.onselectMultipleSites(selectsiteIdList, position)
+
+                        viewBinding.apply.setOnClickListener {
+                            if (selectsiteIdList.isNullOrEmpty()){
+                                Toast.makeText(context, "No Data Found To Apply", Toast.LENGTH_SHORT)
+                                    .show()
+                            }else{
+                                dismiss()
+                            }
+                        }
+
                     }
                 })
                 viewBinding.fieldRecyclerView.adapter = sitereCyclerView
@@ -84,8 +116,10 @@ class QcRegionDialog : DialogFragment() {
         })
 
 
+
         viewBinding.closeDialog.setOnClickListener {
-            regionDataArrayList.clear()
+
+
             dismiss()
         }
         abstractDialogClick = activity as NewDialogSiteClickListner
@@ -126,7 +160,7 @@ class QcRegionDialog : DialogFragment() {
 }
 
 class RegionRecyclerView(
-    departmentListDto: ArrayList<QcRegionList.Store>,
+    var departmentListDto: ArrayList<QcRegionList.Store>,
     var onSelectedListner: OnSelectListnerSite,
 ) :
     SimpleRecyclerView<QcViewItemRowBinding, QcRegionList.Store>(
@@ -140,6 +174,18 @@ class RegionRecyclerView(
     ) {
         binding.itemName.text = "${items.siteid}, ${items.sitename}"
 
+        binding.genderParentLayout.setOnClickListener {
+            onSelectedListner.onClick(departmentListDto, position)
+
+        }
+
+
+
+        if (departmentListDto[position].isClick) {
+            binding.checkBox.setImageResource(R.drawable.qcright)
+        } else {
+            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
+        }
 
 //        binding.root.setOnClickListener {
 //            items.setisClick(true)
@@ -150,9 +196,11 @@ class RegionRecyclerView(
 
 interface OnSelectListnerSite {
     fun onSelected(data: QcRegionList.Store)
+    fun onClick(list: ArrayList<QcRegionList.Store>, position: Int)
+
 }
 
-interface clickListener{
+interface clickListener {
     fun onClick(list: ArrayList<QcRegionList.Store>, position: Int)
 }
 

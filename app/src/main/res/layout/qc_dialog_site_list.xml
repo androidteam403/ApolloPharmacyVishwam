@@ -34,7 +34,7 @@
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:src="@drawable/close_icon"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
         </RelativeLayout>
 
         <LinearLayout
@@ -86,6 +86,21 @@
                 android:layout_margin="@dimen/value_5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/qc_view_item_row" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/value_50dp"
+                android:paddingEnd="@dimen/value_50dp"
+
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/apply"
+                android:text="Apply"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:background="@drawable/qc_accept_background"/>
         </LinearLayout>
+
     </RelativeLayout>
 </layout>

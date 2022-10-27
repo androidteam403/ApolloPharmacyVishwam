@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -42,8 +43,33 @@ class QcApprovedOrderDetailsAdapter(
         holder.approvedorderdetailsBinding.medicineName.setText(items.itemname)
         holder.approvedorderdetailsBinding.categoryName.setText("- " + items.category)
         holder.approvedorderdetailsBinding.price.setText(items.price.toString())
-        holder.approvedorderdetailsBinding.eyeImage.setOnClickListener {
-            imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+
+
+        if (items.approvedqty.toString().isNullOrEmpty()){
+            holder.approvedorderdetailsBinding.approveQtyText.setText("-")
+
+        }
+        else{
+            holder.approvedorderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+
+        }
+
+
+        if (items.imageurls.toString().isNullOrEmpty()){
+            holder.approvedorderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,android.graphics.PorterDuff.Mode.MULTIPLY)
+
+
+        }
+        else{
+            holder.approvedorderdetailsBinding.eyeImage.setOnClickListener {
+                if (items.imageurls.toString().isNullOrEmpty()){
+                    Toast.makeText(mContext,"No Image Urls", Toast.LENGTH_LONG)
+                }
+                else{
+                    imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+                }
+
+            }
         }
     }
 

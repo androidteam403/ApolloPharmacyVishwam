@@ -162,8 +162,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         viewBinding.filter.setOnClickListener {
-            val intent = Intent(context, QcFilterActivity::class.java)
-            startActivity(intent)
+//            val intent = Intent(context, QcFilterActivity::class.java)
+//            startActivity(intent)
 //
 //                }
 //                QcSiteDialog.show()
@@ -287,6 +287,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //        }
 //
 //        filterAdapter?.notifyDataSetChanged()
+    }
+
+    override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {
+        TODO("Not yet implemented")
     }
 
     override fun selectSite(departmentDto: QcStoreList.Store) {

@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -41,13 +42,22 @@ class QcRejectedOrderDetailsAdapter(
         holder.orderdetailsBinding.categoryName.setText("- " + items.category)
         holder.orderdetailsBinding.price.setText(items.price.toString())
         holder.orderdetailsBinding.discountTotal.setText(items.discamount.toString())
-        holder.orderdetailsBinding.eyeImage.setOnClickListener {
-            imageClicklistner.imageData(position,
-                items.orderno.toString(),
-                items.itemname.toString(),
-                items.imageurls.toString())
-        }
+        if (items.imageurls.toString().isNullOrEmpty()){
+            holder.orderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,android.graphics.PorterDuff.Mode.MULTIPLY)
 
+
+        }
+        else{
+            holder.orderdetailsBinding.eyeImage.setOnClickListener {
+                if (items.imageurls.toString().isNullOrEmpty()){
+                    Toast.makeText(mContext,"No Image Urls", Toast.LENGTH_LONG)
+                }
+                else{
+                    imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+                }
+
+            }
+        }
 
     }
 

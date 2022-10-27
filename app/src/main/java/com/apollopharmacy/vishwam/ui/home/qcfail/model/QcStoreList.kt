@@ -40,6 +40,11 @@ class QcStoreList : Serializable {
         @SerializedName("SITENAME")
         @Expose
         var sitename: String? = null
+         var isClick: Boolean =false
+
+         fun setisClick(pos: Boolean) {
+             isClick = pos
+         }
         fun withSiteid(siteid: String?): Store {
             this.siteid = siteid
             return this

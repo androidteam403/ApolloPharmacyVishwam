@@ -6,6 +6,8 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -105,9 +107,23 @@ class QcPendingOrderDetailsAdapter(
         })
 
 
-        holder.orderdetailsBinding.eyeImage.setOnClickListener {
-            imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+        if (items.imageurls.toString().isNullOrEmpty()){
+            holder.orderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,android.graphics.PorterDuff.Mode.MULTIPLY)
+
+
         }
+        else{
+            holder.orderdetailsBinding.eyeImage.setOnClickListener {
+                if (items.imageurls.toString().isNullOrEmpty()){
+                    Toast.makeText(mContext,"No Image Urls",Toast.LENGTH_LONG)
+                }
+                else{
+                    imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+                }
+
+            }
+        }
+
 
 
         holder.orderdetailsBinding.selectResonItem.setOnClickListener {

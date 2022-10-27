@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
+import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
+import com.apollopharmacy.vishwam.databinding.QcViewItemRowBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.util.Utils
@@ -28,8 +30,9 @@ class QcSiteDialog : DialogFragment() {
     init {
         setCancelable(false)
     }
+    var selectsiteIdList = ArrayList<String>()
 
-    lateinit var viewBinding: DialogSiteListBinding
+    lateinit var viewBinding: QcDialogSiteListBinding
      lateinit var abstractDialogClick: NewDialogSiteClickListner
     var siteDataArrayList = ArrayList<QcStoreList.Store>()
     lateinit var sitereCyclerView: SiteRecyclerView
@@ -50,6 +53,7 @@ class QcSiteDialog : DialogFragment() {
 
     interface NewDialogSiteClickListner {
 
+        fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int)
 
         fun selectSite(departmentDto: QcStoreList.Store)
     }
@@ -63,7 +67,7 @@ class QcSiteDialog : DialogFragment() {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         );
-        viewBinding = DialogSiteListBinding.inflate(inflater, container, false)
+        viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcSiteViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
 
@@ -76,8 +80,27 @@ class QcSiteDialog : DialogFragment() {
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                 sitereCyclerView = SiteRecyclerView(it, object : OnSelectedListnerSite {
                     override fun onSelected(data: QcStoreList.Store) {
-                        abstractDialogClick.selectSite(data)
-                        dismiss()
+//                        abstractDialogClick.selectSite(data)
+//                        dismiss()
+                    }
+
+                    override fun onClick(list: ArrayList<QcStoreList.Store>, position: Int) {
+                        if (list[position].isClick) {
+                            list[position].setisClick(false)
+                        } else {
+                            list[position].setisClick(true)
+                        }
+                        sitereCyclerView.notifyDataSetChanged()
+                        for (i in list.indices) {
+                            if (list[i].isClick) {
+                                selectsiteIdList.add(list[i].siteid.toString())
+                            }
+                        }
+                        if (!selectsiteIdList.isNullOrEmpty()) {
+                            abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList, position)
+                            dismiss()
+                        }
+
                     }
                 })
                 viewBinding.fieldRecyclerView.adapter = sitereCyclerView
@@ -126,23 +149,30 @@ class QcSiteDialog : DialogFragment() {
 }
 
 class SiteRecyclerView(
-    departmentListDto: ArrayList<QcStoreList.Store>,
+  var  departmentListDto: ArrayList<QcStoreList.Store>,
     var onSelectedListner: OnSelectedListnerSite,
 ) :
-    SimpleRecyclerView<ViewListItemBinding, QcStoreList.Store>(
+    SimpleRecyclerView<QcViewItemRowBinding, QcStoreList.Store>(
         departmentListDto,
-        R.layout.view_list_item
+        R.layout.qc_view_item_row
     ) {
-    override fun bindItems(binding: ViewListItemBinding, items: QcStoreList.Store, position: Int) {
+    override fun bindItems(binding: QcViewItemRowBinding, items: QcStoreList.Store, position: Int) {
         binding.itemName.text = "${items.siteid}, ${items.sitename}"
-        binding.root.setOnClickListener {
+        binding.genderParentLayout.setOnClickListener {
+            onSelectedListner.onClick(departmentListDto, position)
 
-            onSelectedListner.onSelected(items)
+        }
+
+        if (departmentListDto[position].isClick) {
+            binding.checkBox.setImageResource(R.drawable.qcright)
+        } else {
+            binding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
     }
 }
 
 interface OnSelectedListnerSite {
     fun onSelected(data: QcStoreList.Store)
+    fun onClick(list: ArrayList<QcStoreList.Store>, position: Int)
 }
 
