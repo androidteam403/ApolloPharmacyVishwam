@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
 import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
@@ -62,8 +63,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcPendingList("APL48627", Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!, Utlis.getCurrentDate("yyyy-MM-dd")!!, "16001", "")
-
+        viewModel.getQcPendingList(Preferences.getValidatedEmpId(),
+            Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!,
+            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+            "",
+            "")
+//APL48627
 
 //        val qcreject = QcAcceptRejectRequest.Order("RV000012",
 //            "10",
@@ -201,6 +206,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId : String
     ) {
 
 
@@ -208,17 +214,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         for (i in itemlist!!) {
             val rejItems = QcAcceptRejectRequest.Item()
             rejItems.itemid = i.itemid
-            rejItems.qty = i.qty
-            rejItems.remarks = i.remarks
+            rejItems.qty = i.approvedqty
+            rejItems.remarks = ""
             qcRejectItemsList.add(rejItems)
 
         }
         qcAccepttList.clear()
-        val qcreject = QcAcceptRejectRequest.Order("RV000012",
+        val qcreject = QcAcceptRejectRequest.Order(orderno,
             "10",
             "EXECUTIVE",
-            "APL48627",
-            "16001",
+            Preferences.getValidatedEmpId(),
+            storeId,
             qcRejectItemsList)
         qcAccepttList.add(qcreject)
 
@@ -260,6 +266,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId : String
     ) {
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -310,18 +317,18 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             for (i in itemlist!!) {
                 val rejItems = QcAcceptRejectRequest.Item()
                 rejItems.itemid = i.itemid
-                rejItems.qty = i.qty
+                rejItems.qty = i.approvedqty
                 rejItems.remarks = i.remarks
                 qcRejectItemsList.add(rejItems)
 
             }
 
             qcRejectList.clear()
-            val qcreject = QcAcceptRejectRequest.Order("RV000012",
+            val qcreject = QcAcceptRejectRequest.Order(orderno,
                 "10",
                 "EXECUTIVE",
-                "APL48627",
-                "16001",
+                Preferences.getValidatedEmpId(),
+                storeId,
                 qcRejectItemsList)
             qcRejectList.add(qcreject)
 

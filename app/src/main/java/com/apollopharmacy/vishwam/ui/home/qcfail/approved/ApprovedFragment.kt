@@ -281,6 +281,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId : String
     ) {
         TODO("Not yet implemented")
     }
@@ -292,6 +293,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
+        storeId : String
     ) {
 
     }

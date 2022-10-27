@@ -266,13 +266,15 @@ class QcPendingListAdapter(
 
             imageClicklistner.accept(position,
                 pendingOrders.orderno.toString(),
-                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!)
+                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
+                pendingOrders.storeid!!)
         }
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
             imageClicklistner.reject(position,
                 pendingOrders.orderno.toString(),
-                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!)
+                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
+                pendingOrders.storeid!!)
         }
 
         if (pendingList[position].isItemChecked) {
