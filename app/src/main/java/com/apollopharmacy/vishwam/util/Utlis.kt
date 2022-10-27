@@ -6,6 +6,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -102,6 +104,7 @@ object Utlis {
         val convertedDate = sourceFormat.parse(dateToFormat)
         return destFormat.format(convertedDate)
     }
+
     fun getDateSevenDaysEarlier(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 
@@ -116,5 +119,17 @@ object Utlis {
     fun getCurrentDate(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         return sdf.format(Date())
+    }
+
+    fun formatdate(fdate: String?): String? {
+        var datetime: String? = null
+        val d: DateFormat = SimpleDateFormat("dd-MM-yyyy")
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+        try {
+            val convertedDate: Date = inputFormat.parse(fdate)
+            datetime = d.format(convertedDate)
+        } catch (e: ParseException) {
+        }
+        return datetime
     }
 }
