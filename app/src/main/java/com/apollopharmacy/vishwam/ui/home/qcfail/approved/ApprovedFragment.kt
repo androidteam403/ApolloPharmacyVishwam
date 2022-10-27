@@ -276,12 +276,24 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         adapter?.notifyDataSetChanged()
     }
 
-    override fun accept(position: Int, orderno: String, remarks: String) {
+    override fun accept(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun reject(position: Int, orderno: String, remarks: String) {
-        TODO("Not yet implemented")
+
+
+    override fun reject(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+    ) {
+
     }
 
     override fun isChecked(array: ArrayList<QcListsResponse.Pending>, position: Int) {

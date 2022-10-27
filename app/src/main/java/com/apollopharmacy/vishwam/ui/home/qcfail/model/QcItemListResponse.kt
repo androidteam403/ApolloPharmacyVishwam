@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class QcItemListResponse:Serializable {
+class QcItemListResponse : Serializable {
     @SerializedName("STATUS")
     @Expose
     var status: Boolean? = null
@@ -12,9 +12,9 @@ class QcItemListResponse:Serializable {
     @SerializedName("MESSAGE")
     @Expose
     var message: String? = null
-    var orderno:String?=null
-    fun setorderno(order:String){
-        orderno=order
+    var orderno: String? = null
+    fun setorderno(order: String) {
+        orderno = order
     }
 
     @SerializedName("ITEMLIST")
@@ -35,7 +35,7 @@ class QcItemListResponse:Serializable {
         return this
     }
 
-     class Item {
+    class Item {
         @SerializedName("RECID")
         @Expose
         var recid: Int? = null
@@ -46,7 +46,7 @@ class QcItemListResponse:Serializable {
 
         @SerializedName("ORDERNO")
         @Expose
-        var orderno: Any? = null
+        var orderno: String? = null
 
         @SerializedName("STATUS")
         @Expose
@@ -66,15 +66,15 @@ class QcItemListResponse:Serializable {
 
         @SerializedName("QTY")
         @Expose
-        var qty: Any? = null
+        var qty: Int? = 0
 
         @SerializedName("PRICE")
         @Expose
-        var price: Double? = null
+        var price: Double? = 0.0
 
         @SerializedName("DISCAMOUNT")
         @Expose
-        var discamount: Double? = null
+        var discamount: Double? = 0.0
 
         @SerializedName("CREATEDDATE")
         @Expose
@@ -86,7 +86,7 @@ class QcItemListResponse:Serializable {
 
         @SerializedName("REMARKS")
         @Expose
-        var remarks: Any? = null
+        var remarks: String? = null
 
         @SerializedName("MODIFIEDBY")
         @Expose
@@ -110,7 +110,7 @@ class QcItemListResponse:Serializable {
 
         @SerializedName("APPROVEDQTY")
         @Expose
-        var approvedqty: Any? = null
+        var approvedqty: Int? = 0
 
         @SerializedName("DISCPERCENTAGE")
         @Expose
@@ -123,6 +123,10 @@ class QcItemListResponse:Serializable {
         @SerializedName("IMAGEURLS")
         @Expose
         var imageurls: Any? = null
+
+        var reason: String? = null
+
+
         fun withRecid(recid: Int?): Item {
             this.recid = recid
             return this
@@ -133,7 +137,7 @@ class QcItemListResponse:Serializable {
             return this
         }
 
-        fun withOrderno(orderno: Any?): Item {
+        fun withOrderno(orderno: String?): Item {
             this.orderno = orderno
             return this
         }
@@ -158,7 +162,7 @@ class QcItemListResponse:Serializable {
             return this
         }
 
-        fun withQty(qty: Any?): Item {
+        fun withQty(qty: Int?): Item {
             this.qty = qty
             return this
         }
@@ -183,7 +187,7 @@ class QcItemListResponse:Serializable {
             return this
         }
 
-        fun withRemarks(remarks: Any?): Item {
+        fun withRemarks(remarks: String?): Item {
             this.remarks = remarks
             return this
         }
@@ -213,7 +217,7 @@ class QcItemListResponse:Serializable {
             return this
         }
 
-        fun withApprovedqty(approvedqty: Any?): Item {
+        fun withApprovedqty(approvedqty: Int?): Item {
             this.approvedqty = approvedqty
             return this
         }
