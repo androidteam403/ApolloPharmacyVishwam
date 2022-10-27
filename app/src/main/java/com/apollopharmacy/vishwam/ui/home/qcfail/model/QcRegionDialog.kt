@@ -16,6 +16,8 @@ import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
+import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
+import com.apollopharmacy.vishwam.databinding.QcViewItemRowBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.util.Utils
@@ -29,8 +31,8 @@ class QcRegionDialog : DialogFragment() {
         setCancelable(false)
     }
 
-    lateinit var viewBinding: DialogSiteListBinding
-     lateinit var abstractDialogClick: NewDialogSiteClickListner
+    lateinit var viewBinding: QcDialogSiteListBinding
+    lateinit var abstractDialogClick: NewDialogSiteClickListner
     var regionDataArrayList = ArrayList<QcRegionList.Store>()
     lateinit var sitereCyclerView: RegionRecyclerView
 
@@ -43,7 +45,6 @@ class QcRegionDialog : DialogFragment() {
     companion object {
         const val REGION_DATA = "data"
     }
-
 
 
     interface NewDialogSiteClickListner {
@@ -61,7 +62,7 @@ class QcRegionDialog : DialogFragment() {
             WindowManager.LayoutParams.MATCH_PARENT,
             WindowManager.LayoutParams.WRAP_CONTENT
         );
-        viewBinding = DialogSiteListBinding.inflate(inflater, container, false)
+        viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcRegionViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
 
@@ -75,7 +76,8 @@ class QcRegionDialog : DialogFragment() {
                 sitereCyclerView = RegionRecyclerView(it, object : OnSelectListnerSite {
                     override fun onSelected(data: QcRegionList.Store) {
                         abstractDialogClick.selectSite(data)
-                        dismiss()                    }
+//                        dismiss()
+                    }
                 })
                 viewBinding.fieldRecyclerView.adapter = sitereCyclerView
             }
@@ -89,7 +91,8 @@ class QcRegionDialog : DialogFragment() {
         abstractDialogClick = activity as NewDialogSiteClickListner
 
 
-        regionDataArrayList = (arguments?.getSerializable(REGION_DATA) as? ArrayList<QcRegionList.Store>)!!
+        regionDataArrayList =
+            (arguments?.getSerializable(REGION_DATA) as? ArrayList<QcRegionList.Store>)!!
 
         viewBinding.searchSite.visibility = View.VISIBLE
         viewModel.qcRegionArrayList(regionDataArrayList)
@@ -126,20 +129,30 @@ class RegionRecyclerView(
     departmentListDto: ArrayList<QcRegionList.Store>,
     var onSelectedListner: OnSelectListnerSite,
 ) :
-    SimpleRecyclerView<ViewListItemBinding, QcRegionList.Store>(
+    SimpleRecyclerView<QcViewItemRowBinding, QcRegionList.Store>(
         departmentListDto,
-        R.layout.view_list_item
+        R.layout.qc_view_item_row
     ) {
-    override fun bindItems(binding: ViewListItemBinding, items: QcRegionList.Store, position: Int) {
+    override fun bindItems(
+        binding: QcViewItemRowBinding,
+        items: QcRegionList.Store,
+        position: Int,
+    ) {
         binding.itemName.text = "${items.siteid}, ${items.sitename}"
-        binding.root.setOnClickListener {
 
-            onSelectedListner.onSelected(items)
-        }
+
+//        binding.root.setOnClickListener {
+//            items.setisClick(true)
+//            onSelectedListner.onSelected(items)
+//        }
     }
 }
 
 interface OnSelectListnerSite {
     fun onSelected(data: QcRegionList.Store)
+}
+
+interface clickListener{
+    fun onClick(list: ArrayList<QcRegionList.Store>, position: Int)
 }
 

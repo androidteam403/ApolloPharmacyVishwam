@@ -5,5 +5,9 @@ interface QcListsCallback {
     fun notify(position: Int, orderno: String)
     fun accept(position: Int, orderno: String, remarks: String,  itemlist: List<QcItemListResponse.Item>, storeId : String)
     fun reject(position: Int, orderno: String, remarks: String, itemlist: List<QcItemListResponse.Item>, storeId : String)
+    fun imageData(position: Int, orderno: String,itemName:String,imageUrl:String)
+
+    fun accept(position: Int, orderno: String, remarks: String,  itemlist: List<QcItemListResponse.Item>)
+    fun reject(position: Int, orderno: String, remarks: String, itemlist: List<QcItemListResponse.Item>)
     fun isChecked(array: ArrayList<QcListsResponse.Pending>, position: Int)
 }

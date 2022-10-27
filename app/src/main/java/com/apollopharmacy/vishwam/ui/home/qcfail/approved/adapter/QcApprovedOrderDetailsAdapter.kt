@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcApprovedorderdetailsBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 
 class QcApprovedOrderDetailsAdapter(
@@ -15,7 +16,9 @@ class QcApprovedOrderDetailsAdapter(
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
     var qcApproveList: ArrayList<QcListsResponse.Approved>,
-) :
+    val imageClicklistner: QcListsCallback,
+
+    ) :
     RecyclerView.Adapter<QcApprovedOrderDetailsAdapter.ViewHolder>() {
 
 
@@ -39,6 +42,9 @@ class QcApprovedOrderDetailsAdapter(
         holder.approvedorderdetailsBinding.medicineName.setText(items.itemname)
         holder.approvedorderdetailsBinding.categoryName.setText("- " + items.category)
         holder.approvedorderdetailsBinding.price.setText(items.price.toString())
+        holder.approvedorderdetailsBinding.eyeImage.setOnClickListener {
+            imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+        }
     }
 
 

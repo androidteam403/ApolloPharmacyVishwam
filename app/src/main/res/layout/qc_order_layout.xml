@@ -191,6 +191,7 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
+                    android:id="@+id/price_layout"
                     android:layout_height="wrap_content"
                     android:layout_weight="1">
 
@@ -476,6 +477,7 @@
                     <ImageView
                         android:layout_width="@dimen/value_25dp"
                         android:layout_height="@dimen/value_25dp"
+                        android:id="@+id/eyeImage"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@string/app_name"
                         android:src="@drawable/eye" />

@@ -14,6 +14,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListA
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -163,17 +164,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         viewBinding.filter.setOnClickListener {
             val intent = Intent(context, QcFilterActivity::class.java)
             startActivity(intent)
-//            dialog = context?.let { it1 -> BottomSheetDialog(it1) }!!
-//            dialog.setContentView(R.layout.qc_filter_layout)
-//
-//            if (dialog != null) {
-//                dialog.show()
-//            }
-
-//            dialog.siteIdSelect.setOnClickListener {
-//                QcSiteDialog.apply {
-//                    arguments =
-//                        QcSiteDialog().generateParsedData(storeList)
 //
 //                }
 //                QcSiteDialog.show()
@@ -181,62 +171,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         }
 
 
-//            val btnClose = view.findViewById<ImageView>(R.id.cancel)
-//            val date = view.findViewById<TextView>(R.id.date)
-//            val store = view.findViewById<TextView>(R.id.store)
-//            val region = view.findViewById<TextView>(R.id.region)
-//            val storeRecyclyeview = view.findViewById<RecyclerView>(R.id.storeIdsRecyclerView)
-//            val regionRecyclyeview = view.findViewById<RecyclerView>(R.id.regionIdsRecyclerView)
-//            val dateLayout = view.findViewById<LinearLayout>(R.id.dateLayout)
 
-//            date.setBackgroundResource(R.color.white)
-//            date.setOnClickListener {
-//                date.setBackgroundResource(R.color.white)
-//                store.setBackgroundResource(R.color.filter_color)
-//                region.setBackgroundResource(R.color.filter_color)
-//                storeRecyclyeview.visibility = View.GONE
-//                dateLayout.visibility = View.VISIBLE
-//            }
-//            region.setOnClickListener {
-//                region.setBackgroundResource(R.color.white)
-//                date.setBackgroundResource(R.color.filter_color)
-//                store.setBackgroundResource(R.color.filter_color)
-//                dateLayout.visibility = View.GONE
-//                storeRecyclyeview.visibility = View.GONE
-//                regionRecyclyeview.visibility = View.VISIBLE
-//                val layoutManager: RecyclerView.LayoutManager =
-//                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//
-//                regionRecyclyeview.layoutManager = layoutManager
-//
-//
-//                regionAdapter = context?.let { it1 -> QcRegionListAdapter(it1, regionList, this) }
-//                regionRecyclyeview.adapter = regionAdapter
-//            }
-//
-//            store.setOnClickListener {
-//                region.setBackgroundResource(R.color.filter_color)
-//                date.setBackgroundResource(R.color.filter_color)
-//                store.setBackgroundResource(R.color.white)
-//                regionRecyclyeview.visibility = View.GONE
-//                dateLayout.visibility = View.GONE
-//                storeRecyclyeview.visibility = View.VISIBLE
-
-//                val mLayoutManager1: RecyclerView.LayoutManager =
-//                    LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-//
-//                storeRecyclyeview.layoutManager = mLayoutManager1
-//
-//
-//
-//                storeAdapter = context?.let { it1 -> QcStoreListAdapter(it1, storeList, this) }
-//                storeRecyclyeview.adapter = storeAdapter
-
-
-//            btnClose.setOnClickListener {
-//                if (dialog != null) {
-//                    dialog.dismiss()
-//                }
 
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
@@ -276,6 +211,15 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
+        val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+        intent.putExtra("itemList", imageUrl)
+        intent.putExtra("orderid",orderno)
+        intent.putExtra("itemName",itemName)
+        intent.putExtra("position", position)
+        startActivity(intent)    }
+
     override fun accept(
         position: Int,
         orderno: String,
@@ -314,62 +258,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
 
-    fun Dialog() {
-//        dialogBinding =
-//            DataBindingUtil.inflate(
-//                LayoutInflater.from(requireContext()),
-//                R.layout.qc_filter_layout,
-//                null,
-//                false
-//            )
-//
-//        val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
-//
-//        if (dialog != null) {
-//            dialogBinding?.root?.let { it1 -> dialog.setContentView(it1) }
-//
-//        }
-//
-//
-//
-//        if (dialog != null) {
-//            dialog.show()
-//        }
-//
-//        dialogBinding.date.setOnClickListener {
-//            dialogBinding.dateLayout.visibility=View.VISIBLE
-//        }
-//
-//        if (dialogBinding != null) {
-//            storeAdapter = context?.let { QcStoreListAdapter(it,storeList,this) }
-//            dialogBinding!!.storeIdsRecyclerView.adapter = storeAdapter
-//
-//        }
-//
-////        if (dialogBinding != null) {
-////            filterAdapter =
-////                context?.let { it1 -> QcFilterItemsAdapter(it1, names, mainMenuList, this) }
-////            dialogBinding!!.itemRecyclerView.adapter = filterAdapter
-////
-////        }
-//
-//        if (dialogBinding != null) {
-//            dialogBinding!!.cancel.setOnClickListener {
-//                if (dialog != null) {
-//                    dialog.dismiss()
-//                }
-//            }
-//        }
-//
-//        //    fun generateParsedData(data: ArrayList<QcRegionList.Store>): Bundle {
-//
-//
-//        fun Update() {
-//            view?.invalidate()
-//
-//        }
-
-    }
 
     override fun clickMenu(clickedMenu: Int, name: ArrayList<MainMenuList>) {
 //        if (clickedMenu == 0) {

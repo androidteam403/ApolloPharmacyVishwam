@@ -259,6 +259,12 @@ class QcListsResponse:Serializable {
             isItemChecked = checked
         }
 
+         var isClick: Boolean =false
+
+         fun setisClick(pos: Boolean) {
+             isClick = pos
+         }
+
         fun withCustname(custname: String?): Pending {
             this.custname = custname
             return this

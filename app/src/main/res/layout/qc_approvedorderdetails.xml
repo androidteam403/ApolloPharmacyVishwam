@@ -89,7 +89,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2.5">
+                    android:layout_weight="1.5">
 
                     <TextView
                         android:id="@+id/approve_qty"
@@ -120,7 +120,8 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2">
+                    android:id="@+id/priceLayout"
+                    android:layout_weight="1.5">
 
                     <TextView
                         android:id="@+id/priceHeader"
@@ -155,30 +156,26 @@
                     android:id="@+id/marginLayout"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.6"
-                    android:visibility="gone">
-
+                    android:layout_weight="1.3"
+                    android:visibility="visible">
                     <TextView
-                        android:id="@+id/marginHeader"
+                        android:id="@+id/imageslist_header"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:text="Total Price"
+                        android:text="Images "
+                        android:textSize="@dimen/text_12sp"
                         android:textStyle="bold"
-                        app:fontFamily="@font/droidsans" />
+                        app:fontFamily="@font/roboto_medium" />
 
-                    <TextView
-                        android:id="@+id/priceText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/marginHeader"
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:id="@+id/eyeImage"
+                        android:layout_below="@+id/imageslist_header"
                         android:layout_centerHorizontal="true"
-                        android:layout_marginTop="2dp"
-                        android:text="100"
-                        android:textColor="@color/black"
-                        android:textStyle="bold"
-                        app:fontFamily="@font/droidsans" />
-                </RelativeLayout>
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/eye" />                </RelativeLayout>
 
             </LinearLayout>
 

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <LinearLayout
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/value_50dp"
-        android:background="@color/transparent"
+        android:background="@color/white"
         android:orientation="vertical">
+
         <LinearLayout
             android:id="@+id/heaader"
             android:layout_width="match_parent"
@@ -17,35 +19,34 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
+                android:layout_width="@dimen/twenty_three23_sp"
+                android:layout_height="24dp"
                 android:layout_marginStart="@dimen/text_12sp"
                 android:layout_marginTop="@dimen/twenty20_dp"
-                android:src="@drawable/qc_fillter_icon" />
+                android:src="@drawable/filtersnew" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/value_70dp"
                 android:layout_marginStart="@dimen/twenty20_dp"
-                android:elevation="@dimen/value_5dp"
-                android:fontFamily="@font/droidsans"
-
                 android:layout_marginTop="@dimen/text_18sp"
+                android:elevation="@dimen/value_5dp"
+
+                android:fontFamily="@font/droidsans"
                 android:text="Filters"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_20sp" />
 
             <ImageView
-                android:id="@+id/cancel"
+                android:id="@+id/refresh"
                 android:layout_width="@dimen/value_35dp"
                 android:layout_height="@dimen/value_35dp"
                 android:layout_marginStart="205dp"
+
                 android:layout_marginTop="15dp"
-                android:src="@drawable/qc_white_close_24" />
+                android:src="@drawable/qc_refresh" />
 
         </LinearLayout>
-
-
 
 
         <com.google.android.material.textfield.TextInputLayout
@@ -77,6 +78,7 @@
                 android:textColorHint="@color/black"
                 android:textSize="@dimen/text_15sp" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/regionId"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -126,18 +128,18 @@
                 android:editable="false"
                 android:focusable="false"
                 android:hint="From Date *"
-                android:visibility="visible"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                android:textSize="@dimen/text_15sp" />
+                android:textSize="@dimen/text_15sp"
+                android:visibility="visible" />
+
             <CalendarView
                 android:id="@+id/fromDateCalender"
                 android:layout_width="match_parent"
-                android:visibility="gone"
                 android:layout_height="wrap_content"
-                />
+                android:visibility="gone" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -166,16 +168,39 @@
                 android:textSize="@dimen/text_14sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/submit"
+        <LinearLayout
+            android:id="@+id/buttomLayout"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_60dp"
-            android:layout_margin="@dimen/value_15dp"
-            android:background="@drawable/qc_accept_background"
-            android:text="Apply"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/filterLayoutTwo"
+            android:layout_marginTop="@dimen/value_40dp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/cancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_20dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_20dp"
+                android:layout_weight="1"
+                android:background="@drawable/qc_reject_button"
+                android:text="Cancel"
+                android:textColor="@color/white" />
+
+            <Button
+                android:id="@+id/applybutoon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_20dp"
+                android:layout_marginBottom="@dimen/value_20dp"
+                android:layout_weight="1"
+                android:background="@drawable/qc_accept_background"
+                android:text="Apply"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
     </LinearLayout>
 </layout>

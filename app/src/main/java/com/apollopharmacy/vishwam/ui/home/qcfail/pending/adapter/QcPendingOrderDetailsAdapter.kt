@@ -12,11 +12,14 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcOrderLayoutBinding
 import com.apollopharmacy.vishwam.databinding.QcPendingLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 
 class QcPendingOrderDetailsAdapter(
     val mContext: Context,
+    val imageClicklistner: QcListsCallback,
+
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
     var qcPendingList: ArrayList<QcListsResponse.Pending>,
@@ -101,6 +104,10 @@ class QcPendingOrderDetailsAdapter(
 
         })
 
+
+        holder.orderdetailsBinding.eyeImage.setOnClickListener {
+            imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
+        }
 
 
         holder.orderdetailsBinding.selectResonItem.setOnClickListener {

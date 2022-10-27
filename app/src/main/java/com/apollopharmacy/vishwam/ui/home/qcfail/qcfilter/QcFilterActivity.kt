@@ -2,13 +2,13 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
-import com.apollopharmacy.vishwam.dialog.CalenderNew
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 
 class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickListner,
@@ -45,7 +45,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
 
-        activityQcFilterBinding.submit.setOnClickListener {
+        activityQcFilterBinding.applybutoon.setOnClickListener {
             val returnIntent = Intent()
             returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
             setResult(Activity.RESULT_OK, returnIntent)

@@ -2,6 +2,7 @@ package com.apollopharmacy.vishw
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -20,6 +21,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingViewModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -199,6 +201,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     override fun notify(position: Int, orderno: String) {
         TODO("Not yet implemented")
+    }
+
+    override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
+        val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+        intent.putExtra("itemList", imageUrl)
+        intent.putExtra("orderid",orderno)
+        intent.putExtra("itemName",itemName)
+        intent.putExtra("position", position)
+        startActivity(intent)
     }
 
     override fun accept(

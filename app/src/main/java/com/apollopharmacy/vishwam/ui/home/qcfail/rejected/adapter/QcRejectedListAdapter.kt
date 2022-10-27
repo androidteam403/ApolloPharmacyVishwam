@@ -14,6 +14,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 
 class QcRejectedListAdapter(
     val mContext: Context,
+    val imageClicklistner: QcListsCallback,
+
     var rejectList: ArrayList<Any>,
     val mListner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
@@ -89,7 +91,7 @@ class QcRejectedListAdapter(
                 item.itemlist?.let {
                    QcRejectedOrderDetailsAdapter(mContext,it,
                         position,
-                        rejectList)
+                        rejectList,imageClicklistner)
                 }
             holder.rejectListBinding.recyclerView.scrollToPosition(position)
         }
