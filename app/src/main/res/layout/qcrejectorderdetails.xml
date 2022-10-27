@@ -90,6 +90,7 @@
 
                 <RelativeLayout
                     android:layout_width="0dp"
+                    android:id="@+id/priceLayout"
                     android:layout_height="match_parent"
                     android:layout_weight="2.5">
 

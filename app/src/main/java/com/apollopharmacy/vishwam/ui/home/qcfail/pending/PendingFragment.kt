@@ -2,6 +2,7 @@ package com.apollopharmacy.vishw
 
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -10,16 +11,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
+import com.apollopharmacy.vishwam.databinding.DialogRejectQcBinding
+import com.apollopharmacy.vishwam.databinding.QcFragmentPendingBinding
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.RejectReasonsDialog
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingViewModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.Utils
-import com.github.omadahealth.lollipin.lib.managers.AppLockActivity.TAG
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -43,6 +44,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //     var reason= String
 
     var itemList = ArrayList<QcItemListResponse.Item>()
+    var getItemList: List<QcItemListResponse.Item>? = null
 
     var names = ArrayList<QcListsResponse.Pending>();
 
@@ -59,7 +61,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcPendingList("APL48627", "2022-10-01", "2022-10-19", "16001", "")
+        viewModel.getQcPendingList("APL48627", "2022-10-01", "2022-10-26", "16001", "")
 
 
         val qcreject = QcAcceptRejectRequest.Order("RV000012",
@@ -81,6 +83,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.qcPendingItemsLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getitemList = listOf(it)
+            getItemList = it.itemlist
+
+
             val getQcItemListResponse: QcItemListResponse
             getQcItemListResponse = it
             getitemList = listOf(getQcItemListResponse)
@@ -92,7 +97,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 itemsList.add(items)
                 adapter?.notifyDataSetChanged()
             }
-
 
             val itemsList: QcItemListResponse.Item
             getRejectitemList = it.itemlist
@@ -175,7 +179,31 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun notify(position: Int, orderno: String) {
-        TODO("Not yet implemented")
+
+//        val intent = Intent(context, QcPreviewImageActivity::class.java)
+//
+//        intent.putExtra("itemList", orderno)
+//        intent.putExtra("position", position)
+//        startActivity(intent)
+
+//        val intent = Intent(context, Qc_Preview_Image_Activity::class.java)
+//        var bundle = Bundle()
+//        bundle.putSerializable("itemList", itemList)
+//        intent.putExtras(bundle)
+//        startActivityForResult(intent,12)
+    }
+
+    override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
+        val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+        intent.putExtra("itemList", imageUrl)
+        intent.putExtra("orderid",orderno)
+        intent.putExtra("itemName",itemName)
+        intent.putExtra("position", position)
+        startActivity(intent)    }
+
+    override fun notifyAdapter(position: Int, orderno: String) {
+        adapter?.notifyDataSetChanged()
     }
 
     override fun accept(position: Int, orderno: String, remarks: String) {

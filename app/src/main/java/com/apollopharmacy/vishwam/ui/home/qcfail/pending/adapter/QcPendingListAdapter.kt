@@ -155,10 +155,12 @@ class QcPendingListAdapter(
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }
 
+
+
             holder.pendingLayoutBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcPendingOrderDetailsAdapter(mContext,
-                        it,position,pendingList)
+                        it,position,pendingList,imageClicklistner)
                 }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
         }
@@ -187,16 +189,29 @@ class QcPendingListAdapter(
         }
 
         holder.pendingLayoutBinding.arrow.setOnClickListener {
+            pendingOrders.setisClick(true)
+
+
             pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
+
+        }
+        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
+            pendingOrders.setisClick(false)
+            pendingOrders.orderno?.let { it1 -> imageClicklistner.notifyAdapter(position, it1) }
+
+
+
+        }
+
+
+        if (pendingList[position].isClick == true) {
             holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
             holder.pendingLayoutBinding.arrow.visibility = View.GONE
             holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
-        }
-        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
+        } else {
             holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
             holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
             holder.pendingLayoutBinding.extraData.visibility = View.GONE
-
         }
 
     }

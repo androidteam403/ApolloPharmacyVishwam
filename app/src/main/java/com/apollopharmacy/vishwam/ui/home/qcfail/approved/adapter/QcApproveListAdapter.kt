@@ -150,7 +150,7 @@ class QcApproveListAdapter(
             holder.adapterApproveListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcApprovedOrderDetailsAdapter(mContext,
-                        it,position,approveList)
+                        it,position,approveList,imageClicklistner)
                 }
             holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
         }

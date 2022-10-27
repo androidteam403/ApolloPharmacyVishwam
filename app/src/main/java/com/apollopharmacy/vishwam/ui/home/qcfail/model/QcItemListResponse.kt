@@ -35,7 +35,7 @@ class QcItemListResponse:Serializable {
         return this
     }
 
-     class Item {
+     class Item:Serializable {
         @SerializedName("RECID")
         @Expose
         var recid: Int? = null

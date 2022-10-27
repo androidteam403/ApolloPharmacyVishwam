@@ -196,7 +196,7 @@ class QcListsResponse:Serializable {
         }
     }
 
-    inner class Pending {
+     class Pending {
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null
@@ -258,6 +258,12 @@ class QcListsResponse:Serializable {
         fun setisItemChecked(checked: Boolean) {
             isItemChecked = checked
         }
+
+         var isClick: Boolean =false
+
+         fun setisClick(pos: Boolean) {
+             isClick = pos
+         }
 
         fun withCustname(custname: String?): Pending {
             this.custname = custname

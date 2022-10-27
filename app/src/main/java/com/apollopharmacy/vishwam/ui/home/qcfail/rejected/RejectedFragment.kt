@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.rejected
 
+import android.content.Intent
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -10,6 +11,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
 import java.text.SimpleDateFormat
@@ -61,7 +63,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "16001", "")
+        viewModel.getQcRejectList(Preferences.getToken(), "2022-10-01", currentDate, "16001", "")
 
 
 
@@ -117,7 +119,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
                 adapter = getRejectList?.let { it1 ->
                     context?.let { it2 ->
-                        QcRejectedListAdapter(it2,it1,
+                        QcRejectedListAdapter(it2, this, it1,
                             this,
                             itemsList)
                     }
@@ -162,9 +164,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-
-
-
     override fun orderno(position: Int, orderno: String) {
         showLoading()
         orderId = orderno
@@ -177,7 +176,21 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun notify(position: Int, orderno: String) {
-        adapter?.notifyDataSetChanged()    }
+        adapter?.notifyDataSetChanged()
+    }
+
+    override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
+        val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+        intent.putExtra("itemList", imageUrl)
+        intent.putExtra("orderid",orderno)
+        intent.putExtra("itemName",itemName)
+        intent.putExtra("position", position)
+        startActivity(intent)     }
+
+    override fun notifyAdapter(position: Int, orderno: String) {
+        TODO("Not yet implemented")
+    }
 
     override fun accept(position: Int, orderno: String, remarks: String) {
         TODO("Not yet implemented")

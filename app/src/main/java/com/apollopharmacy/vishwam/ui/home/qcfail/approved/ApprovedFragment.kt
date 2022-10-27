@@ -14,6 +14,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListA
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -67,7 +68,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         fromDate = simpleDateFormat.format(cal.time)
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "16001", "")
+        viewModel.getQcList(Preferences.getToken(), "2022-10-01", currentDate, "16001", "")
 
 
 
@@ -276,6 +277,19 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
+        val intent = Intent(context, QcPreviewImageActivity::class.java)
+
+        intent.putExtra("itemList", imageUrl)
+        intent.putExtra("orderid",orderno)
+        intent.putExtra("itemName",itemName)
+        intent.putExtra("position", position)
+        startActivity(intent)
+    }
+
+    override fun notifyAdapter(position: Int, orderno: String) {
+    }
+
     override fun accept(position: Int, orderno: String, remarks: String) {
         TODO("Not yet implemented")
     }
@@ -300,62 +314,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
 
-    fun Dialog() {
-//        dialogBinding =
-//            DataBindingUtil.inflate(
-//                LayoutInflater.from(requireContext()),
-//                R.layout.qc_filter_layout,
-//                null,
-//                false
-//            )
-//
-//        val dialog = context?.let { it1 -> BottomSheetDialog(it1) }
-//
-//        if (dialog != null) {
-//            dialogBinding?.root?.let { it1 -> dialog.setContentView(it1) }
-//
-//        }
-//
-//
-//
-//        if (dialog != null) {
-//            dialog.show()
-//        }
-//
-//        dialogBinding.date.setOnClickListener {
-//            dialogBinding.dateLayout.visibility=View.VISIBLE
-//        }
-//
-//        if (dialogBinding != null) {
-//            storeAdapter = context?.let { QcStoreListAdapter(it,storeList,this) }
-//            dialogBinding!!.storeIdsRecyclerView.adapter = storeAdapter
-//
-//        }
-//
-////        if (dialogBinding != null) {
-////            filterAdapter =
-////                context?.let { it1 -> QcFilterItemsAdapter(it1, names, mainMenuList, this) }
-////            dialogBinding!!.itemRecyclerView.adapter = filterAdapter
-////
-////        }
-//
-//        if (dialogBinding != null) {
-//            dialogBinding!!.cancel.setOnClickListener {
-//                if (dialog != null) {
-//                    dialog.dismiss()
-//                }
-//            }
-//        }
-//
-//        //    fun generateParsedData(data: ArrayList<QcRegionList.Store>): Bundle {
-//
-//
-//        fun Update() {
-//            view?.invalidate()
-//
-//        }
-
-    }
 
     override fun clickMenu(clickedMenu: Int, name: ArrayList<MainMenuList>) {
 //        if (clickedMenu == 0) {
