@@ -12,6 +12,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
+import com.apollopharmacy.vishwam.util.Utlis
 
 class QcPendingListAdapter(
     val mContext: Context,
@@ -88,22 +89,33 @@ class QcPendingListAdapter(
         } else {
             holder.pendingLayoutBinding.storeId.setText(pendingOrders.storeid)
         }
-        if (pendingOrders.qcfaildate == null) {
+        if (pendingOrders.qcfaildate == null || pendingOrders.qcfaildate!!.isEmpty()) {
             holder.pendingLayoutBinding.reqDate.setText("-")
 
         } else {
-            holder.pendingLayoutBinding.reqDate.setText(pendingOrders.qcfaildate.toString()!!
+
+
+            var qcFailDate = pendingOrders.qcfaildate.toString()!!
                 .substring(0,
-                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)))
+                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10))
+            holder.pendingLayoutBinding.reqDate.text = Utlis.formatdate(qcFailDate)
+
+//            holder.pendingLayoutBinding.reqDate.setText(pendingOrders.qcfaildate.toString()!!
+//                .substring(0,
+//                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)))
         }
 
-        if (pendingOrders.requesteddate == null) {
+        if (pendingOrders.requesteddate == null || pendingOrders.requesteddate!!.isEmpty()) {
             holder.pendingLayoutBinding.postedDate.setText("-")
 
         } else {
-            holder.pendingLayoutBinding.postedDate.setText(pendingOrders.requesteddate.toString()!!
+            var reqDate = pendingOrders.requesteddate.toString()!!
                 .substring(0,
-                    Math.min(pendingOrders.requesteddate.toString()!!.length, 10)))
+                    Math.min(pendingOrders.requesteddate.toString()!!.length, 10))
+            holder.pendingLayoutBinding.postedDate.text = Utlis.formatdate(reqDate)
+//            holder.pendingLayoutBinding.postedDate.setText(pendingOrders.requesteddate.toString()!!
+//                .substring(0,
+//                    Math.min(pendingOrders.requesteddate.toString()!!.length, 10)))
         }
         if (pendingOrders.custname == null) {
             holder.pendingLayoutBinding.custName.setText("-")

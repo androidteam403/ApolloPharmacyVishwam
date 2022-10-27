@@ -8,10 +8,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcApprovedlayoutBinding
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
+import com.apollopharmacy.vishwam.util.Utlis
 
 class QcApproveListAdapter(
     val mContext: Context,
@@ -22,7 +23,6 @@ class QcApproveListAdapter(
 ) :
 
     RecyclerView.Adapter<QcApproveListAdapter.ViewHolder>() {
-
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,7 +39,7 @@ class QcApproveListAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val approvedOrders=approveList.get(position)
+        val approvedOrders = approveList.get(position)
 
 
 
@@ -63,28 +63,44 @@ class QcApproveListAdapter(
             holder.adapterApproveListBinding.reqDate.setText("-")
 
         } else {
-            holder.adapterApproveListBinding.reqDate.setText(approvedOrders.requesteddate.toString()!!.substring(0,
-                Math.min(approvedOrders.requesteddate.toString()!!.length, 10)))            }
+            var reqDate = approvedOrders.requesteddate.toString()!!
+                .substring(0,
+                    Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
+            holder.adapterApproveListBinding.reqDate.text = Utlis.formatdate(reqDate)
+
+//            holder.adapterApproveListBinding.reqDate.setText(approvedOrders.requesteddate.toString()!!.substring(0,
+//                Math.min(approvedOrders.requesteddate.toString()!!.length, 10)))
+        }
 
         if (approvedOrders.approveddate == null) {
             holder.adapterApproveListBinding.approveDateText.setText("-")
 
         } else {
-            holder.adapterApproveListBinding.approveDateText.setText(approvedOrders.approveddate.toString()!!.substring(0,
-                Math.min(approvedOrders.approveddate.toString()!!.length, 10)))            }
-        if (approvedOrders.custname==null){
+            var approveddate = approvedOrders.requesteddate.toString()!!
+                .substring(0,
+                    Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
+            holder.adapterApproveListBinding.approveDateText.text = Utlis.formatdate(approveddate)
+
+
+//            holder.adapterApproveListBinding.approveDateText.setText(approvedOrders.approveddate.toString()!!
+//                .substring(0,
+//                    Math.min(approvedOrders.approveddate.toString()!!.length, 10)))
+        }
+        if (approvedOrders.custname == null) {
             holder.adapterApproveListBinding.custName.setText("-")
 
-        }else{
-            holder.adapterApproveListBinding.custName.setText(approvedOrders.custname) }
-        if (approvedOrders.mobileno==null){
+        } else {
+            holder.adapterApproveListBinding.custName.setText(approvedOrders.custname)
+        }
+        if (approvedOrders.mobileno == null) {
             holder.adapterApproveListBinding.custNumber.setText("-")
 
-        }else{
-            holder.adapterApproveListBinding.custNumber.setText(approvedOrders.mobileno) }
-        if (approvedOrders.orderno==null){
+        } else {
+            holder.adapterApproveListBinding.custNumber.setText(approvedOrders.mobileno)
+        }
+        if (approvedOrders.orderno == null) {
             holder.adapterApproveListBinding.orderid.setText("-")
-        }else{
+        } else {
             holder.adapterApproveListBinding.orderid.setText(approvedOrders.orderno)
 
         }
@@ -103,7 +119,7 @@ class QcApproveListAdapter(
             var TotalPrice = ArrayList<Double>()
 
             var Totaldiscount = ArrayList<Double>()
-            var totalDiscount:Int
+            var totalDiscount: Int
             if (item.itemlist?.isNotEmpty() == true) {
                 for (k in item.itemlist!!) {
                     var items: Double
@@ -124,17 +140,17 @@ class QcApproveListAdapter(
                 }
             }
 
-            for (i in qty.indices){
-                for (j in totalPrice.indices){
-                    if(i.equals(j)) {
+            for (i in qty.indices) {
+                for (j in totalPrice.indices) {
+                    if (i.equals(j)) {
                         TotalPrice.add(qty[i] * totalPrice[j])
                     }
                 }
             }
 
-            for (i in qty.indices){
-                for (j in discount.indices){
-                    if(i.equals(j)) {
+            for (i in qty.indices) {
+                for (j in discount.indices) {
+                    if (i.equals(j)) {
                         Totaldiscount.add(qty[i] * discount[j])
                     }
                 }
@@ -150,12 +166,12 @@ class QcApproveListAdapter(
             if (qty.isNotEmpty()) {
                 holder.adapterApproveListBinding.remainingPayment.setText(String.format("%.2f",
                     (TotalPrice.sum()) - Totaldiscount.sum()))
-          }
+            }
 
             holder.adapterApproveListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcApprovedOrderDetailsAdapter(mContext,
-                        it,position,approveList,imageClicklistner)
+                        it, position, approveList, imageClicklistner)
                 }
             holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
         }

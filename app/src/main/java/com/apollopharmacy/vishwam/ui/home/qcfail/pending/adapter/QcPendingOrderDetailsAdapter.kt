@@ -73,11 +73,16 @@ class QcPendingOrderDetailsAdapter(
 
         holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
         if (items.approvedqty == 0) {
-            holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
-            holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
+            holder.orderdetailsBinding.selectResonItem.isEnabled = true
+            holder.orderdetailsBinding.selectResonItem.alpha = 1f
+//                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
+//                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
         } else {
-            holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.GONE
-            holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
+            holder.orderdetailsBinding.selectResonItem.isEnabled = false
+            holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+
+//                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.GONE
+//                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
         }
 
 
@@ -92,11 +97,16 @@ class QcPendingOrderDetailsAdapter(
                 if (p0.toString().length > 0) {
                     items.approvedqty = p0.toString().toInt()
                     if (items.approvedqty == 0) {
-                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
-                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
+                        holder.orderdetailsBinding.selectResonItem.isEnabled = true
+                        holder.orderdetailsBinding.selectResonItem.alpha = 1f
+//                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
+//                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
                     } else {
-                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.GONE
-                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
+                        holder.orderdetailsBinding.selectResonItem.isEnabled = false
+                        holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
+
+//                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.GONE
+//                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
                     }
                     qcPendingListAdapter.setQcItemLists(items.orderno!!, pendingLayoutBinding)
                 }
