@@ -180,13 +180,17 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
-        val intent = Intent(context, QcPreviewImageActivity::class.java)
+        if (imageUrl.isNullOrEmpty()){
+            Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
+        }else{
+            val intent = Intent(context, QcPreviewImageActivity::class.java)
 
-        intent.putExtra("itemList", imageUrl)
-        intent.putExtra("orderid",orderno)
-        intent.putExtra("itemName",itemName)
-        intent.putExtra("position", position)
-        startActivity(intent)     }
+            intent.putExtra("itemList", imageUrl)
+            intent.putExtra("orderid",orderno)
+            intent.putExtra("itemName",itemName)
+            intent.putExtra("position", position)
+            startActivity(intent)
+        }    }
 
 
 
