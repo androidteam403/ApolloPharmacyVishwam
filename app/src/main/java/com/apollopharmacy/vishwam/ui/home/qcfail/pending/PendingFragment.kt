@@ -83,6 +83,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.qcAcceptRejectRequestList.observe(viewLifecycleOwner, {
             hideLoading()
+            if (names.size > acceptOrRejectItemPos) {
+                names.removeAt(acceptOrRejectItemPos)
+                adapter!!.notifyDataSetChanged()
+            }
         })
 
 
@@ -194,8 +198,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcPendingItemsList(orderno)
 
 
-
-        adapter?.notifyDataSetChanged()
+//        adapter?.notifyDataSetChanged()
 
     }
 
@@ -204,19 +207,20 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
-        if (imageUrl.isNullOrEmpty()){
+        if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             val intent = Intent(context, QcPreviewImageActivity::class.java)
 
             intent.putExtra("itemList", imageUrl)
-            intent.putExtra("orderid",orderno)
-            intent.putExtra("itemName",itemName)
+            intent.putExtra("orderid", orderno)
+            intent.putExtra("itemName", itemName)
             intent.putExtra("position", position)
             startActivity(intent)
         }
     }
 
+    var acceptOrRejectItemPos = -1
     override fun accept(
         position: Int,
         orderno: String,
@@ -226,7 +230,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         status: String,
     ) {
 
-
+        acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
         for (i in itemlist!!) {
             val rejItems = QcAcceptRejectRequest.Item()
@@ -286,6 +290,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         storeId: String,
         status: String,
     ) {
+        acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
             if (k.remarks.isNullOrEmpty()) {

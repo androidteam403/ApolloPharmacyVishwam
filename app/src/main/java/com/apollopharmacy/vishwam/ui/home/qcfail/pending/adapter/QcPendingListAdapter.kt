@@ -164,7 +164,9 @@ class QcPendingListAdapter(
                 for (k in item.itemlist!!) {
                     if (k.qty != null && k.price != null) {
                         totalPrices = totalPrices + ((k.qty.toString()).toDouble() * k.price!!)
-                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
+                        discounts = discounts + k.discamount!!
+
+//                        discounts = discounts + ((k.qty.toString()).toDouble() * k.discamount!!)
                     }
 
                 }
@@ -289,18 +291,28 @@ class QcPendingListAdapter(
         holder.pendingLayoutBinding.checkBox.setOnClickListener {
             imageClicklistner.isChecked(pendingList, position)
         }
-
-        holder.pendingLayoutBinding.arrow.setOnClickListener {
-            pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
+        if (pendingOrders.isOrderExpanded) {
             holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
             holder.pendingLayoutBinding.arrow.visibility = View.GONE
             holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
-        }
-        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
+        } else {
             holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
             holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
             holder.pendingLayoutBinding.extraData.visibility = View.GONE
-
+        }
+        holder.pendingLayoutBinding.arrow.setOnClickListener {
+            pendingOrders.isOrderExpanded = true
+            pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
+//            holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
+//            holder.pendingLayoutBinding.arrow.visibility = View.GONE
+//            holder.pendingLayoutBinding.extraData.visibility = View.VISIBLE
+        }
+        holder.pendingLayoutBinding.arrowClose.setOnClickListener {
+//            holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
+//            holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
+//            holder.pendingLayoutBinding.extraData.visibility = View.GONE
+            pendingOrders.isOrderExpanded = false
+            notifyDataSetChanged()
         }
 
     }

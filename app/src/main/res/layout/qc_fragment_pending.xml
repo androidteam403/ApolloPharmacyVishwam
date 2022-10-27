@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refreshSwipe"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+<!--            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+<!--                android:id="@+id/refreshSwipe"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="match_parent">-->
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewPending"
@@ -31,7 +31,7 @@
                     tools:itemCount="5"
                     tools:listitem="@layout/qc_pending_layout" />
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+<!--            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/filter"

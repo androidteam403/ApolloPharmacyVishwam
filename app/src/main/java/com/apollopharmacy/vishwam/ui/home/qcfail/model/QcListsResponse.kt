@@ -5,8 +5,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
-
-class QcListsResponse:Serializable {
+class QcListsResponse : Serializable {
     @SerializedName("PENDINGLIST")
     @Expose
     var pendinglist: List<Pending>? = null
@@ -51,7 +50,7 @@ class QcListsResponse:Serializable {
         return this
     }
 
-     class Approved {
+    class Approved {
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null
@@ -108,18 +107,19 @@ class QcListsResponse:Serializable {
         @Expose
         var rejecteddate: String? = null
 
-        var position:String? = null
+        var position: String? = null
 
         fun setposition(pos: String) {
             position = pos
         }
-         var isClick: Boolean =false
 
-         fun setisClick(pos: Boolean) {
-             isClick = pos
-         }
+        var isClick: Boolean = false
 
-        var order:String? = null
+        fun setisClick(pos: Boolean) {
+            isClick = pos
+        }
+
+        var order: String? = null
 
         fun setorder(pos: String) {
             order = pos
@@ -196,7 +196,7 @@ class QcListsResponse:Serializable {
         }
     }
 
-     class Pending {
+    class Pending {
         @SerializedName("CUSTNAME")
         @Expose
         var custname: String? = null
@@ -253,17 +253,19 @@ class QcListsResponse:Serializable {
         @Expose
         var rejecteddate: String? = null
 
-        var isItemChecked:Boolean = false
+        var isItemChecked: Boolean = false
+
+        var isOrderExpanded: Boolean = false
 
         fun setisItemChecked(checked: Boolean) {
             isItemChecked = checked
         }
 
-         var isClick: Boolean =false
+        var isClick: Boolean = false
 
-         fun setisClick(pos: Boolean) {
-             isClick = pos
-         }
+        fun setisClick(pos: Boolean) {
+            isClick = pos
+        }
 
         fun withCustname(custname: String?): Pending {
             this.custname = custname
