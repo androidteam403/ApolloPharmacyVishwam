@@ -63,7 +63,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcRejectList(Preferences.getToken(), "2022-10-01", currentDate, "16001", "")
+        viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "16001", "")
 
 
 
@@ -188,9 +188,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         intent.putExtra("position", position)
         startActivity(intent)     }
 
-    override fun notifyAdapter(position: Int, orderno: String) {
-        TODO("Not yet implemented")
-    }
+
 
     override fun accept(
         position: Int,

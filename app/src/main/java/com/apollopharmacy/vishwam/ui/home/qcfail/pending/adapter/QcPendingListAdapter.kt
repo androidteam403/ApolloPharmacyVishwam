@@ -252,7 +252,7 @@ class QcPendingListAdapter(
 
             holder.pendingLayoutBinding.recyclerView.adapter =
                 item.itemlist?.let {
-                    QcPendingOrderDetailsAdapter(mContext,
+                    QcPendingOrderDetailsAdapter(mContext,imageClicklistner,
                         it,
                         position,
                         pendingList,

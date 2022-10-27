@@ -41,7 +41,7 @@ class QcRejectedOrderDetailsAdapter(
         holder.orderdetailsBinding.categoryName.setText("- " + items.category)
         holder.orderdetailsBinding.price.setText(items.price.toString())
         holder.orderdetailsBinding.discountTotal.setText(items.discamount.toString())
-        holder.orderdetailsBinding.priceLayout.setOnClickListener {
+        holder.orderdetailsBinding.eyeImage.setOnClickListener {
             imageClicklistner.imageData(position,
                 items.orderno.toString(),
                 items.itemname.toString(),

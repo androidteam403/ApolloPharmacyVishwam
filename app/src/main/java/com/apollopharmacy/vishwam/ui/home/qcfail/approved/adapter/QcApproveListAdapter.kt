@@ -34,12 +34,17 @@ class QcApproveListAdapter(
                 parent,
                 false
             )
-        return QcApproveListAdapter.ViewHolder(adapterApproveListBinding)
+        return ViewHolder(adapterApproveListBinding)
 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders=approveList.get(position)
+
+        if (!statusList.isNullOrEmpty()){
+            holder.adapterApproveListBinding.approvebyText.setText(statusList[position].status)
+
+        }
 
 
         if (approvedOrders.dcCode == null) {
@@ -110,7 +115,7 @@ class QcApproveListAdapter(
                     disc = k.discamount!!
                     discount.add(disc)
                     if (k.qty !== null) {
-                        qt = k.qty as Double
+                        qt = k.qty!!.toDouble()
                         qty.add(qt)
 
                     }

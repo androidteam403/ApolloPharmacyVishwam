@@ -42,7 +42,7 @@ class QcApprovedOrderDetailsAdapter(
         holder.approvedorderdetailsBinding.medicineName.setText(items.itemname)
         holder.approvedorderdetailsBinding.categoryName.setText("- " + items.category)
         holder.approvedorderdetailsBinding.price.setText(items.price.toString())
-        holder.approvedorderdetailsBinding.priceLayout.setOnClickListener {
+        holder.approvedorderdetailsBinding.eyeImage.setOnClickListener {
             imageClicklistner.imageData(position,items.orderno.toString(),items.itemname.toString(),items.imageurls.toString())
         }
     }
