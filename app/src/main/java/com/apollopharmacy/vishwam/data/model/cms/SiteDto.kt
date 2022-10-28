@@ -41,6 +41,9 @@ data class SiteDto(
         @field:SerializedName("DC")
         val dcId: String? = null,
 
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
         @field:SerializedName("store_name")
         val store_name: String? = null,
 

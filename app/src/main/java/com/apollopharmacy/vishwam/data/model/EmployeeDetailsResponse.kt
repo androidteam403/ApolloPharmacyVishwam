@@ -124,6 +124,11 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var swacchDefaultSite: SwacchDefaultSite? = null
 
+         @SerializedName("department")
+        @Expose
+        var department: Department? = null
+
+
 
          class UploadSwach : Serializable {
             @SerializedName("uid")
@@ -160,5 +165,18 @@ class EmployeeDetailsResponse : Serializable {
             @Expose
             var site: String? = null
         }
+
+         class Department : Serializable {
+             @SerializedName("uid")
+             @Expose
+             var uid: String? = null
+
+             @SerializedName("name")
+             @Expose
+             var name: String? = null
+             @SerializedName("code")
+             @Expose
+             var code: String? = null
+         }
     }
 }
