@@ -35,7 +35,7 @@ class PreviewLastImageViewModel: ViewModel()  {
                     if (response.value.status == true) {
                         saveAcceptAndReshootResponse.value = response.value
                     } else {
-                        errorMessage.value = response.value.message
+                        saveAcceptAndReshootResponse.value = response.value
                     }
                 }
                 is ApiResult.GenericError -> {
