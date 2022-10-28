@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
@@ -15,9 +16,13 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
-
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.*
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 interface ViswamAppApi {
 
@@ -387,6 +392,20 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Query("STOREID") storeId: String, @Query("USERID") userId: String,
     ): LastUploadedDateResponse
+
+    @Multipart
+    @POST("https://cmsuat.apollopharmacy.org/zc-v3.1-fs-svc/2.0/apollo_cms/upload")
+    suspend fun uploadImage(
+        @Part image: MultipartBody.Part,
+    ): FileResposne
+
+
+
+    @POST("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
+    suspend fun getUploadProxImage(
+        @Header("token") token: String,
+        @Body getDetailsRequest: GetDetailsRequest,
+    ): ResponseBody
 }
 
 

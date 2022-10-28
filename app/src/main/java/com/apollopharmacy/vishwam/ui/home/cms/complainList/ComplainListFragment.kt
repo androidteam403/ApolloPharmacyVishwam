@@ -8,6 +8,10 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -20,17 +24,20 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.LoginDetails
-import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse
-import com.apollopharmacy.vishwam.data.model.cms.RequestComplainList
-import com.apollopharmacy.vishwam.data.model.cms.RequestTicketHistory
-import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
+import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
-import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.dialog.*
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ItemStatus
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Manager
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Site
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Status
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
@@ -38,10 +45,13 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.util.*
 
 class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
-    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback {
+    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback ,
+    OnTransactionSearchManagerListnier {
 
     var isFromDateSelected: Boolean = false
 
@@ -126,7 +136,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         }
         //tickethistory api response...............................................................
         viewModel.newtickethistoryLiveData.observe(viewLifecycleOwner, Observer {
-            Utlis.hideLoading()
+
             // if (it.size == 0) {
             //  } else {
 
@@ -141,23 +151,41 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                         item.status = ticketrow.status?.name
 
                         adapter.orderData[itemPos].Tickethistory = it
-                        // ticketrow.Tickethistory.data.listData.rows = it
-                        /* if (ticketrow.Tickethistory.data.listData.rows.size > 0) {
-                             for (statusitem in ticketrow.Tickethistory.data.listData.rows) {
-                                 statusitem.status.name = ticketrow.status.name
-                             }
-                         }*/
-
+                        if (adapter.orderData[itemPos].department!!.code.equals("IN") && (adapter.orderData[itemPos].category!!.code!!.equals(
+                                "mrp_cr") || adapter.orderData[itemPos].category!!.code!!.equals("new_batch_req"))
+                        ) {
+                            viewModel.getInventoryAdditionalDetails(adapter.orderData[itemPos].ticket_id,
+                                itemPos)
+                        } else if (adapter.orderData[itemPos].category!!.code.equals("pos") && (adapter.orderData[itemPos].subcategory!!.code!!.equals(
+                                "cc_bill") || adapter.orderData[itemPos].reason!!.code!!.equals("asb_not_completed"))
+                        ) {
+                            viewModel.getCreditCardTSAdditionalDetails(adapter.orderData[itemPos].ticket_id,
+                                itemPos)
+                        }else{
+                            Utlis.hideLoading()
+                            adapter.notifyDataSetChanged()
+                        }
                         break
                     }
 
                 }
             }
             //  adapter.notifyAdapter()
-            adapter.notifyDataSetChanged()
+
         })
 
+        viewModel.inventoryDetailsLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.orderData[it.position].inventoryDetailsModel = it
+            Utlis.hideLoading()
+            adapter.notifyItemChanged(it.position)
 
+        })
+
+        viewModel.creditCardDetailsLiveData.observe(viewLifecycleOwner, Observer {
+            adapter.orderData[it.position].creditCardTSDetails = it
+            Utlis.hideLoading()
+            adapter.notifyItemChanged(it.position)
+        })
         /* viewModel.complainLiveData.observe(viewLifecycleOwner, Observer {
              Utlis.hideLoading()
              if (it.size == 0) {
@@ -173,8 +201,16 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         viewModel.command.observe(viewLifecycleOwner, Observer {
             Utlis.hideLoading()
             when (it) {
-                is CmsCommand.ShowToast -> {
+                is CmsCommand.VisibleLayout ->{
                     viewBinding.emptyList.visibility = View.VISIBLE
+                }
+                is CmsCommand.ShowToast -> {
+                    hideLoading()
+                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+                is CmsCommand.RefreshPageOnSuccess ->{
+                    hideLoading()
+                    submitClick()
                 }
             }
         })
@@ -257,6 +293,8 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                     null,
                     null,
                     false,
+                    null,
+                    null,
                     null
                 )
                 adapter.getData().add(newdata)
@@ -431,6 +469,130 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
             binding.problemSinceText.text = items.created_time?.let {
                 Utlis.convertCmsDate(it)
             }
+
+            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+            var managerUid: String? = null
+            var employeeDetailsResponse : EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                 employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse, EmployeeDetailsResponse::class.java)
+
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            if(items.inventoryDetailsModel?.data != null){
+                binding.inventoryDetailsLayout.visibility = View.VISIBLE
+                binding.articleCode.text =
+                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+                binding.batchNumber.text =
+                    " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
+                binding.barcode.text =
+                    " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode}"
+                binding.expairyDate.text =
+                    " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date}"
+                binding.purchaseRate.text =
+                    "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
+                if(items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req")) {
+                    binding.oldMrpLabel.text = "MRP : "
+                    binding.oldMrp.text =
+                        "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+                    binding.newMrp.visibility = View.GONE
+                    binding.newMrpLabel.visibility = View.GONE
+                }else{
+                    binding.oldMrp.text =
+                        "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+                    binding.newMrp.text =
+                        "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
+                }
+                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
+                    binding.manager.text =
+                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
+                }else {
+                    binding.manager.text =
+                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
+                }
+                binding.category.text =
+                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
+                binding.subCategory.text =
+                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
+                binding.reason.text =
+                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
+
+                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager?.uid == null) {
+                    managerUid = items.inventoryDetailsModel?.data?.site?.manager?.uid!!
+                }else {
+                    managerUid = items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
+                }
+
+                if(items.status!!.code.equals("new") && managerUid.equals(employeeDetailsResponse?.data!!.uid)
+                    ||  items.status!!.code.equals("reopen") && managerUid.equals(employeeDetailsResponse?.data!!.uid)) {
+                    binding.inventoryActionLayout.visibility = View.VISIBLE
+                    binding.inventoryAcceptBtn.setOnClickListener { imageClickListener.onClickInventoryAccept(items) }
+                    binding.inventoryRejectBtn.setOnClickListener {  imageClickListener.onClickInventoryReject(items)}
+                    binding.inventoryForwardManagerBtn.setOnClickListener { imageClickListener.onClickForwardToManager(items) }
+                    binding.inventoryChangeForwardBtn.setOnClickListener { imageClickListener.onClickForwardChangeManager(items) }
+                }else{
+                    binding.inventoryActionLayout.visibility = View.GONE
+                }
+                binding.inventoryImagesLayout.visibility = View.VISIBLE
+                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNotEmpty()){
+                    Glide.with(context)
+                        .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.frontImgView)
+                    binding.frontImgView.setOnClickListener {
+                        items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob?.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                    }
+                }
+                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNotEmpty()) {
+                    Glide.with(context)
+                        .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.backImgView)
+                    binding.backImgView.setOnClickListener {
+                        items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob?.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                    }
+                }
+                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob != null) {
+                    Glide.with(context)
+                        .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.otherImgView)
+                    binding.otherImgView.setOnClickListener {
+                        items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob?.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                    }
+                    binding.otherImgLabel.visibility = View.VISIBLE
+                    binding.otherImgView.visibility = View.VISIBLE
+                }else{
+                    binding.otherImgLabel.visibility = View.GONE
+                    binding.otherImgView.visibility = View.GONE
+                }
+            }else{
+                binding.inventoryDetailsLayout.visibility = View.GONE
+                binding.inventoryActionLayout.visibility = View.GONE
+                binding.inventoryImagesLayout.visibility = View.GONE
+            }
+
+            if(items.creditCardTSDetails?.data != null){
+                binding.creditCardDetailsLayout.visibility = View.VISIBLE
+                binding.ccTid.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.tid.tid}"
+                binding.billNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.bill_number}"
+                binding.transactionNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.transaction_id}"
+                binding.approvalCode.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.approval_code}"
+                binding.billAmount.text = "₹ ${items.creditCardTSDetails?.data?.ticket_it!!.bill_amount}"
+                if((items.status!!.code.equals("new")||  items.status!!.code.equals("reopen") ) && items.creditCardTSDetails!!.data.executive.uid.equals(employeeDetailsResponse?.data!!.uid)
+                            && items.creditCardTSDetails!!.data.reason.sub_workflow.uid.equals("Yes")
+                            && checkResonDepot(items.creditCardTSDetails!!.data.reason.reason_dept,employeeDetailsResponse)) {
+                    binding.ccActionLayout.visibility = View.VISIBLE
+                    binding.acceptBtn.setOnClickListener { imageClickListener.onClickCCAccept(items.creditCardTSDetails!!.data) }
+                    binding.rejectBtn.setOnClickListener { imageClickListener.onClickCCReject(items.creditCardTSDetails!!.data) }
+                }else{
+                    binding.ccActionLayout.visibility = View.GONE
+                }
+            }else{
+                binding.creditCardDetailsLayout.visibility = View.GONE
+                binding.ccActionLayout.visibility = View.GONE
+            }
             binding.complainDetails.text =
                 items.description?.trim()?.replace("\\s+".toRegex(), " ")
 
@@ -602,15 +764,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                         remarkBinding.processDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
                         }
-                        /* if (remarks.remarks.isNullOrEmpty())
-                             remarkBinding.processStatus.visibility = View.GONE
-                         else {
-                             remarkBinding.processStatus.visibility = View.VISIBLE
-                             remarkBinding.processStatus.setText(
-                                 "Remarks : " + remarks.remarks?.trim()
-                                     ?.replace("\\s+".toRegex(), " ")
-                             )
-                         }*/
+
                     } else if (remarks.status?.toUpperCase().equals("CLOSED")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
@@ -632,15 +786,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
                         }
-                        /*if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.closedStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.closedStatus.visibility = View.VISIBLE
-                            remarkBinding.closedStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }*/
+
                     } else if (remarks.status?.toUpperCase().equals("RESOLVED")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
@@ -662,15 +808,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
                         }
-                        /*if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.closedStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.closedStatus.visibility = View.VISIBLE
-                            remarkBinding.closedStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }*/
+
                     } else if (remarks.status?.toUpperCase().equals("REOPEN")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
@@ -693,16 +831,6 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                             Utlis.convertCmsDate(it)
                         }
 
-
-                        /*if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.closedStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.closedStatus.visibility = View.VISIBLE
-                            remarkBinding.closedStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }*/
                     } else if (remarks.status?.toUpperCase().equals("REJECTED")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
@@ -725,16 +853,6 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                             Utlis.convertCmsDate(it)
                         }
 
-
-                        /*if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.closedStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.closedStatus.visibility = View.VISIBLE
-                            remarkBinding.closedStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }*/
                     } else if (remarks.status?.toUpperCase().equals("ON HOLD")) {
                         remarkBinding.createdLayout.visibility = View.GONE
                         remarkBinding.holdProcessLayout.visibility = View.GONE
@@ -756,251 +874,8 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                         remarkBinding.closedDate.text = "on " + remarks.created_time?.let {
                             Utlis.convertCmsDate(it)
                         }
-
-
-                        /*if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.closedStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.closedStatus.visibility = View.VISIBLE
-                            remarkBinding.closedStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }*/
                     }
-                    /*else if (remarks.status?.toUpperCase().equals("L1 ESCALATION")) {
-                        remarkBinding.createdLayout.visibility = View.GONE
-                        remarkBinding.holdProcessLayout.visibility = View.GONE
-                        remarkBinding.processLayout.visibility = View.GONE
-                        remarkBinding.closedLayout.visibility = View.GONE
-                        remarkBinding.lOneLayout.visibility = View.VISIBLE
-                        remarkBinding.lTwoLayout.visibility = View.GONE
-                        remarkBinding.lThreeLayout.visibility = View.GONE
-                        remarkBinding.reopenRequestLayout.visibility = View.GONE
-                        remarkBinding.acknowledgedLayout.visibility = View.GONE
-                        remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                        remarkBinding.reOpenLayout.visibility = View.GONE
-                        remarkBinding.acceptLayout.visibility = View.GONE
 
-                        remarkBinding.lOnePerson.setText(
-                            "L1 Escalated by " + remarks.processingStaffName
-                        )
-                        remarkBinding.lOneDate.setText("on " + Utlis.convertCmsDate(remarks.dttime))
-                        if (remarks.remarks.isNullOrEmpty())
-                            remarkBinding.lOneStatus.visibility = View.GONE
-                        else {
-                            remarkBinding.lOneStatus.visibility = View.VISIBLE
-                            remarkBinding.lOneStatus.setText(
-                                "Remarks : " + remarks.remarks?.trim()
-                                    ?.replace("\\s+".toRegex(), " ")
-                            )
-                        }
-                    } *//*else if (remarks.status?.toUpperCase().equals("L2 ESCALATION")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.VISIBLE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.lTwoPerson.setText(
-                        "L2 Escalated by " + remarks.processingStaffName
-                    )
-                    remarkBinding.lTwoDate.setText("on " + Utlis.convertCmsDate(remarks.dttime))
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.lTwoStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.lTwoStatus.visibility = View.VISIBLE
-                        remarkBinding.lTwoStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                } *//*else if (remarks.status?.toUpperCase().equals("L3 ESCALATION")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.VISIBLE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.lThreePerson.setText(
-                        "L3 Escalated by " + remarks.processingStaffName
-                    )
-                    remarkBinding.lThreeDate.setText("on " + Utlis.convertCmsDate(remarks.dttime))
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.lThreeStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.lThreeStatus.visibility = View.VISIBLE
-                        remarkBinding.lThreeStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                }*//* else if (remarks.status?.toUpperCase().equals("REOPEN REQUEST")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.VISIBLE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.reopenRequestPerson.setText(
-                        "Reopened by " + remarks.processingStaffName
-                    )
-                    remarkBinding.reopenRequestDate.setText(
-                        "on " + Utlis.convertCmsDate(
-                            remarks.dttime
-                        )
-                    )
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.reopenRequestStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.reopenRequestStatus.visibility = View.VISIBLE
-                        remarkBinding.reopenRequestStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                } *//*else if (remarks.status?.toUpperCase().equals("ACKNOWLEDGED")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.VISIBLE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.acknowledgedPerson.setText(
-                        "Acknowledged by " + remarks.processingStaffName
-                    )
-                    remarkBinding.acknowledgedDate.setText("on " + Utlis.convertCmsDate(remarks.dttime))
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.acknowledgedStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.acknowledgedStatus.visibility = View.VISIBLE
-                        remarkBinding.acknowledgedStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                }*//* else if (remarks.status?.toUpperCase().equals("REOPENED FOR REPROCESS")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.VISIBLE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.reopenedForProcessPerson.setText(
-                        "Reopened for Reprocess by " + remarks.processingStaffName
-                    )
-                    remarkBinding.reopenedForProcessDate.setText(
-                        "on " + Utlis.convertCmsDate(
-                            remarks.dttime
-                        )
-                    )
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.reopenedForProcessStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.reopenedForProcessStatus.visibility = View.VISIBLE
-                        remarkBinding.reopenedForProcessStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                } *//*else if (remarks.status?.toUpperCase().equals("RE-OPEN")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.VISIBLE
-                    remarkBinding.acceptLayout.visibility = View.GONE
-
-                    remarkBinding.reOpenPerson.setText(
-                        "Reopened by " + remarks.processingStaffName
-                    )
-                    remarkBinding.reOpenDate.setText(
-                        "on " + Utlis.convertCmsDate(
-                            remarks.dttime
-                        )
-                    )
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.reOpenStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.reOpenStatus.visibility = View.VISIBLE
-                        remarkBinding.reOpenStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                }*//* else if (remarks.status?.toUpperCase().equals("ACCEPT")) {
-                    remarkBinding.createdLayout.visibility = View.GONE
-                    remarkBinding.holdProcessLayout.visibility = View.GONE
-                    remarkBinding.processLayout.visibility = View.GONE
-                    remarkBinding.closedLayout.visibility = View.GONE
-                    remarkBinding.lOneLayout.visibility = View.GONE
-                    remarkBinding.lTwoLayout.visibility = View.GONE
-                    remarkBinding.lThreeLayout.visibility = View.GONE
-                    remarkBinding.reopenRequestLayout.visibility = View.GONE
-                    remarkBinding.acknowledgedLayout.visibility = View.GONE
-                    remarkBinding.reopenedForProcessLayout.visibility = View.GONE
-                    remarkBinding.reOpenLayout.visibility = View.GONE
-                    remarkBinding.acceptLayout.visibility = View.VISIBLE
-
-                    remarkBinding.acceptPerson.setText(
-                        "Accepted by " + remarks.processingStaffName
-                    )
-                    remarkBinding.acceptDate.setText(
-                        "on " + Utlis.convertCmsDate(
-                            remarks.dttime
-                        )
-                    )
-                    if (remarks.remarks.isNullOrEmpty())
-                        remarkBinding.acceptStatus.visibility = View.GONE
-                    else {
-                        remarkBinding.acceptStatus.visibility = View.VISIBLE
-                        remarkBinding.acceptStatus.setText(
-                            "Remarks : " + remarks.remarks?.trim()
-                                ?.replace("\\s+".toRegex(), " ")
-                        )
-                    }
-                }*/
                 }
             }
         }
@@ -1070,6 +945,229 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         // adapter.notifyAdapter(orderData)
 
 
+    }
+
+    override fun onClickCCAccept(data: CCData) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = data.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason.name
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            val ccAcceptRejectModel= CCAcceptRejectModel()
+            ccAcceptRejectModel.setAction("resolve")
+            ccAcceptRejectModel.setComment(remark.text.toString())
+            ccAcceptRejectModel.setEmployee_id(userData.EMPID)
+            ccAcceptRejectModel.setPos_status("approve")
+            ccAcceptRejectModel.setStatus("inprogress")
+            ccAcceptRejectModel.setTicket_id(data.ticket_id)
+            val ticket_it = CCAcceptRejectModel.Ticket_it()
+            ticket_it.setUid("approved")
+            ccAcceptRejectModel.setTicket_it(ticket_it)
+            ccAcceptRejectModel.setUid(data.uid)
+            viewModel.actionCCAccept(ccAcceptRejectModel,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+
+    }
+
+    override fun onClickCCReject(data: CCData) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = data.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason.name
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            val ccAcceptRejectModel= CCAcceptRejectModel()
+            ccAcceptRejectModel.setAction(null)
+            ccAcceptRejectModel.setComment(remark.text.toString())
+            ccAcceptRejectModel.setEmployee_id(userData.EMPID)
+            ccAcceptRejectModel.setPos_status(null)
+            ccAcceptRejectModel.setStatus("reject")
+            ccAcceptRejectModel.setTicket_id(data.ticket_id)
+            val ticket_it = CCAcceptRejectModel.Ticket_it()
+            ticket_it.setUid("rejected")
+            ccAcceptRejectModel.setTicket_it(ticket_it)
+            ccAcceptRejectModel.setUid(data.uid)
+            viewModel.actionCCAccept(ccAcceptRejectModel,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
+
+    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = data.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.description
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            val inventoryAcceptrejectModel= InventoryAcceptrejectModel(
+                null,
+                remark.text.toString(),
+                ItemStatus("approved"),
+                data.site!!.site!!,
+                data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
+                userData.EMPID,
+                "inprogress",
+                data.inventoryDetailsModel!!.data.ticket_id,
+                "resolve"
+            )
+            var workFlowUpdateModel = WorkFlowUpdateModel(
+                Action("97A318ACE84930236386DB1A70944825","resolve"),
+                "Resolved",
+                Department(data.department?.uid,data.department?.code),
+                Level(data.level?.uid,data.level?.code),
+                NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                null,
+                Site(data.site?.uid),
+                "",
+                Status(data.status?.code,data.status?.uid),
+                data.ticket_id,
+                TicketOwner(data.user?.uid),
+                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                User(data.user?.first_name,data.user?.uid),
+                "Yes",
+                "manager"
+            )
+            viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,workFlowUpdateModel,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
+
+    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = data.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.description
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            val inventoryAcceptrejectModel= InventoryAcceptrejectModel(
+                remark.text.toString(),
+                null,
+                ItemStatus("rejected"),
+                data.site!!.site!!,
+                data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
+                userData.EMPID,"reject", data.inventoryDetailsModel!!.data.ticket_id,
+                null
+
+            )
+            var workFlowUpdateModel = WorkFlowUpdateModel(
+                Action("52E2C8F5C204B5BD03DF3A73EB096484","reject"),
+                "Resolved",
+                Department(data.department?.uid,data.department?.code),
+                Level(data.level?.uid,data.level?.code),
+                NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                null,
+                Site(data.site?.uid),
+                "",
+                Status(data.status?.code,data.status?.uid),
+                data.ticket_id,
+                TicketOwner(data.user?.uid),
+                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                User(data.user?.first_name,data.user?.uid),
+                "Yes",
+                "manager"
+            )
+            viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,workFlowUpdateModel,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
+
+    override fun onClickForwardToManager(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = data.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.description
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            var forwardToManagerModel = ForwardToManagerModel(
+                remark.text.toString(),
+                Manager(""),//data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].manager.uid
+                FMTicket(data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid),
+                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                userData.EMPID
+            )
+            viewModel.actionForwardToManager(forwardToManagerModel,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    private lateinit var selectedInventeryTicket : ResponseNewTicketlist.Row
+    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+        selectedInventeryTicket = data
+        viewModel.getManagersLiveData.observe(viewLifecycleOwner, Observer {
+            SearchManagerDialog(it).apply { }.show(childFragmentManager, "")
+        })
+        viewModel.getManagers(data.site?.uid!!)
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
@@ -1230,6 +1328,57 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
     override fun onClickSiteIdIcon() {
 
     }
+
+    override fun onSelectedManager(data: Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = selectedInventeryTicket.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = selectedInventeryTicket.created_time
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = selectedInventeryTicket.description
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        yesBtn.setOnClickListener {
+            dialog.dismiss()
+            showLoading()
+            var request =  ChangeManagerRequest(
+                remark.text.toString(),
+                ChangeManager(data.uid),
+                OldManager(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
+                ChangeSite(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.site,selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
+                selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.ticket_inventory!!.uid,
+                userData.EMPID
+            )
+            var actionRequest =  ChangeManagerRequest(
+                remark.text.toString(),
+                ChangeManager(data.uid),
+                OldManager(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
+                ChangeSite(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.site,selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
+                selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.uid,
+                userData.EMPID
+            )
+            viewModel.actionChangeForwardToManager(actionRequest,request,0)
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+
+    }
+}
+
+fun checkResonDepot(reasonDept: List<ReasonDept>, employeeDetailsResponse: EmployeeDetailsResponse): Boolean {
+    for (data in reasonDept){
+        if(data.department.uid.equals(employeeDetailsResponse.data?.department?.uid) ){
+            return true
+        }
+    }
+    return false
 }
 
 
@@ -1255,6 +1404,17 @@ interface ImageClickListener {
 
     fun onComplaintItemClick(position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>)
 
+    fun onClickCCAccept(data: CCData)
+
+    fun onClickCCReject(data: CCData)
+
+    fun onClickInventoryAccept(data: ResponseNewTicketlist.Row)
+
+    fun onClickInventoryReject(data: ResponseNewTicketlist.Row)
+
+    fun onClickForwardToManager(data: ResponseNewTicketlist.Row)
+
+    fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row)
     //  fun gettickethistory(uid:String):ArrayList<NewTicketHistoryResponse.Row>
 
     // fun calltickethistory(uid:String?);

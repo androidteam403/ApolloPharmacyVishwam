@@ -170,7 +170,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         })
 
         Utlis.showLoading(requireContext())
-        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+        selectedSiteids = TextUtils.join(",",selectsiteIdList)
         callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
 //        val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
@@ -754,8 +754,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         Utlis.showLoading(requireContext())
-        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
-        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+        selectedSiteids = TextUtils.join(",",selectsiteIdList)
+        selectedSiteids = TextUtils.join(",",selectsiteIdList)
         if (isApprovedTab) {
             pendingAndApprovedList.clear()
             startPageApproved = 0
@@ -779,7 +779,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             endPageNumApproved = 10
             pendingAndApprovedList.clear()
 
-            selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+            selectedSiteids = TextUtils.join(",",selectsiteIdList)
             callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
         }
 
@@ -799,7 +799,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             }
 
 
-            this.selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+            this.selectedSiteids = TextUtils.join(",",selectsiteIdList)
             if (isApprovedAdapter) {
                 if (!isLoadingApproved) {
 
@@ -841,7 +841,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             startPagePending = 0
             endPageNumPending = 10
             pendingList.clear()
-            selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+            selectedSiteids = TextUtils.join(",",selectsiteIdList)
             callAPI(startPagePending, endPageNumPending, isApprovedTab)
 
         }
@@ -962,7 +962,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
             if (requestCode == ApproveListActivity().APPROVE_LIST_ACTIVITY) {
                 Utlis.showLoading(requireContext())
-                selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+                selectedSiteids = TextUtils.join(",",selectsiteIdList)
                 if (isApprovedTab) {
                     startPageApproved = 0
                     endPageNumApproved = 10
@@ -993,7 +993,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
 
-                selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+                selectedSiteids = TextUtils.join(",",selectsiteIdList)
                 if (isApprovedTab) {
                     startPageApproved = 0
                     endPageNumApproved = 10
@@ -1155,7 +1155,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         selectsiteIdList.remove(siteDataItem)
 
 
-        selectedSiteids = TextUtils.join(", ", selectsiteIdList)
+        selectedSiteids = TextUtils.join(",",selectsiteIdList)
         siteIdDisplayAdapter?.notifyDataSetChanged()
 
         if (isApprovedTab) {
