@@ -113,7 +113,10 @@ data class ReasonmasterV2Response(
              val uid:String?=null,
 
              @field:SerializedName("name")
-             val name:String?=null
+             val name:String?=null,
+
+             @field:SerializedName("code")
+             val code:String?=null
 
          ):Serializable
 
@@ -123,7 +126,10 @@ data class ReasonmasterV2Response(
              val uid:String?=null,
 
              @field:SerializedName("name")
-             val name:String?=null
+             val name:String?=null,
+
+             @field:SerializedName("code")
+             val code:String?=null
          ):Serializable
 
          data class Reason_SLA(

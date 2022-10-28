@@ -126,8 +126,11 @@ data class ResponseNewTicketlist(
 
         var isExpanded:Boolean,
 
-        var Tickethistory:NewTicketHistoryResponse?
+        var Tickethistory:NewTicketHistoryResponse?,
 
+        var inventoryDetailsModel: InventoryDetailsModel?,
+
+        var creditCardTSDetails: CreditCardTSDetails?
 
     ) : Serializable
 

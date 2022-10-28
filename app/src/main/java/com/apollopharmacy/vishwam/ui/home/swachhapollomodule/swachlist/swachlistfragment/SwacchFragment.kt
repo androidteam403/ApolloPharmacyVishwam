@@ -16,6 +16,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.cms.CCData
 import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.databinding.RejectlistSwacchBinding
 import com.apollopharmacy.vishwam.databinding.SwacchListBinding
@@ -178,6 +179,30 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         orderData: ArrayList<ResponseNewTicketlist.Row>
     ) {
 
+    }
+
+    override fun onClickCCAccept(data: CCData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickCCReject(data: CCData) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickForwardToManager(data: ResponseNewTicketlist.Row) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+        TODO("Not yet implemented")
     }
 
     fun setSupportActionBar(toolbarswachh: Toolbar) {
