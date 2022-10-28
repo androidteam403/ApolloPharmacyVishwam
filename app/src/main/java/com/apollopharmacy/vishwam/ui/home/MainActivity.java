@@ -808,9 +808,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                             else if (groupPosition == 5 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
-                            } else if (groupPosition == 4 && childPosition == 1) {
-                                displaySelectedScreen("Swachh List");
-                            } else if (groupPosition == 4) {
+                            }
+//                            else if (groupPosition == 4 && childPosition == 1) {
+//                                displaySelectedScreen("Swachh List");
+//                            }
+                            else if (groupPosition == 4) {
                                 if (childPosition == 0) {
                                     if ((employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) || employeeRole.equalsIgnoreCase("Yes")) {
 
