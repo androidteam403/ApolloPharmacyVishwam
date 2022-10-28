@@ -17,15 +17,17 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     lateinit var activityQcFilterBinding: ActivityQcFilterBinding
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
+    private var fromQcDate: String = ""
+    private var toDate: String = ""
+    private var siteId: String = ""
+    private var regionId: String = ""
+
     var selectsiteIdList = ArrayList<String>()
     var getregionList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
-
-//        window.setBackgroundDrawable( ColorDrawable(0))
-//        supportActionBar?.hide()
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
@@ -44,8 +46,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
             }
         }
-
-
         viewModel.qcRegionLists.observeForever {
             if (!it.storelist.isNullOrEmpty()) {
 
@@ -64,14 +64,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
 
-//        for (i in regionList.indices){
-//            if (regionList[i].isClick){
-//                activityQcFilterBinding.regionIdSelect.setText(regionList[i].siteid)
-//            }
-//        }
-
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
+            selectsiteIdList.add(fromQcDate)
+            selectsiteIdList.add(toDate)
+            selectsiteIdList.add(siteId)
+            selectsiteIdList.add(regionId)
             val returnIntent = Intent()
             returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
             setResult(Activity.RESULT_OK, returnIntent)
@@ -123,9 +121,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     }
 
     override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {
-
-
-        activityQcFilterBinding.siteIdSelect.setText(list.toString())    }
+        activityQcFilterBinding.siteIdSelect.setText(list.toString())
+        siteId = list.toString()
+    }
 
 
     override fun selectSite(departmentDto: QcStoreList.Store) {
@@ -137,6 +135,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
     override fun onselectMultipleSites(list: ArrayList<String>, position: Int) {
         activityQcFilterBinding.regionIdSelect.setText(list.toString())
+        regionId = list.toString()
 
 //        if (list[position].isClick){
 //            activityQcFilterBinding.regionIdSelect.setText(list[position].siteid)
@@ -151,12 +150,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
     override fun fromDate(fromDate: String, showingDate: String) {
         activityQcFilterBinding.fromDateText.setText(fromDate)
-        selectsiteIdList.add(fromDate)
+        fromQcDate = fromDate
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
         activityQcFilterBinding.toDateText.setText(dateSelected)
-        selectsiteIdList.add(dateSelected)
+        toDate=dateSelected
 
     }
 

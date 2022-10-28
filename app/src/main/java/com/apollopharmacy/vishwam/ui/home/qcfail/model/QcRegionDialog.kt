@@ -98,13 +98,16 @@ class QcRegionDialog : DialogFragment() {
                         }
 
 
-                            abstractDialogClick.onselectMultipleSites(selectsiteIdList, position)
+                        abstractDialogClick.onselectMultipleSites(selectsiteIdList, position)
+                        dismiss()
 
                         viewBinding.apply.setOnClickListener {
-                            if (selectsiteIdList.isNullOrEmpty()){
-                                Toast.makeText(context, "No Data Found To Apply", Toast.LENGTH_SHORT)
+                            if (selectsiteIdList.isNullOrEmpty()) {
+                                Toast.makeText(context,
+                                    "No Data Found To Apply",
+                                    Toast.LENGTH_SHORT)
                                     .show()
-                            }else{
+                            } else {
                                 dismiss()
                             }
                         }

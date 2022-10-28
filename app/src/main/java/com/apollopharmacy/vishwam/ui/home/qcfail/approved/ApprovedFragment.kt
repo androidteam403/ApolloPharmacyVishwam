@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.approved
 
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.Intent.getIntent
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -42,6 +43,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var names = ArrayList<String>()
     var mainMenuList = ArrayList<MainMenuList>()
+    var list: List<String> = ArrayList()
 
 
     var orderId: String = ""
@@ -68,8 +70,12 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+        var intent = Intent()
+        if (!list.isNullOrEmpty()) {
+            val i = getIntent("")
+            list = i.getStringArrayListExtra("selectsiteIdList")!!
 
-
+        }
 
         viewModel.qcRegionLists.observe(viewLifecycleOwner, Observer {
             if (!it.storelist.isNullOrEmpty()) {
@@ -161,8 +167,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         viewBinding.filter.setOnClickListener {
-//            val intent = Intent(context, QcFilterActivity::class.java)
-//            startActivity(intent)
+            val intent = Intent(context, QcFilterActivity::class.java)
+            startActivity(intent)
 //
 //                }
 //                QcSiteDialog.show()
@@ -212,18 +218,18 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
 
-        if (imageUrl.isNullOrEmpty()){
+        if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             val intent = Intent(context, QcPreviewImageActivity::class.java)
 
             intent.putExtra("itemList", imageUrl)
-            intent.putExtra("orderid",orderno)
-            intent.putExtra("itemName",itemName)
+            intent.putExtra("orderid", orderno)
+            intent.putExtra("itemName", itemName)
             intent.putExtra("position", position)
             startActivity(intent)
         }
-     }
+    }
 
     override fun accept(
         position: Int,

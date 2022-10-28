@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity">
 
     <LinearLayout
@@ -76,6 +77,9 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/preview_image_viewpager"
         android:layout_width="match_parent"
+        android:layout_marginStart="@dimen/value_35dp"
+        android:layout_marginEnd="@dimen/value_35dp"
+
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_layout"
 
@@ -139,6 +143,21 @@
 
     </LinearLayout>
 
+<ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:rotation="180"
+    android:id="@+id/startarrow"
+    android:src="@drawable/qc__forward"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/endarrow"
+        android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"
+        android:src="@drawable/qc__forward"/>
 
 </RelativeLayout>
 </layout>
