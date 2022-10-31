@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -74,6 +75,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     private var positionofftheDay = ArrayList<Int>()
     private var dayOfCharArrayList = ArrayList<String>()
     private var dayOfCharArrayListNew = ArrayList<DayOfCharArrayListModel>()
+    private var dayOfCharArrayListNewTemp = ArrayList<DayOfCharArrayListModel>()
+
 
 
     var complaintListStatus: String = "0,1,2,3"
@@ -940,26 +943,32 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun calcNextFriday(d: LocalDate, int: String): LocalDate? {
+    private fun calcNextFriday(d: LocalDate, dayName: String): LocalDate? {
         var nameOfDayy: DayOfWeek? = null
-        if (int == "Sunday") {
+        if (dayName.equals("Sunday")|| dayName.equals("0")) {
             nameOfDayy = DayOfWeek.SUNDAY
-        } else if (int == "Monday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Monday") || dayName.equals("1")) {
             nameOfDayy = DayOfWeek.MONDAY
-        } else if (int == "Tuesday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Tuesday") || dayName.equals("2")) {
             nameOfDayy = DayOfWeek.TUESDAY
-        } else if (int == "Wednesday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Wednesday")|| dayName.equals("3")) {
             nameOfDayy = DayOfWeek.WEDNESDAY
-        } else if (int == "Thursday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Thursday")|| dayName.equals("4")) {
             nameOfDayy = DayOfWeek.THURSDAY
-        } else if (int == "Friday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Friday") || dayName.equals("5")) {
             nameOfDayy = DayOfWeek.FRIDAY
-        } else if (int == "Saturday") {
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        } else if (dayName.equals("Saturday") || dayName.equals("6")) {
             nameOfDayy = DayOfWeek.SATURDAY
+            return d.with(TemporalAdjusters.next(nameOfDayy))
+        }else{
+            return null
         }
-
-        return d.with(TemporalAdjusters.next(nameOfDayy))
-
     }
 
     override fun onClickApproved() {
@@ -969,6 +978,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun onClickPending() {
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
         if (checkDayWiseAccessResponse != null) {
             val sdf = SimpleDateFormat("EEEE")
@@ -976,16 +986,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             charArray.clear()
             positionofftheDay.clear()
             dayOfCharArrayList.clear()
-//
-            checkDayWiseAccessResponse.monday = false
-            checkDayWiseAccessResponse.wednesday = true
-            checkDayWiseAccessResponse.sunday = true
-//            checkDayWiseAccessResponse.tuesday=true
-////             it.thursday = true
-//
-//             it.friday = false
             val dayOfTheWeek: String = sdf.format(d)
             var dayofTheWeekPosition:Int=0
+//            checkDayWiseAccessResponse.monday=false
+//            checkDayWiseAccessResponse.tuesday=true
             if(dayOfTheWeek.equals("Sunday")){
                 dayofTheWeekPosition=0
             }else if(dayOfTheWeek.equals("Monday")){
@@ -1022,107 +1026,124 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     dayofCharArray = "Sunday"
                     dayOfCharArrayListModel!!.weekname="Sunday"
                     dayOfCharArrayListModel!!.weekposition=0
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Sunday")
                 } else if (positionofftheDay.get(i) == 1) {
                     dayofCharArray = "Monday"
                     dayOfCharArrayListModel!!.weekname="Monday"
                     dayOfCharArrayListModel!!.weekposition=1
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Monday")
                 } else if (positionofftheDay.get(i) == 2) {
                     dayofCharArray = "Tuesday"
                     dayOfCharArrayListModel!!.weekname="Tuesday"
                     dayOfCharArrayListModel!!.weekposition=2
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Tuesday")
                 } else if (positionofftheDay.get(i) == 3) {
                     dayofCharArray = "Wednesday"
                     dayOfCharArrayListModel!!.weekname="Wednesday"
                     dayOfCharArrayListModel!!.weekposition=3
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Wednesday")
                 } else if (positionofftheDay.get(i) == 4) {
                     dayofCharArray = "Thursday"
                     dayOfCharArrayListModel!!.weekname="Thursday"
                     dayOfCharArrayListModel!!.weekposition=4
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Thursday")
                 } else if (positionofftheDay.get(i) == 5) {
                     dayofCharArray = "Friday"
                     dayOfCharArrayListModel!!.weekname="Friday"
                     dayOfCharArrayListModel!!.weekposition=5
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Friday")
                 } else if (positionofftheDay.get(i) == 6) {
                     dayofCharArray = "Saturday"
                     dayOfCharArrayListModel!!.weekname="Saturday"
                     dayOfCharArrayListModel!!.weekposition=6
+                    dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Saturday")
                 }
-                dayOfCharArrayList.add(dayofCharArray!!)
+//                dayOfCharArrayList.add(dayofCharArray!!)
                 dayOfCharArrayListNew.add(dayOfCharArrayListModel!!)
 
+            }
+
+
+
+            var nearestDate : LocalDate? = null;
+            var isCurrentDay = false
+            for (i in dayOfCharArrayListNew){
+                if (nearestDate != null){
+                    if (i.localDate!!.isBefore(nearestDate)){
+                        nearestDate = i.localDate
+                        positionofday =i.weekposition.toString()
+
+                    }
+                }else{
+                    nearestDate = i.localDate
+                    positionofday =i.weekposition.toString()
+
+                }
+                if (dayOfCharArrayListNew.get(dayOfCharArrayListNew.indexOf(i)).weekname.equals(dayOfTheWeek)) {
+                    isCurrentDay = true
+                }
             }
 
             val dt = LocalDate.now()
 
 
-//                Toast.makeText(context, "" + dayofCharArray, Toast.LENGTH_SHORT).show()
-            var isSameDay: Boolean = false;
-            var nameOftheWeekk: String = ""
-            var positionNameofTheWeekk:Int=0
-
-            var isweekPosToday = false
-            for (i in dayOfCharArrayListNew){
-                if (i.weekposition == dayofTheWeekPosition){
-                    positionofday =i.weekposition.toString()
-                    isweekPosToday = true
-                }
-            }
 
 
 
 
 
-            for (i in dayOfCharArrayListNew.indices) {
-                if (dayOfCharArrayListNew.size > 1) {
-                    if (dayOfCharArrayListNew.get(i).weekposition!!.equals(dayofTheWeekPosition)) {
-//                        var position=i
-                        positionofday = dayOfCharArrayListNew.get(i).weekposition.toString()
-                    } else {
-                        positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
-                    }
-                }else{
-                    positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
-                }
-//                if (dayOfCharArrayList.size > 1) {
-//                    if (dayOfCharArrayList.get(i).equals("Monday")) {
-//                        nameOftheWeekk = "Monday"
-//                        positionNameofTheWeekk=1
-//                    } else if (dayOfCharArrayList.get(i).equals("Tuesday")) {
-//                        nameOftheWeekk = "Tuesday"
-//                        positionNameofTheWeekk=2
-//                    } else if (dayOfCharArrayList.get(i).equals("Wednesday")) {
-//                        nameOftheWeekk = "Wednesday"
-//                        positionNameofTheWeekk=3
-//                    } else if (dayOfCharArrayList.get(i).equals("Thursday")) {
-//                        nameOftheWeekk = "Thursday"
-//                        positionNameofTheWeekk=4
-//                    } else if (dayOfCharArrayList.get(i).equals("Friday")) {
-//                        nameOftheWeekk = "Friday"
-//                        positionNameofTheWeekk=5
-//                    } else if (dayOfCharArrayList.get(i).equals("Saturday")) {
-//                        nameOftheWeekk = "Saturday"
-//                        positionNameofTheWeekk=6
-//                    }else if (dayOfCharArrayList.get(i).equals("Sunday")) {
-//                        nameOftheWeekk = "Sunday"
-//                        positionNameofTheWeekk=7
+
+
+
+//            for (i in dayOfCharArrayListNew.indices) {
+//                if (dayOfCharArrayListNew.size > 1) {
+//                    if (dayOfCharArrayListNew.get(i).weekposition!!.equals(dayofTheWeekPosition)) {
+////                        var position=i
+//                        positionofday = dayOfCharArrayListNew.get(i).weekposition.toString()
+//                    } else {
+//                        positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
 //                    }
-//                    if(dayOfTheWeek.equals(nameOftheWeekk)){
-//                        positionofday=dayOfCharArrayList.
-//                    }
-//
+//                }else{
+//                    positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
 //                }
-
-
-
-
-
-
-
-                if (dayOfCharArrayList.get(i).equals(dayOfTheWeek)) {
-                    isSameDay = true
-                }
-            }
-            if (isSameDay
+////                if (dayOfCharArrayList.size > 1) {
+////                    if (dayOfCharArrayList.get(i).equals("Monday")) {
+////                        nameOftheWeekk = "Monday"
+////                        positionNameofTheWeekk=1
+////                    } else if (dayOfCharArrayList.get(i).equals("Tuesday")) {
+////                        nameOftheWeekk = "Tuesday"
+////                        positionNameofTheWeekk=2
+////                    } else if (dayOfCharArrayList.get(i).equals("Wednesday")) {
+////                        nameOftheWeekk = "Wednesday"
+////                        positionNameofTheWeekk=3
+////                    } else if (dayOfCharArrayList.get(i).equals("Thursday")) {
+////                        nameOftheWeekk = "Thursday"
+////                        positionNameofTheWeekk=4
+////                    } else if (dayOfCharArrayList.get(i).equals("Friday")) {
+////                        nameOftheWeekk = "Friday"
+////                        positionNameofTheWeekk=5
+////                    } else if (dayOfCharArrayList.get(i).equals("Saturday")) {
+////                        nameOftheWeekk = "Saturday"
+////                        positionNameofTheWeekk=6
+////                    }else if (dayOfCharArrayList.get(i).equals("Sunday")) {
+////                        nameOftheWeekk = "Sunday"
+////                        positionNameofTheWeekk=7
+////                    }
+////                    if(dayOfTheWeek.equals(nameOftheWeekk)){
+////                        positionofday=dayOfCharArrayList.
+////                    }
+////
+////                }
+//
+//
+//
+//
+//
+//
+//
+//
+//            }
+            if (isCurrentDay
             ) {
                 if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                     var submit = OnUploadSwachModelRequest()
@@ -1147,8 +1168,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
                 }
             }
-            if (!isSameDay && positionofday != null) {
-                calcNextFriday(dt, positionofday!!)
+            if (!isCurrentDay && positionofday != null) {
+//                calcNextFriday(dt, positionofday!!)
                 viewBinding.todaysDateLayout.visibility = View.GONE
                 viewBinding.todaysUpdateLayout.visibility = View.GONE
                 viewBinding.alreadyUploadedlayout.visibility = View.GONE
@@ -1193,5 +1214,33 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         progressDialog.setCanceledOnTouchOutside(false)
         return progressDialog
     }
+    @SuppressLint("NewApi")
+    private fun nextComingdayDate(d: LocalDate, dayName : String): LocalDate? {
+        var nameOfDayy: DayOfWeek? = null
+        if (dayName == "Sunday") {
 
+            return d.with(TemporalAdjusters.next(DayOfWeek.SUNDAY))
+        } else if (dayName == "Monday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.MONDAY))
+        } else if (dayName == "Tuesday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.TUESDAY))
+        } else if (dayName == "Wednesday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.WEDNESDAY))
+        } else if (dayName == "Thursday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.THURSDAY))
+        } else if (dayName == "Friday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.FRIDAY))
+        } else if (dayName == "Saturday") {
+
+            return d.with(TemporalAdjusters.next(DayOfWeek.SATURDAY))
+        }else{
+            return null
+        }
+
+    }
 }
