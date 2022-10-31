@@ -47,11 +47,16 @@ data class RequestNewComplaintRegistration(
     data class Category(
         @field:SerializedName("uid")
         val uid: String? = null,
+        @field:SerializedName("code")
+        val code: String? = null
+
     ) : Serializable
 
     data class Department(
         @field:SerializedName("uid")
-        val uid: String? = null
+        val uid: String? = null,
+        @field:SerializedName("code")
+        val code: String? = null
     ) : Serializable
 
     data class  Site(
