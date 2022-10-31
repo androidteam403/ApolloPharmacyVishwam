@@ -98,6 +98,13 @@ object Utlis {
         return destFormat.format(convertedDate)
     }
 
+    fun convertCmsExparyDate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
+
     fun cmsComplaintDateFormat(dateToFormat: String): String {
         val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         val destFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)

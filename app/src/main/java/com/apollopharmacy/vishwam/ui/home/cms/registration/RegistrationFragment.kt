@@ -976,6 +976,9 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         viewBinding.selectRemarksText.visibility = View.GONE
         viewBinding.date.visibility = View.VISIBLE
         viewBinding.description.visibility = View.VISIBLE
+        viewBinding.productImageView.frontImageDelete.visibility =View.GONE
+        viewBinding.productImageView.backImageDelete.visibility =View.GONE
+        viewBinding.productImageView.otherImageDelete.visibility =View.GONE
         viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
         viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
         viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
@@ -1388,7 +1391,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 viewBinding.batchText.text.toString(),
                 viewBinding.barcodeEdt.text.toString(),
                 Utils.dateofoccurence(viewBinding.expireDateExpire.text.toString()) + " " + currentTime,
-                viewBinding.purchasePriseEdit.text.toString().toDouble(), viewBinding.mrpEditText.text.toString().toDouble(),newPrice , 1
+                viewBinding.purchasePriseEdit.text.toString().toDouble(), viewBinding.mrpEditText.text.toString().toDouble(),newPrice , viewBinding.mrpEditText.text.toString().toDouble(),1
             ))
 
             viewModel.submitTicketInventorySaveUpdate(
@@ -1450,8 +1453,8 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             problemDate,
             description,
             RequestNewComplaintRegistration.Platform(platformUid!!),
-            RequestNewComplaintRegistration.Category(categoryuid!!),
-            RequestNewComplaintRegistration.Department(deptuid!!),
+            RequestNewComplaintRegistration.Category(selectedCategory.uid!!,selectedCategory.code),
+            RequestNewComplaintRegistration.Department(deptuid!!,deptCode),
             RequestNewComplaintRegistration.Site(storeId),
             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),

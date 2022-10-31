@@ -517,6 +517,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cc_executive_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Executive : "
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cc_executive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/cc_executive_label"
+                            app:layout_constraintStart_toEndOf="@+id/cc_executive_label"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cc_tid_label"
@@ -526,7 +545,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cc_executive_label"
                             app:layout_constraintStart_toStartOf="parent"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -825,7 +844,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Accept"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:background="@drawable/green_background"
                             android:textAllCaps="false"
@@ -836,10 +855,11 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Reject"
-                            app:layout_constraintEnd_toStartOf="@+id/accept_btn"
+                            app:layout_constraintStart_toEndOf="@+id/accept_btn"
                             app:layout_constraintTop_toTopOf="parent"
                             android:layout_marginEnd="@dimen/value_10dp"
                             android:textAllCaps="false"
+                            android:layout_marginStart="@dimen/value_5dp"
                             android:textSize="@dimen/text_14sp"
                             android:textColor="@color/white"
                             android:background="@drawable/red_rounded_corners"/>
@@ -852,7 +872,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_5dp"
                     android:orientation="vertical"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <View
                         android:layout_width="match_parent"

@@ -146,6 +146,8 @@ data class RequestSaveUpdateComplaintRegistration(
         val old_mrp: Double? = 0.0,
         @field:SerializedName("new_mrp")
         val new_mrp: Double? = 0.0,
+        @field:SerializedName("mrp")
+        val mrp: Double? = 0.0,
         @field:SerializedName("rowIndex")
         val rowIndex: Int? = 0,
     ):Serializable
