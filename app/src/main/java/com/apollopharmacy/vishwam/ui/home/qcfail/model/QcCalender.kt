@@ -98,7 +98,7 @@ class QcCalender: DialogFragment()  {
 
 //            dataPickerBinding.datePicker.maxDate = (Date().time*(500*60*60*24*7))
             if(arguments?.getBoolean(KEY_IS_TO) == true){
-                val date = SimpleDateFormat("yyyy-MMM-dd").parse(arguments?.getString(KEY_FROM_DATE))
+                val date = SimpleDateFormat("dd-MMM-yyyy").parse(arguments?.getString(KEY_FROM_DATE))
                 dataPickerBinding.datePicker.minDate =date.time
             }
 

@@ -1,8 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.approved
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.content.Intent.getIntent
+import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,8 +20,10 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.qc.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -42,13 +49,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var names = ArrayList<String>()
     var mainMenuList = ArrayList<MainMenuList>()
+    var list: ArrayList<String>? = null
 
 
     var orderId: String = ""
     var reason: String = ""
     var qcreason: String = ""
-
-
+    var currentDate= String()
+    var fromDate = String()
     override val layoutRes: Int
         get() = R.layout.fragment_approved_qc
 
@@ -60,16 +68,20 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun setup() {
         showLoading()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        val currentDate: String = simpleDateFormat.format(Date())
-        var fromDate = String()
+     currentDate= simpleDateFormat.format(Date())
+
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+        var intent = Intent()
+        if (!list.isNullOrEmpty()) {
+            val i = getIntent("")
+            list = i.getStringArrayListExtra("selectsiteIdList")!!
 
-
+        }
 
         viewModel.qcRegionLists.observe(viewLifecycleOwner, Observer {
             if (!it.storelist.isNullOrEmpty()) {
@@ -145,6 +157,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             } else {
+                viewBinding.recyclerViewApproved.visibility=View.VISIBLE
+                viewBinding.emptyList.visibility=View.GONE
                 adapter =
                     context?.let { it1 ->
                         QcApproveListAdapter(it1,
@@ -161,8 +175,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         viewBinding.filter.setOnClickListener {
-//            val intent = Intent(context, QcFilterActivity::class.java)
-//            startActivity(intent)
+            val i = Intent(context, QcFilterActivity::class.java)
+            startActivityForResult(i, 210)
 //
 //                }
 //                QcSiteDialog.show()
@@ -206,24 +220,76 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     }
 
+
+    @SuppressLint("ResourceAsColor")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+
+        if (requestCode == 210) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                if (data != null) {
+                    showLoading()
+                    viewModel.getQcList(Preferences.getToken(),
+                        data.getStringExtra("fromQcDate").toString(),
+                        data.getStringExtra("toDate").toString(),
+                        data.getStringExtra("siteId").toString(),
+                        data.getStringExtra("regionId").toString())
+
+                    if (  data.getStringExtra("fromQcDate").toString().equals(fromDate) &&  data.getStringExtra("toDate").toString().equals(currentDate) &&   data.getStringExtra("regionId").toString().isNullOrEmpty()){
+                        viewBinding.filterIndication.visibility=View.GONE
+                    }
+                    else{
+                        viewBinding.filterIndication.visibility=View.VISIBLE
+
+                    }
+
+                    if (  data.getStringExtra("reset").toString().equals("reset")){
+                        showLoading()
+                        viewBinding.filterIndication.visibility=View.GONE
+                        viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
+
+                    }
+
+
+//                    if (!list.isNullOrEmpty()) {
+//
+//
+//
+//                        viewModel.getQcList(Preferences.getToken(),
+//                            list!!.get(0),
+//                            list!![1],
+//                            list!![2],
+//                            list!![3])
+//
+//                    }
+
+                }
+
+
+            }
+        }
+    }
+
     override fun notify(position: Int, orderno: String) {
         adapter?.notifyDataSetChanged()
     }
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
 
-        if (imageUrl.isNullOrEmpty()){
+        if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
-        }else{
+        } else {
             val intent = Intent(context, QcPreviewImageActivity::class.java)
 
             intent.putExtra("itemList", imageUrl)
-            intent.putExtra("orderid",orderno)
-            intent.putExtra("itemName",itemName)
+            intent.putExtra("orderid", orderno)
+            intent.putExtra("itemName", itemName)
             intent.putExtra("position", position)
             startActivity(intent)
         }
-     }
+    }
 
     override fun accept(
         position: Int,

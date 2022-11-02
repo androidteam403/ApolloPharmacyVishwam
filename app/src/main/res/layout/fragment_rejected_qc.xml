@@ -36,6 +36,8 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
                 android:elevation="20dp"
+                android:backgroundTint="@color/backgroundColor"
+
                 android:visibility="gone"
                 android:src="@drawable/ic_filter"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -132,5 +134,16 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
         </RelativeLayout>
+        <View
+            android:id="@+id/filter_indication"
+            android:layout_width="@dimen/text_12sp"
+            android:layout_height="@dimen/text_12sp"
+            android:background="@drawable/red_indication"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="62dp"
+            android:layout_marginLeft="286dp"
+
+            tools:ignore="MissingConstraints,NotSibling" />
     </RelativeLayout>
 </layout>

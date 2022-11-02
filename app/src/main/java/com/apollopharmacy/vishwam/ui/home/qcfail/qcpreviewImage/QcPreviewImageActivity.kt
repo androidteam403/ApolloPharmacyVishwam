@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
@@ -46,7 +47,9 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
 
     private fun setUp() {
         imageUrlList = imageUrl.split(";")
-
+        if (position==0){
+            activityQcPreviewImageBinding.startarrow.visibility=View.GONE
+        }
         activityQcPreviewImageBinding.back.setOnClickListener {
 
             finish()
@@ -90,8 +93,24 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     }
 
     override fun onPageSelected(position: Int) {
-//        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+imageUrlList.size.toString()+" / ")
-//        activityQcPreviewImageBinding.totalimages.setText((position+1/imageUrlList.size+1).toString()+" )")
+
+        if (position==0){
+            activityQcPreviewImageBinding.startarrow.visibility=View.GONE
+        }
+        else{
+            activityQcPreviewImageBinding.startarrow.visibility=View.VISIBLE
+
+        }
+
+
+        if (position==imageUrlList.size-1){
+            activityQcPreviewImageBinding.endarrow.visibility=View.GONE
+        }
+        else{
+            activityQcPreviewImageBinding.endarrow.visibility=View.VISIBLE
+
+        }
+
         activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrlList.size+1).toString()+" / ")
         activityQcPreviewImageBinding.totalimages.setText(imageUrlList.size.toString()+" )")
 

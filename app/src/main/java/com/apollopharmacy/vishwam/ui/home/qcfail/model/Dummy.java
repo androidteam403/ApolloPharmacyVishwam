@@ -14,6 +14,15 @@ public class Dummy {
 //bundle.putParcelable("",av);
 //intent.putExtras(bundle);
 
+//
+//    int i;
+//    public  void fun(){
+//        for(i=0;i<names.size;i++){
+//
+//        }
+//
+//    }
+
 
 
 }

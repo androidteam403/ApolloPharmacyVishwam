@@ -55,6 +55,7 @@ dependencies {
     implementation project(path: ':digitlib')
     androidTestImplementation "androidx.test.ext:junit:$test_version"
     implementation "android.arch.lifecycle:runtime:$life_cycle"
+    implementation 'org.apache.commons:commons-lang3:3.6'
 
 
     annotationProcessor "android.arch.lifecycle:compiler:$life_cycle"

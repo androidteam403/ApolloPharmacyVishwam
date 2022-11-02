@@ -40,6 +40,8 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
                 android:elevation="20dp"
+                android:backgroundTint="@color/backgroundColor"
+
                 android:visibility="gone"
                 android:src="@drawable/ic_filter"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -89,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_60dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/active_task_color"
+            android:background="@color/splash_color"
             android:paddingTop="@dimen/value_10dp"
             android:paddingBottom="@dimen/value_10dp"
             android:visibility="gone">
@@ -99,18 +101,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/value_5dp"
+
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/bulkSelectCheck"
-                    android:layout_width="@dimen/value_30dp"
-                    android:layout_height="@dimen/value_30dp"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
                     android:contentDescription="@string/app_name"
                     android:padding="@dimen/value_3dp"
-                    android:src="@drawable/ic_baseline_radio_button_unchecked_24" />
+                    android:src="@drawable/qc_checkbox" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -119,31 +119,45 @@
                     android:gravity="center_vertical"
                     android:text="Select All"
                     android:textSize="@dimen/text_16sp"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
             </LinearLayout>
+
+            <Button
+                android:layout_width="@dimen/value_80dp"
+                android:id="@+id/acceptClick"
+
+                android:layout_height="@dimen/value_40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/text_20sp"
+                android:background="@drawable/qc_bulk_accept_background"
+                android:text="Accept"
+                android:visibility="visible"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
 
             <Button
                 android:id="@+id/rejectClick"
                 android:layout_width="@dimen/value_80dp"
                 android:layout_height="@dimen/value_40dp"
-                android:layout_marginEnd="@dimen/value_20dp"
-                android:layout_toStartOf="@+id/acceptClick"
-                android:background="@drawable/qc_reject_button"
-                android:text="Reject"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_13sp" />
-
-            <Button
-                android:id="@+id/acceptClick"
-                android:layout_width="@dimen/value_80dp"
-                android:layout_height="@dimen/value_40dp"
                 android:layout_alignParentEnd="true"
-                android:layout_marginEnd="@dimen/value_15dp"
+                android:layout_marginEnd="@dimen/text_20sp"
                 android:background="@drawable/qc_accept_background"
                 android:text="Accept"
+                android:visibility="invisible"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
         </RelativeLayout>
+        <View
+            android:id="@+id/filter_indication"
+            android:layout_width="@dimen/text_12sp"
+            android:layout_height="@dimen/text_12sp"
+            android:background="@drawable/red_indication"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="62dp"
+            android:layout_marginLeft="286dp"
 
+            tools:ignore="MissingConstraints,NotSibling" />
     </RelativeLayout>
 </layout>
