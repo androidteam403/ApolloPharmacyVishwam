@@ -144,7 +144,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approved By: "
+                            android:text="Reviewed By: "
                             android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
@@ -174,7 +174,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Approved Date: "
+                            android:text="Reviewed Date: "
                             android:textColor="@color/heading_blue"
                             android:textSize="@dimen/text_12sp" />
 
