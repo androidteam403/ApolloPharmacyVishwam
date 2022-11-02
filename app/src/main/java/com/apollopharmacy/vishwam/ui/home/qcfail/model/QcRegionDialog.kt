@@ -91,9 +91,9 @@ class QcRegionDialog : DialogFragment() {
                         }
                         sitereCyclerView.notifyDataSetChanged()
 
-                        for (i in list.indices) {
-                            if (list[i].isClick) {
-                                selectsiteIdList.add(list[i].siteid.toString())
+                        for (i in regionDataArrayList.indices) {
+                            if (regionDataArrayList[i].isClick) {
+                                selectsiteIdList.add(regionDataArrayList[i].siteid.toString())
                             }
                         }
 

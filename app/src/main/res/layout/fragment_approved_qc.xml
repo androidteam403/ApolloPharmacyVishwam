@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
 
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        tools:context=".ui.home.qcfail.approved">
+        android:background="@color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
@@ -36,9 +34,15 @@
                 android:layout_marginBottom="30dp"
                 android:elevation="20dp"
                 android:visibility="gone"
+                android:backgroundTint="@color/backgroundColor"
+
+
                 android:src="@drawable/ic_filter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
+
+
+
 
             <RelativeLayout
                 android:id="@+id/emptyList"
@@ -70,6 +74,16 @@
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/filter_indication"
+            android:layout_width="@dimen/text_12sp"
+            android:layout_height="@dimen/text_12sp"
+            android:background="@drawable/red_indication"
+            android:visibility="gone"
+         android:layout_alignParentBottom="true"
+            android:layout_marginBottom="62dp"
+          android:layout_marginLeft="286dp"
 
+            tools:ignore="MissingConstraints,NotSibling" />
     </RelativeLayout>
 </layout>

@@ -243,8 +243,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         })
 
-
-
         viewBinding.hsnCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
@@ -262,9 +260,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
         })
-
-
-
 
         viewBinding.packsize.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -284,18 +279,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         })
 
-
-
-
-
-
-
-
-
-
-
-
-
         viewBinding.selectDepartment.setOnClickListener {
 
 
@@ -306,11 +289,6 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }.show(childFragmentManager, "")
 
         }
-
-
-
-
-
 
         viewBinding.submit.setOnClickListener {
             var name: String = "FRONT"

@@ -11,12 +11,13 @@ class QcSiteViewModel : ViewModel() {
     var orginalArrayList = ArrayList<QcStoreList.Store>()
 
     fun qcSiteArrayList(siteArrayList: ArrayList<QcStoreList.Store>): ArrayList<QcStoreList.Store> {
-        fixedArrayList.value = siteArrayList
         orginalArrayList = siteArrayList
+        fixedArrayList.value = siteArrayList
+
         return siteArrayList
     }
 
-    fun filterDataBySiteId(siteId: String) {
+    fun filterDataBySiteId(siteId: String,siteList: ArrayList<QcStoreList.Store>) {
         Utils.printMessage(TAG, "Orginal Data :: " + orginalArrayList.toString())
         var data =
             orginalArrayList.filter { m ->
@@ -24,5 +25,7 @@ class QcSiteViewModel : ViewModel() {
             } as ArrayList<QcStoreList.Store>
         Utils.printMessage(TAG, "Filter Data :: " + data.toString())
         fixedArrayList.value = data
+
+
     }
 }

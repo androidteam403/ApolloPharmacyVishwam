@@ -90,16 +90,21 @@ class QcSiteDialog : DialogFragment() {
                         } else {
                             list[position].setisClick(true)
                         }
-                        sitereCyclerView.notifyDataSetChanged()
-                        for (i in list.indices) {
-                            if (list[i].isClick) {
-                                selectsiteIdList.add(list[i].siteid.toString())
+                        for (i in siteDataArrayList.indices) {
+                            if (siteDataArrayList[i].isClick) {
+                                selectsiteIdList.add(siteDataArrayList[i].siteid.toString())
                             }
                         }
                         if (!selectsiteIdList.isNullOrEmpty()) {
                             abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList, position)
                             dismiss()
                         }
+                        else{
+                            selectsiteIdList.add(" ")
+                           abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList,position)
+                            dismiss()
+                        }
+                        sitereCyclerView.notifyDataSetChanged()
 
                     }
                 })
@@ -138,10 +143,11 @@ class QcSiteDialog : DialogFragment() {
             override fun afterTextChanged(s: Editable?) {
                 var textChanged = s.toString().trim()
                 if (s.toString().length > 1) {
-                    viewModel.filterDataBySiteId(textChanged)
+                    viewModel.filterDataBySiteId(textChanged,siteDataArrayList)
                 } else {
                     viewModel.qcSiteArrayList(siteDataArrayList)
                 }
+                sitereCyclerView.notifyDataSetChanged()
             }
         })
         return viewBinding.root

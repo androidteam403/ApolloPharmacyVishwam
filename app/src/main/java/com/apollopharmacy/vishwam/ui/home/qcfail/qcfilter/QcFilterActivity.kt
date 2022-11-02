@@ -8,8 +8,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.util.Utlis
+import org.apache.commons.lang3.StringUtils
 
 class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickListner,
     QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,
@@ -31,8 +34,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        var isFromDateSelected: Boolean = false
         viewModel.qcStoreList.observeForever {
+            Utlis.hideLoading()
             if (!it.storelist.isNullOrEmpty()) {
 
                 for (i in it.storelist!!) {
@@ -47,6 +50,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             }
         }
         viewModel.qcRegionLists.observeForever {
+
             if (!it.storelist.isNullOrEmpty()) {
 
                 for (i in it.storelist!!) {
@@ -63,17 +67,39 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
 
+        activityQcFilterBinding.reset.setOnClickListener {
+            val intent = Intent()
+
+            intent.putExtra("reset", "reset")
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+//
+//            activityQcFilterBinding.regionIdSelect.setText("")
+//            activityQcFilterBinding.siteIdSelect.setText("")
+//            activityQcFilterBinding.fromDateText.setText("")
+//            activityQcFilterBinding.toDateText.setText("")
+//            viewModel.getQcRegionList()
+//            viewModel.getQcStoreist()
+//            Utlis.showLoading(this)
+        }
+
 
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
-            selectsiteIdList.add(fromQcDate)
-            selectsiteIdList.add(toDate)
-            selectsiteIdList.add(siteId)
-            selectsiteIdList.add(regionId)
-            val returnIntent = Intent()
-            returnIntent.putStringArrayListExtra("selectsiteIdList", selectsiteIdList)
-            setResult(Activity.RESULT_OK, returnIntent)
+//            selectsiteIdList.add(fromQcDate)
+//            selectsiteIdList.add(toDate)
+//            selectsiteIdList.add(siteId)
+//            selectsiteIdList.add(regionId)
+            val intent = Intent()
+            intent.putExtra("regionId", regionId.replace(" ", ""))
+            intent.putExtra("siteId", siteId.replace(" ", ""))
+            intent.putExtra("fromQcDate", fromQcDate)
+            intent.putExtra("toDate", toDate)
+            intent.putExtra("apply", "apply")
+
+            setResult(Activity.RESULT_OK, intent)
             finish()
+
         }
 
         activityQcFilterBinding.cancel.setOnClickListener {
@@ -121,8 +147,16 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     }
 
     override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {
-        activityQcFilterBinding.siteIdSelect.setText(list.toString())
-        siteId = list.toString()
+        activityQcFilterBinding.siteIdSelect.setText((StringUtils.substring(list.toString(),
+            1,
+            list.toString().length - 1)))
+//        for (i in list.indices){
+//            siteId +=list.get(i)+ ","
+//        }
+
+        siteId = activityQcFilterBinding.siteIdSelect.text.toString()
+
+
     }
 
 
@@ -134,8 +168,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     }
 
     override fun onselectMultipleSites(list: ArrayList<String>, position: Int) {
-        activityQcFilterBinding.regionIdSelect.setText(list.toString())
-        regionId = list.toString()
+        activityQcFilterBinding.regionIdSelect.setText(StringUtils.substring(list.toString(),
+            1,
+            list.toString().length - 1))
+        regionId = activityQcFilterBinding.regionIdSelect.text.toString()
+
+//        regionId = list.toString()
 
 //        if (list[position].isClick){
 //            activityQcFilterBinding.regionIdSelect.setText(list[position].siteid)
@@ -155,7 +193,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
     override fun toDate(dateSelected: String, showingDate: String) {
         activityQcFilterBinding.toDateText.setText(dateSelected)
-        toDate=dateSelected
+        toDate = dateSelected
 
     }
 
