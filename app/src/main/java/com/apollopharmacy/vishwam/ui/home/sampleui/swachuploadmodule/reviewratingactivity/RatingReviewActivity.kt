@@ -12,14 +12,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityRatingReviewBinding
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter.RatingReviewAdapter
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter.RatingReviewViewModel
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.ReShootActivityViewModel
-import com.apollopharmacy.vishwam.util.Utlis
 
 class RatingReviewActivity : AppCompatActivity() {
     private lateinit var ratingReviewAdapter: RatingReviewAdapter
@@ -40,6 +37,7 @@ class RatingReviewActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[RatingReviewViewModel::class.java]
         val swachId = intent.getStringExtra("swachhid")
         val storeId = intent.getStringExtra("storeId")
+        val userDesignation = intent.getStringExtra("userDesignation")
         ratingReviewBinding.swachId.text= swachId
 
 
@@ -56,7 +54,7 @@ class RatingReviewActivity : AppCompatActivity() {
             if(it.remarks!=null && it.remarks!!.size>0){
                 ratingReviewBinding.noOrdersFound.visibility = View.GONE
                 ratingReviewAdapter =
-                    RatingReviewAdapter(this, it.remarks)
+                    RatingReviewAdapter(this, it.remarks,userDesignation)
                 val layoutManager = LinearLayoutManager(ViswamApp.context)
                 ratingReviewBinding.ratingReviewRecyclerView.layoutManager = layoutManager
                 ratingReviewBinding.ratingReviewRecyclerView.itemAnimator =

@@ -127,7 +127,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 //        val i = getIntent()
 //        list = i.getSerializableExtra("selectsiteIdList") as List<String>
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -138,14 +138,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         val strDate = fromDate
-        val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
         val date = dateFormat.parse(strDate)
         val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
         viewBinding.fromDate.text = dateNewFormat
 
 
         val strDateToDate = toDate
-        val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+        val dateFormatToDate =SimpleDateFormat("yyyy-MM-dd")
         val dateToDate = dateFormatToDate.parse(strDateToDate)
         val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy").format(dateToDate)
         viewBinding.toDate.text = dateNewFormatToDate
@@ -866,6 +866,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         val intent = Intent(context, RatingReviewActivity::class.java)
         intent.putExtra("swachhid", swachhid)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("userDesignation", userDesignation)
         startActivity(intent)
     }
 
