@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.util.Log
 import android.view.View
@@ -46,7 +47,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
+class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
     CustomDialog.AbstractDialogClickListner, CategoryDialog.SubCategoryDialogClickListner,
     SubCategoryDialog.SubSubCategoryDialogClickListner, CalendarDialog.DateSelected,
     ImageClickListner, SiteDialog.AbstractDialogSiteClickListner,
@@ -165,7 +166,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             val c = Calendar.getInstance().time
             println("Current time => $c")
             val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-            var formattedDate = df.format(c);
+            var formattedDate = df.format(c)
             viewBinding.dateOfProblem.setText(formattedDate)
             viewBinding.dateOfProblem.isEnabled = false
 
@@ -212,7 +213,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 val c = Calendar.getInstance().time
                 println("Current time => $c")
                 val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                var formattedDate = df.format(c);
+                var formattedDate = df.format(c)
                 viewBinding.dateOfProblem.setText(formattedDate)
                 viewBinding.dateOfProblem.isEnabled = false
 
@@ -313,7 +314,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 
         //select reason list....................
         viewModel.reasonlistapiresponse.observe(viewLifecycleOwner, {
-            hideLoading();
+            hideLoading()
         })
 
 
@@ -463,11 +464,11 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         viewBinding.mrpEditText.setText(
-                            viewBinding.mrpEditText.getText().toString()
+                            viewBinding.mrpEditText.text.toString()
                                 .replace(".", "")
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                 } else {
@@ -479,7 +480,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
@@ -490,7 +491,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                 }
@@ -515,11 +516,11 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         viewBinding.purchasePriseEdit.setText(
-                            viewBinding.purchasePriseEdit.getText().toString()
+                            viewBinding.purchasePriseEdit.text.toString()
                                 .replace(".", "")
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                 } else {
@@ -531,7 +532,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
@@ -542,7 +543,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                 }
@@ -567,11 +568,11 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         viewBinding.newMrpEdit.setText(
-                            viewBinding.newMrpEdit.getText().toString()
+                            viewBinding.newMrpEdit.text.toString()
                                 .replace(".", "")
                         )
                         viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.getText().toString().length
+                            viewBinding.newMrpEdit.text.toString().length
                         )
                     }
                 } else {
@@ -583,7 +584,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.getText().toString().length
+                            viewBinding.newMrpEdit.text.toString().length
                         )
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
@@ -594,7 +595,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             )
                         )
                         viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.getText().toString().length
+                            viewBinding.newMrpEdit.text.toString().length
                         )
                     }
                 }
@@ -605,6 +606,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             }
         })
 
+        viewBinding.batchText.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
@@ -620,6 +622,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         val articleCode = viewBinding.articleCode.text.toString().trim()
         val batchNumber = viewBinding.batchText.text.toString().trim()
         val mrpPrice = viewBinding.mrpEditText.text.toString().trim()
+        val oldmrpPrice = viewBinding.oldmrpEditText.text.toString().trim()
         val newMrpPrice = viewBinding.newMrpEdit.text.toString().trim()
         val purchasePrice = viewBinding.purchasePriseEdit.text.toString().trim()
         val expiryDate = viewBinding.expireDateExpire.text.toString().trim()
@@ -679,7 +682,12 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                     context?.resources?.getString(R.string.err_msg_enter_purchase_price)
                 )
                 return false
-            } else if (mrpPrice.isEmpty()) {
+            } else if (mrpPrice.isEmpty() && statusInventory.equals("NEWBATCH")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_mrp)
+                )
+                return false
+            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_enter_mrp)
                 )
@@ -691,7 +699,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                             context?.resources?.getString(R.string.err_msg_enter_new_mrp)
                         )
                         return false
-                    }else if (mrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
+                    }else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
                         showErrorMsg(
                             context?.resources?.getString(R.string.err_msg_purchace_price_old_new)
                         )
@@ -769,7 +777,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             return false
         }
 
-        return true;
+        return true
     }
 
 
@@ -804,13 +812,18 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
 
         deptuid = departmentDto.uid
         deptCode = departmentDto.code
+//        if(departmentDto.code.equals("IN")) {
+//            viewBinding.captureUploadLayout.visibility = View.GONE
+//        }else{
+//            viewBinding.captureUploadLayout.visibility = View.VISIBLE
+//        }
         //Ticket status Api calling function................
 
-        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid);
+        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid)
 
 
         var cateorylist = departmentDto.uid?.let { viewModel.getCategoriesfromReasons(it) }
-        reasoncategoryListSelected.clear();
+        reasoncategoryListSelected.clear()
         if (cateorylist != null) {
             if (cateorylist.size != 0) {
                 cateorylist.map { reasoncategoryListSelected.add(it) }
@@ -839,17 +852,21 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             viewBinding.description.visibility = View.VISIBLE
             viewBinding.newBatchLayout.visibility = View.VISIBLE
             viewBinding.date.visibility = View.GONE
-            viewBinding.inventoryMessageForCamera.visibility = View.VISIBLE
-            viewBinding.mrpEditText.setText(resources.getString(R.string.label_MRP))
+            viewBinding.inventoryMessageForCamera.visibility = View.GONE
+            viewBinding.mrp.visibility = View.VISIBLE
+            viewBinding.oldMrp.visibility = View.GONE
             viewBinding.newMrpInputLayout.visibility = View.GONE
+            viewBinding.captureUploadLayout.visibility = View.GONE
         } else if (departmentDto.name.equals("MRP Change Request")) {
             statusInventory = "MRP Change Request"
             viewBinding.description.visibility = View.VISIBLE
             viewBinding.newBatchLayout.visibility = View.VISIBLE
             viewBinding.date.visibility = View.GONE
-            viewBinding.inventoryMessageForCamera.visibility = View.VISIBLE
-            viewBinding.mrpEditText.setText(resources.getString(R.string.label_old_MRP))
+            viewBinding.inventoryMessageForCamera.visibility = View.GONE
+            viewBinding.oldMrp.visibility = View.VISIBLE
+            viewBinding.mrp.visibility = View.GONE
             viewBinding.newMrpInputLayout.visibility = View.VISIBLE
+            viewBinding.captureUploadLayout.visibility = View.GONE
         }  else {
             for (i in maintanceArrayList.indices) {
                 if (maintanceArrayList[i].equals(departmentDto.name)) {
@@ -863,6 +880,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
             viewBinding.description.visibility = View.VISIBLE
+            viewBinding.captureUploadLayout.visibility = View.VISIBLE
         }
         viewBinding.selectSubCategory.setText("")
         viewBinding.selectRemarks.setText("")
@@ -965,7 +983,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         val c = Calendar.getInstance().time
         println("Current time => $c")
         val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        var formattedDate = df.format(c);
+        var formattedDate = df.format(c)
         viewBinding.dateOfProblem.setText(formattedDate)
 
         viewBinding.newBatchLayout.visibility = View.GONE
@@ -1056,7 +1074,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
 
@@ -1106,7 +1124,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 }
             }
 
-            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             startActivityForResult(intent, imgType)
         }
     }
@@ -1133,6 +1151,18 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                     }
                 }
 
+            }else if(resultCode == Activity.RESULT_CANCELED){
+                when (requestCode) {
+                    1 -> {
+                        frontImageFile = null
+                    }
+                    2 -> {
+                        backImageFile = null
+                    }
+                    3 -> {
+                        otherImageFile = null
+                    }
+                }
             }
         } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
             fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
@@ -1173,10 +1203,10 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 e.printStackTrace()
             }
             employeeDetailsResponsess!!.data!!.site!!.site = selectedSiteId!!.site
-            employeeDetailsResponsess!!.data!!.site!!.storeName = selectedSiteId!!.store_name
-            employeeDetailsResponsess!!.data!!.site!!.dcCode!!.name = selectedSiteId!!.dc_code!!.name
-            employeeDetailsResponsess!!.data!!.site!!.state!!.code = selectedSiteId!!.sTATEID
-            employeeDetailsResponsess!!.data!!.site!!.dcCode!!.code = selectedSiteId!!.dc_code!!.code
+            employeeDetailsResponsess.data!!.site!!.storeName = selectedSiteId!!.store_name
+            employeeDetailsResponsess.data!!.site!!.dcCode!!.name = selectedSiteId!!.dc_code!!.name
+            employeeDetailsResponsess.data!!.site!!.state!!.code = selectedSiteId!!.sTATEID
+            employeeDetailsResponsess.data!!.site!!.dcCode!!.code = selectedSiteId!!.dc_code!!.code
             Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(employeeDetailsResponsess))
             var empDetailsResponsezz = Preferences.getEmployeeDetailsResponseJson()
             try {
@@ -1277,7 +1307,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         } else {
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
-            Preferences.saveSiteId(selectedStoreItem.site!!)
+            Preferences.saveSiteId(selectedStoreItem.site)
             RegistrationRepo.saveStoreInfo(selectedStoreItem)
 //            if (!isSuperAdmin) {
 //                showLoading()
@@ -1315,7 +1345,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         val description = viewBinding.descriptionText.text.toString().trim()
         val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
         val problemDate =
-            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime;
+            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
         val storeId: String = if (employeeDetailsResponse != null
             && employeeDetailsResponse!!.data != null
@@ -1367,10 +1397,15 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         val currentTime =
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
         val problemDate =
-            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime;
+            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         var newPrice = 0.0
+        var oldMrp =0.0
+        var mrp = 0.0
         if (cmsCommand.tag.equals("MRP Change Request")) {
             newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
+            oldMrp  = viewBinding.oldmrpEditText.text.toString().toDouble()
+        }else{
+            mrp = viewBinding.mrpEditText.text.toString().toDouble()
         }
         if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
             val codeBatch: RequestSaveUpdateComplaintRegistration.CodeBatch =
@@ -1391,7 +1426,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
                 viewBinding.batchText.text.toString(),
                 viewBinding.barcodeEdt.text.toString(),
                 Utils.dateofoccurence(viewBinding.expireDateExpire.text.toString()) + " " + currentTime,
-                viewBinding.purchasePriseEdit.text.toString().toDouble(), viewBinding.mrpEditText.text.toString().toDouble(),newPrice , viewBinding.mrpEditText.text.toString().toDouble(),1
+                viewBinding.purchasePriseEdit.text.toString().toDouble(),oldMrp ,newPrice ,mrp ,1
             ))
 
             viewModel.submitTicketInventorySaveUpdate(
@@ -1446,7 +1481,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
         description: String,
         problemDate: String,
         storeId: String,
-        ticketIt: Ticket_it?
+        ticketIt: Ticket_it?,
     ) {
         viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
             userData.EMPID,
@@ -1456,7 +1491,7 @@ class RegistrationFragment() : BaseFragment<RegistrationViewModel, FragmentRegis
             RequestNewComplaintRegistration.Category(selectedCategory.uid!!,selectedCategory.code),
             RequestNewComplaintRegistration.Department(deptuid!!,deptCode),
             RequestNewComplaintRegistration.Site(storeId),
-            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla!!),
+            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend),
             ticketIt
@@ -1491,7 +1526,7 @@ class ImageRecyclerView(
 
     fun deleteImage(position: Int) {
         orderData.removeAt(position)
-        notifyItemRemoved(position);
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
     }
 }

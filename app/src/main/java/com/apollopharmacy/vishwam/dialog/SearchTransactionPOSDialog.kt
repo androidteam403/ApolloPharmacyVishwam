@@ -45,7 +45,7 @@ class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) :
         viewBinding.closeDialog.setOnClickListener { dismiss() }
         viewBinding.textHead.text = "Select TID"
         viewBinding.searchSiteText.setHint("Search tid")
-        viewBinding.searchSiteText.visibility = View.GONE
+        viewBinding.searchSite.visibility = View.GONE
         abstractDialogClick = parentFragment as OnTransactionPOSSelectedListnier
         viewBinding.searchSiteText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -68,6 +68,7 @@ class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) :
         })
 
         if (transactionPOSModel.data.listData.rows.isEmpty()) {
+            viewBinding.noArticleFound.text = "No TID Found"
             viewBinding.noArticleFound.visibility = View.VISIBLE
             viewBinding.articleCodeRecyclerView.visibility = View.GONE
         } else {

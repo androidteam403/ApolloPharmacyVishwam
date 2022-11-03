@@ -111,8 +111,8 @@
     <string name="err_msg_purchace_price_diff">Purchase price should be Less than MRP</string>
     <string name="err_msg_purchace_price_old_new">Purchase price should be Less than Old MRP and new MRP</string>
     <string name="err_msg_select_expiry_date">Please enter Expiry Date</string>
-    <string name="err_msg_upload_front_image">Please add front images</string>
-    <string name="err_msg_upload_back_image">Please add  back images</string>
+    <string name="err_msg_upload_front_image">Please upload front image</string>
+    <string name="err_msg_upload_back_image">Please upload  back image</string>
     <string name="label_unknown_err">Unknown Error</string>
     <string name="label_unableto_save">Store ID not available</string>
     <string name="label_complaint_site_id">Site ID:</string>
