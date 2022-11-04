@@ -1,13 +1,11 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.approved
 
+
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.getIntent
-import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +18,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.qc.*
@@ -36,7 +33,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var storeAdapter: QcStoreListAdapter? = null
     var regionAdapter: QcRegionListAdapter? = null
     private lateinit var dialog: BottomSheetDialog
-
+    var startPageApproved: Int = 0
+    var endPageNumApproved: Int = 5
+    var lastIndex = 0
 
     public var isBulkChecked: Boolean = false
     var getStatusList: List<ActionResponse.Hsitorydetail>? = null
@@ -44,6 +43,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var getStoreList: List<QcStoreList.Store>? = null
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
+    private var filterApproveList: List<QcListsResponse.Approved> = ArrayList<QcListsResponse.Approved>()
 
     var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
@@ -51,6 +51,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var mainMenuList = ArrayList<MainMenuList>()
     var list: ArrayList<String>? = null
 
+  public  var mInstance: ApprovedFragment? =
+        null
 
     var orderId: String = ""
     var reason: String = ""
@@ -113,6 +115,11 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
 
 
+
+
+
+
+
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getStatusList = it.hsitorydetails
@@ -152,17 +159,29 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            if (it.approvedlist.isNullOrEmpty()) {
+            filterApproveList = it.approvedlist!!
+
+//            if (filterApproveList != null && filterApproveList.size >= 5000) {
+//                startPageApproved = 0
+//                endPageNumApproved = 5000
+//            } else {
+//                endPageNumApproved = filterApproveList.size
+//            }
+
+
+            if (filterApproveList.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             } else {
-                viewBinding.recyclerViewApproved.visibility=View.VISIBLE
-                viewBinding.emptyList.visibility=View.GONE
+                filterApproveList.subList(startPageApproved,endPageNumApproved)
+
+                viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
                 adapter =
                     context?.let { it1 ->
                         QcApproveListAdapter(it1,
-                            it.approvedlist as ArrayList<QcListsResponse.Approved>,
+                            filterApproveList.subList(startPageApproved,endPageNumApproved) as ArrayList<QcListsResponse.Approved>,
                             this,
                             itemsList,
                             statusList)
@@ -173,6 +192,21 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
 
 
+
+        viewBinding.nextPage.setOnClickListener {
+
+            if (filterApproveList.size - 1 > endPageNumApproved) {
+                startPageApproved = startPageApproved + 5
+                if (filterApproveList != null && filterApproveList.size >= endPageNumApproved + 5) {
+                    endPageNumApproved = endPageNumApproved + 5
+                } else {
+                    lastIndex = filterApproveList.size - endPageNumApproved
+                    endPageNumApproved = filterApproveList.size
+                }
+
+            }
+            adapter?.notifyDataSetChanged()
+        }
 
         viewBinding.filter.setOnClickListener {
             val i = Intent(context, QcFilterActivity::class.java)
@@ -237,7 +271,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         data.getStringExtra("siteId").toString(),
                         data.getStringExtra("regionId").toString())
 
-                    if (  data.getStringExtra("fromQcDate").toString().equals(fromDate) &&  data.getStringExtra("toDate").toString().equals(currentDate) &&   data.getStringExtra("regionId").toString().isNullOrEmpty()){
+                    if (  data.getStringExtra("fromQcDate").toString().equals(fromDate) &&  data.getStringExtra(
+                            "toDate").toString().equals(currentDate) &&   data.getStringExtra("regionId").toString().isNullOrEmpty()){
                         viewBinding.filterIndication.visibility=View.GONE
                     }
                     else{
@@ -315,8 +350,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun isChecked(array: ArrayList<QcListsResponse.Pending>, position: Int) {
-        TODO("Not yet implemented")
     }
+
+
 
 
     override fun clickedApply(
@@ -357,11 +393,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int) {
-        TODO("Not yet implemented")
     }
 
     override fun selectSite(departmentDto: QcStoreList.Store) {
-        TODO("Not yet implemented")
     }
 
 
