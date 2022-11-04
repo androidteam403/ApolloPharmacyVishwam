@@ -353,20 +353,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/approvedbylayout"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         android:background="@color/app_center_color">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_16sp"
-                            android:layout_marginTop="3dp"
-                            android:textSize="11sp"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/roboto_medium"
-                            android:id="@+id/approveby_text"
-                            android:text="Approved by - Murali"
-                            android:textColor="@color/white" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/approved_by_recycleview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="1"
+                        tools:listitem="@layout/qc_status_layout" />
                     </LinearLayout>
 
                 </LinearLayout>

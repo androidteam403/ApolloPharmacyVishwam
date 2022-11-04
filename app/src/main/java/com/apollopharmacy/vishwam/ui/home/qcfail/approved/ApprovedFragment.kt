@@ -21,6 +21,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.qc.*
+import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -38,12 +39,12 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var lastIndex = 0
 
     public var isBulkChecked: Boolean = false
-    var getStatusList: List<ActionResponse.Hsitorydetail>? = null
-    var statusList = ArrayList<ActionResponse.Hsitorydetail>()
+    var getStatusList: List<ActionResponse>? = null
+    var statusList = ArrayList<ActionResponse>()
     var getStoreList: List<QcStoreList.Store>? = null
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
-    private var filterApproveList: List<QcListsResponse.Approved> = ArrayList<QcListsResponse.Approved>()
+    private var filterApproveList = ArrayList<QcListsResponse.Approved>()
 
     var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
@@ -51,13 +52,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var mainMenuList = ArrayList<MainMenuList>()
     var list: ArrayList<String>? = null
 
-  public  var mInstance: ApprovedFragment? =
+    public var mInstance: ApprovedFragment? =
         null
 
     var orderId: String = ""
     var reason: String = ""
     var qcreason: String = ""
-    var currentDate= String()
+    var currentDate = String()
     var fromDate = String()
     override val layoutRes: Int
         get() = R.layout.fragment_approved_qc
@@ -70,7 +71,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun setup() {
         showLoading()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
-     currentDate= simpleDateFormat.format(Date())
+        currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
@@ -107,6 +108,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     items.siteid = i.siteid
                     items.sitename = i.sitename
 
+
                     storeList.add(items)
                     storeAdapter?.notifyDataSetChanged()
                 }
@@ -122,13 +124,15 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
-            getStatusList = it.hsitorydetails
+            getStatusList = listOf(it)
             val status: ActionResponse.Hsitorydetail
 
 
             for (i in getStatusList!!) {
-                val items = ActionResponse.Hsitorydetail()
-                items.status = i.status
+                val items = ActionResponse()
+                items.hsitorydetails = i.hsitorydetails
+                items.setorder(orderId)
+
 
                 statusList.add(items)
                 adapter?.notifyDataSetChanged()
@@ -159,7 +163,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            filterApproveList = it.approvedlist!!
+
+//            filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
+//
+//
+//            var subList: List<List<QcListsResponse.Approved>>
+//
+//            subList = ListUtils.partition(filterApproveList, 5)
+
 
 //            if (filterApproveList != null && filterApproveList.size >= 5000) {
 //                startPageApproved = 0
@@ -169,19 +180,19 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //            }
 
 
-            if (filterApproveList.isNullOrEmpty()) {
+            if (it.approvedlist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             } else {
-                filterApproveList.subList(startPageApproved,endPageNumApproved)
+//                filterApproveList.subList(startPageApproved, endPageNumApproved)
 
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                 adapter =
                     context?.let { it1 ->
                         QcApproveListAdapter(it1,
-                            filterApproveList.subList(startPageApproved,endPageNumApproved) as ArrayList<QcListsResponse.Approved>,
+                            it.approvedlist as ArrayList<QcListsResponse.Approved>,
                             this,
                             itemsList,
                             statusList)
@@ -195,18 +206,17 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
         viewBinding.nextPage.setOnClickListener {
 
-            if (filterApproveList.size - 1 > endPageNumApproved) {
-                startPageApproved = startPageApproved + 5
-                if (filterApproveList != null && filterApproveList.size >= endPageNumApproved + 5) {
-                    endPageNumApproved = endPageNumApproved + 5
-                } else {
-                    lastIndex = filterApproveList.size - endPageNumApproved
-                    endPageNumApproved = filterApproveList.size
-                }
-
-            }
-            adapter?.notifyDataSetChanged()
+//            adapter =
+//                context?.let { it1 ->
+//                    QcApproveListAdapter(it1,
+//                        subList.get(1) as ArrayList<QcListsResponse.Approved>,
+//                        this,
+//                        itemsList,
+//                        statusList)
+//                }
         }
+        viewBinding.recyclerViewApproved.adapter = adapter
+        adapter?.notifyDataSetChanged()
 
         viewBinding.filter.setOnClickListener {
             val i = Intent(context, QcFilterActivity::class.java)
@@ -248,7 +258,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         showLoading()
         orderId = orderno
         viewModel.getQcItemsList(orderno)
-//        viewModel.getQcStatusList(orderno)
+        viewModel.getQcStatusList(orderno)
         adapter?.notifyDataSetChanged()
 
 

@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
             android:layout_alignParentBottom="true"
-            android:visibility="visible"
+            android:visibility="gone"
             android:background="@color/splash_color"
             android:gravity="center_vertical">
 

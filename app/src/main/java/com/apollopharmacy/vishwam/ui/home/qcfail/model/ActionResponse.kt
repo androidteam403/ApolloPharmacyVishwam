@@ -12,7 +12,11 @@ class ActionResponse : Serializable {
     @SerializedName("MESSAGE")
     @Expose
     var message: String? = null
+    var order: String? = null
 
+    fun setorder(pos: String) {
+        order = pos
+    }
     @SerializedName("HSITORYDETAILS")
     @Expose
     var hsitorydetails: List<Hsitorydetail>? = null
