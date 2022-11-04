@@ -9,8 +9,10 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -23,6 +25,8 @@ class ValidatePinViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     var employeeDetails=MutableLiveData<EmployeeDetailsResponse>()
+    var appLevelDesignationRespSwach=MutableLiveData<AppLevelDesignationModelResponse>()
+    var appLevelDesignationRespQCFail=MutableLiveData<AppLevelDesignationModelResponse>()
     fun checkMPinLogin(mPinRequest: MPinRequest) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
@@ -67,6 +71,98 @@ class ValidatePinViewModel : ViewModel() {
             }
         }
     }
+
+
+    fun getApplevelDesignation(
+        empId: String,
+        appType: String
+
+    ) {
+        viewModelScope.launch {
+            state.postValue(State.SUCCESS)
+
+            val result = withContext(Dispatchers.IO) {
+                RegistrationRepo.getApplevelDesignation(empId,appType)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status ?: null == true) {
+                        state.value = State.ERROR
+                        appLevelDesignationRespSwach.value = result.value
+                        Preferences.setAppLevelDesignationSwach(result.value.message)
+                    } else {
+                        appLevelDesignationRespSwach.value = result.value
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(
+                        result.error?.let {
+                           Command.ShowToast(it)
+                        }
+                    )
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun getApplevelDesignationQcFail(
+        empId: String,
+        appType: String
+
+    ) {
+        viewModelScope.launch {
+            state.postValue(State.SUCCESS)
+
+            val result = withContext(Dispatchers.IO) {
+                RegistrationRepo.getApplevelDesignation(empId,appType)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status ?: null == true) {
+                        state.value = State.ERROR
+                        appLevelDesignationRespQCFail.value = result.value
+                    } else {
+                        appLevelDesignationRespQCFail.value = result.value
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(
+                        result.error?.let {
+                            Command.ShowToast(it)
+                        }
+                    )
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+
 
 
     fun getRole(validatedEmpId: String) {
@@ -157,6 +253,8 @@ class ValidatePinViewModel : ViewModel() {
 //            }
 //        }
     }
+
+
 }
 
 sealed class Command {

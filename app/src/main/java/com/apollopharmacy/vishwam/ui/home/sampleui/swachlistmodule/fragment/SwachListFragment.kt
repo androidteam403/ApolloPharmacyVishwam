@@ -38,6 +38,7 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.mode
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
+import com.apollopharmacy.vishwam.ui.validatepin.ValidatePinActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
@@ -159,8 +160,9 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         } catch (e: JsonParseException) {
             e.printStackTrace()
         }
-        userDesignation = loginData?.APPLEVELDESIGNATION!!
 
+        userDesignation = Preferences.getAppLevelDesignationSwach()
+//       Toast.makeText(context, ""+ userDesignation, Toast.LENGTH_SHORT).show()
         viewBinding.pullToRefreshApproved.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             submitClickApproved()
         })

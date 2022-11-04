@@ -7,6 +7,8 @@ import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
+import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.util.EncryptionManager
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
@@ -1341,6 +1343,39 @@ object RegistrationRepo {
     ): ApiResult<ResponseBody> {
         return try {
             val response = Api.getClient().getDetails(token, getDetailsRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getApplevelDesignation(empId:String,appType:String): ApiResult<AppLevelDesignationModelResponse> {
+        return try {
+            val response = Api.getClient().appLevelDesignation(empId,appType)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
