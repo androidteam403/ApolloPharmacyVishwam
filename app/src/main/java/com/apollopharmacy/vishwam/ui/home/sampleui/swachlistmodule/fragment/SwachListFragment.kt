@@ -67,7 +67,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     var isApprovedTab: Boolean = true
     var startPageApproved: Int = 0
     var endPageNumApproved: Int = 10
-    var isfilterClicked: Boolean=false
+    var isfilterClicked: Boolean = false
     var startPagePending: Int = 0
     var endPageNumPending: Int = 10
     var handler: Handler = Handler()
@@ -127,7 +127,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 //        val i = getIntent()
 //        list = i.getSerializableExtra("selectsiteIdList") as List<String>
-        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         val currentDate: String = simpleDateFormat.format(Date())
@@ -138,14 +138,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         val strDate = fromDate
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val dateFormat = SimpleDateFormat("dd-MMM-yyyy");
         val date = dateFormat.parse(strDate)
         val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)
         viewBinding.fromDate.text = dateNewFormat
 
 
         val strDateToDate = toDate
-        val dateFormatToDate =SimpleDateFormat("yyyy-MM-dd")
+        val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
         val dateToDate = dateFormatToDate.parse(strDateToDate)
         val dateNewFormatToDate = SimpleDateFormat("dd MMM, yyyy").format(dateToDate)
         viewBinding.toDate.text = dateNewFormatToDate
@@ -166,11 +166,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         })
 
         viewBinding.pullToRefreshPending.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
-         submitClickPending()
+            submitClickPending()
         })
 
         Utlis.showLoading(requireContext())
-        selectedSiteids = TextUtils.join(",",selectsiteIdList)
+        selectedSiteids = TextUtils.join(",", selectsiteIdList)
         callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
 
 //        val getpendingAndApprovedListRequest = GetpendingAndApprovedListRequest()
@@ -622,8 +622,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         pendingAndApprovedList.clear()
         pendingList.clear()
         isApprovedTab = true
-        startPageApproved=0
-        endPageNumApproved=10
+        startPageApproved = 0
+        endPageNumApproved = 10
 
         if (!viewBinding.pullToRefreshApproved.isRefreshing)
             Utlis.showLoading(requireContext())
@@ -637,8 +637,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         pendingAndApprovedList.clear()
         pendingList.clear()
         isApprovedTab = false
-        startPagePending=0
-        endPageNumPending-10
+        startPagePending = 0
+        endPageNumPending - 10
 
         if (!viewBinding.pullToRefreshPending.isRefreshing)
             Utlis.showLoading(requireContext())
@@ -754,8 +754,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
         Utlis.showLoading(requireContext())
-        selectedSiteids = TextUtils.join(",",selectsiteIdList)
-        selectedSiteids = TextUtils.join(",",selectsiteIdList)
+        selectedSiteids = TextUtils.join(",", selectsiteIdList)
+        selectedSiteids = TextUtils.join(",", selectsiteIdList)
         if (isApprovedTab) {
             pendingAndApprovedList.clear()
             startPageApproved = 0
@@ -779,7 +779,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             endPageNumApproved = 10
             pendingAndApprovedList.clear()
 
-            selectedSiteids = TextUtils.join(",",selectsiteIdList)
+            selectedSiteids = TextUtils.join(",", selectsiteIdList)
             callAPI(startPageApproved, endPageNumApproved, isApprovedTab)
         }
 
@@ -798,18 +798,31 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                 isFirstTimePending = false
             }
 
+//
 
-            this.selectedSiteids = TextUtils.join(",",selectsiteIdList)
+            this.selectedSiteids = TextUtils.join(",", selectsiteIdList)
             if (isApprovedAdapter) {
                 if (!isLoadingApproved) {
 
                     Utlis.showLoading(requireContext())
 
                 }
+
+                val strFromDate = fromDate
+                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFromDate = dateFormatFromDate.parse(strFromDate)
+                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd").format(dateFromDate)
+                val fromDateNew=dateNewFormatFromDate
+
+                val strToDate = toDate
+                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateToDate = dateFormatToDate.parse(strToDate)
+                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd").format(dateToDate)
+                val toDateNew=dateNewToFormat
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
-                    fromDate,
-                    toDate, selectedSiteids, startPageNo, endpageno
+                    fromDateNew,
+                    toDateNew, selectedSiteids, startPageNo, endpageno
                 )
 
             } else {
@@ -817,10 +830,21 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                     Utlis.showLoading(requireContext())
 
                 }
+                val strFromDate = fromDate
+                val dateFormatFromDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateFromDate = dateFormatFromDate.parse(strFromDate)
+                val dateNewFormatFromDate = SimpleDateFormat("yyyy-MM-dd").format(dateFromDate)
+                val fromDateNew=dateNewFormatFromDate
+
+                val strToDate = toDate
+                val dateFormatToDate = SimpleDateFormat("dd-MMM-yyyy");
+                val dateToDate = dateFormatToDate.parse(strToDate)
+                val dateNewToFormat = SimpleDateFormat("yyyy-MM-dd").format(dateToDate)
+                val toDateNew=dateNewToFormat
                 viewModel.getPendingAndApprovedListApiCall(
                     Preferences.getValidatedEmpId(),
-                    fromDate,
-                    toDate, selectedSiteids, startPageNo, endpageno
+                    fromDateNew,
+                    toDateNew, selectedSiteids, startPageNo, endpageno
                 )
 
             }
@@ -835,13 +859,13 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
     }
 
     override fun onClickPending() {
-        complaintListStatus="Pending,Reshoot,Partially Approved"
+        complaintListStatus = "Pending,Reshoot,Partially Approved"
         if (isApprovedTab) {
             isApprovedTab = false
             startPagePending = 0
             endPageNumPending = 10
             pendingList.clear()
-            selectedSiteids = TextUtils.join(",",selectsiteIdList)
+            selectedSiteids = TextUtils.join(",", selectsiteIdList)
             callAPI(startPagePending, endPageNumPending, isApprovedTab)
 
         }
@@ -963,7 +987,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
             if (requestCode == ApproveListActivity().APPROVE_LIST_ACTIVITY) {
                 Utlis.showLoading(requireContext())
-                selectedSiteids = TextUtils.join(",",selectsiteIdList)
+                selectedSiteids = TextUtils.join(",", selectsiteIdList)
                 if (isApprovedTab) {
                     startPageApproved = 0
                     endPageNumApproved = 10
@@ -994,7 +1018,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
 
-                selectedSiteids = TextUtils.join(",",selectsiteIdList)
+                selectedSiteids = TextUtils.join(",", selectsiteIdList)
                 if (isApprovedTab) {
                     startPageApproved = 0
                     endPageNumApproved = 10
@@ -1156,7 +1180,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         selectsiteIdList.remove(siteDataItem)
 
 
-        selectedSiteids = TextUtils.join(",",selectsiteIdList)
+        selectedSiteids = TextUtils.join(",", selectsiteIdList)
         siteIdDisplayAdapter?.notifyDataSetChanged()
 
         if (isApprovedTab) {
