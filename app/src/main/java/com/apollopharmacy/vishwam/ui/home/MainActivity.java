@@ -48,6 +48,7 @@ import com.apollopharmacy.vishwam.ui.home.discount.bill.BillCompletedFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
+import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
@@ -410,6 +411,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+            case "Drug List":
+                headerText.setText("New Drug List");
+                fragment = new DrugListFragment();
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "QcPending":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
@@ -728,9 +736,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         .addChildModel(new ChildModel("Rejected"))
                                         .addChildModel(new ChildModel("Bill"))
                         ).addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
-                                .addChildModel(new ChildModel("Pending"))
-                                .addChildModel(new ChildModel("Approved"))
-                                .addChildModel(new ChildModel("Rejected")));
+                        .addChildModel(new ChildModel("Pending"))
+                        .addChildModel(new ChildModel("Approved"))
+                        .addChildModel(new ChildModel("Rejected")));
 
 
 //                        ).addHeaderModel(
@@ -761,7 +769,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 listView.addHeaderModel(
                         new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
-                                .addChildModel(new ChildModel("New Drug Request")));
+                                .addChildModel(new ChildModel("New Drug Request"))
+                                .addChildModel(new ChildModel("New Drug List")));
 
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
@@ -796,18 +805,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("Rejected");
                             } else if (groupPosition == 2 && childPosition == 3) {
                                 displaySelectedScreen("Bill");
-                            }
-                            else if (groupPosition == 3 && childPosition == 0) {
+                            } else if (groupPosition == 3 && childPosition == 0) {
                                 displaySelectedScreen("QcPending");
-                            }
-                            else if (groupPosition == 3 && childPosition == 1) {
+                            } else if (groupPosition == 3 && childPosition == 1) {
                                 displaySelectedScreen("QcApproved");
-                            }
-                            else if (groupPosition == 3 && childPosition == 2) {
+                            } else if (groupPosition == 3 && childPosition == 2) {
                                 displaySelectedScreen("QcRejected");
-                            }
-                            else if (groupPosition == 5 && childPosition == 0) {
+                            } else if (groupPosition == 5 && childPosition == 0) {
                                 displaySelectedScreen("Drug Request");
+                            } else if (groupPosition == 5 && childPosition == 1) {
+                                displaySelectedScreen("Drug List");
                             }
 //                            else if (groupPosition == 4 && childPosition == 1) {
 //                                displaySelectedScreen("Swachh List");

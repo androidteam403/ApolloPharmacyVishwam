@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import java.io.File
@@ -103,7 +104,16 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
+        viewBinding.mrpp.setText("0")
+        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+        viewBinding.batchNo.setText("0")
+        viewBinding.purchasePrice.setText("0")
+        viewBinding.selectDepartment.setText("0")
+        viewBinding.packsize.setText("0")
 
+        viewBinding.hsnCode.setText("0")
+        viewBinding.barCode.setText("0")
 
         viewModel.commands.observe(viewLifecycleOwner, {
             when (it) {
@@ -906,18 +916,18 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
         viewBinding.scrollView.fullScroll(ScrollView.FOCUS_UP);
-        viewBinding.selectDepartment.setText("")
+//        viewBinding.selectDepartment.setText("")
         viewBinding.selectCategory.setText("")
         viewBinding.itemName.setText("")
-        viewBinding.fromDateText.setText("")
-        viewBinding.toDateText.setText("")
-        viewBinding.batchNo.setText("")
-        viewBinding.mrpp.setText("")
-        viewBinding.purchasePrice.setText("")
-        viewBinding.hsnCode.setText("")
-        viewBinding.packsize.setText("")
+//        viewBinding.fromDateText.setText("")
+//        viewBinding.toDateText.setText("")
+//        viewBinding.batchNo.setText("")
+//        viewBinding.mrpp.setText("")
+//        viewBinding.purchasePrice.setText("")
+//        viewBinding.hsnCode.setText("")
+//        viewBinding.packsize.setText("")
         viewBinding.siteIdSelect.setText("")
-        viewBinding.barCode.setText("")
+//        viewBinding.barCode.setText("")
         viewBinding.selectRemarks.setText("")
         viewBinding.createdOn.setText("")
         viewBinding.createdBy.setText("")
@@ -928,21 +938,25 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.dcCode.visibility = View.GONE
         viewBinding.dcTextInput.visibility = View.GONE
 
+        viewBinding.dcTextInput.setBoxBackgroundColorResource(R.color.white)
+        viewBinding.createdInput.setBoxBackgroundColorResource(R.color.white)
 
+        viewBinding.createdOnInput.setBoxBackgroundColorResource(R.color.white)
+        viewBinding.location.setBoxBackgroundColorResource(R.color.white)
         viewBinding.siteId.error = null
         viewBinding.selectCategoryText.error = null
         viewBinding.branchNameTextInput.error = null
-        viewBinding.fromDate.error = null
-        viewBinding.toDate.error = null
-        viewBinding.BatchTextInput.error = null
-        viewBinding.MrpTextInput.error = null
-        viewBinding.purchasePriceTextInput.error = null
-        viewBinding.hsnText.error = null
-        viewBinding.pasckizel.error = null
+//        viewBinding.fromDate.error = null
+//        viewBinding.toDate.error = null
+//        viewBinding.BatchTextInput.error = null
+//        viewBinding.MrpTextInput.error = null
+//        viewBinding.purchasePriceTextInput.error = null
+//        viewBinding.hsnText.error = null
+//        viewBinding.pasckizel.error = null
         viewBinding.location.error = null
         viewBinding.siteIdSelect.error = null
-        viewBinding.barCodeL.error = null
-        viewBinding.gst.error = null
+//        viewBinding.barCodeL.error = null
+//        viewBinding.gst.error = null
 
         viewBinding.addImage.visibility = View.VISIBLE
         viewBinding.addImage1.visibility = View.VISIBLE
