@@ -18,6 +18,11 @@ object Preferences {
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
 
     private const val PREF_KEY_EMP_DETAILS_JSON = "PREF_KEY_EMP_DETAILS_JSON"
+    private const val PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG = "PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG"
+    private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
+    private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
+    private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
+
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -243,6 +248,32 @@ object Preferences {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
 
+    fun setEmployeeRoleUidNewDrugRequest(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, role).apply()
+    }
+
+    fun getEmployeeRoleUidNewDrugRequest(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, "")!!
+    }
+
+    fun setAppLevelDesignationSwach(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_SWACH, role).apply()
+    }
+
+    fun getAppLevelDesignationSwach(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_SWACH, "")!!
+    }
+
+    fun setAppLevelDesignationQCFail(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_QC_FAIL, role).apply()
+    }
+
+    fun getAppLevelDesignationQCFail(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_QC_FAIL, "")!!
+    }
+
+
+
     fun setSwachhSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
     }
@@ -258,6 +289,17 @@ object Preferences {
 
     fun getEmployeeDetailsResponseJson(): String {
         return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON, "")!!
+
+    }
+
+
+    fun storeEmployeeDetailsResponseJsonNewDrug(employeeDetailsResponse: String) {
+        sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG, employeeDetailsResponse)
+            .apply()
+    }
+
+    fun getEmployeeDetailsResponseJsonNewDrug(): String {
+        return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG, "")!!
 
     }
 

@@ -207,18 +207,18 @@ data class ResponseCMSLogin (
         @field:SerializedName("user_team")
         val user_team:UserTeam,
 
-        @field:SerializedName("site__executive")
-        val site__executive:ArrayList<String>,
+//        @field:SerializedName("site__executive")
+//        val site__executive:ArrayList<String>,
 
 
         @field:SerializedName("site_hod")
         val site_hod:ArrayList<String>,
 
-        @field:SerializedName("site_manager")
-        val site_manager:ArrayList<String>,
+//        @field:SerializedName("site_manager")
+//        val site_manager:ArrayList<String>,
 
-        @field:SerializedName("site_region_head")
-        val site_region_head:ArrayList<String>,
+//        @field:SerializedName("site_region_head")
+//        val site_region_head:ArrayList<String>,
 
         @field:SerializedName("site_supervisor")
         val site_supervisor:ArrayList<String>,

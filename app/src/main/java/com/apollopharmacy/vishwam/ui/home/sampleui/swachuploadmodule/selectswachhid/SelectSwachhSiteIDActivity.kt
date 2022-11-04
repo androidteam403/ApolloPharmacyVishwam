@@ -1,11 +1,15 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -14,6 +18,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.adapter.SiteIdDisplay
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.adapter.SiteIdListAdapter
 import com.apollopharmacy.vishwam.util.Utlis
 
@@ -23,6 +28,7 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     private var siteIDListAdapter: SiteIdListAdapter? = null
     var siteDataList = ArrayList<StoreListItem>()
     var isSiteIdEmpty:Boolean=false
+    private lateinit var dialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,9 +123,26 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
     }
 
     override fun onItemClick(storeListItem: StoreListItem) {
-        Preferences.setSwachhSiteId(storeListItem.site!!)
-        val intent = Intent()
-        setResult(Activity.RESULT_OK, intent)
-        finish()
+
+
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.change_siteid)
+        val close = dialog.findViewById<TextView>(R.id.no_btnSiteChange)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+        val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            dialog.dismiss()
+            Preferences.setSwachhSiteId(storeListItem.site!!)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
+
     }
 }

@@ -39,6 +39,10 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var uploadSwach: UploadSwach? = null
 
+         @SerializedName("new_drug_request")
+         @Expose
+         var newDrugRequest: NewDrugRequest? = null
+
 
         @SerializedName("role")
         @Expose
@@ -155,6 +159,32 @@ class EmployeeDetailsResponse : Serializable {
 
             }
         }
+
+         class NewDrugRequest : Serializable {
+             @SerializedName("uid")
+             @Expose
+             var uid: String? = null
+
+             @SerializedName("name")
+             @Expose
+             var name: String? = null
+
+             @SerializedName("other")
+             @Expose
+             var other: Other? = null
+
+             @SerializedName("icon")
+             @Expose
+             var icon: Any? = null
+
+             class Other : Serializable {
+                 @SerializedName("color")
+                 @Expose
+                 var color: Any? = null
+
+
+             }
+         }
 
          class SwacchDefaultSite : Serializable {
             @SerializedName("uid")

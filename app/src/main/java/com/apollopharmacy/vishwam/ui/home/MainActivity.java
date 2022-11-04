@@ -126,6 +126,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public String employeeRole;
+    public String employeeRoleNewDrugRequest;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private NavigationListView listView;
@@ -134,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
+    public static String userDesignationSwach;
 
     private boolean isHomeScreen = true;
 
@@ -226,8 +228,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (loginData != null) {
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
-            userDesignation = loginData.getAPPLEVELDESIGNATION();
+            userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
+//            Toast.makeText(getApplicationContext(), ""+userDesignation, Toast.LENGTH_SHORT).show();
             employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
+            employeeRoleNewDrugRequest= Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
+//            employeeRoleNewDrugRequest="Yes";
 //            employeeRole="Yes";
 //           userDesignation="EXECUTIVE";
 //           Toast.makeText(this, userDesignation, Toast.LENGTH_SHORT).show();
@@ -766,11 +771,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else {
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
                 }
-
+                if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")){
                 listView.addHeaderModel(
                         new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
                                 .addChildModel(new ChildModel("New Drug Request"))
                                 .addChildModel(new ChildModel("New Drug List")));
+
+            }else{
+
+                }
 
 //                ).addHeaderModel(
 //                        new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
@@ -785,9 +794,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 listView.setSelected(groupPosition);
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
-                            } else if (id == 6) {
-                                displaySelectedScreen("Logout");
-                                drawer.closeDrawer(GravityCompat.START);
+                            } else if (id == 6 || id == 5) {
+                                if (employeeRoleNewDrugRequest != null && employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")){
+                                    if (id == 6){
+                                        displaySelectedScreen("Logout");
+                                        drawer.closeDrawer(GravityCompat.START);
+                                    }
+                                }else {
+                                    if (id == 5){
+                                        displaySelectedScreen("Logout");
+                                        drawer.closeDrawer(GravityCompat.START);
+                                    }
+                                }
+
                             }
                             return false;
                         })

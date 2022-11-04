@@ -9,10 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -488,14 +485,14 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                     " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].batch_no}"
                 binding.barcode.text =
                     " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].barcode}"
-                binding.expairyDate.text =
-                    " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date}"
+                binding.expairyDate.text =Utlis.convertCmsExparyDate(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].expiry_date)
+
                 binding.purchaseRate.text =
                     "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].purchase_rate}"
                 if(items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req")) {
                     binding.oldMrpLabel.text = "MRP : "
                     binding.oldMrp.text =
-                        "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].old_mrp}"
+                        "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].mrp}"
                     binding.newMrp.visibility = View.GONE
                     binding.newMrpLabel.visibility = View.GONE
                 }else{
@@ -575,6 +572,7 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
 
             if(items.creditCardTSDetails?.data != null){
                 binding.creditCardDetailsLayout.visibility = View.VISIBLE
+                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
                 binding.ccTid.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.tid.tid}"
                 binding.billNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.bill_number}"
                 binding.transactionNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.transaction_id}"
@@ -963,21 +961,28 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-            showLoading()
-            val ccAcceptRejectModel= CCAcceptRejectModel()
-            ccAcceptRejectModel.setAction("resolve")
-            ccAcceptRejectModel.setComment(remark.text.toString())
-            ccAcceptRejectModel.setEmployee_id(userData.EMPID)
-            ccAcceptRejectModel.setPos_status("approve")
-            ccAcceptRejectModel.setStatus("inprogress")
-            ccAcceptRejectModel.setTicket_id(data.ticket_id)
-            val ticket_it = CCAcceptRejectModel.Ticket_it()
-            ticket_it.setUid("approved")
-            ccAcceptRejectModel.setTicket_it(ticket_it)
-            ccAcceptRejectModel.setUid(data.uid)
-            viewModel.actionCCAccept(ccAcceptRejectModel,0)
+            if(remark.text.toString().isEmpty()){
+                remark.setError("Please enter comment")
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val ccAcceptRejectModel = CCAcceptRejectModel()
+                ccAcceptRejectModel.setAction("resolve")
+                ccAcceptRejectModel.setComment(remark.text.toString())
+                ccAcceptRejectModel.setEmployee_id(userData.EMPID)
+                ccAcceptRejectModel.setPos_status("approve")
+                ccAcceptRejectModel.setStatus("inprogress")
+                ccAcceptRejectModel.setTicket_id(data.ticket_id)
+                val ticket_it = CCAcceptRejectModel.Ticket_it()
+                ticket_it.setUid("approved")
+                ccAcceptRejectModel.setTicket_it(ticket_it)
+                ccAcceptRejectModel.setUid(data.uid)
+                viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+            }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -1001,21 +1006,28 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-            showLoading()
-            val ccAcceptRejectModel= CCAcceptRejectModel()
-            ccAcceptRejectModel.setAction(null)
-            ccAcceptRejectModel.setComment(remark.text.toString())
-            ccAcceptRejectModel.setEmployee_id(userData.EMPID)
-            ccAcceptRejectModel.setPos_status(null)
-            ccAcceptRejectModel.setStatus("reject")
-            ccAcceptRejectModel.setTicket_id(data.ticket_id)
-            val ticket_it = CCAcceptRejectModel.Ticket_it()
-            ticket_it.setUid("rejected")
-            ccAcceptRejectModel.setTicket_it(ticket_it)
-            ccAcceptRejectModel.setUid(data.uid)
-            viewModel.actionCCAccept(ccAcceptRejectModel,0)
+            if(remark.text.toString().isEmpty()){
+                remark.setError("Please enter comment")
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val ccAcceptRejectModel = CCAcceptRejectModel()
+                ccAcceptRejectModel.setAction(null)
+                ccAcceptRejectModel.setComment(remark.text.toString())
+                ccAcceptRejectModel.setEmployee_id(userData.EMPID)
+                ccAcceptRejectModel.setPos_status(null)
+                ccAcceptRejectModel.setStatus("reject")
+                ccAcceptRejectModel.setTicket_id(data.ticket_id)
+                val ticket_it = CCAcceptRejectModel.Ticket_it()
+                ticket_it.setUid("rejected")
+                ccAcceptRejectModel.setTicket_it(ticket_it)
+                ccAcceptRejectModel.setUid(data.uid)
+                viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+            }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -1353,16 +1365,17 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
                 ChangeManager(data.uid),
                 OldManager(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
                 ChangeSite(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.site,selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
-                selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.ticket_inventory!!.uid,
-                userData.EMPID
+                selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.ticket_inventory!!.ticket_inventory_item[0].uid,
+                userData.EMPID,
+                CCTicket(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.uid)
             )
             var actionRequest =  ChangeManagerRequest(
                 remark.text.toString(),
                 ChangeManager(data.uid),
-                OldManager(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
+                OldManager(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.manager.uid),
                 ChangeSite(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.site,selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.site!!.uid),
                 selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.uid,
-                userData.EMPID
+                userData.EMPID,CCTicket(selectedInventeryTicket!!.inventoryDetailsModel!!.data!!.uid)
             )
             viewModel.actionChangeForwardToManager(actionRequest,request,0)
         }

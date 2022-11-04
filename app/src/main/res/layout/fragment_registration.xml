@@ -402,15 +402,14 @@
                                 android:id="@+id/batchText"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_50dp"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890./"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./"
                                 android:hint="@string/label_Batch_No"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
                                 android:textSize="@dimen/text_15sp"
-                                android:inputType="textCapSentences"
-                                android:capitalize="sentences"/>
+                                android:inputType="text"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -513,6 +512,30 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/old_mrp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginRight="@dimen/value_15dp"
+                            android:textColorHint="@color/black"
+                            app:layout_constraintTop_toBottomOf="@+id/expire">
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/oldmrpEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_50dp"
+                                android:hint="@string/label_old_MRP"
+                                android:inputType="numberDecimal"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/new_mrp_input_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
@@ -581,6 +604,12 @@
                         android:textSize="@dimen/text_15sp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <LinearLayout
+                    android:id="@+id/capture_upload_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                 <TextView
                     android:id="@+id/titleName"
                     android:layout_width="wrap_content"
@@ -633,7 +662,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/attachImageLayout" />
-
+                </LinearLayout>
                 <Button
                     android:id="@+id/submit"
                     android:layout_width="match_parent"
