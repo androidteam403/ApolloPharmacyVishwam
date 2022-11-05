@@ -11,12 +11,18 @@ object Preferences {
 
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
+    private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
 
     private const val PREF_KEY_EMP_DETAILS_JSON = "PREF_KEY_EMP_DETAILS_JSON"
+    private const val PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG = "PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG"
+    private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
+    private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
+    private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
+
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -63,6 +69,22 @@ object Preferences {
     fun getDesignation(): String {
         return sharedPreferences.getString(KEY_DESIGNATION, "")!!
     }
+
+
+
+
+
+
+
+    private const val KEY_APP_DESIGNATION = "KEY_APP_DESIGNATION"
+    fun saveAppDesignation(userDesignation: String) {
+        sharedPreferences.edit().putString(KEY_APP_DESIGNATION, userDesignation).apply()
+    }
+
+    fun getAppDesignation(): String {
+        return sharedPreferences.getString(KEY_APP_DESIGNATION, "")!!
+    }
+
     //------------------ saving profileData ------------------------------
 
     private const val KEY_PROFILE = "KEY_PROFILE"
@@ -226,6 +248,32 @@ object Preferences {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
 
+    fun setEmployeeRoleUidNewDrugRequest(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, role).apply()
+    }
+
+    fun getEmployeeRoleUidNewDrugRequest(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_NEW_DRUG_REQUEST, "")!!
+    }
+
+    fun setAppLevelDesignationSwach(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_SWACH, role).apply()
+    }
+
+    fun getAppLevelDesignationSwach(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_SWACH, "")!!
+    }
+
+    fun setAppLevelDesignationQCFail(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_QC_FAIL, role).apply()
+    }
+
+    fun getAppLevelDesignationQCFail(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_QC_FAIL, "")!!
+    }
+
+
+
     fun setSwachhSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
     }
@@ -241,6 +289,29 @@ object Preferences {
 
     fun getEmployeeDetailsResponseJson(): String {
         return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON, "")!!
+
+    }
+
+
+    fun storeEmployeeDetailsResponseJsonNewDrug(employeeDetailsResponse: String) {
+        sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG, employeeDetailsResponse)
+            .apply()
+    }
+
+    fun getEmployeeDetailsResponseJsonNewDrug(): String {
+        return sharedPreferences.getString(PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG, "")!!
+
+    }
+
+
+        fun setAppLevelDesignation(siteIdList: String) {
+            sharedPreferences.edit().putString(KEY_APP_LEVEL_DESIGNATION, siteIdList).apply()
+        }
+
+
+    fun getAppLevelDesignation(): String {
+        return sharedPreferences.getString(KEY_APP_LEVEL_DESIGNATION, "")!!
+    }
 //        val storeString = sharedPreferences.getString(PREF_KEY_LOGIN_JSON, "")
 //        return try {
 //            Gson().fromJson(storeString, LoginDetails::class.java)
@@ -248,7 +319,7 @@ object Preferences {
 //            e.printStackTrace()
 //            return null
 //        }
-    }
+
 
     fun setRegistrationSiteId(siteId: String) {
         sharedPreferences.edit().putString(KEY_REGISTRATION_SITE_ID, siteId).apply()

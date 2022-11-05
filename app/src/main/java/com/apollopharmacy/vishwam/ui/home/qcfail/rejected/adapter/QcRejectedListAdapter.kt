@@ -20,7 +20,6 @@ class QcRejectedListAdapter(
     val imageClicklistner: QcListsCallback,
 
     var rejectList: ArrayList<QcListsResponse.Reject>,
-    val mListner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
 
     ) :
@@ -134,13 +133,13 @@ class QcRejectedListAdapter(
 
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.rejectListBinding.totalCost.setText(totalPrices.toString())
+                holder.rejectListBinding.totalCost.setText(" "+totalPrices.toString())
             } else {
                 holder.rejectListBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.rejectListBinding.discountTotal.setText(discounts.toString())
+                holder.rejectListBinding.discountTotal.setText(" "+discounts.toString())
             } else {
                 holder.rejectListBinding.discountTotal.setText("-")
 
@@ -149,7 +148,7 @@ class QcRejectedListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.rejectListBinding.remainingPayment.setText(String.format("%.2f",
+                holder.rejectListBinding.remainingPayment.setText(" "+String.format("%.2f",
                     netPayment))
             } else {
                 holder.rejectListBinding.remainingPayment.setText("-")

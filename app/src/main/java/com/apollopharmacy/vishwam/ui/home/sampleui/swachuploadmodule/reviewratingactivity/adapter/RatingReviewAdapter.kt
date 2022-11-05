@@ -1,10 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.RatingBar
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -12,7 +12,11 @@ import com.apollopharmacy.vishwam.databinding.AdapterRatingReviewBinding
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import java.text.SimpleDateFormat
 
-class RatingReviewAdapter(val context: Context, val remarksList: List<GetImageUrlModelResponse.Remark>?) : RecyclerView.Adapter<RatingReviewAdapter.ViewHolder>()  {
+class RatingReviewAdapter(
+    val context: Context,
+    val remarksList: List<GetImageUrlModelResponse.Remark>?,
+    val userDesignation: String?
+) : RecyclerView.Adapter<RatingReviewAdapter.ViewHolder>()  {
 
 
     var ratingbar: RatingBar? = null
@@ -27,9 +31,15 @@ class RatingReviewAdapter(val context: Context, val remarksList: List<GetImageUr
         return ViewHolder(adapterRatingReviewBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var imageUrls = remarksList?.get(position)
 
+        if(userDesignation!=null && userDesignation.equals("MANAGER")||userDesignation.equals("GENERAL MANAGER")||userDesignation.equals("CEO"))
+        {
+            holder.adapterRatingReviewBinding.apprReviewedByText.setText("Reviewed By: ")
+            holder.adapterRatingReviewBinding.apprReviewedDateText.setText("Reviewed Date: ")
+        }
         if(imageUrls?.remarks!=null && imageUrls?.remarks!=""){
             holder.adapterRatingReviewBinding.comments.text=imageUrls?.remarks
         }else{

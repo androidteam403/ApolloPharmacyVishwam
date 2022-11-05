@@ -168,30 +168,15 @@ class QcPendingListAdapter(
 
                 }
             }
-//            for (i in qty.indices) {
-//                for (j in totalPrice.indices) {
-//                    if (i.equals(j)) {
-//                        TotalPrice.add(qty[i] * totalPrice[j])
-//                    }
-//                }
-//            }
-//
-//            for (i in qty.indices) {
-//                for (j in discount.indices) {
-//                    if (i.equals(j)) {
-//                        Totaldiscount.add(qty[i] * discount[j])
-//                    }
-//                }
-//            }
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.totalCost.setText(totalPrices.toString())
+                holder.pendingLayoutBinding.totalCost.setText(" "+totalPrices.toString())
             } else {
                 holder.pendingLayoutBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.discountTotal.setText(discounts.toString())
+                holder.pendingLayoutBinding.discountTotal.setText(" "+discounts.toString())
             } else {
                 holder.pendingLayoutBinding.discountTotal.setText("-")
 
@@ -200,8 +185,8 @@ class QcPendingListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.pendingLayoutBinding.remainingPayment.setText(String.format("%.2f",
-                    netPayment))
+                holder.pendingLayoutBinding.remainingPayment.setText(" "+String.format("%.2f",
+                     netPayment))
             } else {
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }

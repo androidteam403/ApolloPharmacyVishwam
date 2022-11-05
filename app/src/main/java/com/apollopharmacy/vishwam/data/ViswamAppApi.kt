@@ -7,6 +7,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
+import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
@@ -316,6 +317,9 @@ interface ViswamAppApi {
 
     @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
     suspend fun qcStatusList(@Query("ORDERNO") id: String,): ActionResponse
+
+    @GET("http://lms.apollopharmacy.org:8033/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
+    suspend fun appLevelDesignation(@Query("EMPID") id: String,  @Query("APPTYPE") fromDate: String,): AppLevelDesignationModelResponse
 
 
 //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")

@@ -91,20 +91,23 @@ class QcRegionDialog : DialogFragment() {
                         }
                         sitereCyclerView.notifyDataSetChanged()
 
-                        for (i in list.indices) {
-                            if (list[i].isClick) {
-                                selectsiteIdList.add(list[i].siteid.toString())
+                        for (i in regionDataArrayList.indices) {
+                            if (regionDataArrayList[i].isClick) {
+                                selectsiteIdList.add(regionDataArrayList[i].siteid.toString())
                             }
                         }
 
 
-                            abstractDialogClick.onselectMultipleSites(selectsiteIdList, position)
+                        abstractDialogClick.onselectMultipleSites(selectsiteIdList, position)
+                        dismiss()
 
                         viewBinding.apply.setOnClickListener {
-                            if (selectsiteIdList.isNullOrEmpty()){
-                                Toast.makeText(context, "No Data Found To Apply", Toast.LENGTH_SHORT)
+                            if (selectsiteIdList.isNullOrEmpty()) {
+                                Toast.makeText(context,
+                                    "No Data Found To Apply",
+                                    Toast.LENGTH_SHORT)
                                     .show()
-                            }else{
+                            } else {
                                 dismiss()
                             }
                         }

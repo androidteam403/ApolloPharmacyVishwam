@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do you want to remove Selected Site?"
+            android:text="Do you want to change Site ID?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_15sp" />
 
@@ -34,7 +34,7 @@
             android:layout_marginBottom="@dimen/value_5dp">
 
             <TextView
-                android:id="@+id/no_btnSite"
+                android:id="@+id/no_btnSiteChange"
                 android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_30dp"
                 android:layout_gravity="center"
@@ -47,7 +47,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_15sp"/>
             <TextView
-                android:id="@+id/yes_btnSite"
+                android:id="@+id/yes_btnSiteChange"
                 android:textStyle="bold"
                 android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_30dp"

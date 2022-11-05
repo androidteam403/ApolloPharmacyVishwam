@@ -2,6 +2,7 @@ package com.apollopharmacy.vishw
 
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.QcPendingViewModel
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
@@ -33,12 +35,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var dialogBinding: DialogRejectQcBinding? = null
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
+    public var isBulk: Boolean = false
+
     var getPendingqcitemList: List<QcItemListResponse.Item>? = null
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
+    var qcBundleAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
+
     var qcRejectList = ArrayList<QcAcceptRejectRequest.Order>()
-    var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
-    var getRejectitemList: List<QcItemListResponse.Item>? = null
+    var bulkList = ArrayList<QcListsResponse.Pending>()
+    var accpetbulkList = ArrayList<QcListsResponse.Pending>()
+    var qcAcceptItemsList = ArrayList<QcAcceptRejectRequest.Item>()
 
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
@@ -49,6 +56,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var headerPos: Int? = -1
     var itemPos: Int? = -1
     var itemList = ArrayList<QcItemListResponse.Item>()
+    var pos: Int = 0
 
     var names = ArrayList<QcListsResponse.Pending>();
 
@@ -65,25 +73,43 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-        viewModel.getQcPendingList(Preferences.getValidatedEmpId(),
+
+
+        viewModel.getQcPendingList(Preferences.getToken(),
             Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!,
             Utlis.getCurrentDate("yyyy-MM-dd")!!,
             "",
             "")
-//APL48627
-
-//        val qcreject = QcAcceptRejectRequest.Order("RV000012",
-//            "10",
-//            "EXECUTIVE",
-//            "APL48627",
-//            "16001",
-//            qcRejectItemsList)
-//        qcRejectList.add(qcreject)
 
 
         viewModel.qcAcceptRejectRequestList.observe(viewLifecycleOwner, {
             hideLoading()
-            if (names.size > acceptOrRejectItemPos) {
+
+
+
+            isBulkChecked = false
+            viewBinding.bulkAppRejLayout.visibility=View.GONE
+
+            var i: Int = 0
+
+            if (isBulk) {
+
+                while (i < names.size) {
+                    if (names[i].isItemChecked) {
+                        names.removeAt(i)
+                        i = 0
+                        adapter!!.notifyDataSetChanged()
+
+
+
+                    } else {
+                        i++
+                        adapter!!.notifyDataSetChanged()
+                    }
+                }
+            }
+
+            else if (names.size > acceptOrRejectItemPos) {
                 names.removeAt(acceptOrRejectItemPos)
                 adapter!!.notifyDataSetChanged()
             }
@@ -91,9 +117,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
 
-
         viewModel.qcPendingItemsLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
+
+
+
+
             it.setorderno(orderId)
             for (j in it.itemlist!!) {
                 j.orderno = orderId
@@ -109,33 +138,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 itemsList.add(it)
             }
             adapter?.notifyDataSetChanged()
-//            getitemList = listOf(it)
-//            val getQcItemListResponse: QcItemListResponse
-//            getQcItemListResponse = it
-//            getitemList = listOf(getQcItemListResponse)
-//            for (i in getitemList!!) {
-//                val items = QcItemListResponse()
-//                items.itemlist = i.itemlist
-//                items.setorderno(orderId)
-//                items.status = i.status
-//                itemsList.add(items)
-//                adapter?.notifyDataSetChanged()
-//            }
-
-
-//            val itemsList: QcItemListResponse.Item
-//            getRejectitemList = it.itemlist
-//            for (i in getRejectitemList!!) {
-//                val rejItems = QcAcceptRejectRequest.Item()
-//                rejItems.itemid = i.itemid
-//                rejItems.qty = 1
-//                rejItems.remarks = "Qty Mismatch"
-//                qcRejectItemsList.add(rejItems)
-//
-//            }
-
-
-//            adapter?.notifyDataSetChanged()
 
 
         })
@@ -144,12 +146,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
+
+
             names = it.pendinglist as ArrayList<QcListsResponse.Pending>
             if (it.pendinglist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.recyclerViewPending.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
             } else {
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
                 adapter = context?.let { it1 ->
                     QcPendingListAdapter(it1, it.pendinglist as ArrayList<QcListsResponse.Pending>,
                         this,
@@ -163,10 +169,87 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
 
+
+
+
+        viewBinding.selectAllLayout.setOnClickListener {
+
+
+            if (isBulkChecked) {
+                isBulkChecked = false
+                for (item in names) {
+                    item.isItemChecked = false
+                }
+                viewBinding.bulkSelectCheck.setImageResource(R.drawable.qc_checkbox)
+                viewBinding.bulkAppRejLayout.visibility = View.GONE
+            } else {
+                isBulkChecked = true
+                for (item in names) {
+                    item.isItemChecked = true
+                }
+                viewBinding.bulkSelectCheck.setImageResource(R.drawable.qcright)
+            }
+            adapter?.notifyDataSetChanged()
+        }
+
+
+
+
         viewBinding.filter.setOnClickListener {
-            viewModel.filterClicked()
+            val i = Intent(context, QcFilterActivity::class.java)
+            startActivityForResult(i, 210)
 
         }
+
+
+        viewBinding.acceptClick.setOnClickListener {
+            val dialogBinding: DialogAcceptQcBinding? =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(requireContext()),
+                    R.layout.dialog_accept_qc,
+                    null,
+                    false
+                )
+            val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
+            customDialog.apply {
+
+                setView(dialogBinding?.root)
+                setCancelable(false)
+            }.show()
+            dialogBinding?.yesBtn?.setOnClickListener {
+                isBulk = true
+                for (i in names.indices) {
+                    if (names[i].isItemChecked) {
+                        val qcaccept = QcAcceptRejectRequest.Order(names[i].orderno,
+                            names[i].status,
+                            Preferences.getAppDesignation(),
+                            Preferences.getToken(),
+                            names[i].storeid,
+                            qcAcceptItemsList)
+                        qcBundleAccepttList.add(qcaccept)
+                    }
+                }
+                showLoading()
+
+                viewModel.getAcceptRejectResult(QcAcceptRejectRequest("ACCEPT",
+                    "",
+                    "",
+                    qcBundleAccepttList))
+
+                customDialog.dismiss()
+
+            }
+
+            if (dialogBinding != null) {
+                dialogBinding.message.setText("You are accepting the multiple Orders" +
+                        " for Qc Fail Do You Want to Proceed ?")
+            }
+
+            dialogBinding?.cancelButton?.setOnClickListener {
+                customDialog.dismiss()
+            }
+        }
+
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
                 is Command.ShowQcButtonSheet -> {
@@ -187,6 +270,50 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 210) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                if (data != null) {
+                    showLoading()
+                    viewModel.getQcPendingList(Preferences.getToken(),
+                        data.getStringExtra("fromQcDate").toString(),
+                        data.getStringExtra("toDate").toString(),
+                        data.getStringExtra("siteId").toString(),
+                        data.getStringExtra("regionId").toString())
+
+
+                    if (data.getStringExtra("fromQcDate").toString()
+                            .equals(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy")) && data.getStringExtra(
+                            "toDate").toString()
+                            .equals(Utlis.getCurrentDate("dd-MMM-yyyy")) && data.getStringExtra("regionId")
+                            .toString().isNullOrEmpty()
+                    ) {
+                        viewBinding.filterIndication.visibility = View.GONE
+                    } else {
+                        viewBinding.filterIndication.visibility = View.VISIBLE
+
+                    }
+
+                    if (data.getStringExtra("reset").toString().equals("reset")) {
+                        showLoading()
+                        viewBinding.filterIndication.visibility = View.GONE
+                        viewModel.getQcPendingList(Preferences.getValidatedEmpId(),
+                            Utlis.getDateSevenDaysEarlier("yyyy-MM-dd")!!,
+                            Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                            "",
+                            "")
+                    }
+
+
+                }
+
+
             }
         }
     }
@@ -243,8 +370,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         qcAccepttList.clear()
         val qcreject = QcAcceptRejectRequest.Order(orderno,
             status,
-            "EXECUTIVE",
-            Preferences.getValidatedEmpId(),
+            Preferences.getAppDesignation(),
+            Preferences.getToken(),
             storeId,
             qcRejectItemsList)
         qcAccepttList.add(qcreject)
@@ -315,26 +442,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             dialogBinding!!.siteIdLayout.visibility = View.GONE
             dialogBinding!!.message.visibility = View.VISIBLE
             dialogBinding!!.buttomLayout.visibility = View.VISIBLE
-//        dialogBinding?.submit?.setOnClickListener {
-//            if (dialogBinding!!.siteIdSelectQc.text.isNotEmpty()) {
-//                dialogBinding!!.submit.visibility = View.GONE
-//                dialogBinding!!.siteIdLayout.visibility = View.GONE
-//                dialogBinding!!.message.visibility = View.VISIBLE
-//                dialogBinding!!.buttomLayout.visibility = View.VISIBLE
-//            }
-//
-//
-//        }
-
-//        dialogBinding?.siteIdSelectQc?.setOnClickListener {
-//            RejectReasonsDialog().apply {
-//                arguments =
-//                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-//                    RejectReasonsDialog().generateParsedData(viewModel.getReasons())
-//            }.show(childFragmentManager, "")
-//
-//        }
-
             qcRejectItemsList.clear()
 //        getRejectitemList = it.itemlist
             for (i in itemlist!!) {
@@ -349,7 +456,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             qcRejectList.clear()
             val qcreject = QcAcceptRejectRequest.Order(orderno,
                 status,
-                "EXECUTIVE",
+                Preferences.getAppDesignation(),
                 Preferences.getValidatedEmpId(),
                 storeId,
                 qcRejectItemsList)
@@ -384,11 +491,45 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun isChecked(array: ArrayList<QcListsResponse.Pending>, position: Int) {
-        if (array[position].isItemChecked) {
+        var pendingItemChecked: Boolean = false;
+        var items = QcListsResponse.Pending()
+        var count: Int = 0
+        if (names[position].isItemChecked) {
+
             names[position].setisItemChecked(false)
+
         } else {
             names[position].setisItemChecked(true)
         }
+
+        for (i in names.indices) {
+            if (names[i].isItemChecked) {
+                count++;
+            }
+
+        }
+
+        if (count > 1) {
+            viewBinding.bulkAppRejLayout.visibility = View.VISIBLE
+        } else {
+
+            viewBinding.bulkAppRejLayout.visibility = View.GONE
+
+        }
+
+
+        if (count < names.size) {
+            isBulkChecked = false
+            viewBinding.bulkSelectCheck.setImageResource(R.drawable.qc_checkbox)
+
+        }
+        if (count == names.size) {
+            isBulkChecked = true
+            viewBinding.bulkSelectCheck.setImageResource(R.drawable.qcright)
+
+        }
+
+
         adapter?.notifyDataSetChanged()
     }
 

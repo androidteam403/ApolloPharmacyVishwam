@@ -340,15 +340,12 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/subTotalText"
                                 android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="@dimen/value_40dp"
                                 android:layout_marginStart="@dimen/value_17dp"
-                                android:layout_marginEnd="@dimen/value_30dp"
-
-
                                 android:drawableLeft="@drawable/white_rupees"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="50.10"
+                                android:text="0"
                                 android:textColor="@color/white"
-                                android:textSize="11sp" />
+                                android:textSize="@dimen/text_13sp" />
                         </RelativeLayout>
                     </LinearLayout>
 

@@ -38,6 +38,7 @@ class ValidatePinActivity : AppCompatActivity() {
     private var serviceAppVer: Int = 0
     private var currentAppVer: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_pin)
@@ -90,7 +91,31 @@ class ValidatePinActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
                 viewModel.getRole(Preferences.getValidatedEmpId())
+                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH")
+                viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
+
+
+                viewModel.appLevelDesignationRespSwach.observeForever {
+
+                    if(it.message!=null && it.status.equals(true)){
+                        Preferences.setAppLevelDesignationSwach(it.message)
+                        MainActivity.userDesignationSwach=it.message
+                    }else{
+//                        Preferences.setAppLevelDesignationSwach("")
+                    }
+
+                }
+
+                viewModel.appLevelDesignationRespQCFail.observeForever {
+                    if(it.message!=null && it.status.equals(true)){
+                        Preferences.setAppLevelDesignationQCFail(it.message)
+//                        Toast.makeText(applicationContext, "QcFail: "+Preferences.getAppLevelDesignationQCFail(), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Preferences.setAppLevelDesignationQCFail("")
+                    }
+                }
                 viewModel.employeeDetails.observeForever {
+
                     if (it.data != null && it.data?.uploadSwach != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
@@ -99,7 +124,7 @@ class ValidatePinActivity : AppCompatActivity() {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                            if (it.data?.uploadSwach?.uid!!.equals("yes",
+                            if (it.data?.uploadSwach?.uid!!.equals("Yes",
                                     true)
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
@@ -112,8 +137,33 @@ class ValidatePinActivity : AppCompatActivity() {
                         } else {
                             Preferences.setEmployeeRoleUid("")
                         }
-                    } else {
+                    }
+                    else {
                         Preferences.setEmployeeRoleUid("")
+                    }
+
+                    if (it.data != null && it.data?.newDrugRequest != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
+                        if (it.data?.newDrugRequest?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            if (it.data?.newDrugRequest?.uid!!.equals("Yes",
+                                    true)
+                            ) {
+                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            }else{
+                                Preferences.setEmployeeRoleUidNewDrugRequest("")
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUidNewDrugRequest("")
+                        }
+                    }
+                    else {
+                        Preferences.setEmployeeRoleUidNewDrugRequest("")
                     }
 
                     if (dialogStatus) {
@@ -128,6 +178,9 @@ class ValidatePinActivity : AppCompatActivity() {
                     }
 
                 }
+
+
+
 
 
 //                if (dialogStatus) {
