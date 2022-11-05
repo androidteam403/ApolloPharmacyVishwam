@@ -689,10 +689,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 return false
             }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_mrp)
+                    context?.resources?.getString(R.string.err_msg_enter_old_mrp)
                 )
                 return false
-            } else if (purchasePrice.isNotEmpty() && mrpPrice.isNotEmpty()) {
+            } else if (purchasePrice.isNotEmpty() ) {
                 if (statusInventory.equals("MRP Change Request")) {
                     if (newMrpPrice.isEmpty()) {
                         showErrorMsg(

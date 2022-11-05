@@ -9,6 +9,7 @@
         <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.24547101449275363" />
         <entry key="app/src/main/res/layout/dialog_comment.xml" value="0.24547101449275363" />
         <entry key="app/src/main/res/layout/dialog_search_article.xml" value="0.24230072463768115" />
+        <entry key="app/src/main/res/layout/dialog_tid_search.xml" value="0.21068376068376068" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.17636986301369864" />
         <entry key="app/src/main/res/layout/layout_product_images.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_complaint_item.xml" value="0.25" />

@@ -402,7 +402,7 @@
                                 android:id="@+id/batchText"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_50dp"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./-"
                                 android:hint="@string/label_Batch_No"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"

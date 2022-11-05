@@ -1051,37 +1051,44 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-            showLoading()
-            val inventoryAcceptrejectModel= InventoryAcceptrejectModel(
-                null,
-                remark.text.toString(),
-                ItemStatus("approved"),
-                data.site!!.site!!,
-                data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
-                userData.EMPID,
-                "inprogress",
-                data.inventoryDetailsModel!!.data.ticket_id,
-                "resolve"
-            )
-            var workFlowUpdateModel = WorkFlowUpdateModel(
-                Action("97A318ACE84930236386DB1A70944825","resolve"),
-                "Resolved",
-                Department(data.department?.uid,data.department?.code),
-                Level(data.level?.uid,data.level?.code),
-                NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
-                null,
-                Site(data.site?.uid),
-                "",
-                Status(data.status?.code,data.status?.uid),
-                data.ticket_id,
-                TicketOwner(data.user?.uid),
-                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
-                User(data.user?.first_name,data.user?.uid),
-                "Yes",
-                "manager"
-            )
-            viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,workFlowUpdateModel,0)
+            if(remark.text.toString().isEmpty()){
+                remark.setError("Please enter comment")
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
+                    null,
+                    remark.text.toString(),
+                    ItemStatus("approved"),
+                    data.site!!.site!!,
+                    data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
+                    userData.EMPID,
+                    "inprogress",
+                    data.inventoryDetailsModel!!.data.ticket_id,
+                    "resolve"
+                )
+                var workFlowUpdateModel = WorkFlowUpdateModel(
+                    Action("97A318ACE84930236386DB1A70944825", "resolve"),
+                    "Resolved",
+                    Department(data.department?.uid, data.department?.code),
+                    Level(data.level?.uid, data.level?.code),
+                    NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                    null,
+                    Site(data.site?.uid),
+                    "",
+                    Status(data.status?.code, data.status?.uid),
+                    data.ticket_id,
+                    TicketOwner(data.user?.uid),
+                    data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                    User(data.user?.first_name, data.user?.uid),
+                    "Yes",
+                    "manager"
+                )
+                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
+                    workFlowUpdateModel,
+                    0)
+            }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -1105,36 +1112,43 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-            showLoading()
-            val inventoryAcceptrejectModel= InventoryAcceptrejectModel(
-                remark.text.toString(),
-                null,
-                ItemStatus("rejected"),
-                data.site!!.site!!,
-                data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
-                userData.EMPID,"reject", data.inventoryDetailsModel!!.data.ticket_id,
-                null
+            if(remark.text.toString().isEmpty()){
+                remark.setError("Please enter comment")
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
+                    remark.text.toString(),
+                    null,
+                    ItemStatus("rejected"),
+                    data.site!!.site!!,
+                    data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid,
+                    userData.EMPID, "reject", data.inventoryDetailsModel!!.data.ticket_id,
+                    null
 
-            )
-            var workFlowUpdateModel = WorkFlowUpdateModel(
-                Action("52E2C8F5C204B5BD03DF3A73EB096484","reject"),
-                "Resolved",
-                Department(data.department?.uid,data.department?.code),
-                Level(data.level?.uid,data.level?.code),
-                NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
-                null,
-                Site(data.site?.uid),
-                "",
-                Status(data.status?.code,data.status?.uid),
-                data.ticket_id,
-                TicketOwner(data.user?.uid),
-                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
-                User(data.user?.first_name,data.user?.uid),
-                "Yes",
-                "manager"
-            )
-            viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,workFlowUpdateModel,0)
+                )
+                var workFlowUpdateModel = WorkFlowUpdateModel(
+                    Action("52E2C8F5C204B5BD03DF3A73EB096484", "reject"),
+                    "Resolved",
+                    Department(data.department?.uid, data.department?.code),
+                    Level(data.level?.uid, data.level?.code),
+                    NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                    null,
+                    Site(data.site?.uid),
+                    "",
+                    Status(data.status?.code, data.status?.uid),
+                    data.ticket_id,
+                    TicketOwner(data.user?.uid),
+                    data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                    User(data.user?.first_name, data.user?.uid),
+                    "Yes",
+                    "manager"
+                )
+                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
+                    workFlowUpdateModel,
+                    0)
+            }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
@@ -1158,16 +1172,21 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
         yesBtn.setOnClickListener {
-            dialog.dismiss()
-            showLoading()
-            var forwardToManagerModel = ForwardToManagerModel(
-                remark.text.toString(),
-                Manager(""),//data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].manager.uid
-                FMTicket(data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid),
-                data.inventoryDetailsModel!!.data.ticket_inventory.uid,
-                userData.EMPID
-            )
-            viewModel.actionForwardToManager(forwardToManagerModel,0)
+            if(remark.text.toString().isEmpty()){
+                remark.setError("Please enter comment")
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                var forwardToManagerModel = ForwardToManagerModel(
+                    remark.text.toString(),
+                    Manager(""),//data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].manager.uid
+                    FMTicket(data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].uid),
+                    data.inventoryDetailsModel!!.data.ticket_inventory.uid,
+                    userData.EMPID
+                )
+                viewModel.actionForwardToManager(forwardToManagerModel, 0)
+            }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
