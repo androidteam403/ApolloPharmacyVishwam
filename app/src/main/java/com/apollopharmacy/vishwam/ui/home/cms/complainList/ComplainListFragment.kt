@@ -1341,6 +1341,10 @@ class ComplainListFragment() : BaseFragment<ComplainListViewModel, FragmentCompl
 
     }
 
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
     override fun onSelectedManager(data: Row) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)

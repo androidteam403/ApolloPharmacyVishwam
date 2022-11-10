@@ -927,6 +927,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         startActivityForResult(i, 781)
     }
 
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
     fun submitButtonEnable(dialogFilterUploadBinding: DialogFilterUploadBinding) {
         if (!dialogFilterUploadBinding.approvedStatus.isChecked
             && !dialogFilterUploadBinding.partialyApprovedStatus.isChecked

@@ -50,6 +50,8 @@
     <string name="label_complaint_reg">Complaint Registration</string>
     <string name="label_complaint_list">Complaint List</string>
     <string name="label_search_by">Search By</string>
+<!--    <string name="label_select_reason">Select Reason  <font color='#cc0029\'>*</font></string>-->
+
     <string name="label_select_site_id">Select Site Id  <font color='#cc0029\'>*</font></string>
     <string name="label_select_department">Select Department <font color='#cc0029\'>*</font></string>
     <string name="label_select_category">Select Category  <font color='#FF0000'>*</font></string>

@@ -123,9 +123,29 @@ object Utlis {
         return sdf.format(todate1)
     }
 
+
+
+    fun getDatethirtyDays(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE,30)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
     fun getCurrentDate(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         return sdf.format(Date())
+    }
+    fun getCurrent30Date(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE,-30)
+        val todate1 = cal.time
+        return sdf.format(todate1)
     }
 
     fun formatdate(fdate: String?): String? {

@@ -1174,6 +1174,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
         startActivityForResult(intent, 887)
     }
 
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+
 //    override fun deleteSite(siteDataItem: StoreListItem) {
 //
 //    }

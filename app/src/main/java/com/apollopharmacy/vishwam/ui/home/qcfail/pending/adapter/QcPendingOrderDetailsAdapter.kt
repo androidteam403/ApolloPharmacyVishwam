@@ -1,16 +1,21 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
+import com.apollopharmacy.vishwam.databinding.DialogResetBinding
 import com.apollopharmacy.vishwam.databinding.QcOrderLayoutBinding
 import com.apollopharmacy.vishwam.databinding.QcPendingLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
@@ -24,7 +29,7 @@ class QcPendingOrderDetailsAdapter(
 
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
-    var qcPendingList: ArrayList<QcListsResponse.Pending>,
+    var qcPendingList: List<QcListsResponse.Pending>,
     var pendingFragmentCallback: PendingFragmentCallback,
     var qcPendingListAdapter: QcPendingListAdapter,
     var orderId:String,
@@ -47,9 +52,37 @@ class QcPendingOrderDetailsAdapter(
 
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var count: Int = 0
+        var aprqty:Int=0
         val items = itemsList.get(position)
+//        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.grey)
+        holder.orderdetailsBinding.reason.setText("Select")
+        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+
+        if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("EXECUTIVE",true)){
+            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+            aprqty= items.qty!!
+
+        }
+        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("MANAGER",true)){
+            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+            aprqty= items.approvedqty!!
+
+        }
+
+        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("GENERALMANAGER",true)){
+            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+            if (items.approvedqty!=null){
+                aprqty= items.approvedqty!!
+
+            }else{
+                aprqty= 0
+
+            }
+
+        }
         if (items.qty == null) {
 
         } else {
@@ -65,9 +98,9 @@ class QcPendingOrderDetailsAdapter(
 
             }
         if (items.remarks != null) {
-            holder.orderdetailsBinding.reason.text = items.remarks.toString()
+            holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
-            holder.orderdetailsBinding.reason.text = "Select"
+            holder.orderdetailsBinding.reason.setText("Select")
         }
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
         holder.orderdetailsBinding.categoryName.setText("- " + items.category)
@@ -75,13 +108,19 @@ class QcPendingOrderDetailsAdapter(
 
 
 
-        holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
         if (items.approvedqty == 0) {
+
+
+
             holder.orderdetailsBinding.selectResonItem.isEnabled = true
+//            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.white)
+
             holder.orderdetailsBinding.selectResonItem.alpha = 1f
 //                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
 //                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
         } else {
+
+//            holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.grey)
             holder.orderdetailsBinding.selectResonItem.isEnabled = false
             holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
 
@@ -95,23 +134,80 @@ class QcPendingOrderDetailsAdapter(
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+
             }
 
+            @SuppressLint("ShowToast")
             override fun afterTextChanged(p0: Editable?) {
+                if (!p0.toString().isNullOrEmpty()){
+
+                    if (Integer.parseInt(p0.toString())>aprqty){
+
+                            holder.orderdetailsBinding.approveQtyText.setText(aprqty.toString())
+                        val dialogBinding: DialogResetBinding? =
+                            DataBindingUtil.inflate(
+                                LayoutInflater.from(mContext),
+                                R.layout.dialog_reset,
+                                null,
+                                false
+                            )
+                        val customDialog = android.app.AlertDialog.Builder(mContext, 0).create()
+                        customDialog.apply {
+
+                            setView(dialogBinding?.root)
+                            setCancelable(false)
+                        }.show()
+
+
+                        if (dialogBinding != null) {
+                            dialogBinding.yesBtn.setOnClickListener {
+                                holder.orderdetailsBinding.approveQtyText.clearFocus()
+
+                                customDialog.dismiss()
+                            }
+                        }
+//                        Toast.makeText(mContext,"Approve Qty Should be less than or equal to Req qty ",Toast.LENGTH_LONG).show()
+//                        if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("EXECUTIVE",true)){
+//                            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+//
+//                        }
+//                        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("MANAGER",true)){
+//                            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+//
+//                        }
+//
+//                        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("GENERAL MANAGER",true)){
+//                            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+//
+//                        }
+                    }
+                }
+
+
                 if (p0.toString().length > 0) {
                     items.approvedqty = p0.toString().toInt()
                     if (items.approvedqty == 0) {
+                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+
+                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.rounded_dropdown_qcfail_bg)
+
                         holder.orderdetailsBinding.selectResonItem.isEnabled = true
                         holder.orderdetailsBinding.selectResonItem.alpha = 1f
 //                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.VISIBLE
 //                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.VISIBLE
                     } else {
+                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(0)
+
+                        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
+
                         holder.orderdetailsBinding.selectResonItem.isEnabled = false
                         holder.orderdetailsBinding.selectResonItem.alpha = 0.5f
 
 //                        holder.orderdetailsBinding.reasonHeaderLabelLayout.visibility = View.GONE
 //                        holder.orderdetailsBinding.reasonValueLayout.visibility = View.GONE
                     }
+
                     qcPendingListAdapter.setQcItemLists(items.orderno!!, pendingLayoutBinding)
                 }
             }
@@ -154,24 +250,17 @@ class QcPendingOrderDetailsAdapter(
         }
 
         holder.orderdetailsBinding.add.setOnClickListener {
-            count++;
-            holder.orderdetailsBinding.approveQtyText.setText(count.toString())
+            if(Integer.parseInt( holder.orderdetailsBinding.approveQtyText.text.toString())>=items.qty!!
+
+            ){
+                Toast.makeText(mContext,"Approve quantity cannot be more than Required quantity",Toast.LENGTH_LONG).show()
+            }else{
+                count++;
+                holder.orderdetailsBinding.approveQtyText.setText(count.toString())
+            }
+
         }
 
-//        holder.orderdetailsBinding.approveQtyText.addTextChangedListener(object :TextWatcher{
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                TODO("Not yet implemented")
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
 
     }
 

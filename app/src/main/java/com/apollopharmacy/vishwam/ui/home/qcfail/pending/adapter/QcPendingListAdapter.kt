@@ -16,7 +16,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 
 class QcPendingListAdapter(
     val mContext: Context,
-    var pendingList: ArrayList<QcListsResponse.Pending>,
+    var pendingList: List<QcListsResponse.Pending>,
     val imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
     var pendingFragmentCallback: PendingFragmentCallback,
@@ -130,10 +130,10 @@ class QcPendingListAdapter(
         } else {
             holder.pendingLayoutBinding.custNumber.setText(pendingOrders.mobileno)
         }
-        if (pendingOrders.orderno == null) {
+        if (pendingOrders.omsorderno == null) {
             holder.pendingLayoutBinding.orderid.setText("-")
         } else {
-            holder.pendingLayoutBinding.orderid.setText(pendingOrders.orderno)
+            holder.pendingLayoutBinding.orderid.setText(pendingOrders.omsorderno)
 
         }
         var item = QcItemListResponse()
@@ -222,7 +222,7 @@ class QcPendingListAdapter(
                         position,
                         pendingList,
                         pendingFragmentCallback,
-                        this,orderId,
+                        this,pendingOrders.omsorderno.toString(),
                         holder.pendingLayoutBinding)
                 }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)

@@ -12,6 +12,10 @@ object Preferences {
     private const val KEY_SAVING_TOKEN = "KEY_USER_ID"
     private const val PREF_KEY_LOGIN_JSON = "PREF_KEY_LOGIN_JSON"
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
+    private const val KEY_FROM_DATE = "KEY_FROM_DATE"
+    private const val KEY_TO_DATE = "KEY_TO_DATE"
+    private const val KEY_SITE = "KEY_SITE"
+    private const val KEY_REGION = "KEY_REGION"
 
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
@@ -319,6 +323,47 @@ object Preferences {
 //            e.printStackTrace()
 //            return null
 //        }
+
+
+
+
+    fun setQcFromDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_FROM_DATE, siteIdList).apply()
+    }
+
+
+    fun getQcFromDate(): String {
+        return sharedPreferences.getString(KEY_FROM_DATE, "")!!
+    }
+
+    fun setQcToDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+    }
+
+
+    fun getQcToDate(): String {
+        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+    }
+
+    fun setQcSite(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+    }
+
+
+    fun getQcSite(): String {
+        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+    }
+
+
+
+    fun setQcRegion(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+    }
+
+
+    fun setQcRegion(): String {
+        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+    }
 
 
     fun setRegistrationSiteId(siteId: String) {

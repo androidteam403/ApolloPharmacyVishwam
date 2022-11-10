@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcrejectLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApprovedOrderDetailsAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.StatusAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
@@ -19,8 +20,9 @@ class QcRejectedListAdapter(
     val mContext: Context,
     val imageClicklistner: QcListsCallback,
 
-    var rejectList: ArrayList<QcListsResponse.Reject>,
+    var rejectList: List<QcListsResponse.Reject>,
     var qcItemList: ArrayList<QcItemListResponse>,
+    var statusList: ArrayList<ActionResponse>,
 
     ) :
 
@@ -45,8 +47,7 @@ class QcRejectedListAdapter(
         var orderId: String=""
 
 
-        holder.rejectListBinding.remarks.setText(approvedOrders.remarksdesc)
-        holder.rejectListBinding.rejectedby.setText(approvedOrders.trackinstatusgdescription)
+
 
 
 
@@ -98,10 +99,10 @@ class QcRejectedListAdapter(
         } else {
             holder.rejectListBinding.custNumber.setText(approvedOrders.mobileno)
         }
-        if (approvedOrders.orderno == null) {
+        if (approvedOrders.omsorderno == null) {
             holder.rejectListBinding.orderid.setText("-")
         } else {
-            holder.rejectListBinding.orderid.setText(approvedOrders.orderno)
+            holder.rejectListBinding.orderid.setText(approvedOrders.omsorderno)
 
         }
 
@@ -131,6 +132,29 @@ class QcRejectedListAdapter(
                 }
             }
 
+            if (statusList.isNotEmpty()) {
+                var itemstatus = ActionResponse()
+
+                for (i in statusList) {
+                    if (i.order!!.equals(rejectList.get(position).orderno)) {
+                        orderId = i.order!!
+
+                        itemstatus = i
+                    }
+                }
+
+
+                holder.rejectListBinding.reectedByRecycleview.adapter =
+                    itemstatus.hsitorydetails?.let {
+                        StatusAdapter(
+                            mContext,
+                            itemstatus.hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
+
+                    }
+
+            }
+
+
 
             if (totalPrices.toString().isNotEmpty()) {
                 holder.rejectListBinding.totalCost.setText(" "+totalPrices.toString())
@@ -157,7 +181,7 @@ class QcRejectedListAdapter(
             holder.rejectListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcRejectedOrderDetailsAdapter(mContext,
-                        it, position, rejectList, imageClicklistner,orderId)
+                        it, position, rejectList, imageClicklistner,approvedOrders.omsorderno.toString())
                 }
             holder.rejectListBinding.recyclerView.scrollToPosition(position)
         }

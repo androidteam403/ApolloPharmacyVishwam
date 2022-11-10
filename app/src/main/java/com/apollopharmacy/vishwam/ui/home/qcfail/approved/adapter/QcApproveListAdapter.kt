@@ -16,11 +16,13 @@ import com.apollopharmacy.vishwam.util.Utlis
 
 class QcApproveListAdapter(
     val mContext: Context,
-    var approveList: ArrayList<QcListsResponse.Approved>,
+    var approveList: List<QcListsResponse.Approved>,
     val imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
     var statusList: ArrayList<ActionResponse>,
-) :
+    var qcapproveList: ArrayList<QcListsResponse.Approved>,
+
+    ) :
 
     RecyclerView.Adapter<QcApproveListAdapter.ViewHolder>() {
 
@@ -41,9 +43,8 @@ class QcApproveListAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
         var orderId: String = ""
-        var itemstatus = ActionResponse()
 
-var newPos:Int=0
+        var newPos: Int =0
 
 
 
@@ -98,12 +99,16 @@ var newPos:Int=0
         } else {
             holder.adapterApproveListBinding.custNumber.setText(approvedOrders.mobileno)
         }
-        if (approvedOrders.orderno == null) {
+        if (approvedOrders.omsorderno == null) {
             holder.adapterApproveListBinding.orderid.setText("-")
         } else {
-            holder.adapterApproveListBinding.orderid.setText(approvedOrders.orderno)
+            holder.adapterApproveListBinding.orderid.setText(approvedOrders.omsorderno)
 
         }
+
+
+
+
 
         if (qcItemList.isNotEmpty()) {
 
@@ -113,6 +118,40 @@ var newPos:Int=0
                     orderId = i.orderno!!
                     item = i
                 }
+            }
+
+
+            holder.adapterApproveListBinding.recyclerView.adapter =
+                item.itemlist?.let {
+                    QcApprovedOrderDetailsAdapter(
+                        mContext,
+                        it, position, approveList, imageClicklistner, approvedOrders.omsorderno.toString()
+                    )
+                }
+            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
+
+
+
+            if (statusList.isNotEmpty()) {
+                var itemstatus = ActionResponse()
+
+                for (i in statusList) {
+                    if (i.order!!.equals(approveList.get(position).orderno)) {
+                        orderId = i.order!!
+
+                        itemstatus = i
+                    }
+                }
+
+
+                holder.adapterApproveListBinding.approvedByRecycleview.adapter =
+                    itemstatus.hsitorydetails?.let {
+                        StatusAdapter(
+                            mContext,
+                            itemstatus.hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
+
+                    }
+
             }
 
 
@@ -156,14 +195,6 @@ var newPos:Int=0
             }
 
 
-            holder.adapterApproveListBinding.recyclerView.adapter =
-                item.itemlist?.let {
-                    QcApprovedOrderDetailsAdapter(
-                        mContext,
-                        it, position, approveList, imageClicklistner, orderId
-                    )
-                }
-            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
         }
 
 
@@ -171,23 +202,13 @@ var newPos:Int=0
 
 
 
-        if (statusList.isNotEmpty()) {
-            for (i in statusList) {
-                if (i.order!!.equals(statusList.get(position).order)) {
-                    orderId = i.order!!
-                    itemstatus = i
-                }
-            }
 
-            holder.adapterApproveListBinding.recyclerView.adapter = itemstatus.hsitorydetails?.let {
-                StatusAdapter(
-                    mContext, itemstatus.hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
-            }
-        }
 
 
         holder.adapterApproveListBinding.arrow.setOnClickListener {
-            newPos=position
+            newPos = position
+            orderId = approvedOrders.orderno.toString()
+
             approvedOrders.setisClick(true)
             approvedOrders.orderno?.let { it1 -> imageClicklistner.orderno(position, it1) }
         }
@@ -212,6 +233,7 @@ var newPos:Int=0
     }
 
     override fun getItemCount(): Int {
+
         return approveList.size
     }
 

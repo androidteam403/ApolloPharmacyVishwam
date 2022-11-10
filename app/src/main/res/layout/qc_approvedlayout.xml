@@ -33,14 +33,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
-                        android:layout_weight="1">
+                        android:layout_weight="0.78">
 
                         <TextView
                             android:id="@+id/order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="46dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order Id"
                             android:textSize="@dimen/text_12sp"
@@ -52,8 +52,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/order"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="4sp"
                             android:layout_marginBottom="10dp"
+                            android:layout_marginLeft="@dimen/text_10sp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="50001400"
                             android:textColor="@color/black"
@@ -64,7 +64,6 @@
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
                         android:layout_marginTop="@dimen/value_8dp"
                         android:layout_weight="1">
 
@@ -73,7 +72,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/value_8dp"
+                            android:layout_marginEnd="@dimen/text_14sp"
 
                             android:fontFamily="@font/roboto_medium"
                             android:text="Req. Date"
@@ -88,6 +87,7 @@
                             android:layout_alignParentEnd="true"
                             android:fontFamily="@font/roboto_medium"
                             android:text="25-sep-2020"
+                            android:layout_marginEnd="@dimen/value_5dp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -118,10 +118,10 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/approve_date"
                             android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="11sp"
                             android:layout_marginBottom="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="-"
-                            android:layout_marginEnd="11sp"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
@@ -265,10 +265,10 @@
                         tools:listitem="@layout/qc_approvedorderdetails" />
 
                     <LinearLayout
-                        android:layout_width="match_parent"
                         android:id="@+id/totalCostlayout"
-                        android:visibility="gone"
-                        android:layout_height="55dp">
+                        android:layout_width="match_parent"
+                        android:layout_height="55dp"
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -340,8 +340,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/subTotalText"
                                 android:layout_alignParentEnd="true"
-                                android:layout_marginEnd="@dimen/value_40dp"
                                 android:layout_marginStart="@dimen/value_17dp"
+                                android:layout_marginEnd="@dimen/value_40dp"
                                 android:drawableLeft="@drawable/white_rupees"
                                 android:text="0"
                                 android:textColor="@color/white"
@@ -350,20 +350,20 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:id="@+id/approvedbylayout"
-                        android:visibility="visible"
-                        android:background="@color/app_center_color">
-
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/approved_by_recycleview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/qc_status_layout" />
+                        android:background="@color/app_center_color"
+                        android:visibility="visible">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/approved_by_recycleview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/qc_status_layout" />
                     </LinearLayout>
 
                 </LinearLayout>

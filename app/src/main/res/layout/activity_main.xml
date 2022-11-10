@@ -72,6 +72,28 @@
                     android:background="@drawable/red_indication"
                     android:visibility="gone" />
             </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/qc_filter_icon"
+                android:visibility="gone"
+                android:layout_width="@dimen/value_20dp"
+                android:layout_height="@dimen/value_20dp"
+                android:layout_marginStart="@dimen/value_10dp">
+
+                <ImageView
+                    android:layout_width="@dimen/value_20dp"
+                    android:layout_height="@dimen/value_20dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/filtersnew"
+                    android:visibility="visible" />
+
+                <View
+                    android:id="@+id/qc_filter_indication"
+                    android:layout_width="8dp"
+                    android:layout_height="8dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/red_indication"
+                    android:visibility="gone" />
+            </RelativeLayout>
 
         </LinearLayout>
 

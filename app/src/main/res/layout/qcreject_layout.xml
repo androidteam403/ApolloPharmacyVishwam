@@ -33,14 +33,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
-                        android:layout_weight="1">
+                        android:layout_weight="0.79">
 
                         <TextView
                             android:id="@+id/orderHeads"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="46dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order Id"
                             android:textSize="@dimen/text_12sp"
@@ -73,7 +73,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/text_16sp"
 
                             android:fontFamily="@font/roboto_medium"
                             android:text="Req. Date"
@@ -86,7 +86,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/requireDate"
                             android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="3dp"
+                            android:layout_marginEnd="@dimen/text_14sp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="25-sep-2020"
                             android:textColor="@color/black"
@@ -357,28 +357,14 @@
                         android:orientation="vertical"
                         android:visibility="visible">
 
-                        <TextView
-                            android:id="@+id/remarks"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_16sp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="- "
-                            android:textColor="@color/white"
-                            android:textSize="11sp"
-                            android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/rejectedby"
-                            android:layout_width="wrap_content"
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/reected_by_recycleview"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/text_16sp"
-                            android:textStyle="bold"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Rejected by - Murali"
-                            android:textColor="@color/white"
-                            android:textSize="11sp" />
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:itemCount="1"
+                            tools:listitem="@layout/qc_status_layout" />
                     </LinearLayout>
 
                 </LinearLayout>
