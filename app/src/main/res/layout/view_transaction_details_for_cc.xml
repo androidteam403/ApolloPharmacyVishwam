@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/transaction_details"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:visibility="gone">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/select_tid_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/tid_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+            android:focusable="false"
+            android:hint="@string/label_TID"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/Bill_number_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/select_tid_layout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/bill_number_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:hint="@string/label_Bill_Number"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp"
+            android:inputType="number"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/transaction_id_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/Bill_number_layout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/transaction_id_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:hint="@string/label_Transaction_id"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp"
+            android:inputType="number" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/approval_code_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/transaction_id_layout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/approval_code_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:hint="@string/label_Approval_Code"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bill_amount_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@+id/approval_code_layout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/bill_amount_edit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:hint="@string/label_Bill_Amount"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="@dimen/text_15sp"
+            android:inputType="numberDecimal"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

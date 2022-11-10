@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginBottom="@dimen/value_3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:visibility="visible"
+            app:cardCornerRadius="@dimen/value_6dp"
+            app:cardElevation="@dimen/value_7dp">
+
+            <LinearLayout
+                android:id="@+id/orderHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/pendingLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:id="@+id/cardview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Swachh ID: "
+                                android:textColor="@color/heading_blue"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{model.swachhid}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/four4_dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Store Id: "
+                                android:textColor="@color/heading_blue"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{model.storeId}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/four4_dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:textSize="@dimen/text_12sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/heading_blue"
+                                android:text="Created Date: " />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{model.status.equals(`Pending`) ? model.uploadedDate : model.status.equals(`Approved`) ? model.uploadedDate : model.status.equals(`Reshoot`) ? model.uploadedDate : model.status.equals(`Partially Approved`) ? model.uploadedDate : `-`}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+
+                            android:layout_marginTop="@dimen/four4_dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:textSize="@dimen/text_12sp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/heading_blue"
+                                android:text="Created By: " />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@{model.status.equals(`Pending`) ? model.uploadedBy : model.status.equals(`Approved`) ? model.uploadedBy : model.status.equals(`Reshoot`) ? model.uploadedBy : model.status.equals(`Partially Approved`) ? model.uploadedBy : `-`}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <!--                        <TextView-->
+                            <!--                            android:layout_width="wrap_content"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:text=" - "-->
+                            <!--                            android:textColor="@color/black"-->
+                            <!--                            android:textSize="@dimen/text_12sp"-->
+                            <!--                            android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="@{model.status.equals(`Pending`) ? model.empName : model.status.equals(`Approved`) ? model.empName : model.status.equals(`Reshoot`) ? model.empName : model.status.equals(`Partially Approved`) ? model.empName : `-`}"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_1dp"
+                        android:layout_marginTop="@dimen/value_8dp"
+                        android:background="@color/color_ash" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/value_3dp">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:src="@{model.isApproved() ? @drawable/greenright : @drawable/clock_small}" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: "
+                            android:textColor="@color/black"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{model.status}"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@{model.status.equals(`Pending`) ? @color/material_amber_accent_700 : model.status.equals(`Approved`) ? @color/greenn : model.status.equals(`Reshoot`) ? @color/color_red : model.status.equals(`Partially Approved`) ? @color/color_red : @color/black}"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:gravity="end"
+                            android:textAlignment="viewEnd">
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="10/10"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold"-->
+<!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+
+                            <TextView
+                                android:id="@+id/reviewButton"
+                                android:layout_width="@dimen/value_80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:background="@drawable/seablue_roundedcorners"
+                                android:padding="2sp"
+                                android:text="Review"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="view"
+            type="android.view.View" />
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved" />
+    </data>
+</layout>

@@ -6,6 +6,8 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import java.text.DateFormat
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,6 +28,7 @@ object Utlis {
 
     fun showLoading(context: Context) {
         hideLoading()
+        mProgressDialog = null
         mProgressDialog = Utils.showLoadingDialog(context)
     }
 
@@ -95,10 +98,65 @@ object Utlis {
         return destFormat.format(convertedDate)
     }
 
+    fun convertCmsExparyDate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
+
     fun cmsComplaintDateFormat(dateToFormat: String): String {
         val sourceFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
         val destFormat = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
         val convertedDate = sourceFormat.parse(dateToFormat)
         return destFormat.format(convertedDate)
+    }
+
+    fun getDateSevenDaysEarlier(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
+
+
+    fun getDatethirtyDays(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+
+//        Date date = new Date();
+//        String todate = sdf.format(date);
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE,30)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
+    fun getCurrentDate(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        return sdf.format(Date())
+    }
+    fun getCurrent30Date(pattern: String?): String? {
+        val sdf = SimpleDateFormat(pattern, Locale.getDefault())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE,-30)
+        val todate1 = cal.time
+        return sdf.format(todate1)
+    }
+
+    fun formatdate(fdate: String?): String? {
+        var datetime: String? = null
+        val d: DateFormat = SimpleDateFormat("dd-MM-yyyy")
+        val inputFormat = SimpleDateFormat("yyyy-MM-dd")
+        try {
+            val convertedDate: Date = inputFormat.parse(fdate)
+            datetime = d.format(convertedDate)
+        } catch (e: ParseException) {
+        }
+        return datetime
     }
 }
