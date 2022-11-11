@@ -52,12 +52,24 @@ class OnClickStatusClickAdapter(
         }
         if (isApproved){
             holder.approvedLayout.visibility = View.VISIBLE
+            holder.reshootLayout.visibility = View.GONE
+            holder.pendingLayout.visibility=View.GONE
+            holder.partialLayout.visibility = View.GONE
         }else if (isReshoot){
             holder.reshootLayout.visibility = View.VISIBLE
+            holder.approvedLayout.visibility = View.GONE
+            holder.pendingLayout.visibility=View.GONE
+            holder.partialLayout.visibility = View.GONE
         }else if (isPending){
             holder.pendingLayout.visibility=View.VISIBLE
+            holder.reshootLayout.visibility = View.GONE
+            holder.approvedLayout.visibility = View.GONE
+            holder.partialLayout.visibility = View.GONE
         }else{
             holder.partialLayout.visibility = View.VISIBLE
+            holder.pendingLayout.visibility=View.GONE
+            holder.reshootLayout.visibility = View.GONE
+            holder.approvedLayout.visibility = View.GONE
         }
 //
 //
