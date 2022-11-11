@@ -3,10 +3,8 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +14,9 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.util.Utlis
 import org.apache.commons.lang3.StringUtils
-import java.lang.String.format
-import java.text.MessageFormat.format
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.util.*
@@ -53,10 +48,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
 
-        activityQcFilterBinding.toDateText.setText(toDate)
-        activityQcFilterBinding.fromDateText.setText(fromQcDate)
-        activityQcFilterBinding.regionIdSelect.setText(regionId)
-        activityQcFilterBinding.siteIdSelect.setText(siteId)
+        activityQcFilterBinding.toDateText.setText(Preferences.getQcToDate())
+        activityQcFilterBinding.fromDateText.setText(Preferences.getQcFromDate())
+        activityQcFilterBinding.regionIdSelect.setText(Preferences.getQcRegion())
+        activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
 
 //        var fromDate = String()
 //        var currentDate = String()
@@ -117,7 +112,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.reset.setOnClickListener {
             val intent = Intent()
-
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
             intent.putExtra("reset", "reset")
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -129,10 +127,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
             if(fromQcDate.isNullOrEmpty()&&toDate.isNullOrEmpty()&&regionId.isNullOrEmpty()&&siteId.isNullOrEmpty()){
-                Toast.makeText(context,"All Fields Should not be  Empty",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
             }else{
                 val intent = Intent()
+                Preferences.setQcFromDate(fromQcDate)
+                Preferences.setQcToDate(toDate)
+                Preferences.setQcSite(siteId)
+                Preferences.setQcRegion(regionId)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
                 intent.putExtra("fromQcDate", fromQcDate)
@@ -246,18 +248,26 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 val cal = Calendar.getInstance()
         cal.time=sdf.parse(fromQcDate)
 
-        cal.add(Calendar.DATE,30)
+        cal.add(Calendar.DATE, +30)
         val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
         qcDate=sdf1.format(cal.time)
+var date1 = cal.time
+        val cal1 = Calendar.getInstance()
+        var  date2 = cal1.time
 
-
-        if(qcDate<= LocalDate.now().minusDays(30).toString()){
+        if (date1.before(date2)){
             qcDate=sdf.format(cal.time)
-
         }else{
             qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
-
         }
+//
+//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
+//            qcDate=sdf.format(cal.time)
+//
+//        }else{
+//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+//
+//        }
 //
 //
 ////        Date date = new Date();

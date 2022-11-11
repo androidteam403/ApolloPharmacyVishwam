@@ -361,7 +361,7 @@ object Preferences {
     }
 
 
-    fun setQcRegion(): String {
+    fun getQcRegion(): String {
         return sharedPreferences.getString(KEY_TO_DATE, "")!!
     }
 
