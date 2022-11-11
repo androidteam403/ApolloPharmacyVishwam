@@ -345,6 +345,14 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         }
     }
 
+    override fun isChecked(
+        array: List<QcListsResponse.Pending>,
+        position: Int,
+        pending: QcListsResponse.Pending,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 210) {
@@ -407,11 +415,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         storeId: String,
         status: String,
     ) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun isChecked(array: List<QcListsResponse.Pending>, position: Int) {
         TODO("Not yet implemented")
     }
 

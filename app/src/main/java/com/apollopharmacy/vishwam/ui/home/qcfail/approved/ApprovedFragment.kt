@@ -451,6 +451,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         }
     }
 
+    override fun isChecked(
+        array: List<QcListsResponse.Pending>,
+        position: Int,
+        pending: QcListsResponse.Pending,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun accept(
         position: Int,
         orderno: String,
@@ -474,8 +482,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     }
 
-    override fun isChecked(array: List<QcListsResponse.Pending>, position: Int) {
-    }
+
 
 
     override fun clickedApply(

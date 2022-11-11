@@ -8,10 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -31,7 +29,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.apache.commons.collections4.ListUtils
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
@@ -59,7 +56,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
+    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? =
+        java.util.ArrayList()
 
     //     var reason= String
     var headerPos: Int? = -1
@@ -112,14 +110,20 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     if (names[i].isItemChecked) {
                         names.removeAt(i)
                         i = 0
-                        adapter!!.notifyDataSetChanged()
-
-
                     } else {
                         i++
-                        adapter!!.notifyDataSetChanged()
                     }
                 }
+                var pos: Int = 0
+                while (pos < subList!!.get(increment).size) {
+                    if (subList!!.get(increment)[pos].isItemChecked) {
+                        subList!!.get(increment).removeAt(pos)
+                        pos = 0
+                    } else {
+                        pos++
+                    }
+                }
+                adapter!!.notifyDataSetChanged()
             } else if (subList?.size!! > acceptOrRejectItemPos) {
 
 //                var na = ArrayList<QcListsResponse.Pending>()
@@ -179,11 +183,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             hideLoading()
 
             filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
-
-
-
-
-
 
 
 //            subList = ListUtils.partition(it.pendinglist, 3)
@@ -268,6 +267,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     viewBinding.continueBtn.visibility = View.VISIBLE
 
                 }
+                for (i in subList!!.get(increment)) {
+                    i.setisItemChecked(false)
+                }
+                for (i in names) {
+                    if (i.isItemChecked) {
+                        i.setisItemChecked(false)
+                    }
+                }
                 adapter =
                     context?.let { it1 ->
                         QcPendingListAdapter(it1,
@@ -301,7 +308,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
+                for (i in subList!!.get(increment)) {
+                    i.setisItemChecked(false)
+                }
+                for (i in names) {
+                    if (i.isItemChecked) {
+                        i.setisItemChecked(false)
+                    }
+                }
                 adapter =
                     context?.let { it1 ->
                         QcPendingListAdapter(it1,
@@ -371,7 +385,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     }
                 }
                 showLoading()
-
                 viewModel.getAcceptRejectResult(QcAcceptRejectRequest("ACCEPT",
                     "",
                     "",
@@ -414,6 +427,56 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
         }
     }
+
+//    fun bulkDelete() {
+//        hideLoading()
+//
+//
+//
+//        isBulkChecked = false
+//        viewBinding.bulkAppRejLayout.visibility = View.GONE
+//
+//        var i: Int = 0
+//
+//        if (isBulk) {
+//
+//
+//            while (i < names.size) {
+//                if (names[i].isItemChecked) {
+//                    names.removeAt(i)
+//                    i = 0
+//                } else {
+//                    i++
+//                }
+//            }
+//            var pos: Int = 0
+//            while (pos < subList!!.get(increment).size) {
+//                if (subList!!.get(increment)[pos].isItemChecked) {
+//                    subList!!.get(increment).removeAt(pos)
+//                    pos = 0
+//                } else {
+//                    pos++
+//                }
+//            }
+//            adapter!!.notifyDataSetChanged()
+//        } else if (subList?.size!! > acceptOrRejectItemPos) {
+//
+////                var na = ArrayList<QcListsResponse.Pending>()
+////                na.addAll(subList!!.get(increment))
+////
+////                na.removeAt(acceptOrRejectItemPos)
+//            var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
+//            subListTemp.addAll(subList!!.toList()!!)
+//            subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
+//
+//            subList = subListTemp
+//
+////                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
+//
+////                names.removeAt(acceptOrRejectItemPos)
+//            adapter!!.notifyDataSetChanged()
+//        }
+//    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -472,35 +535,29 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
 
-    fun splitTheArrayList(pendingList : ArrayList<QcListsResponse.Pending>?){
+    fun splitTheArrayList(pendingList: ArrayList<QcListsResponse.Pending>?) {
         subList?.clear()
         var pendingSubList: ArrayList<QcListsResponse.Pending>? = ArrayList()
-var pageStartPos = 0;
+        var pageStartPos = 0;
         var pageEndPos = 5
-        for (i in  pendingList!!){
+        for (i in pendingList!!) {
             pendingSubList!!.add(i)
-            if (pendingList.indexOf(i) == (pendingList.size-1)){
-             //  var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
-                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos, pendingList.size-1))
-subList!!.add(list)
-              //  subList!!.add(pendingListttt as ArrayList<QcListsResponse.Pending>)
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
-            }else if ((pendingList.indexOf(i)+1) % 5 == 0){
-                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos, pageEndPos))
+            if (pendingList.indexOf(i) == (pendingList.size - 1)) {
+                val list: ArrayList<QcListsResponse.Pending> =
+                    ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
+                        pendingList.size))
                 subList!!.add(list)
-
-
-              //  subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as ArrayList<QcListsResponse.Pending>)
-                pageStartPos = pageStartPos +5
-                pageEndPos = pageEndPos  + 5
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
+            } else if ((pendingList.indexOf(i) + 1) % 5 == 0) {
+                val list: ArrayList<QcListsResponse.Pending> =
+                    ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
+                        pageEndPos))
+                subList!!.add(list)
+                pageStartPos = pageStartPos + 5
+                pageEndPos = pageEndPos + 5
             }
         }
     }
+
     override fun notify(position: Int, orderno: String) {
         TODO("Not yet implemented")
     }
@@ -663,16 +720,23 @@ subList!!.add(list)
         }
     }
 
-    override fun isChecked(array: List<QcListsResponse.Pending>, position: Int) {
+    override fun isChecked(
+        array: List<QcListsResponse.Pending>,
+        position: Int,
+        pending: QcListsResponse.Pending,
+    ) {
         var pendingItemChecked: Boolean = false;
         var items = QcListsResponse.Pending()
         var count: Int = 0
-        if (names[position].isItemChecked) {
+        var user: QcListsResponse.Pending? = names.find { it.orderno.equals(pending.orderno) }
 
-            names[position].setisItemChecked(false)
+
+        if (user!!.isItemChecked) {
+
+            user!!.setisItemChecked(false)
 
         } else {
-            names[position].setisItemChecked(true)
+            user.setisItemChecked(true)
         }
 
         for (i in names.indices) {
@@ -768,7 +832,6 @@ subList!!.add(list)
 
 
     }
-
 
 }
 

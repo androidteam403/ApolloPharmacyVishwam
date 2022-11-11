@@ -268,6 +268,7 @@ class QcPendingViewModel : ViewModel() {
                         Toast.makeText(context, "Sucessfull", Toast.LENGTH_SHORT).show()
 
                     } else {
+
                         state.value = State.ERROR
                     }
                 }

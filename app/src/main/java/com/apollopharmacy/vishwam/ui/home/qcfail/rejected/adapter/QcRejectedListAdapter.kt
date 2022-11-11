@@ -8,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.QcrejectLayoutBinding
-import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApprovedOrderDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.StatusAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.ActionResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
@@ -44,7 +43,7 @@ class QcRejectedListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = rejectList.get(position)
-        var orderId: String=""
+        var orderId: String = ""
 
 
 
@@ -112,7 +111,7 @@ class QcRejectedListAdapter(
             for (i in qcItemList) {
                 if (i.orderno!!.equals(rejectList.get(position).orderno)) {
                     item = i
-                    orderId= i.orderno!!
+                    orderId = i.orderno!!
                 }
             }
 
@@ -157,13 +156,13 @@ class QcRejectedListAdapter(
 
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.rejectListBinding.totalCost.setText(" "+totalPrices.toString())
+                holder.rejectListBinding.totalCost.setText(" " + totalPrices.toString())
             } else {
                 holder.rejectListBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.rejectListBinding.discountTotal.setText(" "+discounts.toString())
+                holder.rejectListBinding.discountTotal.setText(" " + discounts.toString())
             } else {
                 holder.rejectListBinding.discountTotal.setText("-")
 
@@ -172,7 +171,7 @@ class QcRejectedListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.rejectListBinding.remainingPayment.setText(" "+String.format("%.2f",
+                holder.rejectListBinding.remainingPayment.setText(" " + String.format("%.2f",
                     netPayment))
             } else {
                 holder.rejectListBinding.remainingPayment.setText("-")
@@ -181,13 +180,25 @@ class QcRejectedListAdapter(
             holder.rejectListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcRejectedOrderDetailsAdapter(mContext,
-                        it, position, rejectList, imageClicklistner,approvedOrders.omsorderno.toString())
+                        it,
+                        position,
+                        rejectList,
+                        imageClicklistner,
+                        approvedOrders.omsorderno.toString())
                 }
             holder.rejectListBinding.recyclerView.scrollToPosition(position)
         }
 
 
-
+        holder.itemView.setOnClickListener {
+            if (approvedOrders.isClick) {
+                approvedOrders.setisClick(false)
+                approvedOrders.orderno?.let { it1 -> imageClicklistner.notify(position, it1) }
+            } else {
+                approvedOrders.setisClick(true)
+                approvedOrders.orderno?.let { it1 -> imageClicklistner.orderno(position, it1) }
+            }
+        }
 
         holder.rejectListBinding.arrow.setOnClickListener {
             approvedOrders.setisClick(true)
