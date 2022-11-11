@@ -480,16 +480,19 @@ var pageStartPos = 0;
         for (i in  pendingList!!){
             pendingSubList!!.add(i)
             if (pendingList.indexOf(i) == (pendingList.size-1)){
-               var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
-
-                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
+             //  var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
+                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos, pendingList.size-1))
+subList!!.add(list)
+              //  subList!!.add(pendingListttt as ArrayList<QcListsResponse.Pending>)
 
 //                subList!!.add(pendingSubList)
 //                pendingSubList.clear()
             }else if ((pendingList.indexOf(i)+1) % 5 == 0){
+                val list: ArrayList<QcListsResponse.Pending> = ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos, pageEndPos))
+                subList!!.add(list)
 
 
-                subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as java.util.ArrayList<QcListsResponse.Pending>)
+              //  subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as ArrayList<QcListsResponse.Pending>)
                 pageStartPos = pageStartPos +5
                 pageEndPos = pageEndPos  + 5
 
