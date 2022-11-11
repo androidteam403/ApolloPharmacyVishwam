@@ -607,6 +607,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         })
 
         viewBinding.batchText.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+        viewBinding.transactionDetailsLayout.approvalCodeEdit.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
@@ -682,17 +683,32 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     context?.resources?.getString(R.string.err_msg_enter_purchase_price)
                 )
                 return false
+            }else if (purchasePrice.isNotEmpty() && purchasePrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_purchase_price_)
+                )
+                return false
             } else if (mrpPrice.isEmpty() && statusInventory.equals("NEWBATCH")) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_enter_mrp)
                 )
                 return false
-            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+            }else if (mrpPrice.isNotEmpty() && statusInventory.equals("NEWBATCH") && mrpPrice.equals("0")) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_mrp)
+                    context?.resources?.getString(R.string.err_msg_error_mrp)
                 )
                 return false
-            } else if (purchasePrice.isNotEmpty() && mrpPrice.isNotEmpty()) {
+            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_old_mrp)
+                )
+                return false
+            }else if (oldmrpPrice.isNotEmpty() && statusInventory.equals("MRP Change Request") && oldmrpPrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_error_old_mrp_)
+                )
+                return false
+            } else if (purchasePrice.isNotEmpty() ) {
                 if (statusInventory.equals("MRP Change Request")) {
                     if (newMrpPrice.isEmpty()) {
                         showErrorMsg(
@@ -766,6 +782,12 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             ) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_enter_bill_amount)
+                )
+                return false
+            } else if (fileArrayList.isEmpty()
+            ) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.error_upload_image_limit)
                 )
                 return false
             }
@@ -1171,6 +1193,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun deleteImage(position: Int) {
+        fileArrayList.removeAt(position)
         adapter.deleteImage(position)
     }
 
@@ -1404,7 +1427,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         if (cmsCommand.tag.equals("MRP Change Request")) {
             newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
             oldMrp  = viewBinding.oldmrpEditText.text.toString().toDouble()
-        }else{
+        }else if(cmsCommand.tag.equals("NEWBATCH")){
             mrp = viewBinding.mrpEditText.text.toString().toDouble()
         }
         if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
@@ -1445,7 +1468,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         reasonSla),
                     RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
                     RequestSaveUpdateComplaintRegistration.TicketInventory(
-                        ticketInventoryItems,
+                        ticketInventoryItems,null,
                         codeBatch),
                     RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
                         "store",

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
+import com.apollopharmacy.vishwam.databinding.DialogTidSearchBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.model.Row
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
@@ -21,7 +22,7 @@ import com.apollopharmacy.vishwam.util.Utils
 class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) : DialogFragment() {
 
     lateinit var abstractDialogClick: OnTransactionPOSSelectedListnier
-    lateinit var viewBinding: DialogSearchArticleBinding
+    lateinit var viewBinding: DialogTidSearchBinding
     val TAG = "SearchArticleCodeDialog"
 
     init {
@@ -41,7 +42,7 @@ class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) :
             ActionBar.LayoutParams.MATCH_PARENT
         );
 
-        viewBinding = DialogSearchArticleBinding.inflate(inflater, container, false)
+        viewBinding = DialogTidSearchBinding.inflate(inflater, container, false)
         viewBinding.closeDialog.setOnClickListener { dismiss() }
         viewBinding.textHead.text = "Select TID"
         viewBinding.searchSiteText.setHint("Search tid")

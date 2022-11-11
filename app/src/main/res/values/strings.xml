@@ -96,7 +96,7 @@
     <string name="label_upload_image_limit">You are allowed to upload only two images</string>
     <string name="validate_upload_image_limit">Please Upload Required Images</string>
     <string name="label_registration_success">Registration Successful</string>
-
+    <string name="error_upload_image_limit">Please Upload Images</string>
     <string name="err_msg_select_department">Please Select Department</string>
     <string name="err_msg_select_category">Please Select Category</string>
     <string name="err_msg_select_sub_category">Please Select Sub Category</string>
@@ -107,11 +107,15 @@
     <string name="err_msg_select_batch_number">Please Enter Batch Number</string>
     <string name="err_msg_select_batch_number_length">Please Batch Number should be 3 characters</string>
     <string name="err_msg_enter_mrp">Please Enter MRP Price</string>
+    <string name="err_msg_error_mrp">Please Enter MRP greater then 0 </string>
+    <string name="err_msg_error_old_mrp_">Please Enter Old MRP greater then 0 </string>
+    <string name="err_msg_enter_old_mrp">Please Enter Old MRP Price</string>
     <string name="err_msg_enter_new_mrp">Please Enter New MRP Price</string>
     <string name="err_msg_enter_purchase_price">Please Enter Purchase Price</string>
-    <string name="err_msg_price_diff">Purchase price should be higher than enter MRP</string>
-    <string name="err_msg_purchace_price_diff">Purchase price should be Less than MRP</string>
-    <string name="err_msg_purchace_price_old_new">Purchase price should be Less than Old MRP and new MRP</string>
+    <string name="err_msg_enter_purchase_price_">Please Enter Purchase Price greater then 0</string>
+    <string name="err_msg_price_diff">Purchase rate should be higher than enter MRP</string>
+    <string name="err_msg_purchace_price_diff">Purchase rate should be Less than MRP</string>
+    <string name="err_msg_purchace_price_old_new">Purchase rate should be Less than Old MRP and new MRP</string>
     <string name="err_msg_select_expiry_date">Please enter Expiry Date</string>
     <string name="err_msg_upload_front_image">Please upload front image</string>
     <string name="err_msg_upload_back_image">Please upload  back image</string>
@@ -255,7 +259,7 @@
     <string name="complete_button">COMPLETE and SUBMIT RATING</string>
 
     <string name="label_TID">TID *</string>
-    <string name="label_Bill_Number">Bill Number *</string>
+    <string name="label_Bill_Number">Invoice Number *</string>
     <string name="label_Transaction_id">Transaction ID *</string>
     <string name="label_Approval_Code">Approval Code *</string>
     <string name="label_Bill_Amount">Bill Amount *</string>

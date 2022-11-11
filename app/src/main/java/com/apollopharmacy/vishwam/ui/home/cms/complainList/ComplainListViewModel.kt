@@ -40,7 +40,7 @@ class ComplainListViewModel : ViewModel() {
     lateinit var Ticketlistdata: ResponseNewTicketlist
 
     //get ticket list api........................................................
-    fun getNewticketlist(requestComplainList: RequestComplainList, status: String) {
+    fun getNewticketlist(requestComplainList: RequestComplainList, status: String,isDrugList : Boolean) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -57,7 +57,7 @@ class ComplainListViewModel : ViewModel() {
                 val closed = if (status.contains("closed")) "closed" else ""
 
                 val url: String =
-                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&${
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&"+ if(isDrugList){ "reason_code=new_drug&"} else{""}+"${
                         URLEncoder.encode("status[0]",
                             "utf-8")
                     }=${new}&${

@@ -5,6 +5,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
+import com.google.gson.annotations.Expose
 
 data class RequestSaveUpdateComplaintRegistration(
 
@@ -98,7 +99,7 @@ data class RequestSaveUpdateComplaintRegistration(
         val uid: String? = null,
 
         @field:SerializedName("reason_sla")
-        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>
+        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>?
     ):Serializable
 
     data class  Subcategory(
@@ -119,6 +120,8 @@ data class RequestSaveUpdateComplaintRegistration(
     data class TicketInventory(
         @field:SerializedName("ticket_inventory_item")
         val ticket_inventory_item: ArrayList<TicketInventoryItem>?,
+        @field:SerializedName("drug_request")
+        val drug_request: ArrayList<DrugRequest>?,
         @field:SerializedName("code_batch")
         val code_batch: CodeBatch?
     ):Serializable
@@ -170,6 +173,57 @@ data class RequestSaveUpdateComplaintRegistration(
     ):Serializable
 
 
+    data class DrugRequest(
+
+        @Expose
+        @SerializedName("side_mb")
+        val side_mb: String?,
+        @Expose
+        @SerializedName("front_mb")
+        val front_mb: String?,
+        @Expose
+        @SerializedName("back_mb")
+        val back_mb: String?,
+        @Expose
+        @SerializedName("bill_mb")
+        val bill_mb: String?,
+        @Expose
+        @SerializedName("batch_no")
+        val batch_no: String?,
+        @Expose
+        @SerializedName("barcode")
+        val barcode: String?,
+        @Expose
+        @SerializedName("manufacturing_date")
+        val manufacturing_date: String?,
+        @Expose
+        @SerializedName("expiry_date")
+        val expiry_date: String?,
+        @Expose
+        @SerializedName("purchase_price")
+        val purchase_price: Double?,
+        @Expose
+        @SerializedName("mrp")
+        val mrp: Double?,
+        @Expose
+        @SerializedName("reference_no")
+        val reference_no: String?,
+        @Expose
+        @SerializedName("pack_size")
+        val pack_size: String?,
+        @Expose
+        @SerializedName("hsn_code")
+        val hsn_code: String?,
+        @Expose
+        @SerializedName("gst")
+        val gst: Double?,
+        @Expose
+        @SerializedName("item_name")
+        val item_name: String?,
+        @Expose
+        @SerializedName("remarks")
+        val remarks: String?
+    )
 }
 
 

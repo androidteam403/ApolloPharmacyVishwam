@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.DrugRequestDetailsModel
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.*
@@ -130,10 +131,20 @@ data class ResponseNewTicketlist(
 
         var inventoryDetailsModel: InventoryDetailsModel?,
 
-        var creditCardTSDetails: CreditCardTSDetails?
+        var creditCardTSDetails: CreditCardTSDetails?,
+
+        @field:SerializedName("ticket_inventory")
+        val ticket_inventory: TicketInventory?
+
 
     ) : Serializable
 
+    data class TicketInventory(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+        @field:SerializedName("drug_request")
+        val drug_request: DrugRequestDetailsModel?
+    )
     data class  LocationObj(
         @field:SerializedName("uid")
         var uid: String? = null,

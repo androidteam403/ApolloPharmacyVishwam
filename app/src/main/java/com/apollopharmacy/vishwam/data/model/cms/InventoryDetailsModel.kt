@@ -198,6 +198,7 @@ data class TicketInventoryItem(
     val front_image: List<Any>,
     val front_img_blob: String,
     val item_code: String,
+    val item_name: String,
     val item_status: ItemStatus,
     val manager: Manager,
     val mfg_date: Any,

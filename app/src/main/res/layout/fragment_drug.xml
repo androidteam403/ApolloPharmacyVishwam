@@ -260,7 +260,7 @@
                             android:editable="true"
                             android:enabled="true"
                             android:inputType="number"
-
+                            android:maxLength="3"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -284,7 +284,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:editable="true"
                             android:enabled="true"
-                            android:hint="MRP(Single) *"
+                            android:hint="MRP *"
                             android:inputType="numberDecimal"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -310,7 +310,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:editable="true"
                             android:enabled="true"
-                            android:hint="Purchase Price *"
+                            android:hint="Purchase Price "
                             android:inputType="numberDecimal"
 
                             android:paddingStart="@dimen/value_10dp"
@@ -363,14 +363,15 @@
                             android:id="@+id/batchNo"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                            android:editable="true"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./-"
                             android:enabled="true"
                             android:hint="Batch Number *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:textSize="@dimen/text_15sp" />
+                            android:textSize="@dimen/text_15sp"
+                            android:inputType="text"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -441,9 +442,10 @@
                             android:id="@+id/barCode"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                            android:editable="true"
+                            android:inputType="number"
                             android:enabled="true"
-                            android:hint="Bar Code *"
+                            android:hint="Bar Code "
+                            android:maxLength="20"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -457,7 +459,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
-                        android:hint="HSN Code *"
+                        android:hint="HSN Code "
 
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
@@ -467,10 +469,9 @@
                             android:id="@+id/hsnCode"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                            android:editable="true"
                             android:enabled="true"
-                            android:inputType="textCapCharacters"
-                            android:maxLength="8"
+                            android:inputType="number"
+                            android:maxLength="10"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -486,22 +487,19 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:hint="GST % ">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/selectDepartment"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
-                            android:clickable="true"
-                            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
-                            android:editable="false"
-                            android:focusable="false"
-                            android:hint="Select GST *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
-                            android:textSize="@dimen/text_15sp" />
+                            android:textSize="@dimen/text_15sp"
+                            android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
 

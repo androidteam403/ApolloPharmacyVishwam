@@ -461,6 +461,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isFromDrugList", true );
+                ComplainListFragment fragInfo = new ComplainListFragment();
+                fragInfo.setArguments(bundle);
+                fragment = fragInfo;
+                filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;

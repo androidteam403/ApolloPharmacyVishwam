@@ -11,14 +11,12 @@ import android.graphics.Matrix
 import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
-import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -31,8 +29,10 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.Image
 import com.apollopharmacy.vishwam.data.model.ImageFile
+import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
@@ -40,11 +40,11 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
-import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -52,10 +52,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
+class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,
     SiteNewDialog.NewDialogSiteClickListner, SubmitDialog.AbstractDialogSubmitClickListner,
-    Dialog.DialogClickListner, GstDialog.GstDialogClickListner {
+    Dialog.DialogClickListner, GstDialog.GstDialogClickListner ,SubmitcomplaintDialog.AbstractDialogSubmitClickListner{
 
     lateinit var adapter: DrugImageRecyclerView
     lateinit var adapter1: DrugImageRecyclerView1
@@ -63,12 +63,12 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     lateinit var adapter3: DrugImageRecyclerView3
 
 
-    var imageList = ArrayList<Image>();
+    var imageList = ArrayList<Image>()
 
-    var frontImageList = ArrayList<Image>();
-    var backImageList = ArrayList<Image>();
-    var sideImageList = ArrayList<Image>();
-    var billImageList = ArrayList<Image>();
+    var frontImageList = ArrayList<Image>()
+    var backImageList = ArrayList<Image>()
+    var sideImageList = ArrayList<Image>()
+    var billImageList = ArrayList<Image>()
 
 
     var newImageList = ArrayList<ImageFile>()
@@ -83,20 +83,9 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     var imageFromGallery: File? = null
 
     var isFromDateSelected: Boolean = false
-
+    lateinit var store: StoreListItem
     override val layoutRes: Int
         get() = R.layout.fragment_drug
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-
-
-        return super.onCreateView(inflater, container, savedInstanceState)
-
-    }
 
     override fun retrieveViewModel(): DrugFragmentViewModel {
         return ViewModelProvider(this).get(DrugFragmentViewModel::class.java)
@@ -104,17 +93,23 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
-        viewBinding.mrpp.setText("0")
-        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-        viewBinding.batchNo.setText("0")
-        viewBinding.purchasePrice.setText("0")
-        viewBinding.selectDepartment.setText("0")
-        viewBinding.packsize.setText("0")
+        viewModel.getRemarksMasterList()
+        viewModel.subCategories.observe(viewLifecycleOwner, {
+            when (it) {
 
+            }
+        })
+//        viewBinding.mrpp.setText("0")
+//        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+//        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+//        viewBinding.batchNo.setText("0")
+        viewBinding.purchasePrice.setText("0")
+//        viewBinding.selectDepartment.setText("0")
+//        viewBinding.packsize.setText("0")
+        viewBinding.selectDepartment.setText("0")
         viewBinding.hsnCode.setText("0")
         viewBinding.barCode.setText("0")
-
+        viewBinding.batchNo.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewModel.commands.observe(viewLifecycleOwner, {
             when (it) {
                 is DrugFragmentViewModel.Commands.ShowSiteInfo -> {
@@ -139,7 +134,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             Dialog().apply {
                 arguments =
                         //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                    Dialog().generateParsedData(viewModel.getNames())
+                    Dialog().generateParsedData(viewModel.uniqueSubCategoryList)
             }.show(childFragmentManager, "")
 
 
@@ -202,15 +197,22 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null) {
-                    if (s.length == 1) {
-                        viewBinding.MrpTextInput.error = null
+                if(s != null){
+                    if(s.length == 1 && s.startsWith(".")){
+                        viewBinding.mrpp.setText("0.")
+                        viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
+                    }else if(s.length > 2 && s.startsWith("0")){
+                        if(!s.startsWith("0.")) {
+                            viewBinding.mrpp.setText(s.substring(1))
+                            viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
 
+                        }
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
+
             }
 
         })
@@ -221,15 +223,51 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null) {
-                    if (s.length == 1) {
-                        viewBinding.purchasePriceTextInput.error = null
+                if(s != null){
+                    if(s.length == 1 && s.startsWith(".")){
+                        viewBinding.mrpp.setText("0.")
+                        viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
+                    }else if(s.length > 2 && s.startsWith("0")){
+                        if(!s.startsWith("0.")) {
+                            viewBinding.mrpp.setText(s.substring(1))
+                            viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
 
+                        }
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
+                if(s != null){
+                    if(s.isEmpty()){
+                        viewBinding.purchasePrice.setText("0")
+                        viewBinding.purchasePrice.setSelection(viewBinding.purchasePrice.text!!.length)
+                    }
+                }
+            }
+
+        })
+
+        viewBinding.selectDepartment.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if (s != null) {
+                    if (s.length > 1 && s.startsWith("0")) {
+                        viewBinding.selectDepartment.setText(s.substring(1) )
+                        viewBinding.selectDepartment.setSelection(viewBinding.selectDepartment.text!!.length)
+                    }
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(s != null){
+                    if(s.isEmpty()){
+                        viewBinding.selectDepartment.setText("0")
+                        viewBinding.selectDepartment.setSelection(viewBinding.selectDepartment.text!!.length)
+                    }
+                }
             }
 
         })
@@ -241,14 +279,20 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s != null) {
-                    if (s.length == 1) {
-                        viewBinding.barCodeL.error = null
-
+                    if (s.length > 1 && s.startsWith("0")) {
+                        viewBinding.barCode.setText(s.substring(1) )
+                        viewBinding.barCode.setSelection(viewBinding.barCode.text!!.length)
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
+                if(s != null){
+                    if(s.isEmpty()){
+                        viewBinding.barCode.setText("0")
+                        viewBinding.barCode.setSelection(viewBinding.barCode.text!!.length)
+                    }
+                }
             }
 
         })
@@ -259,14 +303,20 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s != null) {
-                    if (s.length == 1) {
-                        viewBinding.hsnText.error = null
-
+                    if (s.length > 1 && s.startsWith("0")) {
+                        viewBinding.hsnCode.setText(s.substring(1) )
+                        viewBinding.hsnCode.setSelection(viewBinding.hsnCode.text!!.length)
                     }
                 }
             }
 
             override fun afterTextChanged(s: Editable?) {
+                if(s != null){
+                    if(s.isEmpty()){
+                        viewBinding.hsnCode.setText("0")
+                        viewBinding.hsnCode.setSelection(viewBinding.hsnCode.text!!.length)
+                    }
+                }
             }
 
         })
@@ -289,17 +339,26 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         })
 
-        viewBinding.selectDepartment.setOnClickListener {
+//        viewBinding.selectDepartment.setOnClickListener {
+//
+//
+//            GstDialog().apply {
+//                arguments =
+//                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                    GstDialog().generateParsedData(viewModel.getGst())
+//            }.show(childFragmentManager, "")
+//
+//        }
+        viewModel.responsenewcomplaintregistration.observe(viewLifecycleOwner, {
+            hideLoading()
+//            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+            RefreshView()
 
-
-            GstDialog().apply {
+            SubmitcomplaintDialog().apply {
                 arguments =
-                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                    GstDialog().generateParsedData(viewModel.getGst())
+                    SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
-
-        }
-
+        })
         viewBinding.submit.setOnClickListener {
             var name: String = "FRONT"
 
@@ -322,6 +381,10 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 viewModel.connectToAzure(imageList)
                 viewModel.commands.observe(viewLifecycleOwner) {
                     when (it) {
+                        is DrugFragmentViewModel.Commands.ShowToast ->{
+                            hideLoading()
+                            showErrorMsg(it.message)
+                        }
                         is DrugFragmentViewModel.Commands.DrugImagesUploadInAzur -> {
                             for (i in it.filePath.indices) {
                                 imagesList.add(
@@ -332,7 +395,8 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                                         it.filePath[i].file.name,
                                         "image/" + imageType(it.filePath[i].file).toString(),
 
-                                        it.filePath[i].file.length().toString()
+                                        it.filePath[i].file.length().toString(),
+                                        it.filePath[i].base64Images
                                     )
                                 )
                                 if (imagesList.size == 1) {
@@ -347,51 +411,58 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
                                 }
                             }
+                            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                            var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                            try {
+                                val gson = GsonBuilder().setPrettyPrinting().create()
+                                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
+                                    EmployeeDetailsResponse::class.java)
+                            } catch (e: JsonParseException) {
+                                e.printStackTrace()
+                            }
+                            viewModel.getDrugList(
+                                DrugRequest(
+                                    viewBinding.siteIdSelect.text.toString(),
+                                    viewBinding.selectCategory.text.toString(),
+                                    viewBinding.itemName.text.toString(),
+                                    viewBinding.batchNo.text.toString(),
+                                    viewBinding.packsize.text.toString(),
+                                    viewBinding.mrpp.text.toString(),
+                                    viewBinding.purchasePrice.text.toString(),
+                                    viewBinding.fromDateText.text.toString(),
+                                    viewBinding.toDateText.text.toString(),
+                                    viewBinding.barCode.text.toString(),
+                                    viewBinding.hsnCode.text.toString(),
+                                    viewBinding.selectDepartment.text.toString(),
+                                    Preferences.getSiteId(),
+                                    viewBinding.createdOn.text.toString(),
+                                    "0",
+                                    "0",
+
+
+                                    "",
+                                    viewBinding.selectRemarks.text.toString(),
+                                    viewBinding.createdBy.text.toString(),
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+
+                                    "",
+                                    "",
+                                    "",
+                                    "",
+                                    imagesList,
+                                    viewBinding.descriptionText.text.toString(),
+                                    store,employeeDetailsResponse!!
+                                )
+                            )
+
                         }
                     }
-
-
-                    viewModel.getDrugList(
-                        DrugRequest(
-                            viewBinding.siteIdSelect.getText().toString(),
-                            viewBinding.selectCategory.getText().toString(),
-                            viewBinding.itemName.getText().toString(),
-                            viewBinding.batchNo.getText().toString(),
-                            viewBinding.packsize.getText().toString(),
-                            viewBinding.mrpp.getText().toString(),
-                            viewBinding.purchasePrice.getText().toString(),
-                            viewBinding.fromDateText.getText().toString(),
-                            viewBinding.toDateText.getText().toString(),
-                            viewBinding.barCode.getText().toString(),
-                            viewBinding.hsnCode.getText().toString(),
-                            viewBinding.selectDepartment.getText().toString(),
-                            Preferences.getSiteId(),
-                            viewBinding.createdOn.getText().toString(),
-                            "0",
-                            "0",
-
-
-                            "",
-                            viewBinding.selectRemarks.getText().toString(),
-                            viewBinding.createdBy.getText().toString(),
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-                            "",
-
-                            "",
-                            "",
-                            "",
-                            "",
-                            imagesList
-                        )
-                    )
-
-
-//            if (validationCheck()){
 
                 }
             }
@@ -470,7 +541,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         }
 
-
+        viewModel.fetchTransactionPOSDetails()
     }
 
 
@@ -493,7 +564,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
     }
 
@@ -516,7 +587,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
 
         startActivityForResult(intent, Config.REQUEST_BACK_CAMERA)
@@ -541,7 +612,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, Config.REQUEST_SIDE_CAMERA)
     }
 
@@ -560,7 +631,7 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, Config.REQUEST_BILL_CAMERA)
     }
 
@@ -741,114 +812,156 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val location = viewBinding.loactionSelect.text.toString().trim()
 
         if (site.isEmpty()) {
-            popUpdialog()
-
+            showErrorMsg(
+                "Please selcet Site"
+            )
             return false
-
-        } else if (categoryName.isEmpty()) {
-            popUpdialog()
-
-
-            return false
-        } else if (itemName.isEmpty()) {
-            popUpdialog()
-
-            viewBinding.itemName.requestFocus()
-            viewBinding.branchNameTextInput.error = ""
-
-
-            return false
-        } else if (location.isEmpty()) {
-            popUpdialog()
-
+        }else if (location.isEmpty()) {
+            showErrorMsg(
+                "Please Enter Location"
+            )
             viewBinding.loactionSelect.requestFocus()
-
-
-            return false
-        } else if (packsize.isEmpty()) {
-            popUpdialog()
-
-            viewBinding.pasckizel.requestFocus()
-
-
-            return false
-
-        } else if (mrp.isEmpty()) {
-            popUpdialog()
-            viewBinding.MrpTextInput.requestFocus()
-
-
-            return false
-        } else if (purchasePrice.isEmpty()) {
-            popUpdialog()
-            viewBinding.purchasePriceTextInput.requestFocus()
-
-
             return false
         } else if (createdBy.isEmpty()) {
-            popUpdialog()
+            showErrorMsg(
+                "Please Enter CreatedBy"
+            )
             viewBinding.createdInput.requestFocus()
-
             return false
         } else if (createdOn.isEmpty()) {
-
-            popUpdialog()
+            showErrorMsg(
+                "Please Enter CreatedOn"
+            )
             viewBinding.createdOnInput.requestFocus()
-
             return false
-        } else if (batchNo.isEmpty()) {
-            popUpdialog()
+        }else if (categoryName.isEmpty()) {
+            showErrorMsg(
+                "Please Select CategoryName "
+            )
+            return false
+        } else if (itemName.isEmpty()) {
+            showErrorMsg(
+                "Please Enter Item Name"
+            )
+            viewBinding.itemName.requestFocus()
+//            viewBinding.branchNameTextInput.error = ""
+            return false
+        }
+        else if (packsize.isEmpty()) {
+            showErrorMsg(
+                "Please Enter Pack Size"
+            )
+            viewBinding.pasckizel.requestFocus()
+            return false
+        }
+        else if (mrp.isEmpty()) {
+            showErrorMsg(
+                "Please Enter MRP"
+            )
+            viewBinding.MrpTextInput.requestFocus()
+            return false
+        }
+        else if (mrp.isNotEmpty() && mrp.equals("0")) {
+            showErrorMsg(
+                "Please Enter Mrp grater then 0"
+            )
+            viewBinding.purchasePriceTextInput.requestFocus()
+            return false
+        }
+        else if (mrp.isNotEmpty() && purchasePrice.isNotEmpty() && mrp.toDouble() < purchasePrice.toDouble()) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_purchace_price_diff)
+                )
+                return false
+        }
+        else if (batchNo.isEmpty()) {
+            showErrorMsg(
+                "Please Enter Bach Number"
+            )
             viewBinding.BatchTextInput.requestFocus()
-
-
-
             return false
         } else if (manufDate.isEmpty()) {
-
-            popUpdialog()
+            showErrorMsg(
+                "Please select Manufacturing date"
+            )
             return false
         } else if (expDate.isEmpty()) {
-
-
-            popUpdialog()
+            showErrorMsg(
+                "Please select Expiry Date CreatedOn"
+            )
             return false
         }
-//
-        else if (barCode.isEmpty()) {
-            viewBinding.barCodeL.requestFocus()
 
-            popUpdialog()
-
-            return false
-        } else if (hsnCode.isEmpty()) {
+//        else if (barCode.isEmpty()) {
+//            showErrorMsg(
+//                "Please Enter Barcode"
+//            )
+//            viewBinding.barCodeL.requestFocus()
+//            return false
+//        }
+//        else if (hsnCode.isEmpty()) {
+//            viewBinding.hsnText.requestFocus()
+//            showErrorMsg(
+//                "Please Enter HSN code "
+//            )
+//            return false
+//        }
+        else if (!hsnCode.equals("0") && hsnCode.isNotEmpty() && hsnCode.length < 4) {
             viewBinding.hsnText.requestFocus()
-
-            popUpdialog()
+            showErrorMsg(
+                "Please Enter HSN code min 4 letters"
+            )
             return false
-        } else if (gst.isEmpty()) {
-
-
-            popUpdialog()
-            return false
-        } else {
-            if (frontImageList.isEmpty() || backImageList.isEmpty()) {
-
-                popUpdialog()
-                return false
-            }
         }
+//        else if (gst.isEmpty()) {
+//            viewBinding.selectDepartment.requestFocus()
+//            showErrorMsg(
+//                "Please Enter GST"
+//            )
+//            return false
+//        }
+        else if (gst.isNotEmpty() && gst.toDouble() > 100) {
+            viewBinding.selectDepartment.requestFocus()
+            showErrorMsg(
+                "Please Enter valid GST"
+            )
+            return false
+        }
+        else if(frontImageList.isEmpty() ){
+            showErrorMsg(
+                "Please upload front Image"
+            )
+            return false
+        }else if(backImageList.isEmpty() ){
+            showErrorMsg(
+                "Please upload back Image"
+            )
+            return false
+        }
+//        else if(sideImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload side Image"
+//            )
+//            return false
+//        }else if(billImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload bill Image"
+//            )
+//            return false
+//        }
         return true
     }
 
-
-    override fun selectDepartment(departmentDto: String) {
-        viewBinding.selectCategory.setText(departmentDto)
+    lateinit var selectedSubCategory : ReasonmasterV2Response.TicketSubCategory
+    override fun selectDepartment(departmentDto: ReasonmasterV2Response.TicketSubCategory) {
+        selectedSubCategory = departmentDto
+        viewBinding.selectCategory.setText(departmentDto.name)
         viewBinding.selectCategoryText.error = null
     }
 
     @SuppressLint("ResourceType")
     override fun selectSite(departmentDto: StoreListItem) {
-
+        store = departmentDto
         val simpleDateFormat = SimpleDateFormat("dd-MMM-YYYY")
         val currentDate: String = simpleDateFormat.format(Date())
 
@@ -862,17 +975,17 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.dcCode.visibility = View.VISIBLE
 
         viewBinding.dcCode.setText("" + (departmentDto.dc_code?.code
-            ?: String()) + " - " + departmentDto.dc_code?.name ?: String())
-        viewBinding.dcTextInput.setBoxBackgroundColorResource(R.color.cement)
-        viewBinding.createdInput.setBoxBackgroundColorResource(R.color.cement)
+            ?: String()) + " - " + departmentDto.dc_code?.name)
+//        viewBinding.dcTextInput.setBoxBackgroundColorResource(R.color.cement)
+//        viewBinding.createdInput.setBoxBackgroundColorResource(R.color.cement)
         viewBinding.createdOn.setText(currentDate)
-        viewBinding.createdOnInput.setBoxBackgroundColorResource(R.color.cement)
-        viewBinding.location.setBoxBackgroundColorResource(R.color.cement)
+//        viewBinding.createdOnInput.setBoxBackgroundColorResource(R.color.cement)
+//        viewBinding.location.setBoxBackgroundColorResource(R.color.cement)
 
         viewBinding.createdBy.setText(Preferences.getToken())
         viewBinding.loactionSelect.setText(departmentDto.store_name)
 
-
+        viewModel.getTicketstatus(departmentDto.site,viewModel.reasonData.data.department.uid)
     }
 
     fun imageType(pathname: File): String? {
@@ -915,19 +1028,19 @@ class Drug() : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     fun RefreshView() {
 
 
-        viewBinding.scrollView.fullScroll(ScrollView.FOCUS_UP);
+        viewBinding.scrollView.fullScroll(ScrollView.FOCUS_UP)
 //        viewBinding.selectDepartment.setText("")
         viewBinding.selectCategory.setText("")
         viewBinding.itemName.setText("")
-//        viewBinding.fromDateText.setText("")
-//        viewBinding.toDateText.setText("")
-//        viewBinding.batchNo.setText("")
-//        viewBinding.mrpp.setText("")
-//        viewBinding.purchasePrice.setText("")
-//        viewBinding.hsnCode.setText("")
-//        viewBinding.packsize.setText("")
+        viewBinding.fromDateText.setText("")
+        viewBinding.toDateText.setText("")
+        viewBinding.batchNo.setText("")
+        viewBinding.mrpp.setText("")
+        viewBinding.purchasePrice.setText("")
+        viewBinding.hsnCode.setText("")
+        viewBinding.packsize.setText("")
         viewBinding.siteIdSelect.setText("")
-//        viewBinding.barCode.setText("")
+        viewBinding.barCode.setText("")
         viewBinding.selectRemarks.setText("")
         viewBinding.createdOn.setText("")
         viewBinding.createdBy.setText("")
@@ -1204,7 +1317,7 @@ class DrugImageRecyclerView(
 //            .placeholder(R.drawable.thumbnail_image)
 //            .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Front View") }
+            items.file.toString().let { it1 -> imageClicklistner.onItemClick(position, it1,"Front View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1219,7 +1332,7 @@ class DrugImageRecyclerView(
 
     fun deleteImage(position: Int) {
         orderData.removeAt(position)
-        notifyItemRemoved(position);
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
 
 
@@ -1246,7 +1359,7 @@ class DrugImageRecyclerView1(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Back View") }
+            items.file.toString().let { it1 -> imageClicklistner.onItemClick(position, it1,"Back View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1261,7 +1374,7 @@ class DrugImageRecyclerView1(
 
     fun deleteImage(position: Int) {
         orderData.removeAt(position)
-        notifyItemRemoved(position);
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
 
 
@@ -1288,7 +1401,7 @@ class DrugImageRecyclerView2(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.image.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Side View") }
+            items.file.toString().let { it1 -> imageClicklistner.onItemClick(position, it1,"Side View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1303,7 +1416,7 @@ class DrugImageRecyclerView2(
 
     fun deleteImage(position: Int) {
         orderData.removeAt(position)
-        notifyItemRemoved(position);
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
 
 
@@ -1330,7 +1443,7 @@ class DrugImageRecyclerView3(
             .placeholder(R.drawable.thumbnail_image)
             .into(binding.image)
         binding.eyeImageRes.setOnClickListener {
-            items.file.toString()?.let { it1 -> imageClicklistner.onItemClick(position, it1,"Bill View") }
+            items.file.toString().let { it1 -> imageClicklistner.onItemClick(position, it1,"Bill View") }
         }
 
         binding.deleteImage.setOnClickListener {
@@ -1345,7 +1458,7 @@ class DrugImageRecyclerView3(
 
     fun deleteImage(position: Int) {
         orderData.removeAt(position)
-        notifyItemRemoved(position);
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
 
 
