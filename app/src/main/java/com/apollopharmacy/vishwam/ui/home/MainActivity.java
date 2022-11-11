@@ -418,8 +418,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Drug List":
                 headerText.setText("New Drug List");
-                fragment = new DrugListFragment();
-                filterIcon.setVisibility(View.GONE);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean("isFromDrugList", true );
+                ComplainListFragment fragInfo = new ComplainListFragment();
+                fragInfo.setArguments(bundle);
+                fragment = fragInfo;
+                filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;

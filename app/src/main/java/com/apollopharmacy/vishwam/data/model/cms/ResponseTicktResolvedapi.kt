@@ -189,7 +189,7 @@ data class ResponseTicktResolvedapi (
         val name: String,
         @Expose
         @SerializedName("status")
-        var status: Status
+        var status: Status?
     )
 
 
@@ -263,7 +263,7 @@ data class ResponseTicktResolvedapi (
         val name: String,
         @Expose
         @SerializedName("status")
-        var status: Status
+        var status: Status?
     )
 
     data class  CreatedUser(

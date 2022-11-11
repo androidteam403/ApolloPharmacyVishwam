@@ -669,7 +669,6 @@
                     android:layout_height="@dimen/value_50dp"
                     android:layout_margin="@dimen/value_15dp"
                     android:background="@drawable/yellow_drawable"
-                    android:enabled="@{registration.state == State.SUCCESS ? false :true}"
                     android:text="@string/label_submit"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toBottomOf="parent"
