@@ -56,6 +56,7 @@ class QcRejectedViewModel:ViewModel() {
 
                     else {
                         state.value = State.ERROR
+                        qcRejectLists.value= result.value
                     }
                 }
                 is ApiResult.GenericError -> {

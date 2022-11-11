@@ -22,7 +22,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
@@ -172,69 +171,72 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-
-            filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
-
-
-
-            subList = ListUtils.partition(it.approvedlist, 5)
-            pageNo = 1
-            increment = 0
-            if (pageNo == 1) {
-                viewBinding.prevPage.visibility = View.GONE
-            } else {
-                viewBinding.prevPage.visibility = View.VISIBLE
-
-            }
-            if (increment == subList?.size!!.minus(1)) {
-                viewBinding.nextPage.visibility = View.GONE
-            } else {
-                viewBinding.nextPage.visibility = View.VISIBLE
-
-            }
+            if (it.approvedlist != null && it.approvedlist!!.size > 0) {
+                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
 
-            if (it.approvedlist.isNullOrEmpty()) {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewApproved.visibility = View.GONE
-                viewBinding.continueBtn.visibility = View.GONE
-                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-            } else {
 
-                if (subList?.size == 1) {
-                    viewBinding.continueBtn.visibility = View.GONE
-                } else {
-                    viewBinding.continueBtn.visibility = View.VISIBLE
-
-                }
-                viewBinding.refreshSwipe.isRefreshing = false
-
-
-                viewBinding.recyclerViewApproved.visibility = View.VISIBLE
-                viewBinding.emptyList.visibility = View.GONE
-//                filterApproveList.subList(startPageApproved, endPageNumApproved)
-                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-                if (increment == 0) {
+                subList = ListUtils.partition(it.approvedlist, 5)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
                     viewBinding.prevPage.visibility = View.GONE
-                }
-                if (subList.isNullOrEmpty()) {
                 } else {
-                    adapter =
-                        context?.let { it1 ->
-                            QcApproveListAdapter(it1,
-                                subList!!.get(increment),
-                                this,
-                                itemsList,
-                                statusList,
-                                filterApproveList)
-                        }
-                    viewBinding.recyclerViewApproved.adapter = adapter
-                    viewBinding.continueBtn.visibility = View.VISIBLE
+                    viewBinding.prevPage.visibility = View.VISIBLE
+
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
                 }
 
-            }
 
+                if (it.approvedlist.isNullOrEmpty()) {
+                    viewBinding.emptyList.visibility = View.VISIBLE
+                    viewBinding.recyclerViewApproved.visibility = View.GONE
+                    viewBinding.continueBtn.visibility = View.GONE
+                    Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+                } else {
+
+                    if (subList?.size == 1) {
+                        viewBinding.continueBtn.visibility = View.GONE
+                    } else {
+                        viewBinding.continueBtn.visibility = View.VISIBLE
+
+                    }
+                    viewBinding.refreshSwipe.isRefreshing = false
+
+
+                    viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+                    viewBinding.emptyList.visibility = View.GONE
+//                filterApproveList.subList(startPageApproved, endPageNumApproved)
+                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+                    if (increment == 0) {
+                        viewBinding.prevPage.visibility = View.GONE
+                    }
+                    if (subList.isNullOrEmpty()) {
+                    } else {
+                        adapter =
+                            context?.let { it1 ->
+                                QcApproveListAdapter(it1,
+                                    subList!!.get(increment),
+                                    this,
+                                    itemsList,
+                                    statusList,
+                                    filterApproveList)
+                            }
+                        viewBinding.recyclerViewApproved.adapter = adapter
+                        viewBinding.continueBtn.visibility = View.VISIBLE
+                    }
+
+                }
+            } else {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.continueBtn.visibility = View.GONE
+            }
 
         })
 
@@ -481,8 +483,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     ) {
 
     }
-
-
 
 
     override fun clickedApply(

@@ -55,6 +55,7 @@ class QcApprovedViewModel : ViewModel() {
                         qcLists.value = result.value
                     } else {
                         state.value = State.ERROR
+                        qcLists.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {

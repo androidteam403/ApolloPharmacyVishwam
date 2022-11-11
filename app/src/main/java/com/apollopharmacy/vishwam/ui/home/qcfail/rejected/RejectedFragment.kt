@@ -139,67 +139,71 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
+            if (it.rejectedlist != null && it.rejectedlist!!.size>0) {
 
 
-            filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-
-
-            subList = ListUtils.partition(it.rejectedlist, 5)
-
-
-            pageNo = 1
-            increment = 0
-            if (pageNo == 1) {
-                viewBinding.prevPage.visibility = View.GONE
-            } else {
-                viewBinding.prevPage.visibility = View.VISIBLE
-
-            }
-            if (increment == subList?.size!!.minus(1)) {
-                viewBinding.nextPage.visibility = View.GONE
-            } else {
-                viewBinding.nextPage.visibility = View.VISIBLE
-
-            }
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
 
 
 
+                subList = ListUtils.partition(it.rejectedlist, 5)
 
 
-            if (it.rejectedlist.isNullOrEmpty()) {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewPending.visibility = View.GONE
-                viewBinding.emptyList.visibility = View.GONE
-
-
-                Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
-            } else {
-                viewBinding.recyclerViewPending.visibility = View.VISIBLE
-
-                if (subList?.size == 1) {
-                    viewBinding.continueBtn.visibility = View.GONE
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
                 } else {
-                    viewBinding.continueBtn.visibility = View.VISIBLE
+                    viewBinding.prevPage.visibility = View.VISIBLE
 
                 }
-                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
 
-                viewBinding.refreshSwipe.isRefreshing = false
+                }
 
 
 
-                adapter =
-                    context?.let { it1 ->
-                        QcRejectedListAdapter(it1, this,
-                            subList!!.get(increment),
 
-                            itemsList,
-                            statusList)
+
+                if (it.rejectedlist.isNullOrEmpty()) {
+                    viewBinding.emptyList.visibility = View.VISIBLE
+                    viewBinding.recyclerViewPending.visibility = View.GONE
+                    viewBinding.emptyList.visibility = View.GONE
+
+
+                    Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewBinding.recyclerViewPending.visibility = View.VISIBLE
+
+                    if (subList?.size == 1) {
+                        viewBinding.continueBtn.visibility = View.GONE
+                    } else {
+                        viewBinding.continueBtn.visibility = View.VISIBLE
+
                     }
-            }
-            viewBinding.recyclerViewPending.adapter = adapter
+                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
+                    viewBinding.refreshSwipe.isRefreshing = false
+
+
+
+                    adapter =
+                        context?.let { it1 ->
+                            QcRejectedListAdapter(it1, this,
+                                subList!!.get(increment),
+
+                                itemsList,
+                                statusList)
+                        }
+                }
+                viewBinding.recyclerViewPending.adapter = adapter
+            }else{
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.continueBtn.visibility = View.GONE
+            }
 
         })
 

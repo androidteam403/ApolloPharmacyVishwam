@@ -84,13 +84,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-
+//        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
+//        Preferences.setQcFromDate("1-Apr-2019")
 
         viewModel.getQcPendingList(Preferences.getToken(),
             "1 - Apr - 2019",
             Utlis.getCurrentDate("yyyy-MM-dd")!!,
             "",
-            "")
+            "",
+            this)
 
 
         viewModel.qcAcceptRejectRequestList.observe(viewLifecycleOwner, {
@@ -175,64 +177,70 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 "1 - Apr - 2019",
                 Utlis.getCurrentDate("yyyy-MM-dd")!!,
                 "",
-                "")
+                "",
+                this)
         }
 
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
+            if (it.pendinglist != null && it.pendinglist!!.size > 0) {
 
-            filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
+                filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
 
 
 //            subList = ListUtils.partition(it.pendinglist, 3)
-            splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
-            pageNo = 1
-            increment = 0
-            if (pageNo == 1) {
-                viewBinding.prevPage.visibility = View.GONE
-            } else {
-                viewBinding.prevPage.visibility = View.VISIBLE
-
-            }
-            if (increment == subList?.size!!.minus(1)) {
-                viewBinding.nextPage.visibility = View.GONE
-            } else {
-                viewBinding.nextPage.visibility = View.VISIBLE
-
-            }
-
-            names = it.pendinglist as ArrayList<QcListsResponse.Pending>
-            if (it.pendinglist.isNullOrEmpty()) {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewPending.visibility = View.GONE
-                viewBinding.continueBtn.visibility = View.GONE
-
-                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
-            } else {
-                viewBinding.refreshSwipe.isRefreshing = false
-                viewBinding.emptyList.visibility = View.GONE
-
-                viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                if (subList?.size == 1) {
-                    viewBinding.continueBtn.visibility = View.GONE
+                splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
                 } else {
-                    viewBinding.continueBtn.visibility = View.VISIBLE
+                    viewBinding.prevPage.visibility = View.VISIBLE
 
                 }
-                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
 
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
+                }
+
+                names = it.pendinglist as ArrayList<QcListsResponse.Pending>
+                if (it.pendinglist.isNullOrEmpty()) {
+                    viewBinding.emptyList.visibility = View.VISIBLE
+                    viewBinding.recyclerViewPending.visibility = View.GONE
+                    viewBinding.continueBtn.visibility = View.GONE
+
+                    Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewBinding.refreshSwipe.isRefreshing = false
+                    viewBinding.emptyList.visibility = View.GONE
+
+                    viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                    if (subList?.size == 1) {
+                        viewBinding.continueBtn.visibility = View.GONE
+                    } else {
+                        viewBinding.continueBtn.visibility = View.VISIBLE
+
                     }
+                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+                    adapter =
+                        context?.let { it1 ->
+                            QcPendingListAdapter(it1,
+                                subList!!.get(increment),
+                                this,
+                                itemsList, this)
+                        }
+
+                }
+                viewBinding.recyclerViewPending.adapter = adapter
+            } else {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.continueBtn.visibility = View.GONE
 
             }
-            viewBinding.recyclerViewPending.adapter = adapter
-
 
         })
 
@@ -489,7 +497,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         data.getStringExtra("fromQcDate").toString(),
                         data.getStringExtra("toDate").toString(),
                         data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString())
+                        data.getStringExtra("regionId").toString(),
+                        this)
 
 
                     if (data.getStringExtra("fromQcDate").toString()
@@ -512,7 +521,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                             "01-Apr-2019",
                             Utlis.getCurrentDate("yyyy-MM-dd")!!,
                             "",
-                            "")
+                            "",
+                            this)
                     }
 
 
@@ -810,6 +820,11 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())
                 RejectReasonsDialog().generateParsedData(viewModel.getReasons())
         }.show(childFragmentManager, "")
+    }
+
+    override fun onFailureGetPendingAndAcceptAndRejectList(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onClickFilterIcon() {
