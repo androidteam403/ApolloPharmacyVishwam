@@ -59,7 +59,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
+//    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
+    var subList: List<List<QcListsResponse.Pending>>? = null
 
     //     var reason= String
     var headerPos: Int? = -1
@@ -99,44 +100,50 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             hideLoading()
 
 
-
-            isBulkChecked = false
-            viewBinding.bulkAppRejLayout.visibility = View.GONE
-
-            var i: Int = 0
-
-            if (isBulk) {
-
-
-                while (i < names.size) {
-                    if (names[i].isItemChecked) {
-                        names.removeAt(i)
-                        i = 0
-                        adapter!!.notifyDataSetChanged()
-
-
-                    } else {
-                        i++
-                        adapter!!.notifyDataSetChanged()
-                    }
-                }
-            } else if (subList?.size!! > acceptOrRejectItemPos) {
-
-//                var na = ArrayList<QcListsResponse.Pending>()
-//                na.addAll(subList!!.get(increment))
 //
-//                na.removeAt(acceptOrRejectItemPos)
-                var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
-                subListTemp.addAll(subList!!.toList()!!)
-                subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
-
-                subList = subListTemp
-
-//                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
-
-//                names.removeAt(acceptOrRejectItemPos)
-                adapter!!.notifyDataSetChanged()
-            }
+//            isBulkChecked = false
+//            viewBinding.bulkAppRejLayout.visibility = View.GONE
+//
+//            var i: Int = 0
+//
+//            if (isBulk) {
+//
+//
+//                while (i < names.size) {
+//                    if (names[i].isItemChecked) {
+//                        names.removeAt(i)
+//                        i = 0
+//                        adapter!!.notifyDataSetChanged()
+//
+//
+//                    } else {
+//                        i++
+//                        adapter!!.notifyDataSetChanged()
+//                    }
+//                }
+//            } else if (subList?.size!! > acceptOrRejectItemPos) {
+//
+//              for (i in subList!!.get(increment).toList().indices){
+//
+//
+//              }
+//
+//
+////                var na = ArrayList<QcListsResponse.Pending>()
+////                na.addAll(subList!!.get(increment))
+////
+////                na.removeAt(acceptOrRejectItemPos)
+//                var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
+////                subListTemp.addAll(subList!!.toList()!!)
+////                subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
+////
+////                subList = subListTemp
+//
+////                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
+//
+////                names.removeAt(acceptOrRejectItemPos)
+//                adapter!!.notifyDataSetChanged()
+//            }
         })
 
 
@@ -182,6 +189,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
 
+            subList = ListUtils.partition(it.pendinglist, 5)
 
 
 
@@ -473,30 +481,30 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
     fun splitTheArrayList(pendingList : ArrayList<QcListsResponse.Pending>?){
-        subList?.clear()
-        var pendingSubList: ArrayList<QcListsResponse.Pending>? = ArrayList()
-var pageStartPos = 0;
-        var pageEndPos = 5
-        for (i in  pendingList!!){
-            pendingSubList!!.add(i)
-            if (pendingList.indexOf(i) == (pendingList.size-1)){
-               var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
-
-                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
-            }else if ((pendingList.indexOf(i)+1) % 5 == 0){
-
-
-                subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as java.util.ArrayList<QcListsResponse.Pending>)
-                pageStartPos = pageStartPos +5
-                pageEndPos = pageEndPos  + 5
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
-            }
-        }
+//        subList?.clear()
+//        var pendingSubList: ArrayList<QcListsResponse.Pending>? = ArrayList()
+//var pageStartPos = 0;
+//        var pageEndPos = 5
+//        for (i in  pendingList!!){
+//            pendingSubList!!.add(i)
+//            if (pendingList.indexOf(i) == (pendingList.size-1)){
+//               var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
+//
+//                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
+//
+////                subList!!.add(pendingSubList)
+////                pendingSubList.clear()
+//            }else if ((pendingList.indexOf(i)+1) % 5 == 0){
+//
+//
+//                subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as java.util.ArrayList<QcListsResponse.Pending>)
+//                pageStartPos = pageStartPos +5
+//                pageEndPos = pageEndPos  + 5
+//
+////                subList!!.add(pendingSubList)
+////                pendingSubList.clear()
+//            }
+//        }
     }
     override fun notify(position: Int, orderno: String) {
         TODO("Not yet implemented")
