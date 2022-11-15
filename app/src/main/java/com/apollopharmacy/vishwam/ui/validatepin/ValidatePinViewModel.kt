@@ -87,9 +87,8 @@ class ValidatePinViewModel : ViewModel() {
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
-                        state.value = State.ERROR
-                        appLevelDesignationRespSwach.value = result.value
                         Preferences.setAppLevelDesignationSwach(result.value.message)
+                        appLevelDesignationRespSwach.value = result.value
                     } else {
                         appLevelDesignationRespSwach.value = result.value
                     }

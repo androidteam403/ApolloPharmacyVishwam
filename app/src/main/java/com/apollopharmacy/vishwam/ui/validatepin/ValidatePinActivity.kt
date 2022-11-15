@@ -98,8 +98,6 @@ class ValidatePinActivity : AppCompatActivity() {
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
                     if(it.message!=null && it.status.equals(true)){
-                        Preferences.setAppLevelDesignationSwach(it.message)
-                        MainActivity.userDesignationSwach=it.message
                     }else{
 //                        Preferences.setAppLevelDesignationSwach("")
                     }

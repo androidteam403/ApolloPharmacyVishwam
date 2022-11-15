@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Boolean mRequestingLocationUpdates = false;
     private Toolbar toolbar;
     private DrawerLayout drawer;
-    public String employeeRole;
+    public String employeeRole="";
     public String employeeRoleNewDrugRequest;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -224,14 +224,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (JsonParseException e) {
             e.printStackTrace();
         }
-
+        userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
+        employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
+        employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
             userNameText.setText("Hi, " + loginData.getEMPNAME());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
-            userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
-//            Toast.makeText(getApplicationContext(), ""+userDesignation, Toast.LENGTH_SHORT).show();
-            employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
-            employeeRoleNewDrugRequest= Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
+
+//            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
+
 //            employeeRoleNewDrugRequest="Yes";
 //            employeeRole="Yes";
 //           userDesignation="EXECUTIVE";
@@ -754,30 +755,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
-                if (employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) {
+
+                if ((employeeRole.equalsIgnoreCase("Yes")) && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))){
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
-
-                } else if (!isStoreSuperVisour) {
-                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-//                            .addChildModel(new ChildModel("Upload"))
-                            .addChildModel(new ChildModel("List")));
-//                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
-//                            .addChildModel(new ChildModel("List Module")));
-                } else if (employeeRole.equalsIgnoreCase("Yes")) {
+                }else if(employeeRole.equalsIgnoreCase("Yes")){
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
-                } else {
-                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
+                }else if( userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")){
+                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                            .addChildModel(new ChildModel("List")));
                 }
-                if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")){
-                listView.addHeaderModel(
-                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
-                                .addChildModel(new ChildModel("New Drug Request"))
-                                .addChildModel(new ChildModel("New Drug List")));
 
-            }else{
+
+//                if (employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+//                            .addChildModel(new ChildModel("Upload"))
+//                            .addChildModel(new ChildModel("List")));
+//
+//                } else if (!isStoreSuperVisour && !employeeRole.equalsIgnoreCase("Yes") && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+////                            .addChildModel(new ChildModel("Upload"))
+//                            .addChildModel(new ChildModel("List")));
+////                    listView.addHeaderModel(new HeaderModel("Sample Swacch UI", Color.WHITE, true, R.drawable.ic_baseline_discount)
+////                            .addChildModel(new ChildModel("List Module")));
+//                } else if (employeeRole.equalsIgnoreCase("Yes") && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+//                            .addChildModel(new ChildModel("Upload"))
+//                            .addChildModel(new ChildModel("List")));
+//                } else if (employeeRole.equalsIgnoreCase("Yes") ) {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+//                            .addChildModel(new ChildModel("Upload")));
+//                }
+//                else if (!employeeRole.equalsIgnoreCase("Yes") && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+//                            .addChildModel(new ChildModel("List")));
+//                }else {
+//                    listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon));
+//                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
+                    listView.addHeaderModel(
+                            new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
+                                    .addChildModel(new ChildModel("New Drug Request"))
+                                    .addChildModel(new ChildModel("New Drug List")));
+
+                } else {
 
                 }
 
@@ -795,13 +832,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 displaySelectedScreen("HOME");
                                 drawer.closeDrawer(GravityCompat.START);
                             } else if (id == 6 || id == 5) {
-                                if (employeeRoleNewDrugRequest != null && employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")){
-                                    if (id == 6){
+                                if (employeeRoleNewDrugRequest != null && employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
+                                    if (id == 6) {
                                         displaySelectedScreen("Logout");
                                         drawer.closeDrawer(GravityCompat.START);
                                     }
-                                }else {
-                                    if (id == 5){
+                                } else {
+                                    if (id == 5) {
                                         displaySelectedScreen("Logout");
                                         drawer.closeDrawer(GravityCompat.START);
                                     }
@@ -840,15 +877,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            }
                             else if (groupPosition == 4) {
                                 if (childPosition == 0) {
-                                    if ((employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) || employeeRole.equalsIgnoreCase("Yes")) {
-
+                                    if ((employeeRole.equalsIgnoreCase("Yes")) && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))){
                                         displaySelectedScreen("Upload");
-//                                    if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))
-
-                                    } else {
+                                    }else if(employeeRole.equalsIgnoreCase("Yes")){
+                                        displaySelectedScreen("Upload");
+                                    }else if(userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")){
                                         displaySelectedScreen("List");
-
                                     }
+
+
+
+//                                    if ((employeeRole.equalsIgnoreCase("Yes") && !isStoreSuperVisour) || employeeRole.equalsIgnoreCase("Yes")) {
+//
+//                                        displaySelectedScreen("Upload");
+////                                    if (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))
+//
+//                                    } else {
+//                                        displaySelectedScreen("List");
+//
+//                                    }
                                 } else if (childPosition == 1) {
                                     displaySelectedScreen("List");
                                 }

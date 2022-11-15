@@ -1,24 +1,17 @@
 
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
-import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter.RatingReviewViewModel
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.CommandsNeww
@@ -51,6 +44,7 @@ class SampleSwachViewModel : ViewModel() {
                         state.value = State.ERROR
                         swachhapolloModel.value = result.value
                     } else {
+                        swachhapolloModel.value = result.value
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
@@ -145,7 +139,7 @@ class SampleSwachViewModel : ViewModel() {
 //        }
     }
 
-    fun onUploadSwach(onUploadSwachModelRequest: OnUploadSwachModelRequest) {
+    fun onUploadSwach(onUploadSwachModelRequest: OnUploadSwachModelRequest, sampleSwachUiCallback: SampleSwachUiCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
@@ -172,13 +166,13 @@ class SampleSwachViewModel : ViewModel() {
             when (response) {
 
                 is ApiResult.Success -> {
-
-                    state.value = State.ERROR
+                    sampleSwachUiCallback.onSuccessOnUploadSwach(response.value)
                     uploadSwachModel.value = response.value
 
 
                     if(response.value.status?:null == false) {
                         state.value = State.ERROR
+                        sampleSwachUiCallback.onSuccessOnUploadSwach(response.value)
                         CommandsNewSwachImp.ShowToast(response.value.message)
                         uploadSwachModel.value?.message = response.value.message
 
@@ -228,6 +222,7 @@ class SampleSwachViewModel : ViewModel() {
                     } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
+                        sampleSwachUiCallback.onSuccessDayWiseAccesss(result.value)
                         checkDayWiseAccess.value = result.value
                     }
                 }
@@ -255,7 +250,10 @@ class SampleSwachViewModel : ViewModel() {
         }
     }
 
-    fun getStorePersonHistory(getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest) {
+    fun getStorePersonHistory(
+        getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest,
+        sampleSwachUiCallback: SampleSwachUiCallback
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
@@ -284,13 +282,14 @@ class SampleSwachViewModel : ViewModel() {
                 is ApiResult.Success -> {
 
                     state.value = State.ERROR
-                    getStorePersonHistory.value = response.value
-
+//                    getStorePersonHistory.value = response.value
+                    sampleSwachUiCallback.onSuccessgetStorePersonHistory(response.value)
 
                     if (response.value.status ?: null == false) {
                         state.value = State.ERROR
                         CommandsNewSwachImp.ShowToast(response.value.message)
-                        getStorePersonHistory.value = response.value
+                        sampleSwachUiCallback.onSuccessgetStorePersonHistory(response.value)
+//                        getStorePersonHistory.value = response.value
 
 
                     }
@@ -321,7 +320,7 @@ class SampleSwachViewModel : ViewModel() {
 //        }
     }
 
-    fun getLastUploadedDate() {
+    fun getLastUploadedDate(sampleSwachUiCallback: SampleSwachUiCallback) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
@@ -333,8 +332,11 @@ class SampleSwachViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        lastUploadedDateResponse.value = result.value
+                        sampleSwachUiCallback.onSuccessLastUploadedDate(result.value)
+//                        lastUploadedDateResponse.value = result.value
                     } else {
+                        sampleSwachUiCallback.onSuccessLastUploadedDate(result.value)
+//                        lastUploadedDateResponse.value = result.value
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
