@@ -444,7 +444,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:inputType="number"
                             android:enabled="true"
-                            android:hint="Bar Code "
+                            android:hint="Barcode "
                             android:maxLength="20"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"

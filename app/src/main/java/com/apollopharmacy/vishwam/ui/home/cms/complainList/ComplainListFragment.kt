@@ -608,64 +608,94 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
 
             if(items.ticket_inventory?.drug_request?.uid != null){
-                binding.drugDetailsLayout.visibility = View.VISIBLE
-                binding.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
-                binding.drugItemNumber.text = items.ticket_inventory.drug_request.item_name ?: "--"
-                binding.drugPackSize.text =
+                binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
+//                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
+                binding.drugLayout.drugItemNumber.text = items.ticket_inventory.drug_request.item_name ?: "--"
+                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
+                binding.drugLayout.drugPackSize.text =
                     items.ticket_inventory.drug_request.pack_size.toString() ?: "--"
-                binding.drugMrp.text = items.ticket_inventory.drug_request.mrp.toString() ?: "--"
-                binding.drugPurchasePrice.text =
-                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
-                binding.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
-                binding.drugBatchNo.text = items.ticket_inventory.drug_request.batch_no ?: "--"
+                binding.drugLayout.drugMrp.text = items.ticket_inventory.drug_request.mrp.toString() ?: "--"
+//                binding.drugLayout.drugPurchasePrice.text =
+//                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
+//                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
+                binding.drugLayout.drugBatchNo.text = items.ticket_inventory.drug_request.batch_no ?: "--"
 
-                binding.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
-                binding.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
-                binding.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
-                binding.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
-                binding.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
-                binding.inventoryImagesLayout.visibility = View.VISIBLE
-                Glide.with(context)
-                    .load(items.ticket_inventory?.drug_request.front_mb)
-                    .placeholder(R.drawable.thumbnail_image)
-                    .into(binding.frontImgView)
-                binding.frontImgView.setOnClickListener {
-                    items.ticket_inventory?.drug_request.front_mb.let { it1 -> imageClickListener.onItemClick(position, it1) }
+//                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
+//                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
+//                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
+//                binding.drugLayout.drugGst.text = items.ticket_inventory.drug_request.gst ?: "--"
+//                binding.drugLayout.drugReference.text = items.ticket_inventory.drug_request.reference_no ?: "--"
+
+                if(items.ticket_inventory?.drug_request.front_mb != null) {
+                    Glide.with(context)
+                        .load(items.ticket_inventory?.drug_request.front_mb)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.drugLayout.frontImgView)
+                    binding.drugLayout.frontImgView.setOnClickListener {
+                        items.ticket_inventory?.drug_request.front_mb.let { it1 ->
+                            imageClickListener.onItemClick(position,
+                                it1)
+                        }
+                    }
+                }else{
+                    binding.drugLayout.frontImgLabel.visibility = View.GONE
+                    binding.drugLayout.frontImgView.visibility = View.GONE
                 }
-                Glide.with(context)
-                    .load(items.ticket_inventory?.drug_request.back_mb)
-                    .placeholder(R.drawable.thumbnail_image)
-                    .into(binding.backImgView)
-                binding.backImgView.setOnClickListener {
-                    items.ticket_inventory?.drug_request.back_mb.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                if(items.ticket_inventory?.drug_request?.back_mb != null) {
+                    Glide.with(context)
+                        .load(items.ticket_inventory?.drug_request.back_mb)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.drugLayout.backImgView)
+                    binding.drugLayout.backImgView.setOnClickListener {
+                        items.ticket_inventory?.drug_request.back_mb.let { it1 ->
+                            imageClickListener.onItemClick(position,
+                                it1)
+                        }
+                    }
+                }else{
+                    binding.drugLayout.backImgLabel.visibility = View.GONE
+                    binding.drugLayout.backImgView.visibility = View.GONE
                 }
-                binding.otherImgLabel.text = "Side Image"
-                Glide.with(context)
-                    .load(items.ticket_inventory?.drug_request.side_mb)
-                    .placeholder(R.drawable.thumbnail_image)
-                    .into(binding.otherImgView)
-                binding.otherImgView.setOnClickListener {
-                    items.ticket_inventory?.drug_request.side_mb.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                if(items.ticket_inventory?.drug_request?.side_mb != null) {
+                    binding.otherImgLabel.text = "Side Image"
+                    Glide.with(context)
+                        .load(items.ticket_inventory?.drug_request.side_mb)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.drugLayout.sideImgView)
+                    binding.drugLayout.sideImgView.setOnClickListener {
+                        items.ticket_inventory?.drug_request.side_mb.let { it1 ->
+                            imageClickListener.onItemClick(position,
+                                it1)
+                        }
+                    }
+                }else{
+                    binding.drugLayout.sideImgView.visibility = View.GONE
+                    binding.drugLayout.sideImgView.visibility = View.GONE
                 }
-                binding.billImgLabel.visibility = View.VISIBLE
-                binding.billImgView.visibility = View.VISIBLE
-                Glide.with(context)
-                    .load(items.ticket_inventory?.drug_request.bill_mb)
-                    .placeholder(R.drawable.thumbnail_image)
-                    .into(binding.billImgView)
-                binding.billImgView.setOnClickListener {
-                    items.ticket_inventory?.drug_request.bill_mb.let { it1 -> imageClickListener.onItemClick(position, it1) }
+                if(items.ticket_inventory?.drug_request?.bill_mb != null) {
+                    binding.drugLayout.billImgLabel.visibility = View.VISIBLE
+                    binding.drugLayout.billImgView.visibility = View.VISIBLE
+                    Glide.with(context)
+                        .load(items.ticket_inventory?.drug_request.bill_mb)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(binding.drugLayout.billImgView)
+                    binding.drugLayout.billImgView.setOnClickListener {
+                        items.ticket_inventory?.drug_request.bill_mb.let { it1 ->
+                            imageClickListener.onItemClick(position,
+                                it1)
+                        }
+                    }
+                }else{
+                    binding.drugLayout.billImgLabel.visibility = View.GONE
+                    binding.drugLayout.billImgView.visibility = View.GONE
                 }
             }else{
-                if(isDonthaveInventory) {
-                    binding.inventoryImagesLayout.visibility = View.GONE
-                }
-                binding.drugDetailsLayout.visibility = View.GONE
-                binding.billImgLabel.visibility = View.GONE
-                binding.billImgView.visibility = View.GONE
+                binding.drugLayout.drugDetailsLayout.visibility = View.GONE
+                binding.drugLayout.billImgLabel.visibility = View.GONE
+                binding.drugLayout.billImgView.visibility = View.GONE
             }
             binding.complainDetails.text =
-                items.description?.trim()?.replace("\\s+".toRegex(), " ")
+                items.description?.trim()?.replace("\\s+".toRegex(), " ")?: "--"
 
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "
@@ -677,6 +707,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 binding.siteid.text = items.site?.site + "-" + items.site?.store_name
             }
+            binding.ticketCategory.text = items.category?.name
 //            binding.siteName.text = items.site.store_name
 
 

@@ -49,6 +49,7 @@ class DrugFragmentViewModel: ViewModel() {
     //    var command = LiveEvent<CmsCommand>()
     var siteLiveData = ArrayList<StoreListItem>()
     private var storeDetailsSend = StoreListItem()
+    lateinit var selectedSubCategory : ReasonmasterV2Response.TicketSubCategory
 
     var drugList = MutableLiveData<DrugResponse>()
 
@@ -89,7 +90,7 @@ class DrugFragmentViewModel: ViewModel() {
                                 drugRequest.site?.store_name),
                             RequestSaveUpdateComplaintRegistration.Reason(reasonData.data.uid,
                                 reasonData.data.reason_sla),
-                            RequestSaveUpdateComplaintRegistration.Subcategory(reasonData.data.ticket_sub_category.uid),
+                            RequestSaveUpdateComplaintRegistration.Subcategory(selectedSubCategory.uid),
                             RequestSaveUpdateComplaintRegistration.TicketInventory(null,
                                 drugList,
                                 null),

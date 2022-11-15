@@ -201,11 +201,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     if(s.length == 1 && s.startsWith(".")){
                         viewBinding.mrpp.setText("0.")
                         viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
-                    }else if(s.length > 2 && s.startsWith("0")){
+                    }else if(s.length > 1 && s.startsWith("0")){
                         if(!s.startsWith("0.")) {
                             viewBinding.mrpp.setText(s.substring(1))
                             viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
-
                         }
                     }
                 }
@@ -222,16 +221,15 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
             }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if(s != null){
                     if(s.length == 1 && s.startsWith(".")){
-                        viewBinding.mrpp.setText("0.")
-                        viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
-                    }else if(s.length > 2 && s.startsWith("0")){
+                        viewBinding.purchasePrice.setText("0.")
+                        viewBinding.purchasePrice.setSelection(viewBinding.purchasePrice.text!!.length)
+                    }else if(s.length > 1 && s.startsWith("0")){
                         if(!s.startsWith("0.")) {
-                            viewBinding.mrpp.setText(s.substring(1))
-                            viewBinding.mrpp.setSelection(viewBinding.mrpp.text!!.length)
-
+                            viewBinding.purchasePrice.setText(s.substring(1))
+                            viewBinding.purchasePrice.setSelection(viewBinding.purchasePrice.text!!.length)
                         }
                     }
                 }
@@ -253,10 +251,15 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                if (s != null) {
-                    if (s.length > 1 && s.startsWith("0")) {
-                        viewBinding.selectDepartment.setText(s.substring(1) )
+                if(s != null){
+                    if(s.length == 1 && s.startsWith(".")){
+                        viewBinding.selectDepartment.setText("0.")
                         viewBinding.selectDepartment.setSelection(viewBinding.selectDepartment.text!!.length)
+                    }else if(s.length > 1 && s.startsWith("0")){
+                        if(!s.startsWith("0.")) {
+                            viewBinding.selectDepartment.setText(s.substring(1))
+                            viewBinding.selectDepartment.setSelection(viewBinding.selectDepartment.text!!.length)
+                        }
                     }
                 }
             }
@@ -863,7 +866,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
         else if (mrp.isNotEmpty() && mrp.equals("0")) {
             showErrorMsg(
-                "Please Enter Mrp grater then 0"
+                "Please Enter MRP greater then 0"
             )
             viewBinding.purchasePriceTextInput.requestFocus()
             return false
@@ -876,7 +879,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
         else if (batchNo.isEmpty()) {
             showErrorMsg(
-                "Please Enter Bach Number"
+                "Please Enter Batch Number"
             )
             viewBinding.BatchTextInput.requestFocus()
             return false
@@ -952,9 +955,8 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         return true
     }
 
-    lateinit var selectedSubCategory : ReasonmasterV2Response.TicketSubCategory
     override fun selectDepartment(departmentDto: ReasonmasterV2Response.TicketSubCategory) {
-        selectedSubCategory = departmentDto
+       viewModel.selectedSubCategory = departmentDto
         viewBinding.selectCategory.setText(departmentDto.name)
         viewBinding.selectCategoryText.error = null
     }

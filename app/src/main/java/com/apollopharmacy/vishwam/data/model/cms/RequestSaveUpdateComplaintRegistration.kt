@@ -175,15 +175,16 @@ data class RequestSaveUpdateComplaintRegistration(
 
     data class DrugRequest(
 
-        @Expose
-        @SerializedName("side_mb")
-        val side_mb: String?,
+
         @Expose
         @SerializedName("front_mb")
         val front_mb: String?,
         @Expose
         @SerializedName("back_mb")
         val back_mb: String?,
+        @Expose
+        @SerializedName("side_mb")
+        val side_mb: String?,
         @Expose
         @SerializedName("bill_mb")
         val bill_mb: String?,

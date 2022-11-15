@@ -19,15 +19,14 @@
         android:layout_height="match_parent"
         android:background="@color/complaint_bg">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/dateSelectionLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/apollo_img_color"
             android:orientation="horizontal"
             android:padding="@dimen/value_10dp"
-            android:visibility="visible"
-            android:weightSum="3">
+            android:visibility="visible">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/fromDate"
@@ -36,7 +35,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_weight="1.1"
-                android:textColorHint="@color/white">
+                android:textColorHint="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/toDate">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/fromDateText"
@@ -60,7 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:layout_weight="1.1"
-                android:textColorHint="@color/white">
+                android:textColorHint="@color/white"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/fromDate"
+                app:layout_constraintEnd_toStartOf="@+id/submit">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/toDateText"
@@ -86,9 +91,10 @@
                 android:background="@drawable/yellow_drawable"
                 android:text="@string/label_submit"
                 android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
-        </LinearLayout>
+                app:layout_constraintEnd_toEndOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/pullToRefresh"
             android:layout_width="match_parent"

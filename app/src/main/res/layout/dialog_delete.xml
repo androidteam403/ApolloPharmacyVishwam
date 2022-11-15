@@ -33,7 +33,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do You Want To Delete ?"
+            android:text="Do you want to delete Image?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 

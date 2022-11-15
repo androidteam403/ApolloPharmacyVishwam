@@ -867,6 +867,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectCategory.setText(departmentDto.name)
         viewBinding.selectSubCategoryText.visibility = View.GONE
         viewBinding.selectRemarksText.visibility = View.GONE
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
         subCategoryListSelected.clear()
         if (departmentDto.name.equals("New Batch")) {
@@ -957,17 +958,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         ) {
             statusInventory = "POS"
             viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.VISIBLE
+            viewBinding.titleName.text = "${resources.getString(R.string.label_upload_image)} *"
 
         }
     }
 
 
     private fun clearTransactionCCView(){
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
         viewBinding.transactionDetailsLayout.transactionIdEdit.setText("")
         viewBinding.transactionDetailsLayout.tidEdit.setText("")
         viewBinding.transactionDetailsLayout.billAmountEdit.setText("")
         viewBinding.transactionDetailsLayout.approvalCodeEdit.setText("")
         viewBinding.transactionDetailsLayout.billNumberEdit.setText("")
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
     }
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
@@ -1193,6 +1198,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun deleteImage(position: Int) {
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
         fileArrayList.removeAt(position)
         adapter.deleteImage(position)
     }
@@ -1201,6 +1208,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     override fun confirmsavetheticket() {
         RefreshView()
         if (employeeDetailsResponse != null
+
             && employeeDetailsResponse!!.data != null
             && employeeDetailsResponse!!.data!!.role != null
             && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
@@ -1548,7 +1556,7 @@ class ImageRecyclerView(
     }
 
     fun deleteImage(position: Int) {
-        orderData.removeAt(position)
+//        orderData.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
     }

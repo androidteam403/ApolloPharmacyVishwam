@@ -26,6 +26,7 @@
     <string name="label_login">Login</string>
     <string name="label_cancel">Cancel</string>
     <string name="label_submit">Submit</string>
+    <string name="label_select">Select</string>
 
 
     <string name="err_msg_select_gst">Please Select GST</string>
@@ -208,6 +209,7 @@
         <item>AHEL</item>
     </string-array>
 
+    <string name="label_ticket_categoty">Ticket Category:</string>
     <string name="label_reason_acknowledgement">Reason: </string>
     <string name="label_site_list">Site: </string>
     <string name="label_store_id_u0020">Store ID: </string>
