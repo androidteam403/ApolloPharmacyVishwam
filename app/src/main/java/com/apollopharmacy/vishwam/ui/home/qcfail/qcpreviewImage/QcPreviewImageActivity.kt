@@ -1,8 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage
 
+import android.app.DownloadManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
@@ -73,7 +75,7 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
             list,
             qcItemList,
             this,
-            currentPosition,
+            currentPosition,this,
             imageUrlList)
 
 

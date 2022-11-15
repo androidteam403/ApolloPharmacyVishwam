@@ -56,7 +56,8 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     private lateinit var dialog: Dialog
     var overallreshootcount: Int = 0
     var swachId: String? = null
-
+    var urlPosition: Int = 0
+    var configgpositionRes: Int = 0
 
     private lateinit var onClickStatusClickAdapter: OnClickStatusClickAdapter
 
@@ -272,10 +273,13 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
            super.onBackPressed()
         }
 
-        viewModel.commands.observeForever({
+        viewModel.commands.observeForever {
 
             when (it) {
                 is CommandsNeww.ImageIsUploadedInAzur -> {
+
+//                    getImageUrlsList.removeAt(Integer.parseInt(getImageUrlsList.get(0).categoryList?.get(configgpositionRes)?.imageUrls?.get(
+//                        urlPosition).toString()))
 
 
                     getImageUrlsList.get(0).categoryList?.get(configgpositionRes)?.imageUrls?.get(
@@ -296,7 +300,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     Utlis.hideLoading()
                 }
             }
-        })
+        }
 
 
     }
@@ -331,6 +335,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
+
+
+//        getImageUrlsList.removeAt(Integer.parseInt((getImageUrlsList[0].categoryList?.get(configgpositionRes)?.imageUrls?.get(urlPosition)).toString()))
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
     }
@@ -394,8 +401,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
     }
 
-    var urlPosition: Int = 0
-    var configgpositionRes: Int = 0
+
     override fun onClickCamera(position: Int, configPositionRes: Int) {
         this.urlPosition = position
         this.configgpositionRes = configPositionRes

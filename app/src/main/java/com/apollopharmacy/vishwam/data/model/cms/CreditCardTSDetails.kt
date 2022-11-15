@@ -183,7 +183,7 @@ data class CCStatusX(
     val icon: Any,
     val name: Any,
     val other: CCOther,
-    val uid: Any
+    val uid: String
 )
 
 data class CCTicketType(

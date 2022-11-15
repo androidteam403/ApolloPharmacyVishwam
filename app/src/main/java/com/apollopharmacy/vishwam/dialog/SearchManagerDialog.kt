@@ -77,7 +77,6 @@ class SearchManagerDialog(var transactionPOSModel: Data) : DialogFragment() {
             viewBinding.articleCodeRecyclerView.adapter =
                 ManagerRecyclerView(transactionPOSModel.listData.rows, object : OnTransactionSearchManagerListnier {
                     override fun onSelectedManager(data: com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Row) {
-                        Utils.printMessage(TAG, "Selected Data :: " + data.toString())
                         abstractDialogClick.onSelectedManager(data)
                         dismiss()
                     }

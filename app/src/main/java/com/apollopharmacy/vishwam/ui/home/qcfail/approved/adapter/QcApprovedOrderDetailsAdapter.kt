@@ -16,7 +16,7 @@ class QcApprovedOrderDetailsAdapter(
     val mContext: Context,
     var itemsList: List<QcItemListResponse.Item>,
     var pos: Int,
-    var qcApproveList: ArrayList<QcListsResponse.Approved>,
+    var qcApproveList: List<QcListsResponse.Approved>,
     val imageClicklistner: QcListsCallback,
     var orderId:String,
 

@@ -8,7 +8,7 @@ import java.io.Serializable
 class QcListsResponse : Serializable {
     @SerializedName("PENDINGLIST")
     @Expose
-    var pendinglist: List<Pending>? = null
+    var pendinglist: ArrayList<Pending>? = null
 
     @SerializedName("APPROVEDLIST")
     @Expose
@@ -25,7 +25,7 @@ class QcListsResponse : Serializable {
     @SerializedName("MESSAGE")
     @Expose
     var message: String? = null
-    fun withPendinglist(pendinglist: List<Pending>?): QcListsResponse {
+    fun withPendinglist(pendinglist: ArrayList<Pending>?): QcListsResponse {
         this.pendinglist = pendinglist
         return this
     }

@@ -1,38 +1,47 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.model;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
+import android.os.Environment;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-import java.util.ArrayList;
-import java.util.List;
 public class Dummy {
-//Intent intent=new Intent(getApplicationContext(), Activity);
-//Bundle bundle=new Bundle();
-//bundle.putParcelable("",av);
-//intent.putExtras(bundle);
-public ArrayList<QcListsResponse.Approved> list=new ArrayList<QcListsResponse.Approved>();
+//public void run() throws MalformedURLException {
+//     URL url=null;
+//     String file = null;
+//     url=new URL(file);
+//     file=url.getPath();
+//     file=file.substring(file.lastIndexOf('/')+1);
+//    DownloadManager.Request request=new DownloadManager.Request(Uri.parse(url+""));
+//    request.setTitle(file);
+//    request.setMimeType("application/pdf");
+//    request.allowScanningByMediaScanner();
+//    request.setAllowedOverMetered(true);
+//    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//    request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,file);
+//    DownloadManager dm=(DownloadManager) getSystemService(DoWNLAOD_SERVICE);
+//    dm.enqueue(request);
 //
-//    int i;
-//    public  ArrayList<QcListsResponse.Approved> generatePage(int currentpage){
-//        int startItem=currentpage*items+1;
-//        int numData=items;
-//        ArrayList<QcListsResponse.Approved> pageData=new ArrayList<>();
-//        if (currentpage==lastPage&&itemsremain>0){
-//            for (int i=startItem;i<startItem+itemsremain;i++){
-//                pageData.add("NUm"+i);
-//            }
-//        }else {
-//            for (int j=startItemj<startItem+numData;j++){
+//}
+
+
+
+    public void run(){
+//        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() +"/"+ filename);
+//        Intent target = new Intent(Intent.ACTION_VIEW);
+//        target.setDataAndType(Uri.fromFile(file),"application/pdf");
+//        target.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 //
-//            }
+//        Intent intent = Intent.createChooser(target, "Open File");
+//        try {
+//            startActivity(intent);
+//        } catch (ActivityNotFoundException e) {
+//            // Instruct the user to install a PDF reader here, or something
 //        }
-//
-//    }
 
-
-
+    }
 }

@@ -229,7 +229,7 @@ data class ReasonmasterV2Response(
              val name: String,
              @Expose
              @SerializedName("other")
-             val other: Other
+             val other: Other?
          ):Serializable
 
 
@@ -242,6 +242,6 @@ data class ReasonmasterV2Response(
              val name: String,
              @Expose
              @SerializedName("other")
-             val other: Other
+             val other: Other?
          ):Serializable
      }

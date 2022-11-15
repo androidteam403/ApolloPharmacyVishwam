@@ -1426,13 +1426,13 @@ class RegistrationViewModel : ViewModel() {
 
 
     fun submitTicketInventorySaveUpdate(requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration) {
-        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time == null) {
-            requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time =
-                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_hrs.toString()
+        if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time =
+                requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_hrs.toString()
         }
-        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time == null) {
-            requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time =
-                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_mins.uid
+        if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time =
+                requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_mins?.uid
         }
                   val baseUrl =
                       "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"

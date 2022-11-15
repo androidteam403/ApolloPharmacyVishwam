@@ -44,6 +44,7 @@ class QcPendingViewModel : ViewModel() {
         toDate: String,
         storeId: String,
         region: String,
+        pendingFragmentCallback: PendingFragmentCallback
     ) {
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
@@ -57,6 +58,12 @@ class QcPendingViewModel : ViewModel() {
                         state.value = State.ERROR
                         qcPendingLists.value = result.value
                     } else {
+//                        if (pendingFragmentCallback != null){
+//                            if (result.value != null && result.value.message != null){
+//                                pendingFragmentCallback.onFailureGetPendingAndAcceptAndRejectList(result.value.message!!)
+//                            }
+//                        }
+                        qcPendingLists.value = result.value
                         state.value = State.ERROR
                     }
                 }
@@ -268,6 +275,7 @@ class QcPendingViewModel : ViewModel() {
                         Toast.makeText(context, "Sucessfull", Toast.LENGTH_SHORT).show()
 
                     } else {
+
                         state.value = State.ERROR
                     }
                 }

@@ -24,15 +24,18 @@ class ImagesCardViewAdapterRes(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): ImagesCardViewAdapterRes.ViewHolder {
+    ): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.adapter_reshootactivity_iagesview, parent, false)
 
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ImagesCardViewAdapterRes.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        var pos:Int=0
+        var conPos:Int=0
         var imageUrls = imageUrlsList?.get(position)
+//        configPositionRes=1
 
 //        if(imageUrls!!.status.equals("0")){
 //            holder.imageStatus.setImageResource(R.drawable.clock_small)
@@ -43,6 +46,7 @@ class ImagesCardViewAdapterRes(
 //        }
 
         if(imageUrls?.url!="IMAGE1" && imageUrls?.url!="IMAGE2" && imageUrls?.url!="") {
+
             Glide.with(context).load(imageUrls?.url).into(holder.iageView)
         }else{
             Glide.with(context).load(R.drawable.placeholder_image).into(holder.iageView)
@@ -92,6 +96,8 @@ class ImagesCardViewAdapterRes(
 
 
         holder.camera.setOnClickListener {
+            pos=position
+            conPos=configPositionRes
             callbackInterface.onClickCamera(position, configPositionRes)
         }
 

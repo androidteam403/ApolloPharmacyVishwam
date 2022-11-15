@@ -850,6 +850,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         startActivityForResult(i, 781)
     }
 
+    override fun onClickQcFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
     fun submitButtonEnable(dialogFilterUploadBinding: DialogFilterUploadBinding) {
         if (!dialogFilterUploadBinding.approvedStatus.isChecked
             && !dialogFilterUploadBinding.partialyApprovedStatus.isChecked
@@ -967,9 +971,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 for (i in positionofftheDayNewForWeek.indices) {
                     if (positionofftheDayNewForWeek.get(i)==dayOfTheWeek) {
                         removePos=i
+                        positionofftheDayNewForWeek.removeAt(removePos)
                     }
                 }
-                positionofftheDayNewForWeek.removeAt(removePos)
+
             }
             for (i in positionofftheDayNewForWeek.indices) {
                 var dayOfCharArrayListModel = DayOfCharArrayListModel()

@@ -190,10 +190,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:baselineAligned="false"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:id="@+id/ticket_category_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/ticket_category_lable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/label_ticket_categoty"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/ticket_category"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/ticket_category_lable"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/siteId_layout"
@@ -310,7 +338,9 @@
                         android:id="@+id/inventory_details_layout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        android:paddingEnd="@dimen/value_5dp"
+                        android:paddingStart="0dp">
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/manager_label"
                             android:layout_width="wrap_content"
@@ -402,6 +432,25 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp"/>
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/article_name_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Item description : "
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toBottomOf="@+id/article_code_label"
+                            app:layout_constraintStart_toStartOf="parent"/>
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/article_name"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/article_name_label"
+                            app:layout_constraintStart_toEndOf="@+id/article_name_label"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"/>
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/batch_number_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -409,7 +458,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/article_code_label"
+                            app:layout_constraintTop_toBottomOf="@+id/article_name"
                             app:layout_constraintStart_toStartOf="parent"/>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/batch_number"
@@ -518,6 +567,26 @@
                         android:layout_height="wrap_content"
                         android:visibility="gone">
                         <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cc_reason_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reason : "
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/cc_reason"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="@+id/cc_reason_label"
+                            app:layout_constraintStart_toEndOf="@+id/cc_reason_label"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp"/>
+
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cc_executive_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -525,7 +594,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"
                             app:layout_constraintStart_toStartOf="parent"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -560,7 +629,7 @@
                             android:id="@+id/bill_number_label"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bill Number : "
+                            android:text="Invoice Number : "
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
@@ -632,8 +701,12 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+
                 </LinearLayout>
 
+                <include
+                    android:id="@+id/drug_layout"
+                    layout="@layout/drug_view_data"/>
                 <LinearLayout
                     android:id="@+id/detailslayout"
                     android:layout_width="match_parent"
@@ -693,6 +766,7 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/description_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/value_15dp">
@@ -721,50 +795,51 @@
                     android:id="@+id/inventory_images_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_20dp"
+                    android:layout_marginStart="@dimen/value_10dp"
                     android:visibility="visible">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/front_img_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Front Image"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/front_img_view"
-                        android:layout_width="@dimen/value_100dp"
-                        android:layout_height="@dimen/value_100dp"
+                        android:layout_width="@dimen/value_70dp"
+                        android:layout_height="@dimen/value_70dp"
                         app:layout_constraintTop_toBottomOf="@+id/front_img_label"
                         app:layout_constraintStart_toStartOf="@+id/front_img_label"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/back_img_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Back Image"
                         app:layout_constraintStart_toEndOf="@+id/front_img_label"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="@dimen/value_20dp"/>
+                        android:layout_marginStart="@dimen/value_10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/back_img_view"
-                        android:layout_width="@dimen/value_100dp"
-                        android:layout_height="@dimen/value_100dp"
+                        android:layout_width="@dimen/value_70dp"
+                        android:layout_height="@dimen/value_70dp"
                         app:layout_constraintTop_toBottomOf="@+id/back_img_label"
                         app:layout_constraintStart_toStartOf="@+id/back_img_label"/>
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/other_img_label"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Other Image"
                         app:layout_constraintStart_toEndOf="@+id/back_img_label"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="@dimen/value_20dp"/>
+                        android:layout_marginStart="@dimen/value_10dp"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/other_img_view"
-                        android:layout_width="@dimen/value_100dp"
-                        android:layout_height="@dimen/value_100dp"
+                        android:layout_width="@dimen/value_70dp"
+                        android:layout_height="@dimen/value_70dp"
                         app:layout_constraintTop_toBottomOf="@+id/other_img_label"
                         app:layout_constraintStart_toStartOf="@+id/other_img_label"/>
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <LinearLayout

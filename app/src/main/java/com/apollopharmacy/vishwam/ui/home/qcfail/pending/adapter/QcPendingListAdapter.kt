@@ -16,7 +16,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 
 class QcPendingListAdapter(
     val mContext: Context,
-    var pendingList: ArrayList<QcListsResponse.Pending>,
+    var pendingList: List<QcListsResponse.Pending>,
     val imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
     var pendingFragmentCallback: PendingFragmentCallback,
@@ -130,10 +130,10 @@ class QcPendingListAdapter(
         } else {
             holder.pendingLayoutBinding.custNumber.setText(pendingOrders.mobileno)
         }
-        if (pendingOrders.orderno == null) {
+        if (pendingOrders.omsorderno == null) {
             holder.pendingLayoutBinding.orderid.setText("-")
         } else {
-            holder.pendingLayoutBinding.orderid.setText(pendingOrders.orderno)
+            holder.pendingLayoutBinding.orderid.setText(pendingOrders.omsorderno)
 
         }
         var item = QcItemListResponse()
@@ -222,7 +222,7 @@ class QcPendingListAdapter(
                         position,
                         pendingList,
                         pendingFragmentCallback,
-                        this,orderId,
+                        this,pendingOrders.omsorderno.toString(),
                         holder.pendingLayoutBinding)
                 }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
@@ -252,7 +252,7 @@ class QcPendingListAdapter(
 
 
         holder.pendingLayoutBinding.checkBox.setOnClickListener {
-            imageClicklistner.isChecked(pendingList, position)
+            imageClicklistner.isChecked(pendingList, position, pendingOrders)
         }
         if (pendingOrders.isOrderExpanded) {
             holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
@@ -262,6 +262,15 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
             holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
             holder.pendingLayoutBinding.extraData.visibility = View.GONE
+        }
+        holder.itemView.setOnClickListener{
+            if (pendingOrders.isOrderExpanded){
+                pendingOrders.isOrderExpanded = false
+                notifyDataSetChanged()
+            }else{
+                pendingOrders.isOrderExpanded = true
+                pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
+            }
         }
         holder.pendingLayoutBinding.arrow.setOnClickListener {
             pendingOrders.isOrderExpanded = true

@@ -16,11 +16,13 @@ import com.apollopharmacy.vishwam.util.Utlis
 
 class QcApproveListAdapter(
     val mContext: Context,
-    var approveList: ArrayList<QcListsResponse.Approved>,
+    var approveList: List<QcListsResponse.Approved>,
     val imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
-    var statusList: ArrayList<ActionResponse.Hsitorydetail>,
-) :
+    var statusList: ArrayList<ActionResponse>,
+    var qcapproveList: ArrayList<QcListsResponse.Approved>,
+
+    ) :
 
     RecyclerView.Adapter<QcApproveListAdapter.ViewHolder>() {
 
@@ -40,10 +42,9 @@ class QcApproveListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
-        var orderId: String=""
+        var orderId: String = ""
 
-
-        holder.adapterApproveListBinding.approvebyText.setText(approvedOrders.trackinstatusgdescription)
+        var newPos: Int = 0
 
 
 
@@ -76,9 +77,9 @@ class QcApproveListAdapter(
             holder.adapterApproveListBinding.approveDateText.setText("-")
 
         } else {
-            var approveddate = approvedOrders.requesteddate.toString()!!
+            var approveddate = approvedOrders.approveddate.toString()!!
                 .substring(0,
-                    Math.min(approvedOrders.requesteddate.toString()!!.length, 10))
+                    Math.min(approvedOrders.approveddate.toString()!!.length, 10))
             holder.adapterApproveListBinding.approveDateText.text = Utlis.formatdate(approveddate)
 
 
@@ -98,22 +99,66 @@ class QcApproveListAdapter(
         } else {
             holder.adapterApproveListBinding.custNumber.setText(approvedOrders.mobileno)
         }
-        if (approvedOrders.orderno == null) {
+        if (approvedOrders.omsorderno == null) {
             holder.adapterApproveListBinding.orderid.setText("-")
         } else {
-            holder.adapterApproveListBinding.orderid.setText(approvedOrders.orderno)
+            holder.adapterApproveListBinding.orderid.setText(approvedOrders.omsorderno)
 
         }
+
+
+
+
 
         if (qcItemList.isNotEmpty()) {
 
             var item = QcItemListResponse()
             for (i in qcItemList) {
                 if (i.orderno!!.equals(approveList.get(position).orderno)) {
-                    orderId= i.orderno!!
+                    orderId = i.orderno!!
                     item = i
                 }
             }
+
+
+            holder.adapterApproveListBinding.recyclerView.adapter =
+                item.itemlist?.let {
+                    QcApprovedOrderDetailsAdapter(
+                        mContext,
+                        it,
+                        position,
+                        approveList,
+                        imageClicklistner,
+                        approvedOrders.omsorderno.toString()
+                    )
+                }
+            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
+
+
+
+            if (statusList.isNotEmpty()) {
+                var itemstatus = ActionResponse()
+
+                for (i in statusList) {
+                    if (i.order!!.equals(approveList.get(position).orderno)) {
+                        orderId = i.order!!
+
+                        itemstatus = i
+                    }
+                }
+
+
+                holder.adapterApproveListBinding.approvedByRecycleview.adapter =
+                    itemstatus.hsitorydetails?.let {
+                        StatusAdapter(
+                            mContext,
+                            itemstatus.hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
+
+                    }
+
+            }
+
+
             var totalPrices = 0.0
             var discounts = 0.0
 
@@ -132,13 +177,13 @@ class QcApproveListAdapter(
 
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.adapterApproveListBinding.totalCost.setText(" "+totalPrices.toString())
+                holder.adapterApproveListBinding.totalCost.setText(" " + totalPrices.toString())
             } else {
                 holder.adapterApproveListBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.adapterApproveListBinding.discountTotal.setText(" "+discounts.toString())
+                holder.adapterApproveListBinding.discountTotal.setText(" " + discounts.toString())
             } else {
                 holder.adapterApproveListBinding.discountTotal.setText("-")
 
@@ -147,27 +192,42 @@ class QcApproveListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.adapterApproveListBinding.remainingPayment.setText(" "+String.format("%.2f",
+                holder.adapterApproveListBinding.remainingPayment.setText(" " + String.format("%.2f",
                     netPayment))
             } else {
                 holder.adapterApproveListBinding.remainingPayment.setText("-")
             }
 
 
-            holder.adapterApproveListBinding.recyclerView.adapter =
-                item.itemlist?.let {
-                    QcApprovedOrderDetailsAdapter(
-                        mContext,
-                        it, position, approveList, imageClicklistner,orderId
-                    )
-                }
-            holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
         }
 
 
 
 
+
+
+
+
+        holder.itemView.setOnClickListener {
+            if (approvedOrders.isClick) {
+                approvedOrders.setisClick(false)
+                approvedOrders.orderno?.let { it1 ->
+                    imageClicklistner.notify(position, it1)
+                }
+            } else {
+                newPos = position
+                orderId = approvedOrders.orderno.toString()
+
+                approvedOrders.setisClick(true)
+                approvedOrders.orderno?.let { it1 ->
+                    imageClicklistner.orderno(position, it1)
+                }
+            }
+        }
         holder.adapterApproveListBinding.arrow.setOnClickListener {
+            newPos = position
+            orderId = approvedOrders.orderno.toString()
+
             approvedOrders.setisClick(true)
             approvedOrders.orderno?.let { it1 -> imageClicklistner.orderno(position, it1) }
         }
@@ -192,6 +252,7 @@ class QcApproveListAdapter(
     }
 
     override fun getItemCount(): Int {
+
         return approveList.size
     }
 
