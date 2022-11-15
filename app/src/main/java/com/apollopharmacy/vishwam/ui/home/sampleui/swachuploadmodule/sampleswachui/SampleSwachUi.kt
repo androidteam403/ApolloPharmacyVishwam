@@ -971,10 +971,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 for (i in positionofftheDayNewForWeek.indices) {
                     if (positionofftheDayNewForWeek.get(i)==dayOfTheWeek) {
                         removePos=i
-                        positionofftheDayNewForWeek.removeAt(removePos)
+
                     }
                 }
-
+                positionofftheDayNewForWeek.removeAt(removePos)
             }
             for (i in positionofftheDayNewForWeek.indices) {
                 var dayOfCharArrayListModel = DayOfCharArrayListModel()
