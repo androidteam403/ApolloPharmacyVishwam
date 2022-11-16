@@ -171,11 +171,17 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         })
         viewModel.qcLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            if (it.approvedlist != null && it.approvedlist!!.size > 0) {
+            if (it.approvedlist.isNullOrEmpty()) {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewApproved.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+            }
+            else if (it.approvedlist != null && it.approvedlist!!.size>0) {
+
+                viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
                 filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
-
-
-
                 subList = ListUtils.partition(it.approvedlist, 5)
                 pageNo = 1
                 increment = 0
@@ -193,12 +199,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
 
 
-                if (it.approvedlist.isNullOrEmpty()) {
-                    viewBinding.emptyList.visibility = View.VISIBLE
-                    viewBinding.recyclerViewApproved.visibility = View.GONE
-                    viewBinding.continueBtn.visibility = View.GONE
-                    Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-                } else {
+
+                }
 
                     if (subList?.size == 1) {
                         viewBinding.continueBtn.visibility = View.GONE
@@ -209,8 +211,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     viewBinding.refreshSwipe.isRefreshing = false
 
 
-                    viewBinding.recyclerViewApproved.visibility = View.VISIBLE
-                    viewBinding.emptyList.visibility = View.GONE
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
                     viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
@@ -229,14 +229,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                                     filterApproveList)
                             }
                         viewBinding.recyclerViewApproved.adapter = adapter
-                        viewBinding.continueBtn.visibility = View.VISIBLE
                     }
 
-                }
-            } else {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.continueBtn.visibility = View.GONE
-            }
+
+
 
         })
 
