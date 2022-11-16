@@ -175,7 +175,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
-                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             }
             else if (it.approvedlist != null && it.approvedlist!!.size>0) {
 

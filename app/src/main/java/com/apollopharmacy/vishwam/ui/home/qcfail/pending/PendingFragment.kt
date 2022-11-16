@@ -194,7 +194,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 viewBinding.recyclerViewPending.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
 
-                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
             }
             else  {
 

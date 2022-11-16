@@ -194,7 +194,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                  else  {
                      viewBinding.emptyList.visibility = View.VISIBLE
                      viewBinding.recyclerViewPending.visibility = View.GONE
-                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
              }
         })
 
