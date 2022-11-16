@@ -252,7 +252,7 @@ class QcPendingListAdapter(
 
 
         holder.pendingLayoutBinding.checkBox.setOnClickListener {
-            imageClicklistner.isChecked(pendingList, position)
+            imageClicklistner.isChecked(pendingList, position, pendingOrders)
         }
         if (pendingOrders.isOrderExpanded) {
             holder.pendingLayoutBinding.arrowClose.visibility = View.VISIBLE
@@ -262,6 +262,15 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.arrowClose.visibility = View.GONE
             holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
             holder.pendingLayoutBinding.extraData.visibility = View.GONE
+        }
+        holder.itemView.setOnClickListener{
+            if (pendingOrders.isOrderExpanded){
+                pendingOrders.isOrderExpanded = false
+                notifyDataSetChanged()
+            }else{
+                pendingOrders.isOrderExpanded = true
+                pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
+            }
         }
         holder.pendingLayoutBinding.arrow.setOnClickListener {
             pendingOrders.isOrderExpanded = true

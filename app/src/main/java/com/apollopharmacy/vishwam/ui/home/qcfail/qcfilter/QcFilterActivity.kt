@@ -18,7 +18,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.util.Utlis
 import org.apache.commons.lang3.StringUtils
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -126,10 +125,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
-            if(fromQcDate.isNullOrEmpty()&&toDate.isNullOrEmpty()&&regionId.isNullOrEmpty()&&siteId.isNullOrEmpty()){
+            if (fromQcDate.isNullOrEmpty() && toDate.isNullOrEmpty() && regionId.isNullOrEmpty() && siteId.isNullOrEmpty()) {
                 Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
-            }else{
+            } else {
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
                 Preferences.setQcToDate(toDate)
@@ -245,20 +244,20 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         fromQcDate = fromDate
 //        qcDate=fromQcDate+30*1000*60*60*24
         val sdf = SimpleDateFormat("dd-MMM-yyyy")
-                val cal = Calendar.getInstance()
-        cal.time=sdf.parse(fromQcDate)
+        val cal = Calendar.getInstance()
+        cal.time = sdf.parse(fromQcDate)
 
         cal.add(Calendar.DATE, +30)
-        val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
-        qcDate=sdf1.format(cal.time)
-var date1 = cal.time
+        val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
+        qcDate = sdf1.format(cal.time)
+        var date1 = cal.time
         val cal1 = Calendar.getInstance()
-        var  date2 = cal1.time
+        var date2 = cal1.time
 
-        if (date1.before(date2)){
-            qcDate=sdf.format(cal.time)
-        }else{
-            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+        if (date1.before(date2)) {
+            qcDate = sdf.format(cal.time)
+        } else {
+            qcDate = Utlis.getCurrentDate("dd-MMM-yyyy").toString()
         }
 //
 //        if(qcDate<= LocalDate.now().minusDays(30).toString()){
@@ -280,8 +279,52 @@ var date1 = cal.time
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
+
         activityQcFilterBinding.toDateText.setText(dateSelected)
         toDate = dateSelected
+//        qcDate=fromQcDate+30*1000*60*60*24
+        val sdf = SimpleDateFormat("dd-MMM-yyyy")
+        val cal = Calendar.getInstance()
+        cal.time = sdf.parse(toDate)
+
+        cal.add(Calendar.DATE, -30)
+        var sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        qcfDate = sdf1.format(cal.time)
+//        var date1 = cal.time
+//        val cal1 = Calendar.getInstance()
+//        var date2 = cal1.time
+//
+//        if (date1.after(date2)) {
+//            qcfDate = sdf.format(cal.time)
+//        } else {
+//            qcfDate = fromQcDate
+//        }
+//
+//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
+//            qcDate=sdf.format(cal.time)
+//
+//        }else{
+//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+//
+//        }
+//
+//
+////        Date date = new Date();
+////        String todate = sdf.format(date);
+//        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
+//        val todate1 = cal.time
+        activityQcFilterBinding.fromDateText.setText(qcfDate)
+        fromQcDate = activityQcFilterBinding.fromDateText.text.toString()
+
+
+
+
+
+
+
+
+//        activityQcFilterBinding.toDateText.setText(dateSelected)
+//        toDate = dateSelected
 
     }
 

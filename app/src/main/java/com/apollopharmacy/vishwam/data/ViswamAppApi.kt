@@ -318,7 +318,7 @@ interface ViswamAppApi {
     @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
     suspend fun qcStatusList(@Query("ORDERNO") id: String,): ActionResponse
 
-    @GET("http://lms.apollopharmacy.org:8033/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
+    @GET("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
     suspend fun appLevelDesignation(@Query("EMPID") id: String,  @Query("APPTYPE") fromDate: String,): AppLevelDesignationModelResponse
 
 

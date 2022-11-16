@@ -48,6 +48,8 @@ class ValidatePinActivity : AppCompatActivity() {
 
         onCheckBuildDetails()
         handleMPinService()
+        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH", applicationContext)
+        viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
         viewModel.commands.observeForever({ command ->
             Utlis.hideLoading()
@@ -91,15 +93,16 @@ class ValidatePinActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH")
+                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+                    "SWACHH",
+                    applicationContext)
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
                     if(it.message!=null && it.status.equals(true)){
-                        Preferences.setAppLevelDesignationSwach(it.message)
-                        MainActivity.userDesignationSwach=it.message
+
                     }else{
 //                        Preferences.setAppLevelDesignationSwach("")
                     }

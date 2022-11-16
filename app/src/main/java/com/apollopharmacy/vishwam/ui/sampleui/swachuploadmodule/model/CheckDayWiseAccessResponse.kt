@@ -41,5 +41,9 @@ class CheckDayWiseAccessResponse : Serializable {
     @Expose
     var saturday: Boolean? = null
 
+    @SerializedName("UPLOADEDDATE")
+    @Expose
+    var lastUploadedDate: String? = null
+
 
 }

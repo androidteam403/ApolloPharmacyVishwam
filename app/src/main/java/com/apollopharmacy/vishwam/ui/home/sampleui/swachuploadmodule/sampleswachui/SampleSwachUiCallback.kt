@@ -2,6 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswac
 
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelResponse
 
 interface SampleSwachUiCallback {
 
@@ -13,5 +15,9 @@ interface SampleSwachUiCallback {
 
     fun onBackPressedUpload()
 
+    fun onSuccessLastUploadedDate(value: LastUploadedDateResponse)
 
+    fun onSuccessgetStorePersonHistory(value: GetStorePersonHistoryodelResponse)
+
+    fun onSuccessOnUploadSwach(value: OnUploadSwachModelResponse)
 }
