@@ -80,7 +80,7 @@ class QcSiteActivityViewModel : ViewModel() {
         }
     }
 
-    fun getQcStoreist() {
+    fun getQcStoreist(qcFilterSiteCallBack: QcFilterSiteCallBack) {
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
@@ -92,6 +92,7 @@ class QcSiteActivityViewModel : ViewModel() {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
                         qcStoreList.value = result.value
+                        qcFilterSiteCallBack.getSiteIdList(result.value.storelist)
                         siteLiveData= result.value.storelist as ArrayList<QcStoreList.Store>
                         qcStoreIdList = result.value.storelist as ArrayList<QcStoreList.Store>?
                     } else {
@@ -117,6 +118,81 @@ class QcSiteActivityViewModel : ViewModel() {
                 else -> {
                     command.postValue(CommandQcSiteId.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun siteId() {
+        if (Preferences.isSiteIdListFetchedQcFail()) {
+            siteLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getSiteIdListJsonQcFail()
+            val type = object : TypeToken<List<QcStoreList.Store?>?>() {}.type
+
+            this.siteLiveData =
+                gson.fromJson<List<QcStoreList.Store>>(siteIdList, type) as ArrayList<QcStoreList.Store>
+            command.value = CommandQcSiteId.ShowSiteInfo("")
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("QC STORE LIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    val token = data.APIS[i].TOKEN
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(
+                                "h72genrSSNFivOi/cfiX3A==",
+                                GetDetailsRequest(
+                                    baseUrl,
+                                    "GET",
+                                    "The",
+                                    "",
+                                    ""
+                                )
+                            )
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        QcStoreList::class.java
+                                    )
+
+                                if (reasonmasterV2Response.status!!) {
+                                    siteLiveData.clear()
+                                    reasonmasterV2Response.storelist?.map {
+                                        siteLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    command.value = CommandQcSiteId.ShowSiteInfo("")
+                                } else {
+                                    command.value = CommandQcSiteId.ShowToast(
+                                        reasonmasterV2Response.message.toString()
+                                    )
+                                }
+                            }
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
+                        }
+                    }
                 }
             }
         }
