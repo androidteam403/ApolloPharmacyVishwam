@@ -249,7 +249,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         cal.time=sdf.parse(fromQcDate)
 
         cal.add(Calendar.DATE, +30)
-        val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
+        val sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
         qcDate=sdf1.format(cal.time)
 var date1 = cal.time
         val cal1 = Calendar.getInstance()
