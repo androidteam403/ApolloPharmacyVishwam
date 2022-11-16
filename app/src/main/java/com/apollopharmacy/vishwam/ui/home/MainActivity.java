@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isAttendanceRequired = false;
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
-    public static String userDesignation = "";
+    public static String userDesignation;
     private TextView headerText;
     public Boolean isListScreen = false;
     public Boolean isUploadScreen = false;
@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public View filterIndicator;
     public View qcfilterIndicator;
 
-    public static String userDesignationSwach;
 
     private boolean isHomeScreen = true;
 
@@ -236,7 +235,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (JsonParseException e) {
             e.printStackTrace();
         }
-        userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
+        if(Preferences.INSTANCE.getAppLevelDesignationSwach()!=null && !Preferences.INSTANCE.getAppLevelDesignationSwach().isEmpty()){
+            userDesignation = Preferences.INSTANCE.getAppLevelDesignationSwach();
+        }
+
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
@@ -808,14 +810,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                            .addChildModel(new ChildModel("List Module")));
 //                }
 
-                if ((employeeRole.equalsIgnoreCase("Yes")) && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))){
+                if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation!=null &&(userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))){
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload"))
                             .addChildModel(new ChildModel("List")));
                 }else if(employeeRole.equalsIgnoreCase("Yes")){
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("Upload")));
-                }else if( userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")){
+                }else if( userDesignation!=null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")){
                     listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
                             .addChildModel(new ChildModel("List")));
                 }

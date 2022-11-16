@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
+import androidx.core.content.contentValuesOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,7 +12,6 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
@@ -75,7 +77,8 @@ class ValidatePinViewModel : ViewModel() {
 
     fun getApplevelDesignation(
         empId: String,
-        appType: String
+        appType: String,
+        applicationContext: Context
 
     ) {
         viewModelScope.launch {
@@ -88,9 +91,9 @@ class ValidatePinViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         Preferences.setAppLevelDesignationSwach(result.value.message)
-                        appLevelDesignationRespSwach.value = result.value
+//                       Toast.makeText(applicationContext, ""+Preferences.getAppLevelDesignationSwach(),Toast.LENGTH_SHORT).show()
                     } else {
-                        appLevelDesignationRespSwach.value = result.value
+                      appLevelDesignationRespSwach.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {

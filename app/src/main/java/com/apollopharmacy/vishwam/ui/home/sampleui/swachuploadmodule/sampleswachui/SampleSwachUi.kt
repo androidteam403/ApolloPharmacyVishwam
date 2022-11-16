@@ -97,12 +97,12 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
 
-        var submit = OnUploadSwachModelRequest()
-        submit.actionEvent = "SUBMIT"
-        submit.storeid = Preferences.getSwachhSiteId()
-        submit.userid = Preferences.getValidatedEmpId()
-        showLoading()
-        viewModel.onUploadSwach(submit,this)
+//        var submit = OnUploadSwachModelRequest()
+//        submit.actionEvent = "SUBMIT"
+//        submit.storeid = Preferences.getSwachhSiteId()
+//        submit.userid = Preferences.getValidatedEmpId()
+//        showLoading()
+//        viewModel.onUploadSwach(submit,this)
 
 
         if (Preferences.getSwachhSiteId().isEmpty()) {
@@ -680,14 +680,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 endPageNum = 10
                 complaintListStatus = "0,1,2,3"
                 callAPI(startPage, endPageNum, complaintListStatus)
-                var submit = OnUploadSwachModelRequest()
-                submit.actionEvent = "SUBMIT"
-                submit.storeid = Preferences.getSwachhSiteId()
-                submit.userid = Preferences.getValidatedEmpId()
-                showLoading()
-                viewModel.onUploadSwach(submit, this)
                 viewModel.checkDayWiseAccess(this)
-                viewModel.getLastUploadedDate(this)
             } else if (requestCode == 781) {
                 hideLoading()
                 Utlis.hideLoading()
@@ -706,14 +699,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     viewBinding.storeId.text = Preferences.getSwachhSiteId()
                     viewBinding.userId.text=Preferences.getToken()
                     callAPI(startPage, endPageNum, complaintListStatus)
-                    var submit = OnUploadSwachModelRequest()
-                    submit.actionEvent = "SUBMIT"
-                    submit.storeid = Preferences.getSwachhSiteId()
-                    submit.userid = Preferences.getValidatedEmpId()
-                    showLoading()
-                    viewModel.onUploadSwach(submit,this)
                     viewModel.checkDayWiseAccess(this)
-                    viewModel.getLastUploadedDate(this)
                     viewModel.swachImagesRegisters()
 
 //                    startPage = 0
@@ -905,9 +891,10 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     override fun onClickPending() {
     }
    var checkDayWiseAccessResponses: CheckDayWiseAccessResponse?=null
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
-
+        var isAlreadyUpload:Boolean=false
         if (checkDayWiseAccessResponse != null) {
             val sdf = SimpleDateFormat("EEEE")
             val d = Date()
@@ -917,17 +904,29 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             dayOfCharArrayList.clear()
             dayOfCharArrayListNew.clear()
             val dayOfTheWeek: String = sdf.format(d)
+            val sdfc = SimpleDateFormat("dd MMM, yyyy")
+            val todaysDate = sdfc.format(Date())
 
 
+            var lastUploadedDate=""
+            if (checkDayWiseAccessResponse.lastUploadedDate != null && !checkDayWiseAccessResponse.lastUploadedDate!!.isEmpty()) {
+                val strDate = checkDayWiseAccessResponse.lastUploadedDate
+                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                val date = dateFormat.parse(strDate)
+                 lastUploadedDate = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                viewBinding.uploadedOn.text = lastUploadedDate
+                if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
+                    isAlreadyUpload=true
+                }
+            } else {
+                viewBinding.uploadedOn.text = "--"
+                hideLoading()
 
-//
-//         checkDayWiseAccessResponse.monday=false
-//        checkDayWiseAccessResponse.friday=true
-//          checkDayWiseAccessResponse.tuesday=false
-//           checkDayWiseAccessResponse.wednesday=true
-//            checkDayWiseAccessResponse.thursday=false
-//            checkDayWiseAccessResponse.saturday=false
-//            checkDayWiseAccessResponse.sunday=false
+            }
+            if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
+                isAlreadyUpload=true
+            }
+
 
             charArray.add(checkDayWiseAccessResponse.sunday.toString())
             charArray.add(checkDayWiseAccessResponse.monday.toString())
@@ -939,8 +938,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             for (i in charArray.indices) {
                 if (charArray.get(i).equals("true")) {
-//                        positionofday = i
-//    positionofftheDay.add(charArray.get(i).)
                     positionofftheDay.add(i)
                 }
             }
@@ -965,17 +962,17 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
 
-            if(positionofftheDayNewForWeek.size>1 && positionofftheDayNewForWeek.contains(dayOfTheWeek) && dayWiseAccessMessage.equals("ALREADY UPLAODED")){
+            if(positionofftheDayNewForWeek.size>1 && positionofftheDayNewForWeek.contains(dayOfTheWeek) && isAlreadyUpload){
                 var removePos:Int=0
                 positionofftheDayNewForWeek.size
                 for (i in positionofftheDayNewForWeek.indices) {
                     if (positionofftheDayNewForWeek.get(i)==dayOfTheWeek) {
                         removePos=i
-
                     }
                 }
                 positionofftheDayNewForWeek.removeAt(removePos)
             }
+
             for (i in positionofftheDayNewForWeek.indices) {
                 var dayOfCharArrayListModel = DayOfCharArrayListModel()
                 if (positionofftheDayNewForWeek.get(i) == "Sunday") {
@@ -1040,32 +1037,45 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             val dt = LocalDate.now()
             if (isCurrentDay) {
-                if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                    var submit = OnUploadSwachModelRequest()
-                    submit.actionEvent = "SUBMIT"
-                    submit.storeid = Preferences.getSwachhSiteId()
-                    submit.userid = Preferences.getValidatedEmpId()
-                    showLoading()
-                    viewModel.onUploadSwach(submit,this)
+                    if (isAlreadyUpload){
+                        viewBinding.todaysDateLayout.visibility = View.GONE
+                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.GONE
+                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                        val strDate = calcNextFriday(dt, positionofday!!).toString()
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                        val date = dateFormat.parse(strDate.toString())
+                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                        viewBinding.dayoftheweekLayout.text = dateNewFormat
+                    }else{
+                        viewBinding.todaysDateLayout.visibility = View.GONE
+                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                        viewBinding.uploadOnLayout.visibility = View.GONE
 
-                }
+                    }
             }
             if (!isCurrentDay && positionofday != null) {
-//                calcNextFriday(dt, positionofday!!)
                 viewBinding.todaysDateLayout.visibility = View.GONE
                 viewBinding.todaysUpdateLayout.visibility = View.GONE
-                viewBinding.alreadyUploadedlayout.visibility = View.GONE
                 viewBinding.uploadNowLayout.visibility = View.GONE
                 viewBinding.uploadOnLayout.visibility = View.VISIBLE
                 val strDate = calcNextFriday(dt, positionofday!!).toString()
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                val date = dateFormat.parse(strDate.toString())
+                val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
                 viewBinding.dayoftheweekLayout.text = dateNewFormat
             }
 
 
-        }else{
+        }
+
+
+
+
+        else{
 
         }
         // hideLoading()
@@ -1172,9 +1182,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     override fun onSuccessOnUploadSwach(value: OnUploadSwachModelResponse) {
             hideLoading()
-            alreadyUploadedMessage = value.message
-            dayWiseAccessMessage=value.message
-//              it.message=""
+
 
             if (value != null && value.status == true) {
 //                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
@@ -1182,28 +1190,28 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             } else if (value != null && value.status == false && value.message == "ALREADY UPLAODED") {
 
-                if(positionofftheDayNewForWeek.size==1){
-                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
-                    val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, +7)
-                    val nextUploadDate = simpleDateFormat.format(cal.time)
-
-
+//                if(positionofftheDayNewForWeek.size==1){
+//                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
+//                    val cal = Calendar.getInstance()
+//                    cal.add(Calendar.DATE, +7)
+//                    val nextUploadDate = simpleDateFormat.format(cal.time)
+//
+//
+////                    viewBinding.uploadNowLayout.visibility = View.GONE
+////                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+////                    viewBinding.uploadOnLayout.visibility = View.GONE
+////                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+////                    viewBinding.nextUploadDate.text = nextUploadDate
+////                    Utlis.hideLoading()
 //                    viewBinding.uploadNowLayout.visibility = View.GONE
+//                    viewBinding.todaysDateLayout.visibility = View.GONE
+//                    viewBinding.todaysUpdateLayout.visibility = View.GONE
 //                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
 //                    viewBinding.uploadOnLayout.visibility = View.GONE
 //                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
 //                    viewBinding.nextUploadDate.text = nextUploadDate
-//                    Utlis.hideLoading()
-                    viewBinding.uploadNowLayout.visibility = View.GONE
-                    viewBinding.todaysDateLayout.visibility = View.GONE
-                    viewBinding.todaysUpdateLayout.visibility = View.GONE
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.GONE
-                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
-                    viewBinding.nextUploadDate.text = nextUploadDate
-                    hideLoading()
-                }
+//                    hideLoading()
+//                }
 //                    else if(positionofftheDayNewForWeek.size>1){
 //                        viewBinding.uploadNowLayout.visibility = View.GONE
 //                        viewBinding.todaysDateLayout.visibility = View.GONE

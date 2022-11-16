@@ -174,7 +174,7 @@
                 <LinearLayout
                     android:layout_marginBottom="@dimen/value_10dp"
                     android:id="@+id/uploadNowLayout"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     android:layout_width="@dimen/value_130dp"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/value_5dp"

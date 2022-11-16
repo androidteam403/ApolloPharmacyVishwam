@@ -215,7 +215,6 @@ class SampleSwachViewModel : ViewModel() {
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true && result.value.message == "SUCCESS") {
-                        state.value = State.ERROR
                         sampleSwachUiCallback.onSuccessDayWiseAccesss(result.value)
 
 //                        checkDayWiseAccess.value = result.value
