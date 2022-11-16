@@ -7,4 +7,5 @@ interface SiteIdCallBacks {
     fun onClickCancel()
     fun noOrdersFound(size: Int)
     fun onClickCrossButton(selectsiteId: String, position: Int)
+
 }
