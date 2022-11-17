@@ -43,11 +43,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
-        viewModel.getQcRegionList()
-       // viewModel.getSiteData()
+//        viewModel.getQcRegionList()
+//        viewModel.getSiteData()
 
 //        Utlis.showLoading(this)
-        viewModel.getQcStoreist(this)
+//       viewModel.getQcStoreist(this)
+        Utlis.showLoading(this)
+        viewModel.siteId()
+        viewModel.regionId()
         fromQcDate = Preferences.getQcFromDate()
         toDate = Preferences.getQcToDate()
         regionId = Preferences.getQcRegion()
@@ -94,15 +97,32 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                     Preferences.setSiteIdListQcFail(Gson().toJson(viewModel.getSiteData()))
                     Preferences.setSiteIdListFetchedQcFail(true)
 
-                    QcSiteDialog().apply {
-                        arguments =
-                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
-                    }.show(supportFragmentManager, "")
+//                    QcSiteDialog().apply {
 //                        arguments =
-//                            SiteDialog().generateParsedData(viewModel.getSiteData())
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
                 }
+
+                is QcSiteActivityViewModel.CommandQcSiteId.ShowRegionInfo -> {
+                    Utlis.hideLoading()
+                    Preferences.setRegionIdListQcFail(Gson().toJson(viewModel.getRegionData()))
+                    Preferences.setRegionIdListFetchedQcFail(true)
+
+//                    QcSiteDialog().apply {
+//                        arguments =
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+
+
             }
         }
         viewModel.qcStoreList.observeForever {
@@ -215,8 +235,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
-             QcSiteDialog().apply {
-                arguments = QcSiteDialog().generateParsedData(storeList)
+            QcSiteDialog().apply {
+                arguments = QcSiteDialog().generateParsedData(viewModel.getSiteData())
             }.show(supportFragmentManager, "")
 
         }
@@ -341,12 +361,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        val todate1 = cal.time
         activityQcFilterBinding.fromDateText.setText(qcfDate)
         fromQcDate = activityQcFilterBinding.fromDateText.text.toString()
-
-
-
-
-
-
 
 
 //        activityQcFilterBinding.toDateText.setText(dateSelected)

@@ -50,6 +50,10 @@ class ValidatePinActivity : AppCompatActivity() {
         handleMPinService()
         viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH", applicationContext)
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
+        Preferences.setSiteIdListFetchedQcFail(false)
+        Preferences.setSiteIdListQcFail("")
+        Preferences.setRegionIdListFetchedQcFail(false)
+        Preferences.setRegionIdListQcFail("")
 
         viewModel.commands.observeForever({ command ->
             Utlis.hideLoading()
