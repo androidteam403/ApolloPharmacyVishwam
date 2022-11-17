@@ -48,6 +48,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
         viewModel.getQcRegionList()
+        viewModel.siteId()
 
 
 
@@ -90,11 +91,11 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                     Preferences.setSiteIdListQcFail(Gson().toJson(viewModel.getSiteData()))
                     Preferences.setSiteIdListFetchedQcFail(true)
 
-                    QcSiteDialog().apply {
-                        arguments =
-                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
-                    }.show(supportFragmentManager, "")
+//                    QcSiteDialog().apply {
+//                        arguments =
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
 //                        arguments =
 //                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
@@ -211,8 +212,13 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
-            Utlis.showLoading(this)
-            viewModel.siteId()
+
+
+            QcSiteDialog().apply {
+                arguments =
+                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+                    QcSiteDialog().generateParsedData(viewModel.getSiteData())
+            }.show(supportFragmentManager, "")
 
         }
     }

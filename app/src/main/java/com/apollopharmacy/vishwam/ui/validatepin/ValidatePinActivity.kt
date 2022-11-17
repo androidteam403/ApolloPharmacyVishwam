@@ -99,16 +99,6 @@ class ValidatePinActivity : AppCompatActivity() {
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
-                viewModel.appLevelDesignationRespSwach.observeForever {
-
-                    if(it.message!=null && it.status.equals(true)){
-
-                    }else{
-//                        Preferences.setAppLevelDesignationSwach("")
-                    }
-
-                }
-
                 viewModel.appLevelDesignationRespQCFail.observeForever {
                     if(it.message!=null && it.status.equals(true)){
                         Preferences.setAppLevelDesignationQCFail(it.message)
@@ -132,9 +122,10 @@ class ValidatePinActivity : AppCompatActivity() {
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
                                     Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
-                                } else {
-                                    Preferences.setSwachhSiteId("")
                                 }
+//                                else {
+//                                    Preferences.setSwachhSiteId("")
+//                                }
                             }
 
                         } else {

@@ -114,7 +114,7 @@ class QcSiteDialog : DialogFragment() {
 
 
         viewBinding.closeDialog.setOnClickListener {
-           siteDataArrayList.clear()
+            siteDataArrayList.clear()
             dismiss()
         }
         abstractDialogClick = activity as NewDialogSiteClickListner
