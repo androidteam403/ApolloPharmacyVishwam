@@ -16,8 +16,6 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 import org.apache.commons.lang3.StringUtils
 import java.text.SimpleDateFormat
@@ -45,12 +43,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
-        viewModel.getQcRegionList()
-       // viewModel.getSiteData()
+//        viewModel.getQcRegionList()
+//        viewModel.getSiteData()
 
-//       showLoading(this)
+//        Utlis.showLoading(this)
+//       viewModel.getQcStoreist(this)
+        Utlis.showLoading(this)
         viewModel.siteId()
-//        viewModel.getQcStoreist(this)
+        viewModel.regionId()
         fromQcDate = Preferences.getQcFromDate()
         toDate = Preferences.getQcToDate()
         regionId = Preferences.getQcRegion()
@@ -91,7 +91,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
         viewModel.command.observeForever {
-            hideLoading()
             when (it) {
                 is QcSiteActivityViewModel.CommandQcSiteId.ShowSiteInfo -> {
                     Utlis.hideLoading()
@@ -103,10 +102,27 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
 //                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
 //                    }.show(supportFragmentManager, "")
-//                        arguments =
-//                            SiteDialog().generateParsedData(viewModel.getSiteData())
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
                 }
+
+                is QcSiteActivityViewModel.CommandQcSiteId.ShowRegionInfo -> {
+                    Utlis.hideLoading()
+                    Preferences.setRegionIdListQcFail(Gson().toJson(viewModel.getRegionData()))
+                    Preferences.setRegionIdListFetchedQcFail(true)
+
+//                    QcSiteDialog().apply {
+//                        arguments =
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+
+
             }
         }
         viewModel.qcStoreList.observeForever {
@@ -219,7 +235,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
-             QcSiteDialog().apply {
+            QcSiteDialog().apply {
                 arguments = QcSiteDialog().generateParsedData(viewModel.getSiteData())
             }.show(supportFragmentManager, "")
 
@@ -345,12 +361,6 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        val todate1 = cal.time
         activityQcFilterBinding.fromDateText.setText(qcfDate)
         fromQcDate = activityQcFilterBinding.fromDateText.text.toString()
-
-
-
-
-
-
 
 
 //        activityQcFilterBinding.toDateText.setText(dateSelected)
