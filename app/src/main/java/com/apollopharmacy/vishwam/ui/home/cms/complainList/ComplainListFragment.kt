@@ -673,8 +673,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.drugLayout.sideImgView.visibility = View.GONE
                 }
                 if(items.ticket_inventory?.drug_request?.bill_mb != null) {
-                    binding.drugLayout.billImgLabel.visibility = View.VISIBLE
-                    binding.drugLayout.billImgView.visibility = View.VISIBLE
+//                    binding.drugLayout.billImgLabel.visibility = View.VISIBLE
+//                    binding.drugLayout.billImgView.visibility = View.VISIBLE
                     Glide.with(context)
                         .load(items.ticket_inventory?.drug_request.bill_mb)
                         .placeholder(R.drawable.thumbnail_image)
