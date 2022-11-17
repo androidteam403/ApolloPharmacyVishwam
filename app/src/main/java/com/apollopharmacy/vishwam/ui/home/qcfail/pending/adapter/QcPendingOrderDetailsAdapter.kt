@@ -32,7 +32,7 @@ class QcPendingOrderDetailsAdapter(
     var qcPendingList: List<QcListsResponse.Pending>,
     var pendingFragmentCallback: PendingFragmentCallback,
     var qcPendingListAdapter: QcPendingListAdapter,
-    var orderId:String,
+    var orderId: String,
 
     val pendingLayoutBinding: QcPendingLayoutBinding,
 ) :
@@ -55,30 +55,38 @@ class QcPendingOrderDetailsAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var count: Int = 0
-        var aprqty:Int=0
+        var aprqty: Int = 0
+        var qcaprqty: Int = 0
+
         val items = itemsList.get(position)
 //        holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.color.grey)
         holder.orderdetailsBinding.reason.setText("Select")
         holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
 
-        if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("EXECUTIVE",true)){
+        if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
             holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
-            aprqty= items.qty!!
+            aprqty = items.qty!!
+            qcaprqty = items.qty!!
 
-        }
-        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("MANAGER",true)){
+
+        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
+                .equals("MANAGER", true)
+        ) {
             holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-            aprqty= items.approvedqty!!
+            aprqty = items.approvedqty!!
+            qcaprqty = items.approvedqty!!
 
-        }
-
-        else if (Preferences.getAppLevelDesignationQCFail().replace(" ","").equals("GENERALMANAGER",true)){
+        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
+                .equals("GENERALMANAGER", true)
+        ) {
             holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-            if (items.approvedqty!=null){
-                aprqty= items.approvedqty!!
+            if (items.approvedqty != null) {
+                aprqty = items.approvedqty!!
+                qcaprqty = items.approvedqty!!
 
-            }else{
-                aprqty= 0
+
+            } else {
+                aprqty = 0
 
             }
 
@@ -86,7 +94,7 @@ class QcPendingOrderDetailsAdapter(
         if (items.qty == null) {
 
         } else {
-            count = items.qty!!
+            count = aprqty
 
         }
         if (items != null)
@@ -98,6 +106,7 @@ class QcPendingOrderDetailsAdapter(
 
             }
         if (items.remarks != null) {
+            holder.orderdetailsBinding.approveQtyText.setText("0")
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
             holder.orderdetailsBinding.reason.setText("Select")
@@ -109,7 +118,6 @@ class QcPendingOrderDetailsAdapter(
 
 
         if (items.approvedqty == 0) {
-
 
 
             holder.orderdetailsBinding.selectResonItem.isEnabled = true
@@ -140,11 +148,10 @@ class QcPendingOrderDetailsAdapter(
 
             @SuppressLint("ShowToast")
             override fun afterTextChanged(p0: Editable?) {
-                if (!p0.toString().isNullOrEmpty()){
+                if (!p0.toString().isNullOrEmpty()) {
 
-                    if (Integer.parseInt(p0.toString())>aprqty){
+                    if (Integer.parseInt(p0.toString()) > aprqty) {
 
-                            holder.orderdetailsBinding.approveQtyText.setText(aprqty.toString())
                         val dialogBinding: DialogResetBinding? =
                             DataBindingUtil.inflate(
                                 LayoutInflater.from(mContext),
@@ -162,6 +169,8 @@ class QcPendingOrderDetailsAdapter(
 
                         if (dialogBinding != null) {
                             dialogBinding.yesBtn.setOnClickListener {
+                                holder.orderdetailsBinding.approveQtyText.setText(aprqty.toString())
+
                                 holder.orderdetailsBinding.approveQtyText.clearFocus()
 
                                 customDialog.dismiss()
@@ -215,18 +224,20 @@ class QcPendingOrderDetailsAdapter(
         })
 
 
-        if (items.imageurls.toString().isNullOrEmpty()){
-            holder.orderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,android.graphics.PorterDuff.Mode.MULTIPLY)
+        if (items.imageurls.toString().isNullOrEmpty()) {
+            holder.orderdetailsBinding.eyeImage.setColorFilter(R.color.dark_grey,
+                android.graphics.PorterDuff.Mode.MULTIPLY)
 
 
-        }
-        else{
+        } else {
             holder.orderdetailsBinding.eyeImage.setOnClickListener {
-                if (items.imageurls.toString().isNullOrEmpty()){
-                    Toast.makeText(mContext,"No Image Urls",Toast.LENGTH_LONG)
-                }
-                else{
-                    imageClicklistner.imageData(position,orderId,items.itemname.toString(),items.imageurls.toString())
+                if (items.imageurls.toString().isNullOrEmpty()) {
+                    Toast.makeText(mContext, "No Image Urls", Toast.LENGTH_LONG)
+                } else {
+                    imageClicklistner.imageData(position,
+                        orderId,
+                        items.itemname.toString(),
+                        items.imageurls.toString())
                 }
 
             }
@@ -250,11 +261,14 @@ class QcPendingOrderDetailsAdapter(
         }
 
         holder.orderdetailsBinding.add.setOnClickListener {
-            if(Integer.parseInt( holder.orderdetailsBinding.approveQtyText.text.toString())>=items.qty!!
+            if (Integer.parseInt(holder.orderdetailsBinding.approveQtyText.text.toString()) >=qcaprqty !!
+                !!
 
-            ){
-                Toast.makeText(mContext,"Approve quantity cannot be more than Required quantity",Toast.LENGTH_LONG).show()
-            }else{
+            ) {
+                Toast.makeText(mContext,
+                    "Approve quantity cannot be more than Required quantity",
+                    Toast.LENGTH_LONG).show()
+            } else {
                 count++;
                 holder.orderdetailsBinding.approveQtyText.setText(count.toString())
             }

@@ -65,6 +65,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
+        Preferences.setQcFromDate("")
+        Preferences.setQcToDate("")
+        Preferences.setQcSite("")
+        Preferences.setQcRegion("")
+        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
 
@@ -139,10 +145,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            if (it.rejectedlist != null && it.rejectedlist!!.size>0) {
 
-
-                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+             if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
+                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
 
 
 
@@ -166,46 +173,39 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
 
-
-
-                if (it.rejectedlist.isNullOrEmpty()) {
-                    viewBinding.emptyList.visibility = View.VISIBLE
-                    viewBinding.recyclerViewPending.visibility = View.GONE
-                    viewBinding.emptyList.visibility = View.GONE
-
-
-                    Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
                 } else {
-                    viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                    viewBinding.continueBtn.visibility = View.VISIBLE
 
-                    if (subList?.size == 1) {
-                        viewBinding.continueBtn.visibility = View.GONE
-                    } else {
-                        viewBinding.continueBtn.visibility = View.VISIBLE
-
-                    }
-                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-                    viewBinding.refreshSwipe.isRefreshing = false
-
-
-
-                    adapter =
-                        context?.let { it1 ->
-                            QcRejectedListAdapter(it1, this,
-                                subList!!.get(increment),
-
-                                itemsList,
-                                statusList)
-                        }
                 }
-                viewBinding.recyclerViewPending.adapter = adapter
-            }else{
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.continueBtn.visibility = View.GONE
-            }
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
+                viewBinding.refreshSwipe.isRefreshing = false
+
+
+
+                adapter =
+                    context?.let { it1 ->
+                        QcRejectedListAdapter(it1, this,
+                            subList!!.get(increment),
+
+                            itemsList,
+                            statusList)
+                    }
+                 viewBinding.recyclerViewPending.adapter = adapter
+
+             }
+
+                 else  {
+                     viewBinding.emptyList.visibility = View.VISIBLE
+                     viewBinding.recyclerViewPending.visibility = View.GONE
+//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+             }
         })
+
+
+
 
 
 

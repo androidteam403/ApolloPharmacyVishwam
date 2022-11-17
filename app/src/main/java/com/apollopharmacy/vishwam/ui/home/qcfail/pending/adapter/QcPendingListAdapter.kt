@@ -230,7 +230,7 @@ class QcPendingListAdapter(
         holder.pendingLayoutBinding.acceptClick.setOnClickListener {
 
             imageClicklistner.accept(position,
-                pendingOrders.orderno.toString(),
+                pendingOrders.omsorderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,
                 pendingOrders.status!!)
@@ -238,7 +238,7 @@ class QcPendingListAdapter(
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
             imageClicklistner.reject(position,
-                pendingOrders.orderno.toString(),
+                pendingOrders.omsorderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,
                 pendingOrders.status!!)

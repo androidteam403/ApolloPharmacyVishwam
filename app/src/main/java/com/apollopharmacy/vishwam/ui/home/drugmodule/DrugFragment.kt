@@ -362,115 +362,111 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
         })
+        viewModel.drugList.observe(viewLifecycleOwner, {
+            hideLoading()
+            RefreshView()
+
+            SubmitDialog().apply {
+                arguments =
+                    SubmitDialog().generateParsedData(it)
+            }.show(childFragmentManager, "")
+
+        })
         viewBinding.submit.setOnClickListener {
-            var name: String = "FRONT"
+
 
             if (validationCheck()) {
                 showLoading()
-
-                viewModel.drugList.observe(viewLifecycleOwner, {
-                    hideLoading()
-                    RefreshView()
-
-                    SubmitDialog().apply {
-                        arguments =
-                            SubmitDialog().generateParsedData(it)
-                    }.show(childFragmentManager, "")
-
-                })
-
-
-
                 viewModel.connectToAzure(imageList)
-                viewModel.commands.observe(viewLifecycleOwner) {
-                    when (it) {
-                        is DrugFragmentViewModel.Commands.ShowToast ->{
-                            hideLoading()
-                            showErrorMsg(it.message)
-                        }
-                        is DrugFragmentViewModel.Commands.DrugImagesUploadInAzur -> {
-                            for (i in it.filePath.indices) {
-                                imagesList.add(
-                                    DrugRequest.Image(
-                                        name,
-                                        Base64.getEncoder()
-                                            .encodeToString(it.filePath[i].base64Images.toByteArray()),
-                                        it.filePath[i].file.name,
-                                        "image/" + imageType(it.filePath[i].file).toString(),
-
-                                        it.filePath[i].file.length().toString(),
-                                        it.filePath[i].base64Images
-                                    )
-                                )
-                                if (imagesList.size == 1) {
-                                    name = "BACK"
-                                } else if (imagesList.size == 2) {
-                                    name = "SIDE"
-                                } else if (imagesList.size == 3) {
-                                    name = "BILL"
-                                } else if (imagesList.size == 4) {
-                                    name = ""
-
-
-                                }
-                            }
-                            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
-                            var employeeDetailsResponse: EmployeeDetailsResponse? = null
-                            try {
-                                val gson = GsonBuilder().setPrettyPrinting().create()
-                                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
-                                    EmployeeDetailsResponse::class.java)
-                            } catch (e: JsonParseException) {
-                                e.printStackTrace()
-                            }
-                            viewModel.getDrugList(
-                                DrugRequest(
-                                    viewBinding.siteIdSelect.text.toString(),
-                                    viewBinding.selectCategory.text.toString(),
-                                    viewBinding.itemName.text.toString(),
-                                    viewBinding.batchNo.text.toString(),
-                                    viewBinding.packsize.text.toString(),
-                                    viewBinding.mrpp.text.toString(),
-                                    viewBinding.purchasePrice.text.toString(),
-                                    viewBinding.fromDateText.text.toString(),
-                                    viewBinding.toDateText.text.toString(),
-                                    viewBinding.barCode.text.toString(),
-                                    viewBinding.hsnCode.text.toString(),
-                                    viewBinding.selectDepartment.text.toString(),
-                                    Preferences.getSiteId(),
-                                    viewBinding.createdOn.text.toString(),
-                                    "0",
-                                    "0",
-
-
-                                    "",
-                                    viewBinding.selectRemarks.text.toString(),
-                                    viewBinding.createdBy.text.toString(),
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    imagesList,
-                                    viewBinding.descriptionText.text.toString(),
-                                    store,employeeDetailsResponse!!
-                                )
-                            )
-
-                        }
-                    }
-
-                }
             }
         }
 
+        viewModel.commands.observe(viewLifecycleOwner) {
+            when (it) {
+                is DrugFragmentViewModel.Commands.ShowToast ->{
+                    hideLoading()
+                    showErrorMsg(it.message)
+                }
+                is DrugFragmentViewModel.Commands.DrugImagesUploadInAzur -> {
+                    imagesList.clear()
+                    var name: String = "FRONT"
+                    for (i in it.filePath.indices) {
+                        imagesList.add(
+                            DrugRequest.Image(
+                                name,
+                                Base64.getEncoder()
+                                    .encodeToString(it.filePath[i].base64Images.toByteArray()),
+                                it.filePath[i].file.name,
+                                "image/" + imageType(it.filePath[i].file).toString(),
+
+                                it.filePath[i].file.length().toString(),
+                                it.filePath[i].base64Images
+                            )
+                        )
+                        if (imagesList.size == 1) {
+                            name = "BACK"
+                        } else if (imagesList.size == 2) {
+                            name = "SIDE"
+                        } else if (imagesList.size == 3) {
+                            name = "BILL"
+                        } else if (imagesList.size == 4) {
+                            name = ""
+                        }
+                    }
+                    var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+                    var employeeDetailsResponse: EmployeeDetailsResponse? = null
+                    try {
+                        val gson = GsonBuilder().setPrettyPrinting().create()
+                        employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
+                            EmployeeDetailsResponse::class.java)
+                    } catch (e: JsonParseException) {
+                        e.printStackTrace()
+                    }
+                    viewModel.getDrugList(
+                        DrugRequest(
+                            viewBinding.siteIdSelect.text.toString(),
+                            viewBinding.selectCategory.text.toString(),
+                            viewBinding.itemName.text.toString(),
+                            viewBinding.batchNo.text.toString(),
+                            viewBinding.packsize.text.toString(),
+                            viewBinding.mrpp.text.toString(),
+                            viewBinding.purchasePrice.text.toString(),
+                            viewBinding.fromDateText.text.toString(),
+                            viewBinding.toDateText.text.toString(),
+                            viewBinding.barCode.text.toString(),
+                            viewBinding.hsnCode.text.toString(),
+                            viewBinding.selectDepartment.text.toString(),
+                            Preferences.getSiteId(),
+                            viewBinding.createdOn.text.toString(),
+                            "0",
+                            "0",
+
+
+                            "",
+                            viewBinding.selectRemarks.text.toString(),
+                            viewBinding.createdBy.text.toString(),
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+
+                            "",
+                            "",
+                            "",
+                            "",
+                            imagesList,
+                            viewBinding.descriptionText.text.toString(),
+                            store,employeeDetailsResponse!!
+                        )
+                    )
+
+                }
+            }
+
+        }
 
         adapter3 = DrugImageRecyclerView3(billImageList, this)
         viewBinding.imageRecyclerView4.adapter = adapter3

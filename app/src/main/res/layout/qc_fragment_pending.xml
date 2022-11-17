@@ -14,6 +14,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
+            android:layout_marginBottom="50dp"
             android:layout_height="match_parent">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -26,8 +27,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     tools:itemCount="5"
                     tools:listitem="@layout/qc_pending_layout" />
 

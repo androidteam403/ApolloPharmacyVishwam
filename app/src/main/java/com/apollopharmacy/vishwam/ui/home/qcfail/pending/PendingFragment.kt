@@ -78,6 +78,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     @SuppressLint("ResourceType")
     override fun setup() {
+        Preferences.setQcFromDate("")
+        Preferences.setQcToDate("")
+        Preferences.setQcSite("")
+        Preferences.setQcRegion("")
+        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
 
@@ -106,26 +112,31 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             var i: Int = 0
 
             if (isBulk) {
-
-
-                while (i < names.size) {
-                    if (names[i].isItemChecked) {
-                        names.removeAt(i)
-                        i = 0
-                    } else {
-                        i++
-                    }
-                }
-                var pos: Int = 0
-                while (pos < subList!!.get(increment).size) {
-                    if (subList!!.get(increment)[pos].isItemChecked) {
-                        subList!!.get(increment).removeAt(pos)
-                        pos = 0
-                    } else {
-                        pos++
-                    }
-                }
-                adapter!!.notifyDataSetChanged()
+                viewModel.getQcPendingList(Preferences.getToken(),
+                    "1 - Apr - 2019",
+                    Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                    "",
+                    "",
+                    this)
+//
+//                while (i < names.size) {
+//                    if (names[i].isItemChecked) {
+//                        names.removeAt(i)
+//                        i = 0
+//                    } else {
+//                        i++
+//                    }
+//                }
+//                var pos: Int = 0
+//                while (pos < subList!!.get(increment).size) {
+//                    if (subList!!.get(increment)[pos].isItemChecked) {
+//                        subList!!.get(increment).removeAt(pos)
+//                        pos = 0
+//                    } else {
+//                        pos++
+//                    }
+//                }
+//                adapter!!.notifyDataSetChanged()
             } else if (subList?.size!! > acceptOrRejectItemPos) {
 
 //                var na = ArrayList<QcListsResponse.Pending>()
@@ -184,7 +195,14 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-            if (it.pendinglist != null && it.pendinglist!!.size > 0) {
+            if (it.pendinglist.isNullOrEmpty()) {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+
+//                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
+            }
+            else  {
 
                 filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
 
@@ -207,14 +225,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
 
                 names = it.pendinglist as ArrayList<QcListsResponse.Pending>
-                if (it.pendinglist.isNullOrEmpty()) {
-                    viewBinding.emptyList.visibility = View.VISIBLE
-                    viewBinding.recyclerViewPending.visibility = View.GONE
-                    viewBinding.continueBtn.visibility = View.GONE
-
-                    Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
-                } else {
-                    viewBinding.refreshSwipe.isRefreshing = false
+                   viewBinding.refreshSwipe.isRefreshing = false
                     viewBinding.emptyList.visibility = View.GONE
 
                     viewBinding.recyclerViewPending.visibility = View.VISIBLE
@@ -236,11 +247,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                 }
                 viewBinding.recyclerViewPending.adapter = adapter
-            } else {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.continueBtn.visibility = View.GONE
-
-            }
 
         })
 
@@ -756,7 +762,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         }
 
-        if (count > 1) {
+        if (count > 0) {
             viewBinding.bulkAppRejLayout.visibility = View.VISIBLE
         } else {
 
