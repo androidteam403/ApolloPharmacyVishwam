@@ -521,13 +521,18 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            startActivity(intent)
 //        }
 
-            viewBinding.uploadNowLayout.setOnClickListener {
-                val intent = Intent(context, UploadNowButtonActivity::class.java)
-                startActivityForResult(intent, 779)
-            }
+//            viewBinding.uploadNowLayout.setOnClickListener {
+//                val intent = Intent(context, UploadNowButtonActivity::class.java)
+//                startActivityForResult(intent, 779)
+//            }
+
+
             addScrollerListener()
         }
-
+        viewBinding.uploadNowLayout.setOnClickListener {
+            val intent = Intent(context, UploadNowButtonActivity::class.java)
+            startActivityForResult(intent, 779)
+        }
     }
 
     private fun addScrollerListener() {
