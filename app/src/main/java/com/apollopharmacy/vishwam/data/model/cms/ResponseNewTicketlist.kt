@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.DrugRequestDetailsModel
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.*
@@ -68,46 +69,49 @@ data class ResponseNewTicketlist(
         val description: String? = null,
 
         @field:SerializedName("priority")
-        var priority: Priority,
+        var priority: Priority?,
 
         @field:SerializedName("ticket_id")
         var ticket_id: String? = null,
 
         @field:SerializedName("parent")
-        var parent: Parent,
+        var parent: Parent?,
 
         @field:SerializedName("cluster")
-        var cluster: Cluster,
+        var cluster: Cluster?,
 
         @field:SerializedName("created_id")
-        var created_id: CreatedId,
+        var created_id: CreatedId?,
 
         @field:SerializedName("category")
-        var category: Category,
+        var category: Category?,
 
         @field:SerializedName("department")
-        var department: Department,
+        var department: Department?,
 
         @field:SerializedName("region")
-        var region: Region,
+        var region: Region?,
+
+        @field:SerializedName("location")
+        var location: LocationObj?,
 
         @field:SerializedName("reason")
-        var reason: Reason,
+        var reason: Reason?,
 
         @field:SerializedName("level")
-        var level: Level,
+        var level: Level?,
 
         @field:SerializedName("status")
-        var status: Status,
+        var status: Status?,
 
         @field:SerializedName("site")
-        var site: Site,
+        var site: Site?,
 
         @field:SerializedName("subcategory")
-        var subcategory: Subcategory,
+        var subcategory: Subcategory?,
 
         @field:SerializedName("user")
-        var user: User,
+        var user: User?,
 
         @field:SerializedName("created_time")
         var created_time: String? = null,
@@ -123,8 +127,30 @@ data class ResponseNewTicketlist(
 
         var isExpanded:Boolean,
 
-        var Tickethistory:NewTicketHistoryResponse
+        var Tickethistory:NewTicketHistoryResponse?,
+
+        var inventoryDetailsModel: InventoryDetailsModel?,
+
+        var creditCardTSDetails: CreditCardTSDetails?,
+
+        @field:SerializedName("ticket_inventory")
+        val ticket_inventory: TicketInventory?
+
+
     ) : Serializable
+
+    data class TicketInventory(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+        @field:SerializedName("drug_request")
+        val drug_request: DrugRequestDetailsModel?
+    )
+    data class  LocationObj(
+        @field:SerializedName("uid")
+        var uid: String? = null,
+        @field:SerializedName("name")
+        var name: String? = null,
+    ): Serializable
 
     data class  ProblemImages(
         @field:SerializedName("images")
@@ -177,6 +203,9 @@ data class ResponseNewTicketlist(
         @field:SerializedName("first_name")
         val first_name: String? = null,
 
+        @field:SerializedName("middle_name")
+        val middle_name: String? = null,
+
         @field:SerializedName("last_name")
         val last_name: String? = null,
 
@@ -184,7 +213,10 @@ data class ResponseNewTicketlist(
         val login_unique: String? = null,
 
         @field:SerializedName("role")
-        val role: Role
+        val role: Role,
+
+        @field:SerializedName("level")
+        val level: Level? = null,
         ):Serializable
 
     data class  Category(
@@ -265,7 +297,10 @@ data class ResponseNewTicketlist(
         val uid: String? = null,
 
         @field:SerializedName("site")
-        val site: String? = null
+        val site: String? = null,
+
+        @field:SerializedName("store_name")
+        val store_name: String? = null
     ):Serializable
 
 
@@ -292,6 +327,15 @@ data class ResponseNewTicketlist(
         @field:SerializedName("last_name")
         val last_name: String? = null,
 
+        @field:SerializedName("middle_name")
+        val middle_name: String? = null,
+
+        @field:SerializedName("role")
+        val role: Role? = null,
+
+        @field:SerializedName("level")
+        val level: Level? = null,
+
         @field:SerializedName("login_unique")
         val login_unique: String? = null
         ):Serializable
@@ -300,6 +344,9 @@ data class ResponseNewTicketlist(
 
         @field:SerializedName("uid")
         val uid: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
 
         @field:SerializedName("code")
         val code: String? = null
@@ -409,6 +456,9 @@ data class ResponseNewTicketlist(
             @field:SerializedName("created_time")
             var created_time: String? = null,
 
+            @field:SerializedName("user")
+            var user: User,
+
             var status:String?=null
 
 
@@ -445,6 +495,11 @@ data class ResponseNewTicketlist(
 
             @field:SerializedName("last_name")
             var last_name: String? = null,
+
+            @field:SerializedName("middle_name")
+            var middle_name: String? = null,
+
+
 
 
             @field:SerializedName("role")

@@ -1,11 +1,8 @@
 package com.apollopharmacy.vishwam.ui.validatepin
 
-import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.view.Window
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +14,6 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.ui.createpin.CreatePinActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.util.ForgotPinActivity
@@ -42,6 +38,7 @@ class ValidatePinActivity : AppCompatActivity() {
     private var serviceAppVer: Int = 0
     private var currentAppVer: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_pin)
@@ -51,6 +48,8 @@ class ValidatePinActivity : AppCompatActivity() {
 
         onCheckBuildDetails()
         handleMPinService()
+        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH", applicationContext)
+        viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
         viewModel.commands.observeForever({ command ->
             Utlis.hideLoading()
@@ -75,6 +74,17 @@ class ValidatePinActivity : AppCompatActivity() {
                 }
             }
         })
+
+//        viewModel.employeeDetails.observeForever {
+//            if(it.data?.uploadSwach?.uid!=null){
+//                Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+//            }else{
+//                Preferences.setEmployeeRoleUid("")
+//            }
+//
+//        }
+
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -82,12 +92,111 @@ class ValidatePinActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ENABLE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
-                if (dialogStatus) {
-                    handleCreatePinIntent()
-//                    handlePlayStoreIntent()
-                } else {
-                    handleNextIntent()
+                viewModel.getRole(Preferences.getValidatedEmpId())
+                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+                    "SWACHH",
+                    applicationContext)
+                viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
+
+
+                viewModel.appLevelDesignationRespSwach.observeForever {
+
+                    if(it.message!=null && it.status.equals(true)){
+
+                    }else{
+//                        Preferences.setAppLevelDesignationSwach("")
+                    }
+
                 }
+
+                viewModel.appLevelDesignationRespQCFail.observeForever {
+                    if(it.message!=null && it.status.equals(true)){
+                        Preferences.setAppLevelDesignationQCFail(it.message)
+//                        Toast.makeText(applicationContext, "QcFail: "+Preferences.getAppLevelDesignationQCFail(), Toast.LENGTH_SHORT).show();
+                    }else{
+                        Preferences.setAppLevelDesignationQCFail("")
+                    }
+                }
+                viewModel.employeeDetails.observeForever {
+
+                    if (it.data != null && it.data?.uploadSwach != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(it))
+                        if (it.data?.uploadSwach?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
+                            if (it.data?.uploadSwach?.uid!!.equals("Yes",
+                                    true)
+                            ) {
+                                if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
+                                    Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
+                                } else {
+                                    Preferences.setSwachhSiteId("")
+                                }
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUid("")
+                        }
+                    }
+                    else {
+                        Preferences.setEmployeeRoleUid("")
+                    }
+
+                    if (it.data != null && it.data?.newDrugRequest != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
+                        if (it.data?.newDrugRequest?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            if (it.data?.newDrugRequest?.uid!!.equals("Yes",
+                                    true)
+                            ) {
+                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            }else{
+                                Preferences.setEmployeeRoleUidNewDrugRequest("")
+                            }
+
+                        } else {
+                            Preferences.setEmployeeRoleUidNewDrugRequest("")
+                        }
+                    }
+                    else {
+                        Preferences.setEmployeeRoleUidNewDrugRequest("")
+                    }
+
+                    if (dialogStatus) {
+//                    viewModel.getRole(Preferences.getValidatedEmpId())
+                        handleCreatePinIntent()
+
+//                    handlePlayStoreIntent()
+                    } else {
+//                    viewModel.getRole(Preferences.getValidatedEmpId())
+                        handleNextIntent()
+
+                    }
+
+                }
+
+
+
+
+
+//                if (dialogStatus) {
+////                    viewModel.getRole(Preferences.getValidatedEmpId())
+//                    handleCreatePinIntent()
+//
+////                    handlePlayStoreIntent()
+//                } else {
+////                    viewModel.getRole(Preferences.getValidatedEmpId())
+//                    handleNextIntent()
+//
+//                }
+
             } else {
                 Toast.makeText(this, "Invalid Pin", Toast.LENGTH_SHORT)
                     .show()

@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +24,7 @@ import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.CustomFilterDialog
 import com.apollopharmacy.vishwam.dialog.DiscountCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.CalculateDiscountAndTotalQuantity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -32,7 +34,7 @@ import com.valdesekamdem.library.mdtoast.MDToast
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ApprovedFragment : BaseFragment<ApprovedViewModel, FragmentApprovedBinding>(),
+class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBinding>(),
     DiscountCalendarDialog.DateSelected, CustomFilterDialog.AbstractDialogClickListner {
 
     private lateinit var recyclerViewApproved: ApproveRecyclerView
