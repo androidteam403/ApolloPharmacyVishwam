@@ -81,6 +81,7 @@ class QcSiteActivityViewModel : ViewModel() {
     }
 
     fun getQcStoreist(qcFilterSiteCallBack: QcFilterSiteCallBack) {
+
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 

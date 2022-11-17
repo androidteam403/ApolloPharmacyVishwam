@@ -17,6 +17,11 @@ object Preferences {
     private const val KEY_SITE = "KEY_SITE"
     private const val KEY_REGION = "KEY_REGION"
 
+    private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+
+
+    private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
+
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
@@ -365,23 +370,23 @@ object Preferences {
     }
 
     fun setQcSite(siteIdList: String) {
-        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+        sharedPreferences.edit().putString(KEY_QC_SITE_ID, siteIdList).apply()
     }
 
 
     fun getQcSite(): String {
-        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+        return sharedPreferences.getString(KEY_QC_SITE_ID, "")!!
     }
 
 
 
     fun setQcRegion(siteIdList: String) {
-        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+        sharedPreferences.edit().putString(KEY_QC_REGION_ID, siteIdList).apply()
     }
 
 
     fun getQcRegion(): String {
-        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+        return sharedPreferences.getString(KEY_QC_REGION_ID, "")!!
     }
 
 

@@ -14,12 +14,8 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
-import com.apollopharmacy.vishwam.dialog.SiteDialog
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityViewModel
 import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 import org.apache.commons.lang3.StringUtils
 import java.text.SimpleDateFormat
@@ -48,6 +44,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
         viewModel.getQcRegionList()
+       // viewModel.getSiteData()
+
+//        Utlis.showLoading(this)
+        viewModel.getQcStoreist(this)
+        fromQcDate = Preferences.getQcFromDate()
+        toDate = Preferences.getQcToDate()
+        regionId = Preferences.getQcRegion()
+        siteId = Preferences.getQcSite()
 
 
 
@@ -156,7 +160,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             } else {
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
-                Preferences.setQcToDate(toDate)
+                Preferences.setQcToDate(qcDate)
                 Preferences.setQcSite(siteId)
                 Preferences.setQcRegion(regionId)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
@@ -211,8 +215,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
-            Utlis.showLoading(this)
-            viewModel.siteId()
+             QcSiteDialog().apply {
+                arguments = QcSiteDialog().generateParsedData(storeList)
+            }.show(supportFragmentManager, "")
 
         }
     }

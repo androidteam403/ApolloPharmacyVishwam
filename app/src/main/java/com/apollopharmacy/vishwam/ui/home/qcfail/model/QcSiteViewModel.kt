@@ -17,7 +17,7 @@ class QcSiteViewModel : ViewModel() {
         return siteArrayList
     }
 
-    fun filterDataBySiteId(siteId: String,siteList: ArrayList<QcStoreList.Store>) {
+    fun filterDataBySiteId(siteId: String) {
         Utils.printMessage(TAG, "Orginal Data :: " + orginalArrayList.toString())
         var data =
             orginalArrayList.filter { m ->
