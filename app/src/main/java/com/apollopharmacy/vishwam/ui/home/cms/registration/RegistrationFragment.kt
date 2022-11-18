@@ -1378,16 +1378,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+//            Preferences.getSiteId()
+//        }
+        val storeId = Preferences.getSiteId()
         if (statusInventory.equals("MRP Change Request") || statusInventory.equals("NEWBATCH")) {
+            InventoryfileArrayList.clear()
             if(frontImageFile!=null)
             InventoryfileArrayList.add(ImageDataDto(frontImageFile!!, ""))
             if(backImageFile!=null)
@@ -1415,15 +1417,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     private fun saveTicketApi(cmsCommand: CmsCommand.ImageIsUploadedInAzur) {
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+        val storeId =    Preferences.getSiteId()
+//        }
         val description = viewBinding.descriptionText.text.toString().trim()
         val currentTime =
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
@@ -1524,7 +1526,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             RequestNewComplaintRegistration.Site(storeId),
             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend),
+            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend.distinct()),
             ticketIt
         )
         )

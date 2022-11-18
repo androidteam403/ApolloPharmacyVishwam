@@ -31,9 +31,26 @@ data class CCData(
     val ticket_id: String,
     val ticket_it: CCTicketIt,
     val ticket_type: CCTicketTypeX,
+    val uid: String,
+    val manager: Manager
+)
+
+
+data class Manager(
+    val email: String,
+    val first_name: String,
+    val last_name: String,
+    val login_unique: String,
+    val middle_name: String,
+    val phone: String,
+    val role: Role,
     val uid: String
 )
 
+data class Role(
+    val name: String,
+    val uid: String
+)
 data class CCCategory(
     val code: String,
     val name: String,
