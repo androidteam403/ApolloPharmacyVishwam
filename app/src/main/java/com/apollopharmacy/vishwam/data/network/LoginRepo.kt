@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Config.ENCRIPTION_KEY
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.*
@@ -70,10 +69,14 @@ object LoginRepo {
         }
     }
 
-    suspend fun checkMPinDetails(mPinRequest: MPinRequest): ApiResult<MPinResponse> {
+    suspend fun checkMPinDetails(
+        url: String,
+        token: String,
+        mPinRequest: MPinRequest,
+    ): ApiResult<MPinResponse> {
         return try {
             val response =
-                Api.getClient().handleMPinService(Config.ATTENDANCE_API_HEADER, mPinRequest)
+                Api.getClient().handleMPinService(url, token, mPinRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -120,7 +123,7 @@ object LoginRepo {
         }
     }
 
-    fun getPassword(): String{
+    fun getPassword(): String {
         return Preferences.getUserPassword()
     }
 

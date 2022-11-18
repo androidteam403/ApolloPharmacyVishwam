@@ -18,18 +18,13 @@ import java.util.concurrent.TimeoutException
 object ApproveListActivityRepo {
 
     suspend fun getImageUrlsApiCall(
-        getImageUrlsRequest: GetImageUrlsRequest?
+        url: String, token: String,
+        getImageUrlsRequest: GetImageUrlsRequest?,
     ): ApiResult<GetImageUrlsResponse> {
         return try {
-            val response =
-                Api.getClient().GET_IMAGE_URLS_API_CALL(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    getImageUrlsRequest
-                )
-            if (response.status == true)
-                ApiResult.Success(response)
-            else
-                ApiResult.GenericError(null, "error")
+            val response = Api.getClient().GET_IMAGE_URLS_API_CALL(url, token, getImageUrlsRequest)
+            if (response.status == true) ApiResult.Success(response)
+            else ApiResult.GenericError(null, "error")
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
         } catch (e: IOException) {
@@ -60,14 +55,12 @@ object ApproveListActivityRepo {
     }
 
     suspend fun saveAcceptAndReshoot(
-        saveAcceptAndReshootRequest: SaveAcceptAndReshootRequest?
+        url: String, token: String,
+        saveAcceptAndReshootRequest: SaveAcceptAndReshootRequest?,
     ): ApiResult<SaveAcceptAndReshootResponse> {
         return try {
             val response =
-                Api.getClient().SAVE_ACCEPT_AND_RESHOOT(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    saveAcceptAndReshootRequest
-                )
+                Api.getClient().SAVE_ACCEPT_AND_RESHOOT(url, token, saveAcceptAndReshootRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -100,14 +93,11 @@ object ApproveListActivityRepo {
 
 
     suspend fun submitRatingBar(
-       ratingModelRequest: RatingModelRequest?
+        url: String, token: String,
+        ratingModelRequest: RatingModelRequest?,
     ): ApiResult<RatingModelResponse> {
         return try {
-            val response =
-                Api.getClient().RATING_BAR_API(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    ratingModelRequest
-                )
+            val response = Api.getClient().RATING_BAR_API(url, token, ratingModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

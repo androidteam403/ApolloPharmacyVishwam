@@ -8,7 +8,6 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachViewModel
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
@@ -19,14 +18,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class RatingReviewViewModel: ViewModel() {
+class RatingReviewViewModel : ViewModel() {
     val commands = LiveEvent<CommandsNewSwachFrags>()
     val state = MutableLiveData<State>()
     var getImageUrlsList = MutableLiveData<GetImageUrlModelResponse>()
 
     fun getImageUrl(getImageUrlModelRequest: GetImageUrlModelRequest) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL
@@ -37,10 +36,23 @@ class RatingReviewViewModel: ViewModel() {
 //                    Gson().toJson(onSubmitSwachModelRequest)
 
 //                val header = "application/json"
+
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 SwachApiiRepo.getImageUrl(
-                    "h72genrSSNFivOi/cfiX3A==", getImageUrlModelRequest
+                    baseUrl, token, getImageUrlModelRequest
                 )
 
 
@@ -48,7 +60,7 @@ class RatingReviewViewModel: ViewModel() {
             when (response) {
 
                 is ApiResult.Success -> {
-                    if (response.value.status?:null == true) {
+                    if (response.value.status ?: null == true) {
                         state.value = State.ERROR
                         getImageUrlsList.value = response.value
                     }
@@ -88,6 +100,7 @@ class RatingReviewViewModel: ViewModel() {
 //            }
 //        }
     }
+
     sealed class CommandsNewSwachFrags {
         data class ShowToast(val message: String?) : CommandsNewSwachFrags()
         data class ImageIsUploadedInAzur(val filePath: SwachModelResponse.Config.ImgeDtcl) :

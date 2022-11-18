@@ -2,8 +2,6 @@ package com.apollopharmacy.vishwam.ui.validatepin
 
 import android.content.Context
 import android.os.Bundle
-import android.widget.Toast
-import androidx.core.content.contentValuesOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,14 +24,26 @@ class ValidatePinViewModel : ViewModel() {
 
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
-    var employeeDetails=MutableLiveData<EmployeeDetailsResponse>()
-    var appLevelDesignationRespSwach=MutableLiveData<AppLevelDesignationModelResponse>()
-    var appLevelDesignationRespQCFail=MutableLiveData<AppLevelDesignationModelResponse>()
+    var employeeDetails = MutableLiveData<EmployeeDetailsResponse>()
+    var appLevelDesignationRespSwach = MutableLiveData<AppLevelDesignationModelResponse>()
+    var appLevelDesignationRespQCFail = MutableLiveData<AppLevelDesignationModelResponse>()
     fun checkMPinLogin(mPinRequest: MPinRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("MPIN")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                LoginRepo.checkMPinDetails(mPinRequest)
+                LoginRepo.checkMPinDetails(baseUrl, token, mPinRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -51,11 +61,9 @@ class ValidatePinViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -78,14 +86,29 @@ class ValidatePinViewModel : ViewModel() {
     fun getApplevelDesignation(
         empId: String,
         appType: String,
-        applicationContext: Context
+        applicationContext: Context,
 
-    ) {
+        ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISWAM APP LEVEL DESIGNATION")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
+
+
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                RegistrationRepo.getApplevelDesignation(empId,appType)
+                RegistrationRepo.getApplevelDesignation(baseUrl, empId, appType)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -93,15 +116,13 @@ class ValidatePinViewModel : ViewModel() {
                         Preferences.setAppLevelDesignationSwach(result.value.message)
 //                       Toast.makeText(applicationContext, ""+Preferences.getAppLevelDesignationSwach(),Toast.LENGTH_SHORT).show()
                     } else {
-                      appLevelDesignationRespSwach.value = result.value
+                        appLevelDesignationRespSwach.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                           Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -122,14 +143,25 @@ class ValidatePinViewModel : ViewModel() {
 
     fun getApplevelDesignationQcFail(
         empId: String,
-        appType: String
+        appType: String,
 
-    ) {
+        ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISWAM APP LEVEL DESIGNATION")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                RegistrationRepo.getApplevelDesignation(empId,appType)
+                RegistrationRepo.getApplevelDesignation(url, empId, appType)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -141,11 +173,9 @@ class ValidatePinViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -165,8 +195,6 @@ class ValidatePinViewModel : ViewModel() {
     }
 
 
-
-
     fun getRole(validatedEmpId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -183,7 +211,7 @@ class ValidatePinViewModel : ViewModel() {
 //                val reopened = if (status.contains("reopened")) "reopened" else ""
 //                val closed = if (status.contains("closed")) "closed" else ""
 
-      //
+        //
         //https://apis.v35.dev.zeroco.de
         val baseUrl: String =
             "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
@@ -192,16 +220,8 @@ class ValidatePinViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    GetDetailsRequest(
-                        baseUrl,
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails("h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -211,18 +231,15 @@ class ValidatePinViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val responseNewTicketlist =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    EmployeeDetailsResponse::class.java
-                                )
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    EmployeeDetailsResponse::class.java)
                             if (responseNewTicketlist.success!!) {
                                 employeeDetails.value = responseNewTicketlist
 
 //                                Preferences.getEmployeeRoleUid()
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
-                            }
-                            else {
+                            } else {
                                 employeeDetails.value = responseNewTicketlist
 //                                commands.value =
 //                                 Command.ShowToast(responseNewTicketlist.message.toString())
@@ -268,6 +285,5 @@ sealed class Command {
     data class ShowButtonSheet(
         val fragment: Class<out BottomSheetDialogFragment>,
         val arguments: Bundle,
-    ) :
-        Command()
+    ) : Command()
 }

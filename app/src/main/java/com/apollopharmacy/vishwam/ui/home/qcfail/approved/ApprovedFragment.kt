@@ -26,7 +26,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBinding>(),
     MainActivityCallback,
@@ -182,8 +181,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-            }
-            else if (it.approvedlist != null && it.approvedlist!!.size>0) {
+            } else if (it.approvedlist != null && it.approvedlist!!.size > 0) {
 
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
@@ -205,39 +203,39 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
 
 
+            }
 
-                }
+            if (subList?.size == 1) {
+                viewBinding.continueBtn.visibility = View.GONE
+            } else {
+                viewBinding.continueBtn.visibility = View.VISIBLE
 
-                    if (subList?.size == 1) {
-                        viewBinding.continueBtn.visibility = View.GONE
-                    } else {
-                        viewBinding.continueBtn.visibility = View.VISIBLE
-
-                    }
-                    viewBinding.refreshSwipe.isRefreshing = false
+            }
+            viewBinding.refreshSwipe.isRefreshing = false
 
 
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
-                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+            if (subList != null) {
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
-                    if (increment == 0) {
-                        viewBinding.prevPage.visibility = View.GONE
+            }
+
+            if (increment == 0) {
+                viewBinding.prevPage.visibility = View.GONE
+            }
+            if (subList.isNullOrEmpty()) {
+            } else {
+                adapter =
+                    context?.let { it1 ->
+                        QcApproveListAdapter(it1,
+                            subList!!.get(increment),
+                            this,
+                            itemsList,
+                            statusList,
+                            filterApproveList)
                     }
-                    if (subList.isNullOrEmpty()) {
-                    } else {
-                        adapter =
-                            context?.let { it1 ->
-                                QcApproveListAdapter(it1,
-                                    subList!!.get(increment),
-                                    this,
-                                    itemsList,
-                                    statusList,
-                                    filterApproveList)
-                            }
-                        viewBinding.recyclerViewApproved.adapter = adapter
-                    }
-
-
+                viewBinding.recyclerViewApproved.adapter = adapter
+            }
 
 
         })

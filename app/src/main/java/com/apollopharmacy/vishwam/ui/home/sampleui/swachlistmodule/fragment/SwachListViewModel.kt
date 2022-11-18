@@ -5,10 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.SwachhListRepo
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListRequest
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -18,15 +20,13 @@ class SwachListViewModel : ViewModel() {
     var getpendingAndApprovedListResponse = MutableLiveData<GetpendingAndApprovedListResponse>()
 
 
-
-
     fun getPendingAndApprovedListApiCall(
         empiD: String,
         fromDate: String,
         toDate: String,
         selectedSiteids: String?,
         startPage: Int,
-        endPageNum: Int
+        endPageNum: Int,
     ) {
         val state = MutableLiveData<State>()
         state.postValue(State.LOADING)
@@ -35,13 +35,26 @@ class SwachListViewModel : ViewModel() {
         getpendingAndApprovedListRequest.empid = Preferences.getValidatedEmpId()
         getpendingAndApprovedListRequest.fromdate = fromDate
         getpendingAndApprovedListRequest.todate = toDate
-        getpendingAndApprovedListRequest.startpageno= startPage
-        getpendingAndApprovedListRequest.endpageno=endPageNum
-        if(selectedSiteids!=null && selectedSiteids.length>0){
+        getpendingAndApprovedListRequest.startpageno = startPage
+        getpendingAndApprovedListRequest.endpageno = endPageNum
+        if (selectedSiteids != null && selectedSiteids.length > 0) {
             getpendingAndApprovedListRequest.storeId = selectedSiteids
-        }else{
+        } else {
             getpendingAndApprovedListRequest.storeId = ""
         }
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW PENDING APPROVED LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
 
 //        getpendingAndApprovedListRequest.startpageno = 0
 //        getpendingAndApprovedListRequest.endpageno = 100
@@ -49,7 +62,9 @@ class SwachListViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachhListRepo.getPendingAndApprovedListRepo(getpendingAndApprovedListRequest)
+                SwachhListRepo.getPendingAndApprovedListRepo(baseUrl,
+                    token,
+                    getpendingAndApprovedListRequest)
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -75,7 +90,6 @@ class SwachListViewModel : ViewModel() {
             }
         }
     }
-
 
 
 }

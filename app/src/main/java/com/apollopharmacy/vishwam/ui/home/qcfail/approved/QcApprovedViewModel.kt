@@ -4,13 +4,16 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,11 +45,24 @@ class QcApprovedViewModel : ViewModel() {
         storeId: String,
         region: String,
     ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC PENDING AND ACCEPTED AND REJECT LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcLists(empId, fromDate, toDate, storeId, region)
+                QcApiRepo.getQcLists(baseUrl, empId, fromDate, toDate, storeId, region)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -59,11 +75,9 @@ class QcApprovedViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    command.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -83,11 +97,22 @@ class QcApprovedViewModel : ViewModel() {
     }
 
     fun getQcRegionList() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC REGION LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcRegionList()
+                QcApiRepo.getQcRegionList(baseUrl)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -101,11 +126,9 @@ class QcApprovedViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    command.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -125,11 +148,22 @@ class QcApprovedViewModel : ViewModel() {
     }
 
     fun getQcStoreist() {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC STORE LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
-
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcStoreList()
+                QcApiRepo.getQcStoreList(baseUrl)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -142,11 +176,9 @@ class QcApprovedViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    command.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -167,11 +199,24 @@ class QcApprovedViewModel : ViewModel() {
 
 
     fun getQcItemsList(orderId: String) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC LINE ITEMS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcItemLists(orderId)
+                QcApiRepo.getQcItemLists(baseUrl, orderId)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -184,11 +229,9 @@ class QcApprovedViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    command.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -206,12 +249,24 @@ class QcApprovedViewModel : ViewModel() {
             }
         }
     }
+
     fun getQcStatusList(orderId: String) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC HISTORY LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcStatusLists(orderId)
+                QcApiRepo.getQcStatusLists(baseUrl, orderId)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -224,11 +279,9 @@ class QcApprovedViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    command.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -256,7 +309,9 @@ class QcApprovedViewModel : ViewModel() {
 //            arguments=QcFilterFragment().generateParsedData(qcregionIdList as ArrayList<QcRegionList.Store>)
 //        }
 //
-        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java, bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList), Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
+        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java,
+            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList),
+                Pair(QcFilterFragment.KEY_REGION_DATA_QC, regionarrayList)))
 
     }
 

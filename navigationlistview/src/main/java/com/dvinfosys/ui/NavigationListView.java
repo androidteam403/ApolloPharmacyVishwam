@@ -19,6 +19,11 @@ public class NavigationListView extends ExpandableListView {
     private int currentChildSelection = -1;
 
     private List<HeaderModel> listHeader;
+
+    public List<HeaderModel> getListHeader() {
+        return listHeader;
+    }
+
     private OnGroupClickListener onGroupClickListener;
     private OnChildClickListener onChildClickListener;
     private NavigationListAdapter adapter;

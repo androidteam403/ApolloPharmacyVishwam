@@ -35,9 +35,22 @@ class UploadNowButtonViewModel : ViewModel() {
 
     fun swachImagesRegisters() {
         state.postValue(State.LOADING)
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW STORE WISE CATEGORY DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.swachImagesRegister(Preferences.getSwachhSiteId())
+                SwachApiRepo.swachImagesRegister(baseUrl, token, Preferences.getSwachhSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -51,11 +64,9 @@ class UploadNowButtonViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commandsNewSwach.postValue(
-                        result.error?.let {
-                            CommandsNewSwachImp.ShowToast(it)
-                        }
-                    )
+                    commandsNewSwach.postValue(result.error?.let {
+                        CommandsNewSwachImp.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -77,11 +88,9 @@ class UploadNowButtonViewModel : ViewModel() {
     fun connectToAzure(swachhModelResponseList: ArrayList<SwachModelResponse>) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response =
-                ConnectionAzureSwacch.connectToAzurList(swachhModelResponseList!!,
-                    Config.CONTAINER_NAME,
-                    Config.STORAGE_CONNECTION_FOR_CCR_APP
-                )
+            val response = ConnectionAzureSwacch.connectToAzurList(swachhModelResponseList!!,
+                Config.CONTAINER_NAME,
+                Config.STORAGE_CONNECTION_FOR_CCR_APP)
 
             commandsNewSwach.postValue(CommandsNewSwachImp.ImageIsUploadedInAzur(response))
         }
@@ -89,8 +98,8 @@ class UploadNowButtonViewModel : ViewModel() {
 
 
     fun onUploadSwach(onUploadSwachModelRequest: OnUploadSwachModelRequest) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL
@@ -101,10 +110,22 @@ class UploadNowButtonViewModel : ViewModel() {
 //                    Gson().toJson(onSubmitSwachModelRequest)
 
 //                val header = "application/json"
+
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.onUploadSwach(
-                    "h72genrSSNFivOi/cfiX3A==", onUploadSwachModelRequest)
+                SwachApiiRepo.onUploadSwach(baseUrl, token, onUploadSwachModelRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
@@ -129,11 +150,9 @@ class UploadNowButtonViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commandsNewSwach.postValue(
-                        response.error?.let {
-                            CommandsNewSwachImp.ShowToast(it)
-                        }
-                    )
+                    commandsNewSwach.postValue(response.error?.let {
+                        CommandsNewSwachImp.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -156,23 +175,15 @@ class UploadNowButtonViewModel : ViewModel() {
 
     fun updateSwachhSiteIdApiCall(updateSwachhDefaultSiteRequest: UpdateSwachhDefaultSiteRequest) {
         val requestCMSLoginJson = Gson().toJson(updateSwachhDefaultSiteRequest)
-      //https://apis.v35.dev.zeroco.de
-       //
+        //https://apis.v35.dev.zeroco.de
+        //
         val baseUrl: String =
             "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-swatch-default-site"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.updateSwachhDefaultSite(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestCMSLoginJson,
-                        "",
-                        ""
-                    )
-                )
+                SwachApiiRepo.updateSwachhDefaultSite("h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(baseUrl, "POST", requestCMSLoginJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -182,10 +193,8 @@ class UploadNowButtonViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val updateSwachhDefaultSiteResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    UpdateSwachhDefaultSiteResponse::class.java
-                                )
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    UpdateSwachhDefaultSiteResponse::class.java)
                             if (updateSwachhDefaultSiteResponse.success!!) {
                                 updateSwachhDefaultSiteResponseModel.value =
                                     updateSwachhDefaultSiteResponse

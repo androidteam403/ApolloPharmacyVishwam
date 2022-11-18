@@ -17,9 +17,13 @@ import java.util.concurrent.TimeoutException
 object SwachhListApiResponse {
 
 
-    suspend fun getSwacchList(approveRejectListRequest: ApproveRejectListRequest): ApiResult<ApproveRejectListResponse> {
+    suspend fun getSwacchList(
+        url: String,
+        token: String,
+        approveRejectListRequest: ApproveRejectListRequest,
+    ): ApiResult<ApproveRejectListResponse> {
         return try {
-            val response = Api.getClient().swachhResponseList(Config.SWACHH_LIST_KEY,approveRejectListRequest)
+            val response = Api.getClient().swachhResponseList(url, token, approveRejectListRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -51,9 +55,13 @@ object SwachhListApiResponse {
     }
 
 
-    suspend fun getApproveList(approveRequest: ArrayList<ApproveRequest>): ApiResult<ApproveResponse> {
+    suspend fun getApproveList(
+        url: String,
+        token: String,
+        approveRequest: ArrayList<ApproveRequest>,
+    ): ApiResult<ApproveResponse> {
         return try {
-            val response = Api.getClient().ApproveRejectResponse(Config.SWACHH_IMAGES_APPROVE,approveRequest)
+            val response = Api.getClient().ApproveRejectResponse(url, token, approveRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -86,7 +94,7 @@ object SwachhListApiResponse {
 
     suspend fun getDrugResponse(drugRequest: DrugRequest): ApiResult<DrugResponse> {
         return try {
-            val response = Api.getClient().DrugResponse(Config.DRUG_KEY,drugRequest)
+            val response = Api.getClient().DrugResponse(Config.DRUG_KEY, drugRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -118,9 +126,13 @@ object SwachhListApiResponse {
     }
 
 
-    suspend fun getLineImagesList(lineImagesRequest: LineImagesRequest): ApiResult<LineImagesResponse> {
+    suspend fun getLineImagesList(
+        url: String,
+        token: String,
+        lineImagesRequest: LineImagesRequest,
+    ): ApiResult<LineImagesResponse> {
         return try {
-            val response = Api.getClient().swachhResponseImageList(Config.SWACHH_IMAGE_KEY,lineImagesRequest)
+            val response = Api.getClient().swachhResponseImageList(url, token, lineImagesRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
