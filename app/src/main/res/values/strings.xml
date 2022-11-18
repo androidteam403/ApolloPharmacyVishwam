@@ -108,12 +108,12 @@
     <string name="err_msg_select_batch_number">Please Enter Batch Number</string>
     <string name="err_msg_select_batch_number_length">Please Batch Number should be 3 characters</string>
     <string name="err_msg_enter_mrp">Please Enter MRP Price</string>
-    <string name="err_msg_error_mrp">Please Enter MRP greater then 0 </string>
-    <string name="err_msg_error_old_mrp_">Please Enter Old MRP greater then 0 </string>
+    <string name="err_msg_error_mrp">Please Enter MRP greater than 0 </string>
+    <string name="err_msg_error_old_mrp_">Please Enter Old MRP greater than 0 </string>
     <string name="err_msg_enter_old_mrp">Please Enter Old MRP Price</string>
     <string name="err_msg_enter_new_mrp">Please Enter New MRP Price</string>
     <string name="err_msg_enter_purchase_price">Please Enter Purchase Price</string>
-    <string name="err_msg_enter_purchase_price_">Please Enter Purchase Price greater then 0</string>
+    <string name="err_msg_enter_purchase_price_">Please Enter Purchase Price greater than 0</string>
     <string name="err_msg_price_diff">Purchase rate should be higher than enter MRP</string>
     <string name="err_msg_purchace_price_diff">Purchase rate should be Less than MRP</string>
     <string name="err_msg_purchace_price_old_new">Purchase rate should be Less than Old MRP and new MRP</string>
@@ -243,6 +243,7 @@
     <string name="label_rejectedd">Rejected</string>
     <string name="label_reopen">Reopen</string>
     <string name="label_closed">Closed</string>
+    <string name="label_on_hold">OnHold</string>
     <string name="label_complaint_list_status_filter">Complaint list status filter</string>
     <string name="label_filters_by_status">Filters by status</string>
     <string name="label_apply">Apply</string>

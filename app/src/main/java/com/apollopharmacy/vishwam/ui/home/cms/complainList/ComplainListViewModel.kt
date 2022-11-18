@@ -55,6 +55,7 @@ class ComplainListViewModel : ViewModel() {
                 val rejected = if (status.contains("rejected")) "rejected" else ""
                 val reopened = if (status.contains("reopened")) "reopened" else ""
                 val closed = if (status.contains("closed")) "closed" else ""
+                val onHold = if (status.contains("onHold")) "onHold" else ""
 
                 val url: String =
                     "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&"+ if(isDrugList){ "reason_code=new_drug&"} else{""}+"${
@@ -75,7 +76,10 @@ class ComplainListViewModel : ViewModel() {
                     }=${reopened}&${
                         URLEncoder.encode("status[5]",
                             "utf-8")
-                    }=${closed}"
+                    }=${closed}&${
+                        URLEncoder.encode("status[6]",
+                            "utf-8")
+                    }=${onHold}"
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
                 viewModelScope.launch {
                     state.value = State.SUCCESS

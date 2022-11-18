@@ -54,7 +54,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     lateinit var storeData: LoginDetails.StoreData
 
-    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed"
+    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
 
@@ -112,9 +112,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 viewBinding.pullToRefresh.isRefreshing = false
             }
             if (it.data.listData.rows.size == 0) {
+                isLoadMoreAvailable = false
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
+                if(it.data.listData.rows.size <10){
+                    isLoadMoreAvailable = false
+                }
                 responseData = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
@@ -253,6 +257,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             || !this.complaintListStatus.contains("rejected")
             || !this.complaintListStatus.contains("reopened")
             || !this.complaintListStatus.contains("closed")
+            || !this.complaintListStatus.contains("onHold")
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -260,12 +265,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
         }
     }
-
+    var isLoadMoreAvailable = true
     private fun loadMore() {
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
-            if (responseData.data.listData.total!! > responseData.data.listData.page!!) {
+            if (isLoadMoreAvailable) {
                 isLoading = true
                 val newdata = ResponseNewTicketlist.Row(
                     "",
@@ -290,6 +295,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     null,
                     null,
                     false,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -339,7 +346,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (getDateDifference(fromDate, toDate) > 0) {
             if (!viewBinding.pullToRefresh.isRefreshing)
                 Utlis.showLoading(requireContext())
-
+            isLoadMoreAvailable = true
             callAPI(1)
         } else {
             Toast.makeText(
@@ -574,10 +581,20 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.inventoryImagesLayout.visibility = View.GONE
             }
 
+            if(items.department?.code.equals("IT")){
+                binding.itTicketExecutive.text = items.executive?.first_name
+                binding.itTicketManager.text = items.manager?.first_name
+                binding.itTicketExecutiveLayout.visibility = View.VISIBLE
+                binding.itTicketManagerLayout.visibility = View.VISIBLE
+            }else{
+                binding.itTicketExecutiveLayout.visibility = View.GONE
+                binding.itTicketManagerLayout.visibility = View.GONE
+            }
             if(items.creditCardTSDetails?.data != null){
                 binding.creditCardDetailsLayout.visibility = View.VISIBLE
                 binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
-                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+//                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+//                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
                 binding.ccTid.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.tid.tid}"
                 binding.billNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.bill_number}"
                 binding.transactionNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.transaction_id}"
@@ -1341,6 +1358,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialogComplaintListFilterBinding.isRejectedChecked = this.complaintListStatus.contains("rejected")
         dialogComplaintListFilterBinding.isReopenChecked = this.complaintListStatus.contains("reopened")
         dialogComplaintListFilterBinding.isClosedChecked = this.complaintListStatus.contains("closed")
+        dialogComplaintListFilterBinding.isOnHoldChecked = this.complaintListStatus.contains("onHold")
 
 
         submitButtonEnable(dialogComplaintListFilterBinding)
@@ -1422,6 +1440,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
+                }
+            }
+            if (dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "onHold"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},onHold"
                 }
             }
 

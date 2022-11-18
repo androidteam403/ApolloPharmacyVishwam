@@ -93,12 +93,15 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
+        showLoading()
         viewModel.getRemarksMasterList()
-        viewModel.subCategories.observe(viewLifecycleOwner, {
+        viewModel.subCategories.observe(viewLifecycleOwner) {
             when (it) {
-
+                is ArrayList<ReasonmasterV2Response.TicketSubCategory> -> {
+                    hideLoading()
+                }
             }
-        })
+        }
 //        viewBinding.mrpp.setText("0")
 //        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
 //        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
@@ -457,7 +460,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             "",
                             "",
                             "",
-                            imagesList,
+                            imagesList.distinct(),
                             viewBinding.descriptionText.text.toString(),
                             store,employeeDetailsResponse!!
                         )
@@ -908,7 +911,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         else if (!hsnCode.equals("0") && hsnCode.isNotEmpty() && hsnCode.length < 4) {
             viewBinding.hsnText.requestFocus()
             showErrorMsg(
-                "Please Enter HSN code min 4 letters"
+                "Please Enter minimum 4 numbers in HSN Code"
             )
             return false
         }

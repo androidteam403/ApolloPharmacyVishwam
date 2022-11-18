@@ -334,6 +334,58 @@
                             android:textSize="@dimen/text_13sp" />
                     </RelativeLayout>
 
+                    <RelativeLayout
+                        android:id="@+id/it_ticket_executive_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/it_ticket_executive_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Executive : "
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/it_ticket_executive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/it_ticket_executive_label"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/it_ticket_manager_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/it_ticket_manager_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Manager :"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/it_ticket_manager"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/it_ticket_manager_label"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+                    </RelativeLayout>
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/inventory_details_layout"
                         android:layout_width="match_parent"
@@ -586,26 +638,45 @@
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp"/>
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/cc_executive_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Executive : "
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"
-                            app:layout_constraintStart_toStartOf="parent"/>
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/cc_executive_label"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Executive : "-->
+<!--                            android:textColor="@color/fadedTextColor"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/cc_executive"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="@+id/cc_executive_label"
-                            app:layout_constraintStart_toEndOf="@+id/cc_executive_label"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"/>
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/cc_executive"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/cc_executive_label"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/cc_executive_label"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"/>-->
 
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/cc_manager_label"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:text="Manager : "-->
+<!--                            android:textColor="@color/fadedTextColor"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/cc_executive_label"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--                        <androidx.appcompat.widget.AppCompatTextView-->
+<!--                            android:id="@+id/cc_manager"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            app:layout_constraintTop_toTopOf="@+id/cc_manager_label"-->
+<!--                            app:layout_constraintStart_toEndOf="@+id/cc_manager_label"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"/>-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cc_tid_label"
                             android:layout_width="wrap_content"
@@ -614,7 +685,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/cc_executive_label"
+                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"
                             app:layout_constraintStart_toStartOf="parent"/>
 
                         <androidx.appcompat.widget.AppCompatTextView

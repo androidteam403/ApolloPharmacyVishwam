@@ -134,10 +134,45 @@ data class ResponseNewTicketlist(
         var creditCardTSDetails: CreditCardTSDetails?,
 
         @field:SerializedName("ticket_inventory")
-        val ticket_inventory: TicketInventory?
+        val ticket_inventory: TicketInventory?,
 
-
+        @field:SerializedName("executive")
+        var executive: Executive? = null,
+        @field:SerializedName("manager")
+        var manager: Manager? = null
     ) : Serializable
+
+    data class Manager(
+        @field:SerializedName("uid")
+        val uid: String,
+        @field:SerializedName("email")
+        val email: String,
+        @field:SerializedName("first_name")
+        val first_name: String,
+        @field:SerializedName("login_unique")
+        val login_unique: String,
+        @field:SerializedName("last_name")
+        val last_name: String,
+        @field:SerializedName("middle_name")
+        val middle_name: String
+    )
+
+    data class Executive(
+        @field:SerializedName("uid")
+        val uid: String,
+        @field:SerializedName("phone")
+        val phone: String,
+        @field:SerializedName("email")
+        val email: String,
+        @field:SerializedName("first_name")
+        val first_name: String,
+        @field:SerializedName("last_name")
+        val last_name: String,
+        @field:SerializedName("middle_name")
+        val middle_name: String,
+        @field:SerializedName("login_unique")
+        val login_unique: String
+    )
 
     data class TicketInventory(
         @field:SerializedName("uid")
