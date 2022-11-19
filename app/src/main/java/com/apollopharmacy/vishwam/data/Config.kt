@@ -5,7 +5,7 @@ object Config {
         "DefaultEndpointsProtocol=https;" + "AccountName=pharmtest;" + "AccountKey=dhJpbROM1e6MzzjAHPXyP52+w1U+cN2DQKnqwc77Uwp6LkIH/9k2hHktS3zpfJPCEQdL2jcqYdANTdEox+Fiww=="
     var CONTAINER_NAME = "cms"
     val PROBLEM_SINCE_DAYS = 30
-    var URL_MAIN = "http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"
+    var URL_MAIN ="https://online.apollopharmacy.org/CPOS/APOLLO/" //"http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"
     var DEVICE_ID = "34.87.87.09.909"
     var KEY = "2039" //Producation : 2034 UAT : 2027
     var TYPE_REJECT = "REJECT"

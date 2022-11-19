@@ -161,7 +161,7 @@ class ValidatePinViewModel : ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                RegistrationRepo.getApplevelDesignation(url, empId, appType)
+                RegistrationRepo.getApplevelDesignation(baseUrl, empId, appType)
             }
             when (result) {
                 is ApiResult.Success -> {
