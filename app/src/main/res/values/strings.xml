@@ -272,4 +272,5 @@
     <string name="err_msg_enter_trn_id">Please Enter Transaction ID</string>
     <string name="err_msg_enter_approval_code">Please Enter Approval Code</string>
     <string name="err_msg_enter_bill_amount">Please Enter Bill Amount</string>
+    <string name="label_confirm_aleart">Do you want to exit</string>
 </resources>

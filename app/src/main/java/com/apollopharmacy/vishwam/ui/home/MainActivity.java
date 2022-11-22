@@ -15,6 +15,8 @@ import android.os.Looper;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +40,7 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
+import com.apollopharmacy.vishwam.dialog.Dialog;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
@@ -300,11 +303,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        if (isHomeScreen) {
-            finish();
-        } else {
-            displaySelectedScreen("HOME");
-            drawer.closeDrawer(GravityCompat.START);
+        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
+            showAlertDialog("HOME");
+        }else {
+            if (isHomeScreen) {
+                finish();
+            } else {
+                displaySelectedScreen("HOME");
+                drawer.closeDrawer(GravityCompat.START);
+            }
         }
 
 
@@ -326,8 +334,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
-
+    private boolean isAllowFragmentChange = false;
     private void displaySelectedScreen(String itemName) {
+        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
+            showAlertDialog(itemName);
+            return;
+        }
+
         //creating fragment object
         Fragment fragment = null;
         currentItem = itemName;
@@ -349,7 +363,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new RegistrationFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-
+                isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -461,7 +475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new Drug();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-
+                isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -1341,6 +1355,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+    public void showAlertDialog(String itemName){
+        android.app.Dialog dialog = new android.app.Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_aleart);
+        Button noBtn = dialog.findViewById(R.id.cancel_button);
+        Button yesBtn = dialog.findViewById(R.id.yes_button);
+        yesBtn.setOnClickListener(view -> {
+            isAllowFragmentChange = false;
+            dialog.dismiss();
+            displaySelectedScreen(itemName);
+        });
+        noBtn.setOnClickListener(view -> dialog.dismiss());
+        dialog.show();
+    }
 
 }
 
