@@ -4,7 +4,6 @@ interface QcListsCallback {
     fun orderno(position: Int, orderno: String)
     fun notify(position: Int, orderno: String)
     fun accept(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,
@@ -15,7 +14,6 @@ interface QcListsCallback {
     )
 
     fun reject(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,

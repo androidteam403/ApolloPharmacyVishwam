@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();
             isSwachhRequired = loginData.getIS_SWACHHAPP();
             isQcFailRequired = loginData.getIS_QCFAILAPP();
-            isDrugRequired = loginData.getIS_NEWDRUGAPP());
+            isDrugRequired = loginData.getIS_NEWDRUGAPP();
         }
 
         TextView versionInfo = findViewById(R.id.versionInfo);
