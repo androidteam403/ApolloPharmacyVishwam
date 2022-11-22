@@ -150,13 +150,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                  filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-
-
-                subList = ListUtils.partition(it.rejectedlist, 5)
-
-
-                pageNo = 1
+                 subList = ListUtils.partition(it.rejectedlist, 5)
+                 pageNo = 1
                 increment = 0
                 if (pageNo == 1) {
                     viewBinding.prevPage.visibility = View.GONE
@@ -200,6 +195,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                  else  {
                      viewBinding.emptyList.visibility = View.VISIBLE
                      viewBinding.recyclerViewPending.visibility = View.GONE
+                 viewBinding.continueBtn.visibility=View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
              }
         })
@@ -335,6 +331,30 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun accept(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun reject(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
@@ -398,29 +418,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         }
     }
 
-
-    override fun accept(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun reject(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
 
 
     override fun clickedApply(

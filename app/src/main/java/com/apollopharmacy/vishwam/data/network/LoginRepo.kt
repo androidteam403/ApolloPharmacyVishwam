@@ -36,6 +36,8 @@ object LoginRepo {
             val decriptData = EncryptionManager.decryptData(response, ENCRIPTION_KEY)
             val Responsee = Gson().fromJson(decriptData, LoginDetails::class.java)
             Utils.printMessage("LoginResponse", Responsee.toString())
+
+//            {"STATUS":true,"MESSAGE":"success","EMPID":"APL49396","EMPNAME":"Lena Aravinath B","DESIGNATION":"Sr.Supervisor","DISCOUNTLIMIT":null,"IsHavingStore":true,"STOREDETAILS":[{"SITEID":"16001","SITENAME":"TEST SITE","DCNAME":"SANATH NAGAR","STATEID":"TS","DC":"14902"}],"IS_DISCOUNTAPP":true,"IS_CMSAPP":true,"IS_ATTANDENCEAPP":false,"APPLEVELDESIGNATION":"GENERAL MANAGER","IS_SUPERADMIN":false,"IS_SWACHHAPP":false,"IS_QCFAILAPP":false,"IS_NEWDRUGAPP":false}
             if (Responsee.STATUS)
                 ApiResult.Success(Responsee)
             else

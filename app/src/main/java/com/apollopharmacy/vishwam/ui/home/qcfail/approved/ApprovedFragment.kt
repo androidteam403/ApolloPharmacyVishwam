@@ -181,7 +181,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-            } else if (it.approvedlist != null && it.approvedlist!!.size > 0) {
+            }
+            else {
 
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
@@ -203,40 +204,40 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
 
 
-            }
 
-            if (subList?.size == 1) {
-                viewBinding.continueBtn.visibility = View.GONE
-            } else {
-                viewBinding.continueBtn.visibility = View.VISIBLE
 
-            }
-            viewBinding.refreshSwipe.isRefreshing = false
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
+                } else {
+                    viewBinding.continueBtn.visibility = View.VISIBLE
+
+                }
+                viewBinding.refreshSwipe.isRefreshing = false
 
 
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
-            if (subList != null) {
-                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+                if (subList != null) {
+                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
-            }
+                }
 
-            if (increment == 0) {
-                viewBinding.prevPage.visibility = View.GONE
+                if (increment == 0) {
+                    viewBinding.prevPage.visibility = View.GONE
+                }
+                if (subList.isNullOrEmpty()) {
+                } else {
+                    adapter =
+                        context?.let { it1 ->
+                            QcApproveListAdapter(it1,
+                                subList!!.get(increment),
+                                this,
+                                itemsList,
+                                statusList,
+                                filterApproveList)
+                        }
+                    viewBinding.recyclerViewApproved.adapter = adapter
+                }
             }
-            if (subList.isNullOrEmpty()) {
-            } else {
-                adapter =
-                    context?.let { it1 ->
-                        QcApproveListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList,
-                            statusList,
-                            filterApproveList)
-                    }
-                viewBinding.recyclerViewApproved.adapter = adapter
-            }
-
 
         })
 
@@ -438,6 +439,30 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun accept(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun reject(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
 
         if (imageUrl.isNullOrEmpty()) {
@@ -461,28 +486,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         TODO("Not yet implemented")
     }
 
-    override fun accept(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
 
-
-    override fun reject(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-
-    }
 
 
     override fun clickedApply(

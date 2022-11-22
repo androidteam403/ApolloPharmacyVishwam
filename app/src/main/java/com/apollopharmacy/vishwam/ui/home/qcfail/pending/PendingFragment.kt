@@ -600,7 +600,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+
+        ) {
 
         acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
@@ -647,7 +650,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         if (dialogBinding != null) {
             dialogBinding.message.setText("You are accepting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
         }
 
         dialogBinding?.cancelButton?.setOnClickListener {
@@ -662,7 +665,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+        ) {
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -710,7 +715,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
             dialogBinding?.message?.setText("You are rejecting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
 
             dialogBinding?.yesBtn?.setOnClickListener {
                 showLoading()
