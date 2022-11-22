@@ -834,4 +834,67 @@ class ComplainListViewModel : ViewModel() {
             }
         }
     }
+
+    fun actionTicketResolveClose(
+        request: TicketResolveCloseModel?
+    ) {
+        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    "h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    ""
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                )
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+
 }

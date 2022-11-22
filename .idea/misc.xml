@@ -9,10 +9,12 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.21153846153846154" />
         <entry key="app/src/main/res/layout/activity_otp_view.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.24547101449275363" />
+        <entry key="app/src/main/res/layout/dialog_aleart.xml" value="0.1346153846153846" />
         <entry key="app/src/main/res/layout/dialog_comment.xml" value="0.24547101449275363" />
         <entry key="app/src/main/res/layout/dialog_complaint_list_filter.xml" value="0.1576923076923077" />
         <entry key="app/src/main/res/layout/dialog_date_picker.xml" value="0.11282051282051282" />
         <entry key="app/src/main/res/layout/dialog_delete.xml" value="0.11282051282051282" />
+        <entry key="app/src/main/res/layout/dialog_logout.xml" value="0.1346153846153846" />
         <entry key="app/src/main/res/layout/dialog_search_article.xml" value="0.24230072463768115" />
         <entry key="app/src/main/res/layout/dialog_tid_search.xml" value="0.21068376068376068" />
         <entry key="app/src/main/res/layout/drug_view_data.xml" value="0.375" />
