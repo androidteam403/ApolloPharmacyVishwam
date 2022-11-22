@@ -98,6 +98,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public MainActivityCallback mainActivityCallback;
     public static boolean isSuperAdmin = false;
     public static boolean isAttendanceRequired = false;
+    public static boolean isQcFailRequired = false;
+    public static boolean isSwachhRequired = false;
+    public static boolean isDrugRequired = false;
+
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
     public static String userDesignation;
@@ -254,11 +258,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isAttendanceRequired = loginData.getIS_ATTANDENCEAPP();
             isCMSRequired = loginData.getIS_CMSAPP();
             isDiscountRequired = loginData.getIS_DISCOUNTAPP();
+            isSwachhRequired = loginData.getIS_SWACHHAPP();
+            isQcFailRequired = loginData.getIS_QCFAILAPP();
+            isDrugRequired = loginData.getIS_NEWDRUGAPP());
         }
 
         TextView versionInfo = findViewById(R.id.versionInfo);
         versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired);
+        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired);
 //        listView.expandGroup(2);
 
         ImageView openDrawer = findViewById(R.id.openDrawer);
@@ -705,7 +712,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired) {
+    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
         listView.init(this)
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
         if (isAttendanceRequired) {
@@ -731,31 +738,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             .addChildModel(new ChildModel("Bill"))
             );
         }
-        if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
-            listView.addHeaderModel(
-                    new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
-                            .addChildModel(new ChildModel("New Drug Request"))
-                            .addChildModel(new ChildModel("New Drug List")));
+        if (isDrugRequired) {
+            if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(
+                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
+                                .addChildModel(new ChildModel("New Drug Request"))
+                                .addChildModel(new ChildModel("New Drug List")));
 
+            }
         }
-
-        listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
-                .addChildModel(new ChildModel("Pending"))
-                .addChildModel(new ChildModel("Approved"))
-                .addChildModel(new ChildModel("Rejected")));
-
-        if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
-            listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                    .addChildModel(new ChildModel("Upload"))
-                    .addChildModel(new ChildModel("List")));
-        } else if (employeeRole.equalsIgnoreCase("Yes")) {
-            listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                    .addChildModel(new ChildModel("Upload")));
-        } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
-            listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                    .addChildModel(new ChildModel("List")));
+        if (isQcFailRequired) {
+            listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+                    .addChildModel(new ChildModel("Pending"))
+                    .addChildModel(new ChildModel("Approved"))
+                    .addChildModel(new ChildModel("Rejected")));
         }
-
+        if (isSwachhRequired) {
+            if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                        .addChildModel(new ChildModel("Upload"))
+                        .addChildModel(new ChildModel("List")));
+            } else if (employeeRole.equalsIgnoreCase("Yes")) {
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                        .addChildModel(new ChildModel("Upload")));
+            } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
+                        .addChildModel(new ChildModel("List")));
+            }
+        }
         listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -814,7 +824,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("QcPending");
                 } else if (childModelList.get(childPosition).getTitle().equals("Approved")) {
                     displaySelectedScreen("QcApproved");
-                }else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
                     displaySelectedScreen("QcRejected");
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("Swachh")) {

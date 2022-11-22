@@ -16,7 +16,12 @@ data class LoginDetails(
     val IS_ATTANDENCEAPP: Boolean,
     var APPLEVELDESIGNATION: String,
     val IS_SUPERADMIN: Boolean,
-) : Serializable {
+    val IS_SWACHHAPP:Boolean,
+    val IS_QCFAILAPP: Boolean,
+    val IS_NEWDRUGAPP: Boolean,
+
+
+    ) : Serializable {
     data class StoreData(
         val SITEID: String,
         val SITENAME: String,

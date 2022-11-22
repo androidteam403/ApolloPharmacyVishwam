@@ -577,14 +577,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     var acceptOrRejectItemPos = -1
     override fun accept(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+
+        ) {
 
         acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
@@ -597,7 +599,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         }
         qcAccepttList.clear()
-        val qcreject = QcAcceptRejectRequest.Order(orderNumber,
+        val qcreject = QcAcceptRejectRequest.Order(orderno,
             status,
             Preferences.getAppDesignation(),
             Preferences.getToken(),
@@ -628,7 +630,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
 
         if (dialogBinding != null) {
-            dialogBinding.message.setText("You are accepting the Order Id " + orderno + " for QC Fail Do You Want to Proceed ?")
+            dialogBinding.message.setText("You are accepting the Order Id " +
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
         }
 
         dialogBinding?.cancelButton?.setOnClickListener {
@@ -637,14 +640,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun reject(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+        ) {
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -681,7 +685,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
 
             qcRejectList.clear()
-            val qcreject = QcAcceptRejectRequest.Order(orderNumber,
+            val qcreject = QcAcceptRejectRequest.Order(orderno,
                 status,
                 Preferences.getAppDesignation(),
                 Preferences.getValidatedEmpId(),
@@ -690,7 +694,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             qcRejectList.add(qcreject)
 
 
-            dialogBinding?.message?.setText("You are rejecting the Order Id " + orderno + " for QC Fail Do You Want to Proceed ?")
+            dialogBinding?.message?.setText("You are rejecting the Order Id " +
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
 
             dialogBinding?.yesBtn?.setOnClickListener {
                 showLoading()

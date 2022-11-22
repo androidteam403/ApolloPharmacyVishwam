@@ -11,6 +11,7 @@ interface QcListsCallback {
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
+        omsOrderno:String,
     )
 
     fun reject(
@@ -21,7 +22,9 @@ interface QcListsCallback {
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    )
+        omsOrderno:String,
+
+        )
 
     fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String)
 

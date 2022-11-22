@@ -145,14 +145,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
-                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-
-
-                subList = ListUtils.partition(it.rejectedlist, 5)
-
-
-                pageNo = 1
+                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+                 subList = ListUtils.partition(it.rejectedlist, 5)
+                 pageNo = 1
                 increment = 0
                 if (pageNo == 1) {
                     viewBinding.prevPage.visibility = View.GONE
@@ -191,9 +186,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     }
                 viewBinding.recyclerViewPending.adapter = adapter
 
-            } else {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewPending.visibility = View.GONE
+             }
+
+                 else  {
+                     viewBinding.emptyList.visibility = View.VISIBLE
+                     viewBinding.recyclerViewPending.visibility = View.GONE
+                 viewBinding.continueBtn.visibility=View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
             }
         })
@@ -330,25 +328,25 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun accept(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
+        omsOrderno: String,
     ) {
         TODO("Not yet implemented")
     }
 
     override fun reject(
-        orderNumber: String,
         position: Int,
         orderno: String,
         remarks: String,
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
+        omsOrderno: String,
     ) {
         TODO("Not yet implemented")
     }
@@ -415,6 +413,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         }
     }
+
+
 
     override fun clickedApply(
         selectedData: String,

@@ -26,6 +26,7 @@ class LoginViewModel : ViewModel() {
 
 
     fun checkLogin(loginRequest: LoginRequest) {
+
         if (loginRequest.EMPID.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter User ID"))
         } else if (loginRequest.PASSWORD.isEmpty()) {
@@ -38,6 +39,9 @@ class LoginViewModel : ViewModel() {
             val data = Gson().fromJson(url, ValidateResponse::class.java)
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("DISCOUNT LOGIN")) {
+
+//                    https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/Login
+
                     val loginUrl = data.APIS[i].URL
                     viewModelScope.launch {
                         val result = withContext(Dispatchers.IO) {

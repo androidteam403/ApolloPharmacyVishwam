@@ -106,7 +106,6 @@ class QcPendingOrderDetailsAdapter(
 
             }
         if (items.remarks != null) {
-            holder.orderdetailsBinding.approveQtyText.setText("0")
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
             holder.orderdetailsBinding.reason.setText("Select")
@@ -246,6 +245,8 @@ class QcPendingOrderDetailsAdapter(
 
 
         holder.orderdetailsBinding.selectResonItem.setOnClickListener {
+            holder.orderdetailsBinding.approveQtyText.setText("0")
+
             pendingFragmentCallback.onClickReason(pos, position, items.orderno)
         }
 
