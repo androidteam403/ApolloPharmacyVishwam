@@ -438,6 +438,30 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun accept(
+        orderNumber: String,
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun reject(
+        orderNumber: String,
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
 
         if (imageUrl.isNullOrEmpty()) {
@@ -461,28 +485,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         TODO("Not yet implemented")
     }
 
-    override fun accept(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
 
 
-    override fun reject(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
 
-    }
 
 
     override fun clickedApply(
