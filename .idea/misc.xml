@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_fragment_pending.xml" value="0.25" />
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_pending_layout.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/green_background.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/reject_button.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/activity_otp_view.xml" value="0.2421875" />
@@ -18,7 +20,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

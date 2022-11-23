@@ -8,10 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -31,7 +29,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.apache.commons.collections4.ListUtils
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
@@ -59,7 +56,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
+//    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
+
+    var subList: ArrayList<ArrayList<QcListsResponse.Pending>> = ArrayList()
+
 
     //     var reason= String
     var headerPos: Int? = -1
@@ -482,7 +482,8 @@ var pageStartPos = 0;
             if (pendingList.indexOf(i) == (pendingList.size-1)){
                var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
 
-                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
+                subList.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
+//                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
 
 //                subList!!.add(pendingSubList)
 //                pendingSubList.clear()
