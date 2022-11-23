@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogResetBinding
 import com.apollopharmacy.vishwam.databinding.QcOrderLayoutBinding
@@ -108,6 +109,8 @@ class QcPendingOrderDetailsAdapter(
         if (items.remarks != null) {
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
+            Toast.makeText(ViswamApp.context,"Reject Reasons not available",Toast.LENGTH_LONG)
+
             holder.orderdetailsBinding.reason.setText("Select")
         }
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
@@ -267,7 +270,7 @@ class QcPendingOrderDetailsAdapter(
 
             ) {
                 Toast.makeText(mContext,
-                    "Approve quantity cannot be more than Required quantity",
+                    "Approve Qty should not exceed the Required Qty",
                     Toast.LENGTH_LONG).show()
             } else {
                 count++;

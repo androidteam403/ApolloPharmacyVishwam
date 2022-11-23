@@ -367,7 +367,14 @@ class QcPendingViewModel : ViewModel() {
     fun getReasons(): ArrayList<QcReasonList.Remarks> {
 
         var names = ArrayList<QcReasonList.Remarks>()
-        names = qcRejectionList!!
+        if(qcRejectionList.isNullOrEmpty()){
+            Toast.makeText(context,"Reject Reasons not available",Toast.LENGTH_LONG)
+        }else{
+            names = qcRejectionList!!
+
+        }
+
+
 
 
 
