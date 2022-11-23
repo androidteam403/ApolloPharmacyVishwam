@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
+import com.apollopharmacy.vishwam.dialog.model.Row
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -34,6 +35,9 @@ data class RequestNewComplaintRegistration(
 
     @field:SerializedName("problem_images")
     val problem_images: ProblemImages,
+
+    @field:SerializedName("ticket_it")
+    val ticket_it: Ticket_it?
 ) : Serializable {
     data class Platform(
         @field:SerializedName("uid")
@@ -43,11 +47,16 @@ data class RequestNewComplaintRegistration(
     data class Category(
         @field:SerializedName("uid")
         val uid: String? = null,
+        @field:SerializedName("code")
+        val code: String? = null
+
     ) : Serializable
 
     data class Department(
         @field:SerializedName("uid")
-        val uid: String? = null
+        val uid: String? = null,
+        @field:SerializedName("code")
+        val code: String? = null
     ) : Serializable
 
     data class  Site(
@@ -57,7 +66,10 @@ data class RequestNewComplaintRegistration(
 
     data class  Reason(
         @field:SerializedName("uid")
-        val uid: String? = null
+        val uid: String? = null,
+
+        @field:SerializedName("reason_sla")
+        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>
     ):Serializable
 
     data class  Subcategory(
@@ -76,6 +88,21 @@ data class RequestNewComplaintRegistration(
     ):Serializable
 
 }
+
+data class Ticket_it(
+    @field:SerializedName("tid")
+    var tid: Row,
+    @field:SerializedName("bill_number")
+    val bill_number: String,
+    @field:SerializedName("transaction_id")
+    val transaction_id: String,
+    @field:SerializedName("approval_code")
+    val approval_code: String,
+    @field:SerializedName("bill_amount")
+    var bill_amount: Int
+)
+
+
 
 
 

@@ -94,7 +94,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         for (orderItem in separated) {
                             if (orderItem.trim().equals(item.INDENTNO)) {
                                 tempPendingArr.add(item)
-     //                           pendingRecyclerView.pendingOrderList.removeAt(itemPos)
+                                //                           pendingRecyclerView.pendingOrderList.removeAt(itemPos)
 //                                pendingRecyclerView.notifyItemRemoved(itemPos)
 //                                break
                             }

@@ -43,13 +43,13 @@
                 android:layout_weight="2"
                 android:orientation="vertical">
 
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/searchRecyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_300dp"
-                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:listitem="@layout/main_filtermenu_layout" />
+
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:id="@+id/dateLayout"
