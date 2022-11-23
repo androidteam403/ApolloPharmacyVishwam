@@ -324,8 +324,11 @@ interface ViswamAppApi {
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetStoreList")//qcfail
     suspend fun qcStoreList(@Url url: String): QcStoreList
 
-    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
-    suspend fun qcStatusList(@Url url: String, @Query("ORDERNO") id: String): ActionResponse
+    @GET
+    suspend fun qcActionHistoryList(
+        @Url url: String,
+        @Query("ORDERNO") orderNo: String,
+    ): ActionResponse
 
     @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
     suspend fun appLevelDesignation(

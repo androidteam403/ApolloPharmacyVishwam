@@ -23,7 +23,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import org.apache.commons.collections4.ListUtils
+//import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,8 +41,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var increment: Int = 0
 
     public var isBulkChecked: Boolean = false
-    var getStatusList: List<ActionResponse>? = null
-    var statusList = ArrayList<ActionResponse>()
+
+    var getActionHistoryList: List<ActionResponse>? = null
+    var actionHistoryList = ArrayList<ActionResponse>()
+
     var getStoreList: List<QcStoreList.Store>? = null
     var storeList = ArrayList<QcStoreList.Store>()
     var regionList = ArrayList<QcRegionList.Store>()
@@ -135,22 +137,22 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //1stapril2019   default code=pendinglist
 
 
-        viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
+        // Action History
+        viewModel.qcActionHistoryList.observe(viewLifecycleOwner, Observer {
             hideLoading()
-            getStatusList = listOf(it)
-            val status: ActionResponse.Hsitorydetail
-
-
-            for (i in getStatusList!!) {
+            getActionHistoryList = listOf(it)
+            val actionHistory: ActionResponse.Hsitorydetail
+            for (i in getActionHistoryList!!) {
                 val items = ActionResponse()
                 items.hsitorydetails = i.hsitorydetails
                 items.setorder(orderId)
-
-
-                statusList.add(items)
+                actionHistoryList.add(items)
                 adapter?.notifyDataSetChanged()
             }
         })
+
+
+
         viewModel.qcItemsLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getitemList = listOf(it)
@@ -203,9 +205,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 }
 
-
-
-
                 if (subList?.size == 1) {
                     viewBinding.continueBtn.visibility = View.GONE
                 } else {
@@ -232,7 +231,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                                 subList!!.get(increment),
                                 this,
                                 itemsList,
-                                statusList,
+                                actionHistoryList,
                                 filterApproveList)
                         }
                     viewBinding.recyclerViewApproved.adapter = adapter
@@ -272,7 +271,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             subList!!.get(increment),
                             this,
                             itemsList,
-                            statusList,
+                            actionHistoryList,
                             filterApproveList)
                     }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -309,7 +308,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                             subList!!.get(increment),
                             this,
                             itemsList,
-                            statusList,
+                            actionHistoryList,
                             filterApproveList)
                     }
                 viewBinding.recyclerViewApproved.adapter = adapter
@@ -362,8 +361,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         showLoading()
         orderId = orderno
 //        viewModel.getQcItemsList("RV000053")
+
+        viewModel.getQcActionHistoryList(orderno)
+
         viewModel.getQcItemsList(orderno)
-        viewModel.getQcStatusList(orderno)
         adapter?.notifyDataSetChanged()
 
 

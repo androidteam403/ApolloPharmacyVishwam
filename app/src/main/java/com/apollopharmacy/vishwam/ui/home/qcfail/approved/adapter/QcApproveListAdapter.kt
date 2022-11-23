@@ -19,7 +19,7 @@ class QcApproveListAdapter(
     var approveList: List<QcListsResponse.Approved>,
     val imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
-    var statusList: ArrayList<ActionResponse>,
+    var actionHistoryList: ArrayList<ActionResponse>,
     var qcapproveList: ArrayList<QcListsResponse.Approved>,
 
     ) :
@@ -111,7 +111,6 @@ class QcApproveListAdapter(
 
 
         if (qcItemList.isNotEmpty()) {
-
             var item = QcItemListResponse()
             for (i in qcItemList) {
                 if (i.orderno!!.equals(approveList.get(position).orderno)) {
@@ -119,8 +118,6 @@ class QcApproveListAdapter(
                     item = i
                 }
             }
-
-
             holder.adapterApproveListBinding.recyclerView.adapter =
                 item.itemlist?.let {
                     QcApprovedOrderDetailsAdapter(
@@ -136,26 +133,20 @@ class QcApproveListAdapter(
 
 
 
-            if (statusList.isNotEmpty()) {
+            if (actionHistoryList.isNotEmpty()) {
                 var itemstatus = ActionResponse()
-
-                for (i in statusList) {
+                for (i in actionHistoryList) {
                     if (i.order!!.equals(approveList.get(position).orderno)) {
                         orderId = i.order!!
-
                         itemstatus = i
                     }
                 }
-
-
                 holder.adapterApproveListBinding.approvedByRecycleview.adapter =
                     itemstatus.hsitorydetails?.let {
                         StatusAdapter(
                             mContext,
                             itemstatus.hsitorydetails as ArrayList<ActionResponse.Hsitorydetail>)
-
                     }
-
             }
 
 

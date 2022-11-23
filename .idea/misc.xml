@@ -3,8 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_approvedlayout.xml" value="0.25" />
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_approvedorderdetails.xml" value="0.25" />
         <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_fragment_pending.xml" value="0.25" />
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_order_layout.xml" value="0.25" />
         <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_pending_layout.xml" value="0.25" />
+        <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_status_layout.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/green_background.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/reject_button.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.12863247863247862" />

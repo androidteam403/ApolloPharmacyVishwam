@@ -86,9 +86,9 @@ object QcApiRepo {
         }
     }
 
-    suspend fun getQcStatusLists(url: String, orderno: String): ApiResult<ActionResponse> {
+    suspend fun getQcActionHistoryList(url: String, orderno: String): ApiResult<ActionResponse> {
         return try {
-            val response = Api.getClient().qcStatusList(url, orderno)
+            val response = Api.getClient().qcActionHistoryList(url, orderno)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

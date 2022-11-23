@@ -761,7 +761,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         }
-        if (isQcFailRequired) {
+        if (!isQcFailRequired) {
             listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
                     .addChildModel(new ChildModel("Pending"))
                     .addChildModel(new ChildModel("Approved"))

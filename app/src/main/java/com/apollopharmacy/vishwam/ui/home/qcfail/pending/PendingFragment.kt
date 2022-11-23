@@ -159,10 +159,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewModel.qcPendingItemsLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
-
-
-
-
             it.setorderno(orderId)
             for (j in it.itemlist!!) {
                 j.orderno = orderId
@@ -513,11 +509,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                             "",
                             this)
                     }
-
-
                 }
-
-
             }
         }
     }
@@ -528,9 +520,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         orderId = orderno
         viewModel.getQcPendingItemsList(orderno)
 
-
 //        adapter?.notifyDataSetChanged()
-
     }
 
 
