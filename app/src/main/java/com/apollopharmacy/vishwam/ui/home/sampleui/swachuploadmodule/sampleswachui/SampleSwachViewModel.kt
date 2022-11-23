@@ -1,24 +1,16 @@
-
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
-import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
-import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.adapter.RatingReviewViewModel
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.CommandsNeww
@@ -41,9 +33,23 @@ class SampleSwachViewModel : ViewModel() {
 
     fun swachImagesRegisters() {
         state.postValue(State.LOADING)
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW STORE WISE CATEGORY DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.swachImagesRegister(Preferences.getSwachhSiteId())
+                SwachApiRepo.swachImagesRegister(baseUrl, token, Preferences.getSwachhSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -51,16 +57,15 @@ class SampleSwachViewModel : ViewModel() {
                         state.value = State.ERROR
                         swachhapolloModel.value = result.value
                     } else {
+                        swachhapolloModel.value = result.value
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -81,8 +86,8 @@ class SampleSwachViewModel : ViewModel() {
 
 
     fun getImageUrl(getImageUrlModelRequest: GetImageUrlModelRequest) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL
@@ -93,18 +98,28 @@ class SampleSwachViewModel : ViewModel() {
 //                    Gson().toJson(onSubmitSwachModelRequest)
 
 //                val header = "application/json"
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.getImageUrl(
-                    "h72genrSSNFivOi/cfiX3A==", getImageUrlModelRequest
-                )
+                SwachApiiRepo.getImageUrl(baseUrl, token, getImageUrlModelRequest)
 
 
             }
             when (response) {
 
                 is ApiResult.Success -> {
-                    if (response.value.status?:null == true) {
+                    if (response.value.status ?: null == true) {
                         state.value = State.ERROR
                         getImageUrlsList.value = response.value
                     }
@@ -119,12 +134,10 @@ class SampleSwachViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        response.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
+                    commands.postValue(response.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
 
-                        }
-                    )
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -145,9 +158,12 @@ class SampleSwachViewModel : ViewModel() {
 //        }
     }
 
-    fun onUploadSwach(onUploadSwachModelRequest: OnUploadSwachModelRequest) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
+    fun onUploadSwach(
+        onUploadSwachModelRequest: OnUploadSwachModelRequest,
+        sampleSwachUiCallback: SampleSwachUiCallback,
+    ) {
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL
@@ -158,10 +174,21 @@ class SampleSwachViewModel : ViewModel() {
 //                    Gson().toJson(onSubmitSwachModelRequest)
 
 //                val header = "application/json"
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW SAVE IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.onUploadSwach(
-                    "h72genrSSNFivOi/cfiX3A==", onUploadSwachModelRequest)
+                SwachApiiRepo.onUploadSwach(baseUrl, token, onUploadSwachModelRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
@@ -172,13 +199,13 @@ class SampleSwachViewModel : ViewModel() {
             when (response) {
 
                 is ApiResult.Success -> {
-
-                    state.value = State.ERROR
+                    sampleSwachUiCallback.onSuccessOnUploadSwach(response.value)
                     uploadSwachModel.value = response.value
 
 
-                    if(response.value.status?:null == false) {
+                    if (response.value.status ?: null == false) {
                         state.value = State.ERROR
+                        sampleSwachUiCallback.onSuccessOnUploadSwach(response.value)
                         CommandsNewSwachImp.ShowToast(response.value.message)
                         uploadSwachModel.value?.message = response.value.message
 
@@ -186,11 +213,9 @@ class SampleSwachViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        response.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(response.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -214,29 +239,41 @@ class SampleSwachViewModel : ViewModel() {
 
     fun checkDayWiseAccess(sampleSwachUiCallback: SampleSwachUiCallback) {
         state.postValue(State.LOADING)
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW STORE WISE ACCESS DETAILS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiiRepo.checkDayWiseAccess(Preferences.getSwachhSiteId())
+                SwachApiiRepo.checkDayWiseAccess(baseUrl, token, Preferences.getSwachhSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true && result.value.message == "SUCCESS") {
-                        state.value = State.ERROR
                         sampleSwachUiCallback.onSuccessDayWiseAccesss(result.value)
 
 //                        checkDayWiseAccess.value = result.value
                     } else {
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
+                        sampleSwachUiCallback.onSuccessDayWiseAccesss(result.value)
                         checkDayWiseAccess.value = result.value
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -255,9 +292,12 @@ class SampleSwachViewModel : ViewModel() {
         }
     }
 
-    fun getStorePersonHistory(getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
+    fun getStorePersonHistory(
+        getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest,
+        sampleSwachUiCallback: SampleSwachUiCallback,
+    ) {
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
 //                val baseUrl = data.APIS[i].URL
@@ -268,10 +308,24 @@ class SampleSwachViewModel : ViewModel() {
 //                    Gson().toJson(onSubmitSwachModelRequest)
 
 //                val header = "application/json"
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW STORE PENDING AND APPROVED LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.getStorePersonHistory(
-                    "h72genrSSNFivOi/cfiX3A==", getStorePersonHistoryodelRequest)
+                SwachApiiRepo.getStorePersonHistory(baseUrl,
+                    token,
+                    getStorePersonHistoryodelRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
@@ -284,23 +338,22 @@ class SampleSwachViewModel : ViewModel() {
                 is ApiResult.Success -> {
 
                     state.value = State.ERROR
-                    getStorePersonHistory.value = response.value
-
+//                    getStorePersonHistory.value = response.value
+                    sampleSwachUiCallback.onSuccessgetStorePersonHistory(response.value)
 
                     if (response.value.status ?: null == false) {
                         state.value = State.ERROR
                         CommandsNewSwachImp.ShowToast(response.value.message)
-                        getStorePersonHistory.value = response.value
+                        sampleSwachUiCallback.onSuccessgetStorePersonHistory(response.value)
+//                        getStorePersonHistory.value = response.value
 
 
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        response.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(response.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -321,11 +374,24 @@ class SampleSwachViewModel : ViewModel() {
 //        }
     }
 
-    fun getLastUploadedDate() {
+    fun getLastUploadedDate(sampleSwachUiCallback: SampleSwachUiCallback) {
         state.postValue(State.LOADING)
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW LAST UPLOADED DATE")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                SwachApiRepo.getLastUploadedDate("h72genrSSNFivOi/cfiX3A==",
+                SwachApiRepo.getLastUploadedDate(baseUrl,
+                    token,
                     Preferences.getSwachhSiteId(),
                     Preferences.getValidatedEmpId())
             }
@@ -333,18 +399,19 @@ class SampleSwachViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        lastUploadedDateResponse.value = result.value
+                        sampleSwachUiCallback.onSuccessLastUploadedDate(result.value)
+//                        lastUploadedDateResponse.value = result.value
                     } else {
+                        sampleSwachUiCallback.onSuccessLastUploadedDate(result.value)
+//                        lastUploadedDateResponse.value = result.value
                         state.value = State.ERROR
                         commands.value = CommandsNewSwachFrag.ShowToast(result.value.message)
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            CommandsNewSwachFrag.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        CommandsNewSwachFrag.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {

@@ -12,19 +12,15 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
-import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.Utlis
 import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBinding>(),
     MainActivityCallback,
@@ -65,6 +61,12 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
+        Preferences.setQcFromDate("")
+        Preferences.setQcToDate("")
+        Preferences.setQcSite("")
+        Preferences.setQcRegion("")
+        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
 
@@ -140,42 +142,27 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
 
-
-            filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-
-
-            subList = ListUtils.partition(it.rejectedlist, 5)
-
-
-            pageNo = 1
-            increment = 0
-            if (pageNo == 1) {
-                viewBinding.prevPage.visibility = View.GONE
-            } else {
-                viewBinding.prevPage.visibility = View.VISIBLE
-
-            }
-            if (increment == subList?.size!!.minus(1)) {
-                viewBinding.nextPage.visibility = View.GONE
-            } else {
-                viewBinding.nextPage.visibility = View.VISIBLE
-
-            }
-
-
-
-
-
-            if (it.rejectedlist.isNullOrEmpty()) {
-                viewBinding.emptyList.visibility = View.VISIBLE
-                viewBinding.recyclerViewPending.visibility = View.GONE
-                viewBinding.emptyList.visibility = View.GONE
-
-
-                Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
-            } else {
+            if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
+                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+                 subList = ListUtils.partition(it.rejectedlist, 5)
+                 pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
+                } else {
+                    viewBinding.prevPage.visibility = View.VISIBLE
+
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
+                }
+
+
 
                 if (subList?.size == 1) {
                     viewBinding.continueBtn.visibility = View.GONE
@@ -197,11 +184,20 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                             itemsList,
                             statusList)
                     }
+                viewBinding.recyclerViewPending.adapter = adapter
+
+             }
+
+                 else  {
+                     viewBinding.emptyList.visibility = View.VISIBLE
+                     viewBinding.recyclerViewPending.visibility = View.GONE
+                 viewBinding.continueBtn.visibility=View.GONE
+//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
             }
-            viewBinding.recyclerViewPending.adapter = adapter
-
-
         })
+
+
+
 
 
 
@@ -331,6 +327,30 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun accept(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun reject(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
@@ -343,6 +363,14 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             intent.putExtra("position", position)
             startActivity(intent)
         }
+    }
+
+    override fun isChecked(
+        array: List<QcListsResponse.Pending>,
+        position: Int,
+        pending: QcListsResponse.Pending,
+    ) {
+        TODO("Not yet implemented")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -386,34 +414,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         }
     }
 
-
-    override fun accept(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun reject(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun isChecked(array: List<QcListsResponse.Pending>, position: Int) {
-        TODO("Not yet implemented")
-    }
 
 
     override fun clickedApply(

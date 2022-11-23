@@ -105,7 +105,8 @@
             android:textColor="@color/black"
             android:textColorHint="@color/black"
             android:textSize="@dimen/text_15sp"
-            android:inputType="text"/>
+            android:inputType="text"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

@@ -607,6 +607,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         })
 
         viewBinding.batchText.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+        viewBinding.transactionDetailsLayout.approvalCodeEdit.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
@@ -682,17 +683,32 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     context?.resources?.getString(R.string.err_msg_enter_purchase_price)
                 )
                 return false
+            }else if (purchasePrice.isNotEmpty() && purchasePrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_purchase_price_)
+                )
+                return false
             } else if (mrpPrice.isEmpty() && statusInventory.equals("NEWBATCH")) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_enter_mrp)
                 )
                 return false
-            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+            }else if (mrpPrice.isNotEmpty() && statusInventory.equals("NEWBATCH") && mrpPrice.equals("0")) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_mrp)
+                    context?.resources?.getString(R.string.err_msg_error_mrp)
                 )
                 return false
-            } else if (purchasePrice.isNotEmpty() && mrpPrice.isNotEmpty()) {
+            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_old_mrp)
+                )
+                return false
+            }else if (oldmrpPrice.isNotEmpty() && statusInventory.equals("MRP Change Request") && oldmrpPrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_error_old_mrp_)
+                )
+                return false
+            } else if (purchasePrice.isNotEmpty() ) {
                 if (statusInventory.equals("MRP Change Request")) {
                     if (newMrpPrice.isEmpty()) {
                         showErrorMsg(
@@ -766,6 +782,12 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             ) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_enter_bill_amount)
+                )
+                return false
+            } else if (fileArrayList.isEmpty()
+            ) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.error_upload_image_limit)
                 )
                 return false
             }
@@ -845,6 +867,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectCategory.setText(departmentDto.name)
         viewBinding.selectSubCategoryText.visibility = View.GONE
         viewBinding.selectRemarksText.visibility = View.GONE
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
         subCategoryListSelected.clear()
         if (departmentDto.name.equals("New Batch")) {
@@ -935,17 +958,21 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         ) {
             statusInventory = "POS"
             viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.VISIBLE
+            viewBinding.titleName.text = "${resources.getString(R.string.label_upload_image)} *"
 
         }
     }
 
 
     private fun clearTransactionCCView(){
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
         viewBinding.transactionDetailsLayout.transactionIdEdit.setText("")
         viewBinding.transactionDetailsLayout.tidEdit.setText("")
         viewBinding.transactionDetailsLayout.billAmountEdit.setText("")
         viewBinding.transactionDetailsLayout.approvalCodeEdit.setText("")
         viewBinding.transactionDetailsLayout.billNumberEdit.setText("")
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
     }
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
@@ -1171,6 +1198,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     override fun deleteImage(position: Int) {
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
+        fileArrayList.removeAt(position)
         adapter.deleteImage(position)
     }
 
@@ -1178,6 +1208,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     override fun confirmsavetheticket() {
         RefreshView()
         if (employeeDetailsResponse != null
+
             && employeeDetailsResponse!!.data != null
             && employeeDetailsResponse!!.data!!.role != null
             && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
@@ -1347,16 +1378,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+//            Preferences.getSiteId()
+//        }
+        val storeId = Preferences.getSiteId()
         if (statusInventory.equals("MRP Change Request") || statusInventory.equals("NEWBATCH")) {
+            InventoryfileArrayList.clear()
             if(frontImageFile!=null)
             InventoryfileArrayList.add(ImageDataDto(frontImageFile!!, ""))
             if(backImageFile!=null)
@@ -1384,15 +1417,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     private fun saveTicketApi(cmsCommand: CmsCommand.ImageIsUploadedInAzur) {
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+        val storeId =    Preferences.getSiteId()
+//        }
         val description = viewBinding.descriptionText.text.toString().trim()
         val currentTime =
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
@@ -1404,7 +1437,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         if (cmsCommand.tag.equals("MRP Change Request")) {
             newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
             oldMrp  = viewBinding.oldmrpEditText.text.toString().toDouble()
-        }else{
+        }else if(cmsCommand.tag.equals("NEWBATCH")){
             mrp = viewBinding.mrpEditText.text.toString().toDouble()
         }
         if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
@@ -1445,7 +1478,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         reasonSla),
                     RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
                     RequestSaveUpdateComplaintRegistration.TicketInventory(
-                        ticketInventoryItems,
+                        ticketInventoryItems,null,
                         codeBatch),
                     RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
                         "store",
@@ -1493,7 +1526,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             RequestNewComplaintRegistration.Site(storeId),
             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend),
+            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend.distinct()),
             ticketIt
         )
         )
@@ -1525,7 +1558,7 @@ class ImageRecyclerView(
     }
 
     fun deleteImage(position: Int) {
-        orderData.removeAt(position)
+//        orderData.removeAt(position)
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
     }

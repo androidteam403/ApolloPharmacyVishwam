@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.drugmodule.model
 
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
+import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.File
@@ -130,6 +132,10 @@ class DrugRequest : Serializable {
     @Expose
     var images: List<Image>? = null
 
+    var site: StoreListItem? = null
+    var description: String? = null
+    var employeeDetailsResponse: EmployeeDetailsResponse? = null
+
     constructor(
         dcIdOrSiteid: String?,
         category: String?,
@@ -161,7 +167,10 @@ class DrugRequest : Serializable {
         itemType: String?,
         airEnabled: String?,
         courierable: String?,
-        images: List<Image>?
+        images: List<Image>?,
+        description: String?,
+        site: StoreListItem,
+        employeeDetailsResponse: EmployeeDetailsResponse
     ) {
         this.dcIdOrSiteid = dcIdOrSiteid
         this.category = category
@@ -194,6 +203,9 @@ class DrugRequest : Serializable {
         this.airEnabled = airEnabled
         this.courierable = courierable
         this.images = images
+        this.description = description
+        this.site = site
+        this.employeeDetailsResponse = employeeDetailsResponse
     }
 
     constructor()
@@ -376,18 +388,22 @@ class DrugRequest : Serializable {
         @Expose
         var imglength: String? = null
 
+        var imageURL: String? = null
+
         constructor(
             imageTypeName: String?,
             imgData: String?,
             imgTitle: String?,
             imgType: String?,
-            imglength: String?
+            imglength: String?,
+            imgUrl: String?
         ) {
             this.imageTypeName = imageTypeName
             this.imgData = imgData
             this.imgTitle = imgTitle
             this.imgType = imgType
             this.imglength = imglength
+            this.imageURL = imgUrl
         }
 
         fun withImageTypeName(imageTypeName: String?): Image {

@@ -18,11 +18,9 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswach
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 interface ViswamAppApi {
@@ -42,22 +40,25 @@ interface ViswamAppApi {
     @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
-    @POST("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/IUVVISWAMMPINDETAILS")
+    @POST //("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/IUVVISWAMMPINDETAILS")
     suspend fun handleMPinService(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: MPinRequest,
     ): MPinResponse
 
     //API's for Discount App
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
     suspend fun swachhResponseList(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: ApproveRejectListRequest,
     ): ApproveRejectListResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    @POST
     suspend fun swachhResponseImageList(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: LineImagesRequest,
     ): LineImagesResponse
@@ -69,8 +70,9 @@ interface ViswamAppApi {
         @Body data: DrugRequest,
     ): DrugResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: ArrayList<ApproveRequest>,
     ): ApproveResponse
@@ -284,42 +286,53 @@ interface ViswamAppApi {
     ): ResponseBody
 
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseCategoryDetails")//?Storeid=16001
+    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseCategoryDetails")//?Storeid=16001
     suspend fun swachhImagesUpload(
+        @Url url: String,
         @Header("token") token: String, @Query("StoreId") storeId: String,
     ): SwachModelResponse
 
 
-
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
-    suspend fun qcResponseList( @Query("EmpId") id: String,
-                                @Query("FromDate") fromDate: String,
-                                @Query("ToDate") tomDate: String,
-                                @Query("StoreId") storeId: String,
-                                @Query("REGIONID") region: String,
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetPendingAndAcceptAndRejectList?")//?Storeid=16001
+    suspend fun qcResponseList(
+        @Url url: String,
+        @Query("EmpId") id: String,
+        @Query("FromDate") fromDate: String,
+        @Query("ToDate") tomDate: String,
+        @Query("StoreId") storeId: String,
+        @Query("REGIONID") region: String,
     ): QcListsResponse
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
-    suspend fun qcItemsResponseList( @Query("ORDERNO") id: String,): QcItemListResponse
 
-    @POST("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/AcceptAndReject")
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GetLineItems?")//qcfail
+    suspend fun qcItemsResponseList(
+        @Url url: String,
+        @Query("ORDERNO") id: String,
+    ): QcItemListResponse
+
+    @POST  //("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/AcceptAndReject")
     suspend fun QcAcceptRejectResponse(
+        @Url url: String,
         @Body data: QcAcceptRejectRequest,
     ): QcAcceptRejectResponse
 
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRemarksList")//qcfail
-    suspend fun qcRejectionList(): QcReasonList
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRemarksList")//qcfail
+    suspend fun qcRejectionList(@Url url: String): QcReasonList
 
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRegionList")//qcfail
-    suspend fun qcRegionList(): QcRegionList
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetRegionList")//qcfail
+    suspend fun qcRegionList(@Url url: String): QcRegionList
 
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetStoreList")//qcfail
-    suspend fun qcStoreList(): QcStoreList
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetStoreList")//qcfail
+    suspend fun qcStoreList(@Url url: String): QcStoreList
 
-    @GET("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
-    suspend fun qcStatusList(@Query("ORDERNO") id: String,): ActionResponse
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
+    suspend fun qcStatusList(@Url url: String, @Query("ORDERNO") id: String): ActionResponse
 
-    @GET("http://lms.apollopharmacy.org:8033/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
-    suspend fun appLevelDesignation(@Query("EMPID") id: String,  @Query("APPTYPE") fromDate: String,): AppLevelDesignationModelResponse
+    @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
+    suspend fun appLevelDesignation(
+        @Url url: String,
+        @Query("EMPID") id: String,
+        @Query("APPTYPE") fromDate: String,
+    ): AppLevelDesignationModelResponse
 
 
 //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
@@ -328,71 +341,82 @@ interface ViswamAppApi {
 //        @Query("EmpId") id: String,
 //    ): DeviceDeRegResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onSubmitSwacch(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: ArrayList<OnSubmitSwachModelRequest>,
     ): OnSubmitSwachModelResponse
 
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
+    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
     suspend fun checkDayWiseAccess(
+        @Url url: String,
         @Header("token") token: String, @Query("StoreId") storeId: String,
     ): CheckDayWiseAccessResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onUploadSwacch(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
 
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStorependingAndApprovedList")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStorependingAndApprovedList")
     suspend fun getStorePersonHistory(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: GetStorePersonHistoryodelRequest,
     ): GetStorePersonHistoryodelResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
     suspend fun getImageUrlApi(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: GetImageUrlModelRequest,
     ): GetImageUrlModelResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
     suspend fun GET_PENDING_ANDAPPROVED_LIST_API_CALL(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: GetpendingAndApprovedListRequest?,
     ): GetpendingAndApprovedListResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetImageUrls")
     suspend fun GET_IMAGE_URLS_API_CALL(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: GetImageUrlsRequest?,
     ): GetImageUrlsResponse
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
     suspend fun SAVE_ACCEPT_AND_RESHOOT(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: SaveAcceptAndReshootRequest?,
     ): SaveAcceptAndReshootResponse
 
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
+    @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onUploadSwacchRes(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: OnUploadSwachModelRequest,
     ): OnUploadSwachModelResponse
 
 
-    @POST("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SAVEACCEPTANDRESHOOT")
     suspend fun RATING_BAR_API(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: RatingModelRequest?,
     ): RatingModelResponse
 
-    @GET("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetLastUploadedDate")
+    @GET//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetLastUploadedDate")
     suspend fun GET_LAST_UPLOADED_DATE(
+        @Url url: String,
         @Header("token") token: String,
         @Query("STOREID") storeId: String, @Query("USERID") userId: String,
     ): LastUploadedDateResponse
@@ -402,7 +426,6 @@ interface ViswamAppApi {
     suspend fun uploadImage(
         @Part image: MultipartBody.Part,
     ): FileResposne
-
 
 
     @POST("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")

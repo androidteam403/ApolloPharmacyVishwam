@@ -9,16 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
-import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcViewItemRowBinding
-import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.util.Utils
 
@@ -30,24 +27,22 @@ class QcSiteDialog : DialogFragment() {
     init {
         setCancelable(false)
     }
+
     var selectsiteIdList = ArrayList<String>()
 
     lateinit var viewBinding: QcDialogSiteListBinding
-     lateinit var abstractDialogClick: NewDialogSiteClickListner
-    var siteDataArrayList = ArrayList<QcStoreList.Store>()
-    lateinit var sitereCyclerView: SiteRecyclerView
+    lateinit var abstractDialogClick: NewDialogSiteClickListner
+    var regionDataArrayList = ArrayList<QcStoreList.Store>()
+    lateinit var sitereCyclerView: QcSiteRecycleView
 
     fun generateParsedData(data: ArrayList<QcStoreList.Store>): Bundle {
         return Bundle().apply {
-            putSerializable(KEY_DATA, data)
+            putSerializable(SITE_DATA, data)
         }
     }
 
     companion object {
-        const val KEY_DATA = "data"
-    }
-    object ViewModel{
-
+        const val SITE_DATA = "data"
     }
 
 
@@ -55,7 +50,7 @@ class QcSiteDialog : DialogFragment() {
 
         fun onselectMultipleSitesStore(list: ArrayList<String>, position: Int)
 
-        fun selectSite(departmentDto: QcStoreList.Store)
+        fun selectSite(regionId: QcStoreList.Store)
     }
 
     override fun onCreateView(
@@ -78,7 +73,7 @@ class QcSiteDialog : DialogFragment() {
             } else {
                 viewBinding.siteNotAvailable.visibility = View.GONE
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
-                sitereCyclerView = SiteRecyclerView(it, object : OnSelectedListnerSite {
+                sitereCyclerView = QcSiteRecycleView(it, object : OnSelectListnerSiteId {
                     override fun onSelected(data: QcStoreList.Store) {
 //                        abstractDialogClick.selectSite(data)
 //                        dismiss()
@@ -90,21 +85,28 @@ class QcSiteDialog : DialogFragment() {
                         } else {
                             list[position].setisClick(true)
                         }
-                        for (i in siteDataArrayList.indices) {
-                            if (siteDataArrayList[i].isClick) {
-                                selectsiteIdList.add(siteDataArrayList[i].siteid.toString())
+                        sitereCyclerView.notifyDataSetChanged()
+
+                        for (i in regionDataArrayList.indices) {
+                            if (regionDataArrayList[i].isClick) {
+                                selectsiteIdList.add(regionDataArrayList[i].siteid.toString())
                             }
                         }
-                        if (!selectsiteIdList.isNullOrEmpty()) {
-                            abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList, position)
-                            dismiss()
+
+
+                        abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList, position)
+                        dismiss()
+
+                        viewBinding.apply.setOnClickListener {
+                            if (selectsiteIdList.isNullOrEmpty()) {
+                                Toast.makeText(context,
+                                    "No Data Found To Apply",
+                                    Toast.LENGTH_SHORT)
+                                    .show()
+                            } else {
+                                dismiss()
+                            }
                         }
-                        else{
-                            selectsiteIdList.add(" ")
-                           abstractDialogClick.onselectMultipleSitesStore(selectsiteIdList,position)
-                            dismiss()
-                        }
-                        sitereCyclerView.notifyDataSetChanged()
 
                     }
                 })
@@ -113,17 +115,18 @@ class QcSiteDialog : DialogFragment() {
         })
 
 
+
         viewBinding.closeDialog.setOnClickListener {
-            siteDataArrayList.clear()
             dismiss()
         }
         abstractDialogClick = activity as NewDialogSiteClickListner
 
 
-        siteDataArrayList = (arguments?.getSerializable(KEY_DATA) as? ArrayList<QcStoreList.Store>)!!
+        regionDataArrayList =
+            (arguments?.getSerializable(SITE_DATA) as? ArrayList<QcStoreList.Store>)!!
 
         viewBinding.searchSite.visibility = View.VISIBLE
-        viewModel.qcSiteArrayList(siteDataArrayList)
+        viewModel.qcSiteArrayList(regionDataArrayList)
 
 
 
@@ -143,42 +146,58 @@ class QcSiteDialog : DialogFragment() {
             override fun afterTextChanged(s: Editable?) {
                 var textChanged = s.toString().trim()
                 if (s.toString().length > 1) {
-                    viewModel.filterDataBySiteId(textChanged,siteDataArrayList)
+                    viewModel.filterDataBySiteId(textChanged)
                 } else {
-                    viewModel.qcSiteArrayList(siteDataArrayList)
+                    viewModel.qcSiteArrayList(regionDataArrayList)
                 }
-                sitereCyclerView.notifyDataSetChanged()
             }
         })
         return viewBinding.root
     }
 }
 
-class SiteRecyclerView(
-  var  departmentListDto: ArrayList<QcStoreList.Store>,
-    var onSelectedListner: OnSelectedListnerSite,
+class QcSiteRecycleView(
+    var departmentListDto: ArrayList<QcStoreList.Store>,
+    var onSelectedListner: OnSelectListnerSiteId,
 ) :
     SimpleRecyclerView<QcViewItemRowBinding, QcStoreList.Store>(
         departmentListDto,
         R.layout.qc_view_item_row
     ) {
-    override fun bindItems(binding: QcViewItemRowBinding, items: QcStoreList.Store, position: Int) {
+    override fun bindItems(
+        binding: QcViewItemRowBinding,
+        items: QcStoreList.Store,
+        position: Int,
+    ) {
         binding.itemName.text = "${items.siteid}, ${items.sitename}"
+
         binding.genderParentLayout.setOnClickListener {
             onSelectedListner.onClick(departmentListDto, position)
 
         }
+
+
 
         if (departmentListDto[position].isClick) {
             binding.checkBox.setImageResource(R.drawable.qcright)
         } else {
             binding.checkBox.setImageResource(R.drawable.qc_checkbox)
         }
+
+//        binding.root.setOnClickListener {
+//            items.setisClick(true)
+//            onSelectedListner.onSelected(items)
+//        }
     }
 }
 
-interface OnSelectedListnerSite {
+interface OnSelectListnerSiteId {
     fun onSelected(data: QcStoreList.Store)
+    fun onClick(list: ArrayList<QcStoreList.Store>, position: Int)
+
+}
+
+interface clickListenerSite {
     fun onClick(list: ArrayList<QcStoreList.Store>, position: Int)
 }
 

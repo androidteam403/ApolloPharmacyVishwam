@@ -33,14 +33,12 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.model.DayOfCharArrayListModel
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
+import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.CheckDayWiseAccessResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelRequest
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetStorePersonHistoryodelResponse.Get
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
@@ -70,9 +68,13 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     var nextUploadDate: LocalDate? = null
     lateinit var layoutManager: LinearLayoutManager
     var handler: Handler = Handler()
+    var dayWiseAccessMessage:String?=null
+    var dayofTheWeekPosition:Int=0
+    var positionOfTheDayWeekNew:String=""
 
     private var charArray = ArrayList<String>()
-    private var positionofftheDay = ArrayList<Int>()
+   private var positionofftheDay = ArrayList<Int>()
+    private var positionofftheDayNewForWeek = ArrayList<String>()
     private var dayOfCharArrayList = ArrayList<String>()
     private var dayOfCharArrayListNew = ArrayList<DayOfCharArrayListModel>()
     private var dayOfCharArrayListNewTemp = ArrayList<DayOfCharArrayListModel>()
@@ -94,14 +96,24 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     @RequiresApi(Build.VERSION_CODES.O)
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
+
+//        var submit = OnUploadSwachModelRequest()
+//        submit.actionEvent = "SUBMIT"
+//        submit.storeid = Preferences.getSwachhSiteId()
+//        submit.userid = Preferences.getValidatedEmpId()
+//        showLoading()
+//        viewModel.onUploadSwach(submit,this)
+
+
         if (Preferences.getSwachhSiteId().isEmpty()) {
             showLoading()
             val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
             startActivityForResult(i, 781)
-        } else {
+        }
+        else {
 
 //       viewBinding.callback=this
-            viewModel.getLastUploadedDate()
+            viewModel.getLastUploadedDate(this)
             viewModel.swachImagesRegisters()
             setFilterIndication()
             viewBinding.storeId.text = Preferences.getSwachhSiteId()
@@ -111,6 +123,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
             onSuccessLastUpdatedDate()
+
             val sdf = SimpleDateFormat("dd MMM, yyyy, EEEE")
             val todaysUpdate = sdf.format(Date())
 
@@ -267,6 +280,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //                hideLoading()
             }
 
+
             viewModel.swachhapolloModel.observeForever {
                 if (it != null && it.status ?: null == true) {
                     swacchApolloList.clear()
@@ -293,47 +307,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 ////           it.message = "ALREADY UPLAODED"
                 }
             }
-            viewModel.uploadSwachModel.observeForever {
-                hideLoading()
-                alreadyUploadedMessage = it.message
-//          it.message = "ALREADY UPLAODED"
 
-                if (it != null && it.status == true) {
-//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                    hideLoading()
-
-                } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
-//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
-                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
-                    val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, +7)
-                    val nextUploadDate = simpleDateFormat.format(cal.time)
-
-
-//                    viewBinding.uploadNowLayout.visibility = View.GONE
-//                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-//                    viewBinding.uploadOnLayout.visibility = View.GONE
-//                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
-//                    viewBinding.nextUploadDate.text = nextUploadDate
-//                    Utlis.hideLoading()
-                    viewBinding.uploadNowLayout.visibility = View.GONE
-                    viewBinding.todaysDateLayout.visibility = View.GONE
-                    viewBinding.todaysUpdateLayout.visibility = View.GONE
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.GONE
-                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
-                    viewBinding.nextUploadDate.text = nextUploadDate
-                    hideLoading()
-
-                } else {
-//                Toast.makeText(ViswamApp.context, "Please try again!!", Toast.LENGTH_SHORT).show()
-                    viewBinding.uploadNowLayout.visibility = View.VISIBLE
-                    viewBinding.uploadNowGrey.visibility = View.GONE
-                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
-                    viewBinding.uploadOnLayout.visibility = View.GONE
-                    hideLoading()
-                }
-            }
             viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
                 submitClick()
             })
@@ -444,75 +418,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
 
             viewModel.getStorePersonHistory.observeForever {
-                hideLoading()
 
-                if (viewBinding.pullToRefresh.isRefreshing) {
-                    viewBinding.pullToRefresh.isRefreshing = false
-
-
-                    if (it.getList != null && it.getList!!.size > 0) {
-
-                        viewBinding.noOrdersFound.visibility = View.GONE
-                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                        getStorePersonAdapter =
-                            GetStorePersonAdapter(it.getList,
-                                this
-                            )
-                        layoutManager = LinearLayoutManager(ViswamApp.context)
-                        viewBinding.imageRecyclerView.layoutManager = layoutManager
-                        viewBinding.imageRecyclerView.itemAnimator =
-                            DefaultItemAnimator()
-                        viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
-                    } else {
-                        viewBinding.noOrdersFound.visibility = View.VISIBLE
-                        viewBinding.imageRecyclerView.visibility = View.GONE
-                    }
-                } else {
-
-                    if (isLoading) {
-                        viewBinding.noOrdersFound.visibility = View.GONE
-                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                        //  hideLoading()
-                        getStorePersonAdapter.getData()
-                            ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
-                        var listSize = getStorePersonAdapter.getData()!!.size
-                        getStorePersonAdapter.notifyItemRemoved(listSize)
-                        getStorePersonAdapter.getData()
-                            ?.addAll((it.getList!! as ArrayList<Get>?)!!)
-                        getStorePersonAdapter.notifyDataSetChanged()
-
-//                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
-//                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
-//                            viewBinding.noOrdersFound.visibility = View.GONE
-//                        } else {
-//                            viewBinding.imageRecyclerView.visibility = View.GONE
-//                            viewBinding.noOrdersFound.visibility = View.VISIBLE
-//                        }
-                        isLoading = false
-                    } else {
-                        viewBinding.noOrdersFound.visibility = View.GONE
-                        viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                        getStorePersonAdapter =
-                            GetStorePersonAdapter(it.getList,
-                                this
-                            )
-                        layoutManager = LinearLayoutManager(ViswamApp.context)
-                        viewBinding.imageRecyclerView.layoutManager = layoutManager
-                        viewBinding.imageRecyclerView.itemAnimator =
-                            DefaultItemAnimator()
-                        viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
-
-                        if (it.getList != null && it.getList?.size!! > 0) {
-                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
-                            viewBinding.noOrdersFound.visibility = View.GONE
-                        } else {
-                            viewBinding.imageRecyclerView.visibility = View.GONE
-                            viewBinding.noOrdersFound.visibility = View.VISIBLE
-                        }
-//                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
-                        //  hideLoading()
-                    }
-                }
 
 
 //            getStorePersonHistoryList.clear()
@@ -615,11 +521,17 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            startActivity(intent)
 //        }
 
-            viewBinding.uploadNowLayout.setOnClickListener {
-                val intent = Intent(context, UploadNowButtonActivity::class.java)
-                startActivityForResult(intent, 779)
-            }
+//            viewBinding.uploadNowLayout.setOnClickListener {
+//                val intent = Intent(context, UploadNowButtonActivity::class.java)
+//                startActivityForResult(intent, 779)
+//            }
+
+
             addScrollerListener()
+        }
+        viewBinding.uploadNowLayout.setOnClickListener {
+            val intent = Intent(context, UploadNowButtonActivity::class.java)
+            startActivityForResult(intent, 779)
         }
     }
 
@@ -705,7 +617,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             getStoreHistoryRequest.startpageno = startPageNo
             getStoreHistoryRequest.endpageno = endpageno
             getStoreHistoryRequest.status = updatedComplaintListStatus
-            viewModel.getStorePersonHistory(getStoreHistoryRequest)
+            viewModel.getStorePersonHistory(getStoreHistoryRequest, this)
 
         } else {
             Toast.makeText(
@@ -718,20 +630,20 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
 
     fun onSuccessLastUpdatedDate() {
-        viewModel.lastUploadedDateResponse.observeForever {
-            if (it != null && it.status == true) {
-                if (it.uploadedDate != null && !it.uploadedDate!!.isEmpty()) {
-                    val strDate = it.uploadedDate
-                    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-                    val date = dateFormat.parse(strDate)
-                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
-                    viewBinding.uploadedOn.text = dateNewFormat
-                } else {
-                    viewBinding.uploadedOn.text = "--"
-
-                }
-            }
-        }
+//        viewModel.lastUploadedDateResponse.observeForever {
+//            if (it != null && it.status == true) {
+//                if (it.uploadedDate != null && !it.uploadedDate!!.isEmpty()) {
+//                    val strDate = it.uploadedDate
+//                    val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+//                    val date = dateFormat.parse(strDate)
+//                    val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+//                    viewBinding.uploadedOn.text = dateNewFormat
+//                } else {
+//                    viewBinding.uploadedOn.text = "--"
+//
+//                }
+//            }
+//        }
     }
 
     override fun onClickStatus(
@@ -774,8 +686,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 complaintListStatus = "0,1,2,3"
                 callAPI(startPage, endPageNum, complaintListStatus)
                 viewModel.checkDayWiseAccess(this)
-                viewModel.getLastUploadedDate()
             } else if (requestCode == 781) {
+                hideLoading()
+                Utlis.hideLoading()
                 if (isSiteIdEmpty) {
                     MainActivity.mInstance.onBackPressed()
 //                    hideLoadingTemp()
@@ -789,10 +702,11 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     endPageNum = 10
                     complaintListStatus = "0,1,2,3"
                     viewBinding.storeId.text = Preferences.getSwachhSiteId()
+                    viewBinding.userId.text=Preferences.getToken()
                     callAPI(startPage, endPageNum, complaintListStatus)
                     viewModel.checkDayWiseAccess(this)
-                    viewModel.getLastUploadedDate()
                     viewModel.swachImagesRegisters()
+
 //                    startPage = 0
 //                    endPageNum = 10
 //                    setup()
@@ -981,34 +895,44 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     override fun onClickPending() {
     }
+   var checkDayWiseAccessResponses: CheckDayWiseAccessResponse?=null
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
+        var isAlreadyUpload:Boolean=false
         if (checkDayWiseAccessResponse != null) {
             val sdf = SimpleDateFormat("EEEE")
             val d = Date()
             charArray.clear()
+            positionofftheDayNewForWeek.clear()
             positionofftheDay.clear()
             dayOfCharArrayList.clear()
+            dayOfCharArrayListNew.clear()
             val dayOfTheWeek: String = sdf.format(d)
-            var dayofTheWeekPosition:Int=0
-//            checkDayWiseAccessResponse.monday=false
-//            checkDayWiseAccessResponse.tuesday=true
-            if(dayOfTheWeek.equals("Sunday")){
-                dayofTheWeekPosition=0
-            }else if(dayOfTheWeek.equals("Monday")){
-                dayofTheWeekPosition=1
-            }else if(dayOfTheWeek.equals("Tuesday")){
-                dayofTheWeekPosition=2
-            }else if(dayOfTheWeek.equals("Wednesday")){
-                dayofTheWeekPosition=3
-            }else if(dayOfTheWeek.equals("Thursday")){
-                dayofTheWeekPosition=4
-            }else if(dayOfTheWeek.equals("Friday")){
-                dayofTheWeekPosition=5
-            }else if(dayOfTheWeek.equals("Saturday")){
-                dayofTheWeekPosition=6
+            val sdfc = SimpleDateFormat("dd MMM, yyyy")
+            val todaysDate = sdfc.format(Date())
+
+
+            var lastUploadedDate=""
+            if (checkDayWiseAccessResponse.lastUploadedDate != null && !checkDayWiseAccessResponse.lastUploadedDate!!.isEmpty()) {
+                val strDate = checkDayWiseAccessResponse.lastUploadedDate
+                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                val date = dateFormat.parse(strDate)
+                 lastUploadedDate = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                viewBinding.uploadedOn.text = lastUploadedDate
+                if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
+                    isAlreadyUpload=true
+                }
+            } else {
+                viewBinding.uploadedOn.text = "--"
+                hideLoading()
+
             }
+            if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
+                isAlreadyUpload=true
+            }
+
+
             charArray.add(checkDayWiseAccessResponse.sunday.toString())
             charArray.add(checkDayWiseAccessResponse.monday.toString())
             charArray.add(checkDayWiseAccessResponse.tuesday.toString())
@@ -1019,44 +943,74 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
             for (i in charArray.indices) {
                 if (charArray.get(i).equals("true")) {
-//                        positionofday = i
                     positionofftheDay.add(i)
                 }
             }
 
             for (i in positionofftheDay.indices) {
+                if (positionofftheDay.get(i)==0) {
+                    positionofftheDayNewForWeek.add("Sunday")
+                } else if (positionofftheDay.get(i)==1) {
+                    positionofftheDayNewForWeek.add("Monday")
+                } else if (positionofftheDay.get(i)==2) {
+                    positionofftheDayNewForWeek.add("Tuesday")
+                } else if (positionofftheDay.get(i)==3) {
+                    positionofftheDayNewForWeek.add("Wednesday")
+                } else if (positionofftheDay.get(i)==4) {
+                    positionofftheDayNewForWeek.add("Thursday")
+                } else if (positionofftheDay.get(i)==5) {
+                    positionofftheDayNewForWeek.add("Friday")
+                } else if (positionofftheDay.get(i)==6) {
+                    positionofftheDayNewForWeek.add("Saturday")
+                }
+            }
+
+
+
+            if(positionofftheDayNewForWeek.size>1 && positionofftheDayNewForWeek.contains(dayOfTheWeek) && isAlreadyUpload){
+                var removePos:Int=0
+                positionofftheDayNewForWeek.size
+                for (i in positionofftheDayNewForWeek.indices) {
+                    if (positionofftheDayNewForWeek.get(i)==dayOfTheWeek) {
+                        removePos=i
+                    }
+                }
+                positionofftheDayNewForWeek.removeAt(removePos)
+            }
+
+            for (i in positionofftheDayNewForWeek.indices) {
                 var dayOfCharArrayListModel = DayOfCharArrayListModel()
-                if (positionofftheDay.get(i) == 0) {
+                if (positionofftheDayNewForWeek.get(i) == "Sunday") {
                     dayofCharArray = "Sunday"
                     dayOfCharArrayListModel!!.weekname="Sunday"
                     dayOfCharArrayListModel!!.weekposition=0
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Sunday")
-                } else if (positionofftheDay.get(i) == 1) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Monday") {
                     dayofCharArray = "Monday"
                     dayOfCharArrayListModel!!.weekname="Monday"
                     dayOfCharArrayListModel!!.weekposition=1
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Monday")
-                } else if (positionofftheDay.get(i) == 2) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Tuesday") {
                     dayofCharArray = "Tuesday"
                     dayOfCharArrayListModel!!.weekname="Tuesday"
                     dayOfCharArrayListModel!!.weekposition=2
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Tuesday")
-                } else if (positionofftheDay.get(i) == 3) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Wednesday") {
                     dayofCharArray = "Wednesday"
                     dayOfCharArrayListModel!!.weekname="Wednesday"
                     dayOfCharArrayListModel!!.weekposition=3
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Wednesday")
-                } else if (positionofftheDay.get(i) == 4) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Thursday") {
                     dayofCharArray = "Thursday"
                     dayOfCharArrayListModel!!.weekname="Thursday"
                     dayOfCharArrayListModel!!.weekposition=4
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Thursday")
-                } else if (positionofftheDay.get(i) == 5) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Friday") {
                     dayofCharArray = "Friday"
                     dayOfCharArrayListModel!!.weekname="Friday"
                     dayOfCharArrayListModel!!.weekposition=5
                     dayOfCharArrayListModel!!.localDate = nextComingdayDate(LocalDate.now(),"Friday")
-                } else if (positionofftheDay.get(i) == 6) {
+                } else if (positionofftheDayNewForWeek.get(i) == "Saturday") {
                     dayofCharArray = "Saturday"
                     dayOfCharArrayListModel!!.weekname="Saturday"
                     dayOfCharArrayListModel!!.weekposition=6
@@ -1066,8 +1020,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 dayOfCharArrayListNew.add(dayOfCharArrayListModel!!)
 
             }
-
-
 
             var nearestDate : LocalDate? = null;
             var isCurrentDay = false
@@ -1089,108 +1041,198 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             }
 
             val dt = LocalDate.now()
+            if (isCurrentDay) {
+                    if (isAlreadyUpload){
+                        viewBinding.todaysDateLayout.visibility = View.GONE
+                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.GONE
+                        viewBinding.uploadOnLayout.visibility = View.VISIBLE
+                        val strDate = calcNextFriday(dt, positionofday!!).toString()
+                        val dateFormat = SimpleDateFormat("yyyy-MM-dd");
+                        val date = dateFormat.parse(strDate.toString())
+                        val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
+                        viewBinding.dayoftheweekLayout.text = dateNewFormat
+                    }else{
+                        viewBinding.todaysDateLayout.visibility = View.GONE
+                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+                        viewBinding.uploadNowLayout.visibility = View.VISIBLE
+                        viewBinding.uploadOnLayout.visibility = View.GONE
 
-
-
-
-
-
-
-
-
-
-//            for (i in dayOfCharArrayListNew.indices) {
-//                if (dayOfCharArrayListNew.size > 1) {
-//                    if (dayOfCharArrayListNew.get(i).weekposition!!.equals(dayofTheWeekPosition)) {
-////                        var position=i
-//                        positionofday = dayOfCharArrayListNew.get(i).weekposition.toString()
-//                    } else {
-//                        positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
-//                    }
-//                }else{
-//                    positionofday = dayOfCharArrayListNew.get(0).weekposition.toString()
-//                }
-////                if (dayOfCharArrayList.size > 1) {
-////                    if (dayOfCharArrayList.get(i).equals("Monday")) {
-////                        nameOftheWeekk = "Monday"
-////                        positionNameofTheWeekk=1
-////                    } else if (dayOfCharArrayList.get(i).equals("Tuesday")) {
-////                        nameOftheWeekk = "Tuesday"
-////                        positionNameofTheWeekk=2
-////                    } else if (dayOfCharArrayList.get(i).equals("Wednesday")) {
-////                        nameOftheWeekk = "Wednesday"
-////                        positionNameofTheWeekk=3
-////                    } else if (dayOfCharArrayList.get(i).equals("Thursday")) {
-////                        nameOftheWeekk = "Thursday"
-////                        positionNameofTheWeekk=4
-////                    } else if (dayOfCharArrayList.get(i).equals("Friday")) {
-////                        nameOftheWeekk = "Friday"
-////                        positionNameofTheWeekk=5
-////                    } else if (dayOfCharArrayList.get(i).equals("Saturday")) {
-////                        nameOftheWeekk = "Saturday"
-////                        positionNameofTheWeekk=6
-////                    }else if (dayOfCharArrayList.get(i).equals("Sunday")) {
-////                        nameOftheWeekk = "Sunday"
-////                        positionNameofTheWeekk=7
-////                    }
-////                    if(dayOfTheWeek.equals(nameOftheWeekk)){
-////                        positionofday=dayOfCharArrayList.
-////                    }
-////
-////                }
-//
-//
-//
-//
-//
-//
-//
-//
-//            }
-            if (isCurrentDay
-            ) {
-                if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                    var submit = OnUploadSwachModelRequest()
-                    submit.actionEvent = "SUBMIT"
-                    submit.storeid = Preferences.getSwachhSiteId()
-                    submit.userid = Preferences.getValidatedEmpId()
-//            var imageUrlsList = ArrayList<OnUploadSwachModelRequest.ImageUrl>()
-//
-//            for (i in swacchApolloList.get(0).configlist!!.indices) {
-//                for (j in swacchApolloList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
-//                    var imageUrl = submit.ImageUrl()
-//                    imageUrl.url =
-//                        swacchApolloList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
-//                    imageUrl.categoryid = swacchApolloList.get(0).configlist!!.get(i).categoryId
-//                    imageUrlsList.add(imageUrl)
-//                }
-//
-//            }
-//            submit.imageUrls = imageUrlsList
-                    showLoading()
-                    viewModel.onUploadSwach(submit)
-
-                }
+                    }
             }
             if (!isCurrentDay && positionofday != null) {
-//                calcNextFriday(dt, positionofday!!)
                 viewBinding.todaysDateLayout.visibility = View.GONE
                 viewBinding.todaysUpdateLayout.visibility = View.GONE
-                viewBinding.alreadyUploadedlayout.visibility = View.GONE
                 viewBinding.uploadNowLayout.visibility = View.GONE
                 viewBinding.uploadOnLayout.visibility = View.VISIBLE
                 val strDate = calcNextFriday(dt, positionofday!!).toString()
                 val dateFormat = SimpleDateFormat("yyyy-MM-dd");
-                val date = dateFormat.parse(strDate.toString())
+                val date = dateFormat.parse(strDate)
                 val dateNewFormat = SimpleDateFormat("dd MMM, yyyy, EEEE").format(date)
                 viewBinding.dayoftheweekLayout.text = dateNewFormat
             }
+
+
+        }
+
+
+
+
+        else{
+
         }
         // hideLoading()
 
     }
 
     override fun onBackPressedUpload() {
+
+    }
+
+    override fun onSuccessLastUploadedDate(value: LastUploadedDateResponse) {
+        if (value != null && value.status == true) {
+            if (value.uploadedDate != null && !value.uploadedDate!!.isEmpty()) {
+                val strDate = value.uploadedDate
+                val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
+                val date = dateFormat.parse(strDate)
+                val dateNewFormat = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                viewBinding.uploadedOn.text = dateNewFormat
+            } else {
+                viewBinding.uploadedOn.text = "--"
+                hideLoading()
+
+            }
+        }
+        if(!Preferences.getToken().isEmpty()){
+            viewBinding.userId.text = Preferences.getToken()
+        }else{
+            viewBinding.userId.text = "--"
+        }
+    }
+
+    override fun onSuccessgetStorePersonHistory(value: GetStorePersonHistoryodelResponse) {
+        hideLoading()
+
+        if (viewBinding.pullToRefresh.isRefreshing) {
+            viewBinding.pullToRefresh.isRefreshing = false
+
+
+            if (value.getList != null && value.getList!!.size > 0) {
+
+                viewBinding.noOrdersFound.visibility = View.GONE
+                viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                getStorePersonAdapter =
+                    GetStorePersonAdapter(value.getList,
+                        this
+                    )
+                layoutManager = LinearLayoutManager(ViswamApp.context)
+                viewBinding.imageRecyclerView.layoutManager = layoutManager
+                viewBinding.imageRecyclerView.itemAnimator =
+                    DefaultItemAnimator()
+                viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+            } else {
+                viewBinding.noOrdersFound.visibility = View.VISIBLE
+                viewBinding.imageRecyclerView.visibility = View.GONE
+            }
+        }
+        else {
+
+            if (isLoading) {
+                viewBinding.noOrdersFound.visibility = View.GONE
+                viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                //  hideLoading()
+                getStorePersonAdapter.getData()
+                    ?.removeAt(getStorePersonAdapter.getData()!!.size - 1)
+                var listSize = getStorePersonAdapter.getData()!!.size
+                getStorePersonAdapter.notifyItemRemoved(listSize)
+                getStorePersonAdapter.getData()
+                    ?.addAll((value.getList!! as ArrayList<Get>?)!!)
+                getStorePersonAdapter.notifyDataSetChanged()
+
+//                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
+//                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
+//                            viewBinding.noOrdersFound.visibility = View.GONE
+//                        } else {
+//                            viewBinding.imageRecyclerView.visibility = View.GONE
+//                            viewBinding.noOrdersFound.visibility = View.VISIBLE
+//                        }
+                isLoading = false
+            } else {
+                viewBinding.noOrdersFound.visibility = View.GONE
+                viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                getStorePersonAdapter =
+                    GetStorePersonAdapter(value.getList,
+                        this
+                    )
+                layoutManager = LinearLayoutManager(ViswamApp.context)
+                viewBinding.imageRecyclerView.layoutManager = layoutManager
+                viewBinding.imageRecyclerView.itemAnimator =
+                    DefaultItemAnimator()
+                viewBinding.imageRecyclerView.adapter = getStorePersonAdapter
+
+                if (value.getList != null && value.getList?.size!! > 0) {
+                    viewBinding.imageRecyclerView.visibility = View.VISIBLE
+                    viewBinding.noOrdersFound.visibility = View.GONE
+                } else {
+                    viewBinding.imageRecyclerView.visibility = View.GONE
+                    viewBinding.noOrdersFound.visibility = View.VISIBLE
+                }
+//                    Toast.makeText(context, "success api, ${getStorePersonHistoryList.get(0).getList?.size}", Toast.LENGTH_SHORT).show()
+                //  hideLoading()
+            }
+        }
+    }
+
+    override fun onSuccessOnUploadSwach(value: OnUploadSwachModelResponse) {
+            hideLoading()
+
+
+            if (value != null && value.status == true) {
+//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
+                hideLoading()
+
+            } else if (value != null && value.status == false && value.message == "ALREADY UPLAODED") {
+
+//                if(positionofftheDayNewForWeek.size==1){
+//                    val simpleDateFormat = SimpleDateFormat("dd MMM, yyyy, EEEE")
+//                    val cal = Calendar.getInstance()
+//                    cal.add(Calendar.DATE, +7)
+//                    val nextUploadDate = simpleDateFormat.format(cal.time)
+//
+//
+////                    viewBinding.uploadNowLayout.visibility = View.GONE
+////                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+////                    viewBinding.uploadOnLayout.visibility = View.GONE
+////                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+////                    viewBinding.nextUploadDate.text = nextUploadDate
+////                    Utlis.hideLoading()
+//                    viewBinding.uploadNowLayout.visibility = View.GONE
+//                    viewBinding.todaysDateLayout.visibility = View.GONE
+//                    viewBinding.todaysUpdateLayout.visibility = View.GONE
+//                    viewBinding.alreadyUploadedlayout.visibility = View.GONE
+//                    viewBinding.uploadOnLayout.visibility = View.GONE
+//                    viewBinding.uploadNowGrey.visibility = View.VISIBLE
+//                    viewBinding.nextUploadDate.text = nextUploadDate
+//                    hideLoading()
+//                }
+//                    else if(positionofftheDayNewForWeek.size>1){
+//                        viewBinding.uploadNowLayout.visibility = View.GONE
+//                        viewBinding.todaysDateLayout.visibility = View.GONE
+//                        viewBinding.todaysUpdateLayout.visibility = View.GONE
+//                        viewBinding.alreadyUploadedlayout.visibility = View.GONE
+//                        viewBinding.uploadOnLayout.visibility = View.GONE
+//                        viewBinding.uploadNowGrey.visibility = View.VISIBLE
+//                        viewBinding.nextUploadDate.text = positionofday
+//                        hideLoading()
+//                    }
+//                Toast.makeText(ViswamApp.context, "" + it.message, Toast.LENGTH_SHORT).show()
+
+
+            } else{
+
+            }
 
     }
 

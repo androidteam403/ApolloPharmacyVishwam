@@ -79,7 +79,7 @@ data class RequestNewComplaintRegistration(
 
     data class  ProblemImages(
         @field:SerializedName("images")
-        val images: ArrayList<Image>
+        val images: List<Image>
     ):Serializable
 
     data class Image(

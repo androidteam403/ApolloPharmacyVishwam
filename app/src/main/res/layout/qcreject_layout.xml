@@ -24,23 +24,34 @@
                 <LinearLayout
                     android:id="@+id/pendingLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_75dp"
-                    android:layout_weight="4.5"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
                     android:background="#F2F2F2"
                     android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".12"
+                        android:gravity="center_vertical">
+
+                        <ImageView
+                            android:layout_width="43dp"
+                            android:layout_height="43dp"
+                            android:src="@drawable/qc_cross"
+                            android:contentDescription="@string/app_name" />
+
+                    </LinearLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_8dp"
-                        android:layout_weight="0.79">
+                        android:layout_weight="0.32"
+                        android:gravity="start">
 
                         <TextView
                             android:id="@+id/orderHeads"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="46dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Order Id"
                             android:textSize="@dimen/text_12sp"
@@ -51,9 +62,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/orderHeads"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="4sp"
-                            android:layout_marginBottom="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="50001400"
                             android:textColor="@color/black"
@@ -62,19 +70,15 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
-                        android:layout_marginTop="@dimen/value_8dp"
-                        android:layout_weight="1">
+                        android:layout_weight="0.23"
+                        android:gravity="start">
 
                         <TextView
                             android:id="@+id/requireDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/text_16sp"
-
                             android:fontFamily="@font/roboto_medium"
                             android:text="Req. Date"
                             android:textSize="@dimen/text_12sp"
@@ -85,8 +89,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/requireDate"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="@dimen/text_14sp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="25-sep-2020"
                             android:textColor="@color/black"
@@ -95,18 +97,16 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-
-                        android:layout_marginTop="@dimen/value_8dp"
-                        android:layout_weight="1">
+                        android:layout_weight="0.25"
+                        android:gravity="start">
 
 
                         <TextView
                             android:id="@+id/reject"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Rejected. Date"
                             android:textSize="@dimen/text_12sp"
@@ -117,9 +117,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/reject"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginEnd="7dp"
-                            android:layout_marginBottom="10dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="30.29"
                             android:textColor="@color/black"
@@ -128,9 +125,10 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1.2">
+                        android:layout_weight=".08"
+                        android:gravity="center">
 
                         <ImageView
                             android:id="@+id/arrowClose"
@@ -151,6 +149,45 @@
                             android:visibility="visible" />
 
                     </RelativeLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#F2F2F2"
+                    android:orientation="horizontal"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:weightSum="1">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".12" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".88"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/store_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="16001 - "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/location_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Apollo Pharmacy-Hyderabad"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -370,37 +407,32 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/store_id"
-                android:layout_width="wrap_content"
+<!--            <TextView-->
+<!--                android:id="@+id/store_id"-->
+<!--                android:layout_width="wrap_content"-->
 
 
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_45dp"
-                android:layout_marginTop="@dimen/value_55dp"
-                android:fontFamily="@font/roboto_medium"
-                android:text="16001 - "
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12sp" />
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="@dimen/value_45dp"-->
+<!--                android:layout_marginTop="@dimen/value_55dp"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:text="16001 - "-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/text_12sp" />-->
 
-            <TextView
-                android:id="@+id/location_text"
-                android:layout_width="wrap_content"
+<!--            <TextView-->
+<!--                android:id="@+id/location_text"-->
+<!--                android:layout_width="wrap_content"-->
 
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="@dimen/value_55dp"
-                android:layout_toRightOf="@+id/store_id"
-                android:fontFamily="@font/roboto_medium"
-                android:text="Apollo Pharmacy-Hyderabad"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12sp" />
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="5dp"-->
+<!--                android:layout_marginTop="@dimen/value_55dp"-->
+<!--                android:layout_toRightOf="@+id/store_id"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+<!--                android:text="Apollo Pharmacy-Hyderabad"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textSize="@dimen/text_12sp" />-->
 
-            <ImageView
-                android:layout_width="43dp"
-                android:layout_height="43dp"
-                android:layout_marginTop="@dimen/value_10dp"
-                android:src="@drawable/qc_cross" />
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </layout>

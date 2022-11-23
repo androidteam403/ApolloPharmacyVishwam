@@ -25,7 +25,7 @@ class Dialog : DialogFragment() {
         const val KEY_DATA = "data"
     }
 
-    fun generateParsedData(data: ArrayList<String>): Bundle {
+    fun generateParsedData(data: ArrayList<ReasonmasterV2Response.TicketSubCategory>): Bundle {
         return Bundle().apply {
             putSerializable(KEY_DATA, data)
         }
@@ -39,7 +39,7 @@ class Dialog : DialogFragment() {
     }
 
     interface DialogClickListner {
-        fun selectDepartment(departmentDto: String)
+        fun selectDepartment(departmentDto: ReasonmasterV2Response.TicketSubCategory)
     }
 
     override fun onCreateView(
@@ -53,10 +53,10 @@ class Dialog : DialogFragment() {
 
         viewBinding.searchSite.visibility = View.GONE
         var data =
-            arguments?.getSerializable(KEY_DATA) as ArrayList<String>
+            arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.TicketSubCategory>
         viewBinding.fieldRecyclerView.adapter =
             CustomRecyclerViews(data, object : OnSelectListner {
-                override fun onSelected(data: String) {
+                override fun onSelected(data: ReasonmasterV2Response.TicketSubCategory) {
                     abstractDialogClick = parentFragment as DialogClickListner
 
                     abstractDialogClick.selectDepartment(data)
@@ -72,19 +72,19 @@ class Dialog : DialogFragment() {
 }
 
 class CustomRecyclerViews(
-    departmentListDto: ArrayList<String>,
+    departmentListDto: ArrayList<ReasonmasterV2Response.TicketSubCategory>,
     var onSelectedListner: OnSelectListner,
 ) :
-    SimpleRecyclerView<ViewListItemBinding, String>(
+    SimpleRecyclerView<ViewListItemBinding, ReasonmasterV2Response.TicketSubCategory>(
         departmentListDto,
         R.layout.view_list_item
     ) {
     override fun bindItems(
         binding: ViewListItemBinding,
-        items: String,
+        items: ReasonmasterV2Response.TicketSubCategory,
         position: Int,
     ) {
-        binding.itemName.text = items
+        binding.itemName.text = items.name
 
         binding.root.setOnClickListener {
             onSelectedListner.onSelected(items)
@@ -93,5 +93,5 @@ class CustomRecyclerViews(
 }
 
 interface OnSelectListner {
-    fun onSelected(data: String)
+    fun onSelected(data: ReasonmasterV2Response.TicketSubCategory)
 }

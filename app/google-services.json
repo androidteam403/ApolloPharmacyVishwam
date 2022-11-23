@@ -1,41 +1,33 @@
 {
   "project_info": {
-    "project_number": "182843813677",
-    "project_id": "vishwam-13a08",
-    "storage_bucket": "vishwam-13a08.appspot.com"
+    "project_number": "142950625074",
+    "project_id": "vishwamuat",
+    "storage_bucket": "vishwamuat.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:182843813677:android:69311b8f55b65b8ac7ada4",
+        "mobilesdk_app_id": "1:142950625074:android:4bff7a0f3fdf8aa7b7b12b",
         "android_client_info": {
-          "package_name": "com.apollopharmacy.vishwam"
+          "package_name": "com.apollopharmacy.vishwamuat"
         }
       },
       "oauth_client": [
         {
-          "client_id": "182843813677-o08q4r0kknjukcvjj01n604vhcnh08vl.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.apollopharmacy.vishwam",
-            "certificate_hash": "e721db00d89f04a89803ad22dc1b7e8019584a20"
-          }
-        },
-        {
-          "client_id": "182843813677-m4fidf7rslmo5al59s97usrrc6fdoh91.apps.googleusercontent.com",
+          "client_id": "142950625074-h8r8tp13q2aqccrb1npg65ct71ncl3ie.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDJIsWEp4apFYf7eaC7YcCjBikRGbqqZTs"
+          "current_key": "AIzaSyC72tM3zvN1e1zTL9rl-Bu3eO972WxXPpQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "182843813677-m4fidf7rslmo5al59s97usrrc6fdoh91.apps.googleusercontent.com",
+              "client_id": "142950625074-h8r8tp13q2aqccrb1npg65ct71ncl3ie.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

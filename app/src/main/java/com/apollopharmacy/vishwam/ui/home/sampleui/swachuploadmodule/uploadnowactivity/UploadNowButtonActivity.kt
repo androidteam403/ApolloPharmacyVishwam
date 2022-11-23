@@ -117,6 +117,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
                 updateSwachhDefaultSiteRequest.site = Preferences.getSwachhSiteId()
                 viewModel.updateSwachhSiteIdApiCall(updateSwachhDefaultSiteRequest)
 
+
             } else if (it != null && it.status == false && it.message == "ALREADY UPLAODED") {
                 hideLoading()
                 Toast.makeText(context, "" + it.message, Toast.LENGTH_SHORT).show()

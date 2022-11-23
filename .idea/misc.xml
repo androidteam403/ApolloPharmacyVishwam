@@ -7,10 +7,21 @@
         <entry key="..\:/android_workspace/ApolloPharmacyVishwamOld/app/src/main/res/layout/qc_pending_layout.xml" value="0.25" />
         <entry key="app/src/main/res/drawable/green_background.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/reject_button.xml" value="0.1625" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.12863247863247862" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.21153846153846154" />
         <entry key="app/src/main/res/layout/activity_otp_view.xml" value="0.2421875" />
         <entry key="app/src/main/res/layout/dialog_acknowledgement.xml" value="0.24547101449275363" />
+        <entry key="app/src/main/res/layout/dialog_aleart.xml" value="0.1346153846153846" />
         <entry key="app/src/main/res/layout/dialog_comment.xml" value="0.24547101449275363" />
+        <entry key="app/src/main/res/layout/dialog_complaint_list_filter.xml" value="0.1576923076923077" />
+        <entry key="app/src/main/res/layout/dialog_date_picker.xml" value="0.11282051282051282" />
+        <entry key="app/src/main/res/layout/dialog_delete.xml" value="0.11282051282051282" />
+        <entry key="app/src/main/res/layout/dialog_logout.xml" value="0.1346153846153846" />
         <entry key="app/src/main/res/layout/dialog_search_article.xml" value="0.24230072463768115" />
+        <entry key="app/src/main/res/layout/dialog_tid_search.xml" value="0.21068376068376068" />
+        <entry key="app/src/main/res/layout/drug_view_data.xml" value="0.375" />
+        <entry key="app/src/main/res/layout/fragment_complaints.xml" value="0.13994565217391305" />
+        <entry key="app/src/main/res/layout/fragment_drug.xml" value="0.1735042735042735" />
         <entry key="app/src/main/res/layout/fragment_registration.xml" value="0.17636986301369864" />
         <entry key="app/src/main/res/layout/layout_product_images.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_complaint_item.xml" value="0.25" />

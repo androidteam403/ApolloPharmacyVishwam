@@ -26,6 +26,7 @@ class LoginViewModel : ViewModel() {
 
 
     fun checkLogin(loginRequest: LoginRequest) {
+
         if (loginRequest.EMPID.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter User ID"))
         } else if (loginRequest.PASSWORD.isEmpty()) {
@@ -38,6 +39,9 @@ class LoginViewModel : ViewModel() {
             val data = Gson().fromJson(url, ValidateResponse::class.java)
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("DISCOUNT LOGIN")) {
+
+//                    https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/Login
+
                     val loginUrl = data.APIS[i].URL
                     viewModelScope.launch {
                         val result = withContext(Dispatchers.IO) {
@@ -49,7 +53,7 @@ class LoginViewModel : ViewModel() {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
                                     Preferences.saveAppDesignation(result.value.APPLEVELDESIGNATION)
-                                    if (!result.value.STOREDETAILS.isNullOrEmpty()){
+                                    if (!result.value.STOREDETAILS.isNullOrEmpty()) {
                                         Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
 
                                     }
@@ -66,11 +70,9 @@ class LoginViewModel : ViewModel() {
                                 }
                             }
                             is ApiResult.GenericError -> {
-                                commands.postValue(
-                                    result.error?.let {
-                                        Command.ShowToast(it)
-                                    }
-                                )
+                                commands.postValue(result.error?.let {
+                                    Command.ShowToast(it)
+                                })
                                 state.value = State.ERROR
                             }
                             is ApiResult.NetworkError -> {
@@ -93,21 +95,31 @@ class LoginViewModel : ViewModel() {
     }
 
     fun checkMPinLogin(mPinRequest: MPinRequest) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("MPIN")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                LoginRepo.checkMPinDetails(mPinRequest)
+                LoginRepo.checkMPinDetails(baseUrl, token, mPinRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
                     commands.value = Command.MpinValidation(result.value)
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -142,13 +154,11 @@ sealed class Command {
     data class ShowButtonSheet(
         val fragment: Class<out BottomSheetDialogFragment>,
         val arguments: Bundle,
-    ) :
-        Command()
+    ) : Command()
 
     data class ShowQcButtonSheet(
         val fragment: Class<out BottomSheetDialog>,
         val arguments: Bundle,
-    ) :
-        Command()
+    ) : Command()
 
 }

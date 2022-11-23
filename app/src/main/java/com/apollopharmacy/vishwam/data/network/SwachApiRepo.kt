@@ -1,11 +1,9 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.OnSubmitSwachModelResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
-
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
 import java.io.IOException
@@ -17,9 +15,13 @@ import java.util.concurrent.TimeoutException
 
 object SwachApiRepo {
 
-    suspend fun swachImagesRegister(storeId: String): ApiResult<SwachModelResponse> {
+    suspend fun swachImagesRegister(
+        url: String,
+        token: String,
+        storeId: String,
+    ): ApiResult<SwachModelResponse> {
         return try {
-            val response = Api.getClient().swachhImagesUpload(Config.ATTENDANCE_API_HEADER, storeId)
+            val response = Api.getClient().swachhImagesUpload(url, token, storeId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -51,13 +53,13 @@ object SwachApiRepo {
     }
 
     suspend fun getLastUploadedDate(
+        url: String,
         token: String,
         storeId: String,
         userId: String,
     ): ApiResult<LastUploadedDateResponse> {
         return try {
-            val response =
-                Api.getClient().GET_LAST_UPLOADED_DATE(token, storeId, userId)
+            val response = Api.getClient().GET_LAST_UPLOADED_DATE(url, token, storeId, userId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -89,11 +91,11 @@ object SwachApiRepo {
     }
 
     suspend fun onSubmitSwacch(
-        token: String,
+        url: String, token: String,
         onSubmitModelRequest: ArrayList<OnSubmitSwachModelRequest>,
     ): ApiResult<OnSubmitSwachModelResponse> {
         return try {
-            val response = Api.getClient().onSubmitSwacch(token, onSubmitModelRequest)
+            val response = Api.getClient().onSubmitSwacch(url, token, onSubmitModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

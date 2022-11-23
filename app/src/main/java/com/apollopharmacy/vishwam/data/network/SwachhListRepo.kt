@@ -14,18 +14,15 @@ import java.util.concurrent.TimeoutException
 object SwachhListRepo {
 
     suspend fun getPendingAndApprovedListRepo(
-        getpendingAndApprovedListRequest: GetpendingAndApprovedListRequest?
+        url: String, token: String,
+        getpendingAndApprovedListRequest: GetpendingAndApprovedListRequest?,
     ): ApiResult<GetpendingAndApprovedListResponse> {
         return try {
-            val response =
-                Api.getClient().GET_PENDING_ANDAPPROVED_LIST_API_CALL(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    getpendingAndApprovedListRequest
-                )
-            if (response.status == true)
-                ApiResult.Success(response)
-            else
-                ApiResult.GenericError(null, "error")
+            val response = Api.getClient().GET_PENDING_ANDAPPROVED_LIST_API_CALL(url, token,
+
+                getpendingAndApprovedListRequest)
+            if (response.status == true) ApiResult.Success(response)
+            else ApiResult.GenericError(null, "error")
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
         } catch (e: IOException) {

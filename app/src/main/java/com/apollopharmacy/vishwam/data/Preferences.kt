@@ -17,9 +17,18 @@ object Preferences {
     private const val KEY_SITE = "KEY_SITE"
     private const val KEY_REGION = "KEY_REGION"
 
+    private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+
+
+    private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
+
     private const val KEY_SITE_DETAILS = "KEY_SITE_DETAILS"
     private const val PREF_KEY_SITE_ID_LIST = "KEY_SITE_ID_LIST"
+    private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
+    private const val PREF_KEY_REGION_ID_LIST_QCFAIL = "PREF_KEY_REGION_ID_LIST_QCFAIL"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
+    private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
+    private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
 
     private const val PREF_KEY_EMP_DETAILS_JSON = "PREF_KEY_EMP_DETAILS_JSON"
     private const val PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG = "PREF_KEY_EMP_DETAILS_JSON_NEW_DRUG"
@@ -236,6 +245,23 @@ object Preferences {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
 
+    fun setSiteIdListFetchedQcFail(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, isSiteIdListFetchedQcfail).apply()
+    }
+
+    fun isSiteIdListFetchedQcFail(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, false)
+    }
+
+
+    fun setRegionIdListFetchedQcFail(isRegionIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_REGION_ID_FETCHED_QC_FAIL, isRegionIdListFetchedQcfail).apply()
+    }
+
+    fun isRegionIdListFetchedQcFail(): Boolean {
+        return sharedPreferences.getBoolean(PREF_REGION_ID_FETCHED_QC_FAIL, false)
+    }
+
     fun setSiteIdList(siteIdList: String) {
         sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST, siteIdList).apply()
     }
@@ -243,6 +269,23 @@ object Preferences {
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
     }
+
+    fun setSiteIdListQcFail(siteIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_SITE_ID_LIST_QCFAIL, siteIdListQcFail).apply()
+    }
+
+    fun getSiteIdListJsonQcFail(): String {
+        return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST_QCFAIL, "")!!
+    }
+
+    fun setRegionIdListQcFail(regionIdListQcFail: String) {
+        sharedPreferences.edit().putString(PREF_KEY_REGION_ID_LIST_QCFAIL, regionIdListQcFail).apply()
+    }
+
+    fun getRegionIdListJsonQcFail(): String {
+        return sharedPreferences.getString(PREF_KEY_REGION_ID_LIST_QCFAIL, "")!!
+    }
+
 
     fun setEmployeeRoleUid(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE, role).apply()
@@ -346,23 +389,23 @@ object Preferences {
     }
 
     fun setQcSite(siteIdList: String) {
-        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+        sharedPreferences.edit().putString(KEY_QC_SITE_ID, siteIdList).apply()
     }
 
 
     fun getQcSite(): String {
-        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+        return sharedPreferences.getString(KEY_QC_SITE_ID, "")!!
     }
 
 
 
     fun setQcRegion(siteIdList: String) {
-        sharedPreferences.edit().putString(KEY_TO_DATE, siteIdList).apply()
+        sharedPreferences.edit().putString(KEY_QC_REGION_ID, siteIdList).apply()
     }
 
 
-    fun setQcRegion(): String {
-        return sharedPreferences.getString(KEY_TO_DATE, "")!!
+    fun getQcRegion(): String {
+        return sharedPreferences.getString(KEY_QC_REGION_ID, "")!!
     }
 
 

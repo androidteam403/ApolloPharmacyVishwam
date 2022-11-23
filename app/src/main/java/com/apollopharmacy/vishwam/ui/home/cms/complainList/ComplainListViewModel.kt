@@ -40,7 +40,7 @@ class ComplainListViewModel : ViewModel() {
     lateinit var Ticketlistdata: ResponseNewTicketlist
 
     //get ticket list api........................................................
-    fun getNewticketlist(requestComplainList: RequestComplainList, status: String) {
+    fun getNewticketlist(requestComplainList: RequestComplainList, status: String,isDrugList : Boolean) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -55,9 +55,10 @@ class ComplainListViewModel : ViewModel() {
                 val rejected = if (status.contains("rejected")) "rejected" else ""
                 val reopened = if (status.contains("reopened")) "reopened" else ""
                 val closed = if (status.contains("closed")) "closed" else ""
+                val onHold = if (status.contains("onHold")) "onHold" else ""
 
                 val url: String =
-                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&${
+                    "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&"+ if(isDrugList){ "reason_code=new_drug&"} else{""}+"${
                         URLEncoder.encode("status[0]",
                             "utf-8")
                     }=${new}&${
@@ -75,7 +76,10 @@ class ComplainListViewModel : ViewModel() {
                     }=${reopened}&${
                         URLEncoder.encode("status[5]",
                             "utf-8")
-                    }=${closed}"
+                    }=${closed}&${
+                        URLEncoder.encode("status[6]",
+                            "utf-8")
+                    }=${onHold}"
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
@@ -830,4 +834,67 @@ class ComplainListViewModel : ViewModel() {
             }
         }
     }
+
+    fun actionTicketResolveClose(
+        request: TicketResolveCloseModel?
+    ) {
+        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    "h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    ""
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                )
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+
 }

@@ -44,7 +44,7 @@ class QcApproveListAdapter(
         val approvedOrders = approveList.get(position)
         var orderId: String = ""
 
-        var newPos: Int =0
+        var newPos: Int = 0
 
 
 
@@ -125,7 +125,11 @@ class QcApproveListAdapter(
                 item.itemlist?.let {
                     QcApprovedOrderDetailsAdapter(
                         mContext,
-                        it, position, approveList, imageClicklistner, approvedOrders.omsorderno.toString()
+                        it,
+                        position,
+                        approveList,
+                        imageClicklistner,
+                        approvedOrders.omsorderno.toString()
                     )
                 }
             holder.adapterApproveListBinding.recyclerView.scrollToPosition(position)
@@ -204,7 +208,22 @@ class QcApproveListAdapter(
 
 
 
+        holder.itemView.setOnClickListener {
+            if (approvedOrders.isClick) {
+                approvedOrders.setisClick(false)
+                approvedOrders.orderno?.let { it1 ->
+                    imageClicklistner.notify(position, it1)
+                }
+            } else {
+                newPos = position
+                orderId = approvedOrders.orderno.toString()
 
+                approvedOrders.setisClick(true)
+                approvedOrders.orderno?.let { it1 ->
+                    imageClicklistner.orderno(position, it1)
+                }
+            }
+        }
         holder.adapterApproveListBinding.arrow.setOnClickListener {
             newPos = position
             orderId = approvedOrders.orderno.toString()

@@ -7,24 +7,19 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
-import com.apollopharmacy.vishwam.data.model.cms.SiteDto
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionList
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcStoreList
-import com.apollopharmacy.vishwam.ui.login.Command
+import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.ArrayList
 
 class QcSiteActivityViewModel : ViewModel() {
 
@@ -37,19 +32,163 @@ class QcSiteActivityViewModel : ViewModel() {
     var siteLiveData = ArrayList<QcStoreList.Store>()
     var regionLiveData = ArrayList<QcRegionList.Store>()
 
-    fun getQcRegionList() {
+
+    fun getQcStoreist(qcFilterSiteCallBack: QcFilterSiteCallBack) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC STORE LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcRegionList()
+                QcApiRepo.getQcStoreList(baseUrl)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status ?: null == true) {
+                        state.value = State.ERROR
+                        qcStoreList.value = result.value
+                        qcFilterSiteCallBack.getSiteIdList(result.value.storelist)
+                        siteLiveData = result.value.storelist as ArrayList<QcStoreList.Store>
+                        qcStoreIdList = result.value.storelist as ArrayList<QcStoreList.Store>?
+                    } else {
+                        state.value = State.ERROR
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    command.postValue(
+                        result.error?.let {
+                            CommandQcSiteId.ShowToast(it)
+                        }
+                    )
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    command.postValue(CommandQcSiteId.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    command.postValue(CommandQcSiteId.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    command.postValue(CommandQcSiteId.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun siteId() {
+        if (Preferences.isSiteIdListFetchedQcFail()) {
+            siteLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getSiteIdListJsonQcFail()
+            val type = object : TypeToken<List<QcStoreList.Store?>?>() {}.type
+
+            this.siteLiveData =
+                gson.fromJson<List<QcStoreList.Store>>(siteIdList,
+                    type) as ArrayList<QcStoreList.Store>
+            command.value = CommandQcSiteId.ShowSiteInfo("")
+            Utlis.hideLoading()
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("QC STORE LIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    val token = data.APIS[i].TOKEN
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(
+                                "h72genrSSNFivOi/cfiX3A==",
+                                GetDetailsRequest(
+                                    baseUrl,
+                                    "GET",
+                                    "The",
+                                    "",
+                                    ""
+                                )
+                            )
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        QcStoreList::class.java
+                                    )
+
+                                if (reasonmasterV2Response.status!!) {
+                                    siteLiveData.clear()
+                                    reasonmasterV2Response.storelist?.map {
+                                        siteLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    command.value = CommandQcSiteId.ShowSiteInfo("")
+                                } else {
+                                    command.value = CommandQcSiteId.ShowToast(
+                                        reasonmasterV2Response.message.toString()
+                                    )
+                                }
+                            }
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun getQcRegionList() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC REGION LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        viewModelScope.launch {
+            state.postValue(State.SUCCESS)
+
+            val result = withContext(Dispatchers.IO) {
+                QcApiRepo.getQcRegionList(baseUrl)
             }
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
                         qcRegionLists.value = result.value
-                        regionLiveData= result.value.storelist as ArrayList<QcRegionList.Store>
+                        regionLiveData = result.value.storelist as ArrayList<QcRegionList.Store>
                         qcregionIdList = result.value.storelist as ArrayList<QcRegionList.Store>?
 
                     } else {
@@ -80,43 +219,78 @@ class QcSiteActivityViewModel : ViewModel() {
         }
     }
 
-    fun getQcStoreist() {
-        viewModelScope.launch {
-            state.postValue(State.SUCCESS)
+    fun regionId() {
+        if (Preferences.isRegionIdListFetchedQcFail()) {
+            regionLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getRegionIdListJsonQcFail()
+            val type = object : TypeToken<List<QcRegionList.Store?>?>() {}.type
 
-            val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcStoreList()
-            }
-            when (result) {
-                is ApiResult.Success -> {
-                    if (result.value.status ?: null == true) {
-                        state.value = State.ERROR
-                        qcStoreList.value = result.value
-                        siteLiveData= result.value.storelist as ArrayList<QcStoreList.Store>
-                        qcStoreIdList = result.value.storelist as ArrayList<QcStoreList.Store>?
-                    } else {
-                        state.value = State.ERROR
-                    }
-                }
-                is ApiResult.GenericError -> {
-                    command.postValue(
-                        result.error?.let {
-                            CommandQcSiteId.ShowToast(it)
+            this.regionLiveData =
+                gson.fromJson<List<QcRegionList.Store>>(siteIdList,
+                    type) as ArrayList<QcRegionList.Store>
+            command.value = CommandQcSiteId.ShowRegionInfo("")
+            Utlis.hideLoading()
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("QC REGION LIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    val token = data.APIS[i].TOKEN
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(
+                                "h72genrSSNFivOi/cfiX3A==",
+                                GetDetailsRequest(
+                                    baseUrl,
+                                    "GET",
+                                    "The",
+                                    "",
+                                    ""
+                                )
+                            )
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
                         }
-                    )
-                    state.value = State.ERROR
-                }
-                is ApiResult.NetworkError -> {
-                    command.postValue(CommandQcSiteId.ShowToast("Network Error"))
-                    state.value = State.ERROR
-                }
-                is ApiResult.UnknownError -> {
-                    command.postValue(CommandQcSiteId.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
-                }
-                else -> {
-                    command.postValue(CommandQcSiteId.ShowToast("Something went wrong, please try again later"))
-                    state.value = State.ERROR
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        QcRegionList::class.java
+                                    )
+
+                                if (reasonmasterV2Response.status!!) {
+                                    regionLiveData.clear()
+                                    reasonmasterV2Response.storelist?.map {
+                                        regionLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    command.value = CommandQcSiteId.ShowRegionInfo("")
+                                } else {
+                                    command.value = CommandQcSiteId.ShowToast(
+                                        reasonmasterV2Response.message.toString()
+                                    )
+                                }
+                            }
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -124,17 +298,40 @@ class QcSiteActivityViewModel : ViewModel() {
 
 
     fun getSiteData(): ArrayList<QcStoreList.Store> {
-        return siteLiveData
+        if (!Preferences.getQcSite().isEmpty()) {
+            for (i in siteLiveData) {
+                if (Preferences.getQcSite().contains(i.siteid!!)) {
+                    i.isClick = true
+                }
+            }
+            return siteLiveData
+        } else {
+            return siteLiveData
+        }
+
     }
 
     fun getRegionData(): ArrayList<QcRegionList.Store> {
-        return regionLiveData
+
+        if (!Preferences.getQcSite().isEmpty()) {
+            for (i in regionLiveData) {
+                if (Preferences.getQcRegion().contains(i.siteid!!)) {
+                    i.isClick = true
+                }
+            }
+            return regionLiveData
+        } else {
+            return regionLiveData
+        }
+
     }
 
-    sealed class CommandQcSiteId{
+    sealed class CommandQcSiteId {
 
         data class ShowToast(val message: String) : CommandQcSiteId()
 
         data class ShowSiteInfo(val message: String) : CommandQcSiteId()
+
+        data class ShowRegionInfo(val message: String) : CommandQcSiteId()
     }
 }

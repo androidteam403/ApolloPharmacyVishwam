@@ -3,7 +3,9 @@ package com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlasti
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApproveListActivityRepo
 import com.apollopharmacy.vishwam.data.network.discount.PreviewLastImageRepo
@@ -11,11 +13,12 @@ import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.m
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.SaveAcceptAndReshootResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelResponse
+import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class PreviewLastImageViewModel: ViewModel()  {
+class PreviewLastImageViewModel : ViewModel() {
     var saveAcceptAndReshootResponse = MutableLiveData<SaveAcceptAndReshootResponse>()
     var ratingBarResponse = MutableLiveData<RatingModelResponse>()
     var errorMessage = MutableLiveData<String>()
@@ -23,11 +26,23 @@ class PreviewLastImageViewModel: ViewModel()  {
     fun saveAccepetAndReshoot(saveAcceptAndReshootRequest: SaveAcceptAndReshootRequest) {
 
         val state = MutableLiveData<State>()
-
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApproveListActivityRepo.saveAcceptAndReshoot(saveAcceptAndReshootRequest)
+                ApproveListActivityRepo.saveAcceptAndReshoot(baseUrl,
+                    token,
+                    saveAcceptAndReshootRequest)
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -58,11 +73,21 @@ class PreviewLastImageViewModel: ViewModel()  {
     fun submitRatingBar(ratingModelRequest: RatingModelRequest) {
 
         val state = MutableLiveData<State>()
-
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                PreviewLastImageRepo.submitRatingBar(ratingModelRequest)
+                PreviewLastImageRepo.submitRatingBar(baseUrl, token, ratingModelRequest)
             }
             when (response) {
                 is ApiResult.Success -> {

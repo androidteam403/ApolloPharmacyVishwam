@@ -3,10 +3,8 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -16,20 +14,17 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.util.Utlis
+import com.google.gson.Gson
 import org.apache.commons.lang3.StringUtils
-import java.lang.String.format
-import java.text.MessageFormat.format
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 import kotlin.collections.ArrayList
 
 class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickListner,
     QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,
-    QcCalenderToDate.DateSelected {
+    QcCalenderToDate.DateSelected, QcFilterSiteCallBack {
     lateinit var activityQcFilterBinding: ActivityQcFilterBinding
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
@@ -48,15 +43,26 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getSiteData()
+
+//        Utlis.showLoading(this)
+//       viewModel.getQcStoreist(this)
+        Utlis.showLoading(this)
+        viewModel.siteId()
+        viewModel.regionId()
+        fromQcDate = Preferences.getQcFromDate()
+        toDate = Preferences.getQcToDate()
+        regionId = Preferences.getQcRegion()
+        siteId = Preferences.getQcSite()
 
 
 
-        activityQcFilterBinding.toDateText.setText(toDate)
-        activityQcFilterBinding.fromDateText.setText(fromQcDate)
-        activityQcFilterBinding.regionIdSelect.setText(regionId)
-        activityQcFilterBinding.siteIdSelect.setText(siteId)
+
+        activityQcFilterBinding.toDateText.setText(Preferences.getQcToDate())
+        activityQcFilterBinding.fromDateText.setText(Preferences.getQcFromDate())
+        activityQcFilterBinding.regionIdSelect.setText(Preferences.getQcRegion())
+        activityQcFilterBinding.siteIdSelect.setText(Preferences.getQcSite())
 
 //        var fromDate = String()
 //        var currentDate = String()
@@ -82,6 +88,43 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //            activityQcFilterBinding.fromDateText.setText(Utlis.getDateSevenDaysEarlier("dd-MMM-yyyy"))
 //            activityQcFilterBinding.toDateText.setText( Utlis.getCurrentDate("dd-MMM-yyyy")!!)
 //        }
+
+
+        viewModel.command.observeForever {
+            when (it) {
+                is QcSiteActivityViewModel.CommandQcSiteId.ShowSiteInfo -> {
+                    Utlis.hideLoading()
+                    Preferences.setSiteIdListQcFail(Gson().toJson(viewModel.getSiteData()))
+                    Preferences.setSiteIdListFetchedQcFail(true)
+
+//                    QcSiteDialog().apply {
+//                        arguments =
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+
+                is QcSiteActivityViewModel.CommandQcSiteId.ShowRegionInfo -> {
+                    Utlis.hideLoading()
+                    Preferences.setRegionIdListQcFail(Gson().toJson(viewModel.getRegionData()))
+                    Preferences.setRegionIdListFetchedQcFail(true)
+
+//                    QcSiteDialog().apply {
+//                        arguments =
+//                                //CustomDialog().generateParsedData(viewModel.getDepartmentData())
+//                            QcSiteDialog().generateParsedData(viewModel.getSiteData())
+//                    }.show(supportFragmentManager, "")
+////                        arguments =
+////                            SiteDialog().generateParsedData(viewModel.getSiteData())
+
+                }
+
+
+            }
+        }
         viewModel.qcStoreList.observeForever {
             Utlis.hideLoading()
             if (!it.storelist.isNullOrEmpty()) {
@@ -117,7 +160,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.reset.setOnClickListener {
             val intent = Intent()
-
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
             intent.putExtra("reset", "reset")
             setResult(Activity.RESULT_OK, intent)
             finish()
@@ -128,11 +174,15 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
-            if(fromQcDate.isNullOrEmpty()&&toDate.isNullOrEmpty()&&regionId.isNullOrEmpty()&&siteId.isNullOrEmpty()){
-                Toast.makeText(context,"All Fields Should not be  Empty",Toast.LENGTH_LONG).show()
+            if (fromQcDate.isNullOrEmpty() && toDate.isNullOrEmpty() && regionId.isNullOrEmpty() && siteId.isNullOrEmpty()) {
+                Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
-            }else{
+            } else {
                 val intent = Intent()
+                Preferences.setQcFromDate(fromQcDate)
+                Preferences.setQcToDate(qcDate)
+                Preferences.setQcSite(siteId)
+                Preferences.setQcRegion(regionId)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
                 intent.putExtra("fromQcDate", fromQcDate)
@@ -185,13 +235,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
-
-
             QcSiteDialog().apply {
-                arguments =
-                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                    QcSiteDialog().generateParsedData(viewModel.getSiteData())
+                arguments = QcSiteDialog().generateParsedData(viewModel.getSiteData())
             }.show(supportFragmentManager, "")
+
         }
     }
 
@@ -243,21 +290,29 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         fromQcDate = fromDate
 //        qcDate=fromQcDate+30*1000*60*60*24
         val sdf = SimpleDateFormat("dd-MMM-yyyy")
-                val cal = Calendar.getInstance()
-        cal.time=sdf.parse(fromQcDate)
+        val cal = Calendar.getInstance()
+        cal.time = sdf.parse(fromQcDate)
 
-        cal.add(Calendar.DATE,30)
+        cal.add(Calendar.DATE, +30)
         val sdf1 = SimpleDateFormat("yyyy-MMM-dd", Locale.getDefault())
-        qcDate=sdf1.format(cal.time)
+        qcDate = sdf1.format(cal.time)
+        var date1 = cal.time
+        val cal1 = Calendar.getInstance()
+        var date2 = cal1.time
 
-
-        if(qcDate<= LocalDate.now().minusDays(30).toString()){
-            qcDate=sdf.format(cal.time)
-
-        }else{
-            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
-
+        if (date1.before(date2)) {
+            qcDate = sdf.format(cal.time)
+        } else {
+            qcDate = Utlis.getCurrentDate("dd-MMM-yyyy").toString()
         }
+//
+//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
+//            qcDate=sdf.format(cal.time)
+//
+//        }else{
+//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+//
+//        }
 //
 //
 ////        Date date = new Date();
@@ -270,8 +325,46 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
+
         activityQcFilterBinding.toDateText.setText(dateSelected)
         toDate = dateSelected
+//        qcDate=fromQcDate+30*1000*60*60*24
+        val sdf = SimpleDateFormat("dd-MMM-yyyy")
+        val cal = Calendar.getInstance()
+        cal.time = sdf.parse(toDate)
+
+        cal.add(Calendar.DATE, -30)
+        var sdf1 = SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault())
+        qcfDate = sdf1.format(cal.time)
+//        var date1 = cal.time
+//        val cal1 = Calendar.getInstance()
+//        var date2 = cal1.time
+//
+//        if (date1.after(date2)) {
+//            qcfDate = sdf.format(cal.time)
+//        } else {
+//            qcfDate = fromQcDate
+//        }
+//
+//        if(qcDate<= LocalDate.now().minusDays(30).toString()){
+//            qcDate=sdf.format(cal.time)
+//
+//        }else{
+//            qcDate= Utlis.getCurrentDate("dd-MMM-yyyy").toString()
+//
+//        }
+//
+//
+////        Date date = new Date();
+////        String todate = sdf.format(date);
+//        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
+//        val todate1 = cal.time
+        activityQcFilterBinding.fromDateText.setText(qcfDate)
+        fromQcDate = activityQcFilterBinding.fromDateText.text.toString()
+
+
+//        activityQcFilterBinding.toDateText.setText(dateSelected)
+//        toDate = dateSelected
 
     }
 
@@ -284,6 +377,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        cal.add(Calendar.DATE,-30)
         val todate1 = cal.time
         return sdf.format(todate1)
+    }
+
+    override fun getSiteIdList(storelist: List<QcStoreList.Store>?) {
+
     }
 
 }

@@ -18,14 +18,11 @@ object PreviewLastImageRepo {
 
 
     suspend fun submitRatingBar(
-        ratingModelRequest: RatingModelRequest?
+        url: String, token: String,
+        ratingModelRequest: RatingModelRequest?,
     ): ApiResult<RatingModelResponse> {
         return try {
-            val response =
-                Api.getClient().RATING_BAR_API(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    ratingModelRequest
-                )
+            val response = Api.getClient().RATING_BAR_API(url, token, ratingModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

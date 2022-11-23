@@ -32,8 +32,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
-    MainActivityCallback,
-    QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
+    MainActivityCallback, QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
     QcFilterFragment.QcFilterClicked, PendingFragmentCallback {
     var dialogBinding: DialogRejectQcBinding? = null
     var adapter: QcPendingListAdapter? = null
@@ -56,10 +55,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var reason: String = "test"
     var qcreasonCode: String = ""
     private var filterPendingList = ArrayList<QcListsResponse.Pending>()
-//    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? = java.util.ArrayList()
-
-    var subList: ArrayList<ArrayList<QcListsResponse.Pending>> = ArrayList()
-
+    var subList: java.util.ArrayList<java.util.ArrayList<QcListsResponse.Pending>>? =
+        java.util.ArrayList()
 
     //     var reason= String
     var headerPos: Int? = -1
@@ -80,19 +77,27 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     @SuppressLint("ResourceType")
     override fun setup() {
+        Preferences.setQcFromDate("")
+        Preferences.setQcToDate("")
+        Preferences.setQcSite("")
+        Preferences.setQcRegion("")
+        MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
 
         viewModel.getQcRejectionList()
         viewModel.getQcRegionList()
         viewModel.getQcStoreist()
-
+//        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
+//        Preferences.setQcFromDate("1-Apr-2019")
 
         viewModel.getQcPendingList(Preferences.getToken(),
             "1 - Apr - 2019",
             Utlis.getCurrentDate("yyyy-MM-dd")!!,
             "",
-            "")
+            "",
+            this)
 
 
         viewModel.qcAcceptRejectRequestList.observe(viewLifecycleOwner, {
@@ -106,20 +111,31 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             var i: Int = 0
 
             if (isBulk) {
-
-
-                while (i < names.size) {
-                    if (names[i].isItemChecked) {
-                        names.removeAt(i)
-                        i = 0
-                        adapter!!.notifyDataSetChanged()
-
-
-                    } else {
-                        i++
-                        adapter!!.notifyDataSetChanged()
-                    }
-                }
+                viewModel.getQcPendingList(Preferences.getToken(),
+                    "1 - Apr - 2019",
+                    Utlis.getCurrentDate("yyyy-MM-dd")!!,
+                    "",
+                    "",
+                    this)
+//
+//                while (i < names.size) {
+//                    if (names[i].isItemChecked) {
+//                        names.removeAt(i)
+//                        i = 0
+//                    } else {
+//                        i++
+//                    }
+//                }
+//                var pos: Int = 0
+//                while (pos < subList!!.get(increment).size) {
+//                    if (subList!!.get(increment)[pos].isItemChecked) {
+//                        subList!!.get(increment).removeAt(pos)
+//                        pos = 0
+//                    } else {
+//                        pos++
+//                    }
+//                }
+//                adapter!!.notifyDataSetChanged()
             } else if (subList?.size!! > acceptOrRejectItemPos) {
 
 //                var na = ArrayList<QcListsResponse.Pending>()
@@ -171,46 +187,42 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 "1 - Apr - 2019",
                 Utlis.getCurrentDate("yyyy-MM-dd")!!,
                 "",
-                "")
+                "",
+                this)
         }
 
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-
-            filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
-
-
-
-
-
-
-
-//            subList = ListUtils.partition(it.pendinglist, 3)
-            splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
-            pageNo = 1
-            increment = 0
-            if (pageNo == 1) {
-                viewBinding.prevPage.visibility = View.GONE
-            } else {
-                viewBinding.prevPage.visibility = View.VISIBLE
-
-            }
-            if (increment == subList?.size!!.minus(1)) {
-                viewBinding.nextPage.visibility = View.GONE
-            } else {
-                viewBinding.nextPage.visibility = View.VISIBLE
-
-            }
-
-            names = it.pendinglist as ArrayList<QcListsResponse.Pending>
             if (it.pendinglist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.recyclerViewPending.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
 
-                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
             } else {
+
+                filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
+
+
+//            subList = ListUtils.partition(it.pendinglist, 3)
+                splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
+                } else {
+                    viewBinding.prevPage.visibility = View.VISIBLE
+
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
+                }
+
+                names = it.pendinglist as ArrayList<QcListsResponse.Pending>
                 viewBinding.refreshSwipe.isRefreshing = false
                 viewBinding.emptyList.visibility = View.GONE
 
@@ -223,17 +235,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
-                    }
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
 
             }
             viewBinding.recyclerViewPending.adapter = adapter
-
 
         })
 
@@ -268,13 +275,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     viewBinding.continueBtn.visibility = View.VISIBLE
 
                 }
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
+                for (i in subList!!.get(increment)) {
+                    i.setisItemChecked(false)
+                }
+                for (i in names) {
+                    if (i.isItemChecked) {
+                        i.setisItemChecked(false)
                     }
+                }
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
                 Toast.makeText(requireContext(), "No More Data To Load", Toast.LENGTH_SHORT).show()
@@ -301,14 +312,17 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
+                for (i in subList!!.get(increment)) {
+                    i.setisItemChecked(false)
+                }
+                for (i in names) {
+                    if (i.isItemChecked) {
+                        i.setisItemChecked(false)
                     }
+                }
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
 
@@ -345,12 +359,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewBinding.acceptClick.setOnClickListener {
             val dialogBinding: DialogAcceptQcBinding? =
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(requireContext()),
+                DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                     R.layout.dialog_accept_qc,
                     null,
-                    false
-                )
+                    false)
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
 
@@ -371,7 +383,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                     }
                 }
                 showLoading()
-
                 viewModel.getAcceptRejectResult(QcAcceptRejectRequest("ACCEPT",
                     "",
                     "",
@@ -382,8 +393,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
 
             if (dialogBinding != null) {
-                dialogBinding.message.setText("You are accepting the multiple Orders" +
-                        " for Qc Fail Do You Want to Proceed ?")
+                dialogBinding.message.setText("You are accepting the multiple Orders" + " for Qc Fail Do You Want to Proceed ?")
             }
 
             dialogBinding?.cancelButton?.setOnClickListener {
@@ -415,6 +425,56 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }
     }
 
+//    fun bulkDelete() {
+//        hideLoading()
+//
+//
+//
+//        isBulkChecked = false
+//        viewBinding.bulkAppRejLayout.visibility = View.GONE
+//
+//        var i: Int = 0
+//
+//        if (isBulk) {
+//
+//
+//            while (i < names.size) {
+//                if (names[i].isItemChecked) {
+//                    names.removeAt(i)
+//                    i = 0
+//                } else {
+//                    i++
+//                }
+//            }
+//            var pos: Int = 0
+//            while (pos < subList!!.get(increment).size) {
+//                if (subList!!.get(increment)[pos].isItemChecked) {
+//                    subList!!.get(increment).removeAt(pos)
+//                    pos = 0
+//                } else {
+//                    pos++
+//                }
+//            }
+//            adapter!!.notifyDataSetChanged()
+//        } else if (subList?.size!! > acceptOrRejectItemPos) {
+//
+////                var na = ArrayList<QcListsResponse.Pending>()
+////                na.addAll(subList!!.get(increment))
+////
+////                na.removeAt(acceptOrRejectItemPos)
+//            var subListTemp = ArrayList<ArrayList<QcListsResponse.Pending>>()
+//            subListTemp.addAll(subList!!.toList()!!)
+//            subListTemp!!.get(increment).removeAt(acceptOrRejectItemPos)
+//
+//            subList = subListTemp
+//
+////                subList!!.get(increment).removeAt(acceptOrRejectItemPos)
+//
+////                names.removeAt(acceptOrRejectItemPos)
+//            adapter!!.notifyDataSetChanged()
+//        }
+//    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 210) {
@@ -426,7 +486,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         data.getStringExtra("fromQcDate").toString(),
                         data.getStringExtra("toDate").toString(),
                         data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString())
+                        data.getStringExtra("regionId").toString(),
+                        this)
 
 
                     if (data.getStringExtra("fromQcDate").toString()
@@ -449,7 +510,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                             "01-Apr-2019",
                             Utlis.getCurrentDate("yyyy-MM-dd")!!,
                             "",
-                            "")
+                            "",
+                            this)
                     }
 
 
@@ -472,33 +534,29 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
 
-    fun splitTheArrayList(pendingList : ArrayList<QcListsResponse.Pending>?){
+    fun splitTheArrayList(pendingList: ArrayList<QcListsResponse.Pending>?) {
         subList?.clear()
         var pendingSubList: ArrayList<QcListsResponse.Pending>? = ArrayList()
-var pageStartPos = 0;
+        var pageStartPos = 0;
         var pageEndPos = 5
-        for (i in  pendingList!!){
+        for (i in pendingList!!) {
             pendingSubList!!.add(i)
-            if (pendingList.indexOf(i) == (pendingList.size-1)){
-               var pendingListttt = pendingList.subList(pageStartPos, pendingList.size-1)// ArrayList<QcListsResponse.Pending>()
-
-                subList.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
-//                subList!!.add(pendingListttt as java.util.ArrayList<QcListsResponse.Pending>)
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
-            }else if ((pendingList.indexOf(i)+1) % 5 == 0){
-
-
-                subList!!.add(pendingList.subList(pageStartPos, pageEndPos) as java.util.ArrayList<QcListsResponse.Pending>)
-                pageStartPos = pageStartPos +5
-                pageEndPos = pageEndPos  + 5
-
-//                subList!!.add(pendingSubList)
-//                pendingSubList.clear()
+            if (pendingList.indexOf(i) == (pendingList.size - 1)) {
+                val list: ArrayList<QcListsResponse.Pending> =
+                    ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
+                        pendingList.size))
+                subList!!.add(list)
+            } else if ((pendingList.indexOf(i) + 1) % 5 == 0) {
+                val list: ArrayList<QcListsResponse.Pending> =
+                    ArrayList<QcListsResponse.Pending>(pendingList.subList(pageStartPos,
+                        pageEndPos))
+                subList!!.add(list)
+                pageStartPos = pageStartPos + 5
+                pageEndPos = pageEndPos + 5
             }
         }
     }
+
     override fun notify(position: Int, orderno: String) {
         TODO("Not yet implemented")
     }
@@ -525,7 +583,10 @@ var pageStartPos = 0;
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+
+        ) {
 
         acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
@@ -547,12 +608,10 @@ var pageStartPos = 0;
         qcAccepttList.add(qcreject)
 
         val dialogBinding: DialogAcceptQcBinding? =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(requireContext()),
+            DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                 R.layout.dialog_accept_qc,
                 null,
-                false
-            )
+                false)
         val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
         customDialog.apply {
 
@@ -572,7 +631,7 @@ var pageStartPos = 0;
 
         if (dialogBinding != null) {
             dialogBinding.message.setText("You are accepting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
         }
 
         dialogBinding?.cancelButton?.setOnClickListener {
@@ -587,7 +646,9 @@ var pageStartPos = 0;
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno:String,
+
+        ) {
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -601,8 +662,7 @@ var pageStartPos = 0;
             dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                 R.layout.dialog_reject_qc,
                 null,
-                false
-            )
+                false)
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
 
@@ -635,7 +695,7 @@ var pageStartPos = 0;
 
 
             dialogBinding?.message?.setText("You are rejecting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
 
             dialogBinding?.yesBtn?.setOnClickListener {
                 showLoading()
@@ -661,16 +721,23 @@ var pageStartPos = 0;
         }
     }
 
-    override fun isChecked(array: List<QcListsResponse.Pending>, position: Int) {
+    override fun isChecked(
+        array: List<QcListsResponse.Pending>,
+        position: Int,
+        pending: QcListsResponse.Pending,
+    ) {
         var pendingItemChecked: Boolean = false;
         var items = QcListsResponse.Pending()
         var count: Int = 0
-        if (names[position].isItemChecked) {
+        var user: QcListsResponse.Pending? = names.find { it.orderno.equals(pending.orderno) }
 
-            names[position].setisItemChecked(false)
+
+        if (user!!.isItemChecked) {
+
+            user!!.setisItemChecked(false)
 
         } else {
-            names[position].setisItemChecked(true)
+            user.setisItemChecked(true)
         }
 
         for (i in names.indices) {
@@ -680,7 +747,7 @@ var pageStartPos = 0;
 
         }
 
-        if (count > 1) {
+        if (count > 0) {
             viewBinding.bulkAppRejLayout.visibility = View.VISIBLE
         } else {
 
@@ -746,6 +813,11 @@ var pageStartPos = 0;
         }.show(childFragmentManager, "")
     }
 
+    override fun onFailureGetPendingAndAcceptAndRejectList(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onClickFilterIcon() {
 //        val i = Intent(context, QcFilterActivity::class.java)
 //        i.putExtra("activity", "reset")
@@ -766,7 +838,6 @@ var pageStartPos = 0;
 
 
     }
-
 
 }
 
