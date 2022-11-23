@@ -814,6 +814,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         this.headerPos = headerPos
         this.itemPos = itemPos
         this.orderId = orderId.toString()
+
         RejectReasonsDialog().apply {
             arguments =
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())

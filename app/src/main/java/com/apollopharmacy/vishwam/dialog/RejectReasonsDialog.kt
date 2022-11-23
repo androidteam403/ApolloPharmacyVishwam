@@ -59,22 +59,32 @@ class RejectReasonsDialog: DialogFragment() {
         viewBinding.searchSite.visibility = View.GONE
         var data =
             arguments?.getSerializable(KEY_DATA) as ArrayList<QcReasonList.Remarks>
-        viewBinding.fieldRecyclerView.adapter =
-            ReasonRecyclerViews(data, object : OnSelectionListner {
-                override fun onSelected(data: String) {
-                    abstractDialogClick = parentFragment as ResaonDialogClickListner
+        if (data.isNullOrEmpty()){
+            viewBinding.siteNotAvailable.setText("Reject Reasons not available")
+            viewBinding.fieldRecyclerView.visibility=View.GONE
+            viewBinding.siteNotAvailable.visibility=View.VISIBLE
 
-                    abstractDialogClick.selectReason(data)
-                    dismiss()
+        }else{
+            viewBinding.fieldRecyclerView.visibility=View.VISIBLE
+            viewBinding.siteNotAvailable.visibility=View.GONE
+            viewBinding.fieldRecyclerView.adapter =
+                ReasonRecyclerViews(data, object : OnSelectionListner {
+                    override fun onSelected(data: String) {
+                        abstractDialogClick = parentFragment as ResaonDialogClickListner
+
+                        abstractDialogClick.selectReason(data)
+                        dismiss()
 
 
-                }
+                    }
 
-                override fun onSelectedcode(code: String) {
-                    abstractDialogClick.reasonCode(code)
+                    override fun onSelectedcode(code: String) {
+                        abstractDialogClick.reasonCode(code)
 
-                }
-            })
+                    }
+                })
+        }
+
         return viewBinding.root
     }
 }
