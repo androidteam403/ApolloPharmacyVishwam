@@ -22,7 +22,7 @@ class SplashViewModel : ViewModel() {
     val command = LiveEvent<Command>()
     val validateResponseMutableList = MutableLiveData<ValidateResponse>()
 
-    fun getSplashScreenData(validateResponse: ValidateRequest) {//2034
+    fun getSplashScreenData(validateResponse: ValidateRequest) {
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 SplashRepo.getUserValidate(validateResponse)
