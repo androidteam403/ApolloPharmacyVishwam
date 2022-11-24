@@ -156,13 +156,16 @@ class QcRejectedListAdapter(
 
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.rejectListBinding.totalCost.setText(" " + totalPrices.toString())
+
+                holder.rejectListBinding.totalCost.setText(" " + String.format("%.2f",
+                    totalPrices))
             } else {
                 holder.rejectListBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.rejectListBinding.discountTotal.setText(" " + discounts.toString())
+                holder.rejectListBinding.discountTotal.setText(" " + String.format("%.2f",
+                    discounts))
             } else {
                 holder.rejectListBinding.discountTotal.setText("-")
 

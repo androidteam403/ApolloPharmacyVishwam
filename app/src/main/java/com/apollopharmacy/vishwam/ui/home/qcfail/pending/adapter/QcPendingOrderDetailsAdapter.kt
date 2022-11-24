@@ -270,7 +270,9 @@ class QcPendingOrderDetailsAdapter(
 
             ) {
                 Toast.makeText(mContext,
-                    "Approve Qty should not exceed the Required Qty",
+                    "Approval Qty should not exceed the Requested Qty"
+
+                    ,
                     Toast.LENGTH_LONG).show()
             } else {
                 count++;

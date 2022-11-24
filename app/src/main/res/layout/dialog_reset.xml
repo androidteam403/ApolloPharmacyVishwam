@@ -34,7 +34,9 @@
             android:layout_marginBottom="@dimen/value_25dp"
             android:id="@+id/message"
             android:gravity="center_horizontal"
-            android:text="Approve Qty should not exceed the \n Required Qty"
+            android:text="Approval Qty should not exceed the \nRequested Qty
+
+"
 
             android:textColor="@color/black"
             android:fontFamily="sans-serif-medium"
