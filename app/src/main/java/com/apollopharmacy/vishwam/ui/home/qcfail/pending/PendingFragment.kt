@@ -70,7 +70,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var names = ArrayList<QcListsResponse.Pending>();
 
 
-    private var button : Button? = null
 
     override val layoutRes: Int
         get() = R.layout.qc_fragment_pending
@@ -82,9 +81,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     @SuppressLint("ResourceType")
     override fun setup() {
 
-        button!!.setOnClickListener{
 
-        }
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
