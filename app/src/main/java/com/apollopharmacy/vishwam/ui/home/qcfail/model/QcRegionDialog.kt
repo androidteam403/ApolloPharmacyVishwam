@@ -15,6 +15,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
@@ -36,10 +37,11 @@ class QcRegionDialog : DialogFragment() {
 
     lateinit var viewBinding: QcDialogSiteListBinding
     lateinit var abstractDialogClick: NewDialogSiteClickListner
-    var regionDataArrayList = ArrayList<QcRegionList.Store>()
+    var regionDataArrayList = ArrayList<UniqueRegionList>()
     lateinit var sitereCyclerView: RegionRecyclerView
 
-    fun generateParsedData(data: ArrayList<QcRegionList.Store>): Bundle {
+
+    fun generateParsedData(data: ArrayList<UniqueRegionList>): Bundle {
         return Bundle().apply {
             putSerializable(REGION_DATA, data)
         }
@@ -68,7 +70,33 @@ class QcRegionDialog : DialogFragment() {
         );
         viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcRegionViewModel::class.java]
+        var regionIdList: List<String>
+        var uniqueRegionList = ArrayList<UniqueRegionList>()
+
+        var regionList = ArrayList<String>()
+        var string = String()
         viewBinding.closeDialog.visibility = View.VISIBLE
+        viewBinding.textHead.setText("Select Region Id")
+        viewBinding.searchSiteText.setHint("Search Region Id or Region name")
+        viewBinding.siteNotAvailable.setText("Region Not Available")
+        regionIdList = Preferences.getQcRegion().split(",")
+
+        if (regionIdList != null) {
+            for (i in regionIdList.indices) {
+                if (regionIdList.get(i).isNullOrEmpty()) {
+
+                } else {
+                    val items = UniqueRegionList()
+                    items.siteid = regionIdList.get(i)
+
+
+                    uniqueRegionList.add(items)
+                }
+
+
+            }
+
+        }
 
         viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
             if (it.size == 0) {
@@ -78,17 +106,51 @@ class QcRegionDialog : DialogFragment() {
                 viewBinding.siteNotAvailable.visibility = View.GONE
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                 sitereCyclerView = RegionRecyclerView(it, object : OnSelectListnerSite {
-                    override fun onSelected(data: QcRegionList.Store) {
+                    override fun onSelected(data: UniqueRegionList) {
 //                        abstractDialogClick.selectSite(data)
 //                        dismiss()
                     }
 
-                    override fun onClick(list: ArrayList<QcRegionList.Store>, position: Int) {
-                        if (list[position].isClick) {
-                            list[position].setisClick(false)
+
+                    override fun onClick(
+                        list: ArrayList<UniqueRegionList>,
+                        position: Int,
+                        regionList: ArrayList<UniqueRegionList>,
+                    ) {
+
+                        if (regionList.isNullOrEmpty()) {
+                            if (list[position].isClick) {
+                                list[position].setisClick(false)
+
+                            } else {
+                                list[position].setisClick(true)
+
+                            }
                         } else {
-                            list[position].setisClick(true)
+                            Preferences.setQcRegion("")
+                            if (list[position].isClick || regionList[position].isClick) {
+
+                                list[position].setisClick(false)
+                                regionList[position].setisClick(false)
+                            } else {
+                                list[position].setisClick(true)
+                                regionList[position].setisClick(true)
+
+                            }
+
                         }
+
+
+//                        if (!Preferences.getQcRegion().isNullOrEmpty()) {
+//                            for (i in regionList.indices) {
+//                                if (regionList.get(i).equals(list[position].siteid)) {
+//                                    list[position].setisClick(true)
+//                                } else {
+//                                    list[position].setisClick(false)
+//
+//                                }
+//                            }
+//                        }
                         sitereCyclerView.notifyDataSetChanged()
 
                         for (i in regionDataArrayList.indices) {
@@ -113,7 +175,7 @@ class QcRegionDialog : DialogFragment() {
                         }
 
                     }
-                })
+                }, uniqueRegionList)
                 viewBinding.fieldRecyclerView.adapter = sitereCyclerView
             }
         })
@@ -129,7 +191,7 @@ class QcRegionDialog : DialogFragment() {
 
 
         regionDataArrayList =
-            (arguments?.getSerializable(REGION_DATA) as? ArrayList<QcRegionList.Store>)!!
+            (arguments?.getSerializable(REGION_DATA) as? ArrayList<UniqueRegionList>)!!
 
         viewBinding.searchSite.visibility = View.VISIBLE
         viewModel.qcRegionArrayList(regionDataArrayList)
@@ -163,26 +225,58 @@ class QcRegionDialog : DialogFragment() {
 }
 
 class RegionRecyclerView(
-    var departmentListDto: ArrayList<QcRegionList.Store>,
+    var departmentListDto: ArrayList<UniqueRegionList>,
     var onSelectedListner: OnSelectListnerSite,
+    var regionList: ArrayList<UniqueRegionList>,
 ) :
-    SimpleRecyclerView<QcViewItemRowBinding, QcRegionList.Store>(
+    SimpleRecyclerView<QcViewItemRowBinding, UniqueRegionList>(
         departmentListDto,
         R.layout.qc_view_item_row
     ) {
     override fun bindItems(
         binding: QcViewItemRowBinding,
-        items: QcRegionList.Store,
+        items: UniqueRegionList,
         position: Int,
     ) {
-        binding.itemName.text = "${items.siteid}, ${items.sitename}"
+        binding.itemName.text = "${items.siteid}"
 
         binding.genderParentLayout.setOnClickListener {
-            onSelectedListner.onClick(departmentListDto, position)
+            onSelectedListner.onClick(departmentListDto, position, regionList)
 
         }
+        var i: Int = 0
 
+        if (!Preferences.getQcRegion().isNullOrEmpty()) {
 
+            while (i < regionList.size) {
+                if (regionList.get(i).siteid?.replace(" ", "")
+                        .equals(departmentListDto[i].siteid)
+                ) {
+                    departmentListDto[i].setisClick(true)
+                    i++
+                } else {
+                    departmentListDto[i].setisClick(false)
+                    i++
+
+                }
+            }
+//                    if (names[i].isItemChecked) {
+//                        names.removeAt(i)
+//                        i = 0
+//                    } else {
+//                        i++
+//                    }
+//                }
+
+//            for (i in regionList.indices) {
+//                if (regionList.get(i).equals(departmentListDto[position].siteid)) {
+//                    departmentListDto[position].setisClick(true)
+//                } else {
+//                    departmentListDto[position].setisClick(false)
+//
+//                }
+//            }
+        }
 
         if (departmentListDto[position].isClick) {
             binding.checkBox.setImageResource(R.drawable.qcright)
@@ -198,8 +292,12 @@ class RegionRecyclerView(
 }
 
 interface OnSelectListnerSite {
-    fun onSelected(data: QcRegionList.Store)
-    fun onClick(list: ArrayList<QcRegionList.Store>, position: Int)
+    fun onSelected(data: UniqueRegionList)
+    fun onClick(
+        list: ArrayList<UniqueRegionList>,
+        position: Int,
+        regionList: ArrayList<UniqueRegionList>,
+    )
 
 }
 

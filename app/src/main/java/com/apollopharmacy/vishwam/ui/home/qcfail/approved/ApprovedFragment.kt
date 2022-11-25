@@ -40,6 +40,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var lastIndex = 0
     var increment: Int = 0
 
+    public var storeStringList=ArrayList<String>()
+    public var regionStringList=ArrayList<String>()
     public var isBulkChecked: Boolean = false
     var getStatusList: List<ActionResponse>? = null
     var statusList = ArrayList<ActionResponse>()
@@ -89,8 +91,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getQcStoreist()
         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
         var intent = Intent()
         if (!list.isNullOrEmpty()) {
@@ -183,7 +185,20 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             }
             else {
+                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
+                for (i in filterApproveList.indices) {
+                    storeStringList.add(filterApproveList[i].storeid.toString())
+                    regionStringList.add(filterApproveList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeStringList)
+                regionListSet.addAll(regionStringList)
+                storeStringList.clear()
+                regionStringList.clear()
+                regionStringList.addAll(regionListSet)
+                storeStringList.addAll(stroreListSet)
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                 filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
@@ -546,7 +561,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "2")
-
+        i.putStringArrayListExtra("storeList",storeStringList)
+        i.putStringArrayListExtra("regionList",regionStringList)
         startActivityForResult(i, 210)
     }
 

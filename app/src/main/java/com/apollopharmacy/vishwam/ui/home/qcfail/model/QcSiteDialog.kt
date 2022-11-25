@@ -14,6 +14,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.QcDialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.QcViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
@@ -32,10 +33,10 @@ class QcSiteDialog : DialogFragment() {
 
     lateinit var viewBinding: QcDialogSiteListBinding
     lateinit var abstractDialogClick: NewDialogSiteClickListner
-    var regionDataArrayList = ArrayList<QcStoreList.Store>()
+    var regionDataArrayList = ArrayList<UniqueStoreList>()
     lateinit var sitereCyclerView: QcSiteRecycleView
 
-    fun generateParsedData(data: ArrayList<QcStoreList.Store>): Bundle {
+    fun generateParsedData(data: ArrayList<UniqueStoreList>): Bundle {
         return Bundle().apply {
             putSerializable(SITE_DATA, data)
         }
@@ -65,6 +66,27 @@ class QcSiteDialog : DialogFragment() {
         viewBinding = QcDialogSiteListBinding.inflate(inflater, container, false)
         var viewModel = ViewModelProviders.of(requireActivity())[QcSiteViewModel::class.java]
         viewBinding.closeDialog.visibility = View.VISIBLE
+        var storeIdList: List<String>
+
+        viewBinding.searchSiteText.setHint("Search Site Id or Site Name")
+        storeIdList = Preferences.getQcSite().split(",")
+        var uniqueStoreList = ArrayList<UniqueStoreList>()
+        if (storeIdList != null) {
+            for (i in storeIdList.indices) {
+                if (storeIdList.get(i).isNullOrEmpty()) {
+
+                } else {
+                    val items = UniqueStoreList()
+                    items.siteid = storeIdList.get(i)
+
+
+                    uniqueStoreList.add(items)
+                }
+
+
+            }
+
+        }
 
         viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
             if (it.size == 0) {
@@ -74,16 +96,32 @@ class QcSiteDialog : DialogFragment() {
                 viewBinding.siteNotAvailable.visibility = View.GONE
                 viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                 sitereCyclerView = QcSiteRecycleView(it, object : OnSelectListnerSiteId {
-                    override fun onSelected(data: QcStoreList.Store) {
+                    override fun onSelected(data: UniqueStoreList) {
 //                        abstractDialogClick.selectSite(data)
 //                        dismiss()
                     }
 
-                    override fun onClick(list: ArrayList<QcStoreList.Store>, position: Int) {
-                        if (list[position].isClick) {
-                            list[position].setisClick(false)
+                    override fun onClick(list: ArrayList<UniqueStoreList>, position: Int,storeList: ArrayList<UniqueStoreList>) {
+                        if (storeList.isNullOrEmpty()) {
+                            if (list[position].isClick) {
+                                list[position].setisClick(false)
+
+                            } else {
+                                list[position].setisClick(true)
+
+                            }
                         } else {
-                            list[position].setisClick(true)
+                            Preferences.setQcSite("")
+                            if (list[position].isClick || storeList[position].isClick) {
+
+                                list[position].setisClick(false)
+                                storeList[position].setisClick(false)
+                            } else {
+                                list[position].setisClick(true)
+                                storeList[position].setisClick(true)
+
+                            }
+
                         }
                         sitereCyclerView.notifyDataSetChanged()
 
@@ -109,7 +147,7 @@ class QcSiteDialog : DialogFragment() {
                         }
 
                     }
-                })
+                },uniqueStoreList)
                 viewBinding.fieldRecyclerView.adapter = sitereCyclerView
             }
         })
@@ -123,7 +161,7 @@ class QcSiteDialog : DialogFragment() {
 
 
         regionDataArrayList =
-            (arguments?.getSerializable(SITE_DATA) as? ArrayList<QcStoreList.Store>)!!
+            (arguments?.getSerializable(SITE_DATA) as? ArrayList<UniqueStoreList>)!!
 
         viewBinding.searchSite.visibility = View.VISIBLE
         viewModel.qcSiteArrayList(regionDataArrayList)
@@ -157,26 +195,43 @@ class QcSiteDialog : DialogFragment() {
 }
 
 class QcSiteRecycleView(
-    var departmentListDto: ArrayList<QcStoreList.Store>,
+    var departmentListDto: ArrayList<UniqueStoreList>,
     var onSelectedListner: OnSelectListnerSiteId,
-) :
-    SimpleRecyclerView<QcViewItemRowBinding, QcStoreList.Store>(
+    var storeList: ArrayList<UniqueStoreList>,
+
+    ) :
+    SimpleRecyclerView<QcViewItemRowBinding, UniqueStoreList>(
         departmentListDto,
         R.layout.qc_view_item_row
     ) {
     override fun bindItems(
         binding: QcViewItemRowBinding,
-        items: QcStoreList.Store,
+        items: UniqueStoreList,
         position: Int,
     ) {
-        binding.itemName.text = "${items.siteid}, ${items.sitename}"
+        binding.itemName.text = "${items.siteid}"
 
         binding.genderParentLayout.setOnClickListener {
-            onSelectedListner.onClick(departmentListDto, position)
+            onSelectedListner.onClick(departmentListDto, position,storeList)
 
         }
+        var i: Int = 0
 
+        if (!Preferences.getQcSite().isNullOrEmpty()) {
 
+            while (i < storeList.size) {
+                if (storeList.get(i).siteid?.replace(" ", "")
+                        .equals(departmentListDto[i].siteid)
+                ) {
+                    departmentListDto[i].setisClick(true)
+                    i++
+                } else {
+                    departmentListDto[i].setisClick(false)
+                    i++
+
+                }
+            }
+        }
 
         if (departmentListDto[position].isClick) {
             binding.checkBox.setImageResource(R.drawable.qcright)
@@ -192,8 +247,9 @@ class QcSiteRecycleView(
 }
 
 interface OnSelectListnerSiteId {
-    fun onSelected(data: QcStoreList.Store)
-    fun onClick(list: ArrayList<QcStoreList.Store>, position: Int)
+    fun onSelected(data: UniqueStoreList)
+    fun onClick(list: ArrayList<UniqueStoreList>, position: Int,storeList: ArrayList<UniqueStoreList>,
+    )
 
 }
 

@@ -65,17 +65,21 @@ class QcPendingOrderDetailsAdapter(
         holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
 
         if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
-            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
-            aprqty = items.qty!!
-            qcaprqty = items.qty!!
+            if (items.qty != null) {
+
+                holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+                aprqty = items.qty!!
+                qcaprqty = items.qty!!
+            }
 
 
-        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
-                .equals("MANAGER", true)
-        ) {
-            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-            aprqty = items.approvedqty!!
-            qcaprqty = items.approvedqty!!
+        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("MANAGER", true)) {
+            if (items.approvedqty != null) {
+                holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+
+                aprqty = items.approvedqty!!
+                qcaprqty = items.approvedqty!!
+            }
 
         } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
                 .equals("GENERALMANAGER", true)
@@ -109,7 +113,7 @@ class QcPendingOrderDetailsAdapter(
         if (items.remarks != null) {
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
-            Toast.makeText(ViswamApp.context,"Reject Reasons not available",Toast.LENGTH_LONG)
+            Toast.makeText(ViswamApp.context, "Reject Reasons not available", Toast.LENGTH_LONG)
 
             holder.orderdetailsBinding.reason.setText("Select")
         }
@@ -265,14 +269,12 @@ class QcPendingOrderDetailsAdapter(
         }
 
         holder.orderdetailsBinding.add.setOnClickListener {
-            if (Integer.parseInt(holder.orderdetailsBinding.approveQtyText.text.toString()) >=qcaprqty !!
+            if (Integer.parseInt(holder.orderdetailsBinding.approveQtyText.text.toString()) >= qcaprqty!!
                 !!
 
             ) {
                 Toast.makeText(mContext,
-                    "Approval Qty should not exceed the Requested Qty"
-
-                    ,
+                    "Approval Qty should not exceed the Requested Qty",
                     Toast.LENGTH_LONG).show()
             } else {
                 count++;
