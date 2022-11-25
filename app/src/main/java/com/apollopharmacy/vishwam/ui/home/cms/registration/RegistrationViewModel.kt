@@ -192,6 +192,7 @@ class RegistrationViewModel : ViewModel() {
                                         )
 
                                     if (reasonmasterV2Response.success) {
+                                        deartmentlist.clear()
                                         Reasonlistdata = reasonmasterV2Response
                                         reasonlistapiresponse.value = reasonmasterV2Response
                                         val reasonlitrows =
