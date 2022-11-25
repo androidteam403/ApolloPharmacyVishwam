@@ -82,7 +82,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         return ViewModelProvider(this).get(QcPendingViewModel::class.java)
     }
 
-    @SuppressLint("ResourceType")
     override fun setup() {
 
 
