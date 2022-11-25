@@ -195,33 +195,7 @@
                     android:baselineAligned="false"
                     android:orientation="vertical">
 
-                    <RelativeLayout
-                        android:id="@+id/ticket_category_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical">
 
-                        <TextView
-                            android:id="@+id/ticket_category_lable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_ticket_categoty"
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
-
-
-                        <TextView
-                            android:id="@+id/ticket_category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_marginEnd="@dimen/value_5dp"
-                            android:layout_toEndOf="@+id/ticket_category_lable"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp" />
-
-                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/siteId_layout"
@@ -251,34 +225,7 @@
 
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/region_layout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:visibility="gone">
 
-                        <TextView
-                            android:id="@+id/region_lable"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/label_region"
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold" />
-
-
-                        <TextView
-                            android:id="@+id/region"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_marginEnd="@dimen/value_5dp"
-                            android:layout_toEndOf="@+id/region_lable"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp" />
-
-                    </RelativeLayout>
 
                     <RelativeLayout
                         android:id="@+id/location_layout"
@@ -335,55 +282,89 @@
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/it_ticket_executive_layout"
+                        android:id="@+id/ticket_category_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:visibility="visible">
+                        android:layout_gravity="center_vertical">
 
                         <TextView
-                            android:id="@+id/it_ticket_executive_label"
+                            android:id="@+id/ticket_category_lable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Executive : "
+                            android:text="@string/label_ticket_categoty"
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold" />
 
+
                         <TextView
-                            android:id="@+id/it_ticket_executive"
+                            android:id="@+id/ticket_category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_toEndOf="@+id/it_ticket_executive_label"
-                            android:maxLines="1"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/ticket_category_lable"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp" />
+
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/it_ticket_manager_layout"
+                        android:id="@+id/sub_category_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
                         android:visibility="visible">
 
                         <TextView
-                            android:id="@+id/it_ticket_manager_label"
+                            android:id="@+id/sub_category_lable"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Manager :"
+                            android:text="Sub Category :"
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold" />
 
+
                         <TextView
-                            android:id="@+id/it_ticket_manager"
+                            android:id="@+id/sub_category"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_5dp"
-                            android:layout_toEndOf="@+id/it_ticket_manager_label"
-                            android:maxLines="1"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/sub_category_lable"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_13sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/region_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/region_lable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Reason :"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/region"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/region_lable"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
                     </RelativeLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -393,78 +374,8 @@
                         android:visibility="gone"
                         android:paddingEnd="@dimen/value_5dp"
                         android:paddingStart="0dp">
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/manager_label"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Manager : "-->
-<!--                            android:textColor="@color/fadedTextColor"-->
-<!--                            android:textSize="@dimen/text_13sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/manager"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/manager_label"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/manager_label"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/text_13sp"/>-->
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/category_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Category : "
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="@+id/category_label"
-                            app:layout_constraintStart_toEndOf="@+id/category_label"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/sub_category_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Sub Category : "
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/category"
-                            app:layout_constraintStart_toStartOf="parent"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/sub_category"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="@+id/sub_category_label"
-                            app:layout_constraintStart_toEndOf="@+id/sub_category_label"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/reason_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reason : "
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/sub_category_label"
-                            app:layout_constraintStart_toStartOf="parent"/>
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/reason"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="@+id/reason_label"
-                            app:layout_constraintStart_toEndOf="@+id/reason_label"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"/>
+
+
 
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/article_name_label"
@@ -474,7 +385,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/reason_label"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"/>
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/article_name"
@@ -601,65 +512,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone">
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/cc_reason_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Reason : "
-                            android:textColor="@color/fadedTextColor"
-                            android:textSize="@dimen/text_13sp"
-                            android:textStyle="bold"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"/>
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/cc_reason"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="@+id/cc_reason_label"
-                            app:layout_constraintStart_toEndOf="@+id/cc_reason_label"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"/>
-
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/cc_executive_label"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Executive : "-->
-<!--                            android:textColor="@color/fadedTextColor"-->
-<!--                            android:textSize="@dimen/text_13sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
-
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/cc_executive"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/cc_executive_label"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/cc_executive_label"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/text_13sp"/>-->
-
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/cc_manager_label"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            android:text="Manager : "-->
-<!--                            android:textColor="@color/fadedTextColor"-->
-<!--                            android:textSize="@dimen/text_13sp"-->
-<!--                            android:textStyle="bold"-->
-<!--                            app:layout_constraintTop_toBottomOf="@+id/cc_executive_label"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
-
-<!--                        <androidx.appcompat.widget.AppCompatTextView-->
-<!--                            android:id="@+id/cc_manager"-->
-<!--                            android:layout_width="wrap_content"-->
-<!--                            android:layout_height="wrap_content"-->
-<!--                            app:layout_constraintTop_toTopOf="@+id/cc_manager_label"-->
-<!--                            app:layout_constraintStart_toEndOf="@+id/cc_manager_label"-->
-<!--                            android:textColor="@color/black"-->
-<!--                            android:textSize="@dimen/text_13sp"/>-->
                         <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cc_tid_label"
                             android:layout_width="wrap_content"
@@ -668,7 +521,7 @@
                             android:textColor="@color/fadedTextColor"
                             android:textSize="@dimen/text_13sp"
                             android:textStyle="bold"
-                            app:layout_constraintTop_toBottomOf="@+id/cc_reason_label"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintStart_toStartOf="parent"/>
 
                         <androidx.appcompat.widget.AppCompatTextView
@@ -769,6 +622,57 @@
                     android:baselineAligned="false"
                     android:orientation="vertical">
 
+                    <RelativeLayout
+                        android:id="@+id/it_ticket_executive_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/it_ticket_executive_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Executive : "
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/it_ticket_executive"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/it_ticket_executive_label"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/it_ticket_manager_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/it_ticket_manager_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Manager :"
+                            android:textColor="@color/fadedTextColor"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/it_ticket_manager"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_toEndOf="@+id/it_ticket_manager_label"
+                            android:maxLines="1"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+                    </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -858,11 +762,16 @@
                         android:layout_height="wrap_content"
                         android:text="Front Image"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/front_img_view"
-                        android:layout_width="@dimen/value_70dp"
-                        android:layout_height="@dimen/value_70dp"
+                        android:layout_width="@dimen/value_90dp"
+                        android:layout_height="@dimen/value_100dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="center"
                         app:layout_constraintTop_toBottomOf="@+id/front_img_label"
                         app:layout_constraintStart_toStartOf="@+id/front_img_label"/>
                     <androidx.appcompat.widget.AppCompatTextView
@@ -870,13 +779,18 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Back Image"
-                        app:layout_constraintStart_toEndOf="@+id/front_img_label"
+                        app:layout_constraintStart_toEndOf="@+id/front_img_view"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="@dimen/value_10dp"/>
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/back_img_view"
-                        android:layout_width="@dimen/value_70dp"
-                        android:layout_height="@dimen/value_70dp"
+                        android:layout_width="@dimen/value_90dp"
+                        android:layout_height="@dimen/value_100dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="center"
                         app:layout_constraintTop_toBottomOf="@+id/back_img_label"
                         app:layout_constraintStart_toStartOf="@+id/back_img_label"/>
                     <androidx.appcompat.widget.AppCompatTextView
@@ -884,17 +798,26 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="Other Image"
-                        app:layout_constraintStart_toEndOf="@+id/back_img_label"
+                        app:layout_constraintStart_toEndOf="@+id/back_img_view"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginStart="@dimen/value_10dp"/>
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:textColor="@color/fadedTextColor"
+                        android:textSize="@dimen/text_13sp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/other_img_view"
-                        android:layout_width="@dimen/value_70dp"
-                        android:layout_height="@dimen/value_70dp"
+                        android:layout_width="@dimen/value_90dp"
+                        android:layout_height="@dimen/value_100dp"
+                        android:contentDescription="@string/app_name"
+                        android:scaleType="center"
                         app:layout_constraintTop_toBottomOf="@+id/other_img_label"
-                        app:layout_constraintStart_toStartOf="@+id/other_img_label"/>
+                        app:layout_constraintStart_toStartOf="@+id/other_img_label"
+                        android:visibility="gone"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
                 <LinearLayout
                     android:id="@+id/attacheImages"

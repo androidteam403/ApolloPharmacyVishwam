@@ -31,26 +31,6 @@
             app:layout_constraintTop_toTopOf="@+id/drug_item_label" />
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/drug_item_details_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item Category : "
-            android:textColor="@color/fadedTextColor"
-            android:textSize="@dimen/text_13sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/drug_item_label" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/drug_item_details_number"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_13sp"
-            app:layout_constraintStart_toEndOf="@+id/drug_item_details_label"
-            app:layout_constraintTop_toTopOf="@+id/drug_item_details_label" />
-
-        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/drug_batch_no_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +39,7 @@
             android:textSize="@dimen/text_13sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/drug_item_details_label" />
+            app:layout_constraintTop_toBottomOf="@+id/drug_item_label" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/drug_batch_no"
@@ -111,81 +91,7 @@
             app:layout_constraintTop_toTopOf="@+id/drug_pack_label" />
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/drug_request_images_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:layout_constraintTop_toBottomOf="@+id/drug_pack_label">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/front_img_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Front Image"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/front_img_view"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_70dp"
-                app:layout_constraintStart_toStartOf="@+id/front_img_label"
-                app:layout_constraintTop_toBottomOf="@+id/front_img_label" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/back_img_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:text="Back Image"
-                app:layout_constraintStart_toEndOf="@+id/front_img_label"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/back_img_view"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_70dp"
-                app:layout_constraintStart_toStartOf="@+id/back_img_label"
-                app:layout_constraintTop_toBottomOf="@+id/back_img_label" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/side_img_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:text="Side Image"
-                app:layout_constraintStart_toEndOf="@+id/back_img_label"
-                app:layout_constraintTop_toTopOf="parent"
-                android:visibility="gone"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/side_img_view"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_70dp"
-                app:layout_constraintStart_toStartOf="@+id/side_img_label"
-                app:layout_constraintTop_toBottomOf="@+id/side_img_label"
-                android:visibility="gone"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/bill_img_label"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_10dp"
-                android:text="Bill Image"
-                android:visibility="gone"
-                app:layout_constraintStart_toEndOf="@+id/side_img_label"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/bill_img_view"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_70dp"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="@+id/bill_img_label"
-                app:layout_constraintTop_toBottomOf="@+id/bill_img_label" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

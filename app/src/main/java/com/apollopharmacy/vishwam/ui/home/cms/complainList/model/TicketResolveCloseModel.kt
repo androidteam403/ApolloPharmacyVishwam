@@ -5,5 +5,13 @@ data class TicketResolveCloseModel(
     val comment: String,
     val employee_id: String,
     val status: String,
-    val ticket_id: String
+    val ticket_id: String,
+    val feedback : Feedback?
+
+)
+data class Feedback(
+    val rating: Rating?
+)
+data class Rating(
+    val uid: String
 )

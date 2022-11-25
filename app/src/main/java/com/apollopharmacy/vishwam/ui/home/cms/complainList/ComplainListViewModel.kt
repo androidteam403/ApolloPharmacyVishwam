@@ -896,5 +896,55 @@ class ComplainListViewModel : ViewModel() {
         }
     }
 
+    var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
+    fun getTicketRatingApi() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS FEEDBACKRATING")) {
+                var baseUrl = data.APIS[i].URL
+                viewModelScope.launch {
+                    state.value = State.SUCCESS
+                    val response = withContext(Dispatchers.IO) {
+                        RegistrationRepo.getDetails(
+                            "h72genrSSNFivOi/cfiX3A==",
+                            GetDetailsRequest(
+                                baseUrl,
+                                "GET",
+                                "the",
+                                "",
+                                ""
+                            )
+                        )
+                    }
+                    when (response) {
+                        is ApiResult.Success -> {
+                            state.value = State.ERROR
+                            val resp: String = response.value.string()
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseticketRatingApi =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ResponseticketRatingApi::class.java
+                                )
+                            cmsticketRatingresponse.value = responseticketRatingApi
+                        }
+                        is ApiResult.GenericError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.NetworkError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownHostException -> {
+                            state.value = State.ERROR
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 }

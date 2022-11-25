@@ -297,8 +297,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
-            showAlertDialog("HOME");
+        if(frg instanceof IOnBackPressed ){
+            if(((IOnBackPressed) frg).onBackPressed()) {
+                if(frg instanceof RegistrationFragment) {
+                    showAlertDialog("HOME","Do you want to exit Complaint Registration?");
+                }else if(frg instanceof Drug){
+                    showAlertDialog("HOME","Do you want to exit New Drug Request?");
+                }
+            }else{
+                displaySelectedScreen("HOME");
+                drawer.closeDrawer(GravityCompat.START);
+            }
         }else {
             if (isHomeScreen) {
                 finish();
@@ -329,11 +338,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     private boolean isAllowFragmentChange = false;
     private void displaySelectedScreen(String itemName) {
-        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
-            showAlertDialog(itemName);
-            return;
-        }
+//        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
+//            showAlertDialog(itemName);
+//            return;
+//        }
 
         //creating fragment object
         Fragment fragment = null;
@@ -1345,17 +1354,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void showAlertDialog(String itemName){
+    public void showAlertDialog(String itemName,String description){
         android.app.Dialog dialog = new android.app.Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(false);
         dialog.setContentView(R.layout.dialog_aleart);
+        TextView desc = dialog.findViewById(R.id.description_text);
+        desc.setText(description);
         Button noBtn = dialog.findViewById(R.id.cancel_button);
         Button yesBtn = dialog.findViewById(R.id.yes_button);
         yesBtn.setOnClickListener(view -> {
             isAllowFragmentChange = false;
             dialog.dismiss();
             displaySelectedScreen(itemName);
+            listView.setSelected(0);
         });
         noBtn.setOnClickListener(view -> dialog.dismiss());
         dialog.show();
