@@ -43,22 +43,34 @@ import java.util.*
 import java.util.concurrent.TimeoutException
 import kotlin.collections.ArrayList
 
-class DrugFragmentViewModel: ViewModel() {
+class DrugFragmentViewModel : ViewModel() {
     val commands = LiveEvent<Commands>()
     val state = MutableLiveData<State>()
+
     //    var command = LiveEvent<CmsCommand>()
     var siteLiveData = ArrayList<StoreListItem>()
     private var storeDetailsSend = StoreListItem()
-    lateinit var selectedSubCategory : ReasonmasterV2Response.TicketSubCategory
+    lateinit var selectedSubCategory: ReasonmasterV2Response.TicketSubCategory
 
     var drugList = MutableLiveData<DrugResponse>()
 
     fun getDrugList(drugRequest: DrugRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ND add_article")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                SwachhListApiResponse.getDrugResponse(drugRequest)
+                SwachhListApiResponse.getDrugResponse(baseUrl, token, drugRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -66,17 +78,33 @@ class DrugFragmentViewModel: ViewModel() {
 //                        state.value = State.ERROR
 //                        drugList.value = result.value
 
-                        var drugList = ArrayList<RequestSaveUpdateComplaintRegistration.DrugRequest>()
+                        var drugList =
+                            ArrayList<RequestSaveUpdateComplaintRegistration.DrugRequest>()
                         drugList.add(RequestSaveUpdateComplaintRegistration.DrugRequest(
                             drugRequest.images?.get(0)?.imageURL,
                             drugRequest.images?.get(1)?.imageURL,
-                            if(drugRequest.images?.size!! > 2){ drugRequest.images?.get(2)?.imageURL} else null,
-                            if(drugRequest.images?.size!! > 3){drugRequest.images?.get(3)?.imageURL} else null,
-                            drugRequest.batch,drugRequest.barCode,Utils.getticketlistfiltersdate(drugRequest.manufactureDate),Utils.getticketlistfiltersdate(drugRequest.expiryDate),drugRequest.purchasePrice!!.toDouble(),drugRequest.mrp!!.toDouble(),
-                            result.value.referenceId,drugRequest.packSize,drugRequest.hSNCode,drugRequest.gst!!.toDouble(),drugRequest.itemName,drugRequest.remarks
+                            if (drugRequest.images?.size!! > 2) {
+                                drugRequest.images?.get(2)?.imageURL
+                            } else null,
+                            if (drugRequest.images?.size!! > 3) {
+                                drugRequest.images?.get(3)?.imageURL
+                            } else null,
+                            drugRequest.batch,
+                            drugRequest.barCode,
+                            Utils.getticketlistfiltersdate(drugRequest.manufactureDate),
+                            Utils.getticketlistfiltersdate(drugRequest.expiryDate),
+                            drugRequest.purchasePrice!!.toDouble(),
+                            drugRequest.mrp!!.toDouble(),
+                            result.value.referenceId,
+                            drugRequest.packSize,
+                            drugRequest.hSNCode,
+                            drugRequest.gst!!.toDouble(),
+                            drugRequest.itemName,
+                            drugRequest.remarks
                         ))
                         val currentTime =
-                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+                            SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
+                                Locale.getDefault()).format(Date())
                         submitTicketInventorySaveUpdate(RequestSaveUpdateComplaintRegistration(
                             LoginRepo.getProfile()!!.EMPID,
                             currentTime,
@@ -132,9 +160,31 @@ class DrugFragmentViewModel: ViewModel() {
             }
         }
     }
+
     var responsenewcomplaintregistration = MutableLiveData<ResponseNewComplaintRegistration>()
 
     fun submitTicketInventorySaveUpdate(requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseProxyUrl = ""
+        var token = ""
+
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseProxyUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS ticket_inventory_save_update")) {
+                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time == null) {
             requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time =
                 requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_hrs.toString()
@@ -143,14 +193,14 @@ class DrugFragmentViewModel: ViewModel() {
             requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time =
                 requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_mins?.uid
         }
-        val baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"
+//        val baseUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"
         val requestNewComplaintRegistrationJson =
             Gson().toJson(requestNewComplaintRegistration)
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    "h72genrSSNFivOi/cfiX3A==",
+                RegistrationRepo.getDetails(baseProxyUrl,
+                    token,
                     GetDetailsRequest(
                         baseUrl,
                         "POST",
@@ -215,14 +265,35 @@ class DrugFragmentViewModel: ViewModel() {
     lateinit var reasonData: DrugReason
 
     fun fetchTransactionPOSDetails() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseProxyUrl = ""
+        var token = ""
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseProxyUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ND reason_code")) {
+                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                break
+            }
+        }
 
-        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/select/reason-details-by-code-for-mobile?reason_code=new_drug"
 
+//        URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/select/reason-details-by-code-for-mobile?","NAME":"ND reason_code","TOKEN":""},
+//        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/select/reason-details-by-code-for-mobile?reason_code=new_drug"
+        baseUrl = baseUrl + "reason_code=new_drug"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    "h72genrSSNFivOi/cfiX3A==",
+                RegistrationRepo.getDetails(baseProxyUrl,
+                    token,
                     GetDetailsRequest(
                         baseUrl,
                         "GET",
@@ -269,10 +340,21 @@ class DrugFragmentViewModel: ViewModel() {
 //            }
 //        }
     }
+
     lateinit var tisketstatusresponse: ResponseTicktResolvedapi
     fun getTicketstatus(site: String?, department: String?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseProxyUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseProxyUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS OPENTICKETLIST")) {
                 /* var baseUrl =
@@ -286,8 +368,8 @@ class DrugFragmentViewModel: ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                        RegistrationRepo.getDetails(baseProxyUrl,
+                            token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
@@ -349,7 +431,7 @@ class DrugFragmentViewModel: ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun connectToAzure(image:ArrayList<Image>) {
+    fun connectToAzure(image: ArrayList<Image>) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
             val response =
@@ -364,6 +446,17 @@ class DrugFragmentViewModel: ViewModel() {
     }
 
     fun siteId() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseProxyUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseProxyUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         if (Preferences.isSiteIdListFetched()) {
             siteLiveData.clear()
             val gson = Gson()
@@ -374,17 +467,16 @@ class DrugFragmentViewModel: ViewModel() {
                 gson.fromJson<List<StoreListItem>>(siteIdList, type) as ArrayList<StoreListItem>
             commands.value = Commands.ShowSiteInfo("")
         } else {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
+
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
                     val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
+//                    val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.getDetails(
-                                "h72genrSSNFivOi/cfiX3A==",
+                            RegistrationRepo.getDetails(baseProxyUrl,
+                                token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",
@@ -444,15 +536,25 @@ class DrugFragmentViewModel: ViewModel() {
     var reasonlistapiresponse = MutableLiveData<ReasonmasterV2Response>()
     fun getRemarksMasterList() {
         val url = Preferences.getApi()
+
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseProxyUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseProxyUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
                 var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                        RegistrationRepo.getDetails(baseProxyUrl,
+                            token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
@@ -514,7 +616,8 @@ class DrugFragmentViewModel: ViewModel() {
             }
         }
     }
-   var subCategories = MutableLiveData<ArrayList<ReasonmasterV2Response.TicketSubCategory>>()
+
+    var subCategories = MutableLiveData<ArrayList<ReasonmasterV2Response.TicketSubCategory>>()
     var SubCategorylistfromreasons = java.util.ArrayList<ReasonmasterV2Response.TicketSubCategory>()
     var uniqueSubCategoryList = java.util.ArrayList<ReasonmasterV2Response.TicketSubCategory>()
     fun getSubCategoriesfromReasons(departmentname: String): java.util.ArrayList<ReasonmasterV2Response.TicketSubCategory> {
@@ -556,15 +659,6 @@ class DrugFragmentViewModel: ViewModel() {
     }
 
 
-
-
-
-
-
-
-
-
-
     fun getSiteData(): ArrayList<StoreListItem> {
         return siteLiveData
     }
@@ -572,8 +666,6 @@ class DrugFragmentViewModel: ViewModel() {
     fun getSelectedStoreDetails(storeDetails: StoreListItem) {
         storeDetailsSend = storeDetails
     }
-
-
 
 
     fun getNames(): ArrayList<String> {
@@ -591,6 +683,7 @@ class DrugFragmentViewModel: ViewModel() {
         return names
 
     }
+
     fun getGst(): ArrayList<String> {
 
         var names = ArrayList<String>()
@@ -609,6 +702,7 @@ class DrugFragmentViewModel: ViewModel() {
         data class ShowToast(val message: String?) : Commands()
         data class DrugImagesUploadInAzur(val filePath: ArrayList<Image>) :
             Commands()
+
         data class CheckValidatedUserWithSiteID(
             val message: String,
             val slectedStoreItem: StoreListItem,

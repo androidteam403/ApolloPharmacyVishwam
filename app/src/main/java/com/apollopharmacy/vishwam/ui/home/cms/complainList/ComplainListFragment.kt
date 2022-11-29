@@ -688,21 +688,31 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             binding.complainDetails.text =
                 items.description?.trim()?.replace("\\s+".toRegex(), " ")?: "--"
+            if(items.status?.code.isNullOrEmpty()) {
+            }else {
 
-            if(items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(items.created_id!!.uid)  ){
-                binding.ticketResolveBtn.visibility = View.GONE
-                binding.ticketCloseBtn.visibility = View.VISIBLE
-                binding.ticketCloseBtn.setOnClickListener { imageClickListener.onClickTicketClose(items) }
-                binding.ticketActionLayout.visibility = View.VISIBLE
-            }else if(items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(items.user!!.uid) && items.inventoryDetailsModel?.data == null){
-                binding.ticketResolveBtn.visibility = View.VISIBLE
-                binding.ticketCloseBtn.visibility = View.GONE
-                binding.ticketResolveBtn.setOnClickListener { imageClickListener.onClickTicketResolve(items) }
-                binding.ticketActionLayout.visibility = View.VISIBLE
-            }else{
-                binding.ticketActionLayout.visibility = View.GONE
+                if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
+                        items.created_id!!.uid)
+                ) {
+                    binding.ticketResolveBtn.visibility = View.GONE
+                    binding.ticketCloseBtn.visibility = View.VISIBLE
+                    binding.ticketCloseBtn.setOnClickListener {
+                        imageClickListener.onClickTicketClose(items)
+                    }
+                    binding.ticketActionLayout.visibility = View.VISIBLE
+                } else if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(
+                        items.user!!.uid) && items.inventoryDetailsModel?.data == null
+                ) {
+                    binding.ticketResolveBtn.visibility = View.VISIBLE
+                    binding.ticketCloseBtn.visibility = View.GONE
+                    binding.ticketResolveBtn.setOnClickListener {
+                        imageClickListener.onClickTicketResolve(items)
+                    }
+                    binding.ticketActionLayout.visibility = View.VISIBLE
+                } else {
+                    binding.ticketActionLayout.visibility = View.GONE
+                }
             }
-
 
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "

@@ -174,6 +174,19 @@ class UploadNowButtonViewModel : ViewModel() {
     }
 
     fun updateSwachhSiteIdApiCall(updateSwachhDefaultSiteRequest: UpdateSwachhDefaultSiteRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         val requestCMSLoginJson = Gson().toJson(updateSwachhDefaultSiteRequest)
         //https://apis.v35.dev.zeroco.de
         //
@@ -182,7 +195,7 @@ class UploadNowButtonViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.updateSwachhDefaultSite("h72genrSSNFivOi/cfiX3A==",
+                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,"h72genrSSNFivOi/cfiX3A==",
                     GetDetailsRequest(baseUrl, "POST", requestCMSLoginJson, "", ""))
             }
             when (response) {

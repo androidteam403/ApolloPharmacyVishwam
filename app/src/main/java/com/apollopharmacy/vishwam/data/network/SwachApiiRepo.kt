@@ -14,11 +14,12 @@ import java.util.concurrent.TimeoutException
 
 object SwachApiiRepo {
     suspend fun updateSwachhDefaultSite(
+        url: String,
         token: String,
         getDetailsRequest: GetDetailsRequest,
     ): ApiResult<ResponseBody> {
         return try {
-            val response = Api.getClient().getDetails(token, getDetailsRequest)
+            val response = Api.getClient().getDetails(url,token, getDetailsRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

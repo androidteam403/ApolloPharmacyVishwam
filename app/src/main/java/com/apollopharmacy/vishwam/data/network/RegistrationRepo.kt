@@ -1334,11 +1334,12 @@ object RegistrationRepo {
     }
 
     suspend fun getDetails(
+        url: String,
         token: String,
         getDetailsRequest: GetDetailsRequest,
     ): ApiResult<ResponseBody> {
         return try {
-            val response = Api.getClient().getDetails(token, getDetailsRequest)
+            val response = Api.getClient().getDetails(url,token, getDetailsRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -1407,12 +1408,12 @@ object RegistrationRepo {
     }
 
 
-    suspend fun uploadImage(
+    suspend fun uploadImage(url: String,
         imageName: String,
         file: GetDetailsRequest,
     ): ApiResult<ResponseBody> {
         return try {
-            val response = Api.getClient().getUploadProxImage(imageName, file)
+            val response = Api.getClient().getUploadProxImage(url,imageName, file)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

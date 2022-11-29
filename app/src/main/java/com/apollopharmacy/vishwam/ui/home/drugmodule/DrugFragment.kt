@@ -84,7 +84,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     var imageFromBillCameraFile: File? = null
 
     var imageFromGallery: File? = null
-
     var isFromDateSelected: Boolean = false
     lateinit var store: StoreListItem
     override val layoutRes: Int
@@ -428,6 +427,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     } catch (e: JsonParseException) {
                         e.printStackTrace()
                     }
+
                     viewModel.getDrugList(
                         DrugRequest(
                             viewBinding.siteIdSelect.text.toString(),
