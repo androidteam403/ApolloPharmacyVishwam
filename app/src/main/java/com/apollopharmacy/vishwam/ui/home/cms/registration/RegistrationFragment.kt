@@ -1427,7 +1427,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
         } else {
             if (fileArrayList.isEmpty()) {
-                val ticketIt: Ticket_it? = if (statusInventory.equals("POS")) {
+                val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                        "asb_not_completed")) {
                     Ticket_it(posTid,
                         viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
@@ -1524,7 +1525,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
                 NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
             }
-            val ticketIt: Ticket_it? = if (statusInventory.equals("POS")) {
+            val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                    "asb_not_completed")) {
                 Ticket_it(posTid,
                     viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                     viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
