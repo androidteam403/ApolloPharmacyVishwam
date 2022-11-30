@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Config.ENCRIPTION_KEY
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.model.*
@@ -37,6 +36,8 @@ object LoginRepo {
             val decriptData = EncryptionManager.decryptData(response, ENCRIPTION_KEY)
             val Responsee = Gson().fromJson(decriptData, LoginDetails::class.java)
             Utils.printMessage("LoginResponse", Responsee.toString())
+
+//            {"STATUS":true,"MESSAGE":"success","EMPID":"APL49396","EMPNAME":"Lena Aravinath B","DESIGNATION":"Sr.Supervisor","DISCOUNTLIMIT":null,"IsHavingStore":true,"STOREDETAILS":[{"SITEID":"16001","SITENAME":"TEST SITE","DCNAME":"SANATH NAGAR","STATEID":"TS","DC":"14902"}],"IS_DISCOUNTAPP":true,"IS_CMSAPP":true,"IS_ATTANDENCEAPP":false,"APPLEVELDESIGNATION":"GENERAL MANAGER","IS_SUPERADMIN":false,"IS_SWACHHAPP":false,"IS_QCFAILAPP":false,"IS_NEWDRUGAPP":false}
             if (Responsee.STATUS)
                 ApiResult.Success(Responsee)
             else
@@ -70,10 +71,14 @@ object LoginRepo {
         }
     }
 
-    suspend fun checkMPinDetails(mPinRequest: MPinRequest): ApiResult<MPinResponse> {
+    suspend fun checkMPinDetails(
+        url: String,
+        token: String,
+        mPinRequest: MPinRequest,
+    ): ApiResult<MPinResponse> {
         return try {
             val response =
-                Api.getClient().handleMPinService(Config.ATTENDANCE_API_HEADER, mPinRequest)
+                Api.getClient().handleMPinService(url, token, mPinRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -120,7 +125,7 @@ object LoginRepo {
         }
     }
 
-    fun getPassword(): String{
+    fun getPassword(): String {
         return Preferences.getUserPassword()
     }
 

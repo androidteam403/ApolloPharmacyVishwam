@@ -8,8 +8,24 @@ import android.os.Environment;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class Dummy {
+    private String siteId;
+
+    public String getSiteId() {
+        return siteId;
+    }
+
+    public void setSiteId(String siteId) {
+        this.siteId = siteId;
+    }
+
+    public void runw () {
+        Set<String> stringSet = new LinkedHashSet<>();
+//        stringSet.addAll()
+    }
 //public void run() throws MalformedURLException {
 //     URL url=null;
 //     String file = null;

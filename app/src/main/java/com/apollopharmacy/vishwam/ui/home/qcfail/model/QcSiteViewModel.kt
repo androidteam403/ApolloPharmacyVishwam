@@ -7,10 +7,10 @@ import com.apollopharmacy.vishwam.util.Utils
 
 class QcSiteViewModel : ViewModel() {
     val TAG = "SiteViewModel"
-    var fixedArrayList = MutableLiveData<ArrayList<QcStoreList.Store>>()
-    var orginalArrayList = ArrayList<QcStoreList.Store>()
+    var fixedArrayList = MutableLiveData<ArrayList<UniqueStoreList>>()
+    var orginalArrayList = ArrayList<UniqueStoreList>()
 
-    fun qcSiteArrayList(siteArrayList: ArrayList<QcStoreList.Store>): ArrayList<QcStoreList.Store> {
+    fun qcSiteArrayList(siteArrayList: ArrayList<UniqueStoreList>): ArrayList<UniqueStoreList> {
         orginalArrayList = siteArrayList
         fixedArrayList.value = siteArrayList
 
@@ -21,8 +21,8 @@ class QcSiteViewModel : ViewModel() {
         Utils.printMessage(TAG, "Orginal Data :: " + orginalArrayList.toString())
         var data =
             orginalArrayList.filter { m ->
-                m.siteid!!.contains(siteId) || m.sitename!!.contains(siteId.toUpperCase())
-            } as ArrayList<QcStoreList.Store>
+                m.siteid!!.contains(siteId) || m.siteid!!.contains(siteId.toUpperCase())
+            } as ArrayList<UniqueStoreList>
         Utils.printMessage(TAG, "Filter Data :: " + data.toString())
         fixedArrayList.value = data
 

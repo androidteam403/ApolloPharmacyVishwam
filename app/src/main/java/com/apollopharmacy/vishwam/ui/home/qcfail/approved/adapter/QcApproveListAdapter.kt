@@ -177,17 +177,21 @@ class QcApproveListAdapter(
 
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.adapterApproveListBinding.totalCost.setText(" " + totalPrices.toString())
+                holder.adapterApproveListBinding.totalCost.setText(" " + String.format("%.2f",
+                    totalPrices))
+
             } else {
                 holder.adapterApproveListBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.adapterApproveListBinding.discountTotal.setText(" " + discounts.toString())
+                holder.adapterApproveListBinding.discountTotal.setText(" " + String.format("%.2f",
+                    discounts))
             } else {
                 holder.adapterApproveListBinding.discountTotal.setText("-")
 
             }
+
 
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {

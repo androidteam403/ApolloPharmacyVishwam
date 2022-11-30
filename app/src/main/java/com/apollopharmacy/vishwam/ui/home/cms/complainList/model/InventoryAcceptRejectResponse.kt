@@ -13,5 +13,10 @@ data class AcceptRejectData(
     val isExecSuccess: Boolean,
     val isUpdate: Boolean,
     val res: String,
-    val uid: String
+    val uid: String,
+    val errors: ArrayList<Errors>
+)
+
+data class Errors(
+    val msg: String
 )

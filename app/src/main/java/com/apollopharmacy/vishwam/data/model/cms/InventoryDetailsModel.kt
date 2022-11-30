@@ -223,7 +223,3 @@ data class ItemStatus(
     val uid: Any
 )
 
-data class Manager(
-    val first_name: String,
-    val uid: String
-)

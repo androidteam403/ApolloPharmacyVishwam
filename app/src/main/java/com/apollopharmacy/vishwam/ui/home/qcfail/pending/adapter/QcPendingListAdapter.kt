@@ -75,7 +75,7 @@ class QcPendingListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pendingOrders = pendingList.get(position)
-        var orderId: String=""
+        var orderId: String = ""
 
 
         if (pendingOrders.dcCode == null) {
@@ -143,7 +143,7 @@ class QcPendingListAdapter(
             for (i in qcItemList) {
                 if (i.orderno!!.equals(pendingList.get(position).orderno)) {
                     item = i
-                    orderId= i.orderno!!
+                    orderId = i.orderno!!
                 }
             }
             var totalPrice = ArrayList<Double>()
@@ -170,13 +170,15 @@ class QcPendingListAdapter(
             }
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.totalCost.setText(" "+totalPrices.toString())
+                holder.pendingLayoutBinding.totalCost.setText(" " + String.format("%.2f",
+                    totalPrices))
             } else {
                 holder.pendingLayoutBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.discountTotal.setText(" "+discounts.toString())
+                holder.pendingLayoutBinding.discountTotal.setText(" " + String.format("%.2f",
+                    discounts))
             } else {
                 holder.pendingLayoutBinding.discountTotal.setText("-")
 
@@ -185,8 +187,8 @@ class QcPendingListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.pendingLayoutBinding.remainingPayment.setText(" "+String.format("%.2f",
-                     netPayment))
+                holder.pendingLayoutBinding.remainingPayment.setText(" " + String.format("%.2f",
+                    netPayment))
             } else {
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }
@@ -222,7 +224,7 @@ class QcPendingListAdapter(
                         position,
                         pendingList,
                         pendingFragmentCallback,
-                        this,pendingOrders.omsorderno.toString(),
+                        this, pendingOrders.omsorderno.toString(),
                         holder.pendingLayoutBinding)
                 }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
@@ -230,18 +232,18 @@ class QcPendingListAdapter(
         holder.pendingLayoutBinding.acceptClick.setOnClickListener {
 
             imageClicklistner.accept(position,
-                pendingOrders.omsorderno.toString(),
+                pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,
-                pendingOrders.status!!)
+                pendingOrders.status!!,pendingOrders.omsorderno.toString())
         }
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
             imageClicklistner.reject(position,
-                pendingOrders.omsorderno.toString(),
+                pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,
-                pendingOrders.status!!)
+                pendingOrders.status!!,pendingOrders.omsorderno.toString())
         }
 
         if (pendingList[position].isItemChecked) {
@@ -263,11 +265,11 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.arrow.visibility = View.VISIBLE
             holder.pendingLayoutBinding.extraData.visibility = View.GONE
         }
-        holder.itemView.setOnClickListener{
-            if (pendingOrders.isOrderExpanded){
+        holder.itemView.setOnClickListener {
+            if (pendingOrders.isOrderExpanded) {
                 pendingOrders.isOrderExpanded = false
                 notifyDataSetChanged()
-            }else{
+            } else {
                 pendingOrders.isOrderExpanded = true
                 pendingOrders.orderno?.let { imageClicklistner.orderno(position, it) }
             }

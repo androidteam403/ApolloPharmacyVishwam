@@ -93,15 +93,25 @@ class RegistrationViewModel : ViewModel() {
         } else {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
+
+
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
                     val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.getDetails(
-                                "h72genrSSNFivOi/cfiX3A==",
+                            RegistrationRepo.getDetails(baseUrL,token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",
@@ -160,15 +170,22 @@ class RegistrationViewModel : ViewModel() {
     fun getRemarksMasterList() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
                 var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
+                        RegistrationRepo.getDetails(baseUrL, token,                            GetDetailsRequest(
                                 baseUrl,
                                 "GET",
                                 "The",
@@ -192,6 +209,7 @@ class RegistrationViewModel : ViewModel() {
                                         )
 
                                     if (reasonmasterV2Response.success) {
+                                        deartmentlist.clear()
                                         Reasonlistdata = reasonmasterV2Response
                                         reasonlistapiresponse.value = reasonmasterV2Response
                                         val reasonlitrows =
@@ -234,6 +252,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketstatus(site: String?, department: String?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS OPENTICKETLIST")) {
                 /* var baseUrl =
@@ -248,7 +275,7 @@ class RegistrationViewModel : ViewModel() {
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
@@ -313,6 +340,15 @@ class RegistrationViewModel : ViewModel() {
     fun getCMSLoginApi(cmsLogin: RequestCMSLogin) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS LOGIN")) {
                 /* var baseUrl =
@@ -329,7 +365,7 @@ class RegistrationViewModel : ViewModel() {
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
@@ -381,6 +417,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketRatingApi() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS FEEDBACKRATING")) {
                 /* var baseUrl =
@@ -396,7 +441,7 @@ class RegistrationViewModel : ViewModel() {
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",
@@ -452,6 +497,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketclosingApi(token: String?, requestClosedticketApi: RequestClosedticketApi) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS CLOSEORREOPENTICKET")) {
                 var baseUrl = data.APIS[i].URL
@@ -471,7 +525,7 @@ class RegistrationViewModel : ViewModel() {
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
@@ -720,10 +774,19 @@ class RegistrationViewModel : ViewModel() {
         }
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS SAVETICKET")) {
                 val baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
                 /*  val baseUrl =
                       "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
                 val requestNewComplaintRegistrationJson =
@@ -733,7 +796,7 @@ class RegistrationViewModel : ViewModel() {
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",
@@ -1175,15 +1238,39 @@ class RegistrationViewModel : ViewModel() {
 
     fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest) {
         val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
+        val url = Preferences.getApi()
+
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrL = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
      //
       //https://apis.v35.dev.zeroco.de-////apollocms
-        val baseUrl: String =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS update_user_default_site")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        "URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site","NAME":"CMS update_user_default_site","TOKEN":""},
+
+//        val baseUrl: String =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.updateSwachhDefaultSite(
-                    "h72genrSSNFivOi/cfiX3A==",
+                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,
+                    token1,
                     GetDetailsRequest(
                         baseUrl,
                         "POST",
@@ -1237,12 +1324,31 @@ class RegistrationViewModel : ViewModel() {
     fun fetchItemDetails(key: String?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrLproxy = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrLproxy= data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+        var baseUrL = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS fetch_item_code")) {
+                baseUrL = data.APIS[i].URL
+                break
+            }
+        }
+//        CMS fetch_item_code
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS OPENTICKETLIST")) {
         /* var baseUrl =
                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?"*/
         //val token = data.APIS[i].TOKEN
-        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/list/fetch-item-code?page=1&rows=10&" +
+        var baseUrl = ""+baseUrL+"?page=1&rows=10&" +
                 "globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=" +
                 key +
                 "&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=artcode&sort%5B0%5D%5Border%5D=ASC"
@@ -1252,8 +1358,8 @@ class RegistrationViewModel : ViewModel() {
             state.value = State.SUCCESS
             // RegistrationRepo.getticketresolvedstatus(site,department)
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    "h72genrSSNFivOi/cfiX3A==",
+                RegistrationRepo.getDetails(baseUrLproxy,
+                    token1,
                     GetDetailsRequest(
                         baseUrl,
                         "GET",
@@ -1309,15 +1415,36 @@ class RegistrationViewModel : ViewModel() {
     }
 
     fun fetchTransactionPOSDetails(key: String?) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS site_pine_lab_device")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
 
-        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site_pine_lab_device/list?site%5Buid%5D="+key
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
 
+
+
+
+
+//        {"URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site_pine_lab_device/list?","NAME":"CMS site_pine_lab_device","TOKEN":""},
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(
-                    "h72genrSSNFivOi/cfiX3A==",
-                    GetDetailsRequest(
+ baseUrL,token,                    GetDetailsRequest(
                         baseUrl,
                         "GET",
                         "The",
@@ -1426,6 +1553,27 @@ class RegistrationViewModel : ViewModel() {
 
 
     fun submitTicketInventorySaveUpdate(requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS ticket_inventory_save_update")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time == null) {
             requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time =
                 requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_hrs.toString()
@@ -1434,14 +1582,14 @@ class RegistrationViewModel : ViewModel() {
             requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time =
                 requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_mins?.uid
         }
-                  val baseUrl =
-                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"
+//                  val baseUrl =
+//                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"
                 val requestNewComplaintRegistrationJson =
                     Gson().toJson(requestNewComplaintRegistration)
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
                         RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
+                            baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "POST",

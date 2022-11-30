@@ -44,6 +44,7 @@ import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import com.hsalf.smilerating.SmileRating
 import java.util.*
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
@@ -54,7 +55,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     lateinit var storeData: LoginDetails.StoreData
 
-    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed"
+    var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
 
@@ -78,7 +79,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     private var isFirstTime: Boolean = true
     lateinit var layoutManager: LinearLayoutManager
     var handler: Handler = Handler()
-
+    var ticketratingapiresponse: ResponseticketRatingApi.Data?=null
     override fun retrieveViewModel(): ComplainListViewModel {
         return ViewModelProvider(this).get(ComplainListViewModel::class.java)
     }
@@ -100,8 +101,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         layoutManager = LinearLayoutManager(context)
         //attaches LinearLayoutManager with RecyclerView
         viewBinding.recyclerViewApproved.layoutManager = layoutManager
+        Utlis.showLoading(requireContext())
+        viewModel.getTicketRatingApi()
+        viewModel.cmsticketRatingresponse.observe(viewLifecycleOwner) {
+            Utlis.hideLoading()
+            ticketratingapiresponse = it.data;
+            callAPI(1)
+        }
 
-        callAPI(1)
+
 
 
 
@@ -112,9 +120,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 viewBinding.pullToRefresh.isRefreshing = false
             }
             if (it.data.listData.rows.size == 0) {
+                isLoadMoreAvailable = false
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
+                if(it.data.listData.rows.size <10){
+                    isLoadMoreAvailable = false
+                }
                 responseData = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
@@ -253,6 +265,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             || !this.complaintListStatus.contains("rejected")
             || !this.complaintListStatus.contains("reopened")
             || !this.complaintListStatus.contains("closed")
+            || !this.complaintListStatus.contains("onHold")
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -260,12 +273,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
         }
     }
-
+    var isLoadMoreAvailable = true
     private fun loadMore() {
         //notify adapter using Handler.post() or RecyclerView.post()
         handler.post(Runnable
         {
-            if (responseData.data.listData.total!! > responseData.data.listData.page!!) {
+            if (isLoadMoreAvailable) {
                 isLoading = true
                 val newdata = ResponseNewTicketlist.Row(
                     "",
@@ -290,6 +303,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     null,
                     null,
                     false,
+                    null,
+                    null,
                     null,
                     null,
                     null,
@@ -339,7 +354,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         if (getDateDifference(fromDate, toDate) > 0) {
             if (!viewBinding.pullToRefresh.isRefreshing)
                 Utlis.showLoading(requireContext())
-
+            isLoadMoreAvailable = true
             callAPI(1)
         } else {
             Toast.makeText(
@@ -462,7 +477,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                binding.staffNameText.text = items.user.first_name + if(items.user.middle_name != null)  " "+ items.user.middle_name else "" +if(items.user.last_name != null)   " "+ items.user.last_name else ""
 //            else
             binding.staffNameText.text =
-                items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "")
+                items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") +  " ("+items.created_id?.login_unique +")"
             binding.departmentName.text = items.department?.name
             binding.problemSinceText.text = items.created_time?.let {
                 Utlis.convertCmsDate(it)
@@ -481,8 +496,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             var isDonthaveInventory = false
             if(items.inventoryDetailsModel?.data != null){
                 binding.inventoryDetailsLayout.visibility = View.VISIBLE
-                binding.articleCode.text =
-                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+//                binding.articleCode.text =
+//                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+//              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
                 binding.articleName.text =
                     "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
                 binding.batchNumber.text =
@@ -504,19 +520,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.newMrp.text =
                         "₹ ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].new_mrp}"
                 }
-                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
-                    binding.manager.text =
-                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
-                }else {
-                    binding.manager.text =
-                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
-                }
-                binding.category.text =
-                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
-                binding.subCategory.text =
-                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
-                binding.reason.text =
-                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
+//                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name == null) {
+//                    binding.manager.text =
+//                        " ${items.inventoryDetailsModel?.data?.site?.manager?.first_name}"
+//                }else {
+//                    binding.manager.text =
+//                        " ${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.first_name}"
+//                }
+//                binding.category.text =
+//                    " ${items.inventoryDetailsModel?.data?.category!!.name}"
+//                binding.subCategory.text =
+//                    " ${items.inventoryDetailsModel?.data?.subcategory!!.name}"
+//                binding.reason.text =
+//                    " ${items.inventoryDetailsModel?.data?.reason!!.name}"
 
                 if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid == null) {
                     managerUid = items.inventoryDetailsModel?.data?.site?.manager?.uid!!
@@ -574,10 +590,20 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.inventoryImagesLayout.visibility = View.GONE
             }
 
+//            if(items.department?.code.equals("IT")){
+                binding.itTicketExecutive.text = items.executive?.first_name + " ("+items.executive?.login_unique +")"
+                binding.itTicketManager.text = items.manager?.first_name+ " ("+items.manager?.login_unique +")"
+                binding.itTicketExecutiveLayout.visibility = View.VISIBLE
+                binding.itTicketManagerLayout.visibility = View.VISIBLE
+//            }else{
+//                binding.itTicketExecutiveLayout.visibility = View.GONE
+//                binding.itTicketManagerLayout.visibility = View.GONE
+//            }
             if(items.creditCardTSDetails?.data != null){
                 binding.creditCardDetailsLayout.visibility = View.VISIBLE
-                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
-                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+//                binding.ccReason.text = " ${items.creditCardTSDetails?.data?.reason!!.name }"
+//                binding.ccExecutive.text = " ${items.creditCardTSDetails?.data?.executive!!.first_name }"
+//                binding.ccManager.text = items.creditCardTSDetails?.data?.manager!!.first_name
                 binding.ccTid.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.tid.tid}"
                 binding.billNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.bill_number}"
                 binding.transactionNumber.text = " ${items.creditCardTSDetails?.data?.ticket_it!!.transaction_id}"
@@ -611,7 +637,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
 //                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
                 binding.drugLayout.drugItemNumber.text = items.ticket_inventory.drug_request.item_name ?: "--"
-                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
+//                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
                 binding.drugLayout.drugPackSize.text =
                     items.ticket_inventory.drug_request.pack_size.toString() ?: "--"
                 binding.drugLayout.drugMrp.text = items.ticket_inventory.drug_request.mrp.toString() ?: "--"
@@ -630,73 +656,69 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     Glide.with(context)
                         .load(items.ticket_inventory?.drug_request.front_mb)
                         .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.drugLayout.frontImgView)
-                    binding.drugLayout.frontImgView.setOnClickListener {
+                        .into(binding.frontImgView)
+                    binding.frontImgView.setOnClickListener {
                         items.ticket_inventory?.drug_request.front_mb.let { it1 ->
                             imageClickListener.onItemClick(position,
                                 it1)
                         }
                     }
                 }else{
-                    binding.drugLayout.frontImgLabel.visibility = View.GONE
-                    binding.drugLayout.frontImgView.visibility = View.GONE
+                    binding.frontImgLabel.visibility = View.GONE
+                    binding.frontImgView.visibility = View.GONE
                 }
                 if(items.ticket_inventory?.drug_request?.back_mb != null) {
                     Glide.with(context)
                         .load(items.ticket_inventory?.drug_request.back_mb)
                         .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.drugLayout.backImgView)
-                    binding.drugLayout.backImgView.setOnClickListener {
+                        .into(binding.backImgView)
+                    binding.backImgView.setOnClickListener {
                         items.ticket_inventory?.drug_request.back_mb.let { it1 ->
                             imageClickListener.onItemClick(position,
                                 it1)
                         }
                     }
                 }else{
-                    binding.drugLayout.backImgLabel.visibility = View.GONE
-                    binding.drugLayout.backImgView.visibility = View.GONE
+                    binding.backImgLabel.visibility = View.GONE
+                    binding.backImgView.visibility = View.GONE
                 }
-                if(items.ticket_inventory?.drug_request?.side_mb != null) {
-                    binding.otherImgLabel.text = "Side Image"
-                    Glide.with(context)
-                        .load(items.ticket_inventory?.drug_request.side_mb)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.drugLayout.sideImgView)
-                    binding.drugLayout.sideImgView.setOnClickListener {
-                        items.ticket_inventory?.drug_request.side_mb.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
-                        }
-                    }
-                }else{
-                    binding.drugLayout.sideImgView.visibility = View.GONE
-                    binding.drugLayout.sideImgView.visibility = View.GONE
-                }
-                if(items.ticket_inventory?.drug_request?.bill_mb != null) {
-//                    binding.drugLayout.billImgLabel.visibility = View.VISIBLE
-//                    binding.drugLayout.billImgView.visibility = View.VISIBLE
-                    Glide.with(context)
-                        .load(items.ticket_inventory?.drug_request.bill_mb)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.drugLayout.billImgView)
-                    binding.drugLayout.billImgView.setOnClickListener {
-                        items.ticket_inventory?.drug_request.bill_mb.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
-                        }
-                    }
-                }else{
-                    binding.drugLayout.billImgLabel.visibility = View.GONE
-                    binding.drugLayout.billImgView.visibility = View.GONE
-                }
+                binding.inventoryImagesLayout.visibility = View.VISIBLE
             }else{
                 binding.drugLayout.drugDetailsLayout.visibility = View.GONE
-                binding.drugLayout.billImgLabel.visibility = View.GONE
-                binding.drugLayout.billImgView.visibility = View.GONE
+
             }
             binding.complainDetails.text =
                 items.description?.trim()?.replace("\\s+".toRegex(), " ")?: "--"
+            if(items.status?.code.isNullOrEmpty()) {
+            }else {
 
+                if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
+                        items.created_id!!.uid)
+                ) {
+                    binding.ticketResolveBtn.visibility = View.VISIBLE
+                    binding.ticketCloseBtn.visibility = View.VISIBLE
+                    binding.ticketCloseBtn.setOnClickListener {
+                        imageClickListener.onClickTicketClose(items)
+                    }
+                    binding.ticketActionLayout.visibility = View.VISIBLE
+                    binding.ticketResolveBtn.text = "Reopen"
+                    binding.ticketResolveBtn.setOnClickListener {
+                        imageClickListener.onClickTicketReopen(items)
+                    }
+                } else if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(
+                        items.user!!.uid) && items.inventoryDetailsModel?.data == null
+                ) {
+                    binding.ticketResolveBtn.visibility = View.VISIBLE
+                    binding.ticketCloseBtn.visibility = View.GONE
+                    binding.ticketResolveBtn.text = "Resolve"
+                    binding.ticketResolveBtn.setOnClickListener {
+                        imageClickListener.onClickTicketResolve(items)
+                    }
+                    binding.ticketActionLayout.visibility = View.VISIBLE
+                } else {
+                    binding.ticketActionLayout.visibility = View.GONE
+                }
+            }
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "
                 binding.siteid.text = "Self"
@@ -708,6 +730,15 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.siteid.text = items.site?.site + "-" + items.site?.store_name
             }
             binding.ticketCategory.text = items.category?.name
+//            if(items.ticket_inventory?.drug_request?.uid != null){
+//                binding.subCategoryLayout.visibility = View.GONE
+//                binding.regionLayout.visibility = View.GONE
+//            }else {
+                binding.subCategory.text = items.subcategory?.name
+                binding.region.text = items.reason?.name
+                binding.subCategoryLayout.visibility = View.VISIBLE
+                binding.regionLayout.visibility = View.VISIBLE
+//            }
 //            binding.siteName.text = items.site.store_name
 
 
@@ -1145,7 +1176,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         val regDate = dialog.findViewById(R.id.regDate) as TextView
         regDate.text = Utlis.convertCmsDate(data.created_time!!)
         val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
-        problemDesc.text = data.description
+        problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
@@ -1208,7 +1239,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         val regDate = dialog.findViewById(R.id.regDate) as TextView
         regDate.text = Utlis.convertCmsDate(data.created_time!!)
         val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
-        problemDesc.text = data.description
+        problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
@@ -1270,7 +1301,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         val regDate = dialog.findViewById(R.id.regDate) as TextView
         regDate.text = Utlis.convertCmsDate(data.created_time!!)
         val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
-        problemDesc.text = data.description
+        problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
         val noBtn = dialog.findViewById(R.id.reject) as Button
@@ -1304,6 +1335,139 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             SearchManagerDialog(it).apply { }.show(childFragmentManager, "")
         })
         viewModel.getManagers(data.site?.uid!!)
+    }
+
+    override fun onClickTicketResolve(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = Utlis.convertCmsDate(data.created_time!!)
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason!!.name
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
+        yesBtn.setOnClickListener {
+            if(remark.text.toString().isEmpty()){
+                remark.error = "Please enter comment"
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel(
+                    "resolve",
+                    remark.text.toString(),
+                    userData.EMPID,
+                    "solved",
+                    data.ticket_id!!,
+                    null
+                )
+                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+            }
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    override fun onClickTicketClose(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = Utlis.convertCmsDate(data.created_time!!)
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason!!.name
+        var ratingduid : String = ""
+        val rating = dialog.findViewById(R.id.smile_rating) as SmileRating
+        rating.visibility = View.VISIBLE
+        rating.setOnRatingSelectedListener { level, reselected ->
+            for(rows in ticketratingapiresponse?.listData?.rows!!) {
+                if(rows.value.equals(level.toString())) {
+                    ratingduid=rows.uid!!
+                    break
+                }
+            }
+        }
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
+        yesBtn.setOnClickListener {
+            if(remark.text.toString().isEmpty()){
+                remark.error = "Please enter comment"
+                remark.requestFocus()
+            }else if(ratingduid.isEmpty()){
+                Toast.makeText( requireContext(), context?.resources?.getString(R.string.label_rate_complaint), Toast.LENGTH_SHORT).show()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel(
+                    "close",
+                    remark.text.toString(),
+                    userData.EMPID,
+                    "closed",
+                    data.ticket_id!!,
+                    Feedback(Rating(ratingduid))
+                )
+                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+            }
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = Utlis.convertCmsDate(data.created_time!!)
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason!!.name
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
+        yesBtn.setOnClickListener {
+            if(remark.text.toString().isEmpty()){
+                remark.error = "Please enter comment"
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel(
+                    "reopen",
+                    remark.text.toString(),
+                    userData.EMPID,
+                    "reopened",
+                    data.ticket_id!!,
+                    null
+                )
+                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+            }
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
     }
 
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
@@ -1341,6 +1505,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialogComplaintListFilterBinding.isRejectedChecked = this.complaintListStatus.contains("rejected")
         dialogComplaintListFilterBinding.isReopenChecked = this.complaintListStatus.contains("reopened")
         dialogComplaintListFilterBinding.isClosedChecked = this.complaintListStatus.contains("closed")
+        dialogComplaintListFilterBinding.isOnHoldChecked = this.complaintListStatus.contains("onHold")
 
 
         submitButtonEnable(dialogComplaintListFilterBinding)
@@ -1362,6 +1527,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             submitButtonEnable(dialogComplaintListFilterBinding)
         }
         dialogComplaintListFilterBinding.closedStatus.setOnCheckedChangeListener { compoundButton, b ->
+            submitButtonEnable(dialogComplaintListFilterBinding)
+        }
+        dialogComplaintListFilterBinding.onholdStatus.setOnCheckedChangeListener { compoundButton, b ->
             submitButtonEnable(dialogComplaintListFilterBinding)
         }
 
@@ -1422,6 +1590,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     this.complaintListStatus = "closed"
                 } else {
                     this.complaintListStatus = "${this.complaintListStatus},closed"
+                }
+            }
+            if (dialogComplaintListFilterBinding.onholdStatus.isChecked) {
+                if (this.complaintListStatus.isEmpty()) {
+                    this.complaintListStatus = "onHold"
+                } else {
+                    this.complaintListStatus = "${this.complaintListStatus},onHold"
                 }
             }
 
@@ -1516,6 +1691,7 @@ fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilt
         && !dialogComplaintListFilterBinding.rejectedStatus.isChecked
         && !dialogComplaintListFilterBinding.reopenStatus.isChecked
         && !dialogComplaintListFilterBinding.closedStatus.isChecked
+        && !dialogComplaintListFilterBinding.onholdStatus.isChecked
     ) {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
         dialogComplaintListFilterBinding.isSubmitEnable = false
@@ -1542,6 +1718,12 @@ interface ImageClickListener {
     fun onClickForwardToManager(data: ResponseNewTicketlist.Row)
 
     fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row)
+
+    fun onClickTicketResolve(data: ResponseNewTicketlist.Row)
+
+    fun onClickTicketClose(data: ResponseNewTicketlist.Row)
+
+    fun onClickTicketReopen(data: ResponseNewTicketlist.Row)
     //  fun gettickethistory(uid:String):ArrayList<NewTicketHistoryResponse.Row>
 
     // fun calltickethistory(uid:String?);

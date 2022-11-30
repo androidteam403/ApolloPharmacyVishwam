@@ -29,16 +29,20 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
-    MainActivityCallback,
-    QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
+    MainActivityCallback, QcListsCallback, RejectReasonsDialog.ResaonDialogClickListner,
     QcFilterFragment.QcFilterClicked, PendingFragmentCallback {
     var dialogBinding: DialogRejectQcBinding? = null
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
     public var isBulk: Boolean = false
+    public var storeList=ArrayList<String>()
+    public var regionList=ArrayList<String>()
+
 
     var getPendingqcitemList: List<QcItemListResponse.Item>? = null
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
@@ -69,6 +73,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var increment: Int = 0
     var names = ArrayList<QcListsResponse.Pending>();
 
+
+
     override val layoutRes: Int
         get() = R.layout.qc_fragment_pending
 
@@ -76,8 +82,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         return ViewModelProvider(this).get(QcPendingViewModel::class.java)
     }
 
-    @SuppressLint("ResourceType")
     override fun setup() {
+
+
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -88,8 +95,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         MainActivity.mInstance.mainActivityCallback = this
 
         viewModel.getQcRejectionList()
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
 
@@ -201,11 +208,21 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 viewBinding.continueBtn.visibility = View.GONE
 
 //                Toast.makeText(requireContext(), "No Pending Data", Toast.LENGTH_SHORT).show()
-            }
-            else  {
+            } else {
 
                 filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
-
+                for (i in filterPendingList.indices) {
+                    storeList.add(filterPendingList[i].storeid.toString())
+                    regionList.add(filterPendingList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeList)
+                regionListSet.addAll(regionList)
+                storeList.clear()
+                regionList.clear()
+                regionList.addAll(regionListSet)
+                storeList.addAll(stroreListSet)
 
 //            subList = ListUtils.partition(it.pendinglist, 3)
                 splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
@@ -225,28 +242,24 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
 
                 names = it.pendinglist as ArrayList<QcListsResponse.Pending>
-                   viewBinding.refreshSwipe.isRefreshing = false
-                    viewBinding.emptyList.visibility = View.GONE
+                viewBinding.refreshSwipe.isRefreshing = false
+                viewBinding.emptyList.visibility = View.GONE
 
-                    viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                    if (subList?.size == 1) {
-                        viewBinding.continueBtn.visibility = View.GONE
-                    } else {
-                        viewBinding.continueBtn.visibility = View.VISIBLE
-
-                    }
-                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-                    adapter =
-                        context?.let { it1 ->
-                            QcPendingListAdapter(it1,
-                                subList!!.get(increment),
-                                this,
-                                itemsList, this)
-                        }
+                viewBinding.recyclerViewPending.visibility = View.VISIBLE
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
+                } else {
+                    viewBinding.continueBtn.visibility = View.VISIBLE
 
                 }
-                viewBinding.recyclerViewPending.adapter = adapter
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
+
+            }
+            viewBinding.recyclerViewPending.adapter = adapter
 
         })
 
@@ -289,13 +302,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         i.setisItemChecked(false)
                     }
                 }
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
-                    }
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
                 Toast.makeText(requireContext(), "No More Data To Load", Toast.LENGTH_SHORT).show()
@@ -330,13 +339,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         i.setisItemChecked(false)
                     }
                 }
-                adapter =
-                    context?.let { it1 ->
-                        QcPendingListAdapter(it1,
-                            subList!!.get(increment),
-                            this,
-                            itemsList, this)
-                    }
+                adapter = context?.let { it1 ->
+                    QcPendingListAdapter(it1, subList!!.get(increment), this, itemsList, this)
+                }
                 viewBinding.recyclerViewPending.adapter = adapter
             } else {
 
@@ -373,12 +378,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         viewBinding.acceptClick.setOnClickListener {
             val dialogBinding: DialogAcceptQcBinding? =
-                DataBindingUtil.inflate(
-                    LayoutInflater.from(requireContext()),
+                DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                     R.layout.dialog_accept_qc,
                     null,
-                    false
-                )
+                    false)
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
 
@@ -409,8 +412,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             }
 
             if (dialogBinding != null) {
-                dialogBinding.message.setText("You are accepting the multiple Orders" +
-                        " for Qc Fail Do You Want to Proceed ?")
+                dialogBinding.message.setText("You are accepting the multiple Orders" + " for Qc Fail Do You Want to Proceed ?")
             }
 
             dialogBinding?.cancelButton?.setOnClickListener {
@@ -600,7 +602,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno: String,
+
+
+        ) {
 
         acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
@@ -622,12 +627,10 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         qcAccepttList.add(qcreject)
 
         val dialogBinding: DialogAcceptQcBinding? =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(requireContext()),
+            DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                 R.layout.dialog_accept_qc,
                 null,
-                false
-            )
+                false)
         val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
         customDialog.apply {
 
@@ -647,7 +650,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         if (dialogBinding != null) {
             dialogBinding.message.setText("You are accepting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
         }
 
         dialogBinding?.cancelButton?.setOnClickListener {
@@ -662,7 +665,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-    ) {
+        omsOrderno: String,
+
+        ) {
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -676,8 +681,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             dialogBinding = DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                 R.layout.dialog_reject_qc,
                 null,
-                false
-            )
+                false)
             val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
             customDialog.apply {
 
@@ -710,7 +714,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
             dialogBinding?.message?.setText("You are rejecting the Order Id " +
-                    orderno + " for QC Fail Do You Want to Proceed ?")
+                    omsOrderno + " for QC Fail Do You Want to Proceed ?")
 
             dialogBinding?.yesBtn?.setOnClickListener {
                 showLoading()
@@ -821,6 +825,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         this.headerPos = headerPos
         this.itemPos = itemPos
         this.orderId = orderId.toString()
+
         RejectReasonsDialog().apply {
             arguments =
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())
@@ -848,6 +853,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        showLoading()
 
         val i = Intent(context, QcFilterActivity::class.java)
+        i.putStringArrayListExtra("storeList",storeList)
+        i.putStringArrayListExtra("regionList",regionList)
         i.putExtra("activity", "1")
         startActivityForResult(i, 210)
 

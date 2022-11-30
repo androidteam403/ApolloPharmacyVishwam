@@ -481,9 +481,9 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 
 
-            val exif: ExifInterface = ExifInterface(imageFromCameraFile!!) //Since API Level 5
-
-            val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
+//            val exif: ExifInterface = ExifInterface(imageFromCameraFile!!) //Since API Level 5
+//
+//            val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
 
             val resizedImage = Resizer(this)

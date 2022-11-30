@@ -22,6 +22,7 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_PRODUCT_FRONT_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.LoginDetails
@@ -35,6 +36,7 @@ import com.apollopharmacy.vishwam.dialog.AcknowledgementDialog.Companion.KEY_DAT
 import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCATEGORY
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
 import com.apollopharmacy.vishwam.dialog.model.Row
+import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
@@ -42,6 +44,7 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,7 +57,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
     ConfirmSiteDialog.OnSiteClickListener, ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
-    OnTransactionPOSSelectedListnier {
+    OnTransactionPOSSelectedListnier, IOnBackPressed {
 
     private var statusInventory: String? = null
     lateinit var userData: LoginDetails
@@ -106,6 +109,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     var employeeDetailsResponse: EmployeeDetailsResponse? = null
     lateinit var selectedCategory: ReasonmasterV2Response.TicketCategory
     lateinit var selectedSubCategory: ReasonmasterV2Response.TicketSubCategory
+    lateinit var selectedReasonDto: ReasonmasterV2Response.Row
 
     override val layoutRes: Int
         get() = R.layout.fragment_registration
@@ -228,16 +232,24 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
 
         }
-
+        showLoading()
         viewModel.getRemarksMasterList()
 
         adapter = ImageRecyclerView(fileArrayList, this)
         viewBinding.imageRecyclerView.adapter = adapter
         viewBinding.selectDepartment.setOnClickListener {
-            CustomDialog().apply {
-                arguments =
-                    CustomDialog().generateParsedDatafromreasons(viewModel.getdepartmrntsformreasonslist())
-            }.show(childFragmentManager, "")
+            if (viewBinding.siteIdSelect.text.toString().isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select Site Id",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                CustomDialog().apply {
+                    arguments =
+                        CustomDialog().generateParsedDatafromreasons(viewModel.getdepartmrntsformreasonslist())
+                }.show(childFragmentManager, "")
+            }
         }
         viewBinding.siteIdSelect.setOnClickListener {
             showLoading()
@@ -750,7 +762,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 return false
             }
 
-        } else if (statusInventory.equals("POS")) {
+        } else if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                "asb_not_completed")) {
             if (viewBinding.transactionDetailsLayout.tidEdit.text.toString().trim().isEmpty()) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_select_TID)
@@ -952,7 +965,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectRemarks.setText(departmentDto.name)
         reasonuid = departmentDto.uid
         reasonSla = departmentDto.reason_sla
-
+        selectedReasonDto = departmentDto
         if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && departmentDto.code.equals(
                 "asb_not_completed")
         ) {
@@ -1165,16 +1178,19 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         viewBinding.productImageView.productFrontImagePreview.setImageURI(Uri.fromFile(
                             frontImageFile))
                         viewBinding.productImageView.frontImageDelete.visibility = View.VISIBLE
+                        frontImageFile = compresImageSize(frontImageFile!!)
                     }
                     2 -> {
                         viewBinding.productImageView.productBackImagePreview.setImageURI(Uri.fromFile(
                             backImageFile))
                         viewBinding.productImageView.backImageDelete.visibility = View.VISIBLE
+                        backImageFile = compresImageSize(backImageFile!!)
                     }
                     3 -> {
                         viewBinding.productImageView.productOtherImagePreview.setImageURI(Uri.fromFile(
                             otherImageFile))
                         viewBinding.productImageView.otherImageDelete.visibility = View.VISIBLE
+                        otherImageFile = compresImageSize(otherImageFile!!)
                     }
                 }
 
@@ -1192,11 +1208,23 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 }
             }
         } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+            fileArrayList.add(ImageDataDto(compresImageSize(imageFromCameraFile!!), ""))
             adapter.notifyAdapter(fileArrayList)
         }
     }
 
+    private fun compresImageSize(imageFromCameraFile: File): File{
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.Companion.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
+    }
     override fun deleteImage(position: Int) {
         imagesArrayListSend.clear()
         NewimagesArrayListSend.clear()
@@ -1378,16 +1406,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         showLoading()
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+//            Preferences.getSiteId()
+//        }
+        val storeId = Preferences.getSiteId()
         if (statusInventory.equals("MRP Change Request") || statusInventory.equals("NEWBATCH")) {
+            InventoryfileArrayList.clear()
             if(frontImageFile!=null)
             InventoryfileArrayList.add(ImageDataDto(frontImageFile!!, ""))
             if(backImageFile!=null)
@@ -1397,7 +1427,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
         } else {
             if (fileArrayList.isEmpty()) {
-                val ticketIt: Ticket_it? = if (statusInventory.equals("POS")) {
+                val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                        "asb_not_completed")) {
                     Ticket_it(posTid,
                         viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
@@ -1415,15 +1446,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
     private fun saveTicketApi(cmsCommand: CmsCommand.ImageIsUploadedInAzur) {
-        val storeId: String = if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
-        ) {
-            employeeDetailsResponse!!.data!!.site!!.site.toString()
-        } else {
-            Preferences.getSiteId()
-        }
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+        val storeId =    Preferences.getSiteId()
+//        }
         val description = viewBinding.descriptionText.text.toString().trim()
         val currentTime =
             SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
@@ -1494,7 +1525,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
                 NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
             }
-            val ticketIt: Ticket_it? = if (statusInventory.equals("POS")) {
+            val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                    "asb_not_completed")) {
                 Ticket_it(posTid,
                     viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                     viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
@@ -1524,10 +1556,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             RequestNewComplaintRegistration.Site(storeId),
             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend),
+            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend.distinct()),
             ticketIt
         )
         )
+    }
+
+    override fun onBackPressed(): Boolean {
+        if(viewBinding.selectDepartment.text.toString().isNotEmpty() || viewBinding.descriptionText.text.toString().isNotEmpty()
+            || fileArrayList.isNotEmpty()){
+            return true
+        }
+        return false
     }
 }
 

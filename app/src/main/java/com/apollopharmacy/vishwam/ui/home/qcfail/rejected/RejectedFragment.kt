@@ -12,19 +12,15 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.qcfail.approved.adapter.QcApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
-import com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter.QcPendingListAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.apollopharmacy.vishwam.util.Utlis
 import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBinding>(),
     MainActivityCallback,
@@ -38,7 +34,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
     var getRejectList: ArrayList<QcListsResponse.Reject>? = null
-
+    public var storeStringList=ArrayList<String>()
+    public var regionStringList=ArrayList<String>()
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
     var reason: String = ""
@@ -85,8 +82,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         fromDate = simpleDateFormat.format(cal.time)
 
 
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getQcStoreist()
         viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
@@ -146,17 +143,28 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
 
-             if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
+            if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                  filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
 
 
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
 
-                subList = ListUtils.partition(it.rejectedlist, 5)
-
-
-                pageNo = 1
+                for (i in filterRejectList.indices) {
+                    storeStringList.add(filterRejectList[i].storeid.toString())
+                    regionStringList.add(filterRejectList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeStringList)
+                regionListSet.addAll(regionStringList)
+                storeStringList.clear()
+                regionStringList.clear()
+                regionStringList.addAll(regionListSet)
+                storeStringList.addAll(stroreListSet)
+                 subList = ListUtils.partition(it.rejectedlist, 5)
+                 pageNo = 1
                 increment = 0
                 if (pageNo == 1) {
                     viewBinding.prevPage.visibility = View.GONE
@@ -193,15 +201,16 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                             itemsList,
                             statusList)
                     }
-                 viewBinding.recyclerViewPending.adapter = adapter
+                viewBinding.recyclerViewPending.adapter = adapter
 
              }
 
                  else  {
                      viewBinding.emptyList.visibility = View.VISIBLE
                      viewBinding.recyclerViewPending.visibility = View.GONE
+                 viewBinding.continueBtn.visibility=View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
-             }
+            }
         })
 
 
@@ -335,6 +344,30 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         adapter?.notifyDataSetChanged()
     }
 
+    override fun accept(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun reject(
+        position: Int,
+        orderno: String,
+        remarks: String,
+        itemlist: List<QcItemListResponse.Item>,
+        storeId: String,
+        status: String,
+        omsOrderno: String,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
@@ -399,29 +432,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-    override fun accept(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
-
-
-    override fun reject(
-        position: Int,
-        orderno: String,
-        remarks: String,
-        itemlist: List<QcItemListResponse.Item>,
-        storeId: String,
-        status: String,
-    ) {
-        TODO("Not yet implemented")
-    }
-
 
     override fun clickedApply(
         selectedData: String,
@@ -444,7 +454,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "3")
-
+        i.putStringArrayListExtra("storeList",storeStringList)
+        i.putStringArrayListExtra("regionList",regionStringList)
         startActivityForResult(i, 210)
     }
 

@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
 import com.google.gson.JsonSyntaxException
@@ -15,11 +14,12 @@ import java.util.concurrent.TimeoutException
 
 object SwachApiiRepo {
     suspend fun updateSwachhDefaultSite(
+        url: String,
         token: String,
-        getDetailsRequest: GetDetailsRequest
+        getDetailsRequest: GetDetailsRequest,
     ): ApiResult<ResponseBody> {
         return try {
-            val response = Api.getClient().getDetails(token, getDetailsRequest)
+            val response = Api.getClient().getDetails(url,token, getDetailsRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -49,9 +49,14 @@ object SwachApiiRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
-    suspend fun checkDayWiseAccess(storeId: String): ApiResult<CheckDayWiseAccessResponse> {
+
+    suspend fun checkDayWiseAccess(
+        url: String,
+        token: String,
+        storeId: String,
+    ): ApiResult<CheckDayWiseAccessResponse> {
         return try {
-            val response = Api.getClient().checkDayWiseAccess(Config.ATTENDANCE_API_HEADER, storeId)
+            val response = Api.getClient().checkDayWiseAccess(url, token, storeId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -83,11 +88,12 @@ object SwachApiiRepo {
     }
 
     suspend fun onUploadSwach(
+        url: String,
         token: String,
         onUploadSwachModelRequest: OnUploadSwachModelRequest,
     ): ApiResult<OnUploadSwachModelResponse> {
         return try {
-            val response = Api.getClient().onUploadSwacch(token, onUploadSwachModelRequest)
+            val response = Api.getClient().onUploadSwacch(url, token, onUploadSwachModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -119,11 +125,12 @@ object SwachApiiRepo {
     }
 
     suspend fun onUploadSwachRes(
+        url: String,
         token: String,
         onUploadSwachModelRequest: OnUploadSwachModelRequest,
     ): ApiResult<OnUploadSwachModelResponse> {
         return try {
-            val response = Api.getClient().onUploadSwacchRes(token, onUploadSwachModelRequest)
+            val response = Api.getClient().onUploadSwacchRes(url, token, onUploadSwachModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -156,12 +163,13 @@ object SwachApiiRepo {
 
 
     suspend fun getStorePersonHistory(
+        url: String,
         token: String,
         getStorePersonHistoryodelRequest: GetStorePersonHistoryodelRequest,
     ): ApiResult<GetStorePersonHistoryodelResponse> {
         return try {
             val response =
-                Api.getClient().getStorePersonHistory(token, getStorePersonHistoryodelRequest)
+                Api.getClient().getStorePersonHistory(url, token, getStorePersonHistoryodelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -194,11 +202,12 @@ object SwachApiiRepo {
 
 
     suspend fun getImageUrl(
+        url: String,
         token: String,
         getImageUrlModelRequest: GetImageUrlModelRequest,
     ): ApiResult<GetImageUrlModelResponse> {
         return try {
-            val response = Api.getClient().getImageUrlApi(token, getImageUrlModelRequest)
+            val response = Api.getClient().getImageUrlApi(url, token, getImageUrlModelRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
