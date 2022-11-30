@@ -50,14 +50,14 @@ class ComplainListViewModel : ViewModel() {
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseUrl = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
-                baseUrl = data.APIS[i].URL
-//                token = data.APIS[i].TOKEN
-                break
-            }
-        }
+//        var baseUrl = ""
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
+//                baseUrl = data.APIS[i].URL
+////                token = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
 
 
         var baseUrL = ""
@@ -69,107 +69,108 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-
+        var baseUrl = "";
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS TICKETLIST")) {
-                val baseUrl = data.APIS[i].URL
+                baseUrl = data.APIS[i].URL
                 // "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/list/reason-list?page=1&rows=100"
                 //val token = data.APIS[i].TOKEN
+                break
 
-                val new = if (status.contains("new")) "new" else ""
-                val inprogress = if (status.contains("inprogress")) "inprogress" else ""
-                val solved = if (status.contains("solved")) "solved" else ""
-                val rejected = if (status.contains("rejected")) "rejected" else ""
-                val reopened = if (status.contains("reopened")) "reopened" else ""
-                val closed = if (status.contains("closed")) "closed" else ""
-                val onHold = if (status.contains("onHold")) "onHold" else ""
+            }
+        }
+        val new = if (status.contains("new")) "new" else ""
+        val inprogress = if (status.contains("inprogress")) "inprogress" else ""
+        val solved = if (status.contains("solved")) "solved" else ""
+        val rejected = if (status.contains("rejected")) "rejected" else ""
+        val reopened = if (status.contains("reopened")) "reopened" else ""
+        val closed = if (status.contains("closed")) "closed" else ""
+        val onHold = if (status.contains("onHold")) "onHold" else ""
 
-                val url: String =
-                    baseUrl + "${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
-                        "reason_code=new_drug&"
-                    } else {
-                        ""
-                    } + "${
-                        URLEncoder.encode("status[0]",
-                            "utf-8")
-                    }=${new}&${
-                        URLEncoder.encode("status[1]",
-                            "utf-8")
-                    }=${inprogress}&${
-                        URLEncoder.encode("status[2]",
-                            "utf-8")
-                    }=${solved}&${
-                        URLEncoder.encode("status[3]",
-                            "utf-8")
-                    }=${rejected}&${
-                        URLEncoder.encode("status[4]",
-                            "utf-8")
-                    }=${reopened}&${
-                        URLEncoder.encode("status[5]",
-                            "utf-8")
-                    }=${closed}&${
-                        URLEncoder.encode("status[6]",
-                            "utf-8")
-                    }=${onHold}"
+        baseUrl =
+            baseUrl + "${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                "reason_code=new_drug&"
+            } else {
+                ""
+            } + "${
+                URLEncoder.encode("status[0]",
+                    "utf-8")
+            }=${new}&${
+                URLEncoder.encode("status[1]",
+                    "utf-8")
+            }=${inprogress}&${
+                URLEncoder.encode("status[2]",
+                    "utf-8")
+            }=${solved}&${
+                URLEncoder.encode("status[3]",
+                    "utf-8")
+            }=${rejected}&${
+                URLEncoder.encode("status[4]",
+                    "utf-8")
+            }=${reopened}&${
+                URLEncoder.encode("status[5]",
+                    "utf-8")
+            }=${closed}&${
+                URLEncoder.encode("status[6]",
+                    "utf-8")
+            }=${onHold}"
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
-                viewModelScope.launch {
-                    state.value = State.SUCCESS
-                    val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(baseUrL,
-                            token,
-                            GetDetailsRequest(
-                                url,
-                                "GET",
-                                "The",
-                                "",
-                                ""
-                            )
-                        )
-                    }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            state.value = State.ERROR
-                            if (response != null) {
-                                val resp: String = response.value.string()
-                                if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val responseNewTicketlist =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseNewTicketlist::class.java
-                                        )
-                                    if (responseNewTicketlist.success) {
-                                        resLiveData.value = responseNewTicketlist
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlist =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ResponseNewTicketlist::class.java
+                                )
+                            if (responseNewTicketlist.success) {
+                                resLiveData.value = responseNewTicketlist
 //                                        newcomplainLiveData.value =
 //                                            responseNewTicketlist.data.listData.rows
-                                    } else {
-                                        command.value =
-                                            CmsCommand.VisibleLayout(responseNewTicketlist.message.toString())
-                                    }
-                                }
-                                //  unComment it  newcomplainLiveData.value = response.value.data.listData.rows
-                                //  Ticketlistdata = response.value
-                                //  val reasonlitrows = response.value.data.listData.rows
-                                // for (row in reasonlitrows) {
-                                //  deartmentlist.add(row.department)
-                                // }
                             } else {
-                                //  unComment it   command.value = CmsCommand.ShowToast(response.value.message.toString())
+                                command.value =
+                                    CmsCommand.VisibleLayout(responseNewTicketlist.message.toString())
                             }
                         }
-                        is ApiResult.GenericError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.NetworkError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownHostException -> {
-                            state.value = State.ERROR
-                        }
+                        //  unComment it  newcomplainLiveData.value = response.value.data.listData.rows
+                        //  Ticketlistdata = response.value
+                        //  val reasonlitrows = response.value.data.listData.rows
+                        // for (row in reasonlitrows) {
+                        //  deartmentlist.add(row.department)
+                        // }
+                    } else {
+                        //  unComment it   command.value = CmsCommand.ShowToast(response.value.message.toString())
                     }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
@@ -289,7 +290,7 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-        val baseUrl = baseUrL + requestTicketHistory//data.APIS[i].URL
+        val baseUrl = "${baseUrL}ticket_id=${requestTicketHistory}"//data.APIS[i].URL
 
 //        CMS inventory_details_for_mobile
 //        for (i in data.APIS.indices) {
@@ -384,7 +385,7 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 
-        val baseUrL = baseUrl + requestTicketHistory
+        val baseUrL = "${baseUrl}ticket_id${requestTicketHistory}"
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/cc-tx-details-for-mobile?ticket_id="+requestTicketHistory
         viewModelScope.launch {
             state.value = State.SUCCESS

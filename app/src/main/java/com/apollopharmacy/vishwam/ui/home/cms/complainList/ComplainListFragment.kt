@@ -498,6 +498,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.inventoryDetailsLayout.visibility = View.VISIBLE
 //                binding.articleCode.text =
 //                    "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_code}"
+//              if (items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item)
                 binding.articleName.text =
                     "${items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_name}"
                 binding.batchNumber.text =
