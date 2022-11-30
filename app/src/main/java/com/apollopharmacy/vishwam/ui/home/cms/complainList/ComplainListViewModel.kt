@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URLEncoder
-import java.util.*
 
 class ComplainListViewModel : ViewModel() {
 
@@ -47,7 +46,7 @@ class ComplainListViewModel : ViewModel() {
     fun getNewticketlist(
         requestComplainList: RequestComplainList,
         status: String,
-        isDrugList: Boolean
+        isDrugList: Boolean,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -181,32 +180,38 @@ class ComplainListViewModel : ViewModel() {
     fun getNewticketHistory(requestTicketHistory: RequestTicketHistory) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-
+        var proxyBaseUrl = ""
+        var proxyToken = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseUrL = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
                 break
             }
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
-                    val baseUrl = data.APIS[i].URL
-                    //val token = data.APIS[i].TOKEN
+        }
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
+                baseUrl = data.APIS[i].URL
+                //val token = data.APIS[i].TOKEN
+                break
+            }
 
-                    viewModelScope.launch {
-                        state.value = State.SUCCESS
-                        val response = withContext(Dispatchers.IO) {
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
 
-                            RegistrationRepo.getDetails(baseUrL,
-                                token,
-                                GetDetailsRequest(
-                                    baseUrl + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
-                                    "GET",
-                                    "The",
-                                    "",
-                                    ""
-                                )
-                            )
+                RegistrationRepo.getDetails(proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        baseUrl + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
 
 
 //                        RegistrationRepo.getticketHistory(
@@ -215,61 +220,59 @@ class ComplainListViewModel : ViewModel() {
 //                            requestTicketHistory.rows,
 //                            requestTicketHistory.dependents
 //                        )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ResponseNewTicketlist.NewTicketHistoryResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                newtickethistoryLiveData.value =
+                                    responseNewTicketlistNewTicketHistoryResponse
+
+                                tickethistory =
+                                    responseNewTicketlistNewTicketHistoryResponse.data.listData.rows
+
+                            } else {
+                                command.value = CmsCommand.VisibleLayout(
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                )
+                            }
+
                         }
-                        when (response) {
-                            is ApiResult.Success -> {
-                                state.value = State.ERROR
-                                if (response != null) {
-                                    val resp: String = response.value.string()
-                                    if (resp != null) {
-                                        val res = BackShlash.removeBackSlashes(resp)
-                                        val responseNewTicketlistNewTicketHistoryResponse =
-                                            Gson().fromJson(
-                                                BackShlash.removeSubString(res),
-                                                ResponseNewTicketlist.NewTicketHistoryResponse::class.java
-                                            )
-                                        if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                            newtickethistoryLiveData.value =
-                                                responseNewTicketlistNewTicketHistoryResponse
-
-                                            tickethistory =
-                                                responseNewTicketlistNewTicketHistoryResponse.data.listData.rows
-
-                                        } else {
-                                            command.value = CmsCommand.VisibleLayout(
-                                                responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                            )
-                                        }
-
-                                    }
-                                    //  Ticketlistdata = response.value
-                                    //  val reasonlitrows = response.value.data.listData.rows
-                                    // for (row in reasonlitrows) {
-                                    //  deartmentlist.add(row.department)
-                                    // }
-                                } else {
+                        //  Ticketlistdata = response.value
+                        //  val reasonlitrows = response.value.data.listData.rows
+                        // for (row in reasonlitrows) {
+                        //  deartmentlist.add(row.department)
+                        // }
+                    } else {
 //                                command.value = CmsCommand.ShowToast(
 //                                    response.value.message.toString()
 //                                )
-                                }
-                            }
-                            is ApiResult.GenericError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.NetworkError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.UnknownError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.UnknownHostException -> {
-                                state.value = State.ERROR
-                            }
-                        }
                     }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+
     }
 
 
@@ -300,909 +303,909 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
 
-                    RegistrationRepo.getDetails(baseUrL,
-                        token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "GET",
-                            "The",
-                            "",
-                            ""
-                        )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseNewTicketlistNewTicketHistoryResponse =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        InventoryDetailsModel::class.java
-                                    )
-                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                    responseNewTicketlistNewTicketHistoryResponse.position = itemPos
-                                    inventoryDetailsLiveData.value =
-                                        responseNewTicketlistNewTicketHistoryResponse
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryDetailsModel::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                responseNewTicketlistNewTicketHistoryResponse.position = itemPos
+                                inventoryDetailsLiveData.value =
+                                    responseNewTicketlistNewTicketHistoryResponse
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                )
                             }
+
                         }
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 //            }
 //        }
 
 
-        fun getCreditCardTSAdditionalDetails(requestTicketHistory: String?, itemPos: Int) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            var token1 = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS cc_tx_details_for_mobile")) {
-                    baseUrl = data.APIS[i].URL
-                    token1 = data.APIS[i].TOKEN
-                    break
-                }
+    fun getCreditCardTSAdditionalDetails(requestTicketHistory: String?, itemPos: Int) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS cc_tx_details_for_mobile")) {
+                baseUrl = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
             }
+        }
 
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
+        }
 
-            val baseUrL = baseUrl + requestTicketHistory
+        val baseUrL = baseUrl + requestTicketHistory
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/cc-tx-details-for-mobile?ticket_id="+requestTicketHistory
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseUrL,
-                        token,
-                        GetDetailsRequest(
-                            baseUrL,
-                            "GET",
-                            "The",
-                            "",
-                            ""
-                        )
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrL,
+                        "GET",
+                        "The",
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseNewTicketlistNewTicketHistoryResponse =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        CreditCardTSDetails::class.java
-                                    )
-                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                    responseNewTicketlistNewTicketHistoryResponse.position = itemPos
-                                    creditCardDetailsLiveData.value =
-                                        responseNewTicketlistNewTicketHistoryResponse
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    CreditCardTSDetails::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                responseNewTicketlistNewTicketHistoryResponse.position = itemPos
+                                creditCardDetailsLiveData.value =
+                                    responseNewTicketlistNewTicketHistoryResponse
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                )
                             }
+
                         }
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 
-        fun actionCCAccept(request: CCAcceptRejectModel?, itemPos: Int) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            var token1 = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
-                    baseUrl = data.APIS[i].URL
-                    token1 = data.APIS[i].TOKEN
-                    break
-                }
+    fun actionCCAccept(request: CCAcceptRejectModel?, itemPos: Int) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
+                baseUrl = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
             }
+        }
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
+        }
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/pos-ticket-accept-reject-update"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseUrL,
-                        token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val request =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        CCAcceptRejectResponse::class.java
-                                    )
-                                if (request.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        request.message
-                                    )
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        request.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val request =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    CCAcceptRejectResponse::class.java
+                                )
+                            if (request.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    request.message
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    request.message.toString()
+                                )
                             }
+
                         }
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 
-        fun actionInventoryAcceptReject(
-            request: InventoryAcceptrejectModel?,
-            workFlowUpdateModel: WorkFlowUpdateModel,
-            itemPos: Int
-        ) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS inventory_items_approve_reject_update")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
+    fun actionInventoryAcceptReject(
+        request: InventoryAcceptrejectModel?,
+        workFlowUpdateModel: WorkFlowUpdateModel,
+        itemPos: Int,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS inventory_items_approve_reject_update")) {
+                baseUrl = data.APIS[i].URL
+                break
             }
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+        }
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
+        }
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-approve-reject-update"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseUrL,
-                        token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseNewTicketlistNewTicketHistoryResponse =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        InventoryAcceptRejectResponse::class.java
-                                    )
-                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        responseNewTicketlistNewTicketHistoryResponse.data.uid
-                                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
+                                )
 //                                command.value = CmsCommand.ShowToast(
 //                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
 //                                )
 //                                actionWorkflowUpdate(workFlowUpdateModel,itemPos)
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
-                                    )
-                                }
-
-                            }
-                        }
-                    }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
-                }
-            }
-        }
-
-
-        fun actionWorkflowUpdate(request: WorkFlowUpdateModel?, itemPos: Int) {
-
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("ticket_actions_workflow_update")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
-            }
-
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-            }
-//        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-actions-workflow-update"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(
-                        baseUrL, token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
-                    )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        ChangeManagerResponse::class.java
-                                    )
-                                if (response.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        response.message
-                                    )
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                }
-
-                            }
-                        }
-                    }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
-                }
-            }
-        }
-
-        fun actionForwardToManager(request: ForwardToManagerModel?, itemPos: Int) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS inventory_items_request_save")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
-            }
-
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-            }
-//        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-request-save"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(baseUrL, token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
-                    )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        InventoryAcceptRejectResponse::class.java
-                                    )
-                                if (response.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        response.message
-                                    )
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                }
-
-                            }
-                        }
-                    }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
-                }
-            }
-        }
-
-        fun getComplainListOrder(requestComplainList: RequestComplainList) {
-            state.value = State.SUCCESS
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS APP")) {
-                    val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
-                    viewModelScope.launch() {
-                        val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.getListOfComplain(
-                                token,
-                                baseUrl,
-                                Config.CMS_Registered_Cmp_List,
-                                requestComplainList
-                            )
-                        }
-                        when (response) {
-                            is ApiResult.Success -> {
-                                Utils.printMessage(
-                                    TAG,
-                                    "Complaint List :: " + response.value.toString()
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
                                 )
-                                complainLiveData.value = response.value.data
-                                state.value = State.ERROR
                             }
-                            is ApiResult.NetworkError -> {
-                                command.value =
-                                    CmsCommand.ShowToast("Please Check Internet Connection")
-                                state.value = State.ERROR
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+
+    fun actionWorkflowUpdate(request: WorkFlowUpdateModel?, itemPos: Int) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ticket_actions_workflow_update")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-actions-workflow-update"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val response =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ChangeManagerResponse::class.java
+                                )
+                            if (response.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    response.message
+                                )
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
                             }
-                            is ApiResult.GenericError -> {
-                                command.value = CmsCommand.ShowToast("Unknown Error")
-                                state.value = State.ERROR
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun actionForwardToManager(request: ForwardToManagerModel?, itemPos: Int) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS inventory_items_request_save")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-request-save"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL, token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val response =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (response.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    response.message
+                                )
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
                             }
-                            is ApiResult.UnknownError -> {
-                                command.value =
-                                    CmsCommand.ShowToast("Something went wrong, please try again later")
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.UnknownHostException -> {
-                                state.value = State.ERROR
-                                command.value =
-                                    CmsCommand.ShowToast("Something went wrong, please try again later")
-                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun getComplainListOrder(requestComplainList: RequestComplainList) {
+        state.value = State.SUCCESS
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS APP")) {
+                val baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
+                viewModelScope.launch() {
+                    val response = withContext(Dispatchers.IO) {
+                        RegistrationRepo.getListOfComplain(
+                            token,
+                            baseUrl,
+                            Config.CMS_Registered_Cmp_List,
+                            requestComplainList
+                        )
+                    }
+                    when (response) {
+                        is ApiResult.Success -> {
+                            Utils.printMessage(
+                                TAG,
+                                "Complaint List :: " + response.value.toString()
+                            )
+                            complainLiveData.value = response.value.data
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.NetworkError -> {
+                            command.value =
+                                CmsCommand.ShowToast("Please Check Internet Connection")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.GenericError -> {
+                            command.value = CmsCommand.ShowToast("Unknown Error")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownError -> {
+                            command.value =
+                                CmsCommand.ShowToast("Something went wrong, please try again later")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownHostException -> {
+                            state.value = State.ERROR
+                            command.value =
+                                CmsCommand.ShowToast("Something went wrong, please try again later")
                         }
                     }
                 }
             }
         }
+    }
 
-        fun getManagers(uid: String) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS store_manager_list_for_change_manager")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
+    fun getManagers(uid: String) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS store_manager_list_for_change_manager")) {
+                baseUrl = data.APIS[i].URL
+                break
             }
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+        }
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
+        }
 
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(
-                        baseUrL, token,
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token,
 //                            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/list/store-manager-list-for-change-manager?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D="+uid,
 
-                        GetDetailsRequest(
-                            "" + baseUrl + "?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D=" + uid,
+                    GetDetailsRequest(
+                        "" + baseUrl + "?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D=" + uid,
 
-                            "GET",
-                            "The",
-                            "",
-                            ""
-                        )
+                        "GET",
+                        "The",
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseNewTicketlistNewTicketHistoryResponse =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        GetManagersModel::class.java
-                                    )
-                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                    getManagersLiveData.value =
-                                        responseNewTicketlistNewTicketHistoryResponse.data
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    GetManagersModel::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                getManagersLiveData.value =
+                                    responseNewTicketlistNewTicketHistoryResponse.data
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                )
                             }
 
                         }
+
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 
-        fun actionChangeForwardToManager(
-            request: ChangeManagerRequest?,
-            actionRequest: ChangeManagerRequest?,
-            itemPos: Int
-        ) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS change_site_manager_in_ticket")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
+    fun actionChangeForwardToManager(
+        request: ChangeManagerRequest?,
+        actionRequest: ChangeManagerRequest?,
+        itemPos: Int,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS change_site_manager_in_ticket")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
 
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
 
-
-            }
+        }
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/change-site-manager-in-ticket"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(
-                        baseUrL, token, GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token, GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        ChangeManagerResponse::class.java
-                                    )
-                                if (response.success) {
-                                    actionInventoryItemsRequestSave(actionRequest, itemPos)
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val response =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ChangeManagerResponse::class.java
+                                )
+                            if (response.success) {
+                                actionInventoryItemsRequestSave(actionRequest, itemPos)
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
                             }
+
                         }
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 
-        fun actionInventoryItemsRequestSave(request: ChangeManagerRequest?, itemPos: Int) {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS inventory_items_request_save")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
+    fun actionInventoryItemsRequestSave(request: ChangeManagerRequest?, itemPos: Int) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS inventory_items_request_save")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
 
-
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-
-            }
+        }
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-request-save"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(
-                        baseUrL, token, GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token, GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val response =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        ChangeManagerResponse::class.java
-                                    )
-                                if (response.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        response.message
-                                    )
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        response.message.toString()
-                                    )
-                                }
-
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val response =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ChangeManagerResponse::class.java
+                                )
+                            if (response.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    response.message
+                                )
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    response.message.toString()
+                                )
                             }
+
                         }
                     }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }
+    }
 
-        fun actionTicketResolveClose(
-            request: TicketResolveCloseModel?
-        ) {
+    fun actionTicketResolveClose(
+        request: TicketResolveCloseModel?,
+    ) {
 
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrl = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("ticket_status_update_by_emp_id")) {
-                    baseUrl = data.APIS[i].URL
-                    break
-                }
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ticket_status_update_by_emp_id")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
 
-
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-
-            }
+        }
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
-            val requestNewComplaintRegistrationJson =
-                Gson().toJson(request)
-            viewModelScope.launch {
-                state.value = State.SUCCESS
-                val response = withContext(Dispatchers.IO) {
-                    RegistrationRepo.getDetails(
-                        baseUrL, token,
-                        GetDetailsRequest(
-                            baseUrl,
-                            "POST",
-                            requestNewComplaintRegistrationJson,
-                            "",
-                            ""
-                        )
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL, token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
                     )
-                }
-                when (response) {
-                    is ApiResult.Success -> {
-                        state.value = State.ERROR
-                        if (response != null) {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseNewTicketlistNewTicketHistoryResponse =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        InventoryAcceptRejectResponse::class.java
-                                    )
-                                if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                    command.value = CmsCommand.RefreshPageOnSuccess(
-                                        ""
-                                    )
-                                } else {
-                                    command.value = CmsCommand.ShowToast(
-                                        responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
-                                    )
-                                }
-
-                            }
-                        }
-                    }
-                    is ApiResult.GenericError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.NetworkError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownError -> {
-                        state.value = State.ERROR
-                    }
-                    is ApiResult.UnknownHostException -> {
-                        state.value = State.ERROR
-                    }
-                }
+                )
             }
-        }
-
-        var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
-        fun getTicketRatingApi() {
-            val url = Preferences.getApi()
-            val data = Gson().fromJson(url, ValidateResponse::class.java)
-            var baseUrL = ""
-            var token = ""
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                    baseUrL = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
-            }
-            for (i in data.APIS.indices) {
-                if (data.APIS[i].NAME.equals("CMS FEEDBACKRATING")) {
-                    var baseUrl = data.APIS[i].URL
-                    viewModelScope.launch {
-                        state.value = State.SUCCESS
-                        val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.getDetails(baseUrL, token,
-                                GetDetailsRequest(
-                                    baseUrl,
-                                    "GET",
-                                    "the",
-                                    "",
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
                                     ""
                                 )
-                            )
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                )
+                            }
+
                         }
-                        when (response) {
-                            is ApiResult.Success -> {
-                                state.value = State.ERROR
-                                val resp: String = response.value.string()
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val responseticketRatingApi =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        ResponseticketRatingApi::class.java
-                                    )
-                                cmsticketRatingresponse.value = responseticketRatingApi
-                            }
-                            is ApiResult.GenericError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.NetworkError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.UnknownError -> {
-                                state.value = State.ERROR
-                            }
-                            is ApiResult.UnknownHostException -> {
-                                state.value = State.ERROR
-                            }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
+    fun getTicketRatingApi() {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS FEEDBACKRATING")) {
+                var baseUrl = data.APIS[i].URL
+                viewModelScope.launch {
+                    state.value = State.SUCCESS
+                    val response = withContext(Dispatchers.IO) {
+                        RegistrationRepo.getDetails(baseUrL, token,
+                            GetDetailsRequest(
+                                baseUrl,
+                                "GET",
+                                "the",
+                                "",
+                                ""
+                            )
+                        )
+                    }
+                    when (response) {
+                        is ApiResult.Success -> {
+                            state.value = State.ERROR
+                            val resp: String = response.value.string()
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseticketRatingApi =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    ResponseticketRatingApi::class.java
+                                )
+                            cmsticketRatingresponse.value = responseticketRatingApi
+                        }
+                        is ApiResult.GenericError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.NetworkError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownError -> {
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownHostException -> {
+                            state.value = State.ERROR
                         }
                     }
                 }
             }
         }
-
     }
+
+}
