@@ -213,6 +213,10 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         TODO("Not yet implemented")
     }
 
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+        TODO("Not yet implemented")
+    }
+
     fun setSupportActionBar(toolbarswachh: Toolbar) {
         TODO("Not yet implemented")
     }
