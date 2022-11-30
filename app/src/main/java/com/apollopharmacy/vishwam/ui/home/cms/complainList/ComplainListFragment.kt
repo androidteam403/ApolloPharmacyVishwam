@@ -694,17 +694,22 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (items.status!!.code.equals("solved") && employeeDetailsResponse?.data!!.uid.equals(
                         items.created_id!!.uid)
                 ) {
-                    binding.ticketResolveBtn.visibility = View.GONE
+                    binding.ticketResolveBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.setOnClickListener {
                         imageClickListener.onClickTicketClose(items)
                     }
                     binding.ticketActionLayout.visibility = View.VISIBLE
+                    binding.ticketResolveBtn.text = "Reopen"
+                    binding.ticketResolveBtn.setOnClickListener {
+                        imageClickListener.onClickTicketReopen(items)
+                    }
                 } else if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(
                         items.user!!.uid) && items.inventoryDetailsModel?.data == null
                 ) {
                     binding.ticketResolveBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.visibility = View.GONE
+                    binding.ticketResolveBtn.text = "Resolve"
                     binding.ticketResolveBtn.setOnClickListener {
                         imageClickListener.onClickTicketResolve(items)
                     }
@@ -713,7 +718,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.ticketActionLayout.visibility = View.GONE
                 }
             }
-
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "
                 binding.siteid.text = "Self"
@@ -1425,6 +1429,46 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.show()
     }
 
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_comment)
+        val body = dialog.findViewById(R.id.textHead) as TextView
+        body.text = ""
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
+        val regDate = dialog.findViewById(R.id.regDate) as TextView
+        regDate.text = Utlis.convertCmsDate(data.created_time!!)
+        val problemDesc = dialog.findViewById(R.id.problemDesc) as TextView
+        problemDesc.text = data.reason!!.name
+        val remark = dialog.findViewById(R.id.remark) as EditText
+        val yesBtn = dialog.findViewById(R.id.submit) as Button
+        val noBtn = dialog.findViewById(R.id.reject) as Button
+        val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        dialogClose.setOnClickListener { dialog.dismiss() }
+        yesBtn.setOnClickListener {
+            if(remark.text.toString().isEmpty()){
+                remark.error = "Please enter comment"
+                remark.requestFocus()
+            }else {
+                dialog.dismiss()
+                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel(
+                    "reopen",
+                    remark.text.toString(),
+                    userData.EMPID,
+                    "reopened",
+                    data.ticket_id!!,
+                    null
+                )
+                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+            }
+        }
+        noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         if (isFromDateSelected) {
             isFromDateSelected = false
@@ -1677,6 +1721,8 @@ interface ImageClickListener {
     fun onClickTicketResolve(data: ResponseNewTicketlist.Row)
 
     fun onClickTicketClose(data: ResponseNewTicketlist.Row)
+
+    fun onClickTicketReopen(data: ResponseNewTicketlist.Row)
     //  fun gettickethistory(uid:String):ArrayList<NewTicketHistoryResponse.Row>
 
     // fun calltickethistory(uid:String?);
