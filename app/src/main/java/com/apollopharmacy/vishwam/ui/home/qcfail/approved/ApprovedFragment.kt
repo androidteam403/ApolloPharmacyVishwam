@@ -218,7 +218,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
-                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+            if(subList!=null) {
+                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+            }
 
                     if (increment == 0) {
                         viewBinding.prevPage.visibility = View.GONE
