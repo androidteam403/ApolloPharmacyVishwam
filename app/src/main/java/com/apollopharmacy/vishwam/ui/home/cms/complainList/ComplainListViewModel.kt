@@ -50,14 +50,14 @@ class ComplainListViewModel : ViewModel() {
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-//        var baseUrl = ""
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
-//                baseUrl = data.APIS[i].URL
-////                token = data.APIS[i].TOKEN
-//                break
-//            }
-//        }
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
+                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                break
+            }
+        }
 
 
         var baseUrL = ""
@@ -69,16 +69,16 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl = "";
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS TICKETLIST")) {
-                baseUrl = data.APIS[i].URL
-                // "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/list/reason-list?page=1&rows=100"
-                //val token = data.APIS[i].TOKEN
-                break
-
-            }
-        }
+//        var baseUrl = "";
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("CMS TICKETLIST")) {
+//                baseUrl = data.APIS[i].URL
+//                // "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/reason/list/reason-list?page=1&rows=100"
+//                //val token = data.APIS[i].TOKEN
+//                break
+//
+//            }
+//        }
         val new = if (status.contains("new")) "new" else ""
         val inprogress = if (status.contains("inprogress")) "inprogress" else ""
         val solved = if (status.contains("solved")) "solved" else ""
@@ -88,7 +88,7 @@ class ComplainListViewModel : ViewModel() {
         val onHold = if (status.contains("onHold")) "onHold" else ""
 
         baseUrl =
-            baseUrl + "${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+            baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                 "reason_code=new_drug&"
             } else {
                 ""
@@ -375,23 +375,24 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-
+        var proxyUrl = ""
+        var proxyToken = ""
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseUrL = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
+                proxyUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
                 break
             }
         }
 
-        val baseUrL = "${baseUrl}ticket_id${requestTicketHistory}"
+        val baseUrL = "${baseUrl}ticket_id=${requestTicketHistory}"
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/cc-tx-details-for-mobile?ticket_id="+requestTicketHistory
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseUrL,
-                    token,
+                RegistrationRepo.getDetails(proxyUrl,
+                    proxyToken,
                     GetDetailsRequest(
                         baseUrL,
                         "GET",
