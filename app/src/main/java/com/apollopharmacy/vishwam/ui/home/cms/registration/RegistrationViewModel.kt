@@ -20,6 +20,8 @@ import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptRejectResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
@@ -72,7 +74,7 @@ class RegistrationViewModel : ViewModel() {
 
     var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
 
-    var cmsticketclosingapiresponse = MutableLiveData<ResponseClosedTicketApi>()
+    var cmsticketclosingapiresponse = MutableLiveData<InventoryAcceptRejectResponse>()
 
     var reasonlistapiresponse = MutableLiveData<ReasonmasterV2Response>()
 
@@ -503,7 +505,7 @@ class RegistrationViewModel : ViewModel() {
                                             ResponseClosedTicketApi::class.java
                                         )
                                     // tisketstatusresponse.value = response.value
-                                    cmsticketclosingapiresponse.value = responseClosedTicketApi
+//                                    cmsticketclosingapiresponse.value = responseClosedTicketApi
 
 
                                 }
@@ -1504,6 +1506,67 @@ class RegistrationViewModel : ViewModel() {
                 }
     }
 
+    fun actionTicketResolveClose(
+        request: TicketResolveCloseModel?
+    ) {
+        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    "h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestNewComplaintRegistrationJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    InventoryAcceptRejectResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess(
+                                    ""
+                                )
+                                cmsticketclosingapiresponse.value = responseNewTicketlistNewTicketHistoryResponse
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
+                                )
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 }
 
 sealed class CmsCommand {
