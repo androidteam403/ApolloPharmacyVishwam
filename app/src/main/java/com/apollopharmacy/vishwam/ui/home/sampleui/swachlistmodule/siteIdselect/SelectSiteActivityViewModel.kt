@@ -51,13 +51,14 @@ class SelectSiteActivityViewModel : ViewModel() {
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
                     baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
                     break
                 }
             }
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
                     val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
+//                    val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
