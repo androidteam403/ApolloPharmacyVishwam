@@ -177,6 +177,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
         })
         viewModel.qcLists.observe(viewLifecycleOwner, { it ->
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeStringList.clear();
+            regionStringList.clear();
             hideLoading()
             if (it.approvedlist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
@@ -185,6 +188,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             }
             else {
+
                 filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
                 for (i in filterApproveList.indices) {
@@ -227,7 +231,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     viewBinding.continueBtn.visibility = View.VISIBLE
 
                 }
-                viewBinding.refreshSwipe.isRefreshing = false
 
 
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
