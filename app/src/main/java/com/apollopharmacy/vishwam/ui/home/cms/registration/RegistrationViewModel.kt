@@ -39,7 +39,6 @@ import java.util.*
 
 class RegistrationViewModel : ViewModel() {
     var departmentLiveData = ArrayList<DepartmentV2Response.DepartmentListItem>()
-
     var categoryLiveData = ArrayList<CategoryListResponse.CategoryListItem>()
     var command = LiveEvent<CmsCommand>()
     val state = MutableLiveData<State>()
