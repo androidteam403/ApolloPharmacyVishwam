@@ -56,6 +56,15 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         }
 
+        if (storeStringList.isNullOrEmpty()){
+            Preferences.setQcSite("")
+
+        }
+
+        if (regionStringList.isNullOrEmpty()){
+            Preferences.setQcRegion("")
+        }
+
         if (storeStringList!=null){
             for (i in storeStringList.indices) {
                 if (storeStringList.get(i).isNullOrEmpty()) {
@@ -66,6 +75,14 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
                     uniqueStoreList.add(items)
+                    if (Preferences.getQcSite().isNullOrEmpty()){
+
+                    }else{
+                        Preferences.setQcSite(StringUtils.substring(storeStringList.toString(),
+                            1,
+                            storeStringList.toString().length - 1))
+
+                    }
 
                 }
             }
@@ -83,6 +100,15 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
                     uniqueRegionList.add(items)
+                    if (Preferences.getQcRegion().isNullOrEmpty()){
+
+                    }else{
+                        Preferences.setQcRegion(StringUtils.substring(regionStringList.toString(),
+                            1,
+                            regionStringList.toString().length - 1))
+
+                    }
+
                 }
 
 
@@ -282,6 +308,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
         activityQcFilterBinding.regionIdSelect.setOnClickListener {
+
             QcRegionDialog().apply {
                 arguments = QcRegionDialog().generateParsedData(uniqueRegionList)
             }.show(supportFragmentManager, "")

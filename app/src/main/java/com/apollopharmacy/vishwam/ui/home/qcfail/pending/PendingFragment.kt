@@ -190,6 +190,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         })
         viewBinding.refreshSwipe.setOnRefreshListener {
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
+            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
 
             viewModel.getQcPendingList(Preferences.getToken(),
                 "1 - Apr - 2019",
