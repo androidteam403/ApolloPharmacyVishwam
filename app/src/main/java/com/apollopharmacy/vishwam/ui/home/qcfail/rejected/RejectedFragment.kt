@@ -221,6 +221,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
         viewBinding.refreshSwipe.setOnRefreshListener {
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
+            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
             viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
