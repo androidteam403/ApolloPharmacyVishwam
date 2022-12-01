@@ -142,8 +142,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeStringList.clear()
+            regionStringList.clear()
             if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
+
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                  filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
@@ -189,7 +192,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
-                viewBinding.refreshSwipe.isRefreshing = false
 
 
 

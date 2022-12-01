@@ -29,6 +29,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
     private var fromQcDate: String = ""
+
+
+    private var toQcDate: String = ""
     private var toDate: String = ""
     private var siteId: String = ""
     private var regionId: String = ""
@@ -96,7 +99,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        viewModel.siteId()
 //        viewModel.regionId()
         fromQcDate = Preferences.getQcFromDate()
-        toDate = Preferences.getQcToDate()
+        toQcDate = Preferences.getQcToDate()
         regionId = Preferences.getQcRegion()
         siteId = Preferences.getQcSite()
 
@@ -218,19 +221,25 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
-            if (fromQcDate.isNullOrEmpty() && toDate.isNullOrEmpty() && regionId.isNullOrEmpty() && siteId.isNullOrEmpty()) {
-                Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+            if (fromQcDate.isNullOrEmpty()){
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
-            } else {
+            } else if(toQcDate.isNullOrEmpty() ){
+
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            }
+
+             else {
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
-                Preferences.setQcToDate(qcDate)
+                Preferences.setQcToDate(toQcDate)
                 Preferences.setQcSite(siteId)
                 Preferences.setQcRegion(regionId)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
                 intent.putExtra("fromQcDate", fromQcDate)
-                intent.putExtra("toDate", toDate)
+                intent.putExtra("toDate", toQcDate)
                 intent.putExtra("apply", "apply")
 
                 setResult(Activity.RESULT_OK, intent)
@@ -364,7 +373,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
 //        val todate1 = cal.time
         activityQcFilterBinding.toDateText.setText(qcDate)
-        toDate = activityQcFilterBinding.toDateText.text.toString()
+        toQcDate=qcDate;
+//        toDate = activityQcFilterBinding.toDateText.text.toString()
+
 
     }
 

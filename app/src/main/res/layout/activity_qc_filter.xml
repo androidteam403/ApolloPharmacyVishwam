@@ -101,7 +101,7 @@
                 android:editable="false"
                 android:enabled="true"
                 android:focusable="false"
-                android:hint="Select Region Id *"
+                android:hint="Select Region Id "
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:textColor="@color/black"

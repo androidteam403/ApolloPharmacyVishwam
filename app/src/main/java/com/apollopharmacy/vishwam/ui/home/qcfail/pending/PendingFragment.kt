@@ -201,6 +201,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeList.clear()
+            regionList.clear()
             hideLoading()
             if (it.pendinglist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
@@ -242,7 +245,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
 
                 names = it.pendinglist as ArrayList<QcListsResponse.Pending>
-                viewBinding.refreshSwipe.isRefreshing = false
                 viewBinding.emptyList.visibility = View.GONE
 
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
