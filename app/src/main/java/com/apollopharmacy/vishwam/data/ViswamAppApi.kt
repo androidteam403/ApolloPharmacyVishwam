@@ -64,11 +64,17 @@ interface ViswamAppApi {
     ): LineImagesResponse
 
 
-    @POST("https://online.apollopharmacy.org/ITEMMASTER/AddArticle")
+    @POST//("https://online.apollopharmacy.org/ITEMMASTER/AddArticle")
     suspend fun DrugResponse(
+        @Url url: String,
         @Header("token") token: String,
         @Body data: DrugRequest,
-    ): DrugResponse
+   ): DrugResponse
+//    suspend fun DrugResponse(
+//        @Url url: String,
+//        @Header("token") token: String,
+//        @Body data: DrugRequest,
+//    ): DrugResponse
 
     @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun ApproveRejectResponse(
@@ -279,8 +285,9 @@ interface ViswamAppApi {
         @Body requestClosedticketApi: RequestClosedticketApi,
     ): ResponseClosedTicketApi
 
-    @POST("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
+    @POST//("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
     suspend fun getDetails(
+        @Url url: String,
         @Header("token") token: String,
         @Body getDetailsRequest: GetDetailsRequest,
     ): ResponseBody
@@ -431,8 +438,9 @@ interface ViswamAppApi {
     ): FileResposne
 
 
-    @POST("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
+    @POST//("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
     suspend fun getUploadProxImage(
+        @Url url: String,
         @Header("token") token: String,
         @Body getDetailsRequest: GetDetailsRequest,
     ): ResponseBody

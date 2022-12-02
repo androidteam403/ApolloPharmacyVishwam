@@ -102,6 +102,16 @@ class QcSiteActivityViewModel : ViewModel() {
         } else {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("QC STORE LIST")) {
                     val baseUrl = data.APIS[i].URL
@@ -110,7 +120,7 @@ class QcSiteActivityViewModel : ViewModel() {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
                             RegistrationRepo.getDetails(
-                                "h72genrSSNFivOi/cfiX3A==",
+                                baseUrL, token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",
@@ -234,16 +244,24 @@ class QcSiteActivityViewModel : ViewModel() {
         } else {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("QC REGION LIST")) {
                     val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
                             RegistrationRepo.getDetails(
-                                "h72genrSSNFivOi/cfiX3A==",
-                                GetDetailsRequest(
+                                baseUrL, token, GetDetailsRequest(
                                     baseUrl,
                                     "GET",
                                     "The",

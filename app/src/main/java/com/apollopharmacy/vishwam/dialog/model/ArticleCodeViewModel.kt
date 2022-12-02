@@ -25,19 +25,38 @@ class ArticleCodeViewModel : ViewModel() {
 
     fun searchArticleCode(articleCodeRequest: ArticleCodeRequest) {
         state.value = State.SUCCESS
-
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        var fetchCodeUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS fetch_item_code")) {
+                fetchCodeUrl = data.APIS[i].URL
+                break
+            }
+        }
+
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS APP")) {
-                val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/list/fetch-item-code?page=1&rows=10&" +
+                val baseUrl = fetchCodeUrl+"?page=1&rows=10&" +
                         "globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=" +
                         articleCodeRequest.query +
                         "&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=artcode&sort%5B0%5D%5Border%5D=ASC"
-                val token = "h72genrSSNFivOi/cfiX3A=="
+
                 viewModelScope.launch {
                     val response =
-                        RegistrationRepo.getDetails(token,
+                        RegistrationRepo.getDetails(baseUrL,token,
                             GetDetailsRequest(
                                 baseUrl,
                                 "GET",

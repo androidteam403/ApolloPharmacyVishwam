@@ -36,6 +36,7 @@ import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
 import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
+import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
@@ -45,6 +46,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -55,7 +57,8 @@ import kotlin.collections.ArrayList
 class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,
     SiteNewDialog.NewDialogSiteClickListner, SubmitDialog.AbstractDialogSubmitClickListner,
-    Dialog.DialogClickListner, GstDialog.GstDialogClickListner ,SubmitcomplaintDialog.AbstractDialogSubmitClickListner{
+    Dialog.DialogClickListner, GstDialog.GstDialogClickListner ,SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
+    IOnBackPressed {
 
     lateinit var adapter: DrugImageRecyclerView
     lateinit var adapter1: DrugImageRecyclerView1
@@ -81,7 +84,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     var imageFromBillCameraFile: File? = null
 
     var imageFromGallery: File? = null
-
     var isFromDateSelected: Boolean = false
     lateinit var store: StoreListItem
     override val layoutRes: Int
@@ -425,6 +427,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     } catch (e: JsonParseException) {
                         e.printStackTrace()
                     }
+
                     viewModel.getDrugList(
                         DrugRequest(
                             viewBinding.siteIdSelect.text.toString(),
@@ -729,10 +732,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         if (requestCode == Config.REQUEST_CODE_CAMERA) {
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
 
-                frontImageList.add(Image(imageFromCameraFile!!, "", "Front"))
-                imageList.add(Image(imageFromCameraFile!!, "", ""))
+                frontImageList.add(Image(compresImageSize(imageFromCameraFile!!), "", "Front"))
+                imageList.add(Image(compresImageSize(imageFromCameraFile!!), "", ""))
 
-                rotateImage(setReducedSize())
+//                rotateImage(setReducedSize())
 
 
 
@@ -746,8 +749,8 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
         } else if (requestCode == Config.REQUEST_BACK_CAMERA) {
             if (requestCode == Config.REQUEST_BACK_CAMERA && imageFromBackCameraFile != null && resultCode == Activity.RESULT_OK) {
-                backImageList.add(Image(imageFromBackCameraFile!!, "", "Back"))
-                imageList.add(Image(imageFromBackCameraFile!!, "", ""))
+                backImageList.add(Image(compresImageSize(imageFromBackCameraFile!!), "", "Back"))
+                imageList.add(Image(compresImageSize(imageFromBackCameraFile!!), "", ""))
 
                 viewBinding.imageRecyclerView1.visibility = View.VISIBLE
                 viewBinding.addImage1.visibility = View.GONE
@@ -758,8 +761,8 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             if (requestCode == Config.REQUEST_SIDE_CAMERA && imageFromSideCameraFile != null && resultCode == Activity.RESULT_OK) {
 
-                sideImageList.add(Image(imageFromSideCameraFile!!, "", "Side"))
-                imageList.add(Image(imageFromSideCameraFile!!, "", ""))
+                sideImageList.add(Image(compresImageSize(imageFromSideCameraFile!!), "", "Side"))
+                imageList.add(Image(compresImageSize(imageFromSideCameraFile!!), "", ""))
 
                 viewBinding.imageRecyclerView2.visibility = View.VISIBLE
                 viewBinding.addImage2.visibility = View.GONE
@@ -772,8 +775,8 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         } else if (requestCode == Config.REQUEST_BILL_CAMERA) {
             if (requestCode == Config.REQUEST_BILL_CAMERA && imageFromBillCameraFile != null && resultCode == Activity.RESULT_OK) {
 
-                billImageList.add(Image(imageFromBillCameraFile!!, "", "Bill"))
-                imageList.add(Image(imageFromBillCameraFile!!, "", ""))
+                billImageList.add(Image(compresImageSize(imageFromBillCameraFile!!), "", "Bill"))
+                imageList.add(Image(compresImageSize(imageFromBillCameraFile!!), "", ""))
 
                 viewBinding.imageRecyclerView4.visibility = View.VISIBLE
                 viewBinding.addImage3.visibility = View.GONE
@@ -786,6 +789,18 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     }
 
+    private fun compresImageSize(imageFromCameraFile: File): File{
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.Companion.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
+    }
 
     private fun showErrorMsg(errMsg: String?) {
         Toast.makeText(context, errMsg, Toast.LENGTH_SHORT).show()
@@ -1282,6 +1297,27 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             viewBinding.toDateText.setText(showingDate)
 
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+        val gst = viewBinding.selectDepartment.text.toString().trim()
+        val categoryName = viewBinding.selectCategory.text.toString().trim()
+        val itemName = viewBinding.itemName.text.toString().trim()
+        val manufDate = viewBinding.fromDateText.text.toString().trim()
+        val remarks = viewBinding.selectRemarks.text.toString().trim()
+        val expDate = viewBinding.toDateText.text.toString().trim()
+        val batchNo = viewBinding.batchNo.text.toString().trim()
+        val mrp = viewBinding.mrpp.text.toString().trim()
+        val purchasePrice = viewBinding.purchasePrice.text.toString().trim()
+        val hsnCode = viewBinding.hsnCode.text.toString().trim()
+        val packsize = viewBinding.packsize.text.toString().trim()
+        val site = viewBinding.siteIdSelect.text.toString().trim()
+        val barCode = viewBinding.barCode.text.toString().trim()
+        val description = viewBinding.descriptionText.text.toString().trim()
+
+        return site.isNotEmpty() || categoryName.isNotEmpty() || itemName.isNotEmpty() || packsize.isNotEmpty()||
+                mrp.isNotEmpty() || purchasePrice != "0" || remarks.isNotEmpty() || batchNo.isNotEmpty() || manufDate.isNotEmpty()||
+                expDate.isNotEmpty() ||  barCode != "0" || hsnCode != "0" || gst != "0" || description.isNotEmpty() || imageList.isNotEmpty()
     }
 }
 

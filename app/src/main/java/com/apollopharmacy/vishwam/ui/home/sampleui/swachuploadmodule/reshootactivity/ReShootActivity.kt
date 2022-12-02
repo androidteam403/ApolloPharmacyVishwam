@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
+import android.R.attr.bottom
+import android.R.attr.top
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -8,12 +10,12 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -22,7 +24,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
@@ -39,7 +40,6 @@ import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.adapters.OnClickStatusClickAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PopUpWIndow
-import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.File
@@ -232,6 +232,13 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                         activityreShootBinding.reshootButton.setBackgroundColor(Color.parseColor("#a6a6a6"));
                     }
 
+                }else{
+                    val params = LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT
+                    )
+                    params.setMargins(0, 0, 0, 0)
+                    activityreShootBinding.scrollViewReShoot.setLayoutParams(params)
                 }
 
 

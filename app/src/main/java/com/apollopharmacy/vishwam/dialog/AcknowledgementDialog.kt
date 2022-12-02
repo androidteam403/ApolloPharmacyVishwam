@@ -16,6 +16,9 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DialogAcknowledgementBinding
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Feedback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Rating
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationViewModel
 import com.apollopharmacy.vishwam.util.Utils
@@ -165,7 +168,8 @@ class AcknowledgementDialog : DialogFragment() {
                 // cmsLogin.appUserName = "APL49365"
                 cmsLogin.appUserName =userData!!.EMPID
                 cmsLogin.appPassword = LoginRepo.getPassword()
-                viewModel.getCMSLoginApi(cmsLogin)
+//                viewModel.getCMSLoginApi(cmsLogin)
+                ticketCloseAPI()
 
 
                /* viewModel.submitRequestOfAcknowledgment(
@@ -204,9 +208,8 @@ class AcknowledgementDialog : DialogFragment() {
                 // cmsLogin.appUserName = "APL49365"
                 cmsLogin.appUserName =userData!!.EMPID
                 cmsLogin.appPassword = LoginRepo.getPassword()
-                viewModel.getCMSLoginApi(cmsLogin)
-
-
+//                viewModel.getCMSLoginApi(cmsLogin)
+                    ticketReOpenApi()
                 /*viewModel.submitRequestOfAcknowledgment(
                     SubmitAcknowledge(
                       //  data[0].ticketNo,
@@ -227,6 +230,7 @@ class AcknowledgementDialog : DialogFragment() {
             when (it) {
                 is CmsCommand.ShowToast -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    hideLoading()
                 }
                 is CmsCommand.InVisibleLayout -> {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -259,47 +263,68 @@ class AcknowledgementDialog : DialogFragment() {
     }
 
     fun ticketCloseAPI(){
-        viewModel.getTicketclosingApi(
-            token,
-            RequestClosedticketApi(
-                RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
-                comment = viewBinding.remark.text.toString().trim(),
-                uid = datanew.ticket_uid,
-                RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",code = "solved"),
-                RequestClosedticketApi.Action(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "close"),
-                RequestClosedticketApi.Level(datanew.ticket_level_uid),
-                ticket_id = datanew.ticket_id,
-                RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                action_name = "Closed",
-                RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
-                RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
-            )
+//        viewModel.getTicketclosingApi(
+//            token,
+//            RequestClosedticketApi(
+//                RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
+//                comment = viewBinding.remark.text.toString().trim(),
+//                uid = datanew.ticket_uid,
+//                RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",code = "solved"),
+//                RequestClosedticketApi.Action(uid = "9370BDBD701E49BA59A9418CA849AB22",code = "close"),
+//                RequestClosedticketApi.Level(datanew.ticket_level_uid),
+//                ticket_id = datanew.ticket_id,
+//                RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
+//                action_name = "Closed",
+//                RequestClosedticketApi.SessionUser(uid =cmsloginresponse?.uid,name = cmsloginresponse?.name,login_unique = cmsloginresponse?.login_unique),
+//                RequestClosedticketApi.Site(uid =datanew.ticket_site_uid)
+//            )
+//
+//        )
+        val userData = LoginRepo.getProfile()
 
+        val inventoryAcceptrejectModel = TicketResolveCloseModel(
+            "close",
+            viewBinding.remark.text.toString().trim(),
+            userData!!.EMPID,
+            "closed",
+            datanew.ticket_id!!,
+            Feedback(Rating(ratingduid!!))
         )
+        viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
     }
 
     fun ticketReOpenApi(){
         if(viewBinding.remark.text.toString().trim().isNotEmpty()) {
-            viewModel.getTicketclosingApi(
-                token,
-                RequestClosedticketApi(
-                    RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
-                    comment = viewBinding.remark.text.toString().trim(),
-                    uid = datanew.ticket_uid,
-                    RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",
-                        code = "solved"),
-                    RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",
-                        code = "reopen"),
-                    RequestClosedticketApi.Level(datanew.ticket_level_uid),
-                    ticket_id = datanew.ticket_id,
-                    RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
-                    action_name = "Reopened",
-                    RequestClosedticketApi.SessionUser(uid = cmsloginresponse?.uid,
-                        name = cmsloginresponse?.name,
-                        login_unique = cmsloginresponse?.login_unique),
-                    RequestClosedticketApi.Site(uid = datanew.ticket_site_uid)
-                )
+//            viewModel.getTicketclosingApi(
+//                token,
+//                RequestClosedticketApi(
+//                    RequestClosedticketApi.Feedback(RequestClosedticketApi.Rating(ratingduid)),
+//                    comment = viewBinding.remark.text.toString().trim(),
+//                    uid = datanew.ticket_uid,
+//                    RequestClosedticketApi.Status(uid = "52E2C8F5C204B5BD03DF3A73EB096484",
+//                        code = "solved"),
+//                    RequestClosedticketApi.Action(uid = "C4EB6C6A46A6E5C449C548281B68AE0B",
+//                        code = "reopen"),
+//                    RequestClosedticketApi.Level(datanew.ticket_level_uid),
+//                    ticket_id = datanew.ticket_id,
+//                    RequestClosedticketApi.User(uid = datanew.ticket_user_uid),
+//                    action_name = "Reopened",
+//                    RequestClosedticketApi.SessionUser(uid = cmsloginresponse?.uid,
+//                        name = cmsloginresponse?.name,
+//                        login_unique = cmsloginresponse?.login_unique),
+//                    RequestClosedticketApi.Site(uid = datanew.ticket_site_uid)
+//                )
+//            )
+            val userData = LoginRepo.getProfile()
+            val inventoryAcceptrejectModel = TicketResolveCloseModel(
+                "reopen",
+                viewBinding.remark.text.toString().trim(),
+                userData!!.EMPID,
+                "reopened",
+                datanew.ticket_id!!,
+                Feedback(Rating(ratingduid!!))
             )
+            viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
         }
     }
 

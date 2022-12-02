@@ -29,6 +29,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
@@ -38,6 +40,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
     public var isBulk: Boolean = false
+    public var storeList=ArrayList<String>()
+    public var regionList=ArrayList<String>()
+
 
     var getPendingqcitemList: List<QcItemListResponse.Item>? = null
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
@@ -68,6 +73,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var increment: Int = 0
     var names = ArrayList<QcListsResponse.Pending>();
 
+
+
     override val layoutRes: Int
         get() = R.layout.qc_fragment_pending
 
@@ -75,8 +82,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         return ViewModelProvider(this).get(QcPendingViewModel::class.java)
     }
 
-    @SuppressLint("ResourceType")
     override fun setup() {
+
+
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -87,8 +95,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         MainActivity.mInstance.mainActivityCallback = this
 
         viewModel.getQcRejectionList()
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getQcStoreist()
 //        Preferences.setQcToDate(Utlis.getCurrentDate("dd-MMM-yyy")!!)
 //        Preferences.setQcFromDate("1-Apr-2019")
 
@@ -178,6 +186,12 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         })
         viewBinding.refreshSwipe.setOnRefreshListener {
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
+            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+
 
             viewModel.getQcPendingList(Preferences.getToken(),
                 "1 - Apr - 2019",
@@ -189,6 +203,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
         viewModel.qcPendingLists.observe(viewLifecycleOwner, { it ->
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeList.clear()
+            regionList.clear()
             hideLoading()
             if (it.pendinglist.isNullOrEmpty()) {
                 viewBinding.emptyList.visibility = View.VISIBLE
@@ -199,7 +216,18 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             } else {
 
                 filterPendingList = (it.pendinglist as ArrayList<QcListsResponse.Pending>?)!!
-
+                for (i in filterPendingList.indices) {
+                    storeList.add(filterPendingList[i].storeid.toString())
+                    regionList.add(filterPendingList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeList)
+                regionListSet.addAll(regionList)
+                storeList.clear()
+                regionList.clear()
+                regionList.addAll(regionListSet)
+                storeList.addAll(stroreListSet)
 
 //            subList = ListUtils.partition(it.pendinglist, 3)
                 splitTheArrayList(it.pendinglist as ArrayList<QcListsResponse.Pending>?)
@@ -219,7 +247,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 }
 
                 names = it.pendinglist as ArrayList<QcListsResponse.Pending>
-                viewBinding.refreshSwipe.isRefreshing = false
                 viewBinding.emptyList.visibility = View.GONE
 
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
@@ -573,7 +600,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-        omsOrderno:String,
+        omsOrderno: String,
 
 
         ) {
@@ -636,7 +663,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         itemlist: List<QcItemListResponse.Item>,
         storeId: String,
         status: String,
-        omsOrderno:String,
+        omsOrderno: String,
 
         ) {
         acceptOrRejectItemPos = position
@@ -796,6 +823,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         this.headerPos = headerPos
         this.itemPos = itemPos
         this.orderId = orderId.toString()
+
         RejectReasonsDialog().apply {
             arguments =
                     //CustomDialog().generateParsedData(viewModel.getDepartmentData())
@@ -823,6 +851,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        showLoading()
 
         val i = Intent(context, QcFilterActivity::class.java)
+        i.putStringArrayListExtra("storeList",storeList)
+        i.putStringArrayListExtra("regionList",regionList)
         i.putExtra("activity", "1")
         startActivityForResult(i, 210)
 

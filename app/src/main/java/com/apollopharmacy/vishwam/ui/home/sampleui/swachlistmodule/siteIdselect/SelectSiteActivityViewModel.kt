@@ -45,15 +45,25 @@ class SelectSiteActivityViewModel : ViewModel() {
         } else {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
                     val baseUrl = data.APIS[i].URL
-                    val token = data.APIS[i].TOKEN
+//                    val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         state.value = State.SUCCESS
                         val response = withContext(Dispatchers.IO) {
                             RegistrationRepo.getDetails(
-                                "h72genrSSNFivOi/cfiX3A==",
+                                baseUrL,token,
                                 GetDetailsRequest(
                                     baseUrl,
                                     "GET",

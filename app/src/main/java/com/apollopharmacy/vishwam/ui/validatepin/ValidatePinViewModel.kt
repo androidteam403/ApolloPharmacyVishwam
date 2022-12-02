@@ -198,6 +198,18 @@ class ValidatePinViewModel : ViewModel() {
     fun getRole(validatedEmpId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS TICKETLIST")) {
 //                val baseUrl = data.APIS[i].URL
@@ -220,7 +232,7 @@ class ValidatePinViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails("h72genrSSNFivOi/cfiX3A==",
+                RegistrationRepo.getDetails(baseUrL,token,
                     GetDetailsRequest(baseUrl, "GET", "The", "", ""))
             }
             when (response) {

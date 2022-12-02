@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
 import com.apollopharmacy.vishwam.databinding.DialogResetBinding
 import com.apollopharmacy.vishwam.databinding.QcOrderLayoutBinding
@@ -64,17 +65,21 @@ class QcPendingOrderDetailsAdapter(
         holder.orderdetailsBinding.selectResonItem.setBackgroundResource(R.drawable.qc_rounded_dropdown_qcfail_bg)
 
         if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
-            holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
-            aprqty = items.qty!!
-            qcaprqty = items.qty!!
+            if (items.qty != null) {
+
+                holder.orderdetailsBinding.approveQtyText.setText(items.qty.toString())
+                aprqty = items.qty!!
+                qcaprqty = items.qty!!
+            }
 
 
-        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
-                .equals("MANAGER", true)
-        ) {
-            holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
-            aprqty = items.approvedqty!!
-            qcaprqty = items.approvedqty!!
+        } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("MANAGER", true)) {
+            if (items.approvedqty != null) {
+                holder.orderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
+
+                aprqty = items.approvedqty!!
+                qcaprqty = items.approvedqty!!
+            }
 
         } else if (Preferences.getAppLevelDesignationQCFail().replace(" ", "")
                 .equals("GENERALMANAGER", true)
@@ -108,6 +113,8 @@ class QcPendingOrderDetailsAdapter(
         if (items.remarks != null) {
             holder.orderdetailsBinding.reason.setText(items.remarks.toString())
         } else {
+            Toast.makeText(ViswamApp.context, "Reject Reasons not available", Toast.LENGTH_LONG)
+
             holder.orderdetailsBinding.reason.setText("Select")
         }
         holder.orderdetailsBinding.medicineName.setText(items.itemname)
@@ -262,12 +269,12 @@ class QcPendingOrderDetailsAdapter(
         }
 
         holder.orderdetailsBinding.add.setOnClickListener {
-            if (Integer.parseInt(holder.orderdetailsBinding.approveQtyText.text.toString()) >=qcaprqty !!
+            if (Integer.parseInt(holder.orderdetailsBinding.approveQtyText.text.toString()) >= qcaprqty!!
                 !!
 
             ) {
                 Toast.makeText(mContext,
-                    "Approve quantity cannot be more than Required quantity",
+                    "Approval Qty should not exceed the Requested Qty",
                     Toast.LENGTH_LONG).show()
             } else {
                 count++;

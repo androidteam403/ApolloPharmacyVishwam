@@ -35,7 +35,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
     var getRejectList: ArrayList<QcListsResponse.Reject>? = null
-
+    public var storeStringList=ArrayList<String>()
+    public var regionStringList=ArrayList<String>()
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
     var reason: String = ""
@@ -82,8 +83,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         fromDate = simpleDateFormat.format(cal.time)
 
 
-        viewModel.getQcRegionList()
-        viewModel.getQcStoreist()
+//        viewModel.getQcRegionList()
+//        viewModel.getQcStoreist()
         viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
@@ -142,11 +143,30 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
             hideLoading()
-
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeStringList.clear()
+            regionStringList.clear()
             if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
+
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                  filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+
+
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+
+                for (i in filterRejectList.indices) {
+                    storeStringList.add(filterRejectList[i].storeid.toString())
+                    regionStringList.add(filterRejectList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeStringList)
+                regionListSet.addAll(regionStringList)
+                storeStringList.clear()
+                regionStringList.clear()
+                regionStringList.addAll(regionListSet)
+                storeStringList.addAll(stroreListSet)
                  subList = ListUtils.partition(it.rejectedlist, 5)
                  pageNo = 1
                 increment = 0
@@ -173,7 +193,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 }
                 viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
 
-                viewBinding.refreshSwipe.isRefreshing = false
 
 
 
@@ -203,6 +222,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
         viewBinding.refreshSwipe.setOnRefreshListener {
+            Preferences.setQcFromDate("")
+            Preferences.setQcToDate("")
+            Preferences.setQcSite("")
+            Preferences.setQcRegion("")
+            MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
 
             viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
@@ -438,7 +462,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "3")
-
+        i.putStringArrayListExtra("storeList",storeStringList)
+        i.putStringArrayListExtra("regionList",regionStringList)
         startActivityForResult(i, 210)
     }
 

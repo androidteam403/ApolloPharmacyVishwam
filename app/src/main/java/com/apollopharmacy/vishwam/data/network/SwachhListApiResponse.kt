@@ -92,9 +92,10 @@ object SwachhListApiResponse {
         }
     }
 
-    suspend fun getDrugResponse(drugRequest: DrugRequest): ApiResult<DrugResponse> {
+    suspend fun getDrugResponse( url: String,
+                                 token: String,drugRequest: DrugRequest): ApiResult<DrugResponse> {
         return try {
-            val response = Api.getClient().DrugResponse(Config.DRUG_KEY, drugRequest)
+            val response = Api.getClient().DrugResponse(url,token, drugRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

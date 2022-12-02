@@ -29,30 +29,103 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     lateinit var viewModel: QcSiteActivityViewModel
     var storeList = ArrayList<QcStoreList.Store>()
     private var fromQcDate: String = ""
+
+
+    private var toQcDate: String = ""
     private var toDate: String = ""
     private var siteId: String = ""
     private var regionId: String = ""
     private var fragment: String = ""
     private var qcDate: String = ""
     private var qcfDate: String = ""
-
+    public var storeStringList=ArrayList<String>()
+    public var regionStringList=ArrayList<String>()
     var selectsiteIdList = ArrayList<String>()
     var getregionList = ArrayList<QcStoreList.Store>()
+    var uniqueRegionList = ArrayList<UniqueRegionList>()
+    var uniqueStoreList = ArrayList<UniqueStoreList>()
+
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
+        if (intent!=null){
+          storeStringList= intent.getStringArrayListExtra("storeList")!!
+            regionStringList= intent.getStringArrayListExtra("regionList")!!
+
+        }
+
+        if (storeStringList.isNullOrEmpty()){
+            Preferences.setQcSite("")
+
+        }
+
+        if (regionStringList.isNullOrEmpty()){
+            Preferences.setQcRegion("")
+        }
+
+        if (storeStringList!=null){
+            for (i in storeStringList.indices) {
+                if (storeStringList.get(i).isNullOrEmpty()) {
+
+                } else {
+                    val items = UniqueStoreList()
+                    items.siteid = storeStringList.get(i)
+
+
+                    uniqueStoreList.add(items)
+                    if (Preferences.getQcSite().isNullOrEmpty()){
+
+                    }else{
+                        Preferences.setQcSite(StringUtils.substring(storeStringList.toString(),
+                            1,
+                            storeStringList.toString().length - 1))
+
+                    }
+
+                }
+            }
+
+        }
+
+
+        if (regionStringList!=null){
+            for (i in regionStringList.indices) {
+                if (regionStringList.get(i).isNullOrEmpty()){
+
+                }else{
+                    val items = UniqueRegionList()
+                    items.siteid=regionStringList.get(i)
+
+
+                    uniqueRegionList.add(items)
+                    if (Preferences.getQcRegion().isNullOrEmpty()){
+
+                    }else{
+                        Preferences.setQcRegion(StringUtils.substring(regionStringList.toString(),
+                            1,
+                            regionStringList.toString().length - 1))
+
+                    }
+
+                }
+
+
+            }
+
+        }
+
 //        viewModel.getQcRegionList()
 //        viewModel.getSiteData()
 
 //        Utlis.showLoading(this)
 //       viewModel.getQcStoreist(this)
-        Utlis.showLoading(this)
-        viewModel.siteId()
-        viewModel.regionId()
+//        Utlis.showLoading(this)
+//        viewModel.siteId()
+//        viewModel.regionId()
         fromQcDate = Preferences.getQcFromDate()
-        toDate = Preferences.getQcToDate()
+        toQcDate = Preferences.getQcToDate()
         regionId = Preferences.getQcRegion()
         siteId = Preferences.getQcSite()
 
@@ -174,19 +247,25 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
         activityQcFilterBinding.applybutoon.setOnClickListener {
 
-            if (fromQcDate.isNullOrEmpty() && toDate.isNullOrEmpty() && regionId.isNullOrEmpty() && siteId.isNullOrEmpty()) {
-                Toast.makeText(context, "All Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+            if (fromQcDate.isNullOrEmpty()){
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
 
-            } else {
+            } else if(toQcDate.isNullOrEmpty() ){
+
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            }
+
+             else {
                 val intent = Intent()
                 Preferences.setQcFromDate(fromQcDate)
-                Preferences.setQcToDate(qcDate)
+                Preferences.setQcToDate(toQcDate)
                 Preferences.setQcSite(siteId)
                 Preferences.setQcRegion(regionId)
                 intent.putExtra("regionId", regionId.replace(" ", ""))
                 intent.putExtra("siteId", siteId.replace(" ", ""))
                 intent.putExtra("fromQcDate", fromQcDate)
-                intent.putExtra("toDate", toDate)
+                intent.putExtra("toDate", toQcDate)
                 intent.putExtra("apply", "apply")
 
                 setResult(Activity.RESULT_OK, intent)
@@ -229,14 +308,15 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 
 
         activityQcFilterBinding.regionIdSelect.setOnClickListener {
+
             QcRegionDialog().apply {
-                arguments = QcRegionDialog().generateParsedData(viewModel.getRegionData())
+                arguments = QcRegionDialog().generateParsedData(uniqueRegionList)
             }.show(supportFragmentManager, "")
         }
 
         activityQcFilterBinding.siteIdSelect.setOnClickListener {
             QcSiteDialog().apply {
-                arguments = QcSiteDialog().generateParsedData(viewModel.getSiteData())
+                arguments = QcSiteDialog().generateParsedData(uniqueStoreList)
             }.show(supportFragmentManager, "")
 
         }
@@ -320,7 +400,9 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
 //        cal.add(Integer.parseInt(activityQcFilterBinding.fromDateText.text.toString()),30)
 //        val todate1 = cal.time
         activityQcFilterBinding.toDateText.setText(qcDate)
-        toDate = activityQcFilterBinding.toDateText.text.toString()
+        toQcDate=qcDate;
+//        toDate = activityQcFilterBinding.toDateText.text.toString()
+
 
     }
 

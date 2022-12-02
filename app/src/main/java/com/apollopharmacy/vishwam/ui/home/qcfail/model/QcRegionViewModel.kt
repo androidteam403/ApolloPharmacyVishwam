@@ -7,10 +7,10 @@ import com.apollopharmacy.vishwam.util.Utils
 
 class QcRegionViewModel : ViewModel() {
     val TAG = "SiteViewModel"
-    var fixedArrayList = MutableLiveData<ArrayList<QcRegionList.Store>>()
-    var orginalArrayList = ArrayList<QcRegionList.Store>()
+    var fixedArrayList = MutableLiveData<ArrayList<UniqueRegionList>>()
+    var orginalArrayList = ArrayList<UniqueRegionList>()
 
-    fun qcRegionArrayList(siteArrayList: ArrayList<QcRegionList.Store>): ArrayList<QcRegionList.Store> {
+    fun qcRegionArrayList(siteArrayList: ArrayList<UniqueRegionList>): ArrayList<UniqueRegionList> {
         fixedArrayList.value = siteArrayList
         orginalArrayList = siteArrayList
         return siteArrayList
@@ -20,8 +20,8 @@ class QcRegionViewModel : ViewModel() {
         Utils.printMessage(TAG, "Orginal Data :: " + orginalArrayList.toString())
         var data =
             orginalArrayList.filter { m ->
-                m.siteid!!.contains(siteId) || m.sitename!!.contains(siteId.toUpperCase())
-            } as ArrayList<QcRegionList.Store>
+                m.siteid!!.contains(siteId) || m.siteid!!.contains(siteId.toUpperCase())
+            } as ArrayList<UniqueRegionList>
         Utils.printMessage(TAG, "Filter Data :: " + data.toString())
         fixedArrayList.value = data
     }

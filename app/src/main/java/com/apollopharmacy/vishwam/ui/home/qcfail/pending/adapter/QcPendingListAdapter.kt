@@ -170,13 +170,15 @@ class QcPendingListAdapter(
             }
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.totalCost.setText(" " + totalPrices.toString())
+                holder.pendingLayoutBinding.totalCost.setText(" " + String.format("%.2f",
+                    totalPrices))
             } else {
                 holder.pendingLayoutBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.discountTotal.setText(" " + discounts.toString())
+                holder.pendingLayoutBinding.discountTotal.setText(" " + String.format("%.2f",
+                    discounts))
             } else {
                 holder.pendingLayoutBinding.discountTotal.setText("-")
 
