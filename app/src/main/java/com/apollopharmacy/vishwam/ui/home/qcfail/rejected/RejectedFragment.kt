@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
+import org.apache.commons.collections4.ListUtils
+
 import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
@@ -18,7 +20,6 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.ui.login.Command
-import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 

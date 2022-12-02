@@ -1,10 +1,8 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage
 
-import android.app.DownloadManager
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
@@ -14,75 +12,55 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.adapter.QcPrevie
 
 class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     ViewPager.OnPageChangeListener {
-    lateinit var activityQcPreviewImageBinding: ActivityQcPreviewImageBinding
-    private var previewImageAdapter: QcPreviewAdapter? = null
-    private var currentPosition: Int = 0
-    private var imageUrl: String = ""
-    private var orderNo: String = ""
-    private var itemName: String = ""
 
+    lateinit var activityQcPreviewImageBinding: ActivityQcPreviewImageBinding
+
+    var imageUrl: String? = ""
+    var orderNo: String? = ""
+    var itemName: String? = ""
+    var position: String? = ""
+
+    lateinit var previewImageAdapter: QcPreviewAdapter
     var qcItemList = ArrayList<QcItemListResponse.Item>()
-    var position: Int = 0
     var list = ArrayList<String>()
-    lateinit var imageUrlList: List<String>
+    var currentPosition: Int = 0
+    lateinit var imageUrls: List<String>
+    var imagePosition:Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityQcPreviewImageBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_qc__preview__image)
-        if (intent != null) {
-            imageUrl =
-                getIntent().getExtras()?.getString("itemList")!!
-            orderNo =
-                getIntent().getExtras()?.getString("orderid")!!
-            itemName =
-                getIntent().getExtras()?.getString("itemName")!!
-            // currentPosition = getIntent().getExtras()?.getInt("position")!!
+        activityQcPreviewImageBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc__preview__image)
 
-        }
-        val imageUrlList = imageUrl.split(";")
-
+        imageUrl = intent.getStringExtra("itemList")
+        orderNo = intent.getStringExtra("orderid")
+        itemName = intent.getStringExtra("itemName")
+        position = intent.getStringExtra("position")
 
         setUp()
-
     }
 
-    private fun setUp() {
-        imageUrlList = imageUrl.split(";")
-        if (position==0){
-            activityQcPreviewImageBinding.startarrow.visibility=View.GONE
-        }
+    fun setUp() {
+        imageUrls = imageUrl!!.split(";")
+        //Back button
         activityQcPreviewImageBinding.back.setOnClickListener {
-
             finish()
         }
-
-
-        if (orderNo.equals("null") || orderNo.isNullOrEmpty()) {
-            activityQcPreviewImageBinding.orderid.setText("-")
-
-        } else {
-            activityQcPreviewImageBinding.orderid.setText(orderNo)
-
-        }
         activityQcPreviewImageBinding.itemName.setText(itemName)
+        activityQcPreviewImageBinding.orderid.setText(orderNo)
 
 
-        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrlList.size+1).toString()+" / ")
-        activityQcPreviewImageBinding.totalimages.setText(imageUrlList.size.toString()+" )")
+        if (imagePosition == 0) {
+            activityQcPreviewImageBinding.startarrow.visibility = View.GONE
+        }
 
-        previewImageAdapter = QcPreviewAdapter(applicationContext,
-            list,
-            qcItemList,
-            this,
-            currentPosition,this,
-            imageUrlList)
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(imagePosition+1/imageUrls.size+1).toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText(imageUrls.size.toString()+" )")
 
+        previewImageAdapter = QcPreviewAdapter(applicationContext, list, qcItemList,this, currentPosition,this,imageUrls)
 
-        activityQcPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityQcPreviewImageBinding.previewImageViewpager.adapter = previewImageAdapter
+        activityQcPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityQcPreviewImageBinding.previewImageViewpager.setCurrentItem(currentPosition, true)
-
     }
 
     override fun onClickBack() {
@@ -95,29 +73,25 @@ class QcPreviewImageActivity : AppCompatActivity(), QcPreviewCallbacks,
     }
 
     override fun onPageSelected(position: Int) {
-
-        if (position==0){
-            activityQcPreviewImageBinding.startarrow.visibility=View.GONE
-        }
-        else{
-            activityQcPreviewImageBinding.startarrow.visibility=View.VISIBLE
-
+        if (position == 0) {
+            activityQcPreviewImageBinding.startarrow.visibility = View.GONE
+        } else {
+            activityQcPreviewImageBinding.startarrow.visibility = View.VISIBLE
         }
 
-
-        if (position==imageUrlList.size-1){
-            activityQcPreviewImageBinding.endarrow.visibility=View.GONE
-        }
-        else{
-            activityQcPreviewImageBinding.endarrow.visibility=View.VISIBLE
-
+        if (position == imageUrls.size - 1) {
+            activityQcPreviewImageBinding.endarrow.visibility = View.GONE
+        } else {
+            activityQcPreviewImageBinding.endarrow.visibility = View.VISIBLE
         }
 
-        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrlList.size+1).toString()+" / ")
-        activityQcPreviewImageBinding.totalimages.setText(imageUrlList.size.toString()+" )")
+        activityQcPreviewImageBinding.totalText.setText("Total Images"+" ( "+(position+1/imageUrls.size+1).toString()+" / ")
+        activityQcPreviewImageBinding.totalimages.setText(imageUrls.size.toString()+" )")
 
     }
 
     override fun onPageScrollStateChanged(state: Int) {
     }
+
+
 }

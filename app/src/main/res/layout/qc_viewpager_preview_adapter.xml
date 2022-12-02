@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/previewmsg"
             android:visibility="gone"
-
             android:layout_marginTop="@dimen/text_10sp"
             android:layout_centerHorizontal="true"
             android:background="@drawable/backgroundpending"

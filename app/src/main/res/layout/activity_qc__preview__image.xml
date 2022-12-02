@@ -32,23 +32,23 @@
             android:layout_gravity="center"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/itemName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
-                android:id="@+id/itemName"
                 android:text="Zintac"
                 android:layout_marginStart="@dimen/text_20sp"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />
             <TextView
+                android:id="@+id/orderid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:text="Rv00005"
                 android:layout_marginStart="@dimen/twenty_three23_sp"
                 android:textColor="@color/white"
-                android:id="@+id/orderid"
                 android:textSize="@dimen/text_17sp"
                 android:textStyle="bold" />
 
@@ -77,13 +77,12 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/preview_image_viewpager"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_layout"
         android:layout_marginStart="@dimen/value_35dp"
         android:layout_marginEnd="@dimen/value_35dp"
 
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_layout"
-
-       />
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -127,7 +126,6 @@
                         android:layout_height="wrap_content"
                         android:text=""
                         android:textStyle="bold"
-
                         android:id="@+id/totalimages"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_19sp" />

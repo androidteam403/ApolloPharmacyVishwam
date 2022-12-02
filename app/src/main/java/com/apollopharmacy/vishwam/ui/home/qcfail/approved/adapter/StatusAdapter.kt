@@ -21,25 +21,36 @@ import kotlin.collections.ArrayList
 import kotlin.concurrent.timer
 
 class StatusAdapter(
-    context: Context,
-    actionHistoryList: ArrayList<ActionResponse.Hsitorydetail>
-): RecyclerView.Adapter<StatusAdapter.ViewHolder>() {
+    val context: Context,
+    val actionHistoryList: ArrayList<ActionResponse.Hsitorydetail>,
+) : RecyclerView.Adapter<StatusAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        TODO("Not yet implemented")
+        val qcStatusLayoutBinding: QcStatusLayoutBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.qc_status_layout,
+            parent,
+            false
+        )
+        return ViewHolder(qcStatusLayoutBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        val status = actionHistoryList.get(position).status
+        val actionDate = actionHistoryList.get(position).actiondate
+        val actionBy = actionHistoryList.get(position).actionby
+
+        holder.qcStatusLayoutBinding.statusBy.setText(status)
+        holder.qcStatusLayoutBinding.actionBy.setText("(" + actionBy + ")")
+        holder.qcStatusLayoutBinding.date.setText(actionDate)
     }
 
     override fun getItemCount(): Int {
-        TODO("Not yet implemented")
+        return actionHistoryList.size
     }
 
-
-    class ViewHolder(val qcStatusLayoutBinding: QcStatusLayoutBinding):
+    class ViewHolder(val qcStatusLayoutBinding: QcStatusLayoutBinding) :
         RecyclerView.ViewHolder(qcStatusLayoutBinding.root)
 }
 

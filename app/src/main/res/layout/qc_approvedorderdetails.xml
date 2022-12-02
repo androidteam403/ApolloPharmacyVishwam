@@ -169,9 +169,9 @@
                         app:fontFamily="@font/roboto_medium" />
 
                     <ImageView
+                        android:id="@+id/eyeImage"
                         android:layout_width="@dimen/value_25dp"
                         android:layout_height="@dimen/value_25dp"
-                        android:id="@+id/eyeImage"
                         android:layout_below="@+id/imageslist_header"
                         android:layout_centerHorizontal="true"
                         android:contentDescription="@string/app_name"

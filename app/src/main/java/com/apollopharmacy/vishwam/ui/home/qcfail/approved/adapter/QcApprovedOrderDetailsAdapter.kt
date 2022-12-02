@@ -69,7 +69,6 @@ class QcApprovedOrderDetailsAdapter(
                 else{
                     imageClicklistner.imageData(position,orderId,items.itemname.toString(),items.imageurls.toString())
                 }
-
             }
         }
     }

@@ -23,7 +23,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
-//import org.apache.commons.collections4.ListUtils
+import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -185,7 +185,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
             }
             else {
-
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
                 filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
