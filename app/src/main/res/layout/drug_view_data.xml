@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/drug_details_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginEnd="@dimen/value_5dp"
+        android:visibility="gone">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_item_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Item Name : "
+            android:textColor="@color/fadedTextColor"
+            android:textSize="@dimen/text_13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_item_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_13sp"
+            app:layout_constraintStart_toEndOf="@+id/drug_item_label"
+            app:layout_constraintTop_toTopOf="@+id/drug_item_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_batch_no_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Batch No : "
+            android:textColor="@color/fadedTextColor"
+            android:textSize="@dimen/text_13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drug_item_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_batch_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_13sp"
+            app:layout_constraintStart_toEndOf="@+id/drug_batch_no_label"
+            app:layout_constraintTop_toTopOf="@+id/drug_batch_no_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_mrp_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="MRP : "
+            android:textColor="@color/fadedTextColor"
+            android:textSize="@dimen/text_13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drug_batch_no_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_mrp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_13sp"
+            app:layout_constraintStart_toEndOf="@+id/drug_mrp_label"
+            app:layout_constraintTop_toTopOf="@+id/drug_mrp_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_pack_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pack size : "
+            android:textColor="@color/fadedTextColor"
+            android:textSize="@dimen/text_13sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/drug_mrp_label" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/drug_pack_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_13sp"
+            app:layout_constraintStart_toEndOf="@+id/drug_pack_label"
+            app:layout_constraintTop_toTopOf="@+id/drug_pack_label" />
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

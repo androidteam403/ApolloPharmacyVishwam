@@ -11,21 +11,28 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
-import com.apollopharmacy.vishwam.data.model.*
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
+import com.apollopharmacy.vishwam.data.model.ImageDataDto
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
+import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
+import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptRejectResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.Json.Default.decodeFromString
-import java.util.*
+import java.net.URLEncoder
 
 class RegistrationViewModel : ViewModel() {
     var departmentLiveData = ArrayList<DepartmentV2Response.DepartmentListItem>()
@@ -35,7 +42,7 @@ class RegistrationViewModel : ViewModel() {
     var visibleState = LiveEvent<State>()
     var siteLiveData = ArrayList<StoreListItem>()
     var pendingListLiveData = MutableLiveData<PendingListToAcknowledge>()
-    private var storeDetailsSend = StoreListItem()
+    var storeDetailsSend = StoreListItem()
     val TAG = "RegistrationModel"
 
     var deartmentlist = ArrayList<ReasonmasterV2Response.Department>()
@@ -50,6 +57,10 @@ class RegistrationViewModel : ViewModel() {
 
     var reasonsList = ArrayList<ReasonmasterV2Response.Row>()
 
+    var inventoryCategotyItem = FetchItemModel.Rows()
+
+    var transactionPOSDetails = MutableLiveData<TransactionPOSModel>()
+
     lateinit var Reasonlistdata: ReasonmasterV2Response
 
     var tisketstatusresponse = MutableLiveData<ResponseTicktResolvedapi>()
@@ -58,49 +69,83 @@ class RegistrationViewModel : ViewModel() {
 
     var cmsticketRatingresponse = MutableLiveData<ResponseticketRatingApi>()
 
-    var cmsticketclosingapiresponse = MutableLiveData<ResponseClosedTicketApi>()
+    var cmsticketclosingapiresponse = MutableLiveData<InventoryAcceptRejectResponse>()
 
     var reasonlistapiresponse = MutableLiveData<ReasonmasterV2Response>()
 
     var responsenewcomplaintregistration = MutableLiveData<ResponseNewComplaintRegistration>()
 
+    var updateUserDefaultSiteResponseMutable = MutableLiveData<UpdateUserDefaultSiteResponse>()
+
     fun siteId() {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("DISCOUNT GET STORE LIST")) {
-                val baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
-                viewModelScope.launch {
-                    state.value = State.SUCCESS
-                    val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.selectSiteId(token, baseUrl)
-                    }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            state.value = State.ERROR
-                            if (response.value.status) {
-                                siteLiveData.clear()
-                                response.value.storeList.map { siteLiveData.add(it) }
-                                // getDepartment()
-                                command.value = CmsCommand.ShowSiteInfo("")
-                            } else {
-                                command.value = CmsCommand.ShowToast(
-                                    response.value.message.toString()
-                                )
+        if (Preferences.isSiteIdListFetched()) {
+            siteLiveData.clear()
+            val gson = Gson()
+            val siteIdList = Preferences.getSiteIdListJson()
+            val type = object : TypeToken<List<StoreListItem?>?>() {}.type
+
+            this.siteLiveData =
+                gson.fromJson<List<StoreListItem>>(siteIdList, type) as ArrayList<StoreListItem>
+            command.value = CmsCommand.ShowSiteInfo("")
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
+
+
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS GETSITELIST")) {
+                    val baseUrl = data.APIS[i].URL
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(baseUrL,
+                                token,
+                                GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+//                        RegistrationRepo.selectSiteId(token, baseUrl)
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                val resp: String = response.value.string()
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val reasonmasterV2Response =
+                                    Gson().fromJson(BackShlash.removeSubString(res),
+                                        SiteDto::class.java)
+
+                                if (reasonmasterV2Response.status) {
+                                    siteLiveData.clear()
+                                    reasonmasterV2Response.siteData?.listData?.rows?.map {
+                                        siteLiveData.add(it)
+                                    }
+                                    // getDepartment()
+                                    command.value = CmsCommand.ShowSiteInfo("")
+                                } else {
+                                    command.value =
+                                        CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
+                                }
                             }
-                        }
-                        is ApiResult.GenericError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.NetworkError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownHostException -> {
-                            state.value = State.ERROR
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
                         }
                     }
                 }
@@ -113,20 +158,24 @@ class RegistrationViewModel : ViewModel() {
     fun getRemarksMasterList() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
                 var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "The"
-                            )
-                        )
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl, "GET", "The", "", ""))
                         //  RegistrationRepo.getReasonslistmaster(baseUrl)
                     }
                     when (response) {
@@ -137,12 +186,11 @@ class RegistrationViewModel : ViewModel() {
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val reasonmasterV2Response =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ReasonmasterV2Response::class.java
-                                        )
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            ReasonmasterV2Response::class.java)
 
                                     if (reasonmasterV2Response.success) {
+                                        deartmentlist.clear()
                                         Reasonlistdata = reasonmasterV2Response
                                         reasonlistapiresponse.value = reasonmasterV2Response
                                         val reasonlitrows =
@@ -151,9 +199,8 @@ class RegistrationViewModel : ViewModel() {
                                             deartmentlist.add(row.department)
                                         }
                                     } else {
-                                        command.value = CmsCommand.ShowToast(
-                                            reasonmasterV2Response.message.toString()
-                                        )
+                                        command.value =
+                                            CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
                                     }
                                 }
                             } else {
@@ -185,6 +232,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketstatus(site: String?, department: String?) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS OPENTICKETLIST")) {
                 /* var baseUrl =
@@ -198,14 +254,9 @@ class RegistrationViewModel : ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "The"
-                            )
-                        )
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl, "GET", "The", "", ""))
                         // RegistrationRepo.getticketresolvedstatus(baseUrl)
                     }
                     when (response) {
@@ -217,17 +268,16 @@ class RegistrationViewModel : ViewModel() {
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseTicktResolvedapi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseTicktResolvedapi::class.java
-                                        )
-                                    if (responseTicktResolvedapi.success) {
-                                        tisketstatusresponse.value = responseTicktResolvedapi
-                                    } else {
-                                        command.value = CmsCommand.ShowToast(
-                                            responseTicktResolvedapi.toString()
-                                        )
-                                    }
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            ResponseTicktResolvedapi::class.java)
+                                    tisketstatusresponse.value = responseTicktResolvedapi
+//                                    if (!responseTicktResolvedapi.success) {
+//                                        tisketstatusresponse.value = responseTicktResolvedapi
+//                                    } else {
+//                                        command.value = CmsCommand.ShowToast(
+//                                            responseTicktResolvedapi.toString()
+//                                        )
+//                                    }
                                 }
                             }
                             /* val reasonlitrows = response.value.data.listdata.rows
@@ -261,8 +311,17 @@ class RegistrationViewModel : ViewModel() {
     fun getCMSLoginApi(cmsLogin: RequestCMSLogin) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS CMSLOGIN")) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS LOGIN")) {
                 /* var baseUrl =
                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/login"*/
                 var baseUrl = data.APIS[i].URL
@@ -276,14 +335,9 @@ class RegistrationViewModel : ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "POST",
-                                requestCMSLoginJson
-                            )
-                        )
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl, "POST", requestCMSLoginJson, "", ""))
                         //  RegistrationRepo.getCMSLoginApi(baseUrl, cmsLogin)
                     }
                     when (response) {
@@ -294,10 +348,8 @@ class RegistrationViewModel : ViewModel() {
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseCMSLogin =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseCMSLogin::class.java
-                                        )
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            ResponseCMSLogin::class.java)
                                     cmsloginapiresponse.value = responseCMSLogin
 
                                 }
@@ -327,6 +379,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketRatingApi() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS FEEDBACKRATING")) {
                 /* var baseUrl =
@@ -341,14 +402,9 @@ class RegistrationViewModel : ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "the"
-                            )
-                        )
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl, "GET", "the", "", ""))
 
 //                        RegistrationRepo.getTicketRating(baseUrl)
                     }
@@ -357,15 +413,12 @@ class RegistrationViewModel : ViewModel() {
                             state.value = State.ERROR
                             if (response != null) {
                                 // tisketstatusresponse.value = response.value
-                                val resp: String = response.value.toString()
+                                val resp: String = response.value.string()
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseticketRatingApi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseticketRatingApi::class.java
-                                        )
-                                    // cmsloginapiresponse.value = responseCMSLogin
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            ResponseticketRatingApi::class.java)
                                     cmsticketRatingresponse.value = responseticketRatingApi
 
 
@@ -397,6 +450,15 @@ class RegistrationViewModel : ViewModel() {
     fun getTicketclosingApi(token: String?, requestClosedticketApi: RequestClosedticketApi) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS CLOSEORREOPENTICKET")) {
                 var baseUrl = data.APIS[i].URL
@@ -415,14 +477,13 @@ class RegistrationViewModel : ViewModel() {
                     state.value = State.SUCCESS
                     // RegistrationRepo.getticketresolvedstatus(site,department)
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl,
                                 "POST",
-                                requestClosedticketApiJson
-                            )
-                        )
+                                requestClosedticketApiJson,
+                                "authorization",
+                                autherisation))
 
 
 //                        RegistrationRepo.getTicketClosingapi(
@@ -440,12 +501,10 @@ class RegistrationViewModel : ViewModel() {
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
                                     val responseClosedTicketApi =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseClosedTicketApi::class.java
-                                        )
+                                        Gson().fromJson(BackShlash.removeSubString(res),
+                                            ResponseClosedTicketApi::class.java)
                                     // tisketstatusresponse.value = response.value
-                                    cmsticketclosingapiresponse.value = responseClosedTicketApi
+//                                    cmsticketclosingapiresponse.value = responseClosedTicketApi
 
 
                                 }
@@ -469,7 +528,6 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-
     fun getDepartment() {
         clearAllList()
         val url = Preferences.getApi()
@@ -478,49 +536,16 @@ class RegistrationViewModel : ViewModel() {
             if (data.APIS[i].NAME.equals("CMS APP")) {
                 val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
-
-
-                val cMSCommonRequestJson =
-                    Gson().toJson(CMSCommonRequest(Config.CMS_List_Of_Departments, ""))
-
-
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "POST",
-                                cMSCommonRequestJson
-                            )
-                        )
-                        //CMSCommonResponse
-
-//                        RegistrationRepo.callDepartmentList(
-//                            token,
-//                            baseUrl,
-//                            Config.CMS_List_Of_Departments
-//                        )
+                        RegistrationRepo.callDepartmentList(token,
+                            baseUrl,
+                            Config.CMS_List_Of_Departments)
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            if (response != null) {
-                                val resp: String = response.value.string()
-                                if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val departmentV2Response =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            DepartmentV2Response::class.java
-                                        )
-
-                                    command.value = CmsCommand.SuccessDeptList("")
-                                    departmentV2Response.departmentList.map { departmentLiveData.add(it) }
-
-
-                                }
-                            }
+                            command.value = CmsCommand.SuccessDeptList("")
+                            response.value.departmentList.map { departmentLiveData.add(it) }
                         }
                         is ApiResult.GenericError -> {
                         }
@@ -608,6 +633,7 @@ class RegistrationViewModel : ViewModel() {
         } else {
             uniqueCategoryList = Categorylistfromreasons;
         }
+        uniqueCategoryList.sortBy { it.name }
         return uniqueCategoryList;
     }
 
@@ -684,12 +710,29 @@ class RegistrationViewModel : ViewModel() {
 
     //newcomplaint registration  api.................
     fun submitNewcomplaintregApi(requestNewComplaintRegistration: RequestNewComplaintRegistration) {
+        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_start_time =
+                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_hrs.toString()
+        }
+        if (requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla[0].bh_end_time =
+                requestNewComplaintRegistration.reason.reason_sla[0].default_tat_mins.uid
+        }
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS SAVETICKET")) {
                 val baseUrl = data.APIS[i].URL
-                val token = data.APIS[i].TOKEN
                 /*  val baseUrl =
                       "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
                 val requestNewComplaintRegistrationJson =
@@ -698,14 +741,13 @@ class RegistrationViewModel : ViewModel() {
                 val header = "application/json"
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl,
                                 "POST",
-                                requestNewComplaintRegistrationJson
-                            )
-                        )
+                                requestNewComplaintRegistrationJson,
+                                "",
+                                ""))
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
@@ -722,18 +764,16 @@ class RegistrationViewModel : ViewModel() {
                                 val resp: String = response.value.string()
                                 if (resp != null) {
                                     val res = BackShlash.removeBackSlashes(resp)
-                                    val responseNewComplaintRegistration =
-                                        Gson().fromJson(
-                                            BackShlash.removeSubString(res),
-                                            ResponseNewComplaintRegistration::class.java
-                                        )
-                                    // cmsloginapiresponse.value = responseCMSLogin
+                                    val responseNewComplaintRegistration = Gson().fromJson(
+                                        BackShlash.removeSubString(res),
+                                        ResponseNewComplaintRegistration::class.java)
                                     if (responseNewComplaintRegistration.success) {
                                         responsenewcomplaintregistration.value =
                                             responseNewComplaintRegistration
                                     } else {
                                         command.value =
-                                            CmsCommand.ShowToast(responseNewComplaintRegistration.message.toString())
+                                            CmsCommand.ShowToast(responseNewComplaintRegistration.data?.errors?.get(
+                                                0)?.msg.toString())
                                     }
 
 
@@ -746,31 +786,26 @@ class RegistrationViewModel : ViewModel() {
                             }
                         }
                         is ApiResult.GenericError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_unableto_save)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_unableto_save)
+                                    .toString())
                             //command.value = CmsCommand.ShowToast(ApiResult.)
 
                         }
                         is ApiResult.NetworkError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_network_error)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                    .toString())
                         }
                         is ApiResult.UnknownError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_something_wrong_try_later)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                         is ApiResult.UnknownHostException -> {
                             command.value =
-                                CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                     }
                 }
@@ -780,10 +815,10 @@ class RegistrationViewModel : ViewModel() {
 
 
     fun submitApi(registrationSubmit: SubmitNewV2Response) {
-        registrationSubmit.cmode = storeDetailsSend.sTATEID
-        registrationSubmit.region = storeDetailsSend.dcId
-        registrationSubmit.siteId = storeDetailsSend.sITEID
-        registrationSubmit.branchName = storeDetailsSend.sITENAME
+//        registrationSubmit.cmode = storeDetailsSend.site
+//        registrationSubmit.region = storeDetailsSend.dc_code?.code
+//        registrationSubmit.siteId = storeDetailsSend.site
+//        registrationSubmit.branchName = storeDetailsSend.store_name
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -792,41 +827,34 @@ class RegistrationViewModel : ViewModel() {
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.submitComplain(
-                            token,
+                        RegistrationRepo.submitComplain(token,
                             baseUrl,
                             Config.CMS_Registration,
-                            registrationSubmit
-                        )
+                            registrationSubmit)
                     }
                     when (response) {
                         is ApiResult.Success -> {
                             command.value = CmsCommand.RefreshPageOnSuccess(response.value.message)
                         }
                         is ApiResult.GenericError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_unknown_err)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_unknown_err)
+                                    .toString())
                         }
                         is ApiResult.NetworkError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_network_error)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                    .toString())
                         }
                         is ApiResult.UnknownError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_something_wrong_try_later)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                         is ApiResult.UnknownHostException -> {
                             command.value =
-                                CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                     }
                 }
@@ -835,10 +863,10 @@ class RegistrationViewModel : ViewModel() {
     }
 
     fun submitRequestWithImages(submitRequestWithImages: SubmitNewV2Response, unitTag: String) {
-        submitRequestWithImages.cmode = storeDetailsSend.sTATEID
-        submitRequestWithImages.region = storeDetailsSend.dcId
-        submitRequestWithImages.siteId = storeDetailsSend.sITEID
-        submitRequestWithImages.branchName = storeDetailsSend.sITENAME
+//        submitRequestWithImages.cmode = storeDetailsSend.site
+//        submitRequestWithImages.region = storeDetailsSend.dc_code?.code
+//        submitRequestWithImages.siteId = storeDetailsSend.site
+//        submitRequestWithImages.branchName = storeDetailsSend.store_name
         if (unitTag.equals("NEWBATCH")) {
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -848,12 +876,10 @@ class RegistrationViewModel : ViewModel() {
                     val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.submitComplainWithImages(
-                                token,
+                            RegistrationRepo.submitComplainWithImages(token,
                                 baseUrl,
                                 Config.CMS_Registration,
-                                submitRequestWithImages
-                            )
+                                submitRequestWithImages)
                         }
                         state.value = State.SUCCESS
                         when (response) {
@@ -864,32 +890,27 @@ class RegistrationViewModel : ViewModel() {
                             }
                             is ApiResult.NetworkError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_network_error)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                        .toString())
                             }
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_unknown_err)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_unknown_err)
+                                        .toString())
                             }
                             is ApiResult.UnknownError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                        .toString())
                             }
                             is ApiResult.UnknownHostException -> {
                                 state.value = State.ERROR
                                 command.value =
-                                    CmsCommand.ShowToast(
-                                        context.resources?.getString(R.string.label_something_wrong_try_later)
-                                            .toString()
-                                    )
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                        .toString())
                             }
                         }
                     }
@@ -904,12 +925,10 @@ class RegistrationViewModel : ViewModel() {
                     val token = data.APIS[i].TOKEN
                     viewModelScope.launch {
                         val response = withContext(Dispatchers.IO) {
-                            RegistrationRepo.submitComplainWithImages(
-                                token,
+                            RegistrationRepo.submitComplainWithImages(token,
                                 baseUrl,
                                 Config.CMS_Registration,
-                                submitRequestWithImages
-                            )
+                                submitRequestWithImages)
                         }
                         state.value = State.SUCCESS
                         when (response) {
@@ -920,32 +939,27 @@ class RegistrationViewModel : ViewModel() {
                             }
                             is ApiResult.NetworkError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_network_error)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                        .toString())
                             }
                             is ApiResult.GenericError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_unknown_err)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_unknown_err)
+                                        .toString())
                             }
                             is ApiResult.UnknownError -> {
                                 state.value = State.ERROR
-                                command.value = CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                command.value =
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                        .toString())
                             }
                             is ApiResult.UnknownHostException -> {
                                 state.value = State.ERROR
                                 command.value =
-                                    CmsCommand.ShowToast(
-                                        context.resources?.getString(R.string.label_something_wrong_try_later)
-                                            .toString()
-                                    )
+                                    CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                        .toString())
                             }
                         }
                     }
@@ -983,12 +997,10 @@ class RegistrationViewModel : ViewModel() {
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getListOfAcknowledgement(
-                            token,
+                        RegistrationRepo.getListOfAcknowledgement(token,
                             baseUrl,
                             Config.CMS_Tickets_List,
-                            TrackingListDto(trackingListDto.sITEID!!)
-                        )
+                            TrackingListDto(trackingListDto.site!!))
                     }
                     when (response) {
                         is ApiResult.Success -> {
@@ -1023,12 +1035,10 @@ class RegistrationViewModel : ViewModel() {
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.submitAcknowledgement(
-                            token,
+                        RegistrationRepo.submitAcknowledgement(token,
                             baseUrl,
                             Config.CMS_Update_Ack,
-                            submitAcknowledge
-                        )
+                            submitAcknowledge)
                     }
                     when (response) {
                         is ApiResult.Success -> {
@@ -1036,33 +1046,28 @@ class RegistrationViewModel : ViewModel() {
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_network_error)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.GenericError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_unknown_err)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_unknown_err)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.UnknownError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_something_wrong_try_later)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.UnknownHostException -> {
                             state.value = State.ERROR
                             command.value =
-                                CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                     }
                 }
@@ -1070,87 +1075,496 @@ class RegistrationViewModel : ViewModel() {
         }
     }
 
-    fun registerUserWithSiteID(userSiteIDRegReqModel: UserSiteIDRegReqModel, slectedStoreItem: StoreListItem) {
+    fun registerUserWithSiteID(
+        userSiteIDRegReqModel: UserSiteIDRegReqModel,
+        slectedStoreItem: StoreListItem,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS SAVE EMPLOYEE")) {
                 val baseUrl = data.APIS[i].URL
                 val token = data.APIS[i].TOKEN
-
-                val userSiteIDRegReqModelJson =
-                    Gson().toJson(userSiteIDRegReqModel)
-
-
                 viewModelScope.launch {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(
-                            "h72genrSSNFivOi/cfiX3A==",
-                            GetDetailsRequest(
-                                baseUrl,
-                                "POST",
-                                userSiteIDRegReqModelJson
-                            )
-                        )
-
-
-//                        RegistrationRepo.submitEmpWithSiteIDReg(
-//                            token,
-//                            baseUrl,
-//                            userSiteIDRegReqModel
-//                        )
+                        RegistrationRepo.submitEmpWithSiteIDReg(token,
+                            baseUrl,
+                            userSiteIDRegReqModel)
                     }
                     state.value = State.SUCCESS
                     when (response) {
                         is ApiResult.Success -> {
-                            val resp: String = response.value.string()
-                            if (resp != null) {
-                                val res = BackShlash.removeBackSlashes(resp)
-                                val userSiteIDRegResModel =
-                                    Gson().fromJson(
-                                        BackShlash.removeSubString(res),
-                                        UserSiteIDRegResModel::class.java
-                                    )
-                                getDepartment()
-                                command.value = CmsCommand.CheckValidatedUserWithSiteID(
-                                    userSiteIDRegResModel.MESSAGE,
-                                    slectedStoreItem
-                                )
-                                state.value = State.ERROR
-
-
-                            }
+                            // getDepartment()
+                            command.value =
+                                CmsCommand.CheckValidatedUserWithSiteID(response.value.MESSAGE,
+                                    slectedStoreItem)
+                            state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_network_error)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.GenericError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_unknown_err)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_unknown_err)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.UnknownError -> {
-                            command.value = CmsCommand.ShowToast(
-                                context.resources?.getString(R.string.label_something_wrong_try_later)
-                                    .toString()
-                            )
+                            command.value =
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                             state.value = State.ERROR
                         }
                         is ApiResult.UnknownHostException -> {
                             state.value = State.ERROR
                             command.value =
-                                CmsCommand.ShowToast(
-                                    context.resources?.getString(R.string.label_something_wrong_try_later)
-                                        .toString()
-                                )
+                                CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                                    .toString())
                         }
                     }
+                }
+            }
+        }
+    }
+
+    fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest) {
+        val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
+        val url = Preferences.getApi()
+
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrL = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+        //
+        //https://apis.v35.dev.zeroco.de-////apollocms
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS update_user_default_site")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        "URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site","NAME":"CMS update_user_default_site","TOKEN":""},
+
+//        val baseUrl: String =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,
+                    token1,
+                    GetDetailsRequest(baseUrl, "POST", updateUserDefaultSiteRequestJson, "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val updateUserDefaultSiteResponse =
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    UpdateUserDefaultSiteResponse::class.java)
+                            if (updateUserDefaultSiteResponse.success!!) {
+                                updateUserDefaultSiteResponseMutable.value =
+                                    updateUserDefaultSiteResponse
+
+//                                updateSwachhDefaultSiteResponseModel.value =
+//                                    updateSwachhDefaultSiteResponse
+                            } else {
+
+                            }
+                        }
+                    } else {
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun fetchItemDetails(key: String?) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrLproxy = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrLproxy = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+        var baseUrL = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS fetch_item_code")) {
+                baseUrL = data.APIS[i].URL
+                break
+            }
+        }
+//        CMS fetch_item_code
+//        val url = Preferences.getApi()
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("CMS OPENTICKETLIST")) {
+        /* var baseUrl =
+                     "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site/select/site-details?"*/
+        //val token = data.APIS[i].TOKEN
+        var baseUrl =
+            "" + baseUrL + "?page=1&rows=10&" + "globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=" + key + "&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=artcode&sort%5B0%5D%5Border%5D=ASC"
+
+        baseUrl = baseUrl
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            // RegistrationRepo.getticketresolvedstatus(site,department)
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrLproxy,
+                    token1,
+                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                // RegistrationRepo.getticketresolvedstatus(baseUrl)
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    // if (!response.value.success) {
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val resString = BackShlash.removeSubString(res)
+                            val responseTicktResolvedapi =
+                                Gson().fromJson(resString, FetchItemModel::class.java)
+                            inventoryCategotyItem =
+                                responseTicktResolvedapi.data.listData.rows.get(0)
+//                                    if (!responseTicktResolvedapi.success) {
+//                                        tisketstatusresponse.value = responseTicktResolvedapi
+//                                    } else {
+//                                        command.value = CmsCommand.ShowToast(
+//                                            responseTicktResolvedapi.toString()
+//                                        )
+//                                    }
+                        }
+                    }
+
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+//            }
+//        }
+    }
+
+    fun fetchTransactionPOSDetails(key: String?) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS site_pine_lab_device")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        var site_uid = "${
+            URLEncoder.encode("site[uid]", "utf-8")
+        }"
+
+//        {"URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/site_pine_lab_device/list?","NAME":"CMS site_pine_lab_device","TOKEN":""},
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest("${baseUrl}$site_uid=${key}", "GET", "The", "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    // if (!response.value.success) {
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val resString = BackShlash.removeSubString(res)
+                            val responseTicktResolvedapi =
+                                Gson().fromJson(resString, TransactionPOSModel::class.java)
+                            transactionPOSDetails.value = responseTicktResolvedapi
+
+                        }
+                    }
+
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+//            }
+//        }
+    }
+
+
+    fun uploadImage(imageFromCameraFile: ArrayList<ImageDataDto>, tag: String) {
+
+        state.value = State.SUCCESS
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = ConnectionAzure.connectToAzur(imageFromCameraFile,
+                CONTAINER_NAME,
+                STORAGE_CONNECTION_FOR_CCR_APP)
+            command.postValue(CmsCommand.ImageIsUploadedInAzur(response, tag))
+        }
+//        val requestBody = RequestBody.create("image/png".toMediaTypeOrNull(),imageFromCameraFile)
+//        val filePart = MultipartBody.Part.createFormData("file", imageFromCameraFile.name, requestBody)
+//
+//        viewModelScope.launch {
+//            state.value = State.SUCCESS
+//            val response = withContext(Dispatchers.IO) {
+//                RegistrationRepo.uploadImage(
+//                    "h72genrSSNFivOi/cfiX3A==",
+//                    GetDetailsRequest(
+//                        "https://cmsuat.apollopharmacy.org/zc-v3.1-fs-svc/2.0/apollo_cms/upload",
+//                        "POST",
+//                        filePart,
+//                        "",
+//                        ""
+//                    )
+//                )
+//            }
+//            when (response) {
+//                is ApiResult.Success -> {
+//                    state.value = State.ERROR
+////                    when (requestCode) {
+////                        1 -> {
+////                            ticketInventoryItem.front_image = response.value.data
+////                        }
+////                        2 -> {
+////                            ticketInventoryItem.back_image = response.value.data
+////                        }
+////                        3 -> {
+////                            ticketInventoryItem.other_image = response.value.data
+////                        }
+////                    }
+//
+//                }
+//                is ApiResult.GenericError -> {
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.NetworkError -> {
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownError -> {
+//                    state.value = State.ERROR
+//                }
+//                is ApiResult.UnknownHostException -> {
+//                    state.value = State.ERROR
+//                }
+//            }
+//        }
+    }
+
+
+    fun submitTicketInventorySaveUpdate(requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS ticket_inventory_save_update")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_start_time =
+                requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_hrs.toString()
+        }
+        if (requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time == null) {
+            requestNewComplaintRegistration.reason.reason_sla?.get(0)?.bh_end_time =
+                requestNewComplaintRegistration.reason.reason_sla?.get(0)?.default_tat_mins?.uid
+        }
+//                  val baseUrl =
+//                      "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-inventory-save-update"
+        val requestNewComplaintRegistrationJson = Gson().toJson(requestNewComplaintRegistration)
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewComplaintRegistration =
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    ResponseNewComplaintRegistration::class.java)
+                            if (responseNewComplaintRegistration.success) {
+                                responsenewcomplaintregistration.value =
+                                    responseNewComplaintRegistration
+                            } else {
+                                command.value =
+                                    CmsCommand.ShowToast(responseNewComplaintRegistration.data?.errors?.get(
+                                        0)?.msg.toString())
+                            }
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    command.value =
+                        CmsCommand.ShowToast(context.resources?.getString(R.string.label_unableto_save)
+                            .toString())
+                }
+                is ApiResult.NetworkError -> {
+                    command.value =
+                        CmsCommand.ShowToast(context.resources?.getString(R.string.label_network_error)
+                            .toString())
+                }
+                is ApiResult.UnknownError -> {
+                    command.value =
+                        CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                            .toString())
+                }
+                is ApiResult.UnknownHostException -> {
+                    command.value =
+                        CmsCommand.ShowToast(context.resources?.getString(R.string.label_something_wrong_try_later)
+                            .toString())
+                }
+            }
+        }
+    }
+
+    fun actionTicketResolveClose(
+        request: TicketResolveCloseModel?,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ticket_status_update_by_emp_id")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val baseUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(proxyUrl,
+                    proxyToken,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                InventoryAcceptRejectResponse::class.java)
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                command.value = CmsCommand.RefreshPageOnSuccess("")
+                                cmsticketclosingapiresponse.value =
+                                    responseNewTicketlistNewTicketHistoryResponse
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg)
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
                 }
             }
         }

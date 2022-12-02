@@ -8,7 +8,9 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -18,7 +20,10 @@ import com.apollopharmacy.eposmobileapp.ui.dashboard.ConfirmSiteDialog
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_CAMERA
+import com.apollopharmacy.vishwam.data.Config.REQUEST_CODE_PRODUCT_FRONT_CAMERA
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
@@ -30,13 +35,20 @@ import com.apollopharmacy.vishwam.dialog.*
 import com.apollopharmacy.vishwam.dialog.AcknowledgementDialog.Companion.KEY_DATA_ACK
 import com.apollopharmacy.vishwam.dialog.CategoryDialog.Companion.KEY_DATA_SUBCATEGORY
 import com.apollopharmacy.vishwam.dialog.CustomDialog.Companion.KEY_DATA
+import com.apollopharmacy.vishwam.dialog.model.Row
+import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
 import com.apollopharmacy.vishwam.ui.home.MainActivity.isSuperAdmin
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.util.Utils
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
+import me.echodev.resizer.Resizer
 import java.io.File
-import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistrationBinding>(),
     CustomDialog.AbstractDialogClickListner, CategoryDialog.SubCategoryDialogClickListner,
@@ -44,15 +56,20 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     ImageClickListner, SiteDialog.AbstractDialogSiteClickListner,
     SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
     ConfirmSiteDialog.OnSiteClickListener, ReasonsDialog.ReasonsDialogClickListner,
-    SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture {
+    SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
+    OnTransactionPOSSelectedListnier, IOnBackPressed {
 
     private var statusInventory: String? = null
     lateinit var userData: LoginDetails
     lateinit var storeData: LoginDetails.StoreData
     private var fileArrayList = ArrayList<ImageDataDto>()
+    private var InventoryfileArrayList = ArrayList<ImageDataDto>()
     lateinit var adapter: ImageRecyclerView
     private var imagesArrayListSend = ArrayList<SubmitNewV2Response.PrescriptionImagesItem>()
     var imageFromCameraFile: File? = null
+    var frontImageFile: File? = null
+    var backImageFile: File? = null
+    var otherImageFile: File? = null
     private var categoryListSelected = ArrayList<DepartmentV2Response.CategoriesItem>()
     private var subCategoryListSelected = ArrayList<DepartmentV2Response.SubcategoryItem>()
     private var departmentId: String? = null
@@ -64,9 +81,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     var platformUid: String? = null
     var deptuid: String? = null
+    var deptCode: String? = null
     var categoryuid: String? = null
     var subcategoryuid: String? = null
     var reasonuid: String? = null
+    lateinit var reasonSla: ArrayList<ReasonmasterV2Response.Reason_SLA>
     var siteid: String? = null
 
     var dynamicsiteid: String? = null
@@ -83,6 +102,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     private var reasonsListSelected = ArrayList<ReasonmasterV2Response.Row>()
 
+    private var ticketInventoryItems =
+        ArrayList<RequestSaveUpdateComplaintRegistration.TicketInventoryItem>()
+
+    private var ticketCodeBatch = RequestSaveUpdateComplaintRegistration.CodeBatch()
+    var employeeDetailsResponse: EmployeeDetailsResponse? = null
+    lateinit var selectedCategory: ReasonmasterV2Response.TicketCategory
+    lateinit var selectedSubCategory: ReasonmasterV2Response.TicketSubCategory
+    lateinit var selectedReasonDto: ReasonmasterV2Response.Row
+
     override val layoutRes: Int
         get() = R.layout.fragment_registration
 
@@ -95,11 +123,69 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         userData = LoginRepo.getProfile()!!
 
         platformUid = "mobile"
-        if (isSuperAdmin) {
+
+        var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+
+        try {
+            val gson = GsonBuilder().setPrettyPrinting().create()
+            employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
+                EmployeeDetailsResponse::class.java)
+        } catch (e: JsonParseException) {
+            e.printStackTrace()
+        }
+
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
+            viewBinding.departmentLayout.visibility = View.VISIBLE
+            val storeItem = StoreListItem(
+                employeeDetailsResponse!!.data!!.site!!.storeName,
+                employeeDetailsResponse!!.data!!.site!!.state!!.code,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
+                employeeDetailsResponse!!.data!!.site!!.site,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
+            )
+            Preferences.setRegistrationSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
+            var storedata = StoreData(
+                employeeDetailsResponse!!.data!!.site!!.site,
+                employeeDetailsResponse!!.data!!.site!!.storeName,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
+                employeeDetailsResponse!!.data!!.site!!.state!!.code,
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
+            )
+            LoginRepo.saveStoreData(storedata)
+
             showLoading()
-            viewModel.siteId()
+
+            viewModel.getSelectedStoreDetails(storeItem)
+            storeInfo =
+                employeeDetailsResponse!!.data!!.site!!.site + " - " + employeeDetailsResponse!!.data!!.site!!.storeName
+            dcInfo =
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code + " - " + employeeDetailsResponse!!.data!!.site!!.dcCode!!.name
+            viewBinding.siteIdSelect.setText(storeInfo)
+            viewBinding.branchName.setText(dcInfo)
+
+            val c = Calendar.getInstance().time
+            println("Current time => $c")
+            val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+            var formattedDate = df.format(c)
+            viewBinding.dateOfProblem.setText(formattedDate)
+            viewBinding.dateOfProblem.isEnabled = false
+
+
+            viewBinding.siteIdSelect.setOnClickListener {
+                Toast.makeText(
+                    context,
+                    context?.resources?.getString(R.string.label_site_change_alert),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
         } else {
-            if (userData.IsHavingStore) {
+            if (userData.STOREDETAILS.get(0).IsSelectedStore) {
                 viewBinding.departmentLayout.visibility = View.VISIBLE
                 val storeItem = StoreListItem(
                     userData.STOREDETAILS.get(0).SITENAME,
@@ -119,9 +205,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 LoginRepo.saveStoreData(storedata)
 
                 showLoading()
-                // viewModel.getDepartment()
-                viewModel.getRemarksMasterList()
-                // viewModel.getListOfPendingAcknowledgement(storeItem)
+
                 viewModel.getSelectedStoreDetails(storeItem)
                 storeInfo =
                     userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
@@ -133,7 +217,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 val c = Calendar.getInstance().time
                 println("Current time => $c")
                 val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                var formattedDate = df.format(c);
+                var formattedDate = df.format(c)
                 viewBinding.dateOfProblem.setText(formattedDate)
                 viewBinding.dateOfProblem.isEnabled = false
 
@@ -145,37 +229,31 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } else {
-                if (Preferences.getSiteId().isEmpty()) {
-                    showLoading()
-                    viewModel.siteId()
-                } else {
-                    updateSiteId()
-                }
             }
-        }
 
-        /*  if(dynamicsiteid) {
-              dynamicsiteid =
-          }*/
+        }
+        showLoading()
+        viewModel.getRemarksMasterList()
+
         adapter = ImageRecyclerView(fileArrayList, this)
         viewBinding.imageRecyclerView.adapter = adapter
         viewBinding.selectDepartment.setOnClickListener {
-            CustomDialog().apply {
-                arguments =
-                        //CustomDialog().generateParsedData(viewModel.getDepartmentData())
-                    CustomDialog().generateParsedDatafromreasons(viewModel.getdepartmrntsformreasonslist())
-            }.show(childFragmentManager, "")
+            if (viewBinding.siteIdSelect.text.toString().isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please select Site Id",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }else{
+                CustomDialog().apply {
+                    arguments =
+                        CustomDialog().generateParsedDatafromreasons(viewModel.getdepartmrntsformreasonslist())
+                }.show(childFragmentManager, "")
+            }
         }
         viewBinding.siteIdSelect.setOnClickListener {
             showLoading()
             viewModel.siteId()
-            /*if (viewBinding.siteIdSelect.text.isNullOrEmpty()) {
-                SiteDialog().apply {
-                    arguments =
-                        SiteDialog().generateParsedData(viewModel.getSiteData())
-                }.show(childFragmentManager, "")
-            }*/
         }
         viewModel.command.observe(viewLifecycleOwner, Observer {
             when (it) {
@@ -248,9 +326,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         //select reason list....................
         viewModel.reasonlistapiresponse.observe(viewLifecycleOwner, {
-            hideLoading();
-
-
+            hideLoading()
         })
 
 
@@ -258,71 +334,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewModel.tisketstatusresponse.observe(viewLifecycleOwner, {
             var ticketstatus: ResponseTicktResolvedapi
             ticketstatus = it
-
             if (!ticketstatus.success) {
-                ticketstatusapiresponse = ticketstatus;
-
-                /*var cmsLogin = RequestCMSLogin()
-                  cmsLogin.appUserName = "admin"
-                  cmsLogin.appPassword = "Cms#1234"
-                  viewModel.getCMSLoginApi(cmsLogin)
-                  viewModel.getTicketRatingApi()*/
-
-
-                /*  AcknowledgementDialog().apply {
-                      arguments = AcknowledgementDialog()
-                          .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
-                  }
-                      .show(childFragmentManager, "")*/
+                ticketstatusapiresponse = ticketstatus
+                AcknowledgementDialog().apply {
+                    arguments = AcknowledgementDialog()
+                        .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
+                }
+                    .show(childFragmentManager, "")
             }
-
         })
 
         //close ticket Response........
-        viewModel.cmsticketclosingapiresponse.observe(viewLifecycleOwner, {
-
-            /*   SubmitcomplaintDialog().apply {
-                   arguments =
-                       SubmitcomplaintDialog().generateParsedData(it)
-               }.show(childFragmentManager, "")*/
+        viewModel.transactionPOSDetails.observe(viewLifecycleOwner, {
+            SearchTransactionPOSDialog(it).apply { }.show(childFragmentManager, "")
         })
 
-        /* viewBinding.selectCategory.setOnClickListener {
-             if (categoryListSelected.size == 0) {
-                 Toast.makeText(
-                     requireContext(),
-                     context?.resources?.getString(R.string.label_no_category_available),
-                     Toast.LENGTH_SHORT
-                 )
-                     .show()
-             } else {
-                 for (item in categoryListSelected) {
-                     maintanceArrayList.add(item.categoryName.toString())
-                 }
-                 CategoryDialog().apply {
-                     arguments = CategoryDialog().generateParsedData(
-                         categoryListSelected,
-                         KEY_DATA_SUBCATEGORY
-                     )
-                 }.show(childFragmentManager, "")
-             }
-         }*/
-        /*viewBinding.selectSubCategory.setOnClickListener {
-            if (subCategoryListSelected.size == 0) {
-                Toast.makeText(
-                    requireContext(),
-                    context?.resources?.getString(R.string.label_no_sub_category_available),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            } else {
-                SubCategoryDialog().apply {
-                    arguments = SubCategoryDialog().generateParsedData(
-                        subCategoryListSelected, KEY_DATA
-                    )
-                }.show(childFragmentManager, "")
-            }
-        }*/
+
         viewBinding.addImage.setOnClickListener {
             if (fileArrayList.size == 2) {
                 Toast.makeText(
@@ -339,6 +366,30 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             }
         }
 
+        viewBinding.productImageView.otherImageLayout.setOnClickListener {
+            openCameraForFrontImage(3)
+        }
+        viewBinding.productImageView.backImageLayout.setOnClickListener {
+            openCameraForFrontImage(2)
+        }
+        viewBinding.productImageView.frontImageLayout.setOnClickListener {
+            openCameraForFrontImage(1)
+        }
+        viewBinding.productImageView.frontImageDelete.setOnClickListener {
+            frontImageFile = null
+            viewBinding.productImageView.frontImageDelete.visibility = View.GONE
+            viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        }
+        viewBinding.productImageView.backImageDelete.setOnClickListener {
+            backImageFile = null
+            viewBinding.productImageView.backImageDelete.visibility = View.GONE
+            viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        }
+        viewBinding.productImageView.otherImageDelete.setOnClickListener {
+            otherImageFile = null
+            viewBinding.productImageView.otherImageDelete.visibility = View.GONE
+            viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        }
         viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
             SearchArticleCodeDialog().apply { }.show(childFragmentManager, "")
@@ -351,119 +402,13 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
         viewBinding.submit.setOnClickListener {
             if (validationCheck()) {
-                val description = viewBinding.descriptionText.text.toString().trim()
-                var currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-                var problemDate =
-                    Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime;
-                showLoading()
-                /* val newimageurl="https://www.google.com/imgres?imgurl=https%3A%2F%2Fmedia.clickoncare.com%2Fcatalog%2Fproduct%2Fcache%2F1%2Fimage%2F720x%2F9df78eab33525d08d6e5fb8d27136e95%2Fa%2Fl%2Faloeera-juice-concentrate-900ml_1-3420805279.jpg&imgrefurl=https%3A%2F%2Fwww.clickoncarecom%2Fapollo-noni-with-aloevera-juice-concentrate-900ml&tbnid=2AhQmWnajeRtrMvet=10CAYQMyhqahcKEwiY44vq0N72AhUAAAAAHQAAAAAQAg..i&docid=CaFCjtUPqEw3bM&w=720&h=720&q=apollo%20product%20image&ved=0CAYQMyhqahcKEwiY44vq0N72AhUAAAAAHQAAAAAQAg"
-                 val newimageurl1=  RequestNewComplaintRegistration.Image(newimageurl.toString())
-                 NewimagesArrayListSend.add(newimageurl1)*/
-                // viewModel.connectToAzure(fileArrayList, statusInventory!!)
-
-                /* statusInventory = "NOTBATCH"
-                 viewModel.connectToAzure(fileArrayList, statusInventory!!)
-
-                 if (fileArrayList.isNullOrEmpty()) {
-                     viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                        "RH18344",
-                         problemDate,
-                         description,
-                         RequestNewComplaintRegistration.Platform(platformUid!!),
-                         RequestNewComplaintRegistration.Category(categoryuid!!),
-                         RequestNewComplaintRegistration.Department(deptuid!!),
-                         RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                         RequestNewComplaintRegistration.Reason(reasonuid!!),
-                         RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                         RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                     )
-                     )
-                 }
-                 else {
-                     statusInventory = "NOTBATCH"
-                     viewModel.connectToAzure(fileArrayList, statusInventory!!)
-                 }*/
-                if (statusInventory.equals("NEWBATCH")) {
-                    viewModel.connectToAzure(fileArrayList, statusInventory!!)
-                } else if (statusInventory.equals("MAINTENANCE")) {
-                    if (fileArrayList.isNullOrEmpty()) {
-                        /* viewModel.submitApi(
-                             SubmitNewV2Response(
-                                 "",
-                                 imagesArrayListSend,
-                                 "${description},${viewBinding.selectCategory.text.toString()},${viewBinding.selectSubCategory.text.toString()}",
-                                 userData.EMPNAME,
-                                 "",
-                                 "",
-                                 problemDate,
-                                 "",
-                                 departmentId,
-                                 "",
-                                 "",
-                                 userData.EMPID
-                             )*/
-                        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                            //"RH18344",
-                            userData.EMPID,
-                            problemDate,
-                            description,
-                            RequestNewComplaintRegistration.Platform(platformUid!!),
-                            RequestNewComplaintRegistration.Category(categoryuid!!),
-                            RequestNewComplaintRegistration.Department(deptuid!!),
-                            //RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!),
-                            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                        )
-                        )
-                    } else {
-                        viewModel.connectToAzure(fileArrayList, statusInventory!!)
-                    }
-                } else {
-                    Utils.printMessage(TAG, "Department = Non inventory")
-                    if (fileArrayList.isNullOrEmpty()) {
-                        /* viewModel.submitApi(
-                             SubmitNewV2Response(
-                                 "",
-                                 imagesArrayListSend,
-                                 description,
-                                 userData.EMPNAME,
-                                 "",
-                                 "",
-                                 problemDate,
-                                 "",
-                                 departmentId,
-                                 "",
-                                 "",
-                                 userData.EMPID
-                             )*/
-
-                        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                            //"RH18344",
-                            userData.EMPID,
-                            problemDate,
-                            description,
-                            RequestNewComplaintRegistration.Platform(platformUid!!),
-                            RequestNewComplaintRegistration.Category(categoryuid!!),
-                            RequestNewComplaintRegistration.Department(deptuid!!),
-                            // RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!),
-                            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                        )
-                        )
-                    } else {
-                        viewModel.connectToAzure(fileArrayList, statusInventory!!)
-                    }
-                }
+                submitClick()
             }
         }
 
         viewModel.responsenewcomplaintregistration.observe(viewLifecycleOwner, {
             hideLoading()
-            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
             RefreshView()
 
             SubmitcomplaintDialog().apply {
@@ -471,158 +416,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
         })
+
         viewModel.command.observe(viewLifecycleOwner, Observer {
             when (it) {
                 is CmsCommand.RefreshPageOnSuccess -> {
-                    //Show Gif image here
-                    /* hideLoading()
-                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-                     RefreshView()
-
-                     SubmitcomplaintDialog().apply {
-                         arguments =
-                             SubmitcomplaintDialog().generateParsedData(it)
-                     }.show(childFragmentManager, "")*/
-
 
                 }
                 is CmsCommand.ImageIsUploadedInAzur -> {
-                    for (i in it.filePath.indices) {
-                        imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(it.filePath[i].base64Images))
-                        NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(it.filePath[i].base64Images))
-
-                    }
-                    if (it.tag.equals("NOTBATCH")) {
-                        Utils.printMessage(TAG, "Inventory Submit == Non Inventory")
-                        Utils.printMessage(TAG, "Image : " + imagesArrayListSend.get(0).toString())
-                        /*viewModel.submitRequestWithImages(
-                            SubmitNewV2Response(
-                                "",
-                                imagesArrayListSend,
-                                viewBinding.descriptionText.text.toString().trim(),
-                                userData.EMPNAME,
-                                "",
-                                "",
-                                viewBinding.dateOfProblem.text.toString(),
-                                "",
-                                departmentId,
-                                "",
-                                "",
-                                userData.EMPID
-                            ), statusInventory!!
-                        )*/
-
-                        val description = viewBinding.descriptionText.text.toString().trim()
-                        var currentTime =
-                            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-                        val problemDate =
-                            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
-                        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                            // "RH18344",
-                            userData.EMPID,
-                            problemDate,
-                            description,
-                            RequestNewComplaintRegistration.Platform(platformUid!!),
-                            RequestNewComplaintRegistration.Category(categoryuid!!),
-                            RequestNewComplaintRegistration.Department(deptuid!!),
-                            // RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!),
-                            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                        )
-                        )
-                    } else if (it.tag.equals("MAINTENANCE")) {
-                        Utils.printMessage(TAG, "Inventory Submit == MAINTENANCE")
-                        /* val description = viewBinding.descriptionText.text.toString().trim()
-                         val category = viewBinding.selectCategory.text.toString()
-                         val subCategory = viewBinding.selectSubCategory.text.toString()
-                        viewModel.submitRequestWithImages(
-                             SubmitNewV2Response(
-                                 "",
-                                 imagesArrayListSend,
-                                 "${description},${category},${subCategory}",
-                                 userData.EMPNAME,
-                                 "",
-                                 "",
-                                 viewBinding.dateOfProblem.text.toString(),
-                                 "",
-                                 departmentId,
-                                 "",
-                                 "",
-                                 userData.EMPID
-                             ), statusInventory!!
-                         )*/
-                        val description = viewBinding.descriptionText.text.toString().trim()
-                        var currentTime =
-                            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-
-                        val problemDate =
-                            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
-                        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                            //"RH18344",
-                            userData.EMPID,
-                            problemDate,
-                            description,
-                            RequestNewComplaintRegistration.Platform(platformUid!!),
-                            RequestNewComplaintRegistration.Category(categoryuid!!),
-                            RequestNewComplaintRegistration.Department(deptuid!!),
-                            // RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!),
-                            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                        )
-                        )
-
-                    } else {
-                        Utils.printMessage(TAG, "Inventory Submit :: Inventory")
-                        val getMrpCost = viewBinding.mrpEditText.text.toString().trim()
-                        val getPurchaseCoset =
-                            viewBinding.purchasePriseEdit.text.toString().trim()
-                        val batchNo = viewBinding.batchText.text.toString().trim()
-                        val articleCode = viewBinding.articleCode.text.toString().trim()
-                        val expiredate = viewBinding.expireDateExpire.text.toString().trim()
-                        val description =
-                            "BATCH, PROBLEM IN $articleCode WITH BATCH $batchNo HAVING PURCHASE PRICE OF $getPurchaseCoset AND MRP OF $getMrpCost HAVING EXPIRY OF $expiredate"
-                        /* viewModel.submitRequestWithImages(
-                            SubmitNewV2Response(
-                                "",
-                                imagesArrayListSend,
-                                description,
-                                userData.EMPNAME,
-                                "",
-                                "",
-                                viewBinding.dateOfProblem.text.toString(),
-                                "",
-                                departmentId,
-                                articleCode,
-                                batchNo,
-                                userData.EMPID
-                            ), statusInventory!!
-                        )*/
-
-                        // val description = viewBinding.descriptionText.text.toString().trim()
-                        var currentTime =
-                            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
-                        val problemDate =
-                            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
-                        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-                            // "RH18344",
-                            userData.EMPID,
-                            problemDate,
-                            description,
-                            RequestNewComplaintRegistration.Platform(platformUid!!),
-                            RequestNewComplaintRegistration.Category(categoryuid!!),
-                            RequestNewComplaintRegistration.Department(deptuid!!),
-                            //RequestNewComplaintRegistration.Site("12067"),
-                            RequestNewComplaintRegistration.Site(Preferences.getSiteId()),
-                            RequestNewComplaintRegistration.Reason(reasonuid!!),
-                            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
-                            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend)
-                        )
-                        )
-                    }
+                    saveTicketApi(it)
                 }
                 is CmsCommand.ShowToast -> {
                     hideLoading()
@@ -631,15 +432,13 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.CheckValidatedUserWithSiteID -> {
                     hideLoading()
                     onSuccessUserWithSiteID(it.slectedStoreItem)
-                    /*Toast.makeText(
-                        requireContext(),
-                        context?.resources?.getString(R.string.label_registration_success),
-                        Toast.LENGTH_SHORT
-                    ).show()*/
                 }
                 is CmsCommand.ShowSiteInfo -> {
                     hideLoading()
                     SiteDialog().apply {
+
+                        Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
+                        Preferences.setSiteIdListFetched(true)
                         arguments =
                             SiteDialog().generateParsedData(viewModel.getSiteData())
                     }.show(childFragmentManager, "")
@@ -649,6 +448,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 }
             }
         })
+
         viewModel.pendingListLiveData.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (it.status.equals("true")) {
@@ -676,11 +476,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         viewBinding.mrpEditText.setText(
-                            viewBinding.mrpEditText.getText().toString()
+                            viewBinding.mrpEditText.text.toString()
                                 .replace(".", "")
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                 } else {
@@ -692,7 +492,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             )
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
@@ -703,7 +503,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             )
                         )
                         viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.getText().toString().length
+                            viewBinding.mrpEditText.text.toString().length
                         )
                     }
                 }
@@ -728,11 +528,11 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
                         viewBinding.purchasePriseEdit.setText(
-                            viewBinding.purchasePriseEdit.getText().toString()
+                            viewBinding.purchasePriseEdit.text.toString()
                                 .replace(".", "")
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                 } else {
@@ -744,7 +544,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             )
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
@@ -755,7 +555,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             )
                         )
                         viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.getText().toString().length
+                            viewBinding.purchasePriseEdit.text.toString().length
                         )
                     }
                 }
@@ -765,22 +565,66 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
             }
         })
-    }
-/*
-    public  fun getcmslogindetails():ResponseCMSLogin?
-    {
-        return cmsloginresponse
+
+        viewBinding.newMrpEdit.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(
+                charSequence: CharSequence,
+                i: Int,
+                i1: Int,
+                i2: Int,
+            ) {
+            }
+
+            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {
+                val text = charSequence.toString()
+                if (charSequence.length <= 1) {
+                    if (text.contains(".") && text.indexOf(".") == 0) {
+                        viewBinding.newMrpEdit.setText(
+                            viewBinding.newMrpEdit.text.toString()
+                                .replace(".", "")
+                        )
+                        viewBinding.newMrpEdit.setSelection(
+                            viewBinding.newMrpEdit.text.toString().length
+                        )
+                    }
+                } else {
+                    if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
+                        viewBinding.newMrpEdit.setText(
+                            text.substring(
+                                0,
+                                text.length - 1
+                            )
+                        )
+                        viewBinding.newMrpEdit.setSelection(
+                            viewBinding.newMrpEdit.text.toString().length
+                        )
+                    }
+                    if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
+                        viewBinding.newMrpEdit.setText(
+                            text.substring(
+                                0,
+                                text.length - 1
+                            )
+                        )
+                        viewBinding.newMrpEdit.setSelection(
+                            viewBinding.newMrpEdit.text.toString().length
+                        )
+                    }
+                }
+            }
+
+            override fun afterTextChanged(editable: Editable) {
+
+            }
+        })
+
+        viewBinding.batchText.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+        viewBinding.transactionDetailsLayout.approvalCodeEdit.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+        viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
+            viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
+        }
     }
 
-    public  fun getticketratingdeatails():ResponseticketRatingApi?
-    {
-        return ticketratingapiresponse
-    }
-
-    public  fun  getticketstatusdetails():ResponseTicktResolvedapi?
-    {
-        return ticketstatusapiresponse
-    }*/
 
     private fun validationCheck(): Boolean {
         val departmentName = viewBinding.selectDepartment.text.toString().trim()
@@ -791,13 +635,41 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val articleCode = viewBinding.articleCode.text.toString().trim()
         val batchNumber = viewBinding.batchText.text.toString().trim()
         val mrpPrice = viewBinding.mrpEditText.text.toString().trim()
+        val oldmrpPrice = viewBinding.oldmrpEditText.text.toString().trim()
+        val newMrpPrice = viewBinding.newMrpEdit.text.toString().trim()
         val purchasePrice = viewBinding.purchasePriseEdit.text.toString().trim()
         val expiryDate = viewBinding.expireDateExpire.text.toString().trim()
         val reason = viewBinding.selectRemarks.text.toString().trim()
 
 
-
-        if (statusInventory.equals("NEWBATCH")) {
+        if (departmentName.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_select_department)
+            )
+            return false
+        } else if (categoryName.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_select_category)
+            )
+            return false
+        } else if (subCategoryName.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_select_sub_category)
+            )
+            return false
+        } else if (reason.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_select_reason)
+            )
+            return false
+        } else if (problemDate.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_problem_since)
+            )
+            return false
+        } else if (statusInventory.equals("NEWBATCH") || statusInventory.equals("MRP Change Request") || statusInventory.equals(
+                "New Batch Request")
+        ) {
             if (articleCode.isEmpty()) {
                 showErrorMsg(
                     context?.resources?.getString(R.string.err_msg_select_article_code)
@@ -808,19 +680,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     context?.resources?.getString(R.string.err_msg_select_batch_number)
                 )
                 return false
-            } else if (mrpPrice.isEmpty()) {
+            } else if (batchNumber.length<3) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_mrp)
-                )
-                return false
-            } else if (purchasePrice.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_purchase_price)
-                )
-                return false
-            } else if (purchasePrice.toDouble() > mrpPrice.toDouble()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_price_diff)
+                    context?.resources?.getString(R.string.err_msg_select_batch_number_length)
                 )
                 return false
             } else if (expiryDate.isEmpty()) {
@@ -828,114 +690,132 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     context?.resources?.getString(R.string.err_msg_select_expiry_date)
                 )
                 return false
-            } else if (fileArrayList.size < 2) {
+            } else if (purchasePrice.isEmpty()) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_upload_image)
+                    context?.resources?.getString(R.string.err_msg_enter_purchase_price)
+                )
+                return false
+            }else if (purchasePrice.isNotEmpty() && purchasePrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_purchase_price_)
+                )
+                return false
+            } else if (mrpPrice.isEmpty() && statusInventory.equals("NEWBATCH")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_mrp)
+                )
+                return false
+            }else if (mrpPrice.isNotEmpty() && statusInventory.equals("NEWBATCH") && mrpPrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_error_mrp)
+                )
+                return false
+            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_enter_old_mrp)
+                )
+                return false
+            }else if (oldmrpPrice.isNotEmpty() && statusInventory.equals("MRP Change Request") && oldmrpPrice.equals("0")) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_error_old_mrp_)
+                )
+                return false
+            } else if (purchasePrice.isNotEmpty() ) {
+                if (statusInventory.equals("MRP Change Request")) {
+                    if (newMrpPrice.isEmpty()) {
+                        showErrorMsg(
+                            context?.resources?.getString(R.string.err_msg_enter_new_mrp)
+                        )
+                        return false
+                    }else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
+                        showErrorMsg(
+                            context?.resources?.getString(R.string.err_msg_purchace_price_old_new)
+                        )
+                        return false
+                    }
+                } else if (statusInventory.equals("NEWBATCH")) {
+                    if (mrpPrice.toDouble() < purchasePrice.toDouble()) {
+                        showErrorMsg(
+                            context?.resources?.getString(R.string.err_msg_purchace_price_diff)
+                        )
+                        return false
+                    }
+                } else {
+                    if (purchasePrice.toDouble() > mrpPrice.toDouble()) {
+                        showErrorMsg(
+                            context?.resources?.getString(R.string.err_msg_price_diff)
+                        )
+                        return false
+                    }
+                }
+            }
+            if (frontImageFile == null) {
+                showErrorMsg(
+                    context?.resources?.getString(R.string.err_msg_upload_front_image)
                 )
                 return false
             }
-        } else if (departmentName.equals("MAINTENANCE")) {
-            if (categoryName.isEmpty()) {
+            if (backImageFile == null) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_category)
-                )
-                return false
-            } else if (subCategoryName.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_sub_category)
-                )
-                return false
-            } else if (reason.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_reason)
-                )
-                return false
-            } else if (problemDate.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_problem_since)
-                )
-                return false
-            } else if (description.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_description)
+                    context?.resources?.getString(R.string.err_msg_upload_back_image)
                 )
                 return false
             }
 
-        } else {
-            if (departmentName.isEmpty()) {
+        } else if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                "asb_not_completed")) {
+            if (viewBinding.transactionDetailsLayout.tidEdit.text.toString().trim().isEmpty()) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_department)
+                    context?.resources?.getString(R.string.err_msg_select_TID)
                 )
                 return false
-            } else if (categoryName.isEmpty()) {
+            } else if (viewBinding.transactionDetailsLayout.billNumberEdit.text.toString()
+                    .trim().isEmpty()
+            ) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_category)
+                    context?.resources?.getString(R.string.err_msg_enter_bill_number)
                 )
                 return false
-            } else if (subCategoryName.isEmpty()) {
+            } else if (viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString()
+                    .trim().isEmpty()
+            ) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_sub_category)
+                    context?.resources?.getString(R.string.err_msg_enter_trn_id)
                 )
                 return false
-            } else if (reason.isEmpty()) {
+            } else if (viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString()
+                    .trim().isEmpty()
+            ) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_reason)
+                    context?.resources?.getString(R.string.err_msg_enter_approval_code)
                 )
                 return false
-            } else if (problemDate.isEmpty()) {
+            } else if (viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                    .trim().isEmpty()
+            ) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_problem_since)
+                    context?.resources?.getString(R.string.err_msg_enter_bill_amount)
                 )
                 return false
-            } else if (description.isEmpty()) {
+            } else if (fileArrayList.isEmpty()
+            ) {
                 showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_description)
+                    context?.resources?.getString(R.string.error_upload_image_limit)
                 )
                 return false
             }
-
         }
-        return true;
+        if (description.isEmpty()) {
+            showErrorMsg(
+                context?.resources?.getString(R.string.err_msg_enter_description)
+            )
+            return false
+        }
+
+        return true
     }
 
-    private fun updateSiteId() {
-        storeData = RegistrationRepo.getStoreInfo()!!
-        val storeItem = StoreListItem(
-            storeData.SITENAME,
-            storeData.STATEID,
-            storeData.DCNAME,
-            storeData.SITEID,
-            storeData.DC
-        )
 
-        var storedata = StoreData(
-            storeData.SITEID,
-            storeData.SITENAME,
-            storeData.DCNAME,
-            storeData.STATEID,
-            storeData.DC
-        )
-        LoginRepo.saveStoreData(storedata)
-        // viewModel.getListOfPendingAcknowledgement(storeItem)
-
-        viewModel.getRemarksMasterList()
-        viewModel.getSelectedStoreDetails(storeItem)
-        storeInfo =
-            storeData.SITEID + " - " + storeData.SITENAME
-        dcInfo = storeData.DC + " - " + storeData.DCNAME
-        viewBinding.siteIdSelect.setText(storeInfo)
-        viewBinding.departmentLayout.visibility = View.VISIBLE
-        viewBinding.branchName.setText(dcInfo)
-        // viewModel.getDepartment()
-        viewBinding.siteIdSelect.setOnClickListener {
-            Toast.makeText(
-                context,
-                context?.resources?.getString(R.string.label_site_change_alert),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
-    }
 
     private fun showErrorMsg(errMsg: String?) {
         Toast.makeText(context, errMsg, Toast.LENGTH_SHORT).show()
@@ -948,26 +828,6 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
-    /* override fun selectDepartment(departmentDto: DepartmentV2Response.DepartmentListItem) {
-         viewBinding.inventoryMessageForCamera.visibility = View.GONE
-         viewBinding.date.visibility = View.VISIBLE
-         viewBinding.description.visibility = View.VISIBLE
-         viewBinding.newBatchLayout.visibility = View.GONE
-         departmentId = departmentDto.departmentKey
-         statusInventory = "NOTBATCH"
-         viewBinding.selectDepartment.setText(departmentDto.departmentName)
-         categoryListSelected.clear()
-         subCategoryListSelected.clear()
-         viewBinding.selectCategory.setText("")
-         if (departmentDto.categories.size != 0) {
-             departmentDto.categories.map { categoryListSelected.add(it) }
-             viewBinding.selectCategoryText.visibility = View.VISIBLE
-             viewBinding.selectSubCategoryText.visibility = View.GONE
-         } else {
-             viewBinding.selectCategoryText.visibility = View.GONE
-             viewBinding.selectSubCategoryText.visibility = View.GONE
-         }
-     }*/
 
     //new Changed code for Nrew Response.......
     override fun selectDepartment(departmentDto: ReasonmasterV2Response.Department) {
@@ -983,16 +843,22 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectCategory.setText("")
         viewBinding.selectSubCategory.setText("")
         viewBinding.selectRemarks.setText("")
-
+        clearTransactionCCView()
 
         deptuid = departmentDto.uid
+        deptCode = departmentDto.code
+//        if(departmentDto.code.equals("IN")) {
+//            viewBinding.captureUploadLayout.visibility = View.GONE
+//        }else{
+//            viewBinding.captureUploadLayout.visibility = View.VISIBLE
+//        }
         //Ticket status Api calling function................
 
-        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid);
+        viewModel.getTicketstatus(Preferences.getSiteId(), deptuid)
 
 
         var cateorylist = departmentDto.uid?.let { viewModel.getCategoriesfromReasons(it) }
-        reasoncategoryListSelected.clear();
+        reasoncategoryListSelected.clear()
         if (cateorylist != null) {
             if (cateorylist.size != 0) {
                 cateorylist.map { reasoncategoryListSelected.add(it) }
@@ -1008,56 +874,36 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
-    /*override fun selectCategory(departmentDto: DepartmentV2Response.CategoriesItem) {
-        viewBinding.selectCategory.setText(departmentDto.categoryName)
-        viewBinding.selectSubCategoryText.visibility = View.GONE
-        subCategoryListSelected.clear()
-        if (departmentDto.categoryName.equals("New Batch")) {
-            statusInventory = "NEWBATCH"
-            viewBinding.description.visibility = View.GONE
-            viewBinding.newBatchLayout.visibility = View.VISIBLE
-            viewBinding.date.visibility = View.GONE
-            viewBinding.inventoryMessageForCamera.visibility = View.VISIBLE
-        } else {
-            for (i in maintanceArrayList.indices) {
-                if (maintanceArrayList[i].equals(departmentDto.categoryName)) {
-                    statusInventory = "MAINTENANCE"
-                    break
-                } else {
-                    statusInventory = "NOTBATCH"
-                }
-            }
-            viewBinding.date.visibility = View.VISIBLE
-            viewBinding.newBatchLayout.visibility = View.GONE
-            viewBinding.inventoryMessageForCamera.visibility = View.GONE
-            viewBinding.description.visibility = View.VISIBLE
-        }
-        viewBinding.selectSubCategory.setText("")
-        departmentDto.subcategory.map { subCategoryListSelected.add(it) }
-        if (departmentDto.subcategory.size != 0)
-            viewBinding.selectSubCategoryText.visibility = View.VISIBLE
-        else
-            viewBinding.selectSubCategoryText.visibility = View.GONE
-    }*/
-
-    /* override fun selectSubCategory(departmentDto: DepartmentV2Response.SubcategoryItem) {
-         viewBinding.selectSubCategory.setText(departmentDto.subCategoryName)
-     }*/
 
     //select category from Reasons List.......
     override fun selectCategory(departmentDto: ReasonmasterV2Response.TicketCategory) {
         viewBinding.selectCategory.setText(departmentDto.name)
         viewBinding.selectSubCategoryText.visibility = View.GONE
         viewBinding.selectRemarksText.visibility = View.GONE
-
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
+        viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
         subCategoryListSelected.clear()
         if (departmentDto.name.equals("New Batch")) {
             statusInventory = "NEWBATCH"
-            viewBinding.description.visibility = View.GONE
+            viewBinding.description.visibility = View.VISIBLE
             viewBinding.newBatchLayout.visibility = View.VISIBLE
             viewBinding.date.visibility = View.GONE
-            viewBinding.inventoryMessageForCamera.visibility = View.VISIBLE
-        } else {
+            viewBinding.inventoryMessageForCamera.visibility = View.GONE
+            viewBinding.mrp.visibility = View.VISIBLE
+            viewBinding.oldMrp.visibility = View.GONE
+            viewBinding.newMrpInputLayout.visibility = View.GONE
+            viewBinding.captureUploadLayout.visibility = View.GONE
+        } else if (departmentDto.name.equals("MRP Change Request")) {
+            statusInventory = "MRP Change Request"
+            viewBinding.description.visibility = View.VISIBLE
+            viewBinding.newBatchLayout.visibility = View.VISIBLE
+            viewBinding.date.visibility = View.GONE
+            viewBinding.inventoryMessageForCamera.visibility = View.GONE
+            viewBinding.oldMrp.visibility = View.VISIBLE
+            viewBinding.mrp.visibility = View.GONE
+            viewBinding.newMrpInputLayout.visibility = View.VISIBLE
+            viewBinding.captureUploadLayout.visibility = View.GONE
+        }  else {
             for (i in maintanceArrayList.indices) {
                 if (maintanceArrayList[i].equals(departmentDto.name)) {
                     statusInventory = "MAINTENANCE"
@@ -1070,12 +916,15 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
             viewBinding.description.visibility = View.VISIBLE
+            viewBinding.captureUploadLayout.visibility = View.VISIBLE
         }
         viewBinding.selectSubCategory.setText("")
         viewBinding.selectRemarks.setText("")
+        clearTransactionCCView()
         reasonssubCategoryListSelected.clear()
         reasonsListSelected.clear()
         categoryuid = departmentDto.uid
+        selectedCategory = departmentDto
         var subcateorylist = departmentDto.uid?.let { viewModel.getSubCategoriesfromReasons(it) }
         if (subcateorylist != null) {
             subcateorylist.map {
@@ -1096,43 +945,49 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     override fun selectSubCategory(departmentDto: ReasonmasterV2Response.TicketSubCategory) {
         subcategoryuid = departmentDto.uid
-        // reasonuid = departmentDto.uid?.let { viewModel.getreasonlist(it) }
+        selectedSubCategory = departmentDto
         var reasonlist = departmentDto.uid?.let { viewModel.getreasonlist(it) }
         reasonsListSelected.clear()
         if (reasonlist != null) {
             if (reasonlist.size != 0) {
                 reasonlist.map { reasonsListSelected.add(it) }
-                //  viewBinding.selectSubCategoryText.visibility = View.VISIBLE
                 viewBinding.selectRemarksText.visibility = View.VISIBLE
             } else {
-                // viewBinding.selectSubCategoryText.visibility = View.GONE
                 viewBinding.selectRemarksText.visibility = View.GONE
             }
         }
         viewBinding.selectSubCategory.setText(departmentDto.name)
         viewBinding.selectRemarks.setText("")
+        clearTransactionCCView()
     }
 
     override fun selectReasons(departmentDto: ReasonmasterV2Response.Row) {
-        /* var reasonlist=departmentDto.uid?.let { viewModel.getreasonlist(it) }
-        reasonsListSelected.clear()
-        if(reasonlist != null)
-        {
-            if (reasonlist.size != 0) {
-                reasonlist.map { reasonsListSelected.add(it) }
-                //  viewBinding.selectSubCategoryText.visibility = View.VISIBLE
-                viewBinding.selectRemarksText.visibility = View.VISIBLE
-            }
-            else {
-                // viewBinding.selectSubCategoryText.visibility = View.GONE
-                viewBinding.selectRemarksText.visibility = View.GONE
-            }
-        }*/
         viewBinding.selectRemarks.setText(departmentDto.name)
         reasonuid = departmentDto.uid
+        reasonSla = departmentDto.reason_sla
+        selectedReasonDto = departmentDto
+        if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && departmentDto.code.equals(
+                "asb_not_completed")
+        ) {
+            statusInventory = "POS"
+            viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.VISIBLE
+            viewBinding.titleName.text = "${resources.getString(R.string.label_upload_image)} *"
+
+        }
     }
 
 
+    private fun clearTransactionCCView(){
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
+        viewBinding.transactionDetailsLayout.transactionIdEdit.setText("")
+        viewBinding.transactionDetailsLayout.tidEdit.setText("")
+        viewBinding.transactionDetailsLayout.billAmountEdit.setText("")
+        viewBinding.transactionDetailsLayout.approvalCodeEdit.setText("")
+        viewBinding.transactionDetailsLayout.billNumberEdit.setText("")
+        viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
+        viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
+    }
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         viewBinding.dateOfProblem.setText(showingDate)
     }
@@ -1150,14 +1005,25 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.batchText.setText("")
         viewBinding.articleCode.setText("")
         viewBinding.expireDateExpire.setText("")
+        viewBinding.articleCode.setText("")
+        viewBinding.barcodeEdt.setText("")
+        viewBinding.expireDateExpire.setText("")
+        viewBinding.purchasePriseEdit.setText("")
+        viewBinding.mrpEditText.setText("")
+        viewBinding.newMrpEdit.setText("")
         fileArrayList.clear()
+        InventoryfileArrayList.clear()
         imagesArrayListSend.clear()
         adapter.notifyAdapter(fileArrayList)
+        frontImageFile=null
+        backImageFile = null
+        otherImageFile=null
+
 
         val c = Calendar.getInstance().time
         println("Current time => $c")
         val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-        var formattedDate = df.format(c);
+        var formattedDate = df.format(c)
         viewBinding.dateOfProblem.setText(formattedDate)
 
         viewBinding.newBatchLayout.visibility = View.GONE
@@ -1168,8 +1034,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectRemarksText.visibility = View.GONE
         viewBinding.date.visibility = View.VISIBLE
         viewBinding.description.visibility = View.VISIBLE
-//        viewBinding.siteIdSelect.setText(storeInfo)
-//        viewBinding.branchName.setText(dcInfo)
+        viewBinding.productImageView.frontImageDelete.visibility =View.GONE
+        viewBinding.productImageView.backImageDelete.visibility =View.GONE
+        viewBinding.productImageView.otherImageDelete.visibility =View.GONE
+        viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        clearTransactionCCView()
+
     }
 
     private fun checkPermission(): Boolean {
@@ -1213,6 +1085,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         .show()
                 }
             }
+            REQUEST_CODE_PRODUCT_FRONT_CAMERA -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openCameraForFrontImage(1)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        context?.resources?.getString(R.string.label_permission_denied),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
         }
     }
 
@@ -1230,35 +1114,172 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
+    }
+
+    private fun openCameraForFrontImage(imgType: Int) {
+        if (!checkPermission()) {
+            askPermissions(imgType)
+        } else {
+            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            if(imgType == 1){
+                frontImageFile =
+                    File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(frontImageFile))
+                } else {
+                    val photoUri = FileProvider.getUriForFile(
+                        requireContext(),
+                        requireContext().packageName + ".provider",
+                        frontImageFile!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                }
+            }else if(imgType ==2){
+                backImageFile =
+                    File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(backImageFile))
+                } else {
+                    val photoUri = FileProvider.getUriForFile(
+                        requireContext(),
+                        requireContext().packageName + ".provider",
+                        backImageFile!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                }
+            }else if(imgType == 3){
+                otherImageFile =
+                    File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(otherImageFile))
+                } else {
+                    val photoUri = FileProvider.getUriForFile(
+                        requireContext(),
+                        requireContext().packageName + ".provider",
+                        otherImageFile!!
+                    )
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+                }
+            }
+
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            startActivityForResult(intent, imgType)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-            fileArrayList.add(ImageDataDto(imageFromCameraFile!!, ""))
+        if (requestCode == 1 || requestCode == 2 || requestCode == 3) {
+            if (resultCode == Activity.RESULT_OK) {
+                when (requestCode) {
+                    1 -> {
+                        viewBinding.productImageView.productFrontImagePreview.setImageURI(Uri.fromFile(
+                            frontImageFile))
+                        viewBinding.productImageView.frontImageDelete.visibility = View.VISIBLE
+                        frontImageFile = compresImageSize(frontImageFile!!)
+                    }
+                    2 -> {
+                        viewBinding.productImageView.productBackImagePreview.setImageURI(Uri.fromFile(
+                            backImageFile))
+                        viewBinding.productImageView.backImageDelete.visibility = View.VISIBLE
+                        backImageFile = compresImageSize(backImageFile!!)
+                    }
+                    3 -> {
+                        viewBinding.productImageView.productOtherImagePreview.setImageURI(Uri.fromFile(
+                            otherImageFile))
+                        viewBinding.productImageView.otherImageDelete.visibility = View.VISIBLE
+                        otherImageFile = compresImageSize(otherImageFile!!)
+                    }
+                }
+
+            }else if(resultCode == Activity.RESULT_CANCELED){
+                when (requestCode) {
+                    1 -> {
+                        frontImageFile = null
+                    }
+                    2 -> {
+                        backImageFile = null
+                    }
+                    3 -> {
+                        otherImageFile = null
+                    }
+                }
+            }
+        } else if (requestCode == REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+            fileArrayList.add(ImageDataDto(compresImageSize(imageFromCameraFile!!), ""))
             adapter.notifyAdapter(fileArrayList)
         }
     }
 
+    private fun compresImageSize(imageFromCameraFile: File): File{
+        val resizedImage = Resizer(requireContext())
+            .setTargetLength(1080)
+            .setQuality(100)
+            .setOutputFormat("JPG")
+            .setOutputDirPath(
+                ViswamApp.Companion.context.cacheDir.toString()
+            )
+            .setSourceImage(imageFromCameraFile)
+            .resizedFile
+        return resizedImage
+    }
     override fun deleteImage(position: Int) {
+        imagesArrayListSend.clear()
+        NewimagesArrayListSend.clear()
+        fileArrayList.removeAt(position)
         adapter.deleteImage(position)
     }
 
     @SuppressLint("ResourceType")
     override fun confirmsavetheticket() {
-        /* val fragment: Fragment = ComplainListFragment()
-         val fragmentManager: FragmentManager = requireActivity().supportFragmentManager
-         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
-         fragmentTransaction.replace(R.id.fragment_container, fragment)
-         fragmentTransaction.addToBackStack(null)
-         fragmentTransaction.commit()*/
-
-
         RefreshView()
+        if (employeeDetailsResponse != null
 
-
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
+            if(selectedSiteId!=null) {
+                showLoading()
+                var updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+                updateUserDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
+                updateUserDefaultSiteRequest.site = selectedSiteId!!.site
+                viewModel.updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest)
+            }
+        }
+        viewModel.updateUserDefaultSiteResponseMutable.observe(viewLifecycleOwner) {
+            hideLoading()
+            var empDetailsResponses = Preferences.getEmployeeDetailsResponseJson()
+            var employeeDetailsResponsess: EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponsess =
+                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponses,
+                        EmployeeDetailsResponse::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            employeeDetailsResponsess!!.data!!.site!!.site = selectedSiteId!!.site
+            employeeDetailsResponsess.data!!.site!!.storeName = selectedSiteId!!.store_name
+            employeeDetailsResponsess.data!!.site!!.dcCode!!.name = selectedSiteId!!.dc_code!!.name
+            employeeDetailsResponsess.data!!.site!!.state!!.code = selectedSiteId!!.sTATEID
+            employeeDetailsResponsess.data!!.site!!.dcCode!!.code = selectedSiteId!!.dc_code!!.code
+            Preferences.storeEmployeeDetailsResponseJson(Gson().toJson(employeeDetailsResponsess))
+            var empDetailsResponsezz = Preferences.getEmployeeDetailsResponseJson()
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponse =
+                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponsezz,
+                        EmployeeDetailsResponse::class.java)
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            Preferences.saveSiteId(selectedSiteId!!.site!!)
+            RegistrationRepo.saveStoreInfo(selectedSiteId!!)
+            Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun selectSite(departmentDto: StoreListItem) {
@@ -1272,8 +1293,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
-    override fun selectSubCategory(articleData: ArticleCodeResponse.DataItem) {
+    override fun selectSubCategory(articleData: FetchItemModel.Rows) {
         clearArticleEditText()
+        viewModel.inventoryCategotyItem = articleData
         viewBinding.articleCode.setText(articleData.artCodeName)
     }
 
@@ -1292,59 +1314,260 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         adapter.notifyAdapter(fileArrayList)
     }
 
+    private  var selectedSiteId: StoreListItem? = null
     override fun confirmSite(departmentDto: StoreListItem) {
         showLoading()
-        Preferences.saveSiteId(departmentDto.sITEID!!)
-        RegistrationRepo.saveStoreInfo(departmentDto)
-        viewModel.registerUserWithSiteID(
-            UserSiteIDRegReqModel(
-                userData.EMPID,
-                departmentDto.sITEID
-            ), departmentDto
-        )
+        if (employeeDetailsResponse != null
+            && employeeDetailsResponse!!.data != null
+            && employeeDetailsResponse!!.data!!.role != null
+            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        ) {
+            selectedSiteId = departmentDto
 
-        var storedata = StoreData(
-            departmentDto.sITEID,
-            departmentDto.sITENAME,
-            departmentDto.DcName,
-            departmentDto.sTATEID,
-            departmentDto.dcId
-        )
-        LoginRepo.saveStoreData(storedata)
+            viewModel.registerUserWithSiteID(
+                UserSiteIDRegReqModel(
+                    userData.EMPID,
+                    departmentDto.site
+                ), departmentDto
+            )
+        } else {
+            Preferences.saveSiteId(departmentDto.site!!)
+            RegistrationRepo.saveStoreInfo(departmentDto)
+            viewModel.registerUserWithSiteID(
+                UserSiteIDRegReqModel(
+                    userData.EMPID,
+                    departmentDto.site
+                ), departmentDto
+            )
 
-
+            var storedata = StoreData(
+                departmentDto.site,
+                departmentDto.store_name,
+                departmentDto.dc_code?.name,
+                departmentDto.site,
+                departmentDto.dc_code?.code
+            )
+            LoginRepo.saveStoreData(storedata)
+        }
     }
 
     override fun cancelledSite() {
-        /* SiteDialog().apply {
-             arguments =
-                 SiteDialog().generateParsedData(viewModel.getSiteData())
-         }.show(childFragmentManager, "")*/
+
     }
 
     @SuppressLint("SetTextI18n")
     fun onSuccessUserWithSiteID(selectedStoreItem: StoreListItem) {
         hideLoading()
         RefreshView()
-        if (selectedStoreItem.sITEID.isNullOrEmpty()) {
+        if (selectedStoreItem.site.isNullOrEmpty()) {
             viewBinding.departmentLayout.visibility = View.GONE
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
         } else {
             viewBinding.newBatchLayout.visibility = View.GONE
             viewBinding.inventoryMessageForCamera.visibility = View.GONE
-            Preferences.saveSiteId(selectedStoreItem.sITEID!!)
+            Preferences.saveSiteId(selectedStoreItem.site)
             RegistrationRepo.saveStoreInfo(selectedStoreItem)
-            if (!isSuperAdmin) {
-                showLoading()
-            }
-            // viewModel.getListOfPendingAcknowledgement(selectedStoreItem)
-            viewModel.getRemarksMasterList()
+//            if (!isSuperAdmin) {
+//                showLoading()
+//            }
+//            viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            viewBinding.siteIdSelect.setText(selectedStoreItem.sITEID + " - " + selectedStoreItem.sITENAME)
-            viewBinding.branchName.setText(selectedStoreItem.dcId + " - " + selectedStoreItem.DcName)
+            val store = LoginDetails.StoreData(
+                selectedStoreItem.site.toString(),
+                selectedStoreItem.store_name.toString(),
+                selectedStoreItem.dc_code?.name.toString(),
+                selectedStoreItem.site.toString(),
+                selectedStoreItem.dc_code?.code.toString(),
+                true)
+            val repo = LoginRepo.getProfile()
+            repo?.STOREDETAILS?.clear()
+            repo?.STOREDETAILS?.add(store)
+            if (repo != null) {
+                LoginRepo.saveProfile(repo, LoginRepo.getPassword())
+                Log.e("Saved prif data", Gson().toJson(repo))
+                viewBinding.siteIdSelect.setText(selectedStoreItem.site + " - " + selectedStoreItem.store_name)
+                viewBinding.branchName.setText(selectedStoreItem.dc_code?.code + " - " + selectedStoreItem.dc_code?.name)
+            }
+
         }
+    }
+
+    lateinit var posTid: Row
+    override fun onSelectedPOSTid(data: Row) {
+        posTid = data
+        viewBinding.transactionDetailsLayout.tidEdit.setText(posTid.tid)
+    }
+
+    private fun submitClick(){
+        val description = viewBinding.descriptionText.text.toString().trim()
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        val problemDate =
+            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
+        showLoading()
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+//            Preferences.getSiteId()
+//        }
+        val storeId = Preferences.getSiteId()
+        if (statusInventory.equals("MRP Change Request") || statusInventory.equals("NEWBATCH")) {
+            InventoryfileArrayList.clear()
+            if(frontImageFile!=null)
+            InventoryfileArrayList.add(ImageDataDto(frontImageFile!!, ""))
+            if(backImageFile!=null)
+                InventoryfileArrayList.add(ImageDataDto(backImageFile!!, ""))
+            if(otherImageFile!=null)
+                InventoryfileArrayList.add(ImageDataDto(otherImageFile!!, ""))
+            viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
+        } else {
+            if (fileArrayList.isEmpty()) {
+                val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                        "asb_not_completed")) {
+                    Ticket_it(posTid,
+                        viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                            .toInt())
+                } else {
+                    null
+                }
+                callSubmitNewComplaintRegApi(description,problemDate,storeId,ticketIt)
+            } else {
+                viewModel.connectToAzure(fileArrayList, statusInventory!!)
+            }
+        }
+    }
+
+    private fun saveTicketApi(cmsCommand: CmsCommand.ImageIsUploadedInAzur) {
+//        val storeId: String = if (employeeDetailsResponse != null
+//            && employeeDetailsResponse!!.data != null
+//            && employeeDetailsResponse!!.data!!.role != null
+//            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+//        ) {
+//            employeeDetailsResponse!!.data!!.site!!.site.toString()
+//        } else {
+        val storeId =    Preferences.getSiteId()
+//        }
+        val description = viewBinding.descriptionText.text.toString().trim()
+        val currentTime =
+            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        val problemDate =
+            Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
+        var newPrice = 0.0
+        var oldMrp =0.0
+        var mrp = 0.0
+        if (cmsCommand.tag.equals("MRP Change Request")) {
+            newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
+            oldMrp  = viewBinding.oldmrpEditText.text.toString().toDouble()
+        }else if(cmsCommand.tag.equals("NEWBATCH")){
+            mrp = viewBinding.mrpEditText.text.toString().toDouble()
+        }
+        if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
+            val codeBatch: RequestSaveUpdateComplaintRegistration.CodeBatch =
+                if (cmsCommand.tag.equals("MRP Change Request")) {
+                RequestSaveUpdateComplaintRegistration.CodeBatch("mrp_change",
+                    "MRP Change")
+            } else {
+                RequestSaveUpdateComplaintRegistration.CodeBatch("new_Batch",
+                    "New Batch")
+            }
+            ticketInventoryItems.clear()
+            ticketInventoryItems.add(RequestSaveUpdateComplaintRegistration.TicketInventoryItem(
+                cmsCommand.filePath[0].base64Images,
+                cmsCommand.filePath[1].base64Images,
+                if (cmsCommand.filePath.size > 2) cmsCommand.filePath[2].base64Images else "",
+                viewModel.inventoryCategotyItem,
+                viewModel.inventoryCategotyItem.artcode,
+                viewBinding.batchText.text.toString(),
+                viewBinding.barcodeEdt.text.toString(),
+                Utils.dateofoccurence(viewBinding.expireDateExpire.text.toString()) + " " + currentTime,
+                viewBinding.purchasePriseEdit.text.toString().toDouble(),oldMrp ,newPrice ,mrp ,1
+            ))
+
+            viewModel.submitTicketInventorySaveUpdate(
+                RequestSaveUpdateComplaintRegistration(
+                    userData.EMPID,
+                    problemDate,
+                    description,
+                    RequestSaveUpdateComplaintRegistration.Platform(platformUid!!),
+                    RequestSaveUpdateComplaintRegistration.Category(categoryuid!!),
+                    RequestSaveUpdateComplaintRegistration.Department(deptuid!!,
+                        deptCode!!),
+                    RequestSaveUpdateComplaintRegistration.Site(viewModel.tisketstatusresponse.value!!.data.uid,
+                        storeId,
+                        viewModel.tisketstatusresponse.value!!.data.store_name),
+                    RequestSaveUpdateComplaintRegistration.Reason(reasonuid!!,
+                        reasonSla),
+                    RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
+                    RequestSaveUpdateComplaintRegistration.TicketInventory(
+                        ticketInventoryItems,null,
+                        codeBatch),
+                    RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
+                        "store",
+                        "store"),
+                    viewModel.tisketstatusresponse.value!!.data.region,
+                    viewModel.tisketstatusresponse.value!!.data.cluster,
+                    viewModel.tisketstatusresponse.value!!.data.phone_no,
+                    viewModel.tisketstatusresponse.value!!.data.executive,
+                    viewModel.tisketstatusresponse.value!!.data.manager,
+                    viewModel.tisketstatusresponse.value!!.data.region_head,
+                    )
+            )
+        } else {
+            for (i in cmsCommand.filePath.indices) {
+                imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
+                NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
+            }
+            val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                    "asb_not_completed")) {
+                Ticket_it(posTid,
+                    viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
+                    viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
+                    viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
+                    viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                        .toInt())
+            } else {
+                null
+            }
+            callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
+        }
+    }
+
+    private fun callSubmitNewComplaintRegApi(
+        description: String,
+        problemDate: String,
+        storeId: String,
+        ticketIt: Ticket_it?,
+    ) {
+        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
+            userData.EMPID,
+            problemDate,
+            description,
+            RequestNewComplaintRegistration.Platform(platformUid!!),
+            RequestNewComplaintRegistration.Category(selectedCategory.uid!!,selectedCategory.code),
+            RequestNewComplaintRegistration.Department(deptuid!!,deptCode),
+            RequestNewComplaintRegistration.Site(storeId),
+            RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
+            RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
+            RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend.distinct()),
+            ticketIt
+        )
+        )
+    }
+
+    override fun onBackPressed(): Boolean {
+        if(viewBinding.selectDepartment.text.toString().isNotEmpty() || viewBinding.descriptionText.text.toString().isNotEmpty()
+            || fileArrayList.isNotEmpty()){
+            return true
+        }
+        return false
     }
 }
 
@@ -1361,7 +1584,6 @@ class ImageRecyclerView(
         items: ImageDataDto,
         position: Int,
     ) {
-        //Uri.fromFile(imageFromCameraFile)
         binding.image.setImageURI(Uri.fromFile(items.file))
         binding.deleteImage.setOnClickListener {
             imageClicklistner.deleteImage(position)
@@ -1374,8 +1596,8 @@ class ImageRecyclerView(
     }
 
     fun deleteImage(position: Int) {
-        orderData.removeAt(position)
-        notifyItemRemoved(position);
+//        orderData.removeAt(position)
+        notifyItemRemoved(position)
         notifyItemRangeChanged(position, orderData.size)
     }
 }

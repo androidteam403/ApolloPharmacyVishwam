@@ -76,7 +76,7 @@
                 android:layout_marginTop="@dimen/value_40dp"
                 android:layout_marginBottom="@dimen/value_40dp"
                 android:text="@string/label_site_not_available"
-                android:textColor="@color/black"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/text_18sp"
                 android:visibility="gone" />
 
