@@ -238,7 +238,55 @@
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/itemTypeLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:textColorHint="@color/black">
 
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/itemType"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                            android:editable="false"
+                            android:focusable="false"
+                            android:hint="Item Type *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/reequiredQuantityLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:hint="Required Quantity *"
+
+                        android:textColorHint="@color/black"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp">
+
+                        <EditText
+                            android:id="@+id/requiredQuantity"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:inputType="number"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/pasckizel"
@@ -247,7 +295,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
-                        android:hint="Pack Size *"
+                        android:hint="Pack Size "
                         android:textColorHint="@color/black"
 
                         android:layout_marginRight="@dimen/value_15dp"
@@ -284,7 +332,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:editable="true"
                             android:enabled="true"
-                            android:hint="MRP *"
+                            android:hint="MRP "
                             android:inputType="numberDecimal"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
@@ -365,7 +413,7 @@
                             android:layout_height="@dimen/value_50dp"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./-"
                             android:enabled="true"
-                            android:hint="Batch Number *"
+                            android:hint="Batch Number "
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -393,7 +441,7 @@
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
                             android:editable="false"
                             android:focusable="false"
-                            android:hint="Manufacturing Date *"
+                            android:hint="Manufacturing Date "
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
@@ -419,12 +467,67 @@
                             android:drawableEnd="@drawable/ic_baseline_date_range_24"
                             android:editable="false"
                             android:focusable="false"
-                            android:hint="Expiry Date *"
+                            android:hint="Expiry Date "
                             android:paddingStart="@dimen/value_7dp"
                             android:paddingEnd="@dimen/value_7dp"
                             android:textColor="@color/black"
                             android:textColorHint="@color/black"
                             android:textSize="@dimen/text_14sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/doctornameLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:hint="Doctor's Name *"
+
+                        android:textColorHint="@color/black"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_15dp">
+
+                        <EditText
+                            android:id="@+id/doctorname"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:inputType="text"
+                            android:textAllCaps="true"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/doctorSpecialtyLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_20dp"
+                        android:layout_marginRight="@dimen/value_15dp"
+                        android:focusable="true"
+                        android:textColorHint="@color/black"
+
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <EditText
+                            android:id="@+id/doctorSpecialty"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_50dp"
+                            android:clickable="true"
+                            android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                            android:editable="false"
+                            android:enabled="true"
+                            android:focusable="false"
+                            android:hint="Doctor Specialty *"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:paddingEnd="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/black"
+                            android:textSize="@dimen/text_15sp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -759,7 +862,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="@dimen/value_5dp"
                             android:padding="@dimen/value_3dp"
-                            android:text="Front Image *"
+                            android:text="Front Image "
                             android:textColor="@color/black"
                             android:textSize="11sp" />
 
@@ -769,7 +872,7 @@
                             android:layout_marginLeft="@dimen/text_17sp"
                             android:layout_marginTop="@dimen/value_5dp"
                             android:paddingStart="1sp"
-                            android:text="Back Image *"
+                            android:text="Back Image "
                             android:textColor="@color/black"
                             android:textSize="11sp" />
 

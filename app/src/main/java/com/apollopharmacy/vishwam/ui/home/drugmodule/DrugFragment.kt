@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.drugmodule
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
@@ -37,11 +38,9 @@ import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
 import com.apollopharmacy.vishwam.ui.home.IOnBackPressed
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.*
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -55,7 +54,8 @@ import kotlin.collections.ArrayList
 
 
 class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
-    ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,
+    ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,DoctorSpecialityDialog.SelectDoctorDialogListner,
+    ItemTypeDialog.ItemTypeDialogClickListner,
     SiteNewDialog.NewDialogSiteClickListner, SubmitDialog.AbstractDialogSubmitClickListner,
     Dialog.DialogClickListner, GstDialog.GstDialogClickListner ,SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
     IOnBackPressed {
@@ -104,16 +104,18 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 }
             }
         }
-//        viewBinding.mrpp.setText("0")
-//        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-//        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-//        viewBinding.batchNo.setText("0")
+        viewBinding.mrpp.setText("0")
+        viewBinding.fromDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
+        viewBinding.toDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
+        viewBinding.batchNo.setText("12345")
         viewBinding.purchasePrice.setText("0")
 //        viewBinding.selectDepartment.setText("0")
-//        viewBinding.packsize.setText("0")
+        viewBinding.packsize.setText("1")
         viewBinding.selectDepartment.setText("0")
         viewBinding.hsnCode.setText("0")
         viewBinding.barCode.setText("0")
+        viewBinding.doctorname.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+
         viewBinding.batchNo.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
         viewModel.commands.observe(viewLifecycleOwner, {
             when (it) {
@@ -133,6 +135,19 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         })
 
 
+
+        viewBinding.itemType.setOnClickListener {
+            ItemTypeDialog().apply {
+                arguments=ItemTypeDialog().generateParsedData(viewModel.getItemType())
+            }.show(childFragmentManager,"")
+
+        }
+        viewBinding.doctorSpecialty.setOnClickListener {
+            DoctorSpecialityDialog().apply {
+                arguments=DoctorSpecialityDialog().generateParsedData(viewModel.getDoctorspeciality())
+            }.show(childFragmentManager,"")
+
+        }
 
 
         viewBinding.selectCategory.setOnClickListener {
@@ -446,8 +461,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             viewBinding.createdOn.text.toString(),
                             "0",
                             "0",
-
-
                             "",
                             viewBinding.selectRemarks.text.toString(),
                             viewBinding.createdBy.text.toString(),
@@ -458,7 +471,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             "",
                             "",
                             "",
-
                             "",
                             "",
                             "",
@@ -644,22 +656,22 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     private fun checkPermission(): Boolean {
         return ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
+            Manifest.permission.READ_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
         ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.CAMERA
+            Manifest.permission.CAMERA
         ) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun askPermissions(PermissonCode: Int) {
         requestPermissions(
             arrayOf(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA
             ), PermissonCode
         )
     }
@@ -795,7 +807,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             .setQuality(100)
             .setOutputFormat("JPG")
             .setOutputDirPath(
-                ViswamApp.Companion.context.cacheDir.toString()
+                ViswamApp.context.cacheDir.toString()
             )
             .setSourceImage(imageFromCameraFile)
             .resizedFile
@@ -871,18 +883,12 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             viewBinding.pasckizel.requestFocus()
             return false
         }
+
         else if (mrp.isEmpty()) {
             showErrorMsg(
                 "Please Enter MRP"
             )
             viewBinding.MrpTextInput.requestFocus()
-            return false
-        }
-        else if (mrp.isNotEmpty() && mrp.equals("0")) {
-            showErrorMsg(
-                "Please Enter MRP greater then 0"
-            )
-            viewBinding.purchasePriceTextInput.requestFocus()
             return false
         }
         else if (mrp.isNotEmpty() && purchasePrice.isNotEmpty() && mrp.toDouble() < purchasePrice.toDouble()) {
@@ -944,17 +950,17 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             return false
         }
-        else if(frontImageList.isEmpty() ){
-            showErrorMsg(
-                "Please upload front Image"
-            )
-            return false
-        }else if(backImageList.isEmpty() ){
-            showErrorMsg(
-                "Please upload back Image"
-            )
-            return false
-        }
+//        else if(frontImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload front Image"
+//            )
+//            return false
+//        }else if(backImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload back Image"
+//            )
+//            return false
+//        }
 //        else if(sideImageList.isEmpty() ){
 //            showErrorMsg(
 //                "Please upload side Image"
@@ -1048,15 +1054,16 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //        viewBinding.selectDepartment.setText("")
         viewBinding.selectCategory.setText("")
         viewBinding.itemName.setText("")
-        viewBinding.fromDateText.setText("")
-        viewBinding.toDateText.setText("")
-        viewBinding.batchNo.setText("")
-        viewBinding.mrpp.setText("")
-        viewBinding.purchasePrice.setText("")
+//        viewBinding.fromDateText.setText("")
+//        viewBinding.toDateText.setText("")
+//        viewBinding.batchNo.setText("")
+//        viewBinding.mrpp.setText("")
+//        viewBinding.purchasePrice.setText("")
         viewBinding.hsnCode.setText("")
-        viewBinding.packsize.setText("")
+
+
         viewBinding.siteIdSelect.setText("")
-        viewBinding.barCode.setText("")
+//        viewBinding.barCode.setText("")
         viewBinding.selectRemarks.setText("")
         viewBinding.createdOn.setText("")
         viewBinding.createdBy.setText("")
@@ -1086,7 +1093,16 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.siteIdSelect.error = null
 //        viewBinding.barCodeL.error = null
 //        viewBinding.gst.error = null
-
+        viewBinding.mrpp.setText("0")
+        viewBinding.fromDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
+        viewBinding.toDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
+        viewBinding.batchNo.setText("12345")
+        viewBinding.purchasePrice.setText("0")
+//        viewBinding.selectDepartment.setText("0")
+        viewBinding.packsize.setText("1")
+        viewBinding.selectDepartment.setText("0")
+        viewBinding.hsnCode.setText("0")
+        viewBinding.barCode.setText("0")
         viewBinding.addImage.visibility = View.VISIBLE
         viewBinding.addImage1.visibility = View.VISIBLE
         viewBinding.addImage2.visibility = View.VISIBLE
@@ -1319,6 +1335,13 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 mrp.isNotEmpty() || purchasePrice != "0" || remarks.isNotEmpty() || batchNo.isNotEmpty() || manufDate.isNotEmpty()||
                 expDate.isNotEmpty() ||  barCode != "0" || hsnCode != "0" || gst != "0" || description.isNotEmpty() || imageList.isNotEmpty()
     }
+
+    override fun selectDoctorSpecialiity(doctorSpeciality: String) {
+        viewBinding.doctorSpecialty.setText(doctorSpeciality)
+    }
+
+    override fun selectItemType(itemType: String) {
+        viewBinding.itemType.setText(itemType)    }
 }
 
 

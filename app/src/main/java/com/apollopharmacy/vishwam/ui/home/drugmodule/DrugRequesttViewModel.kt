@@ -81,8 +81,14 @@ class DrugFragmentViewModel : ViewModel() {
                         var drugList =
                             ArrayList<RequestSaveUpdateComplaintRegistration.DrugRequest>()
                         drugList.add(RequestSaveUpdateComplaintRegistration.DrugRequest(
-                            drugRequest.images?.get(0)?.imageURL,
-                            drugRequest.images?.get(1)?.imageURL,
+                            if (drugRequest.images?.size!! > 0) {
+                                drugRequest.images?.get(0)?.imageURL
+                            } else null,
+//                            drugRequest.images?.get(0)?.imageURL,
+                            if (drugRequest.images?.size!! > 1) {
+                                drugRequest.images?.get(1)?.imageURL
+                            } else null,
+//                            drugRequest.images?.get(1)?.imageURL,
                             if (drugRequest.images?.size!! > 2) {
                                 drugRequest.images?.get(2)?.imageURL
                             } else null,
@@ -681,6 +687,35 @@ class DrugFragmentViewModel : ViewModel() {
 
 
         return names
+
+    }
+
+
+    fun getItemType(): ArrayList<String> {
+
+        var itemType = ArrayList<String>()
+
+        itemType.add("Powder")
+        itemType.add("Capsule")
+        itemType.add("Syrup")
+        itemType.add("Inhaler")
+
+
+        return itemType
+
+    }
+
+    fun getDoctorspeciality(): ArrayList<String> {
+
+        var doctorSpeciality = ArrayList<String>()
+
+        doctorSpeciality.add("Heart")
+        doctorSpeciality.add("Cardio")
+        doctorSpeciality.add("Neuro")
+
+
+
+        return doctorSpeciality
 
     }
 

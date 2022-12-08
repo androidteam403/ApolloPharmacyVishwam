@@ -27,7 +27,8 @@
     <string name="label_cancel">Cancel</string>
     <string name="label_submit">Submit</string>
     <string name="label_select">Select</string>
-
+    <string name="label_select_item_type">Select Item Type  <font color='#FF0000'>*</font></string>
+    <string name="label_select_doctor_speciality">Select Doctors Speciality  <font color='#FF0000'>*</font></string>
 
     <string name="err_msg_select_gst">Please Select GST</string>
     <string name="err_msg_select_site">Please Select Site Id</string>
