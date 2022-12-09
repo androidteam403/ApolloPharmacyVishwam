@@ -17,6 +17,7 @@ import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.widget.ScrollView
 import android.widget.Toast
@@ -137,12 +138,18 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
         viewBinding.itemType.setOnClickListener {
+            if(viewBinding.batchNo.text.toString().isEmpty()){
+                viewBinding.batchNo.setText("12345")
+            }
             ItemTypeDialog().apply {
                 arguments=ItemTypeDialog().generateParsedData(viewModel.getItemType())
             }.show(childFragmentManager,"")
 
         }
         viewBinding.doctorSpecialty.setOnClickListener {
+            if(viewBinding.batchNo.text.toString().isEmpty()){
+                viewBinding.batchNo.setText("12345")
+            }
             DoctorSpecialityDialog().apply {
                 arguments=DoctorSpecialityDialog().generateParsedData(viewModel.getDoctorspeciality())
             }.show(childFragmentManager,"")
@@ -151,6 +158,9 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
         viewBinding.selectCategory.setOnClickListener {
+            if(viewBinding.batchNo.text.toString().isEmpty()){
+                viewBinding.batchNo.setText("12345")
+            }
             Dialog().apply {
                 arguments =
                         //CustomDialog().generateParsedData(viewModel.getDepartmentData())
@@ -177,6 +187,9 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(viewBinding.batchNo.text.toString().isEmpty()){
+                    viewBinding.batchNo.setText("12345")
+                }
                 if (s != null) {
                     if (s.length == 1) {
                         viewBinding.branchNameTextInput.error = null
@@ -319,12 +332,269 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             }
 
         })
+        viewBinding.description.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.gst.setOnTouchListener(object : View.OnTouchListener {
+            @SuppressLint("ClickableViewAccessibility")
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+
+        viewBinding.hsnCode.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.barCode.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.doctorSpecialtyLayout.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.doctornameLayout.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+
+
+        viewBinding.expiredate.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.fromDate.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.selectRemarksText.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.purchasePriceTextInput.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.mrp.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.packsize.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.reequiredQuantityLayout.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.itemTypeLayout.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.branchNameTextInput.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+        viewBinding.selectCategoryText.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+        viewBinding.siteId.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+                when (event?.action) {
+                    MotionEvent.ACTION_DOWN ->
+                        if(viewBinding.batchNo.text.toString().isEmpty()){
+                            viewBinding.batchNo.setText("12345")
+                        }
+                }
+
+                return v?.onTouchEvent(event) ?: true
+            }
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         viewBinding.hsnCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                if(viewBinding.batchNo.text.toString().isEmpty()){
+                    viewBinding.batchNo.setText("12345")
+                }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                if(viewBinding.batchNo.text.toString().isEmpty()){
+                    viewBinding.batchNo.setText("12345")
+                }
                 if (s != null) {
                     if (s.length > 1 && s.startsWith("0")) {
                         viewBinding.hsnCode.setText(s.substring(1) )
@@ -472,9 +742,12 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             "",
                             "",
                             "",
+                            viewBinding.itemType.text.toString(),
                             "",
                             "",
-                            "",
+                            viewBinding.requiredQuantity.text.toString(),
+                            viewBinding.doctorname.text.toString(),
+                            viewBinding.doctorSpecialty.text.toString(),
                             imagesList.distinct(),
                             viewBinding.descriptionText.text.toString(),
                             store,employeeDetailsResponse!!
