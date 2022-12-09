@@ -55,6 +55,13 @@ data class ResponseTicktResolvedapi (
         @field:SerializedName("ticket_site_uid")
         val ticket_site_uid: String? = null,
 
+
+        @field:SerializedName("category_code")
+        val category_code: String? = null,
+
+        @field:SerializedName("department_code")
+        val department_code: String? = null,
+
         @field:SerializedName("errors")
         val errors: ArrayList<Error>,
 
