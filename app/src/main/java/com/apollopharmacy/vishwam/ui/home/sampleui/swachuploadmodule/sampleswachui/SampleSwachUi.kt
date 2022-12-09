@@ -72,6 +72,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     var dayofTheWeekPosition:Int=0
     var positionOfTheDayWeekNew:String=""
 
+    var userDesignation = ""
+
     private var charArray = ArrayList<String>()
    private var positionofftheDay = ArrayList<Int>()
     private var positionofftheDayNewForWeek = ArrayList<String>()
@@ -177,6 +179,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 //            )
 //                .show()
 //        }
+            userDesignation = Preferences.getAppLevelDesignationSwach()
             viewModel.checkDayWiseAccess.observeForever {
 //                if (it != null) {
 //                    var checkDayWiseAccessResponse = it
@@ -671,6 +674,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
         val intent = Intent(context, RatingReviewActivity::class.java)
         intent.putExtra("swachhid", swachhid)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("userDesignation", userDesignation)
         startActivity(intent)
     }
 

@@ -557,7 +557,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.inventoryRejectBtn.visibility = View.VISIBLE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
-                        binding.inventoryAcceptBtn.text = "Accept"
+                        binding.inventoryAcceptBtn.text = "Approve"
                     }else if(items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req") &&
                         items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid== null &&
                         employeeDetailsResponse?.data!!.uid.equals(items.user!!.uid)){
@@ -565,7 +565,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.inventoryRejectBtn.visibility = View.GONE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.GONE
-                        binding.inventoryAcceptBtn.text = "Accept"
+                        binding.inventoryAcceptBtn.text = "Approve"
                     }
                     binding.inventoryAcceptBtn.setOnClickListener { imageClickListener.onClickInventoryAccept(items) }
                     binding.inventoryRejectBtn.setOnClickListener {  imageClickListener.onClickInventoryReject(items)}

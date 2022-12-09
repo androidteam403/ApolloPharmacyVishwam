@@ -27,7 +27,7 @@ class DoctorSpecialityDialog: DialogFragment() {
             const val KEY_DATA = "data"
         }
 
-        fun generateParsedData(data: ArrayList<String>): Bundle {
+        fun generateParsedData(data: ArrayList<ItemTypeDropDownResponse.Rows>): Bundle {
             return Bundle().apply {
                 putSerializable(KEY_DATA, data)
             }
@@ -56,7 +56,7 @@ class DoctorSpecialityDialog: DialogFragment() {
 
             viewBinding.searchSite.visibility = View.GONE
             var data =
-                arguments?.getSerializable(KEY_DATA) as ArrayList<String>
+                arguments?.getSerializable(KEY_DATA) as ArrayList<ItemTypeDropDownResponse.Rows>
             viewBinding.fieldRecyclerView.adapter =
                 DoctorSpecialityRecycleView(data, object : OnSelectDoctorSpecialityListner {
                     override fun onSelected(data: String) {
@@ -73,22 +73,22 @@ class DoctorSpecialityDialog: DialogFragment() {
     }
 
     class DoctorSpecialityRecycleView(
-        departmentListDto: ArrayList<String>,
+        departmentListDto: ArrayList<ItemTypeDropDownResponse.Rows>,
         var onSelectedListner: OnSelectDoctorSpecialityListner,
     ) :
-        SimpleRecyclerView<ViewListItemBinding, String>(
+        SimpleRecyclerView<ViewListItemBinding, ItemTypeDropDownResponse.Rows>(
             departmentListDto,
             R.layout.view_list_item
         ) {
         override fun bindItems(
             binding: ViewListItemBinding,
-            items: String,
+            items: ItemTypeDropDownResponse.Rows,
             position: Int,
         ) {
-            binding.itemName.text = items
+            binding.itemName.text = items.name
 
             binding.root.setOnClickListener {
-                onSelectedListner.onSelected(items)
+                onSelectedListner.onSelected(items.name)
             }
         }
     }
