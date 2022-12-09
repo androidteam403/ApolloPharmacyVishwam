@@ -1009,7 +1009,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.barcodeEdt.setText("")
         viewBinding.expireDateExpire.setText("")
         viewBinding.purchasePriseEdit.setText("")
-        viewBinding.mrpEditText.setText("")
+        viewBinding.oldmrpEditText.setText("")
         viewBinding.newMrpEdit.setText("")
         fileArrayList.clear()
         InventoryfileArrayList.clear()

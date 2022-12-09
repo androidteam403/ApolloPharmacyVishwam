@@ -80,18 +80,11 @@ class AcknowledgementDialog : DialogFragment() {
         viewBinding.viewModel = viewModel
        // val data = arguments?.getSerializable(SiteDialog.KEY_DATA) as ArrayList<DataItem>
         datanew = arguments?.getSerializable(SiteDialog.KEY_DATA) as ResponseTicktResolvedapi.Data
-       // Utils.printMessage(TAG, "Acknowledgement Data :: " + data.toString())
-      /*  viewBinding.ticketNo.text =
-            context?.resources?.getString(R.string.label_complaint_ticket_number) + "  ${data[0].ticketNo}"
-        viewBinding.regDate.text =
-            context?.resources?.getString(R.string.label_registered_date) + "  ${convertCmsDate(data[0].regtime.toString())}"
-        if (data[0].closeTime.toString().isEmpty()) {
-            viewBinding.closeDate.visibility = View.GONE
-        } else {
-            viewBinding.closeDate.visibility = View.VISIBLE
-            viewBinding.closeDate.text =
-                context?.resources?.getString(R.string.label_close_date) + "  ${convertCmsDate(data[0].closeTime.toString())}"
-        }*/
+        if (datanew.department_code.equals("IN") && (datanew.category_code.equals("mrp_cr") || datanew.category_code.equals(
+                "new_batch_req"))
+        ) {
+            viewBinding.reject.visibility = View.GONE
+        }
         viewBinding.dilogaClose.setOnClickListener { dismiss() }
 
           viewBinding.ticketNo.text = "${datanew.ticket_id}"
