@@ -17,6 +17,7 @@ android {
         targetSdkVersion 30
         versionCode 12
         versionName "1.1.10"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -115,6 +116,12 @@ dependencies {
 
     implementation 'id.zelory:compressor:2.1.0'
     compile 'com.github.hkk595:Resizer:v1.5'
+
+    implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
