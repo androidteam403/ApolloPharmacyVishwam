@@ -7,6 +7,8 @@ import android.content.Intent
 import android.content.Intent.getIntent
 import android.view.View
 import android.widget.Toast
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -23,6 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_main.*
 import org.apache.commons.collections4.ListUtils
 import java.text.SimpleDateFormat
 import java.util.*
@@ -57,6 +60,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var names = ArrayList<String>()
     var mainMenuList = ArrayList<MainMenuList>()
     var list: ArrayList<String>? = null
+    private var drawer: DrawerLayout? = null
 
     public var mInstance: ApprovedFragment? =
         null
@@ -76,13 +80,18 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     @SuppressLint("ResourceType")
     override fun setup() {
+        showLoading()
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
+        MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
+        MainActivity.mInstance.headerTitle.setText("Approved List")
 
-        showLoading()
+
+
+
         MainActivity.mInstance.mainActivityCallback = this
 
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
@@ -186,8 +195,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 viewBinding.recyclerViewApproved.visibility = View.GONE
                 viewBinding.continueBtn.visibility = View.GONE
 //                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            } else {
 
                 filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
 
@@ -568,8 +576,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "2")
-        i.putStringArrayListExtra("storeList",storeStringList)
-        i.putStringArrayListExtra("regionList",regionStringList)
+        i.putStringArrayListExtra("storeList", storeStringList)
+        i.putStringArrayListExtra("regionList", regionStringList)
         startActivityForResult(i, 210)
     }
 

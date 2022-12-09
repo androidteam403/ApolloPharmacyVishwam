@@ -29,6 +29,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewImageAc
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -90,7 +91,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         Preferences.setQcSite("")
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
-
+        MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
+        MainActivity.mInstance.headerTitle.setText("Pending List")
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
 
