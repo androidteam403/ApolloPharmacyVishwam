@@ -54,8 +54,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     CustomDialog.AbstractDialogClickListner, CategoryDialog.SubCategoryDialogClickListner,
     SubCategoryDialog.SubSubCategoryDialogClickListner, CalendarDialog.DateSelected,
     ImageClickListner, SiteDialog.AbstractDialogSiteClickListner,
-    SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
-    ConfirmSiteDialog.OnSiteClickListener, ReasonsDialog.ReasonsDialogClickListner,
+    SubmitcomplaintDialog.AbstractDialogSubmitClickListner, ConfirmSiteDialog.OnSiteClickListener,
+    ReasonsDialog.ReasonsDialogClickListner,
     SearchArticleCodeDialog.SearchArticleDialogClickListner, CalendarFutureDate.DateSelectedFuture,
     OnTransactionPOSSelectedListnier, IOnBackPressed {
 
@@ -134,36 +134,39 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             e.printStackTrace()
         }
 
-        if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code.equals(
+                "store_supervisor")
         ) {
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            val storeItem = StoreListItem(
-                employeeDetailsResponse!!.data!!.site!!.storeName,
+            val storeItem = StoreListItem(employeeDetailsResponse!!.data!!.site!!.storeName,
                 employeeDetailsResponse!!.data!!.site!!.state!!.code,
                 employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
                 employeeDetailsResponse!!.data!!.site!!.site,
-                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
-            )
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code)
             Preferences.setRegistrationSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
-            var storedata = StoreData(
-                employeeDetailsResponse!!.data!!.site!!.site,
+            Preferences.saveSiteId(employeeDetailsResponse!!.data!!.site!!.site.toString())
+
+//            Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
+
+            var storedata = StoreData(employeeDetailsResponse!!.data!!.site!!.site,
                 employeeDetailsResponse!!.data!!.site!!.storeName,
                 employeeDetailsResponse!!.data!!.site!!.dcCode!!.name,
                 employeeDetailsResponse!!.data!!.site!!.state!!.code,
-                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code
-            )
+                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code)
             LoginRepo.saveStoreData(storedata)
 
             showLoading()
 
             viewModel.getSelectedStoreDetails(storeItem)
-            storeInfo =
-                employeeDetailsResponse!!.data!!.site!!.site + " - " + employeeDetailsResponse!!.data!!.site!!.storeName
-            dcInfo =
-                employeeDetailsResponse!!.data!!.site!!.dcCode!!.code + " - " + employeeDetailsResponse!!.data!!.site!!.dcCode!!.name
+
+            if (employeeDetailsResponse!!.data!!.site!!.site != null) {
+                storeInfo =
+                    employeeDetailsResponse!!.data!!.site!!.site + " - " + employeeDetailsResponse!!.data!!.site!!.storeName
+            }
+            if (employeeDetailsResponse!!.data!!.site!!.dcCode!!.code != null) {
+                dcInfo =
+                    employeeDetailsResponse!!.data!!.site!!.dcCode!!.code + " - " + employeeDetailsResponse!!.data!!.site!!.dcCode!!.name
+            }
             viewBinding.siteIdSelect.setText(storeInfo)
             viewBinding.branchName.setText(dcInfo)
 
@@ -176,40 +179,36 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
 
             viewBinding.siteIdSelect.setOnClickListener {
-                Toast.makeText(
-                    context,
+                Toast.makeText(context,
                     context?.resources?.getString(R.string.label_site_change_alert),
-                    Toast.LENGTH_SHORT
-                ).show()
+                    Toast.LENGTH_SHORT).show()
             }
 
 
         } else {
             if (userData.STOREDETAILS.get(0).IsSelectedStore) {
                 viewBinding.departmentLayout.visibility = View.VISIBLE
-                val storeItem = StoreListItem(
-                    userData.STOREDETAILS.get(0).SITENAME,
+                val storeItem = StoreListItem(userData.STOREDETAILS.get(0).SITENAME,
                     userData.STOREDETAILS.get(0).STATEID,
                     userData.STOREDETAILS.get(0).DCNAME,
                     userData.STOREDETAILS.get(0).SITEID,
-                    userData.STOREDETAILS.get(0).DC
-                )
+                    userData.STOREDETAILS.get(0).DC)
                 Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
-                var storedata = StoreData(
-                    userData.STOREDETAILS.get(0).SITEID,
+                var storedata = StoreData(userData.STOREDETAILS.get(0).SITEID,
                     userData.STOREDETAILS.get(0).SITENAME,
                     userData.STOREDETAILS.get(0).DCNAME,
                     userData.STOREDETAILS.get(0).STATEID,
-                    userData.STOREDETAILS.get(0).DC
-                )
+                    userData.STOREDETAILS.get(0).DC)
                 LoginRepo.saveStoreData(storedata)
 
                 showLoading()
 
                 viewModel.getSelectedStoreDetails(storeItem)
-                storeInfo =
-                    userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
-                dcInfo =
+                if (userData.STOREDETAILS.get(0).SITEID != null) {
+                    storeInfo =
+                        userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
+                }
+                if (userData.STOREDETAILS.get(0).DC != null) dcInfo =
                     userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
                 viewBinding.siteIdSelect.setText(storeInfo)
                 viewBinding.branchName.setText(dcInfo)
@@ -223,11 +222,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
 
                 viewBinding.siteIdSelect.setOnClickListener {
-                    Toast.makeText(
-                        context,
+                    Toast.makeText(context,
                         context?.resources?.getString(R.string.label_site_change_alert),
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -239,12 +236,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.imageRecyclerView.adapter = adapter
         viewBinding.selectDepartment.setOnClickListener {
             if (viewBinding.siteIdSelect.text.toString().isEmpty()) {
-                Toast.makeText(
-                    requireContext(),
-                    "Please select Site Id",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }else{
+                Toast.makeText(requireContext(), "Please select Site Id", Toast.LENGTH_SHORT).show()
+            } else {
                 CustomDialog().apply {
                     arguments =
                         CustomDialog().generateParsedDatafromreasons(viewModel.getdepartmrntsformreasonslist())
@@ -269,21 +262,16 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         //select category form Reasons list api..........
         viewBinding.selectCategory.setOnClickListener {
             if (reasoncategoryListSelected.size == 0) {
-                Toast.makeText(
-                    requireContext(),
+                Toast.makeText(requireContext(),
                     context?.resources?.getString(R.string.label_no_category_available),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    Toast.LENGTH_SHORT).show()
             } else {
                 for (item in reasoncategoryListSelected) {
                     maintanceArrayList.add(item.name.toString())
                 }
                 CategoryDialog().apply {
-                    arguments = CategoryDialog().generateParsedData(
-                        reasoncategoryListSelected,
-                        KEY_DATA_SUBCATEGORY
-                    )
+                    arguments = CategoryDialog().generateParsedData(reasoncategoryListSelected,
+                        KEY_DATA_SUBCATEGORY)
                 }.show(childFragmentManager, "")
             }
         }
@@ -291,17 +279,12 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         //select reason list....................
         viewBinding.selectRemarks.setOnClickListener {
             if (reasonsListSelected.size == 0) {
-                Toast.makeText(
-                    requireContext(),
+                Toast.makeText(requireContext(),
                     context?.resources?.getString(R.string.label_no_reasons_available),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    Toast.LENGTH_SHORT).show()
             } else {
                 ReasonsDialog().apply {
-                    arguments = ReasonsDialog().generateParsedData(
-                        reasonsListSelected, KEY_DATA
-                    )
+                    arguments = ReasonsDialog().generateParsedData(reasonsListSelected, KEY_DATA)
                 }.show(childFragmentManager, "")
             }
         }
@@ -309,17 +292,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         //select subcategory form Reasons list api..........
         viewBinding.selectSubCategory.setOnClickListener {
             if (reasonssubCategoryListSelected.size == 0) {
-                Toast.makeText(
-                    requireContext(),
+                Toast.makeText(requireContext(),
                     context?.resources?.getString(R.string.label_no_sub_category_available),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
+                    Toast.LENGTH_SHORT).show()
             } else {
                 SubCategoryDialog().apply {
                     arguments = SubCategoryDialog().generateParsedData(
-                        reasonssubCategoryListSelected, KEY_DATA
-                    )
+                        reasonssubCategoryListSelected,
+                        KEY_DATA)
                 }.show(childFragmentManager, "")
             }
         }
@@ -337,10 +317,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             if (!ticketstatus.success) {
                 ticketstatusapiresponse = ticketstatus
                 AcknowledgementDialog().apply {
-                    arguments = AcknowledgementDialog()
-                        .generateParsedDataNew(ticketstatus.data, KEY_DATA_ACK)
-                }
-                    .show(childFragmentManager, "")
+                    arguments = AcknowledgementDialog().generateParsedDataNew(ticketstatus.data,
+                            KEY_DATA_ACK)
+                }.show(childFragmentManager, "")
             }
         })
 
@@ -352,17 +331,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         viewBinding.addImage.setOnClickListener {
             if (fileArrayList.size == 2) {
-                Toast.makeText(
-                    requireContext(),
+                Toast.makeText(requireContext(),
                     context?.resources?.getString(R.string.label_upload_image_limit),
-                    Toast.LENGTH_SHORT
-                ).show()
+                    Toast.LENGTH_SHORT).show()
             } else {
                 if (!checkPermission()) {
                     askPermissions(REQUEST_CODE_CAMERA)
                     return@setOnClickListener
-                } else
-                    openCamera()
+                } else openCamera()
             }
         }
 
@@ -378,17 +354,20 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.productImageView.frontImageDelete.setOnClickListener {
             frontImageFile = null
             viewBinding.productImageView.frontImageDelete.visibility = View.GONE
-            viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+            viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(
+                R.drawable.ic_capture_image))
         }
         viewBinding.productImageView.backImageDelete.setOnClickListener {
             backImageFile = null
             viewBinding.productImageView.backImageDelete.visibility = View.GONE
-            viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+            viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(
+                R.drawable.ic_capture_image))
         }
         viewBinding.productImageView.otherImageDelete.setOnClickListener {
             otherImageFile = null
             viewBinding.productImageView.otherImageDelete.visibility = View.GONE
-            viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+            viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(
+                R.drawable.ic_capture_image))
         }
         viewBinding.dateOfProblem.setOnClickListener { openDateDialog() }
         viewBinding.articleCode.setOnClickListener {
@@ -412,8 +391,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             RefreshView()
 
             SubmitcomplaintDialog().apply {
-                arguments =
-                    SubmitcomplaintDialog().generateParsedData(it)
+                arguments = SubmitcomplaintDialog().generateParsedData(it)
             }.show(childFragmentManager, "")
         })
 
@@ -439,8 +417,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
                         Preferences.setSiteIdList(Gson().toJson(viewModel.getSiteData()))
                         Preferences.setSiteIdListFetched(true)
-                        arguments =
-                            SiteDialog().generateParsedData(viewModel.getSiteData())
+                        arguments = SiteDialog().generateParsedData(viewModel.getSiteData())
                     }.show(childFragmentManager, "")
                 }
                 is CmsCommand.SuccessDeptList -> {
@@ -454,10 +431,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             if (it.status.equals("true")) {
                 if (it.data.size != 0) {
                     AcknowledgementDialog().apply {
-                        arguments = AcknowledgementDialog()
-                            .generateParsedData(it.data, KEY_DATA_ACK)
-                    }
-                        .show(childFragmentManager, "")
+                        arguments =
+                            AcknowledgementDialog().generateParsedData(it.data, KEY_DATA_ACK)
+                    }.show(childFragmentManager, "")
                 }
             }
         })
@@ -475,36 +451,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 val text = charSequence.toString()
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
-                        viewBinding.mrpEditText.setText(
-                            viewBinding.mrpEditText.text.toString()
-                                .replace(".", "")
-                        )
-                        viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.text.toString().length
-                        )
+                        viewBinding.mrpEditText.setText(viewBinding.mrpEditText.text.toString()
+                            .replace(".", ""))
+                        viewBinding.mrpEditText.setSelection(viewBinding.mrpEditText.text.toString().length)
                     }
                 } else {
                     if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
-                        viewBinding.mrpEditText.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.text.toString().length
-                        )
+                        viewBinding.mrpEditText.setText(text.substring(0, text.length - 1))
+                        viewBinding.mrpEditText.setSelection(viewBinding.mrpEditText.text.toString().length)
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
-                        viewBinding.mrpEditText.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.mrpEditText.setSelection(
-                            viewBinding.mrpEditText.text.toString().length
-                        )
+                        viewBinding.mrpEditText.setText(text.substring(0, text.length - 1))
+                        viewBinding.mrpEditText.setSelection(viewBinding.mrpEditText.text.toString().length)
                     }
                 }
             }
@@ -527,36 +485,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 val text = charSequence.toString()
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
-                        viewBinding.purchasePriseEdit.setText(
-                            viewBinding.purchasePriseEdit.text.toString()
-                                .replace(".", "")
-                        )
-                        viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.text.toString().length
-                        )
+                        viewBinding.purchasePriseEdit.setText(viewBinding.purchasePriseEdit.text.toString()
+                            .replace(".", ""))
+                        viewBinding.purchasePriseEdit.setSelection(viewBinding.purchasePriseEdit.text.toString().length)
                     }
                 } else {
                     if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
-                        viewBinding.purchasePriseEdit.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.text.toString().length
-                        )
+                        viewBinding.purchasePriseEdit.setText(text.substring(0, text.length - 1))
+                        viewBinding.purchasePriseEdit.setSelection(viewBinding.purchasePriseEdit.text.toString().length)
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
-                        viewBinding.purchasePriseEdit.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.purchasePriseEdit.setSelection(
-                            viewBinding.purchasePriseEdit.text.toString().length
-                        )
+                        viewBinding.purchasePriseEdit.setText(text.substring(0, text.length - 1))
+                        viewBinding.purchasePriseEdit.setSelection(viewBinding.purchasePriseEdit.text.toString().length)
                     }
                 }
             }
@@ -579,36 +519,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 val text = charSequence.toString()
                 if (charSequence.length <= 1) {
                     if (text.contains(".") && text.indexOf(".") == 0) {
-                        viewBinding.newMrpEdit.setText(
-                            viewBinding.newMrpEdit.text.toString()
-                                .replace(".", "")
-                        )
-                        viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.text.toString().length
-                        )
+                        viewBinding.newMrpEdit.setText(viewBinding.newMrpEdit.text.toString()
+                            .replace(".", ""))
+                        viewBinding.newMrpEdit.setSelection(viewBinding.newMrpEdit.text.toString().length)
                     }
                 } else {
                     if (text.contains(".") && text.indexOf(".") != text.length - 1 && text[text.length - 1].toString() == ".") {
-                        viewBinding.newMrpEdit.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.text.toString().length
-                        )
+                        viewBinding.newMrpEdit.setText(text.substring(0, text.length - 1))
+                        viewBinding.newMrpEdit.setSelection(viewBinding.newMrpEdit.text.toString().length)
                     }
                     if (text.contains(".") && text.substring(text.indexOf(".") + 1).length > 2) {
-                        viewBinding.newMrpEdit.setText(
-                            text.substring(
-                                0,
-                                text.length - 1
-                            )
-                        )
-                        viewBinding.newMrpEdit.setSelection(
-                            viewBinding.newMrpEdit.text.toString().length
-                        )
+                        viewBinding.newMrpEdit.setText(text.substring(0, text.length - 1))
+                        viewBinding.newMrpEdit.setSelection(viewBinding.newMrpEdit.text.toString().length)
                     }
                 }
             }
@@ -619,7 +541,8 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         })
 
         viewBinding.batchText.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
-        viewBinding.transactionDetailsLayout.approvalCodeEdit.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
+        viewBinding.transactionDetailsLayout.approvalCodeEdit.setFilters(arrayOf<InputFilter>(
+            InputFilter.AllCaps()))
         viewBinding.transactionDetailsLayout.tidEdit.setOnClickListener {
             viewModel.fetchTransactionPOSDetails(viewModel.tisketstatusresponse.value!!.data.uid)
         }
@@ -643,178 +566,125 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
 
         if (departmentName.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_department)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_select_department))
             return false
         } else if (categoryName.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_category)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_select_category))
             return false
         } else if (subCategoryName.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_sub_category)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_select_sub_category))
             return false
         } else if (reason.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_select_reason)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_select_reason))
             return false
         } else if (problemDate.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_problem_since)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_problem_since))
             return false
         } else if (statusInventory.equals("NEWBATCH") || statusInventory.equals("MRP Change Request") || statusInventory.equals(
                 "New Batch Request")
         ) {
             if (articleCode.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_article_code)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_select_article_code))
                 return false
             } else if (batchNumber.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_batch_number)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_select_batch_number))
                 return false
-            } else if (batchNumber.length<3) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_batch_number_length)
-                )
+            } else if (batchNumber.length < 3) {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_select_batch_number_length))
                 return false
             } else if (expiryDate.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_expiry_date)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_select_expiry_date))
                 return false
             } else if (purchasePrice.isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_purchase_price)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_purchase_price))
                 return false
-            }else if (purchasePrice.isNotEmpty() && purchasePrice.equals("0")) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_purchase_price_)
-                )
+            } else if (purchasePrice.isNotEmpty() && purchasePrice.equals("0")) {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_purchase_price_))
                 return false
             } else if (mrpPrice.isEmpty() && statusInventory.equals("NEWBATCH")) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_mrp)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_mrp))
                 return false
-            }else if (mrpPrice.isNotEmpty() && statusInventory.equals("NEWBATCH") && mrpPrice.equals("0")) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_error_mrp)
-                )
+            } else if (mrpPrice.isNotEmpty() && statusInventory.equals("NEWBATCH") && mrpPrice.equals(
+                    "0")
+            ) {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_error_mrp))
                 return false
-            }else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_old_mrp)
-                )
+            } else if (oldmrpPrice.isEmpty() && statusInventory.equals("MRP Change Request")) {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_old_mrp))
                 return false
-            }else if (oldmrpPrice.isNotEmpty() && statusInventory.equals("MRP Change Request") && oldmrpPrice.equals("0")) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_error_old_mrp_)
-                )
+            } else if (oldmrpPrice.isNotEmpty() && statusInventory.equals("MRP Change Request") && oldmrpPrice.equals(
+                    "0")
+            ) {
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_error_old_mrp_))
                 return false
-            } else if (purchasePrice.isNotEmpty() ) {
+            } else if (purchasePrice.isNotEmpty()) {
                 if (statusInventory.equals("MRP Change Request")) {
                     if (newMrpPrice.isEmpty()) {
-                        showErrorMsg(
-                            context?.resources?.getString(R.string.err_msg_enter_new_mrp)
-                        )
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_new_mrp))
                         return false
-                    }else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
-                        showErrorMsg(
-                            context?.resources?.getString(R.string.err_msg_purchace_price_old_new)
-                        )
+                    } else if (oldmrpPrice.toDouble() < purchasePrice.toDouble() || newMrpPrice.toDouble() < purchasePrice.toDouble()) {
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_old_new))
                         return false
                     }
                 } else if (statusInventory.equals("NEWBATCH")) {
                     if (mrpPrice.toDouble() < purchasePrice.toDouble()) {
-                        showErrorMsg(
-                            context?.resources?.getString(R.string.err_msg_purchace_price_diff)
-                        )
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_purchace_price_diff))
                         return false
                     }
                 } else {
                     if (purchasePrice.toDouble() > mrpPrice.toDouble()) {
-                        showErrorMsg(
-                            context?.resources?.getString(R.string.err_msg_price_diff)
-                        )
+                        showErrorMsg(context?.resources?.getString(R.string.err_msg_price_diff))
                         return false
                     }
                 }
             }
             if (frontImageFile == null) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_upload_front_image)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_upload_front_image))
                 return false
             }
             if (backImageFile == null) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_upload_back_image)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_upload_back_image))
                 return false
             }
 
         } else if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
-                "asb_not_completed")) {
+                "asb_not_completed")
+        ) {
             if (viewBinding.transactionDetailsLayout.tidEdit.text.toString().trim().isEmpty()) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_select_TID)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_select_TID))
                 return false
-            } else if (viewBinding.transactionDetailsLayout.billNumberEdit.text.toString()
-                    .trim().isEmpty()
+            } else if (viewBinding.transactionDetailsLayout.billNumberEdit.text.toString().trim()
+                    .isEmpty()
             ) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_bill_number)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_bill_number))
                 return false
-            } else if (viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString()
-                    .trim().isEmpty()
+            } else if (viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString().trim()
+                    .isEmpty()
             ) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_trn_id)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_trn_id))
                 return false
-            } else if (viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString()
-                    .trim().isEmpty()
+            } else if (viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString().trim()
+                    .isEmpty()
             ) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_approval_code)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_approval_code))
                 return false
-            } else if (viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
-                    .trim().isEmpty()
+            } else if (viewBinding.transactionDetailsLayout.billAmountEdit.text.toString().trim()
+                    .isEmpty()
             ) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.err_msg_enter_bill_amount)
-                )
+                showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_bill_amount))
                 return false
-            } else if (fileArrayList.isEmpty()
-            ) {
-                showErrorMsg(
-                    context?.resources?.getString(R.string.error_upload_image_limit)
-                )
+            } else if (fileArrayList.isEmpty()) {
+                showErrorMsg(context?.resources?.getString(R.string.error_upload_image_limit))
                 return false
             }
         }
         if (description.isEmpty()) {
-            showErrorMsg(
-                context?.resources?.getString(R.string.err_msg_enter_description)
-            )
+            showErrorMsg(context?.resources?.getString(R.string.err_msg_enter_description))
             return false
         }
 
         return true
     }
-
 
 
     private fun showErrorMsg(errMsg: String?) {
@@ -903,7 +773,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             viewBinding.mrp.visibility = View.GONE
             viewBinding.newMrpInputLayout.visibility = View.VISIBLE
             viewBinding.captureUploadLayout.visibility = View.GONE
-        }  else {
+        } else {
             for (i in maintanceArrayList.indices) {
                 if (maintanceArrayList[i].equals(departmentDto.name)) {
                     statusInventory = "MAINTENANCE"
@@ -977,7 +847,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
     }
 
 
-    private fun clearTransactionCCView(){
+    private fun clearTransactionCCView() {
         imagesArrayListSend.clear()
         NewimagesArrayListSend.clear()
         viewBinding.transactionDetailsLayout.transactionIdEdit.setText("")
@@ -988,6 +858,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.titleName.text = resources.getString(R.string.label_upload_image)
         viewBinding.transactionDetailsLayout.transactionDetails.visibility = View.GONE
     }
+
     override fun selectedDateTo(dateSelected: String, showingDate: String) {
         viewBinding.dateOfProblem.setText(showingDate)
     }
@@ -1015,9 +886,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         InventoryfileArrayList.clear()
         imagesArrayListSend.clear()
         adapter.notifyAdapter(fileArrayList)
-        frontImageFile=null
+        frontImageFile = null
         backImageFile = null
-        otherImageFile=null
+        otherImageFile = null
 
 
         val c = Calendar.getInstance().time
@@ -1034,37 +905,32 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.selectRemarksText.visibility = View.GONE
         viewBinding.date.visibility = View.VISIBLE
         viewBinding.description.visibility = View.VISIBLE
-        viewBinding.productImageView.frontImageDelete.visibility =View.GONE
-        viewBinding.productImageView.backImageDelete.visibility =View.GONE
-        viewBinding.productImageView.otherImageDelete.visibility =View.GONE
-        viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
-        viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
-        viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(R.drawable.ic_capture_image))
+        viewBinding.productImageView.frontImageDelete.visibility = View.GONE
+        viewBinding.productImageView.backImageDelete.visibility = View.GONE
+        viewBinding.productImageView.otherImageDelete.visibility = View.GONE
+        viewBinding.productImageView.productFrontImagePreview.setImageDrawable(resources.getDrawable(
+            R.drawable.ic_capture_image))
+        viewBinding.productImageView.productBackImagePreview.setImageDrawable(resources.getDrawable(
+            R.drawable.ic_capture_image))
+        viewBinding.productImageView.productOtherImagePreview.setImageDrawable(resources.getDrawable(
+            R.drawable.ic_capture_image))
         clearTransactionCCView()
 
     }
 
     private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
+        return ContextCompat.checkSelfPermission(requireContext(),
+            android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
             requireContext(),
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            requireContext(),
-            android.Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
+            android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun askPermissions(PermissonCode: Int) {
-        requestPermissions(
-            arrayOf(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA
-            ), PermissonCode
-        )
+        requestPermissions(arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.CAMERA), PermissonCode)
     }
 
     override fun onRequestPermissionsResult(
@@ -1077,24 +943,18 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCamera()
                 } else {
-                    Toast.makeText(
-                        requireContext(),
+                    Toast.makeText(requireContext(),
                         context?.resources?.getString(R.string.label_permission_denied),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                        Toast.LENGTH_SHORT).show()
                 }
             }
             REQUEST_CODE_PRODUCT_FRONT_CAMERA -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     openCameraForFrontImage(1)
                 } else {
-                    Toast.makeText(
-                        requireContext(),
+                    Toast.makeText(requireContext(),
                         context?.resources?.getString(R.string.label_permission_denied),
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                        Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -1102,16 +962,13 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFromCameraFile =
-            File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+        imageFromCameraFile = File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
-            val photoUri = FileProvider.getUriForFile(
-                requireContext(),
+            val photoUri = FileProvider.getUriForFile(requireContext(),
                 requireContext().packageName + ".provider",
-                imageFromCameraFile!!
-            )
+                imageFromCameraFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -1123,43 +980,36 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             askPermissions(imgType)
         } else {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            if(imgType == 1){
+            if (imgType == 1) {
                 frontImageFile =
                     File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(frontImageFile))
                 } else {
-                    val photoUri = FileProvider.getUriForFile(
-                        requireContext(),
+                    val photoUri = FileProvider.getUriForFile(requireContext(),
                         requireContext().packageName + ".provider",
-                        frontImageFile!!
-                    )
+                        frontImageFile!!)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 }
-            }else if(imgType ==2){
-                backImageFile =
-                    File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
+            } else if (imgType == 2) {
+                backImageFile = File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(backImageFile))
                 } else {
-                    val photoUri = FileProvider.getUriForFile(
-                        requireContext(),
+                    val photoUri = FileProvider.getUriForFile(requireContext(),
                         requireContext().packageName + ".provider",
-                        backImageFile!!
-                    )
+                        backImageFile!!)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 }
-            }else if(imgType == 3){
+            } else if (imgType == 3) {
                 otherImageFile =
                     File(requireContext().cacheDir, "${System.currentTimeMillis()}.jpg")
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(otherImageFile))
                 } else {
-                    val photoUri = FileProvider.getUriForFile(
-                        requireContext(),
+                    val photoUri = FileProvider.getUriForFile(requireContext(),
                         requireContext().packageName + ".provider",
-                        otherImageFile!!
-                    )
+                        otherImageFile!!)
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
                 }
             }
@@ -1194,7 +1044,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     }
                 }
 
-            }else if(resultCode == Activity.RESULT_CANCELED){
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 when (requestCode) {
                     1 -> {
                         frontImageFile = null
@@ -1213,18 +1063,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         }
     }
 
-    private fun compresImageSize(imageFromCameraFile: File): File{
-        val resizedImage = Resizer(requireContext())
-            .setTargetLength(1080)
-            .setQuality(100)
-            .setOutputFormat("JPG")
-            .setOutputDirPath(
-                ViswamApp.Companion.context.cacheDir.toString()
-            )
-            .setSourceImage(imageFromCameraFile)
-            .resizedFile
+    private fun compresImageSize(imageFromCameraFile: File): File {
+        val resizedImage =
+            Resizer(requireContext()).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+                .setOutputDirPath(ViswamApp.Companion.context.cacheDir.toString())
+                .setSourceImage(imageFromCameraFile).resizedFile
         return resizedImage
     }
+
     override fun deleteImage(position: Int) {
         imagesArrayListSend.clear()
         NewimagesArrayListSend.clear()
@@ -1237,11 +1083,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         RefreshView()
         if (employeeDetailsResponse != null
 
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+            && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code.equals(
+                "store_supervisor")
         ) {
-            if(selectedSiteId!=null) {
+            if (selectedSiteId != null) {
                 showLoading()
                 var updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
                 updateUserDefaultSiteRequest.empId = Preferences.getValidatedEmpId()
@@ -1255,9 +1100,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             var employeeDetailsResponsess: EmployeeDetailsResponse? = null
             try {
                 val gson = GsonBuilder().setPrettyPrinting().create()
-                employeeDetailsResponsess =
-                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponses,
-                        EmployeeDetailsResponse::class.java)
+                employeeDetailsResponsess = gson.fromJson<EmployeeDetailsResponse>(
+                    empDetailsResponses,
+                    EmployeeDetailsResponse::class.java)
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }
@@ -1270,9 +1115,9 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             var empDetailsResponsezz = Preferences.getEmployeeDetailsResponseJson()
             try {
                 val gson = GsonBuilder().setPrettyPrinting().create()
-                employeeDetailsResponse =
-                    gson.fromJson<EmployeeDetailsResponse>(empDetailsResponsezz,
-                        EmployeeDetailsResponse::class.java)
+                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(
+                    empDetailsResponsezz,
+                    EmployeeDetailsResponse::class.java)
             } catch (e: JsonParseException) {
                 e.printStackTrace()
             }
@@ -1287,8 +1132,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             onSuccessUserWithSiteID(departmentDto)
         } else {
             ConfirmSiteDialog().apply {
-                arguments =
-                    ConfirmSiteDialog().generateParsedData(departmentDto)
+                arguments = ConfirmSiteDialog().generateParsedData(departmentDto)
             }.show(childFragmentManager, "")
         }
     }
@@ -1314,39 +1158,27 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         adapter.notifyAdapter(fileArrayList)
     }
 
-    private  var selectedSiteId: StoreListItem? = null
+    private var selectedSiteId: StoreListItem? = null
     override fun confirmSite(departmentDto: StoreListItem) {
         showLoading()
-        if (employeeDetailsResponse != null
-            && employeeDetailsResponse!!.data != null
-            && employeeDetailsResponse!!.data!!.role != null
-            && employeeDetailsResponse!!.data!!.role!!.code.equals("store_supervisor")
+        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code.equals(
+                "store_supervisor")
         ) {
             selectedSiteId = departmentDto
 
-            viewModel.registerUserWithSiteID(
-                UserSiteIDRegReqModel(
-                    userData.EMPID,
-                    departmentDto.site
-                ), departmentDto
-            )
+            viewModel.registerUserWithSiteID(UserSiteIDRegReqModel(userData.EMPID,
+                departmentDto.site), departmentDto)
         } else {
             Preferences.saveSiteId(departmentDto.site!!)
             RegistrationRepo.saveStoreInfo(departmentDto)
-            viewModel.registerUserWithSiteID(
-                UserSiteIDRegReqModel(
-                    userData.EMPID,
-                    departmentDto.site
-                ), departmentDto
-            )
+            viewModel.registerUserWithSiteID(UserSiteIDRegReqModel(userData.EMPID,
+                departmentDto.site), departmentDto)
 
-            var storedata = StoreData(
-                departmentDto.site,
+            var storedata = StoreData(departmentDto.site,
                 departmentDto.store_name,
                 departmentDto.dc_code?.name,
                 departmentDto.site,
-                departmentDto.dc_code?.code
-            )
+                departmentDto.dc_code?.code)
             LoginRepo.saveStoreData(storedata)
         }
     }
@@ -1374,8 +1206,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 //            viewModel.getRemarksMasterList()
             viewModel.getSelectedStoreDetails(selectedStoreItem)
             viewBinding.departmentLayout.visibility = View.VISIBLE
-            val store = LoginDetails.StoreData(
-                selectedStoreItem.site.toString(),
+            val store = LoginDetails.StoreData(selectedStoreItem.site.toString(),
                 selectedStoreItem.store_name.toString(),
                 selectedStoreItem.dc_code?.name.toString(),
                 selectedStoreItem.site.toString(),
@@ -1400,7 +1231,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         viewBinding.transactionDetailsLayout.tidEdit.setText(posTid.tid)
     }
 
-    private fun submitClick(){
+    private fun submitClick() {
         val description = viewBinding.descriptionText.text.toString().trim()
         val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
         val problemDate =
@@ -1418,27 +1249,28 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         val storeId = Preferences.getSiteId()
         if (statusInventory.equals("MRP Change Request") || statusInventory.equals("NEWBATCH")) {
             InventoryfileArrayList.clear()
-            if(frontImageFile!=null)
-            InventoryfileArrayList.add(ImageDataDto(frontImageFile!!, ""))
-            if(backImageFile!=null)
-                InventoryfileArrayList.add(ImageDataDto(backImageFile!!, ""))
-            if(otherImageFile!=null)
-                InventoryfileArrayList.add(ImageDataDto(otherImageFile!!, ""))
+            if (frontImageFile != null) InventoryfileArrayList.add(ImageDataDto(frontImageFile!!,
+                ""))
+            if (backImageFile != null) InventoryfileArrayList.add(ImageDataDto(backImageFile!!, ""))
+            if (otherImageFile != null) InventoryfileArrayList.add(ImageDataDto(otherImageFile!!,
+                ""))
             viewModel.connectToAzure(InventoryfileArrayList, statusInventory!!)
         } else {
             if (fileArrayList.isEmpty()) {
-                val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
-                        "asb_not_completed")) {
-                    Ticket_it(posTid,
-                        viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
-                        viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
-                        viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
-                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
-                            .toInt())
-                } else {
-                    null
-                }
-                callSubmitNewComplaintRegApi(description,problemDate,storeId,ticketIt)
+                val ticketIt: Ticket_it? =
+                    if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                            "asb_not_completed")
+                    ) {
+                        Ticket_it(posTid,
+                            viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
+                            viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
+                                .toInt())
+                    } else {
+                        null
+                    }
+                callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
             } else {
                 viewModel.connectToAzure(fileArrayList, statusInventory!!)
             }
@@ -1453,31 +1285,28 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 //        ) {
 //            employeeDetailsResponse!!.data!!.site!!.site.toString()
 //        } else {
-        val storeId =    Preferences.getSiteId()
+        val storeId = Preferences.getSiteId()
 //        }
         val description = viewBinding.descriptionText.text.toString().trim()
-        val currentTime =
-            SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
+        val currentTime = SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(Date())
         val problemDate =
             Utils.dateofoccurence(viewBinding.dateOfProblem.text.toString()) + " " + currentTime
         var newPrice = 0.0
-        var oldMrp =0.0
+        var oldMrp = 0.0
         var mrp = 0.0
         if (cmsCommand.tag.equals("MRP Change Request")) {
             newPrice = viewBinding.newMrpEdit.text.toString().toDouble()
-            oldMrp  = viewBinding.oldmrpEditText.text.toString().toDouble()
-        }else if(cmsCommand.tag.equals("NEWBATCH")){
+            oldMrp = viewBinding.oldmrpEditText.text.toString().toDouble()
+        } else if (cmsCommand.tag.equals("NEWBATCH")) {
             mrp = viewBinding.mrpEditText.text.toString().toDouble()
         }
         if (cmsCommand.tag.equals("MRP Change Request") || cmsCommand.tag.equals("NEWBATCH")) {
             val codeBatch: RequestSaveUpdateComplaintRegistration.CodeBatch =
                 if (cmsCommand.tag.equals("MRP Change Request")) {
-                RequestSaveUpdateComplaintRegistration.CodeBatch("mrp_change",
-                    "MRP Change")
-            } else {
-                RequestSaveUpdateComplaintRegistration.CodeBatch("new_Batch",
-                    "New Batch")
-            }
+                    RequestSaveUpdateComplaintRegistration.CodeBatch("mrp_change", "MRP Change")
+                } else {
+                    RequestSaveUpdateComplaintRegistration.CodeBatch("new_Batch", "New Batch")
+                }
             ticketInventoryItems.clear()
             ticketInventoryItems.add(RequestSaveUpdateComplaintRegistration.TicketInventoryItem(
                 cmsCommand.filePath[0].base64Images,
@@ -1488,54 +1317,54 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 viewBinding.batchText.text.toString(),
                 viewBinding.barcodeEdt.text.toString(),
                 Utils.dateofoccurence(viewBinding.expireDateExpire.text.toString()) + " " + currentTime,
-                viewBinding.purchasePriseEdit.text.toString().toDouble(),oldMrp ,newPrice ,mrp ,1
-            ))
+                viewBinding.purchasePriseEdit.text.toString().toDouble(),
+                oldMrp,
+                newPrice,
+                mrp,
+                1))
 
-            viewModel.submitTicketInventorySaveUpdate(
-                RequestSaveUpdateComplaintRegistration(
-                    userData.EMPID,
-                    problemDate,
-                    description,
-                    RequestSaveUpdateComplaintRegistration.Platform(platformUid!!),
-                    RequestSaveUpdateComplaintRegistration.Category(categoryuid!!),
-                    RequestSaveUpdateComplaintRegistration.Department(deptuid!!,
-                        deptCode!!),
-                    RequestSaveUpdateComplaintRegistration.Site(viewModel.tisketstatusresponse.value!!.data.uid,
-                        storeId,
-                        viewModel.tisketstatusresponse.value!!.data.store_name),
-                    RequestSaveUpdateComplaintRegistration.Reason(reasonuid!!,
-                        reasonSla),
-                    RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
-                    RequestSaveUpdateComplaintRegistration.TicketInventory(
-                        ticketInventoryItems,null,
-                        codeBatch),
-                    RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
-                        "store",
-                        "store"),
-                    viewModel.tisketstatusresponse.value!!.data.region,
-                    viewModel.tisketstatusresponse.value!!.data.cluster,
-                    viewModel.tisketstatusresponse.value!!.data.phone_no,
-                    viewModel.tisketstatusresponse.value!!.data.executive,
-                    viewModel.tisketstatusresponse.value!!.data.manager,
-                    viewModel.tisketstatusresponse.value!!.data.region_head,
-                    )
-            )
+            viewModel.submitTicketInventorySaveUpdate(RequestSaveUpdateComplaintRegistration(
+                userData.EMPID,
+                problemDate,
+                description,
+                RequestSaveUpdateComplaintRegistration.Platform(platformUid!!),
+                RequestSaveUpdateComplaintRegistration.Category(categoryuid!!),
+                RequestSaveUpdateComplaintRegistration.Department(deptuid!!, deptCode!!),
+                RequestSaveUpdateComplaintRegistration.Site(viewModel.tisketstatusresponse.value!!.data.uid,
+                    storeId,
+                    viewModel.tisketstatusresponse.value!!.data.store_name),
+                RequestSaveUpdateComplaintRegistration.Reason(reasonuid!!, reasonSla),
+                RequestSaveUpdateComplaintRegistration.Subcategory(subcategoryuid!!),
+                RequestSaveUpdateComplaintRegistration.TicketInventory(ticketInventoryItems,
+                    null,
+                    codeBatch),
+                RequestSaveUpdateComplaintRegistration.TicketType("64D9D9BE4A621E9C13A2C73404646655",
+                    "store",
+                    "store"),
+                viewModel.tisketstatusresponse.value!!.data.region,
+                viewModel.tisketstatusresponse.value!!.data.cluster,
+                viewModel.tisketstatusresponse.value!!.data.phone_no,
+                viewModel.tisketstatusresponse.value!!.data.executive,
+                viewModel.tisketstatusresponse.value!!.data.manager,
+                viewModel.tisketstatusresponse.value!!.data.region_head,
+            ))
         } else {
             for (i in cmsCommand.filePath.indices) {
                 imagesArrayListSend.add(SubmitNewV2Response.PrescriptionImagesItem(cmsCommand.filePath[i].base64Images))
                 NewimagesArrayListSend.add(RequestNewComplaintRegistration.Image(cmsCommand.filePath[i].base64Images))
             }
-            val ticketIt: Ticket_it? = if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
-                    "asb_not_completed")) {
-                Ticket_it(posTid,
-                    viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
-                    viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
-                    viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
-                    viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
-                        .toInt())
-            } else {
-                null
-            }
+            val ticketIt: Ticket_it? =
+                if (selectedCategory.name.equals("POS") && selectedSubCategory.name.equals("Credit Card(CC) Bill") && selectedReasonDto.code.equals(
+                        "asb_not_completed")
+                ) {
+                    Ticket_it(posTid,
+                        viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
+                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString().toInt())
+                } else {
+                    null
+                }
             callSubmitNewComplaintRegApi(description, problemDate, storeId, ticketIt)
         }
     }
@@ -1546,25 +1375,24 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
         storeId: String,
         ticketIt: Ticket_it?,
     ) {
-        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(
-            userData.EMPID,
+        viewModel.submitNewcomplaintregApi(RequestNewComplaintRegistration(userData.EMPID,
             problemDate,
             description,
             RequestNewComplaintRegistration.Platform(platformUid!!),
-            RequestNewComplaintRegistration.Category(selectedCategory.uid!!,selectedCategory.code),
-            RequestNewComplaintRegistration.Department(deptuid!!,deptCode),
+            RequestNewComplaintRegistration.Category(selectedCategory.uid!!, selectedCategory.code),
+            RequestNewComplaintRegistration.Department(deptuid!!, deptCode),
             RequestNewComplaintRegistration.Site(storeId),
             RequestNewComplaintRegistration.Reason(reasonuid!!, reasonSla),
             RequestNewComplaintRegistration.Subcategory(subcategoryuid!!),
             RequestNewComplaintRegistration.ProblemImages(NewimagesArrayListSend.distinct()),
-            ticketIt
-        )
-        )
+            ticketIt))
     }
 
     override fun onBackPressed(): Boolean {
-        if(viewBinding.selectDepartment.text.toString().isNotEmpty() || viewBinding.descriptionText.text.toString().isNotEmpty()
-            || fileArrayList.isNotEmpty()){
+        if (viewBinding.selectDepartment.text.toString()
+                .isNotEmpty() || viewBinding.descriptionText.text.toString()
+                .isNotEmpty() || fileArrayList.isNotEmpty()
+        ) {
             return true
         }
         return false
@@ -1574,11 +1402,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 class ImageRecyclerView(
     var orderData: ArrayList<ImageDataDto>,
     val imageClicklistner: ImageClickListner,
-) :
-    SimpleRecyclerView<ViewImageItemBinding, ImageDataDto>(
-        orderData,
-        R.layout.view_image_item
-    ) {
+) : SimpleRecyclerView<ViewImageItemBinding, ImageDataDto>(orderData, R.layout.view_image_item) {
     override fun bindItems(
         binding: ViewImageItemBinding,
         items: ImageDataDto,

@@ -698,8 +698,16 @@ class DrugFragmentViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/item_type"
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ND item_type")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+
+//        var baseUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/item_type"
 
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -761,8 +769,15 @@ class DrugFragmentViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrl =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/doctor_specialty"
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ND doctor_specality")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+//        var baseUrl =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/doctor_specialty"
 
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {

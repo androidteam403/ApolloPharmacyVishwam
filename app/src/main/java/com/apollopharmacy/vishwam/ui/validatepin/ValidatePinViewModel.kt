@@ -200,12 +200,12 @@ class ValidatePinViewModel : ViewModel() {
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
 
-        var baseUrL = ""
-        var token = ""
+        var proxyUrl = ""
+        var proxyToken = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseUrL = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
+                proxyUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
                 break
             }
         }
@@ -225,15 +225,24 @@ class ValidatePinViewModel : ViewModel() {
 
         //
         //https://apis.v35.dev.zeroco.de
-        val baseUrl: String =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SWND employee-details-mobile")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val baseUrl: String =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/select/employee-details-mobile?emp_id=${validatedEmpId}"
 
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseUrL,token,
-                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                RegistrationRepo.getDetails(proxyUrl,proxyToken,
+                    GetDetailsRequest(baseUrl+"?emp_id=${validatedEmpId}", "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {

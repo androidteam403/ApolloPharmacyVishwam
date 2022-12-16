@@ -676,6 +676,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
                 binding.drugLayout.drugBatchNo.text = items.ticket_inventory.drug_request.batch_no ?: "--"
 
+
+                //From made changes by naveen//
+                binding.drugLayout.itemType.text = items.ticket_inventory.drug_request.item_type.name
+                binding.drugLayout.requiredQty.text = items.ticket_inventory.drug_request.required_quantity.toString()
+                binding.drugLayout.doctorName.text = items.ticket_inventory.drug_request.doctors_name
+                binding.drugLayout.doctorSpeciality.text = items.ticket_inventory.drug_request.doctor_specialty.name
+
+                //To made changes by naveen//
+
+
 //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
 //                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
 //                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
