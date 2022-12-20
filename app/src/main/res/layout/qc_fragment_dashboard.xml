@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+
+        tools:context=".ui.home.qcfail.pending">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/squarebox"
+                android:orientation="horizontal"
+
+                android:weightSum="4">
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/squarebox_right"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+
+                        android:layout_marginTop="@dimen/text_10sp"
+                        android:src="@drawable/qc_site_id"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squareboxright"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="@dimen/text_10sp"
+                        android:text="Site"
+
+                        android:textAlignment="center"
+                        android:textColor="#FD7F20"
+                        android:textSize="12sp" />
+
+
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/squarebox_right"
+
+
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:layout_marginTop="@dimen/text_10sp"
+                        android:src="@drawable/qc_executive"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squareboxright"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="@dimen/text_10sp"
+                        android:text="Executive"
+
+                        android:textAlignment="center"
+                        android:textColor="#0053a4"
+                        android:textSize="12sp" />
+
+
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/squarebox_right"
+
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:layout_marginTop="@dimen/text_10sp"
+                        android:src="@drawable/qc_manager"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squareboxright"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="@dimen/text_10sp"
+                        android:text="Manager"
+                        android:textAlignment="center"
+                        android:textColor="#40a776"
+                        android:textSize="12sp" />
+
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/squarebox"
+
+                    android:orientation="vertical">
+                    <ImageView
+                        android:layout_width="@dimen/value_25dp"
+                        android:layout_height="@dimen/value_25dp"
+                        android:layout_marginTop="@dimen/text_10sp"
+                        android:src="@drawable/qc_generalmanager"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squareboxright"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="@dimen/text_10sp"
+                        android:text="GM"
+
+                        android:textAlignment="center"
+                        android:textColor="#663399"
+                        android:textSize="12sp" />
+
+
+                </TableLayout>
+            </LinearLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dashboardrecycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_10sp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/dashboard_sites" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

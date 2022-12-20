@@ -35,11 +35,11 @@ class RatingReviewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var imageUrls = remarksList?.get(position)
 
-        if(userDesignation!=null && userDesignation.equals("MANAGER")||userDesignation.equals("GENERAL MANAGER")||userDesignation.equals("CEO"))
-        {
+//        if(userDesignation!=null && userDesignation.equals("MANAGER")||userDesignation.equals("GENERAL MANAGER")||userDesignation.equals("CEO"))
+//        {
             holder.adapterRatingReviewBinding.apprReviewedByText.setText("Reviewed By: ")
             holder.adapterRatingReviewBinding.apprReviewedDateText.setText("Reviewed Date: ")
-        }
+//        }
         if(imageUrls?.remarks!=null && imageUrls?.remarks!=""){
             holder.adapterRatingReviewBinding.comments.text=imageUrls?.remarks
         }else{

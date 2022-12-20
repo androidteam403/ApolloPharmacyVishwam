@@ -121,8 +121,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             if (it.data.listData.rows.size == 0) {
                 isLoadMoreAvailable = false
-                viewBinding.recyclerViewApproved.visibility = View.GONE
-                viewBinding.emptyList.visibility = View.VISIBLE
+                if(isLoading){
+                    adapter.getData().removeAt(adapter.getData().size - 1)
+                    var listSize = adapter.getData().size
+                    adapter.notifyItemRemoved(listSize)
+//                    adapter.getData().addAll(it.data.listData.rows)
+                    adapter.notifyDataSetChanged()
+                    isLoading = false
+                }else {
+                    viewBinding.recyclerViewApproved.visibility = View.GONE
+                    viewBinding.emptyList.visibility = View.VISIBLE
+                }
             } else {
                 if(it.data.listData.rows.size <10){
                     isLoadMoreAvailable = false
@@ -540,9 +549,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     managerUid = items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].manager.uid
                 }
 
-                if(items.status!!.code.equals("new") && managerUid.equals(employeeDetailsResponse?.data!!.uid)
-                    ||  items.status!!.code.equals("reopen") && managerUid.equals(employeeDetailsResponse?.data!!.uid)) {
-                    binding.inventoryActionLayout.visibility = View.VISIBLE
+                if(items.status!!.code.equals("inprogress") ||  items.status!!.code.equals("reopen") ) {
+                    if(items.inventoryDetailsModel?.data?.category?.code.equals("mrp_cr") && items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid!= null &&
+                        items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals("forward") &&
+                        managerUid.equals(employeeDetailsResponse?.data!!.uid)) {
+                        binding.inventoryActionLayout.visibility = View.VISIBLE
+                        binding.inventoryRejectBtn.visibility = View.VISIBLE
+                        binding.inventoryForwardManagerBtn.visibility = View.GONE
+                        binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
+                        binding.inventoryAcceptBtn.text = "Approve"
+                    }else if(items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req") &&
+                        items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid== null &&
+                        employeeDetailsResponse?.data!!.uid.equals(items.user!!.uid)){
+                        binding.inventoryActionLayout.visibility = View.VISIBLE
+                        binding.inventoryRejectBtn.visibility = View.GONE
+                        binding.inventoryForwardManagerBtn.visibility = View.GONE
+                        binding.inventoryChangeForwardBtn.visibility = View.GONE
+                        binding.inventoryAcceptBtn.text = "Approve"
+                    }
                     binding.inventoryAcceptBtn.setOnClickListener { imageClickListener.onClickInventoryAccept(items) }
                     binding.inventoryRejectBtn.setOnClickListener {  imageClickListener.onClickInventoryReject(items)}
                     binding.inventoryForwardManagerBtn.setOnClickListener { imageClickListener.onClickForwardToManager(items) }
@@ -551,7 +575,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.inventoryActionLayout.visibility = View.GONE
                 }
                 binding.inventoryImagesLayout.visibility = View.VISIBLE
-                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNotEmpty()){
+                if(!items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()){
                     Glide.with(context)
                         .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
                         .placeholder(R.drawable.thumbnail_image)
@@ -559,8 +583,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.frontImgView.setOnClickListener {
                         items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 -> imageClickListener.onItemClick(position, it1) }
                     }
+                }else{
+                    binding.frontImgLabel.visibility = View.GONE
+                    binding.frontImgView.visibility = View.GONE
                 }
-                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNotEmpty()) {
+                if(!items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
                     Glide.with(context)
                         .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
                         .placeholder(R.drawable.thumbnail_image)
@@ -568,8 +595,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.backImgView.setOnClickListener {
                         items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 -> imageClickListener.onItemClick(position, it1) }
                     }
+                }else{
+                    binding.backImgLabel.visibility = View.GONE
+                    binding.backImgView.visibility = View.GONE
                 }
-                if(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob != null) {
+                if(!items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
                     Glide.with(context)
                         .load(items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
                         .placeholder(R.drawable.thumbnail_image)
@@ -589,10 +619,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.inventoryActionLayout.visibility = View.GONE
                 binding.inventoryImagesLayout.visibility = View.GONE
             }
-
+            items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") +  " ("+items.created_id?.login_unique +")"
 //            if(items.department?.code.equals("IT")){
-                binding.itTicketExecutive.text = items.executive?.first_name + " ("+items.executive?.login_unique +")"
-                binding.itTicketManager.text = items.manager?.first_name+ " ("+items.manager?.login_unique +")"
+                binding.itTicketExecutive.text = items.executive?.first_name + (if (items.executive?.middle_name != null) " " + items.executive?.middle_name else "") + (if (items.executive?.last_name != null) " " + items.executive?.last_name else "")+ " ("+items.executive?.login_unique +")"
+                binding.itTicketManager.text = items.manager?.first_name+ (if (items.manager?.middle_name != null) " " + items.manager?.middle_name else "") + (if (items.manager?.last_name != null) " " + items.manager?.last_name else "")+" ("+items.manager?.login_unique +")"
                 binding.itTicketExecutiveLayout.visibility = View.VISIBLE
                 binding.itTicketManagerLayout.visibility = View.VISIBLE
 //            }else{
@@ -646,6 +676,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
                 binding.drugLayout.drugBatchNo.text = items.ticket_inventory.drug_request.batch_no ?: "--"
 
+
+                //From made changes by naveen//
+                binding.drugLayout.itemType.text = items.ticket_inventory.drug_request.item_type.name
+                binding.drugLayout.requiredQty.text = items.ticket_inventory.drug_request.required_quantity.toString()
+                binding.drugLayout.doctorName.text = items.ticket_inventory.drug_request.doctors_name
+                binding.drugLayout.doctorSpeciality.text = items.ticket_inventory.drug_request.doctor_specialty.name
+
+                //To made changes by naveen//
+
+
 //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
 //                binding.drugLayout.drugExpairy.text =  if(items.ticket_inventory.drug_request?.expiry_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.expiry_date)}
 //                binding.drugLayout.drugHsn.text = items.ticket_inventory.drug_request.hsn_code ?: "--"
@@ -696,6 +736,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         items.created_id!!.uid)
                 ) {
                     binding.ticketResolveBtn.visibility = View.VISIBLE
+                    if (items.inventoryDetailsModel?.data?.category?.code.equals("mrp_cr") || items.inventoryDetailsModel?.data?.category?.code.equals(
+                            "new_batch_req")
+                    ) {
+                        binding.ticketResolveBtn.visibility = View.GONE
+                    }
                     binding.ticketCloseBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.setOnClickListener {
                         imageClickListener.onClickTicketClose(items)
@@ -708,13 +753,21 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 } else if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(
                         items.user!!.uid) && items.inventoryDetailsModel?.data == null
                 ) {
-                    binding.ticketResolveBtn.visibility = View.VISIBLE
-                    binding.ticketCloseBtn.visibility = View.GONE
-                    binding.ticketResolveBtn.text = "Resolve"
-                    binding.ticketResolveBtn.setOnClickListener {
-                        imageClickListener.onClickTicketResolve(items)
+                    if(items.inventoryDetailsModel != null && (items.inventoryDetailsModel?.data?.category?.code.equals("mrp_cr") || items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req"))){
+                        binding.ticketResolveBtn.visibility = View.GONE
+                        binding.ticketActionLayout.visibility = View.GONE
+                    }else if(items.ticket_inventory?.drug_request?.uid != null && items.category?.code.equals("new_drug_req")) {
+                        binding.ticketResolveBtn.visibility = View.GONE
+                        binding.ticketActionLayout.visibility = View.GONE
+                    }else{
+                        binding.ticketResolveBtn.visibility = View.VISIBLE
+                        binding.ticketCloseBtn.visibility = View.GONE
+                        binding.ticketResolveBtn.text = "Resolve"
+                        binding.ticketResolveBtn.setOnClickListener {
+                            imageClickListener.onClickTicketResolve(items)
+                        }
+                        binding.ticketActionLayout.visibility = View.VISIBLE
                     }
-                    binding.ticketActionLayout.visibility = View.VISIBLE
                 } else {
                     binding.ticketActionLayout.visibility = View.GONE
                 }

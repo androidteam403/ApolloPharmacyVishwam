@@ -28,7 +28,6 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.databinding.DialogFilterUploadBinding
 import com.apollopharmacy.vishwam.databinding.FragmentSampleuiSwachBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.MainActivity.userDesignation
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.sampleui.model.DayOfCharArrayListModel
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity
@@ -72,7 +71,9 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     var dayWiseAccessMessage:String?=null
     var dayofTheWeekPosition:Int=0
     var positionOfTheDayWeekNew:String=""
+
     var userDesignation = ""
+
     private var charArray = ArrayList<String>()
    private var positionofftheDay = ArrayList<Int>()
     private var positionofftheDayNewForWeek = ArrayList<String>()

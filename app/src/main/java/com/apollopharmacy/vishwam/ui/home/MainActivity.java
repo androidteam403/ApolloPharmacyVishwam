@@ -40,7 +40,6 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
-import com.apollopharmacy.vishwam.dialog.Dialog;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
@@ -54,6 +53,8 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
@@ -147,6 +148,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public View filterIndicator;
     public View qcfilterIndicator;
 
+    Fragment fragment = null;
 
     private boolean isHomeScreen = true;
 
@@ -344,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
     private boolean isAllowFragmentChange = false;
-    private void displaySelectedScreen(String itemName) {
+    public void displaySelectedScreen(String itemName) {
 //        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 //        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
 //            showAlertDialog(itemName);
@@ -352,7 +354,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
         //creating fragment object
-        Fragment fragment = null;
         currentItem = itemName;
         if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
             return;
@@ -503,6 +504,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+            case "QcDashboard":
+                headerText.setText("Dashboard");
+                fragment=new QcDashboardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "QcPending":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
@@ -531,6 +541,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+
 //            case "Select Site":
 //                headerText.setText("Select Site ID");
 //                fragment = new SelectSiteActivityy();
@@ -549,6 +560,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             ft.commit();
             drawer.closeDrawer(GravityCompat.START);
         }
+    }
+
+    public void close(){
+        listView.setSelected(3);
+
     }
 
     private void dialogExit() {
@@ -772,9 +788,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (isQcFailRequired) {
             listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+                    .addChildModel(new ChildModel("Dashboard"))
                     .addChildModel(new ChildModel("Pending"))
                     .addChildModel(new ChildModel("Approved"))
-                    .addChildModel(new ChildModel("Rejected")));
+                    .addChildModel(new ChildModel("Rejected"))
+
+
+            );
         }
         if (isSwachhRequired) {
             if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
@@ -843,6 +863,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("QC Fail")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                  if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+                    displaySelectedScreen("QcDashboard");
+                }
                 if (childModelList.get(childPosition).getTitle().equals("Pending")) {
                     displaySelectedScreen("QcPending");
                 } else if (childModelList.get(childPosition).getTitle().equals("Approved")) {
@@ -850,6 +873,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
                     displaySelectedScreen("QcRejected");
                 }
+
             } else if (listHeader.get(groupPosition).getTitle().equals("Swachh")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Upload")) {

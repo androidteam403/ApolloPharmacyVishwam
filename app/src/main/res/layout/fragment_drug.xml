@@ -522,7 +522,7 @@
                             android:editable="false"
                             android:enabled="true"
                             android:focusable="false"
-                            android:hint="Doctor Specialty *"
+                            android:hint="Doctor Speciality *"
                             android:paddingStart="@dimen/value_10dp"
                             android:paddingEnd="@dimen/value_10dp"
                             android:textColor="@color/black"
