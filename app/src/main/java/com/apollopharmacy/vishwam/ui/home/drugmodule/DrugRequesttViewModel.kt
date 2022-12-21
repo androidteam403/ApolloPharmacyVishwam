@@ -502,9 +502,10 @@ class DrugFragmentViewModel : ViewModel() {
                 break
             }
         }
+        val userData = LoginRepo.getProfile()!!
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
-                var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
+                var baseUrl = data.APIS[i].URL+"emp_id="+ userData.EMPID + "&page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
