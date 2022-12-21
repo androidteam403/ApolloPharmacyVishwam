@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -621,10 +622,20 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             items.created_id?.first_name + (if (items.created_id?.middle_name != null) " " + items.created_id?.middle_name else "") + (if (items.created_id?.last_name != null) " " + items.created_id?.last_name else "") +  " ("+items.created_id?.login_unique +")"
 //            if(items.department?.code.equals("IT")){
-                binding.itTicketExecutive.text = items.executive?.first_name + (if (items.executive?.middle_name != null) " " + items.executive?.middle_name else "") + (if (items.executive?.last_name != null) " " + items.executive?.last_name else "")+ " ("+items.executive?.login_unique +")"
-                binding.itTicketManager.text = items.manager?.first_name+ (if (items.manager?.middle_name != null) " " + items.manager?.middle_name else "") + (if (items.manager?.last_name != null) " " + items.manager?.last_name else "")+" ("+items.manager?.login_unique +")"
+            if(!TextUtils.isEmpty(items.executive?.first_name)) {
+                binding.itTicketExecutive.text =
+                    items.executive?.first_name + (if (items.executive?.middle_name != null) " " + items.executive?.middle_name else "") + (if (items.executive?.last_name != null) " " + items.executive?.last_name else "") + " (" + items.executive?.login_unique + ")"
                 binding.itTicketExecutiveLayout.visibility = View.VISIBLE
+            }else{
+                binding.itTicketExecutiveLayout.visibility = View.GONE
+            }
+            if(!TextUtils.isEmpty(items.manager?.first_name)) {
+                binding.itTicketManager.text =
+                    items.manager?.first_name + (if (items.manager?.middle_name != null) " " + items.manager?.middle_name else "") + (if (items.manager?.last_name != null) " " + items.manager?.last_name else "") + " (" + items.manager?.login_unique + ")"
                 binding.itTicketManagerLayout.visibility = View.VISIBLE
+            }else{
+                binding.itTicketManagerLayout.visibility = View.GONE
+            }
 //            }else{
 //                binding.itTicketExecutiveLayout.visibility = View.GONE
 //                binding.itTicketManagerLayout.visibility = View.GONE
@@ -750,7 +761,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.ticketResolveBtn.setOnClickListener {
                         imageClickListener.onClickTicketReopen(items)
                     }
-                } else if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") && employeeDetailsResponse?.data!!.uid.equals(
+                } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened") )&& employeeDetailsResponse?.data!!.uid.equals(
                         items.user!!.uid) && items.inventoryDetailsModel?.data == null
                 ) {
                     if(items.inventoryDetailsModel != null && (items.inventoryDetailsModel?.data?.category?.code.equals("mrp_cr") || items.inventoryDetailsModel?.data?.category?.code.equals("new_batch_req"))){
