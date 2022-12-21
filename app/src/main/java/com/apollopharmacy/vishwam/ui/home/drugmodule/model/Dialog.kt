@@ -18,6 +18,7 @@ import com.apollopharmacy.vishwam.databinding.DialogCustomBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.model.ReasonViewModel
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.CategoryViewModel
+import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorSpecialityDialog
 
 class Dialog : DialogFragment() {
 
@@ -77,6 +78,7 @@ class Dialog : DialogFragment() {
                 viewBinding.fieldRecyclerView.adapter =
                     CustomRecyclerViews(it, object : OnSelectListner{
                         override fun onSelected(data:  ReasonmasterV2Response.TicketSubCategory) {
+                            abstractDialogClick = parentFragment as DialogClickListner
                             abstractDialogClick.selectDepartment(data)
                             dismiss()
                         }
