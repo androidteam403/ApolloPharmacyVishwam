@@ -145,7 +145,7 @@
                         android:paddingStart="4sp"
                         android:paddingTop="@dimen/text_10sp"
                         android:paddingBottom="@dimen/text_10sp"
-                        android:text="Site"
+                        android:text="Site Details"
                         android:textAlignment="center"
                         android:textColor="#00acae"
                         android:textSize="12sp" />
