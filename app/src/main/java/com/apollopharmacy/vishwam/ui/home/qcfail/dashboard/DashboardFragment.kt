@@ -15,9 +15,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentDashboardBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.adapter.DashboardAdapter
 import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment
 import lecho.lib.hellocharts.model.SliceValue
 import java.util.*
@@ -45,6 +43,7 @@ class DashboardFragment : BaseFragment<DashBoardViewModel, FragmentDashboardBind
             viewBinding.empid.setText(userData.EMPID)
         }
 
+//
 
         configChartView()
         var names = ArrayList<String>()

@@ -32,38 +32,38 @@ class PendingCountResponse : Serializable {
     }
 
     inner class Pendingcount : Serializable {
-        @SerializedName("STOREID")
+        @SerializedName("SITEID")
         @Expose
-        var storeid: String? = null
+        var siteid: String? = null
 
-        @SerializedName("EXECUTIVECOUNT")
+        @SerializedName("EMPID")
         @Expose
-        var executivecount: Int? = null
+        var empid: String? = null
 
-        @SerializedName("MANAGERCOUNT")
+        @SerializedName("DESIGNATION")
         @Expose
-        var managercount: Int? = null
+        var designation: String? = null
 
-        @SerializedName("GENERALMANGERCOUNT")
+        @SerializedName("PENDINGCOUNT")
         @Expose
-        var generalmangercount: Int? = null
-        fun withStoreid(storeid: String?): Pendingcount {
-            this.storeid = storeid
+        var pendingcount: Int? = null
+        fun withSiteid(siteid: String?): Pendingcount {
+            this.siteid = siteid
             return this
         }
 
-        fun withExecutivecount(executivecount: Int?): Pendingcount {
-            this.executivecount = executivecount
+        fun withEmpid(empid: String?): Pendingcount {
+            this.empid = empid
             return this
         }
 
-        fun withManagercount(managercount: Int?): Pendingcount {
-            this.managercount = managercount
+        fun withDesignation(designation: String?): Pendingcount {
+            this.designation = designation
             return this
         }
 
-        fun withGeneralmangercount(generalmangercount: Int?): Pendingcount {
-            this.generalmangercount = generalmangercount
+        fun withPendingcount(pendingcount: Int?): Pendingcount {
+            this.pendingcount = pendingcount
             return this
         }
     }
