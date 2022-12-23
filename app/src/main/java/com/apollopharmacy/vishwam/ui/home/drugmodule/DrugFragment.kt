@@ -75,7 +75,8 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     var backImageList = ArrayList<Image>()
     var sideImageList = ArrayList<Image>()
     var billImageList = ArrayList<Image>()
-
+    var selectedDoctorSpecialityUid: String? = ""
+    var selectedItemTypeUid: String? = ""
 
     var newImageList = ArrayList<ImageFile>()
 
@@ -760,12 +761,12 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             "",
                             "",
                             "",
-                            viewBinding.itemType.text.toString(),
+                            selectedItemTypeUid,
                             "",
                             "",
                             viewBinding.requiredQuantity.text.toString(),
                             viewBinding.doctorname.text.toString(),
-                            viewBinding.doctorSpecialty.text.toString(),
+                            selectedDoctorSpecialityUid,
                             imagesList.distinct(),
                             viewBinding.descriptionText.text.toString(),
                             store, employeeDetailsResponse!!
@@ -1619,12 +1620,14 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 expDate.isNotEmpty() || barCode != "0" || hsnCode != "0" || gst != "0" || description.isNotEmpty() || imageList.isNotEmpty()
     }
 
-    override fun selectDoctorSpecialiity(doctorSpeciality: String) {
-        viewBinding.doctorSpecialty.setText(doctorSpeciality)
+    override fun selectDoctorSpecialiity(row: ItemTypeDropDownResponse.Rows) {
+        viewBinding.doctorSpecialty.setText(row.name)
+        selectedDoctorSpecialityUid = row.uid
     }
 
-    override fun selectItemType(itemType: String) {
-        viewBinding.itemType.setText(itemType)
+    override fun selectItemType(row: ItemTypeDropDownResponse.Rows) {
+        viewBinding.itemType.setText(row.name)
+        selectedItemTypeUid = row.uid
     }
 
     override fun onSuccessItemTypeApi(itemTypeDropDownResponse: ItemTypeDropDownResponse) {

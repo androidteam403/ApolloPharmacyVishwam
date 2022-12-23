@@ -46,7 +46,7 @@ class ItemTypeDialog: DialogFragment() {
         }
 
         interface ItemTypeDialogClickListner {
-            fun selectItemType(itemType: String)
+            fun selectItemType(row: ItemTypeDropDownResponse.Rows)
         }
 
         override fun onCreateView(
@@ -76,10 +76,10 @@ class ItemTypeDialog: DialogFragment() {
                     viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                     viewBinding.fieldRecyclerView.adapter =
                         ItemTypeRecycleView(it, object : OnSelectItemTypeListner {
-                            override fun onSelected(data:  String) {
+                            override fun onSelected(row: ItemTypeDropDownResponse.Rows) {
                                 abstractDialogClick = parentFragment as ItemTypeDialogClickListner
 
-                                abstractDialogClick.selectItemType(data)
+                                abstractDialogClick.selectItemType(row)
                                 dismiss()
                             }
                         })
@@ -124,13 +124,13 @@ class ItemTypeDialog: DialogFragment() {
             binding.itemName.text = items.name
 
             binding.root.setOnClickListener {
-                onSelectedListner.onSelected(items.name)
+                onSelectedListner.onSelected(items)
             }
         }
     }
 
     interface OnSelectItemTypeListner {
-        fun onSelected(data: String)
+        fun onSelected(row: ItemTypeDropDownResponse.Rows)
     }
 
 

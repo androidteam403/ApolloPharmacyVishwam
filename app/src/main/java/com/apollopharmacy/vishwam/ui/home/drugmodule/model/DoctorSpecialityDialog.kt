@@ -49,7 +49,7 @@ class DoctorSpecialityDialog: DialogFragment() {
         }
 
         interface SelectDoctorDialogListner {
-            fun selectDoctorSpecialiity(doctorSpeciality: String)
+            fun selectDoctorSpecialiity(row : ItemTypeDropDownResponse.Rows)
         }
 
         override fun onCreateView(
@@ -81,10 +81,10 @@ class DoctorSpecialityDialog: DialogFragment() {
                     viewBinding.fieldRecyclerView.visibility = View.VISIBLE
                     viewBinding.fieldRecyclerView.adapter =
                         DoctorSpecialityRecycleView(it, object : OnSelectDoctorSpecialityListner {
-                            override fun onSelected(data:  String) {
+                            override fun onSelected(row : ItemTypeDropDownResponse.Rows) {
                                 abstractDialogClick = parentFragment as SelectDoctorDialogListner
 
-                                abstractDialogClick.selectDoctorSpecialiity(data)
+                                abstractDialogClick.selectDoctorSpecialiity(row)
                                 dismiss()
                             }
                         })
@@ -128,13 +128,13 @@ class DoctorSpecialityDialog: DialogFragment() {
             binding.itemName.text = items.name
 
             binding.root.setOnClickListener {
-                onSelectedListner.onSelected(items.name)
+                onSelectedListner.onSelected(items)
             }
         }
     }
 
     interface OnSelectDoctorSpecialityListner {
-        fun onSelected(data: String)
+        fun onSelected(row : ItemTypeDropDownResponse.Rows)
     }
 
 
