@@ -5,11 +5,11 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
+import android.text.Editable
 import android.text.TextUtils
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.text.TextWatcher
+import android.view.*
+import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -110,9 +110,27 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             callAPI(1)
         }
 
-
-
-
+        viewBinding.searchView.setOnEditorActionListener(object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
+                    var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
+                    viewModel.getNewticketlist(
+                        RequestComplainList(
+                            Preferences.getSiteId(),
+                            fromDate,
+                            toDate,
+                            userData.EMPID,
+                            1
+                        ), complaintListStatus, arguments?.getBoolean("isFromDrugList") ?: false,
+                        true,
+                        viewBinding.searchView.text.toString().trim()
+                    )
+                    return true
+                }
+                return false
+            }
+        })
 
 
         viewModel.resLiveData.observe(viewLifecycleOwner) {
@@ -345,7 +363,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     toDate,
                     userData.EMPID,
                     page
-                ), complaintListStatus, this.arguments?.getBoolean("isFromDrugList") ?: false
+                ), complaintListStatus, this.arguments?.getBoolean("isFromDrugList") ?: false,
+                false,""
             )
 
         } else {
@@ -563,7 +582,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         items.inventoryDetailsModel?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid== null &&
                         employeeDetailsResponse?.data!!.uid.equals(items.user!!.uid)){
                         binding.inventoryActionLayout.visibility = View.VISIBLE
-                        binding.inventoryRejectBtn.visibility = View.GONE
+                        binding.inventoryRejectBtn.visibility = View.VISIBLE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.GONE
                         binding.inventoryAcceptBtn.text = "Approve"
@@ -1145,7 +1164,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1154,6 +1173,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Accept"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1190,7 +1210,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1199,6 +1219,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Reject"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1234,7 +1255,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1243,6 +1264,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Accept"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1297,7 +1319,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1306,6 +1328,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Reject"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1359,7 +1382,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1368,6 +1391,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Forward to Manager"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1407,7 +1431,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1416,6 +1440,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Resolve"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1447,7 +1472,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1467,6 +1492,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Close"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1500,7 +1526,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = data.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1509,6 +1535,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = data.reason!!.name
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Reopen"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
@@ -1690,7 +1717,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_comment)
         val body = dialog.findViewById(R.id.textHead) as TextView
-        body.text = ""
+        body.text = "Ticket Details"
         val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
         ticketNo.text = selectedInventeryTicket.ticket_id
         val regDate = dialog.findViewById(R.id.regDate) as TextView
@@ -1699,6 +1726,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         problemDesc.text = selectedInventeryTicket.description
         val remark = dialog.findViewById(R.id.remark) as EditText
         val yesBtn = dialog.findViewById(R.id.submit) as Button
+        yesBtn.text = "Forward to Manager"
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
         dialogClose.setOnClickListener { dialog.dismiss() }
