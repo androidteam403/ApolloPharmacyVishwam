@@ -28,13 +28,21 @@ class DashBoardViewModel: ViewModel() {
     fun getQcPendingList(empId: String,designation: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("QC PENING COUNT")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
 
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getqcPendingCountList(empId, designation)
+                QcApiRepo.getqcPendingCountList(baseUrl,empId, designation)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -44,6 +52,8 @@ class DashBoardViewModel: ViewModel() {
 
                     } else {
                         state.value = State.ERROR
+                        qcPendingCountList.value = result.value
+
                     }
                 }
                 is ApiResult.GenericError -> {

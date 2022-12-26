@@ -17,7 +17,7 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
     override val layoutRes: Int
         get() = R.layout.qc_fragment_dashboard
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
-
+    private var designationsList = ArrayList<String>()
 
 
     override fun retrieveViewModel(): DashBoardViewModel {
@@ -32,21 +32,27 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
             hideLoading()
-            if (!it.pendingcount.isNullOrEmpty()) {
-                pendingCountResponseList =
-                    it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
-                val designations: List<String> = pendingCountResponseList.stream().map<String>(PendingCountResponse.Pendingcount::designation).distinct().
-                collect(Collectors.toList()).reversed()
+            if (it.status == true) {
+                if (!it.pendingcount.isNullOrEmpty()) {
+                    pendingCountResponseList =
+                        it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
+                    val designations: List<String> = pendingCountResponseList.stream()
+                        .map<String>(PendingCountResponse.Pendingcount::designation).distinct()
+                        .collect(Collectors.toList()).reversed()
 
-
-                viewBinding.dashboardrecycleview.adapter=
-                    context?.let { it1 ->
-                        DashBaordAdapter(it1,pendingCountResponseList,
-                            designations as ArrayList<String>)
+                    for (i in designations.indices) {
+                        designationsList.add(designations.get(i))
                     }
 
-            }
 
+                    viewBinding.dashboardrecycleview.adapter =
+                        context?.let { it1 ->
+                            DashBaordAdapter(it1, pendingCountResponseList,
+                                designationsList)
+                        }
+
+                }
+            }
 
         })
 

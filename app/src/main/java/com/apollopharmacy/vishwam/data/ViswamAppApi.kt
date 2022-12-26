@@ -69,7 +69,7 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
         @Body data: DrugRequest,
-   ): DrugResponse
+    ): DrugResponse
 //    suspend fun DrugResponse(
 //        @Url url: String,
 //        @Header("token") token: String,
@@ -334,10 +334,16 @@ interface ViswamAppApi {
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
     suspend fun qcStatusList(@Url url: String, @Query("ORDERNO") id: String): ActionResponse
 
-//    https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER
-    @GET ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
-    suspend fun qcPendingCountList( @Query("EMPID") empId: String,
-                                    @Query("DESIGNATION") designation: String,): PendingCountResponse
+    ////    https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER
+//    @GET ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
+//    suspend fun qcPendingCountList( @Query("EMPID") empId: String,
+//                                    @Query("DESIGNATION") designation: String,): PendingCountResponse
+    @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
+    suspend fun qcPendingCountList(
+        @Url url: String,
+        @Query("EMPID") empId: String,
+        @Query("DESIGNATION") designation: String,
+    ): PendingCountResponse
 
     @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
     suspend fun appLevelDesignation(

@@ -94,7 +94,7 @@ class ComplainListViewModel : ViewModel() {
                 "reason_code=new_drug&"
             } else {
                 ""
-            }+if(isSearch){"&site_ticket=$searchQuary&"}else{""} + "${
+            }+if(isSearch){"site_ticket=$searchQuary&"}else{"site_ticket=$searchQuary&"} + "${
                 URLEncoder.encode("status[0]",
                     "utf-8")
             }=${new}&${
