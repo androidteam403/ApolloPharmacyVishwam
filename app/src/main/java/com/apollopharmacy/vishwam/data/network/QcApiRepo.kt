@@ -121,9 +121,9 @@ object QcApiRepo {
 
 
 
-    suspend fun getqcPendingCountList(empId: String, designation: String): ApiResult<PendingCountResponse> {
+    suspend fun getqcPendingCountList(url: String, token: String,empId: String, designation: String): ApiResult<PendingCountResponse> {
         return try {
-            val response = Api.getClient().qcPendingCountList(empId, designation)
+            val response = Api.getClient().qcPendingCountList(url,token,empId, designation)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

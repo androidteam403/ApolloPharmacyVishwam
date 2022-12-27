@@ -17,6 +17,7 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
     override val layoutRes: Int
         get() = R.layout.qc_fragment_dashboard
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
+    private var designationsList = ArrayList<String>()
 
 
 
@@ -38,11 +39,15 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
                 val designations: List<String> = pendingCountResponseList.stream().map<String>(PendingCountResponse.Pendingcount::designation).distinct().
                 collect(Collectors.toList()).reversed()
 
+                for(i in designations.indices){
+                    designationsList.add(designations.get(i))
+                }
+
 
                 viewBinding.dashboardrecycleview.adapter=
                     context?.let { it1 ->
                         DashBaordAdapter(it1,pendingCountResponseList,
-                            designations as ArrayList<String>)
+                           designationsList)
                     }
 
             }

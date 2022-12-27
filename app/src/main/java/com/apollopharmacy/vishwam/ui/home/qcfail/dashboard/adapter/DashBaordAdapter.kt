@@ -74,14 +74,14 @@ class DashBaordAdapter(
 
         val gmPendingCountSum: List<Int> = gmPendingCountResponseList.stream()
             .map<Int>(PendingCountResponse.Pendingcount::pendingcount)
-            .collect(Collectors.toList<Int>())
+            .collect(Collectors.toList())
 
         val managerPendingCountSum: List<Int> = managerPendingCountResponseList.stream()
             .map<Int>(PendingCountResponse.Pendingcount::pendingcount)
-            .collect(Collectors.toList<Int>())
+            .collect(Collectors.toList())
         val executivePendingCountSum: List<Int> = executivePendingCountResponseList.stream()
             .map<Int>(PendingCountResponse.Pendingcount::pendingcount)
-            .collect(Collectors.toList<Int>())
+            .collect(Collectors.toList())
 
 
 
