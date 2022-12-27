@@ -47,6 +47,8 @@ class ComplainListViewModel : ViewModel() {
         requestComplainList: RequestComplainList,
         status: String,
         isDrugList: Boolean,
+        isSearch: Boolean,
+        searchQuary: String
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -92,7 +94,7 @@ class ComplainListViewModel : ViewModel() {
                 "reason_code=new_drug&"
             } else {
                 ""
-            } + "${
+            }+if(isSearch){"site_ticket=$searchQuary&"}else{"site_ticket=$searchQuary&"} + "${
                 URLEncoder.encode("status[0]",
                     "utf-8")
             }=${new}&${

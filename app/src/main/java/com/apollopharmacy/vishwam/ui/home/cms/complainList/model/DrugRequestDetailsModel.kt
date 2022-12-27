@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList.model
 
+import java.io.Serializable
+
 data class DrugRequestDetailsModel(
     val back_mb: String,
     val barcode: String,
@@ -20,5 +22,23 @@ data class DrugRequestDetailsModel(
     val remarks: String,
     val side: List<Any>,
     val side_mb: String,
-    val uid: String
-)
+    val doctor_specialty: DoctoSpecialty,
+    val doctors_name: String,
+    val item_type: ItemType,
+    val required_quantity: Int,
+    val uid: String,
+) : Serializable {
+    data class DoctoSpecialty(
+        val uid: String,
+        val name: String,
+    ) : Serializable
+
+    data class ItemType(
+        val uid: String,
+        val name: String,
+    ) : Serializable
+}
+
+
+
+

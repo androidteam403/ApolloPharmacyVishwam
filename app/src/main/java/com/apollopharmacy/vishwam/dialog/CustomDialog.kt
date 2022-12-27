@@ -3,15 +3,24 @@ package com.apollopharmacy.vishwam.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.DepartmentV2Response
 import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
+import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogCustomBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
+import com.apollopharmacy.vishwam.dialog.model.DepartmentViewModel
+import com.apollopharmacy.vishwam.dialog.model.SiteViewModel
+import com.apollopharmacy.vishwam.util.Utils
 
 class CustomDialog : DialogFragment() {
 
@@ -95,7 +104,7 @@ class CustomDialog : DialogFragment() {
     //changed code for new Response................
     lateinit var viewBinding: DialogCustomBinding
     lateinit var abstractDialogClick: AbstractDialogClickListner
-
+    var siteDataArrayList= ArrayList<ReasonmasterV2Response.Department>()
     init {
         setCancelable(false)
     }
@@ -129,20 +138,53 @@ class CustomDialog : DialogFragment() {
         viewBinding = DialogCustomBinding.inflate(inflater, container, false)
         viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_department)
         viewBinding.closeDialog.setOnClickListener { dismiss() }
+        var viewModel = ViewModelProviders.of(requireActivity())[DepartmentViewModel::class.java]
 
         abstractDialogClick = parentFragment as AbstractDialogClickListner
-        viewBinding.searchSite.visibility = View.GONE
-        var data =
+        viewBinding.searchSite.visibility = View.VISIBLE
+        viewBinding.searchSiteText.setHint("Search Department name")
+        viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
+        siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.Department>
-        viewBinding.fieldRecyclerView.adapter =
-            CustomRecyclerView(data, object : OnSelectedListner {
-                override fun onSelected(data: ReasonmasterV2Response.Department) {
-                    abstractDialogClick.selectDepartment(data)
-                    dismiss()
 
+        viewModel.siteArrayList(siteDataArrayList)
 
+        viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
+            if (it.size == 0) {
+                viewBinding.siteNotAvailable.text = "Department not available"
+                viewBinding.siteNotAvailable.visibility = View.VISIBLE
+                viewBinding.fieldRecyclerView.visibility = View.GONE
+            } else {
+                viewBinding.siteNotAvailable.visibility = View.GONE
+                viewBinding.fieldRecyclerView.visibility = View.VISIBLE
+                viewBinding.fieldRecyclerView.adapter =
+                    CustomRecyclerView(it, object : OnSelectedListner {
+                        override fun onSelected(data: ReasonmasterV2Response.Department) {
+                            abstractDialogClick.selectDepartment(data)
+                            dismiss()
+                        }
+                    })
+            }
+        })
+
+        viewBinding.searchSiteText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                var textChanged = s.toString().trim()
+                if (s.toString().length > 1) {
+                    viewModel.filterDataBySiteId(textChanged)
+                } else {
+                    viewModel.siteArrayList(siteDataArrayList)
                 }
-            })
+            }
+        })
+
+
         return viewBinding.root
     }
 }

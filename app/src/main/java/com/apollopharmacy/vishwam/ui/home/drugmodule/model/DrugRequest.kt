@@ -128,6 +128,19 @@ class DrugRequest : Serializable {
     @Expose
     var courierable: String? = null
 
+
+    @SerializedName("RequiredQuantity")
+    @Expose
+    var requiredQty: String? = null
+
+    @SerializedName("DoctorName")
+    @Expose
+    var doctorName: String? = null
+
+    @SerializedName("DoctorSpecialty")
+    @Expose
+    var doctorSpecialty: String? = null
+
     @SerializedName("Images")
     @Expose
     var images: List<Image>? = null
@@ -167,6 +180,9 @@ class DrugRequest : Serializable {
         itemType: String?,
         airEnabled: String?,
         courierable: String?,
+        requiredQty:String?,
+        doctorName:String?,
+        doctorSpecialty:String?,
         images: List<Image>?,
         description: String?,
         site: StoreListItem,
@@ -202,6 +218,9 @@ class DrugRequest : Serializable {
         this.itemType = itemType
         this.airEnabled = airEnabled
         this.courierable = courierable
+        this.requiredQty=requiredQty
+        this.doctorName=doctorName
+        this.doctorSpecialty=doctorSpecialty
         this.images = images
         this.description = description
         this.site = site
@@ -359,6 +378,23 @@ class DrugRequest : Serializable {
         this.courierable = courierable
         return this
     }
+
+    fun withRequiredQty(requiredQty: String?): DrugRequest {
+        this.requiredQty = requiredQty
+        return this
+    }
+
+    fun withDoctorName(doctorName: String?): DrugRequest {
+        this.doctorName = doctorName
+        return this
+    }
+
+    fun withDoctorSpecialty(doctorSpecialty: String?): DrugRequest {
+        this.doctorSpecialty = doctorSpecialty
+        return this
+    }
+
+
 
     fun withImages(images: List<Image>?): DrugRequest {
         this.images = images

@@ -20,7 +20,6 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
     private var designationsList = ArrayList<String>()
 
 
-
     override fun retrieveViewModel(): DashBoardViewModel {
         return ViewModelProvider(this).get(DashBoardViewModel::class.java)
     }
@@ -33,25 +32,27 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
             hideLoading()
-            if (!it.pendingcount.isNullOrEmpty()) {
-                pendingCountResponseList =
-                    it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
-                val designations: List<String> = pendingCountResponseList.stream().map<String>(PendingCountResponse.Pendingcount::designation).distinct().
-                collect(Collectors.toList()).reversed()
+            if (it.status == true) {
+                if (!it.pendingcount.isNullOrEmpty()) {
+                    pendingCountResponseList =
+                        it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
+                    val designations: List<String> = pendingCountResponseList.stream()
+                        .map<String>(PendingCountResponse.Pendingcount::designation).distinct()
+                        .collect(Collectors.toList()).reversed()
 
-                for(i in designations.indices){
-                    designationsList.add(designations.get(i))
-                }
-
-
-                viewBinding.dashboardrecycleview.adapter=
-                    context?.let { it1 ->
-                        DashBaordAdapter(it1,pendingCountResponseList,
-                           designationsList)
+                    for (i in designations.indices) {
+                        designationsList.add(designations.get(i))
                     }
 
-            }
 
+                    viewBinding.dashboardrecycleview.adapter =
+                        context?.let { it1 ->
+                            DashBaordAdapter(it1, pendingCountResponseList,
+                                designationsList)
+                        }
+
+                }
+            }
 
         })
 

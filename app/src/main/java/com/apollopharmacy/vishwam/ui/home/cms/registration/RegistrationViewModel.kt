@@ -11,11 +11,13 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
@@ -27,6 +29,8 @@ import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefau
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -167,9 +171,10 @@ class RegistrationViewModel : ViewModel() {
                 break
             }
         }
+        val userData = LoginRepo.getProfile()!!
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
-                var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
+                var baseUrl = data.APIS[i].URL +"emp_id="+ userData.EMPID + "&page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {

@@ -1,11 +1,9 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
-import com.apollopharmacy.vishwam.ui.home.cms.registration.model.Data
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
-import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import com.google.gson.annotations.Expose
 
 data class RequestSaveUpdateComplaintRegistration(
 
@@ -67,10 +65,10 @@ data class RequestSaveUpdateComplaintRegistration(
 //    val prefix: String?,
 
 
-    ) : Serializable {
+) : Serializable {
     data class Platform(
         @field:SerializedName("uid")
-        val uid: String ,
+        val uid: String,
     ) : Serializable
 
     data class Category(
@@ -82,40 +80,40 @@ data class RequestSaveUpdateComplaintRegistration(
         @field:SerializedName("uid")
         val uid: String? = null,
         @field:SerializedName("code")
-        val code: String? = null
+        val code: String? = null,
     ) : Serializable
 
-    data class  Site(
+    data class Site(
         @field:SerializedName("uid")
         val uid: String? = null,
         @field:SerializedName("site")
         val site: String? = null,
         @field:SerializedName("store_name")
         val store_name: String? = null,
-    ):Serializable
+    ) : Serializable
 
-    data class  Reason(
+    data class Reason(
         @field:SerializedName("uid")
         val uid: String? = null,
 
         @field:SerializedName("reason_sla")
-        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>?
-    ):Serializable
+        val reason_sla: ArrayList<ReasonmasterV2Response.Reason_SLA>?,
+    ) : Serializable
 
-    data class  Subcategory(
+    data class Subcategory(
         @field:SerializedName("uid")
-        val uid: String? = null
-    ):Serializable
+        val uid: String? = null,
+    ) : Serializable
 
-    data class  ProblemImages(
+    data class ProblemImages(
         @field:SerializedName("images")
-        val images: ArrayList<Image>
-    ):Serializable
+        val images: ArrayList<Image>,
+    ) : Serializable
 
     data class Image(
         @field:SerializedName("url")
-        val url: String? = null
-    ):Serializable
+        val url: String? = null,
+    ) : Serializable
 
     data class TicketInventory(
         @field:SerializedName("ticket_inventory_item")
@@ -123,8 +121,8 @@ data class RequestSaveUpdateComplaintRegistration(
         @field:SerializedName("drug_request")
         val drug_request: ArrayList<DrugRequest>?,
         @field:SerializedName("code_batch")
-        val code_batch: CodeBatch?
-    ):Serializable
+        val code_batch: CodeBatch?,
+    ) : Serializable
 
     data class TicketInventoryItem(
         @field:SerializedName("front_img_blob")
@@ -143,8 +141,12 @@ data class RequestSaveUpdateComplaintRegistration(
         val barcode: String? = null,
         @field:SerializedName("expiry_date")
         val expiry_date: String? = null,
+
+
+
+
         @field:SerializedName("purchase_rate")
-        val purchase_rate: Double?  = 0.0,
+        val purchase_rate: Double? = 0.0,
         @field:SerializedName("old_mrp")
         val old_mrp: Double? = 0.0,
         @field:SerializedName("new_mrp")
@@ -153,14 +155,14 @@ data class RequestSaveUpdateComplaintRegistration(
         val mrp: Double? = 0.0,
         @field:SerializedName("rowIndex")
         val rowIndex: Int? = 0,
-    ):Serializable
+    ) : Serializable
 
     data class CodeBatch(
         @field:SerializedName("uid")
         val uid: String? = null,
         @field:SerializedName("name")
         val name: String? = null,
-    ):Serializable
+    ) : Serializable
 
     data class TicketType(
         @field:SerializedName("uid")
@@ -170,7 +172,7 @@ data class RequestSaveUpdateComplaintRegistration(
         @field:SerializedName("code")
         val code: String? = null,
 
-    ):Serializable
+        ) : Serializable
 
 
     data class DrugRequest(
@@ -223,8 +225,25 @@ data class RequestSaveUpdateComplaintRegistration(
         val item_name: String?,
         @Expose
         @SerializedName("remarks")
-        val remarks: String?
+        val remarks: String?,
+        @field:SerializedName("item_type")
+        var item_type: ItemType? = null,
+        @field:SerializedName("doctor_specialty")
+        var doctor_specialty: DoctorSpecialty? = null,
+        @field:SerializedName("doctors_name")
+        var doctors_name: String? = null,
+        @field:SerializedName("required_quantity")
+        var required_quantity: String? = null,
     )
+    data class ItemType(
+        @field:SerializedName("uid")
+        var uid: String? = null,
+    ) : Serializable
+
+    data class DoctorSpecialty(
+        @field:SerializedName("uid")
+        var uid: String? = null,
+    ) : Serializable
 }
 
 

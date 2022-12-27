@@ -26,7 +26,6 @@ class DashBoardViewModel: ViewModel() {
 
 
     fun getQcPendingList(empId: String,designation: String) {
-
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -43,7 +42,7 @@ class DashBoardViewModel: ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getqcPendingCountList(baseUrl,token,empId, designation)
+                QcApiRepo.getqcPendingCountList(baseUrl,empId, designation)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -53,6 +52,8 @@ class DashBoardViewModel: ViewModel() {
 
                     } else {
                         state.value = State.ERROR
+                        qcPendingCountList.value = result.value
+
                     }
                 }
                 is ApiResult.GenericError -> {
