@@ -139,7 +139,7 @@
             android:layout_below="@+id/header_layout"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="@dimen/value_10dp"
-            android:elevation="@dimen/value_20dp"
+            android:elevation="@dimen/value_5dp"
             android:src="@drawable/ic_pending_list_icons_filter" />
     </RelativeLayout>
 </layout>
