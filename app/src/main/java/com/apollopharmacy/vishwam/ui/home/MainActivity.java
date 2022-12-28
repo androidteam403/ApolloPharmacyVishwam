@@ -43,6 +43,8 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
@@ -53,7 +55,6 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
@@ -547,7 +548,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                fragment = new SelectSiteActivityy();
 //                imageView.setVisibility(View.GONE);
 //                break;
-
+            case "CHAMPS SURVEY":
+                headerText.setText("New Survey");
+                fragment = new NewSurveyFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+            case "CHAMPS - REPORTS":
+                headerText.setText("CHAMPS Analysis Reports");
+                fragment = new ChampsReportsFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -809,6 +825,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addChildModel(new ChildModel("List")));
             }
         }
+        listView.addHeaderModel(new HeaderModel("CHAMPS", Color.WHITE, true, R.drawable.icons8_trophy_64)
+                .addChildModel(new ChildModel("CHAMPS SURVEY"))
+                .addChildModel(new ChildModel("CHAMPS - REPORTS"))
+        );
         listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -880,6 +900,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Upload");
                 } else if (childModelList.get(childPosition).getTitle().equals("List")) {
                     displaySelectedScreen("List");
+                }
+            }
+            else if (listHeader.get(groupPosition).getTitle().equals("CHAMPS")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("CHAMPS SURVEY")) {
+                    displaySelectedScreen("CHAMPS SURVEY");
+                } else if (childModelList.get(childPosition).getTitle().equals("CHAMPS - REPORTS")) {
+                    displaySelectedScreen("CHAMPS - REPORTS");
                 }
             }
 

@@ -94,4 +94,6 @@
     <dimen name="inner_frame_layout_padding">5dp</dimen>
     <dimen name="eight_sp">8sp</dimen>
     <dimen name="dimen11sp">11sp</dimen>
+    <dimen name="dimen36dp">36dp</dimen>
+    <dimen name="forty_three_dp">43dp</dimen>
 </resources>
