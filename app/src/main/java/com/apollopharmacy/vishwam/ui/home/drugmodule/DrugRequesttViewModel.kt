@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugReason
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
@@ -630,47 +631,8 @@ class DrugFragmentViewModel : ViewModel() {
     }
 
 
-    fun getItemType(): ArrayList<String> {
-
-        var itemType = ArrayList<String>()
-
-        itemType.add("Powder")
-        itemType.add("Capsule")
-        itemType.add("Syrup")
-        itemType.add("Inhaler")
 
 
-        return itemType
-
-    }
-
-    fun getDoctorspeciality(): ArrayList<String> {
-
-        var doctorSpeciality = ArrayList<String>()
-
-        doctorSpeciality.add("Heart")
-        doctorSpeciality.add("Cardio")
-        doctorSpeciality.add("Neuro")
-
-
-
-        return doctorSpeciality
-
-    }
-
-    fun getGst(): ArrayList<String> {
-
-        var names = ArrayList<String>()
-
-        names.add("5")
-        names.add("8")
-        names.add("12")
-
-
-
-        return names
-
-    }
 
     sealed class Commands {
         data class ShowToast(val message: String?) : Commands()
@@ -687,142 +649,151 @@ class DrugFragmentViewModel : ViewModel() {
     }
 
     fun itemTypeApi(drugFragmentCallback: DrugFragmentCallback) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseProxyUrl = ""
-        var proxyToken = ""
+        if (Preferences.isItemTypeListFetched()) {
 
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseProxyUrl = data.APIS[i].URL
-                proxyToken = data.APIS[i].TOKEN
-                break
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            var baseProxyUrl = ""
+            var proxyToken = ""
+
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseProxyUrl = data.APIS[i].URL
+                    proxyToken = data.APIS[i].TOKEN
+                    break
+                }
             }
-        }
-        var baseUrl = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("ND item_type")) {
-                baseUrl = data.APIS[i].URL
-                break
+            var baseUrl = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("ND item_type")) {
+                    baseUrl = data.APIS[i].URL
+                    break
+                }
             }
-        }
 
 //        var baseUrl =
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/item_type"
 
-        viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseProxyUrl,
-                    proxyToken,
-                    GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
-            }
-            when (response) {
-                is ApiResult.Success -> {
-                    if (response != null) {
-                        val resp: String = response.value.string()
-                        if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val chooseDataItemType =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    ItemTypeDropDownResponse::class.java)
-                            if (chooseDataItemType.success) {
-                                if (drugFragmentCallback != null) {
-                                    drugFragmentCallback.onSuccessItemTypeApi(chooseDataItemType)
+            viewModelScope.launch {
+                val response = withContext(Dispatchers.IO) {
+                    RegistrationRepo.getDetails(baseProxyUrl,
+                        proxyToken,
+                        GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
+                }
+                when (response) {
+                    is ApiResult.Success -> {
+                        if (response != null) {
+                            val resp: String = response.value.string()
+                            if (resp != null) {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val chooseDataItemType =
+                                    Gson().fromJson(BackShlash.removeSubString(res),
+                                        ItemTypeDropDownResponse::class.java)
+                                if (chooseDataItemType.success) {
+                                    if (drugFragmentCallback != null) {
+                                        drugFragmentCallback.onSuccessItemTypeApi(chooseDataItemType)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                is ApiResult.GenericError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
-                            .toString())
-                }
-                is ApiResult.NetworkError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
-                            .toString())
-                }
-                is ApiResult.UnknownError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
-                }
-                is ApiResult.UnknownHostException -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
+                    is ApiResult.GenericError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
+                                .toString())
+                    }
+                    is ApiResult.NetworkError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
+                                .toString())
+                    }
+                    is ApiResult.UnknownError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString())
+                    }
+                    is ApiResult.UnknownHostException -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString())
+                    }
                 }
             }
         }
     }
 
     fun doctorSpecialityApi(drugFragmentCallback: DrugFragmentCallback) {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseProxyUrl = ""
-        var proxyToken = ""
+        if (Preferences.isDoctorSpecialityListFetched()) {
 
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseProxyUrl = data.APIS[i].URL
-                proxyToken = data.APIS[i].TOKEN
-                break
+        } else {
+
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            var baseProxyUrl = ""
+            var proxyToken = ""
+
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseProxyUrl = data.APIS[i].URL
+                    proxyToken = data.APIS[i].TOKEN
+                    break
+                }
             }
-        }
-        var baseUrl = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("ND doctor_specality")) {
-                baseUrl = data.APIS[i].URL
-                break
+            var baseUrl = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("ND doctor_specality")) {
+                    baseUrl = data.APIS[i].URL
+                    break
+                }
             }
-        }
 //        var baseUrl =
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/choose-data/doctor_specialty"
 
-        viewModelScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseProxyUrl,
-                    proxyToken,
-                    GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
-            }
-            when (response) {
-                is ApiResult.Success -> {
-                    if (response != null) {
-                        val resp: String = response.value.string()
-                        if (resp != null) {
-                            val res = BackShlash.removeBackSlashes(resp)
-                            val chooseDataItemType =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    ItemTypeDropDownResponse::class.java)
-                            if (chooseDataItemType.success) {
-                                if (drugFragmentCallback != null) {
-                                    drugFragmentCallback.onSuccessDoctorSpecialityApi(
-                                        chooseDataItemType)
+            viewModelScope.launch {
+                val response = withContext(Dispatchers.IO) {
+                    RegistrationRepo.getDetails(baseProxyUrl,
+                        proxyToken,
+                        GetDetailsRequest(baseUrl, "GET", "Get", "", ""))
+                }
+                when (response) {
+                    is ApiResult.Success -> {
+                        if (response != null) {
+                            val resp: String = response.value.string()
+                            if (resp != null) {
+                                val res = BackShlash.removeBackSlashes(resp)
+                                val chooseDataItemType =
+                                    Gson().fromJson(BackShlash.removeSubString(res),
+                                        ItemTypeDropDownResponse::class.java)
+                                if (chooseDataItemType.success) {
+                                    if (drugFragmentCallback != null) {
+                                        drugFragmentCallback.onSuccessDoctorSpecialityApi(
+                                            chooseDataItemType)
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                is ApiResult.GenericError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
-                            .toString())
-                }
-                is ApiResult.NetworkError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
-                            .toString())
-                }
-                is ApiResult.UnknownError -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
-                }
-                is ApiResult.UnknownHostException -> {
-                    commands.value =
-                        Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
-                            .toString())
+                    is ApiResult.GenericError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_unableto_save)
+                                .toString())
+                    }
+                    is ApiResult.NetworkError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_network_error)
+                                .toString())
+                    }
+                    is ApiResult.UnknownError -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString())
+                    }
+                    is ApiResult.UnknownHostException -> {
+                        commands.value =
+                            Commands.ShowToast(ViswamApp.context.resources?.getString(R.string.label_something_wrong_try_later)
+                                .toString())
+                    }
                 }
             }
         }

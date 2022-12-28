@@ -14,8 +14,6 @@ object Preferences {
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
     private const val KEY_TO_DATE = "KEY_TO_DATE"
-    private const val KEY_SITE = "KEY_SITE"
-    private const val KEY_REGION = "KEY_REGION"
 
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
 
@@ -27,6 +25,15 @@ object Preferences {
     private const val PREF_KEY_SITE_ID_LIST_QCFAIL = "PREF_KEY_SITE_ID_LIST_QCFAIL"
     private const val PREF_KEY_REGION_ID_LIST_QCFAIL = "PREF_KEY_REGION_ID_LIST_QCFAIL"
     private const val PREF_SITE_ID_FETCHED = "PREF_SITE_ID_FETCHED"
+    private const val PREF_REASON_ID_FETCHED = "PREF_REASON_ID_FETCHED"
+    private const val PREF_ITEMTYPE_FETCHED = "PREF_ITEMTYPE_FETCHED"
+    private const val PREF_ITEMTYPE_LIST_FETCHED = "PREF_ITEMTYPE_LIST_FETCHED"
+    private const val PREF_DOCTORSPECIALITY_FETCHED = "PREF_DOCTORSPECIALITY_FETCHED"
+    private const val PREF_DOCTORSPECIALITYLIST_FETCHED = "PREF_DOCTORSPECIALITYLIST_FETCHED"
+    private const val PREF_REASON_LIST = "PREF_REASON_LIST"
+    private const val PREF_REASON_DEPTARTMENT_LIST = "PREF_REASON_DEPTARTMENT_LIST"
+    private const val PREF_REASON_OBJECT = "PREF_REASON_OBJECT"
+
     private const val PREF_SITE_ID_FETCHED_QC_FAIL = "PREF_SITE_ID_FETCHED_QC_FAIL"
     private const val PREF_REGION_ID_FETCHED_QC_FAIL = "PREF_REGION_ID_FETCHED_QC_FAIL"
 
@@ -245,6 +252,28 @@ object Preferences {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
 
+
+    fun setItemTypeListFetched(isItemTypeListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_ITEMTYPE_FETCHED, isItemTypeListFetched).apply()
+    }
+
+    fun isItemTypeListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_ITEMTYPE_FETCHED, false)
+    }
+    fun setDoctorSpecialityListFetched(isItemTypeListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_DOCTORSPECIALITY_FETCHED, isItemTypeListFetched).apply()
+    }
+
+    fun isDoctorSpecialityListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_DOCTORSPECIALITY_FETCHED, false)
+    }
+
+    fun setReasonListFetched(isReasonIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_REASON_ID_FETCHED, isReasonIdListFetched).apply()
+    }
+    fun isReasonIdListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_REASON_ID_FETCHED, false)
+    }
     fun setSiteIdListFetchedQcFail(isSiteIdListFetchedQcfail: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, isSiteIdListFetchedQcfail).apply()
     }
@@ -268,6 +297,47 @@ object Preferences {
 
     fun getSiteIdListJson(): String {
         return sharedPreferences.getString(PREF_KEY_SITE_ID_LIST, "")!!
+    }
+
+    fun setItemTypeList(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_ITEMTYPE_LIST_FETCHED, siteIdList).apply()
+    }
+
+    fun getItemTypeListJson(): String {
+        return sharedPreferences.getString(PREF_ITEMTYPE_LIST_FETCHED, "")!!
+    }
+
+    fun setDoctorSpecialityList(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_DOCTORSPECIALITYLIST_FETCHED, siteIdList).apply()
+    }
+
+    fun getDoctorSpecialityListJson(): String {
+        return sharedPreferences.getString(PREF_DOCTORSPECIALITYLIST_FETCHED, "")!!
+    }
+
+    fun setReasonIdList(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_REASON_LIST, siteIdList).apply()
+    }
+    fun getReasonIdListJson(): String {
+        return sharedPreferences.getString(PREF_REASON_LIST, "")!!
+    }
+    fun setReasonIdObject(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_REASON_OBJECT, siteIdList).apply()
+    }
+    fun getReasonIdObjectJson(): String {
+        return sharedPreferences.getString(PREF_REASON_OBJECT, "")!!
+    }
+    fun setReasondDepartmentIdList(siteIdList: String) {
+        sharedPreferences.edit().putString(PREF_REASON_DEPTARTMENT_LIST, siteIdList).apply()
+    }
+    fun getReasondDepartmentIdList(): String {
+        return sharedPreferences.getString(PREF_REASON_DEPTARTMENT_LIST, "")!!
+    }
+
+
+
+    fun setReasonsListFetched(isSiteIdListFetchedQcfail: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_ID_FETCHED_QC_FAIL, isSiteIdListFetchedQcfail).apply()
     }
 
     fun setSiteIdListQcFail(siteIdListQcFail: String) {

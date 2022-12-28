@@ -230,7 +230,14 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
 
         }
         showLoading()
-        viewModel.getRemarksMasterList()
+        if(Preferences.isReasonIdListFetched()){
+            hideLoading()
+            viewModel.getRemarksMasterList()
+        }else{
+            viewModel.getRemarksMasterList()
+
+        }
+
 
         adapter = ImageRecyclerView(fileArrayList, this)
         viewBinding.imageRecyclerView.adapter = adapter

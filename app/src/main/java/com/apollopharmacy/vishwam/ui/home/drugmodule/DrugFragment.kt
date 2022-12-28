@@ -46,6 +46,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import com.google.gson.reflect.TypeToken
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.IOException
@@ -1631,11 +1632,34 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
     override fun onSuccessItemTypeApi(itemTypeDropDownResponse: ItemTypeDropDownResponse) {
-        this.itemTypeDropDownResponse = itemTypeDropDownResponse
+//        this.itemTypeDropDownResponse = itemTypeDropDownResponse
+        Preferences.setItemTypeList(Gson().toJson(itemTypeDropDownResponse))
+        val gson = Gson()
+        val itemTypeList = Preferences.getItemTypeListJson()
+
+
+
+        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+        this.itemTypeDropDownResponse =
+            gson.fromJson<List<ItemTypeDropDownResponse>>(itemTypeList, type) as ItemTypeDropDownResponse
+        Preferences.setItemTypeListFetched(true)
+
     }
 
     override fun onSuccessDoctorSpecialityApi(doctorSpecialityDropDownResponse: ItemTypeDropDownResponse) {
-        this.doctorSpecialityDropDownREsponse = doctorSpecialityDropDownResponse
+//        this.doctorSpecialityDropDownREsponse = doctorSpecialityDropDownResponse
+
+        Preferences.setDoctorSpecialityList(Gson().toJson(doctorSpecialityDropDownResponse))
+        val gson = Gson()
+        val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
+
+
+
+        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+        this.doctorSpecialityDropDownREsponse =
+            gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
+        Preferences.setDoctorSpecialityListFetched(true)
+
     }
 }
 
