@@ -150,6 +150,16 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             if (viewBinding.batchNo.text.toString().isEmpty()) {
                 viewBinding.batchNo.setText("12345")
             }
+
+            val gson = Gson()
+            val itemTypeList = Preferences.getItemTypeListJson()
+
+
+
+            val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+            this.itemTypeDropDownResponse =
+                gson.fromJson<List<ItemTypeDropDownResponse>>(itemTypeList, type) as ItemTypeDropDownResponse
+
             ItemTypeDialog().apply {
                 arguments =
                     ItemTypeDialog().generateParsedData(itemTypeDropDownResponse!!.data!!.listData!!.rows)
@@ -160,6 +170,15 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             if (viewBinding.batchNo.text.toString().isEmpty()) {
                 viewBinding.batchNo.setText("12345")
             }
+            val gson = Gson()
+            val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
+
+
+
+            val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+            this.doctorSpecialityDropDownREsponse =
+                gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
+
             DoctorSpecialityDialog().apply {
                 arguments =
                     DoctorSpecialityDialog().generateParsedData(doctorSpecialityDropDownREsponse!!.data!!.listData!!.rows)
@@ -1634,14 +1653,14 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     override fun onSuccessItemTypeApi(itemTypeDropDownResponse: ItemTypeDropDownResponse) {
 //        this.itemTypeDropDownResponse = itemTypeDropDownResponse
         Preferences.setItemTypeList(Gson().toJson(itemTypeDropDownResponse))
-        val gson = Gson()
-        val itemTypeList = Preferences.getItemTypeListJson()
-
-
-
-        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
-        this.itemTypeDropDownResponse =
-            gson.fromJson<List<ItemTypeDropDownResponse>>(itemTypeList, type) as ItemTypeDropDownResponse
+//        val gson = Gson()
+//        val itemTypeList = Preferences.getItemTypeListJson()
+//
+//
+//
+//        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+//        this.itemTypeDropDownResponse =
+//            gson.fromJson<List<ItemTypeDropDownResponse>>(itemTypeList, type) as ItemTypeDropDownResponse
         Preferences.setItemTypeListFetched(true)
 
     }
@@ -1650,14 +1669,14 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //        this.doctorSpecialityDropDownREsponse = doctorSpecialityDropDownResponse
 
         Preferences.setDoctorSpecialityList(Gson().toJson(doctorSpecialityDropDownResponse))
-        val gson = Gson()
-        val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
-
-
-
-        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
-        this.doctorSpecialityDropDownREsponse =
-            gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
+//        val gson = Gson()
+//        val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
+//
+//
+//
+//        val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
+//        this.doctorSpecialityDropDownREsponse =
+//            gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
         Preferences.setDoctorSpecialityListFetched(true)
 
     }
