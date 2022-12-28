@@ -4,8 +4,6 @@ import android.app.ActionBar
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +11,7 @@ import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
-import com.apollopharmacy.vishwam.dialog.model.Row
-import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
-import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
-import com.apollopharmacy.vishwam.util.Utils
 
 class SearchManagerDialog(var transactionPOSModel: Data) : DialogFragment() {
 

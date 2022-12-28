@@ -11,12 +11,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
 import com.apollopharmacy.vishwam.databinding.DialogTidSearchBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.model.Row
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
-import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.util.Utils
 
 class SearchTransactionPOSDialog(var transactionPOSModel: TransactionPOSModel) : DialogFragment() {

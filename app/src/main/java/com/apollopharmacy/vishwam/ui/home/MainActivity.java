@@ -40,10 +40,11 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
 import com.apollopharmacy.vishwam.data.model.LoginDetails;
-import com.apollopharmacy.vishwam.dialog.Dialog;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.ChampsReportFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.survey.ChampsSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.registration.RegistrationFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.approved.ApprovedFragment;
@@ -54,6 +55,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
+import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashBoardFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
@@ -104,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isQcFailRequired = false;
     public static boolean isSwachhRequired = false;
     public static boolean isDrugRequired = false;
+    public static boolean isChampsRequired = false;
 
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
@@ -268,7 +271,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TextView versionInfo = findViewById(R.id.versionInfo);
         versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired);
+        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isChampsRequired);
 //        listView.expandGroup(2);
 
         ImageView openDrawer = findViewById(R.id.openDrawer);
@@ -304,18 +307,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(frg instanceof IOnBackPressed ){
-            if(((IOnBackPressed) frg).onBackPressed()) {
-                if(frg instanceof RegistrationFragment) {
-                    showAlertDialog("HOME","Do you want to exit Complaint Registration?");
-                }else if(frg instanceof Drug){
-                    showAlertDialog("HOME","Do you want to exit New Drug Request?");
+        if (frg instanceof IOnBackPressed) {
+            if (((IOnBackPressed) frg).onBackPressed()) {
+                if (frg instanceof RegistrationFragment) {
+                    showAlertDialog("HOME", "Do you want to exit Complaint Registration?");
+                } else if (frg instanceof Drug) {
+                    showAlertDialog("HOME", "Do you want to exit New Drug Request?");
                 }
-            }else{
+            } else {
                 displaySelectedScreen("HOME");
                 drawer.closeDrawer(GravityCompat.START);
             }
-        }else {
+        } else {
             if (isHomeScreen) {
                 finish();
             } else {
@@ -343,7 +346,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
     private boolean isAllowFragmentChange = false;
+
     private void displaySelectedScreen(String itemName) {
 //        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 //        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
@@ -537,6 +542,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                imageView.setVisibility(View.GONE);
 //                break;
 
+
+            case "Dashboard":
+                headerText.setText("Dashboard");
+                fragment = new DashBoardFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Survey":
+                headerText.setText("Champs Survey");
+                fragment = new ChampsSurveyFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+            case "Reports":
+                headerText.setText("Region-Wise Analysis Report");
+                fragment = new ChampsReportFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -735,7 +766,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
+    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isChampsRequired) {
         listView.init(this)
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
         if (isAttendanceRequired) {
@@ -774,8 +805,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
                     .addChildModel(new ChildModel("Pending"))
                     .addChildModel(new ChildModel("Approved"))
-                    .addChildModel(new ChildModel("Rejected")));
+                    .addChildModel(new ChildModel("Rejected"))
+                    .addChildModel(new ChildModel("Dashboard")));
         }
+
+        if (!isChampsRequired) {
+            listView.addHeaderModel(new HeaderModel("CHAMPS", Color.WHITE, true, R.drawable.ic_pending_list_icons_badge)
+                    .addChildModel(new ChildModel("Survey"))
+                    .addChildModel(new ChildModel("Reports")));
+        }
+
         if (isSwachhRequired) {
             if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
                 listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
@@ -790,6 +829,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
+
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
@@ -849,6 +889,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("QcApproved");
                 } else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
                     displaySelectedScreen("QcRejected");
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+                    displaySelectedScreen("Dashboard");
+                }
+            } else if (listHeader.get(groupPosition).getTitle().equals("CHAMPS")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Survey")) {
+                    displaySelectedScreen("Survey");
+                } else if (childModelList.get(childPosition).getTitle().equals("Reports")) {
+                    displaySelectedScreen("Reports");
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("Swachh")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
@@ -1364,7 +1413,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void showAlertDialog(String itemName,String description){
+    public void showAlertDialog(String itemName, String description) {
         android.app.Dialog dialog = new android.app.Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

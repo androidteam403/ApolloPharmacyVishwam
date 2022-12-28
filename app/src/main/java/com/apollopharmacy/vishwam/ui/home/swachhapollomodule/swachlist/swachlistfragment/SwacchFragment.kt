@@ -3,7 +3,6 @@
 package com.apollopharmacy.vishwam.ui.home.swacchlist
 
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater

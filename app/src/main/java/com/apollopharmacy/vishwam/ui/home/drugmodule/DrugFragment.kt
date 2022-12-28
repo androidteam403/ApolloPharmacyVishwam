@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.GstDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteNewDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SubmitDialog
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -55,7 +56,8 @@ import kotlin.collections.ArrayList
 
 
 class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
-    ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,
+    ComplaintListCalendarDialog.DateSelected, ImagesListner, CalenderNew.DateSelected,ItemTypeDialog.AbstractDialogItemClickListner,
+    DoctorSpecialtyDialog.AbstractDialogSpecialityClickListner,
     SiteNewDialog.NewDialogSiteClickListner, SubmitDialog.AbstractDialogSubmitClickListner,
     Dialog.DialogClickListner, GstDialog.GstDialogClickListner ,SubmitcomplaintDialog.AbstractDialogSubmitClickListner,
     IOnBackPressed {
@@ -104,13 +106,13 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 }
             }
         }
-//        viewBinding.mrpp.setText("0")
-//        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-//        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
-//        viewBinding.batchNo.setText("0")
+        viewBinding.mrpp.setText("0")
+        viewBinding.fromDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+        viewBinding.toDateText.setText(Utlis.getCurrentDate("yyyy-MMM-dd").toString())
+        viewBinding.batchNo.setText("12345")
         viewBinding.purchasePrice.setText("0")
 //        viewBinding.selectDepartment.setText("0")
-//        viewBinding.packsize.setText("0")
+        viewBinding.packsize.setText("1")
         viewBinding.selectDepartment.setText("0")
         viewBinding.hsnCode.setText("0")
         viewBinding.barCode.setText("0")
@@ -134,6 +136,17 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
 
+        viewBinding.selectItemType.setOnClickListener {
+            ItemTypeDialog().apply {
+
+            }.show(childFragmentManager, "")
+        }
+
+        viewBinding.doctorSpecialtySelect.setOnClickListener {
+            DoctorSpecialtyDialog().apply {
+
+            }.show(childFragmentManager, "")
+        }
 
         viewBinding.selectCategory.setOnClickListener {
             Dialog().apply {
@@ -141,15 +154,14 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                         //CustomDialog().generateParsedData(viewModel.getDepartmentData())
                     Dialog().generateParsedData(viewModel.uniqueSubCategoryList)
             }.show(childFragmentManager, "")
-
-
         }
+
+
+
 
         viewBinding.siteIdSelect.setOnClickListener {
             showLoading()
             viewModel.siteId()
-
-
         }
 
 
@@ -378,7 +390,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         })
         viewBinding.submit.setOnClickListener {
-
 
             if (validationCheck()) {
                 showLoading()
@@ -864,20 +875,20 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //            viewBinding.branchNameTextInput.error = ""
             return false
         }
-        else if (packsize.isEmpty()) {
-            showErrorMsg(
-                "Please Enter Pack Size"
-            )
-            viewBinding.pasckizel.requestFocus()
-            return false
-        }
-        else if (mrp.isEmpty()) {
-            showErrorMsg(
-                "Please Enter MRP"
-            )
-            viewBinding.MrpTextInput.requestFocus()
-            return false
-        }
+//        else if (packsize.isEmpty()) {
+//            showErrorMsg(
+//                "Please Enter Pack Size"
+//            )
+//            viewBinding.pasckizel.requestFocus()
+//            return false
+//        }
+//        else if (mrp.isEmpty()) {
+//            showErrorMsg(
+//                "Please Enter MRP"
+//            )
+//            viewBinding.MrpTextInput.requestFocus()
+//            return false
+//        }
         else if (mrp.isNotEmpty() && mrp.equals("0")) {
             showErrorMsg(
                 "Please Enter MRP greater then 0"
@@ -891,23 +902,24 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 )
                 return false
         }
-        else if (batchNo.isEmpty()) {
-            showErrorMsg(
-                "Please Enter Batch Number"
-            )
-            viewBinding.BatchTextInput.requestFocus()
-            return false
-        } else if (manufDate.isEmpty()) {
-            showErrorMsg(
-                "Please select Manufacturing date"
-            )
-            return false
-        } else if (expDate.isEmpty()) {
-            showErrorMsg(
-                "Please select Expiry Date CreatedOn"
-            )
-            return false
-        }
+//        else if (batchNo.isEmpty()) {
+//            showErrorMsg(
+//                "Please Enter Batch Number"
+//            )
+//            viewBinding.BatchTextInput.requestFocus()
+//            return false
+//        }
+//        else if (manufDate.isEmpty()) {
+//            showErrorMsg(
+//                "Please select Manufacturing date"
+//            )
+//            return false
+//        } else if (expDate.isEmpty()) {
+//            showErrorMsg(
+//                "Please select Expiry Date CreatedOn"
+//            )
+//            return false
+//        }
 
 //        else if (barCode.isEmpty()) {
 //            showErrorMsg(
@@ -944,17 +956,17 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             )
             return false
         }
-        else if(frontImageList.isEmpty() ){
-            showErrorMsg(
-                "Please upload front Image"
-            )
-            return false
-        }else if(backImageList.isEmpty() ){
-            showErrorMsg(
-                "Please upload back Image"
-            )
-            return false
-        }
+//        else if(frontImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload front Image"
+//            )
+//            return false
+//        }else if(backImageList.isEmpty() ){
+//            showErrorMsg(
+//                "Please upload back Image"
+//            )
+//            return false
+//        }
 //        else if(sideImageList.isEmpty() ){
 //            showErrorMsg(
 //                "Please upload side Image"
@@ -1319,8 +1331,15 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 mrp.isNotEmpty() || purchasePrice != "0" || remarks.isNotEmpty() || batchNo.isNotEmpty() || manufDate.isNotEmpty()||
                 expDate.isNotEmpty() ||  barCode != "0" || hsnCode != "0" || gst != "0" || description.isNotEmpty() || imageList.isNotEmpty()
     }
-}
 
+    override fun selectItem(item: String) {
+        viewBinding.selectItemType.setText(item)
+    }
+
+    override fun selectSpeciality(item: String) {
+        viewBinding.doctorSpecialtySelect.setText(item)
+    }
+}
 
 class DrugImageRecyclerView(
     var orderData: ArrayList<Image>,

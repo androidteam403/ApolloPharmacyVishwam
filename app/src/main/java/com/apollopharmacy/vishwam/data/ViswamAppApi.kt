@@ -69,7 +69,7 @@ interface ViswamAppApi {
         @Url url: String,
         @Header("token") token: String,
         @Body data: DrugRequest,
-   ): DrugResponse
+    ): DrugResponse
 //    suspend fun DrugResponse(
 //        @Url url: String,
 //        @Header("token") token: String,
@@ -331,11 +331,8 @@ interface ViswamAppApi {
     @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GetStoreList")//qcfail
     suspend fun qcStoreList(@Url url: String): QcStoreList
 
-    @GET
-    suspend fun qcActionHistoryList(
-        @Url url: String,
-        @Query("ORDERNO") orderNo: String,
-    ): ActionResponse
+    @GET //("https://online.apollopharmacy.org/QCFAILUAT/Apollo/QCFAIL/GETOMSQCFAILACTIONHISTORY?")//qcfail
+    suspend fun qcStatusList(@Url url: String, @Query("ORDERNO") id: String): ActionResponse
 
     @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
     suspend fun appLevelDesignation(

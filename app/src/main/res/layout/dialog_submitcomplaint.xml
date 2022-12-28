@@ -42,11 +42,11 @@
                 android:id="@+id/ok_button"
                 android:layout_width="@dimen/value_200dp"
                 android:layout_height="@dimen/value_45dp"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
                 android:background="@drawable/yellow_drawable"
                 android:gravity="center"
-                android:layout_gravity="center"
                 android:text="Ok"
-                android:layout_centerInParent="true"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />

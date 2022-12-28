@@ -23,8 +23,7 @@ class QcApprovedViewModel : ViewModel() {
 
     val qcLists = MutableLiveData<QcListsResponse>()
     val qcItemsLists = MutableLiveData<QcItemListResponse>()
-
-    val qcActionHistoryList = MutableLiveData<ActionResponse>()
+    val qcStatusLists = MutableLiveData<ActionResponse>()
 
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
@@ -251,7 +250,7 @@ class QcApprovedViewModel : ViewModel() {
         }
     }
 
-    fun getQcActionHistoryList(orderId: String) {
+    fun getQcStatusList(orderId: String) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -267,13 +266,13 @@ class QcApprovedViewModel : ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcActionHistoryList(baseUrl, orderId)
+                QcApiRepo.getQcStatusLists(baseUrl, orderId)
             }
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcActionHistoryList.value = result.value
+                        qcStatusLists.value = result.value
 
                     } else {
                         state.value = State.ERROR

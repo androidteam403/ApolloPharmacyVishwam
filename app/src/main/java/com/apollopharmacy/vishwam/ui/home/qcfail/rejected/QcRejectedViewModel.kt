@@ -258,7 +258,7 @@ class QcRejectedViewModel : ViewModel() {
             state.postValue(State.SUCCESS)
 
             val result = withContext(Dispatchers.IO) {
-                QcApiRepo.getQcActionHistoryList(baseUrl, orderId)
+                QcApiRepo.getQcStatusLists(baseUrl, orderId)
             }
             when (result) {
                 is ApiResult.Success -> {

@@ -81,14 +81,21 @@ class DrugFragmentViewModel : ViewModel() {
                         var drugList =
                             ArrayList<RequestSaveUpdateComplaintRegistration.DrugRequest>()
                         drugList.add(RequestSaveUpdateComplaintRegistration.DrugRequest(
-                            drugRequest.images?.get(0)?.imageURL,
-                            drugRequest.images?.get(1)?.imageURL,
+                            if (drugRequest.images!!.size > 0) {
+                                drugRequest.images?.get(0)?.imageURL
+                            } else null,
+                            if (drugRequest.images!!.size > 0) {
+                                drugRequest.images?.get(1)?.imageURL
+                            } else null,
                             if (drugRequest.images?.size!! > 2) {
                                 drugRequest.images?.get(2)?.imageURL
-                            } else null,
+                            }
+                            else null,
                             if (drugRequest.images?.size!! > 3) {
                                 drugRequest.images?.get(3)?.imageURL
-                            } else null,
+                            }
+                            else null,
+
                             drugRequest.batch,
                             drugRequest.barCode,
                             Utils.getticketlistfiltersdate(drugRequest.manufactureDate),
