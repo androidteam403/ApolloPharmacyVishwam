@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context=".ui.home.champs.survey.SurveyListActivity">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#153b5f"
+            android:paddingVertical="@dimen/value_5dp"
+            android:paddingStart="@dimen/value_15dp"
+            android:paddingRight="@dimen/value_15dp">
+
+            <ImageView
+                android:id="@+id/back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_baseline_arrow_back_24" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/value_10dp"
+                android:layout_toRightOf="@+id/back"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Survey List"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_18sp" />
+
+            <ImageView
+                android:layout_width="@dimen/value_50dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_pending_list_icons_report2" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/count_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_layout"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:background="#c5e5fc"
+            android:paddingVertical="@dimen/value_10dp"
+            android:paddingStart="@dimen/value_20dp"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/droidsans"
+                    android:text="Total"
+                    android:textColor="#76828e"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="123"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/droidsans"
+                    android:text="Completed"
+                    android:textColor="#76828e"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="80"
+                    android:textColor="#009642"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_30dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/droidsans"
+                    android:text="Pending"
+                    android:textColor="#76828e"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="23"
+                    android:textColor="#f25c39"
+                    android:textSize="@dimen/text_18sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/surveyListRcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/count_layout"
+            tools:itemCount="2"
+            tools:listitem="@layout/survey_list_pending_layout" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:elevation="@dimen/value_5dp"
+            android:src="@drawable/ic_pending_list_icons_filter" />
+    </RelativeLayout>
+</layout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

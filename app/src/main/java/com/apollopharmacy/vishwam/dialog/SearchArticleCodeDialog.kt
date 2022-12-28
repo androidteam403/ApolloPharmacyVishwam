@@ -14,10 +14,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeRequest
-import com.apollopharmacy.vishwam.data.model.cms.ArticleCodeResponse
 import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.model.ArticleCodeViewModel
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.util.Utils
 
 class SearchArticleCodeDialog : DialogFragment() {
@@ -32,7 +32,7 @@ class SearchArticleCodeDialog : DialogFragment() {
     }
 
     interface SearchArticleDialogClickListner {
-        fun selectSubCategory(articleData: ArticleCodeResponse.DataItem)
+        fun selectSubCategory(articleData: FetchItemModel.Rows)
     }
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class SearchArticleCodeDialog : DialogFragment() {
         viewBinding = DialogSearchArticleBinding.inflate(inflater, container, false)
         viewModel = ViewModelProviders.of(requireActivity())[ArticleCodeViewModel::class.java]
         viewBinding.closeDialog.setOnClickListener { dismiss() }
-
+        viewBinding.searchSiteText.setHint(getString(R.string.label_search_article))
         viewBinding.registration = viewModel
         abstractDialogClick = parentFragment as SearchArticleDialogClickListner
         viewBinding.searchSiteText.addTextChangedListener(object : TextWatcher {
@@ -57,7 +57,7 @@ class SearchArticleCodeDialog : DialogFragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length > 3) {
+                if (p0.toString().length > 4) {
                     viewModel.searchArticleCode(
                         ArticleCodeRequest(
                             viewBinding.searchSiteText.text.toString().trim()
@@ -80,7 +80,7 @@ class SearchArticleCodeDialog : DialogFragment() {
                 viewBinding.articleCodeRecyclerView.visibility = View.VISIBLE
                 viewBinding.articleCodeRecyclerView.adapter =
                     ArticleRecyclerView(it, object : OnArticleSelectedListner {
-                        override fun onSelected(data: ArticleCodeResponse.DataItem) {
+                        override fun onSelected(data: FetchItemModel.Rows) {
                             Utils.printMessage(TAG, "Selected Data :: " + data.toString())
                             abstractDialogClick.selectSubCategory(data)
                             dismiss()
@@ -93,16 +93,16 @@ class SearchArticleCodeDialog : DialogFragment() {
 }
 
 class ArticleRecyclerView(
-    departmentListDto: ArrayList<ArticleCodeResponse.DataItem>,
+    departmentListDto: ArrayList<FetchItemModel.Rows>,
     var onSelectedListner: OnArticleSelectedListner,
 ) :
-    SimpleRecyclerView<ViewItemRowBinding, ArticleCodeResponse.DataItem>(
+    SimpleRecyclerView<ViewItemRowBinding, FetchItemModel.Rows>(
         departmentListDto,
         R.layout.view_item_row
     ) {
     override fun bindItems(
         binding: ViewItemRowBinding,
-        items: ArticleCodeResponse.DataItem,
+        items: FetchItemModel.Rows,
         position: Int,
     ) {
         binding.itemName.text = items.artCodeName
@@ -113,5 +113,5 @@ class ArticleRecyclerView(
 }
 
 interface OnArticleSelectedListner {
-    fun onSelected(data: ArticleCodeResponse.DataItem)
+    fun onSelected(data: FetchItemModel.Rows)
 }

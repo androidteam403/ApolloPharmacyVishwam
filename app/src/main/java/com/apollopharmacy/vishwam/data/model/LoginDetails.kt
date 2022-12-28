@@ -14,15 +14,21 @@ data class LoginDetails(
     val IS_DISCOUNTAPP: Boolean,
     val IS_CMSAPP: Boolean,
     val IS_ATTANDENCEAPP: Boolean,
-    val APPLEVELDESIGNATION: String,
+    var APPLEVELDESIGNATION: String,
     val IS_SUPERADMIN: Boolean,
-) : Serializable {
+    val IS_SWACHHAPP:Boolean,
+    val IS_QCFAILAPP: Boolean,
+    val IS_NEWDRUGAPP: Boolean,
+
+
+    ) : Serializable {
     data class StoreData(
         val SITEID: String,
         val SITENAME: String,
         val DCNAME: String,
         val STATEID: String,
         val DC: String,
+        val IsSelectedStore: Boolean,
     )
 }
 

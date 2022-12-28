@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:background="@drawable/black_border_bg"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Site ID: "
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+
+                    <TextView
+                        android:id="@+id/site_id_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="16001"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_16sp" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Request"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Pending"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Approved"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Rejected"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:id="@+id/request_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="24"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/pending_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="12"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/approved_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="7"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/rejected_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/black_border"
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="5"
+                        android:textSize="@dimen/text_14sp"
+                        android:textAlignment="center"
+                        android:textColor="@color/black" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
