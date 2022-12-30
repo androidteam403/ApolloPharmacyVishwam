@@ -53,7 +53,7 @@ class ReasonsDialog : DialogFragment() {
         abstractDialogClick = parentFragment as ReasonsDialogClickListner
         viewBinding.searchSite.visibility = View.VISIBLE
         var viewModel = ViewModelProviders.of(requireActivity())[ReasonViewModel::class.java]
-        viewBinding.searchSiteText.setHint("Search Reason name")
+        viewBinding.searchSiteText.setHint("Search Reason Name")
         viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
         siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.Row>

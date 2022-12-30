@@ -354,6 +354,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun accept(
+        view: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -366,6 +367,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun reject(
+        view: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -376,6 +378,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     ) {
         TODO("Not yet implemented")
     }
+
+
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {

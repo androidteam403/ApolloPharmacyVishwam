@@ -61,7 +61,7 @@ class Dialog : DialogFragment() {
 
         viewBinding.searchSite.visibility = View.VISIBLE
         var viewModel = ViewModelProviders.of(requireActivity())[CategoryViewModel::class.java]
-        viewBinding.searchSiteText.setHint("Search Category name")
+        viewBinding.searchSiteText.setHint("Search Category Name")
         viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
         siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.TicketSubCategory>

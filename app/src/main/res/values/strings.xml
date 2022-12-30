@@ -113,7 +113,7 @@
     <string name="err_msg_error_old_mrp_">Please Enter Old MRP greater than 0 </string>
     <string name="err_msg_enter_old_mrp">Please Enter Old MRP Price</string>
     <string name="err_msg_enter_new_mrp">Please Enter New MRP Price</string>
-    <string name="err_msg_enter_purchase_price">Please Enter Purchase Price</string>
+    <string name="err_msg_enter_purchase_price">Please Enter Purchase Rate</string>
     <string name="err_msg_enter_purchase_price_">Please Enter Purchase Price greater than 0</string>
     <string name="err_msg_price_diff">Purchase rate should be higher than enter MRP</string>
     <string name="err_msg_purchace_price_diff">Purchase rate should be Less than MRP</string>
@@ -256,8 +256,8 @@
     <string name="label_old_MRP">Old MRP *</string>
     <string name="label_New_MRP">New MRP *</string>
     <string name="label_Purchase_Rate">Purchase Rate *</string>
-    <string name="label_Product_Front_Image">Product Front Image *</string>
-    <string name="label_Product_Back_Image">Product Back Image *</string>
+    <string name="label_Product_Front_Image"> Front Image *</string>
+    <string name="label_Product_Back_Image"> Back Image *</string>
     <string name="label_Other_Image">Other Image</string>
     <string name="label_Add_Inventory_Item">Add Inventory Item</string>
     <string name="complete_button">COMPLETE and SUBMIT RATING</string>

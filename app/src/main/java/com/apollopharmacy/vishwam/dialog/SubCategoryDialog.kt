@@ -124,7 +124,7 @@ class SubCategoryDialog : DialogFragment() {
         abstractDialogClick = parentFragment as SubSubCategoryDialogClickListner
         viewBinding.searchSite.visibility = View.VISIBLE
         var viewModel = ViewModelProviders.of(requireActivity())[SubCategoryViewModel::class.java]
-        viewBinding.searchSiteText.setHint("Search Sub Category name")
+        viewBinding.searchSiteText.setHint("Search Sub Category Name")
         viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
         siteDataArrayList =
             arguments?.getSerializable(KEY_DATA) as ArrayList<ReasonmasterV2Response.TicketSubCategory>

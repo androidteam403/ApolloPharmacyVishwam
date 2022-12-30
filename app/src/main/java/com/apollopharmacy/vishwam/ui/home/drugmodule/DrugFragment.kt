@@ -78,9 +78,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     var billImageList = ArrayList<Image>()
     var selectedDoctorSpecialityUid: String? = ""
     var selectedItemTypeUid: String? = ""
-
     var newImageList = ArrayList<ImageFile>()
-
     var imagesList = ArrayList<DrugRequest.Image>()
 
     var imageFromCameraFile: File? = null
@@ -1133,6 +1131,11 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         val gst = viewBinding.selectDepartment.text.toString().trim()
         val categoryName = viewBinding.selectCategory.text.toString().trim()
         val itemName = viewBinding.itemName.text.toString().trim()
+        val itemType = viewBinding.itemType.text.toString().trim()
+        val requireQty = viewBinding.requiredQuantity.text.toString().trim()
+        val doctorName = viewBinding.doctorname.text.toString().trim()
+        val doctorSpeciality = viewBinding.doctorSpecialty.text.toString().trim()
+
         val manufDate = viewBinding.fromDateText.text.toString().trim()
 
         val createdBy = viewBinding.createdBy.text.toString().trim()
@@ -1151,48 +1154,88 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         if (site.isEmpty()) {
             showErrorMsg(
-                "Please selcet Site"
+                "Kindly select the Site"
             )
             return false
         } else if (location.isEmpty()) {
             showErrorMsg(
-                "Please Enter Location"
+                "Please enter Location"
             )
             viewBinding.loactionSelect.requestFocus()
             return false
         } else if (createdBy.isEmpty()) {
             showErrorMsg(
-                "Please Enter CreatedBy"
+                "Please enter CreatedBy"
             )
             viewBinding.createdInput.requestFocus()
             return false
         } else if (createdOn.isEmpty()) {
             showErrorMsg(
-                "Please Enter CreatedOn"
+                "Please enter CreatedOn"
             )
             viewBinding.createdOnInput.requestFocus()
             return false
         } else if (categoryName.isEmpty()) {
             showErrorMsg(
-                "Please Select CategoryName "
+                "Kindly select the Category Name "
             )
             return false
         } else if (itemName.isEmpty()) {
             showErrorMsg(
-                "Please Enter Item Name"
+                "Please enter Item name"
             )
             viewBinding.itemName.requestFocus()
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        } else if (packsize.isEmpty()) {
+        }
+
+        else if (itemType.isEmpty()) {
             showErrorMsg(
-                "Please Enter Pack Size"
+                "Kindly select the Item type"
+            )
+
+//            viewBinding.branchNameTextInput.error = ""
+            return false
+        }
+
+
+        else if (requireQty.isEmpty()) {
+            showErrorMsg(
+                "Please enter Required quantity"
+            )
+            viewBinding.requiredQuantity.requestFocus()
+//            viewBinding.branchNameTextInput.error = ""
+            return false
+        }
+
+        else if (doctorName.isEmpty()) {
+            showErrorMsg(
+                "Please enter Doctor's name"
+            )
+            viewBinding.doctorname.requestFocus()
+//            viewBinding.branchNameTextInput.error = ""
+            return false
+        }
+
+        else if (doctorSpeciality.isEmpty()) {
+            showErrorMsg(
+                "Kindly select the Doctor speciality"
+            )
+
+//            viewBinding.branchNameTextInput.error = ""
+            return false
+        }
+
+
+        else if (packsize.isEmpty()) {
+            showErrorMsg(
+                "Please enter Pack size"
             )
             viewBinding.pasckizel.requestFocus()
             return false
         } else if (mrp.isEmpty()) {
             showErrorMsg(
-                "Please Enter MRP"
+                "Please enter MRP"
             )
             viewBinding.MrpTextInput.requestFocus()
             return false
@@ -1203,7 +1246,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             return false
         } else if (batchNo.isEmpty()) {
             showErrorMsg(
-                "Please Enter Batch Number"
+                "Please enter Batch number"
             )
             viewBinding.BatchTextInput.requestFocus()
             return false
@@ -1364,6 +1407,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //        viewBinding.mrpp.setText("")
 //        viewBinding.purchasePrice.setText("")
         viewBinding.hsnCode.setText("")
+        viewBinding.itemType.setText("")
+        viewBinding.doctorSpecialty.setText("")
+        viewBinding.requiredQuantity.setText("")
+        viewBinding.doctorname.setText("")
 
 
         viewBinding.siteIdSelect.setText("")

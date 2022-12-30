@@ -1,9 +1,9 @@
 package com.apollopharmacy.vishw
 
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -44,6 +44,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     public var storeList=ArrayList<String>()
     public var regionList=ArrayList<String>()
 
+    var TIME = (1 * 6000).toLong()
 
     var getPendingqcitemList: List<QcItemListResponse.Item>? = null
     var qcAccepttList = ArrayList<QcAcceptRejectRequest.Order>()
@@ -387,6 +388,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
         viewBinding.acceptClick.setOnClickListener {
+
+            it.alpha = 0.5F
+
+            it.setEnabled(false)
+
+            Handler().postDelayed(Runnable { it.setEnabled(true)
+                it.alpha = 1F
+            }, TIME)
+
+
             val dialogBinding: DialogAcceptQcBinding? =
                 DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
                     R.layout.dialog_accept_qc,
@@ -399,12 +410,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                 setCancelable(false)
             }.show()
             dialogBinding?.yesBtn?.setOnClickListener {
+                dialogBinding.yesBtn.setEnabled(false)
+
+                Handler().postDelayed(Runnable { dialogBinding.yesBtn.setEnabled(true) }, TIME)
                 isBulk = true
                 for (i in names.indices) {
                     if (names[i].isItemChecked) {
                         val qcaccept = QcAcceptRejectRequest.Order(names[i].orderno,
                             names[i].status,
-                            Preferences.getAppDesignation(),
+                            Preferences.getAppLevelDesignationQCFail(),
                             Preferences.getToken(),
                             names[i].storeid,
                             qcAcceptItemsList)
@@ -606,6 +620,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
     var acceptOrRejectItemPos = -1
     override fun accept(
+        v: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -616,6 +631,16 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
 
         ) {
+        v.alpha = 0.5F
+
+        v.setEnabled(false)
+
+        Handler().postDelayed({ v.setEnabled(true)
+            v.alpha =1F
+
+        }, TIME)
+
+
 
         acceptOrRejectItemPos = position
         qcRejectItemsList.clear()
@@ -630,7 +655,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         qcAccepttList.clear()
         val qcreject = QcAcceptRejectRequest.Order(orderno,
             status,
-            Preferences.getAppDesignation(),
+            Preferences.getAppLevelDesignationQCFail(),
             Preferences.getToken(),
             storeId,
             qcRejectItemsList)
@@ -649,6 +674,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         }.show()
         dialogBinding?.yesBtn?.setOnClickListener {
             showLoading()
+            dialogBinding.yesBtn.setEnabled(false)
+
+            Handler().postDelayed({   dialogBinding.yesBtn.setEnabled(true) }, TIME)
             customDialog.dismiss()
 //            viewModel.getQcPendingItemsList(orderId)
             viewModel.getAcceptRejectResult(QcAcceptRejectRequest("ACCEPT",
@@ -669,6 +697,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     }
 
     override fun reject(
+        view: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -678,6 +707,15 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         omsOrderno: String,
 
         ) {
+
+        view.alpha = 0.5F
+        view.setEnabled(false)
+
+        Handler().postDelayed({
+            view.alpha = 1F
+
+            view.setEnabled(true) }, TIME)
+
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
         for (k in itemlist) {
@@ -716,7 +754,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             qcRejectList.clear()
             val qcreject = QcAcceptRejectRequest.Order(orderno,
                 status,
-                Preferences.getAppDesignation(),
+                Preferences.getAppLevelDesignationQCFail(),
                 Preferences.getValidatedEmpId(),
                 storeId,
                 qcRejectItemsList)
@@ -728,6 +766,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             dialogBinding?.yesBtn?.setOnClickListener {
                 showLoading()
+                dialogBinding!!.yesBtn.setEnabled(false)
+
+                Handler().postDelayed({ dialogBinding!!.yesBtn.setEnabled(true) }, TIME)
                 customDialog.dismiss()
                 if (itemsList != null) {
                     viewModel.getAcceptRejectResult(QcAcceptRejectRequest("REJECT",
@@ -863,8 +904,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 //        showLoading()
 
         val i = Intent(context, QcFilterActivity::class.java)
-        i.putStringArrayListExtra("storeList",storeList)
-        i.putStringArrayListExtra("regionList",regionList)
+        i.putStringArrayListExtra("storeList", storeList)
+        i.putStringArrayListExtra("regionList", regionList)
         i.putExtra("activity", "1")
         startActivityForResult(i, 210)
 

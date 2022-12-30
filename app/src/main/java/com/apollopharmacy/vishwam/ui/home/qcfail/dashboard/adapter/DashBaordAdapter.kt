@@ -89,77 +89,110 @@ class DashBaordAdapter(
 
         if (items.replace(" ", "").equals("GENERALMANAGER", true)) {
 
-            if (Preferences.getAppLevelDesignationQCFail()
-                    .replace(
-                        " ",
-                        "")
-                    .equals("GENERALMANAGER", true)
-            ) {
-                val userData = LoginRepo.getProfile()
-                if (userData != null) {
-                    holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
-                    holder.dashboardSiteBinding.pendingCountSum.setText(gmPendingCountSum.stream()
-                        .mapToInt({ obj: Int -> obj }).sum().toString())
-                }
-            }
-            else{
-                holder.dashboardSiteBinding.generalmanagerLayout.visibility = View.GONE
 
+            if (items.replace(" ", "").equals("GENERALMANAGER", true)) {
+                holder.dashboardSiteBinding.noOrderFoundText.visibility=View.GONE
+                holder.dashboardSiteBinding.parentLayout.visibility=View.VISIBLE
+
+                if (Preferences.getAppLevelDesignationQCFail()
+                        .replace(
+                            " ",
+                            "")
+                        .equals("GENERALMANAGER", true)
+                ) {
+                    val userData = LoginRepo.getProfile()
+                    if (userData != null) {
+                        holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
+                        holder.dashboardSiteBinding.pendingCountSum.setText(gmPendingCountSum.stream()
+                            .mapToInt({ obj: Int -> obj }).sum().toString())
+                    }
+                }
+                else{
+                    holder.dashboardSiteBinding.generalmanagerLayout.visibility = View.GONE
+
+                }
+            }else{
+                holder.dashboardSiteBinding.parentLayout.visibility=View.GONE
+
+                holder.dashboardSiteBinding.noOrderFoundText.visibility=View.VISIBLE
             }
+
+
 
 
 
 
 
         } else if (items.replace(" ", "").equals("MANAGER", true)) {
+            if (items.replace(" ", "").equals("MANAGER", true)) {
+                if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
+                    holder.dashboardSiteBinding.generalmanagerLayout.visibility = View.GONE
+                    holder.dashboardSiteBinding.parentLayout.visibility=View.VISIBLE
 
-            if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
-                holder.dashboardSiteBinding.generalmanagerLayout.visibility = View.GONE
-
-            }
-
-            if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("MANAGER", true)) {
-                val userData = LoginRepo.getProfile()
-                if (userData != null) {
-                    holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
-
+                    holder.dashboardSiteBinding.noOrderFoundText.visibility=View.GONE
                 }
-            } else {
-                holder.dashboardSiteBinding.gmEmpname.setPadding(0, 20, 0, 0)
-                holder.dashboardSiteBinding.gmEmpname.setText(items)
+
+                if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("MANAGER", true)) {
+                    val userData = LoginRepo.getProfile()
+                    if (userData != null) {
+                        holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
+
+                    }
+                } else {
+                    holder.dashboardSiteBinding.gmEmpname.setPadding(0, 20, 0, 0)
+                    holder.dashboardSiteBinding.gmEmpname.setText(items)
+                }
+                holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
+                holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#636fc1"))
+                holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#636fc1"))
+                holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#636fc1"))
+                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
+                holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
+                holder.dashboardSiteBinding.pendingCountSum.setText(managerPendingCountSum.stream()
+                    .mapToInt({ obj: Int -> obj }).sum().toString())
+
+            }else{
+                holder.dashboardSiteBinding.parentLayout.visibility=View.GONE
+
+                holder.dashboardSiteBinding.noOrderFoundText.visibility=View.VISIBLE
             }
-            holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
-            holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#636fc1"))
-            holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#636fc1"))
-            holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#636fc1"))
-            holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
-            holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
-            holder.dashboardSiteBinding.pendingCountSum.setText(managerPendingCountSum.stream()
-                .mapToInt({ obj: Int -> obj }).sum().toString())
 
 
         } else if (items.replace(" ", "").equals("EXECUTIVE", true)) {
+            if (items.replace(" ", "").equals("EXECUTIVE", true)) {
 
-            holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
+                holder.dashboardSiteBinding.parentLayout.visibility=View.VISIBLE
 
-            if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
-                val userData = LoginRepo.getProfile()
-                if (userData != null) {
-                    holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
+                holder.dashboardSiteBinding.noOrderFoundText.visibility=View.GONE
 
+
+
+                holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
+
+                if (Preferences.getAppLevelDesignationQCFail().replace(" ", "").equals("EXECUTIVE", true)) {
+                    val userData = LoginRepo.getProfile()
+                    if (userData != null) {
+                        holder.dashboardSiteBinding.gmEmpname.setText(userData.EMPNAME + "\n" + Preferences.getAppLevelDesignationQCFail())
+
+                    }
+                } else {
+
+                    holder.dashboardSiteBinding.gmEmpname.setPadding(0, 20, 0, 0)
+                    holder.dashboardSiteBinding.gmEmpname.setText(items)
                 }
-            } else {
+                holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#f4a841"))
+                holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#f4a841"))
+                holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#f4a841"))
+                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
+                holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+                holder.dashboardSiteBinding.pendingCountSum.setText(executivePendingCountSum.stream()
+                    .mapToInt({ obj: Int -> obj }).sum().toString())
+            }else{
+                holder.dashboardSiteBinding.parentLayout.visibility=View.GONE
 
-                holder.dashboardSiteBinding.gmEmpname.setPadding(0, 20, 0, 0)
-                holder.dashboardSiteBinding.gmEmpname.setText(items)
+                holder.dashboardSiteBinding.noOrderFoundText.visibility=View.VISIBLE
             }
-            holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#f4a841"))
-            holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#f4a841"))
-            holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#f4a841"))
-            holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
-            holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
-            holder.dashboardSiteBinding.pendingCountSum.setText(executivePendingCountSum.stream()
-                .mapToInt({ obj: Int -> obj }).sum().toString())
+
 
 
         }

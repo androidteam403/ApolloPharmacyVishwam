@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
+import android.text.InputFilter
 import android.text.TextUtils
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -96,6 +97,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewBinding.pullToRefresh.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             submitClick()
         })
+
+        viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
         layoutManager = LinearLayoutManager(context)
         //attaches LinearLayoutManager with RecyclerView

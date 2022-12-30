@@ -6,12 +6,17 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
+        app:cardElevation="@dimen/value_3dp"
+
+        app:cardCornerRadius="@dimen/value_3dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/value_5dp"
-        android:layout_marginEnd="@dimen/value_5dp"
-        app:cardCornerRadius="@dimen/value_5dp"
-        app:cardElevation="@dimen/value_5dp"
         app:cardUseCompatPadding="true">
+
+
+    <!--        android:layout_marginStart="4sp"-->
+<!--        android:layout_marginEnd="4sp"-->
+<!--        app:cardCornerRadius="3dp"-->
+<!--        app:cardElevation="@dimen/value_5dp"-->
 
 
         <LinearLayout
@@ -48,7 +53,7 @@
                             android:layout_marginTop="@dimen/value_5dp"
                             android:text="@string/label_complaint_ticket_number"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
+                            android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
 
                         <TextView
@@ -87,7 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/label_registered_date"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_13sp"
+                                    android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -95,7 +100,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_13sp"
+                                    android:textSize="@dimen/text_12sp"
                                     android:layout_marginStart="@dimen/value_5dp"/>
                             </LinearLayout>
 
@@ -132,6 +137,8 @@
                             android:text="@string/label_status"
                             android:textColor="@color/black"
                             android:textStyle="bold"
+                            android:textSize="@dimen/text_12sp"
+
                             app:layout_constraintEnd_toStartOf="@+id/cmpStatus"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -141,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_5dp"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/text_13sp"
+                            android:textSize="@dimen/text_12sp"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintBottom_toBottomOf="@+id/status_label"
                             app:layout_constraintTop_toTopOf="@+id/status_label" />

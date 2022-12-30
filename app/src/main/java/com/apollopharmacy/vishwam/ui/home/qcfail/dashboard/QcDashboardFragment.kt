@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
 import android.annotation.SuppressLint
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -27,12 +28,19 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
     @SuppressLint("SetTextI18n")
     override fun setup() {
         showLoading()
+
+
+
+
         viewModel.getQcPendingList(Preferences.getToken(),
             Preferences.getAppLevelDesignationQCFail())
 
         viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
             hideLoading()
             if (it.status == true) {
+                viewBinding.dashboardrecycleview.visibility=View.VISIBLE
+
+                viewBinding.noOrderFoundText.visibility=View.GONE
                 if (!it.pendingcount.isNullOrEmpty()) {
                     pendingCountResponseList =
                         it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
@@ -43,16 +51,31 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
                     for (i in designations.indices) {
                         designationsList.add(designations.get(i))
                     }
+                }
+            }else{
+                viewBinding.dashboardrecycleview.visibility=View.GONE
+
+                viewBinding.noOrderFoundText.visibility=View.VISIBLE
+            }
+
+if (designationsList.isNullOrEmpty()){
+    viewBinding.dashboardrecycleview.visibility=View.GONE
+
+    viewBinding.noOrderFoundText.visibility=View.VISIBLE
+}else{
+    viewBinding.noOrderFoundText.visibility=View.GONE
+    viewBinding.dashboardrecycleview.visibility=View.VISIBLE
+
+    viewBinding.dashboardrecycleview.adapter =
+        context?.let { it1 ->
+            DashBaordAdapter(it1, pendingCountResponseList,
+                designationsList)
+        }
 
 
-                    viewBinding.dashboardrecycleview.adapter =
-                        context?.let { it1 ->
-                            DashBaordAdapter(it1, pendingCountResponseList,
-                                designationsList)
-                        }
 
                 }
-            }
+
 
         })
 
