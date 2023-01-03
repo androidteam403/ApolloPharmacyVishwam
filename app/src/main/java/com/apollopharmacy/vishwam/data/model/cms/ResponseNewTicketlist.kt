@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.data.model.cms
 
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.DrugRequestDetailsModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketDetailsResponse
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.*
@@ -65,41 +66,41 @@ data class ResponseNewTicketlist(
         @field:SerializedName("uid")
         val uid: String? = null,
 
-        @field:SerializedName("description")
-        val description: String? = null,
+//        @field:SerializedName("description")
+//        val description: String? = null,
 
-        @field:SerializedName("priority")
-        var priority: Priority?,
+//        @field:SerializedName("priority")
+//        var priority: Priority?,
 
         @field:SerializedName("ticket_id")
         var ticket_id: String? = null,
+//
+//        @field:SerializedName("parent")
+//        var parent: Parent?,
 
-        @field:SerializedName("parent")
-        var parent: Parent?,
-
-        @field:SerializedName("cluster")
-        var cluster: Cluster?,
+//        @field:SerializedName("cluster")
+//        var cluster: Cluster?,
 
         @field:SerializedName("created_id")
         var created_id: CreatedId?,
 
-        @field:SerializedName("category")
-        var category: Category?,
+//        @field:SerializedName("category")
+//        var category: Category?,
 
-        @field:SerializedName("department")
-        var department: Department?,
+//        @field:SerializedName("department")
+//        var department: Department?,
 
-        @field:SerializedName("region")
-        var region: Region?,
+//        @field:SerializedName("region")
+//        var region: Region?,
 
-        @field:SerializedName("location")
-        var location: LocationObj?,
+//        @field:SerializedName("location")
+//        var location: LocationObj?,
 
         @field:SerializedName("reason")
         var reason: Reason?,
 
-        @field:SerializedName("level")
-        var level: Level?,
+//        @field:SerializedName("level")
+//        var level: Level?,
 
         @field:SerializedName("status")
         var status: Status?,
@@ -107,11 +108,11 @@ data class ResponseNewTicketlist(
         @field:SerializedName("site")
         var site: Site?,
 
-        @field:SerializedName("subcategory")
-        var subcategory: Subcategory?,
+//        @field:SerializedName("subcategory")
+//        var subcategory: Subcategory?,
 
-        @field:SerializedName("user")
-        var user: User?,
+//        @field:SerializedName("user")
+//        var user: User?,
 
         @field:SerializedName("created_time")
         var created_time: String? = null,
@@ -119,27 +120,29 @@ data class ResponseNewTicketlist(
         @field:SerializedName("modified_time")
         var modified_time: String? = null,
 
-        @field:SerializedName("closed_date")
-        var closed_date: String? = null,
+//        @field:SerializedName("closed_date")
+//        var closed_date: String? = null,
 
-        @field:SerializedName("problem_images")
-        var problem_images: ProblemImages? = null,
+//        @field:SerializedName("problem_images")
+//        var problem_images: ProblemImages? = null,
 
         var isExpanded:Boolean,
 
         var Tickethistory:NewTicketHistoryResponse?,
 
-        var inventoryDetailsModel: InventoryDetailsModel?,
+        var ticketDetailsResponse: TicketDetailsResponse?,
 
-        var creditCardTSDetails: CreditCardTSDetails?,
+//        var inventoryDetailsModel: InventoryDetailsModel?,
+//
+//        var creditCardTSDetails: CreditCardTSDetails?,
 
-        @field:SerializedName("ticket_inventory")
-        val ticket_inventory: TicketInventory?,
+//        @field:SerializedName("ticket_inventory")
+//        val ticket_inventory: TicketInventory?,
 
-        @field:SerializedName("executive")
-        var executive: Executive? = null,
-        @field:SerializedName("manager")
-        var manager: Manager? = null
+//        @field:SerializedName("executive")
+//        var executive: Executive? = null,
+//        @field:SerializedName("manager")
+//        var manager: Manager? = null
     ) : Serializable
 
     data class Manager(
