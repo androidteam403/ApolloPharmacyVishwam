@@ -76,6 +76,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                 approveListViewModel.getImageUrlsApiCall(pendingAndApproved!!)
 
             }
+            else -> {}
         }
         errorMessage()
         getImageUrlsApiResponse()
@@ -126,6 +127,7 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                         activityApproveListBinding.viewformarginBottom.visibility = View.VISIBLE
                     }
                 }
+                else -> {}
             }
         }
 
@@ -203,9 +205,11 @@ class ApproveListActivity : AppCompatActivity(), ApproveListcallback {
                                 onBackPressed()
                             }
                         }
+                        else -> {}
                     }
 
                 }
+                else -> {}
             }
         }
     }

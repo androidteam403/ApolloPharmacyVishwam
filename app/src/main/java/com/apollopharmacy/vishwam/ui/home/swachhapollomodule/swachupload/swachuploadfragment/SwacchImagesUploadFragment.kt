@@ -142,6 +142,7 @@ class SwacchImagesUploadFragment : BaseFragment<SwachhapolloViewModel, FragmentS
                 }
 
 
+                else -> {}
             }
 
 

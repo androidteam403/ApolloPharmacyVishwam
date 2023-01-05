@@ -332,6 +332,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
 

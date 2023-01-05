@@ -134,9 +134,10 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
             e.printStackTrace()
         }
 
-        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code.equals(
-                "store_supervisor")
-        ) {
+//        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.role != null && employeeDetailsResponse!!.data!!.role!!.code.equals(
+//                "store_supervisor")
+//        ) {
+        if (employeeDetailsResponse != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data != null && employeeDetailsResponse!!.data!!.site != null && employeeDetailsResponse!!.data!!.site!!.site != null) {
             viewBinding.departmentLayout.visibility = View.VISIBLE
             val storeItem = StoreListItem(employeeDetailsResponse!!.data!!.site!!.storeName,
                 employeeDetailsResponse!!.data!!.site!!.state!!.code,
@@ -183,57 +184,60 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                     context?.resources?.getString(R.string.label_site_change_alert),
                     Toast.LENGTH_SHORT).show()
             }
-
-
-        } else {
-            if (userData.STOREDETAILS.get(0).IsSelectedStore) {
-                viewBinding.departmentLayout.visibility = View.VISIBLE
-                val storeItem = StoreListItem(userData.STOREDETAILS.get(0).SITENAME,
-                    userData.STOREDETAILS.get(0).STATEID,
-                    userData.STOREDETAILS.get(0).DCNAME,
-                    userData.STOREDETAILS.get(0).SITEID,
-                    userData.STOREDETAILS.get(0).DC)
-                Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
-                var storedata = StoreData(userData.STOREDETAILS.get(0).SITEID,
-                    userData.STOREDETAILS.get(0).SITENAME,
-                    userData.STOREDETAILS.get(0).DCNAME,
-                    userData.STOREDETAILS.get(0).STATEID,
-                    userData.STOREDETAILS.get(0).DC)
-                LoginRepo.saveStoreData(storedata)
-
-                showLoading()
-
-                viewModel.getSelectedStoreDetails(storeItem)
-                if (userData.STOREDETAILS.get(0).SITEID != null) {
-                    storeInfo =
-                        userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(0).SITENAME
-                }
-                if (userData.STOREDETAILS.get(0).DC != null) dcInfo =
-                    userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
-                viewBinding.siteIdSelect.setText(storeInfo)
-                viewBinding.branchName.setText(dcInfo)
-
-                val c = Calendar.getInstance().time
-                println("Current time => $c")
-                val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
-                var formattedDate = df.format(c)
-                viewBinding.dateOfProblem.setText(formattedDate)
-                viewBinding.dateOfProblem.isEnabled = false
-
-
-                viewBinding.siteIdSelect.setOnClickListener {
-                    Toast.makeText(context,
-                        context?.resources?.getString(R.string.label_site_change_alert),
-                        Toast.LENGTH_SHORT).show()
-                }
-            }
-
         }
+
+//        }
+//        else {
+//            if (userData != null && userData.STOREDETAILS != null && userData.STOREDETAILS.size > 0) {
+//                if (userData.STOREDETAILS.get(0).IsSelectedStore) {
+//                    viewBinding.departmentLayout.visibility = View.VISIBLE
+//                    val storeItem = StoreListItem(userData.STOREDETAILS.get(0).SITENAME,
+//                        userData.STOREDETAILS.get(0).STATEID,
+//                        userData.STOREDETAILS.get(0).DCNAME,
+//                        userData.STOREDETAILS.get(0).SITEID,
+//                        userData.STOREDETAILS.get(0).DC)
+//                    Preferences.saveSiteId(userData.STOREDETAILS.get(0).SITEID)
+//                    var storedata = StoreData(userData.STOREDETAILS.get(0).SITEID,
+//                        userData.STOREDETAILS.get(0).SITENAME,
+//                        userData.STOREDETAILS.get(0).DCNAME,
+//                        userData.STOREDETAILS.get(0).STATEID,
+//                        userData.STOREDETAILS.get(0).DC)
+//                    LoginRepo.saveStoreData(storedata)
+//
+//                    showLoading()
+//
+//                    viewModel.getSelectedStoreDetails(storeItem)
+//                    if (userData.STOREDETAILS.get(0).SITEID != null) {
+//                        storeInfo =
+//                            userData.STOREDETAILS.get(0).SITEID + " - " + userData.STOREDETAILS.get(
+//                                0).SITENAME
+//                    }
+//                    if (userData.STOREDETAILS.get(0).DC != null) dcInfo =
+//                        userData.STOREDETAILS.get(0).DC + " - " + userData.STOREDETAILS.get(0).DCNAME
+//                    viewBinding.siteIdSelect.setText(storeInfo)
+//                    viewBinding.branchName.setText(dcInfo)
+//
+//                    val c = Calendar.getInstance().time
+//                    println("Current time => $c")
+//                    val df = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
+//                    var formattedDate = df.format(c)
+//                    viewBinding.dateOfProblem.setText(formattedDate)
+//                    viewBinding.dateOfProblem.isEnabled = false
+//
+//
+//                    viewBinding.siteIdSelect.setOnClickListener {
+//                        Toast.makeText(context,
+//                            context?.resources?.getString(R.string.label_site_change_alert),
+//                            Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
         showLoading()
-        if(Preferences.isReasonIdListFetched()){
+        if (Preferences.isReasonIdListFetched()) {
             hideLoading()
             viewModel.getRemarksMasterList()
-        }else{
+        } else {
             viewModel.getRemarksMasterList()
 
         }
@@ -263,6 +267,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.InVisibleLayout -> {
                     viewBinding.problemLayout.visibility = View.GONE
                 }
+                else -> {}
             }
         })
 
@@ -325,7 +330,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 ticketstatusapiresponse = ticketstatus
                 AcknowledgementDialog().apply {
                     arguments = AcknowledgementDialog().generateParsedDataNew(ticketstatus.data,
-                            KEY_DATA_ACK)
+                        KEY_DATA_ACK)
                 }.show(childFragmentManager, "")
             }
         })
@@ -430,6 +435,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                 is CmsCommand.SuccessDeptList -> {
                     hideLoading()
                 }
+                else -> {}
             }
         })
 

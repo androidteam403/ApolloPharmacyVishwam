@@ -1228,17 +1228,22 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrL =
-            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
-
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
-//                baseUrl = data.APIS[i].URL
-//                //val token = data.APIS[i].TOKEN
-//                break
-//            }
-//
+        var baseUrL =""
+//        if (Config.KEY.equals("2034")){
+//            baseUrL = "https://cms.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
+//        }else{
+//            baseUrL = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
 //        }
+
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
+                baseUrL = data.APIS[i].URL
+                //val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
         val baseUrl = "${baseUrL}ticket_id=${requestTicketHistory}"//data.APIS[i].URL
         viewModelScope.launch {
             state.value = State.SUCCESS

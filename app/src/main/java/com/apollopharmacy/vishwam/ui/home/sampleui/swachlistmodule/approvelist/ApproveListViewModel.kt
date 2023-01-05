@@ -59,6 +59,7 @@ class ApproveListViewModel : ViewModel() {
                         true -> {
                             getImageUrlsResponse.value = response.value
                         }
+                        else -> {}
                     }
                 }
                 is ApiResult.GenericError -> {

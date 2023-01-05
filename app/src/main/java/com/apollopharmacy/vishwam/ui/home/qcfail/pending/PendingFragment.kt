@@ -464,6 +464,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
     }

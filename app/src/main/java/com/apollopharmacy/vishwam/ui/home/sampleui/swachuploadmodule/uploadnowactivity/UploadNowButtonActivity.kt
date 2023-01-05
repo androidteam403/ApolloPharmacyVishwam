@@ -208,6 +208,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
 
                 }
 
+                else -> {}
             }
         })
 

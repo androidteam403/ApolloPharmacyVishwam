@@ -267,6 +267,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     hideLoading()
                     submitClick()
                 }
+                else -> {}
             }
         })
 

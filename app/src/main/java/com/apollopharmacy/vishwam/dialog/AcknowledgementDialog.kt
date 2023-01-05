@@ -64,7 +64,7 @@ class AcknowledgementDialog : DialogFragment() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SuspiciousIndentation")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -229,6 +229,7 @@ class AcknowledgementDialog : DialogFragment() {
                     Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     dismiss()
                 }
+                else -> {}
             }
         })
         return viewBinding.root

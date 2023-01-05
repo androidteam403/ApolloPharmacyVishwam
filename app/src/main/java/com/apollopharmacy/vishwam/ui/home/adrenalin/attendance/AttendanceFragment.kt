@@ -314,6 +314,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         })
 

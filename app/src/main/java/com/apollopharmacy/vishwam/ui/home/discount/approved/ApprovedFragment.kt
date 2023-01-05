@@ -88,6 +88,7 @@ class ApprovedFragment() : BaseFragment<ApprovedViewModel, FragmentApprovedBindi
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         })
 
