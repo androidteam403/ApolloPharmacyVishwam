@@ -1,15 +1,15 @@
 package com.apollopharmacy.vishwam.ui.home.home
 
+import android.widget.Button
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHomeBinding
 import com.apollopharmacy.vishwam.util.Utlis
 
 class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
-
 
 
     override val layoutRes: Int
@@ -29,8 +29,6 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
         }
         Utlis.hideLoading()
         hideLoading()
-
-
 
 
     }

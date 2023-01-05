@@ -379,6 +379,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
     }

@@ -306,6 +306,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                     onClickStatusClickAdapter.notifyDataSetChanged()
                     Utlis.hideLoading()
                 }
+                else -> {}
             }
         }
 

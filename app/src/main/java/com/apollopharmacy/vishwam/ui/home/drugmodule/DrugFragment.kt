@@ -139,6 +139,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     }.show(childFragmentManager, "")
 
                 }
+                else -> {}
             }
         })
 
@@ -792,6 +793,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     )
 
                 }
+                else -> {}
             }
 
         }

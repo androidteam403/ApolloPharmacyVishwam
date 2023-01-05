@@ -212,12 +212,14 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         true -> {
                             getApprovedList = getpendingAndApprovedListResponse.getApprovedList
                         }
+                        else -> {}
                     }
 
                     when (getpendingAndApprovedListResponse.getPendingList != null) {
                         true -> {
                             getPendingList = getpendingAndApprovedListResponse.getPendingList
                         }
+                        else -> {}
                     }
 
                     if (isApprovedTab && isLoadingApproved && pendingAndApprovedList.size != null && pendingAndApprovedList.size > 0) {
@@ -613,6 +615,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
                 }
+                else -> {}
             }
 
         })

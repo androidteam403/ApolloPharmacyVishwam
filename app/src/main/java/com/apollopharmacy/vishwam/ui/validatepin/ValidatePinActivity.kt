@@ -79,6 +79,7 @@ class ValidatePinActivity : AppCompatActivity() {
                         Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
 
