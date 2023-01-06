@@ -33,6 +33,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.messaging.FirebaseMessaging
 import java.lang.reflect.Field
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -329,7 +330,7 @@ class OtpViewActivity : AppCompatActivity() {
             }
             otpViewModel.checkEmpAvailability(
                 ValidateOtpRequest(
-                    empID.toUpperCase(),
+                    empID.uppercase(Locale.ROOT),
                     Utils.getDeviceId(this),
                     FCM_KEY,
                     codeName,

@@ -9,26 +9,12 @@ plugins {
 }
 
 android {
-    signingConfigs {
-        debug {
-            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
-            storePassword '123456'
-            keyAlias 'apollovishwam'
-            keyPassword '123456'
-        }
-        release {
-            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
-            storePassword '123456'
-            keyAlias 'apollovishwam'
-            keyPassword '123456'
-        }
-    }
-    compileSdkVersion 31
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
         minSdkVersion 24
-        targetSdkVersion 31
+        targetSdkVersion 33
         versionCode 12
         versionName "2.0.0"
 
@@ -36,20 +22,19 @@ android {
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.release
     }
+
 
     buildTypes {
         release {
-            minifyEnabled false
-            crunchPngs true // or true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable = false
         }
 
         debug {
             minifyEnabled false
-            crunchPngs true // or true
+//            crunchPngs true // or true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable = true
         }
@@ -122,7 +107,7 @@ dependencies {
     // dexter runtime permissions
     implementation 'com.karumi:dexter:4.2.0'
 
-    implementation 'com.github.aabhasr1:OtpView:1.0.5'
+    implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.1.0')

@@ -28,6 +28,7 @@
         <entry key="app/src/main/res/layout/view_complaint_item.xml" value="0.25" />
         <entry key="app/src/main/res/layout/view_image_item.xml" value="0.14487179487179488" />
         <entry key="app/src/main/res/layout/view_image_show.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/view_order_status.xml" value="0.1" />
         <entry key="app/src/main/res/layout/view_transaction_details_for_cc.xml" value="0.24166666666666667" />
         <entry key="app/src/main/res/menu/search_menu.xml" value="0.21068376068376068" />
       </map>
