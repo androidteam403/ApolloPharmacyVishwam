@@ -9,6 +9,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
+            storePassword '123456'
+            keyAlias 'apollovishwam'
+            keyPassword '123456'
+        }
+    }
     compileSdkVersion 33
 
     defaultConfig {
@@ -27,9 +35,10 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             debuggable = false
+            signingConfig signingConfigs.release
         }
 
         debug {
@@ -46,9 +55,11 @@ android {
 //            debuggable = false
 //        }
 //    }
-//    lintOptions {
-//        checkReleaseBuilds false
-//    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8

@@ -126,6 +126,7 @@ class SplashActivity : AppCompatActivity() {
                             finish()
                             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                         } else {
+                            println("Login" + "129")
                             val homeIntent = Intent(this, LoginActivity::class.java)
                             startActivity(homeIntent)
                             finish()
@@ -138,6 +139,7 @@ class SplashActivity : AppCompatActivity() {
 //                finish()
 //                overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             } else {
+                println("Login" + "142")
                 val homeIntent = Intent(this, LoginActivity::class.java)
                 startActivity(homeIntent)
                 finish()
