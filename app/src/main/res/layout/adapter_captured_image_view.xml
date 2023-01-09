@@ -1,0 +1,29 @@
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="@dimen/value_60dp"
+        android:layout_height="@dimen/value_60dp"
+        android:layout_margin="@dimen/value_5dp">
+
+        <ImageView
+            android:id="@+id/capturedImagee"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:src="@color/dark_yellow" />
+
+        <ImageView
+            android:id="@+id/deleteImagee"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:paddingStart="@dimen/value_5dp"
+            android:paddingEnd="@dimen/value_1dp"
+            android:paddingBottom="@dimen/value_5dp"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_baseline_close_24"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
+</layout>
