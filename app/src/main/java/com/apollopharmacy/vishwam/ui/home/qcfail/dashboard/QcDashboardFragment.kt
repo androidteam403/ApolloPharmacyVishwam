@@ -1,7 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -25,6 +27,7 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
         return ViewModelProvider(this).get(DashBoardViewModel::class.java)
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     override fun setup() {
         showLoading()
@@ -38,9 +41,9 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
         viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
             hideLoading()
             if (it.status == true) {
-                viewBinding.dashboardrecycleview.visibility=View.VISIBLE
+                viewBinding.dashboardrecycleview.visibility = View.VISIBLE
 
-                viewBinding.noOrderFoundText.visibility=View.GONE
+                viewBinding.noOrderFoundText.visibility = View.GONE
                 if (!it.pendingcount.isNullOrEmpty()) {
                     pendingCountResponseList =
                         it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
@@ -51,30 +54,33 @@ class QcDashboardFragment : BaseFragment<DashBoardViewModel, QcFragmentDashboard
                     for (i in designations.indices) {
                         designationsList.add(designations.get(i))
                     }
-                }
-            }else{
-                viewBinding.dashboardrecycleview.visibility=View.GONE
 
-                viewBinding.noOrderFoundText.visibility=View.VISIBLE
+
+                    viewBinding.noOrderFoundText.visibility = View.GONE
+                    viewBinding.dashboardrecycleview.visibility = View.VISIBLE
+
+                    viewBinding.dashboardrecycleview.adapter =
+                        context?.let { it1 ->
+                            DashBaordAdapter(it1, pendingCountResponseList,
+                                designationsList)
+                        }
+
+
+                }
+            } else {
+                viewBinding.dashboardrecycleview.visibility = View.GONE
+
+                viewBinding.noOrderFoundText.visibility = View.VISIBLE
             }
 
-if (designationsList.isNullOrEmpty()){
-    viewBinding.dashboardrecycleview.visibility=View.GONE
+            if (designationsList.isNullOrEmpty()) {
+                viewBinding.dashboardrecycleview.visibility = View.GONE
 
-    viewBinding.noOrderFoundText.visibility=View.VISIBLE
-}else{
-    viewBinding.noOrderFoundText.visibility=View.GONE
-    viewBinding.dashboardrecycleview.visibility=View.VISIBLE
-
-    viewBinding.dashboardrecycleview.adapter =
-        context?.let { it1 ->
-            DashBaordAdapter(it1, pendingCountResponseList,
-                designationsList)
-        }
+                viewBinding.noOrderFoundText.visibility = View.VISIBLE
+            } else {
 
 
-
-                }
+            }
 
 
         })
