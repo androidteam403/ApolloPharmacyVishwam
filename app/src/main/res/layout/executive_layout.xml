@@ -6,148 +6,95 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white">
-
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/parentLayout"
+            android:visibility="visible"
             android:orientation="vertical">
 
-
             <LinearLayout
+                android:id="@+id/executive_layout"
                 android:layout_width="match_parent"
-
-                android:layout_height="@dimen/value_60dp"
-                android:background="@color/white"
-
+                android:layout_height="@dimen/value_55dp"
+                android:background="#f4a841"
                 android:orientation="horizontal"
-                android:weightSum="2">
-                <!--                android:background="#85B6B1"-->
-
-                <Button
-                    android:id="@+id/vishwampendency"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/qc_rtopendency"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="Vishwam Pendency"
-                    android:textAlignment="center"
-
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
-
-                <Button
-                    android:id="@+id/rtopendency"
-                    android:layout_width="0dp"
-                    android:layout_height="46dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginEnd="2dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/qc_pendency"
-                    android:fontFamily="@font/roboto_medium"
-                    android:text="RTO Pendency"
-                    android:textAlignment="center"
-                    android:textAllCaps="false"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/search_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:visibility="gone">
 
                 <LinearLayout
-
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_45dp"
-                    android:background="@drawable/search_view_pendency"
-                    android:orientation="horizontal"
-                    android:weightSum="2"
-                    android:layout_marginStart="@dimen/five5_sp"
-                    android:layout_marginEnd="@dimen/five5_sp"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
-                    <EditText
-                        android:id="@+id/search_view"
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:background="@color/transparent"
-                        android:layout_marginEnd="@dimen/value_60dp"
-                        android:layout_weight="1.8"
-                        android:drawablePadding="22dp"
-                        android:gravity="left|center"
-                        android:hint="Search by Site ID"
-                        android:imeOptions="actionSearch"
-                        android:inputType="text"
-                        android:maxLines="1"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
 
-                        android:textColor="@color/black"
-                        android:textColorHint="@android:color/black"
-                        android:textSize="@dimen/text_14sp" />
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/value_35dp"
+                            android:layout_marginTop="@dimen/text_10sp"
+                            android:layout_weight="0.2"
+                            android:src="@drawable/qc_executive" />
 
-                    <ImageView
-                        android:id="@+id/close"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        <TextView
+                            android:id="@+id/executive_empname"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_weight="0.6"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Lena Aravind\n Executive"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_14sp" />
 
-                       android:layout_marginEnd="@dimen/text_10sp"
-                        android:layout_weight=".2"
+                        <LinearLayout
+                            android:id="@+id/arrowlayout"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.3"
+                            android:background="#f6b968">
 
 
-                        android:src="@drawable/ic_search_24" />
+
+                            <ImageView
+                                android:id="@+id/generalmanager_arrow"
+                                android:layout_width="0dp"
+                                android:layout_height="28dp"
+                                android:layout_marginTop="@dimen/text_10sp"
+                                android:layout_weight="0.1"
+                                android:src="@drawable/ic_baseline_arrow_forward_ios_24" />
+
+                            <ImageView
+                                android:id="@+id/close_arrow"
+                                android:layout_width="0dp"
+                                android:layout_height="28dp"
+                                android:layout_marginTop="@dimen/text_10sp"
+                                android:layout_weight="0.1"
+                                android:rotation="90"
+                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
-
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/searchrecycleview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:scrollbars="vertical"
-                    android:visibility="gone"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="1"
-                    tools:listitem="@layout/search_site" />
-
-                <TextView
-                    android:id="@+id/no_order_found"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:paddingTop="@dimen/text_10sp"
-                    android:paddingBottom="@dimen/text_10sp"
-                    android:text="No Data Found"
-                    android:textAlignment="center"
-                    android:textColor="@color/warning_color"
-                    android:visibility="gone" />
-
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/rto_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/five5_sp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="5dp"
+
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
 
                 <LinearLayout
@@ -350,7 +297,7 @@
 
 
                             <TextView
-                                android:id="@+id/sitertocounts"
+                                android:id="@+id/rrtocounts"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_5dp"
@@ -379,7 +326,7 @@
 
 
                             <TextView
-                                android:id="@+id/sitertovalues"
+                                android:id="@+id/rrtovalues"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_5dp"
@@ -403,45 +350,45 @@
 
                 </LinearLayout>
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical">
 
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/dashboardrecycleview"
+                    android:id="@+id/sitesRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/text_20sp"
                     android:scrollbars="vertical"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="3"
-                    tools:listitem="@layout/dashboard_site" />
-
+                    tools:itemCount="1"
+                    tools:listitem="@layout/rto_sites" />
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/no_order_found_text"
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/no_order_found_text"
+            >
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="No Pending Orders Found"
-                    android:textColor="@color/warning_color"
-                    />
-            </LinearLayout>
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:fontFamily="@font/roboto_bold"
+                android:textAlignment="center"
+                android:text="No Pending Orders Found"/>
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/empId"
+            android:visibility="gone"
+            android:text=""/>
     </RelativeLayout>
 </layout>

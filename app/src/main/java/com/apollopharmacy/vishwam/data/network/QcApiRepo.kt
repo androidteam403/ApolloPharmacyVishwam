@@ -155,6 +155,78 @@ object QcApiRepo {
     }
 
 
+
+
+    suspend fun getqcPendingDashboardHistory(url: String, empId: String, designation: String): ApiResult<Getqcfailpendinghistorydashboard> {
+        return try {
+            val response = Api.getClient().qcPendingDashboardHistory(url,empId, designation)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getqcPendingHierarchyHistory(url: String, empId: String, designation: String): ApiResult<Getqcfailpendinghistoryforhierarchy> {
+        return try {
+            val response = Api.getClient().qcPendingHierarchyHistory(url,empId, designation)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+
+
+
+
     suspend fun getQcStoreList(url: String): ApiResult<QcStoreList> {
         return try {
             val response = Api.getClient().qcStoreList(url)

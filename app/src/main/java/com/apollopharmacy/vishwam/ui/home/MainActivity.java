@@ -54,7 +54,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashboardFragment;
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
@@ -506,7 +506,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
-                fragment=new QcDashboardFragment();
+                fragment=new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
@@ -787,9 +787,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
         if (isQcFailRequired) {
-            listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
+            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.returns)
                     .addChildModel(new ChildModel("Dashboard"))
-                    .addChildModel(new ChildModel("Pending"))
+                    .addChildModel(new ChildModel("OutStanding"))
                     .addChildModel(new ChildModel("Approved"))
                     .addChildModel(new ChildModel("Rejected"))
 
@@ -861,12 +861,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("New Drug List")) {
                     displaySelectedScreen("New Drug List");
                 }
-            } else if (listHeader.get(groupPosition).getTitle().equals("QC Fail")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("OMS QC")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                   if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
                     displaySelectedScreen("QcDashboard");
                 }
-                if (childModelList.get(childPosition).getTitle().equals("Pending")) {
+                if (childModelList.get(childPosition).getTitle().equals("OutStanding")) {
                     displaySelectedScreen("QcPending");
                 } else if (childModelList.get(childPosition).getTitle().equals("Approved")) {
                     displaySelectedScreen("QcApproved");
