@@ -23,7 +23,7 @@ android {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 12
+        versionCode 13
         versionName "2.0.0"
 
 //        versionName "1.1.10"
