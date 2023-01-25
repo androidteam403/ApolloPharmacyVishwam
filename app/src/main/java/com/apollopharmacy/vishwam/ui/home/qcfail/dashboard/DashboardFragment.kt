@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.anychart.AnyChart
@@ -22,6 +23,28 @@ import java.util.*
 
 
 class DashboardFragment : BaseFragment<DashBoardViewModel, FragmentDashboardBinding>() {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     private var chart: AnyChartView? = null
     private val count = listOf(257, 321, 142)

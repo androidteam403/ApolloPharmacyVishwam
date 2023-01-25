@@ -10,33 +10,22 @@ plugins {
 
 android {
     signingConfigs {
-        debug {
-            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
-            storePassword '123456'
-            keyAlias 'apollovishwam'
-            keyPassword '123456'
-        }
         release {
-            storeFile file('D:\\workspace\\ApolloPharmacyVishwam\\app\\apollovishwam.jks')
-            storePassword '123456'
-            keyAlias 'apollovishwam'
-            keyPassword '123456'
         }
     }
-    compileSdkVersion 31
+    compileSdkVersion 30
 
     defaultConfig {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
         minSdkVersion 24
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 12
-        versionName "2.0.0"
+//        versionName "2.0.0"
 
-//        versionName "1.1.10"
+        versionName "1.1.10"
         multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        signingConfig signingConfigs.release
     }
 
     buildTypes {
@@ -112,6 +101,8 @@ dependencies {
     implementation 'androidx.fragment:fragment:1.3.0'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
     implementation 'com.google.android.material:material:1.0.0'
+    //noinspection GradleCompatible
+    compile 'com.android.support:cardview-v7:25.0.1'
 
     // Azure
     implementation 'com.microsoft.azure.android:azure-storage-android:2.0.0@aar'

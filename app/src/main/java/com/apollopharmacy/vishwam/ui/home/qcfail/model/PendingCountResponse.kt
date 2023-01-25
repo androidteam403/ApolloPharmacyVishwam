@@ -1,7 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import com.google.gson.annotations.Expose
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse.Pendingcount
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 import java.io.Serializable
 
 class PendingCountResponse : Serializable {
@@ -47,6 +49,7 @@ class PendingCountResponse : Serializable {
         @SerializedName("PENDINGCOUNT")
         @Expose
         var pendingcount: Int? = null
+
         fun withSiteid(siteid: String?): Pendingcount {
             this.siteid = siteid
             return this
@@ -66,5 +69,7 @@ class PendingCountResponse : Serializable {
             this.pendingcount = pendingcount
             return this
         }
+
+
     }
 }

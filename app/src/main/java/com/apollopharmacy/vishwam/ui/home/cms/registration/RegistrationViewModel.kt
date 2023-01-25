@@ -11,7 +11,6 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
-import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
@@ -27,20 +26,14 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCl
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.JsonParseException
 import com.google.gson.reflect.TypeToken
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URLEncoder
-import java.util.stream.Collector
-import java.util.stream.Collectors
-import java.util.stream.Collectors.toList
 
 class RegistrationViewModel : ViewModel() {
     var departmentLiveData = ArrayList<DepartmentV2Response.DepartmentListItem>()

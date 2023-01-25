@@ -338,12 +338,35 @@ interface ViswamAppApi {
 //    @GET ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
 //    suspend fun qcPendingCountList( @Query("EMPID") empId: String,
 //                                    @Query("DESIGNATION") designation: String,): PendingCountResponse
+
+
+   //QcDashboard
     @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
     suspend fun qcPendingCountList(
         @Url url: String,
         @Query("EMPID") empId: String,
         @Query("DESIGNATION") designation: String,
     ): PendingCountResponse
+
+
+
+    @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
+    suspend fun qcPendingDashboardHistory(
+        @Url url: String,
+        @Query("EMPID") empId: String,
+        @Query("DESIGNATION") designation: String,
+    ): Getqcfailpendinghistorydashboard
+
+    @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
+    suspend fun qcPendingHierarchyHistory(
+        @Url url: String,
+        @Query("EMPID") empId: String,
+        @Query("DESIGNATION") designation: String,
+    ): Getqcfailpendinghistoryforhierarchy
+
+
+
+
 
     @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
     suspend fun appLevelDesignation(
