@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.util.Utils
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -21,18 +22,26 @@ class LoginViewModel : ViewModel() {
 
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
+    var command = LiveEvent<Command>()
+
 
     fun checkLogin(loginRequest: LoginRequest) {
+
         if (loginRequest.EMPID.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter User ID"))
         } else if (loginRequest.PASSWORD.isEmpty()) {
             commands.postValue(Command.ShowToast("Please Enter Password"))
+        } else if (loginRequest.COMPANY.isEmpty()) {
+            commands.postValue(Command.ShowToast("Please Select company"))
         } else {
             state.postValue(State.LOADING)
             val url = Preferences.getApi()
             val data = Gson().fromJson(url, ValidateResponse::class.java)
             for (i in data.APIS.indices) {
                 if (data.APIS[i].NAME.equals("DISCOUNT LOGIN")) {
+
+//                    https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/Login
+
                     val loginUrl = data.APIS[i].URL
                     viewModelScope.launch {
                         val result = withContext(Dispatchers.IO) {
@@ -43,9 +52,15 @@ class LoginViewModel : ViewModel() {
                                 if (result.value.STATUS) {
                                     state.value = State.ERROR
                                     commands.postValue(Command.ShowToast("Successfully login"))
-                                    Preferences.saveSiteId("")
-                                    LoginRepo.saveProfile(result.value)
+                                    Preferences.saveAppDesignation(result.value.APPLEVELDESIGNATION)
+                                    if (!result.value.STOREDETAILS.isNullOrEmpty()) {
+                                        Preferences.saveSiteId(result.value.STOREDETAILS.get(0).SITEID)
+
+                                    }
+                                    LoginRepo.saveProfile(result.value, loginRequest.PASSWORD)
                                     Preferences.savingToken(result.value.EMPID)
+                                    Preferences.saveDesignation(result.value.DESIGNATION)
+                                    Preferences.setAppLevelDesignation(result.value.APPLEVELDESIGNATION)
                                     Preferences.storeLoginJson(Gson().toJson(result.value))
                                     Preferences.setLoginDate(Utils.getCurrentDate())
                                     commands.value = Command.NavigateTo(result.value)
@@ -55,11 +70,9 @@ class LoginViewModel : ViewModel() {
                                 }
                             }
                             is ApiResult.GenericError -> {
-                                commands.postValue(
-                                    result.error?.let {
-                                        Command.ShowToast(it)
-                                    }
-                                )
+                                commands.postValue(result.error?.let {
+                                    Command.ShowToast(it)
+                                })
                                 state.value = State.ERROR
                             }
                             is ApiResult.NetworkError -> {
@@ -82,21 +95,31 @@ class LoginViewModel : ViewModel() {
     }
 
     fun checkMPinLogin(mPinRequest: MPinRequest) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("MPIN")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         state.postValue(State.LOADING)
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                LoginRepo.checkMPinDetails(mPinRequest)
+                LoginRepo.checkMPinDetails(baseUrl, token, mPinRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
                     commands.value = Command.MpinValidation(result.value)
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                           Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -114,6 +137,8 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
+
+
 }
 
 sealed class Command {
@@ -121,12 +146,19 @@ sealed class Command {
     data class NavigateTo(
         val value: LoginDetails,
     ) : Command()
+
     data class MpinValidation(
         val value: MPinResponse,
     ) : Command()
+
     data class ShowButtonSheet(
         val fragment: Class<out BottomSheetDialogFragment>,
         val arguments: Bundle,
-    ) :
-        Command()
+    ) : Command()
+
+    data class ShowQcButtonSheet(
+        val fragment: Class<out BottomSheetDialog>,
+        val arguments: Bundle,
+    ) : Command()
+
 }

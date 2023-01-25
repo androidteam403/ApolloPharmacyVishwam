@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/rto_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/sitependencysquareboxright"
+                    android:orientation="horizontal"
+
+                    android:weightSum="4">
+
+
+                    <TableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:background="@drawable/dashquarebox_right"
+
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingStart="4sp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:text="Sum Of RTO"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen11sp" />
+
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.017"
+
+                        android:background="@drawable/site_dashquarebox_right"
+
+
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingStart="4sp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+
+                            android:text="Sum Of RTO Value"
+                            android:textAlignment="center"
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen11sp" />
+
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/dashquarebox_right"
+
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingStart="4sp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:text="Sum Of RRTO"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen11sp" />
+
+                    </TableLayout>
+
+                    <TableLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:background="@drawable/site_dashquarebox_right"
+
+
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingStart="4sp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+
+                            android:text="Sum Of RRTO Value"
+                            android:textAlignment="center"
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/dimen11sp" />
+
+                    </TableLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squareboxright"
+                        android:orientation="horizontal"
+
+                        android:weightSum="4">
+
+
+                        <TableLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/dashquarebox_right"
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/rtocounts"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:drawablePadding="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:text="-"
+                                android:textAlignment="center"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />
+
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.017"
+
+                            android:background="@drawable/site_dashquarebox_right"
+
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/rtovalues"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:drawableLeft="@drawable/qc_ic_rupee_indian"
+                                android:drawablePadding="2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingStart="@dimen/text_15sp"
+                                android:paddingTop="8dp"
+
+                                android:paddingBottom="8dp"
+                                android:text="-"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp"
+                                />
+
+                        </TableLayout>
+
+                        <TableLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/dashquarebox_right"
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/rrrtocounts"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:drawablePadding="5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:text="-"
+                                android:textAlignment="center"
+
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp" />
+
+                        </TableLayout>
+
+
+                        <TableLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1.017"
+
+                            android:background="@drawable/site_dashquarebox_right"
+
+
+                            android:orientation="vertical">
+
+
+                            <TextView
+                                android:id="@+id/rrrtovalues"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:drawableLeft="@drawable/qc_ic_rupee_indian"
+                                android:drawablePadding="2dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:paddingStart="@dimen/text_15sp"
+                                android:paddingTop="8dp"
+
+                                android:paddingBottom="8dp"
+                                android:text="-"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/dimen11sp"
+                                />
+
+                        </TableLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</layout>

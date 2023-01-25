@@ -57,9 +57,7 @@
                     android:id="@+id/searchSiteText"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
-                    android:hint="@string/label_search_site_id"
                     android:inputType="number|text"
-                    android:maxLength="5"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
@@ -76,7 +74,7 @@
                 android:layout_marginTop="@dimen/value_40dp"
                 android:layout_marginBottom="@dimen/value_40dp"
                 android:text="@string/label_site_not_available"
-                android:textColor="@color/black"
+                android:textColor="@color/dark_grey"
                 android:textSize="@dimen/text_18sp"
                 android:visibility="gone" />
 

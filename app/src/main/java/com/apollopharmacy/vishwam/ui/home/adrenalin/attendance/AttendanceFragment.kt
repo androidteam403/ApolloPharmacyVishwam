@@ -19,6 +19,7 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.androidisland.ezpermission.EzPermission
@@ -313,6 +314,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         })
 
@@ -415,23 +417,10 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                             ) {
                                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                                     showLoading()
-                                    viewModel.taskInsertUpdateService(
-                                        TaskInfoReq(
-                                            enteredTaskName,
-                                            employeeID,
-                                            "",
-                                            locationLatitude,
-                                            locationLongitude,
-                                            "SIGNIN",
-                                            getAttendanceCity(
-                                                requireContext(),
-                                                locationLatitude.toDouble(),
-                                                locationLongitude.toDouble()
-                                            )
-                                        )
-                                    )
+                                    viewModel.taskInsertUpdateService(TaskInfoReq(enteredTaskName, employeeID, "", locationLatitude, locationLongitude, "SIGNIN", getAttendanceCity(requireContext(), locationLatitude.toDouble(), locationLongitude.toDouble())))
                                     dialog.dismiss()
-                                } else {
+                                }
+                                else {
                                     Toast.makeText(
                                         requireContext(),
                                         context?.resources?.getString(R.string.label_network_error),
@@ -443,7 +432,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 (activity as MainActivity).initPermission()
                                 (activity as MainActivity).startLocationUpdates()
                             }
-                        } else {
+                        }
+
+                        else {
                             (activity as MainActivity).initPermission()
                             (activity as MainActivity).startLocationUpdates()
                         }

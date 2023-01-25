@@ -27,6 +27,7 @@ class ConfirmSiteDialog : DialogFragment() {
         const val KEY_STORE_ITEM = "store_item"
     }
 
+
     fun generateParsedData(data: StoreListItem): Bundle {
         return Bundle().apply {
             putSerializable(KEY_STORE_ITEM, data)
