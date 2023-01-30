@@ -20,18 +20,18 @@
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center"
+                android:layout_marginTop="@dimen/value_50dp"
                 android:orientation="vertical">
 
 
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="525dp"
+                    android:layout_height="460dp"
                     android:layout_centerHorizontal="true"
 
 
                     android:src="@drawable/mainimage2" />
             </LinearLayout>
-
 
 
         </LinearLayout>
@@ -86,9 +86,6 @@
             android:src="@drawable/eye_icon" />
 
 
-
-
-
         <LinearLayout
             android:id="@+id/writeurtextlayout"
             android:layout_width="match_parent"
@@ -97,9 +94,9 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/text"
                 android:layout_centerInParent="true"
                 android:fontFamily="@font/price_bold"
                 android:paddingTop="77dp"
@@ -161,26 +158,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginBottom="80dp"
             android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/ninety_five95_dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="@dimen/value_60dp"
-                android:layout_height="@dimen/value_75dp"
-                android:layout_centerHorizontal="true"
                 android:id="@+id/camlayout"
+                android:layout_width="64dp"
+                android:layout_height="@dimen/value_80dp"
+                android:layout_centerHorizontal="true"
 
                 android:layout_gravity="center"
                 android:layout_marginEnd="3dp"
 
-                android:background="@drawable/goldborder"
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/camera"
                     android:layout_width="match_parent"
+                    android:background="@drawable/goldborder"
+                    android:paddingTop="@dimen/value_2dp"
+                    android:paddingBottom="@dimen/value_2dp"
+                    android:paddingStart=".4dp"
+
                     android:layout_height="match_parent"
-                    android:src="@drawable/camera_box"
+                    android:src="@drawable/camera2"
 
                     />
 

@@ -4,6 +4,7 @@ import android.accounts.AccountManagerCallback
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,13 @@ class RtoSitesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = pendingCountResponseList.get(position)
 
+      if (items.siteid.toString().isNullOrEmpty()){
+          holder.dashboardSitesBinding.parentLayout.visibility=View.GONE
+      }else{
+          holder.dashboardSitesBinding.parentLayout.visibility=View.VISIBLE
+
+      }
+
         if (items.siteid.isNullOrEmpty()){
             holder.dashboardSitesBinding.siteIdS.setText("-")
 
@@ -47,10 +55,36 @@ class RtoSitesAdapter(
             holder.dashboardSitesBinding.siteIdS.setText(items.siteid)
 
         }
-        holder.dashboardSitesBinding.rtocounts.setText(items.rtocount.toString())
-        holder.dashboardSitesBinding.rtovalues.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
-        holder.dashboardSitesBinding.rrtocounts.setText(items.rrtocount.toString())
-        holder.dashboardSitesBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(items.rrtoamount).toString())
+
+        if (items.rtocount.toString().isNullOrEmpty()|| items.rtocount!!.equals("null")){
+            holder.dashboardSitesBinding.rtocounts.setText("-")
+
+        }else{
+            holder.dashboardSitesBinding.rtocounts.setText(items.rtocount.toString())
+
+        }
+        if (items.rtoamount.toString().isNullOrEmpty()|| items.rtoamount!!.equals("null")){
+            holder.dashboardSitesBinding.rtovalues.setText("-")
+
+        }else{
+            holder.dashboardSitesBinding.rtovalues.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
+
+        }
+        if (items.rrtocount.toString().isNullOrEmpty()|| items.rrtocount!!.equals("null")){
+            holder.dashboardSitesBinding.rrtocounts.setText("-")
+
+        }else{
+            holder.dashboardSitesBinding.rrtocounts.setText(items.rrtocount.toString())
+
+        }
+        if (items.rrtoamount.toString().isNullOrEmpty()|| items.rrtoamount!!.equals("null")){
+            holder.dashboardSitesBinding.rrtovalues.setText("-")
+
+        }else{
+            holder.dashboardSitesBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(items.rrtoamount).toString())
+
+        }
+
 
     }
 

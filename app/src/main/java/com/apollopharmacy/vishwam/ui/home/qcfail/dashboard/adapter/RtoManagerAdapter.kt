@@ -21,16 +21,16 @@ import java.util.function.Predicate
 import java.util.stream.Collectors
 
 class RtoManagerAdapter(
-    val mContext: Context,
-    val mCallBack: QcDashBoardCallback,
-    var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
-    val designation: String,
-    var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
+        val mContext: Context,
+        val mCallBack: QcDashBoardCallback,
+        var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+        val designation: String,
+        var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
 
-    var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
+        var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
 
-    ) :
-    RecyclerView.Adapter<RtoManagerAdapter.ViewHolder>() {
+        ) :
+        RecyclerView.Adapter<RtoManagerAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
     var rtoExecutiveAdapter: RtoExecutiveAdapter? = null
     var dashBoardList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
@@ -39,133 +39,25 @@ class RtoManagerAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val dashboardSiteBinding: ManagerLayoutBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.manager_layout,
-                parent,
-                false
-            )
+                DataBindingUtil.inflate(
+                        LayoutInflater.from(mContext),
+                        R.layout.manager_layout,
+                        parent,
+                        false
+                )
         return ViewHolder(dashboardSiteBinding)
 
     }
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val items = getqcfailhierarchyList.get(position)
-        holder.dashboardSiteBinding.empId.setText(qcfailDashboardList.get(0).empid.toString())
-
-
         rtoExecutiveAdapter?.notifyDataSetChanged()
 
-
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).designation.equals(getqcfailhierarchyList.get(
-                        position).designation) && qcfailDashboardList.get(i).empid.equals(
-                        getqcfailhierarchyList.get(position).empid)
-                ) {
-
-                    holder.dashboardSiteBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.dashboardSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rtoamount).toString())
-                    holder.dashboardSiteBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
-                    holder.dashboardSiteBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rrtoamount).toString())
-
-
-                }
-            }
-
-
-        }
-
-
-
-
-
-        if (qcfailhierarchyList.isNotEmpty()) {
-            for (i in qcfailhierarchyList.indices) {
-                if (qcfailhierarchyList.get(i).designation.equals(getqcfailhierarchyList.get(
-                        position).designation) && qcfailhierarchyList.get(i).employeId.equals(
-                        getqcfailhierarchyList.get(position).empid)
-                ) {
-
-                    var item = Getqcfailpendinghistoryforhierarchy()
-                    for (i in qcfailhierarchyList) {
-                        if (i.designation!!.equals(getqcfailhierarchyList.get(position).designation)) {
-                            item = i
-
-                        }
-                    }
-
-
-
-
-                    rtoExecutiveAdapter = RtoExecutiveAdapter(mContext,
-                        mCallBack,
-                        qcfailDashboardList, designation,
-                        qcfailhierarchyList,
-                        item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
-                    holder.dashboardSiteBinding.executiveRecycleview.adapter =
-                        rtoExecutiveAdapter
-
-
-
-                    rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
-                        item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
-                    holder.dashboardSiteBinding.sitesRecyclerView.adapter = rtoSitesAdapter
-                    rtoExecutiveAdapter?.notifyDataSetChanged()
-
-                }
-            }
-
-
-        }
-
-
-        holder.dashboardSiteBinding.generalmanagerArrow.setOnClickListener {
-            var isContain: Boolean
-            val predicate =
-                Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                    qcfailDashboardList.empid.equals(items.empid)
-                }
-
-
-            isContain = qcfailDashboardList.stream().anyMatch(predicate)
-            if (isContain) {
-                getqcfailhierarchyList[position].setisClick(true)
-                mCallBack.notify(position, false)
-                notifyDataSetChanged()
-
-
-            } else {
-
-                getqcfailhierarchyList[position].setisClick(true)
-                items.designation?.let { it1 ->
-                    items.empid?.let { it2 ->
-                        mCallBack.onClickManagerDashBoard(position,
-                            it1,
-                            it2)
-                    }
-                }
-
-                notifyDataSetChanged()
-            }
-
-        }
-
-        holder.dashboardSiteBinding.closeArrow.setOnClickListener {
-            getqcfailhierarchyList[position].setisClick(false)
-            notifyDataSetChanged()
-        }
-
-
+        val items = getqcfailhierarchyList.get(position)
 
 
 
         if (getqcfailhierarchyList[position].isClick) {
-
 
             holder.dashboardSiteBinding.closeArrow.visibility = View.VISIBLE
             holder.dashboardSiteBinding.rtoLayout.visibility = View.VISIBLE
@@ -183,34 +75,154 @@ class RtoManagerAdapter(
 
         }
 
+        if (qcfailhierarchyList.isNotEmpty()) {
+            for (i in qcfailhierarchyList.indices) {
+                if (qcfailhierarchyList.get(i).employeId.equals(
+                                getqcfailhierarchyList.get(position).empid)
+                ) {
 
-       if (holder.dashboardSiteBinding.empId.text.toString().isNullOrEmpty()){
+                    var item = Getqcfailpendinghistoryforhierarchy()
+                    for (i in qcfailhierarchyList) {
+                        if (i.employeId!!.equals(getqcfailhierarchyList.get(position).empid)) {
+                            item = i
 
-       }else{
-
-           if (holder.dashboardSiteBinding.empId.text.toString()!=items.empid) {
-               holder.dashboardSiteBinding.managerLayout.visibility = View.VISIBLE
-
-               if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
-                   holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+                        }
+                    }
 
 
-               } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
-                   holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+                    rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
+                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                    holder.dashboardSiteBinding.sitesRecyclerView.adapter = rtoSitesAdapter
+                    rtoExecutiveAdapter?.notifyDataSetChanged()
+                    rtoSitesAdapter!!.notifyDataSetChanged()
 
-                   holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
-                   holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
-                   holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
-               } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
-                   holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
 
-                   holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
-                   holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
-                   holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+                    rtoExecutiveAdapter = RtoExecutiveAdapter(mContext,
+                            mCallBack,
+                            qcfailDashboardList, designation,
+                            qcfailhierarchyList,
+                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                    holder.dashboardSiteBinding.executiveRecycleview.adapter =
+                            rtoExecutiveAdapter
 
-               }
-           }
-           }
+
+                }
+            }
+
+
+        }
+
+        if (qcfailDashboardList.isNotEmpty()) {
+            for (i in qcfailDashboardList.indices) {
+                if (qcfailDashboardList.get(i).empid.equals(
+                                getqcfailhierarchyList.get(position).empid)
+                ) {
+
+                    holder.dashboardSiteBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.dashboardSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rtoamount).toString())
+                    holder.dashboardSiteBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.dashboardSiteBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
+                            qcfailDashboardList.get(i).rrtoamount).toString())
+
+
+                }
+            }
+
+
+        }
+
+
+
+
+
+
+
+        holder.dashboardSiteBinding.generalmanagerArrow.setOnClickListener {
+
+            getqcfailhierarchyList[position].setisClick(true)
+
+            var isContain: Boolean
+            val predicate =
+                    Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
+                        qcfailDashboardList.empid.equals(items.empid)
+                    }
+
+
+            isContain = qcfailDashboardList.stream().anyMatch(predicate)
+
+
+            if (isContain) {
+                mCallBack.notify(position, false)
+                notifyDataSetChanged()
+
+
+            } else {
+
+                items.designation?.let { it1 ->
+                    items.empid?.let { it2 ->
+                        mCallBack.onClickManagerDashBoard(position,
+                                it1,
+                                it2)
+                    }
+                }
+
+                notifyDataSetChanged()
+            }
+
+        }
+
+        holder.dashboardSiteBinding.closeArrow.setOnClickListener {
+            getqcfailhierarchyList[position].setisClick(false)
+            notifyDataSetChanged()
+        }
+
+
+
+
+
+        for (i in qcfailhierarchyList.indices) {
+            for (j in qcfailhierarchyList[i].pendingcount?.indices!!) {
+                if (qcfailhierarchyList[i].pendingcount?.size == getqcfailhierarchyList.size) {
+                    if (qcfailhierarchyList[i].pendingcount!!.equals(getqcfailhierarchyList)) {
+                        empId = qcfailhierarchyList[i].employeId.toString()
+                    }
+
+                }
+
+
+            }
+
+
+        }
+
+        if (empId.isNullOrEmpty()) {
+
+        } else {
+
+            if (empId != items.empid) {
+                holder.dashboardSiteBinding.managerLayout.visibility = View.VISIBLE
+
+                if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
+                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+
+
+                } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
+                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+
+                    holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
+                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
+                    holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
+                } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
+                    holder.dashboardSiteBinding.managerEmpname.setText(items.empid + "\n" + items.designation)
+
+                    holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
+                    holder.dashboardSiteBinding.managerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
+                    holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
+
+                }
+            }
+        }
 
     }
 
@@ -220,6 +232,7 @@ class RtoManagerAdapter(
     }
 
     class ViewHolder(val dashboardSiteBinding: ManagerLayoutBinding) :
-        RecyclerView.ViewHolder(dashboardSiteBinding.root)
+            RecyclerView.ViewHolder(dashboardSiteBinding.root)
 }
+
 

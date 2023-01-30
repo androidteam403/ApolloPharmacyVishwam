@@ -21,7 +21,10 @@ class Getqcfailpendinghistoryforhierarchy : Serializable {
     fun setisDataFetched(pos: Boolean) {
         isDataFetched = pos
     }
-
+    var emplId: String? = null
+    fun setemplId(empId: String) {
+        emplId = empId
+    }
     @SerializedName("MESSAGE")
     @Expose
     var message: String? = null
