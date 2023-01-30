@@ -30,7 +30,7 @@
                     android:id="@+id/vishwampendency"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
-                    android:layout_marginLeft="2dp"
+
                     android:layout_marginTop="2dp"
                     android:layout_weight="1"
                     android:background="@drawable/qc_rtopendency"
@@ -47,7 +47,7 @@
                     android:layout_width="0dp"
                     android:layout_height="46dp"
                     android:layout_marginTop="2dp"
-                    android:layout_marginEnd="2dp"
+
                     android:layout_weight="1"
                     android:background="@drawable/qc_pendency"
                     android:fontFamily="@font/roboto_medium"
@@ -211,5 +211,6 @@
                     android:textColor="@color/warning_color" />
             </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
 </layout>

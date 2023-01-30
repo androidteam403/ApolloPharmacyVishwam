@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="#088077"
+        tools:context=".ui.home.">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="5.1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_weight="4"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="525dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="4"
+
+
+                    android:src="@drawable/mainimage" />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="93dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:background="@drawable/round_corners"
+                android:orientation="vertical"
+
+                android:rotation="90">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/price_regular"
+                    android:paddingEnd="@dimen/text_12sp"
+                    android:rotation="270"
+                    android:text="Your\nSignature\nHere"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen11sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <!--                android:background="#85B6B1"-->
+
+            <Button
+                android:id="@+id/preview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/preview"
+                android:fontFamily="@font/price_bold"
+                android:text="Preview"
+                android:textAlignment="center"
+
+
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_15sp" />
+
+            <Button
+                android:id="@+id/send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/send"
+                android:fontFamily="@font/price_bold"
+                android:text="Send"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_15sp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="6sp"
+            android:src="@drawable/eye_icon" />
+
+        <ImageView
+            android:layout_width="@dimen/value_50dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="68dp"
+
+            android:src="@drawable/camera2" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:id="@+id/writeurtextlayout"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Write your Text here"
+                android:textAlignment="center"
+
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="@dimen/value_32dp"
+                android:layout_height="@dimen/value_32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic__plus" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

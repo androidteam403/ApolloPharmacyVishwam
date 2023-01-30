@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishw
 
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Handler
@@ -84,6 +85,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         return ViewModelProvider(this).get(QcPendingViewModel::class.java)
     }
 
+    @SuppressLint("ResourceType")
     override fun setup() {
 
 

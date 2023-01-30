@@ -10,38 +10,32 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ExecutiveLayoutBinding
-import com.apollopharmacy.vishwam.databinding.ManagerLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
-import java.text.DecimalFormat
-import java.util.function.Function
 import java.util.function.Predicate
-import java.util.stream.Collectors
 
 class RtoExecutiveAdapter(
-    val mContext: Context,
-    val mCallBack: QcDashBoardCallback,
-    var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
-    val designation: String,
-    var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
+        val mContext: Context,
+        val mCallBack: QcDashBoardCallback,
+        var qcfailDashboardList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+        val designation: String,
+        var qcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
 
-    var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
+        var getqcfailhierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>,
 
-    ) :
+        ) :
     RecyclerView.Adapter<RtoExecutiveAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
-    var rtoExecutiveAdapter: RtoExecutiveAdapter? = null
     var empId: String = ""
-    var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val executiveLayoutBinding: ExecutiveLayoutBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.executive_layout,
-                parent,
-                false
+                    LayoutInflater.from(mContext),
+                    R.layout.executive_layout,
+                    parent,
+                    false
             )
         return ViewHolder(executiveLayoutBinding)
 
@@ -49,49 +43,22 @@ class RtoExecutiveAdapter(
 
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-// getqcfailhierarchyList.stream().collect(Collectors.toMap(Getqcfailpendinghistoryforhierarchy.Pendingcount::empid, Function.identity()))
 
         val items = getqcfailhierarchyList.get(position)
-
-
-
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).designation.equals(getqcfailhierarchyList.get(
-                        position).designation) && qcfailDashboardList.get(i).empid.equals(
-                        getqcfailhierarchyList.get(position).empid)
-                ) {
-
-                    holder.executiveLayoutBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.executiveLayoutBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rtoamount).toString())
-                    holder.executiveLayoutBinding.rrtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.executiveLayoutBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
-                        qcfailDashboardList.get(i).rrtoamount).toString())
-
-
-                }
-            }
-
-
-        }
-
-
-
-
 
         if (qcfailhierarchyList.isNotEmpty()) {
             for (i in qcfailhierarchyList.indices) {
                 if (qcfailhierarchyList.get(i).designation.equals(getqcfailhierarchyList.get(
-                        position).designation) && qcfailhierarchyList.get(i).employeId.equals(
-                        getqcfailhierarchyList.get(position).empid)
+                                position).designation) && qcfailhierarchyList.get(i).employeId.equals(
+                                getqcfailhierarchyList.get(position).empid)
                 ) {
+
 
 
 
                     var item = Getqcfailpendinghistoryforhierarchy()
                     for (i in qcfailhierarchyList) {
-                        if (i.designation!!.equals(getqcfailhierarchyList.get(position).designation)) {
+                        if (i.employeId!!.equals(getqcfailhierarchyList.get(position).empid)) {
                             item = i
 
                         }
@@ -102,13 +69,47 @@ class RtoExecutiveAdapter(
 
 
                     rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
-                        item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
                     holder.executiveLayoutBinding.sitesRecyclerView.adapter = rtoSitesAdapter
+                    rtoSitesAdapter!!.notifyDataSetChanged()
+
                 }
             }
 
 
         }
+
+
+        if (qcfailDashboardList.isNotEmpty()) {
+            for (i in qcfailDashboardList.indices) {
+                if (qcfailDashboardList.get(i).designation.equals(getqcfailhierarchyList.get(
+                                position).designation) && qcfailDashboardList.get(i).empid.equals(
+                                getqcfailhierarchyList.get(position).empid)
+                ) {
+
+                    holder.executiveLayoutBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
+
+                    if(qcfailDashboardList.get(i).rtoamount.toString().isNullOrEmpty()){
+
+                    }else{
+                        holder.executiveLayoutBinding.rtovalues.setText((qcfailDashboardList.get(i).rtoamount).toString())
+                    }
+
+                    holder.executiveLayoutBinding.rrtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.executiveLayoutBinding.rrtovalues.setText((
+                            qcfailDashboardList.get(i).rrtoamount).toString())
+
+
+                }
+            }
+
+
+        }
+
+
+
+
+
 
 
         holder.executiveLayoutBinding.generalmanagerArrow.setOnClickListener {
@@ -131,8 +132,8 @@ class RtoExecutiveAdapter(
                 items.designation?.let { it1 ->
                     items.empid?.let { it2 ->
                         mCallBack.onClickExecutive(position,
-                            it1,
-                            it2)
+                                it1,
+                                it2)
                     }
                 }
 
@@ -167,21 +168,26 @@ class RtoExecutiveAdapter(
         }
 
 
+        for (i in qcfailhierarchyList.indices) {
+            for (j in qcfailhierarchyList[i].pendingcount?.indices!!) {
+                if (qcfailhierarchyList[i].pendingcount?.size == getqcfailhierarchyList.size) {
+                    if (qcfailhierarchyList[i].pendingcount!!.equals(getqcfailhierarchyList)){
+                    empId=qcfailhierarchyList[i].employeId.toString()
+                    }
 
-        for (i in qcfailhierarchyList.indices){
+                }
 
 
-               if (qcfailhierarchyList[i].pendingcount?.size==getqcfailhierarchyList.size){
-                   holder.executiveLayoutBinding.empId.setText(qcfailhierarchyList.get(i).employeId.toString())
-               }
+            }
 
 
         }
 
-        if (holder.executiveLayoutBinding.empId.text.toString().isNullOrEmpty()) {
+
+        if (empId.isNullOrEmpty()) {
 
         } else {
-            if (holder.executiveLayoutBinding.empId.text.toString()!=items.empid){
+            if (empId!=items.empid){
             holder.executiveLayoutBinding.executiveLayout.visibility = View.VISIBLE
             if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
                 holder.executiveLayoutBinding.executiveEmpname.setText(items.empid + "\n" + items.designation)
@@ -192,14 +198,14 @@ class RtoExecutiveAdapter(
 
                 holder.executiveLayoutBinding.logo.setImageResource(R.drawable.qc_manager)
                 holder.executiveLayoutBinding.executiveLayout.setBackgroundColor(Color.parseColor(
-                    "#636fc1"))
+                        "#636fc1"))
                 holder.executiveLayoutBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
             } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
                 holder.executiveLayoutBinding.executiveEmpname.setText(items.empid + "\n" + items.designation)
 
                 holder.executiveLayoutBinding.logo.setImageResource(R.drawable.qc_executive)
                 holder.executiveLayoutBinding.executiveLayout.setBackgroundColor(Color.parseColor(
-                    "#f4a841"))
+                        "#f4a841"))
                 holder.executiveLayoutBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
             }
 
