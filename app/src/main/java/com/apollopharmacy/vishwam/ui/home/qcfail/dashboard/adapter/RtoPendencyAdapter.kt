@@ -13,31 +13,35 @@ import com.apollopharmacy.vishwam.databinding.RtoPendencyLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
-import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
 import java.util.function.Predicate
+import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 class RtoPendencyAdapter(
-        val mContext: Context,
-        val mCallBack: QcDashBoardCallback,
-        val designation: String,
-        var dashboardHistoryList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
-        var dashboardHierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
+    val mContext: Context,
+    val mCallBack: QcDashBoardCallback,
+    val designation: String,
+    var dashboardHistoryList: ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>,
+    var dashboardHierarchyList: ArrayList<Getqcfailpendinghistoryforhierarchy>,
 
 
-        ) :
+    ) :
         RecyclerView.Adapter<RtoPendencyAdapter.ViewHolder>() {
     var rtoManagerAdapter: RtoManagerAdapter? = null
     var rtoSitesAdapter: RtoSitesAdapter? = null
+    var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
         val dashboardSiteBinding: RtoPendencyLayoutBinding =
                 DataBindingUtil.inflate(
-                        LayoutInflater.from(mContext),
-                        R.layout.rto_pendency_layout,
-                        parent,
-                        false
+                    LayoutInflater.from(mContext),
+                    R.layout.rto_pendency_layout,
+                    parent,
+                    false
                 )
         return ViewHolder(dashboardSiteBinding)
 
@@ -60,9 +64,13 @@ class RtoPendencyAdapter(
 
         if (dashboardHierarchyList.isNotEmpty()) {
             for (i in dashboardHierarchyList.indices) {
-                if (dashboardHierarchyList.get(i).designation.equals(dashboardHistoryList.get(
-                                position).designation) && dashboardHierarchyList.get(i).employeId.equals(
-                                dashboardHistoryList.get(position).empid)
+                if (dashboardHierarchyList.get(i).designation.equals(
+                        dashboardHistoryList.get(
+                            position
+                        ).designation
+                    ) && dashboardHierarchyList.get(i).employeId.equals(
+                        dashboardHistoryList.get(position).empid
+                    )
                 ) {
 
                     var item = Getqcfailpendinghistoryforhierarchy()
@@ -73,19 +81,32 @@ class RtoPendencyAdapter(
                         }
                     }
 
+                    dashBoardList= item.pendingcount!!.stream().filter { x -> x.rtocount !=0 || x.rrtocount!=0} // or `Objects::nonNull`
+                        .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
 
-                    rtoManagerAdapter = RtoManagerAdapter(mContext,
-                            mCallBack,
-                            dashboardHistoryList, designation,
-                            dashboardHierarchyList,
-                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                    dashBoardList.sortWith { o1: Getqcfailpendinghistoryforhierarchy.Pendingcount, o2: Getqcfailpendinghistoryforhierarchy.Pendingcount ->
+                        o2.rtoamount!!.compareTo(
+                            o1.rtoamount!!
+                        )
+                    }
+
+
+                    rtoManagerAdapter = RtoManagerAdapter(
+                        mContext,
+                        mCallBack,
+                        dashboardHistoryList, designation,
+                        dashboardHierarchyList,
+                        item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
+                    )
                     holder.dashboardSiteBinding.managerRecyclerView.adapter = rtoManagerAdapter
 
 
 
 
-                    rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
-                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                    rtoSitesAdapter = RtoSitesAdapter(
+                        mContext, mCallBack,
+                        dashBoardList
+                    )
 
                     holder.dashboardSiteBinding.gmsitesRecyclerView.adapter = rtoSitesAdapter
 
@@ -122,8 +143,10 @@ class RtoPendencyAdapter(
                 dashboardHistoryList[position].setisClick(true)
                 items.designation?.let { it1 ->
                     items.empid?.let { it2 ->
-                        mCallBack.onClick(position, it1,
-                                it2, true)
+                        mCallBack.onClick(
+                            position, it1,
+                            it2, true
+                        )
                     }
                 }
             }
@@ -169,8 +192,9 @@ class RtoPendencyAdapter(
         if (items.designation?.replace(" ", "").equals("GENERALMANAGER", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
                             .replace(
-                                    " ",
-                                    "")
+                                " ",
+                                ""
+                            )
                             .equals("GENERALMANAGER", true)
             ) {
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
@@ -184,8 +208,9 @@ class RtoPendencyAdapter(
         } else if (items.designation?.replace(" ", "").equals("MANAGER", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
                             .replace(
-                                    " ",
-                                    "")
+                                " ",
+                                ""
+                            )
                             .equals("MANAGER", true)
             ) {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.VISIBLE
@@ -193,8 +218,11 @@ class RtoPendencyAdapter(
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
 
                 holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
-                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor(
-                        "#636fc1"))
+                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#636fc1"
+                    )
+                )
                 holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
             } else {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.GONE
@@ -205,8 +233,9 @@ class RtoPendencyAdapter(
         } else if (items.designation?.replace(" ", "").equals("EXECUTIVE", true)) {
             if (com.apollopharmacy.vishwam.data.Preferences.getAppLevelDesignationQCFail()
                             .replace(
-                                    " ",
-                                    "")
+                                " ",
+                                ""
+                            )
                             .equals("EXECUTIVE", true)
             ) {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.VISIBLE
@@ -214,8 +243,11 @@ class RtoPendencyAdapter(
                 holder.dashboardSiteBinding.gmEmpname.setText(items.empid + "\n" + items.designation)
 
                 holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_executive)
-                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor(
-                        "#f4a841"))
+                holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(
+                    Color.parseColor(
+                        "#f4a841"
+                    )
+                )
                 holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
             } else {
                 holder.dashboardSiteBinding.parentLayout.visibility = View.GONE
@@ -224,10 +256,12 @@ class RtoPendencyAdapter(
 
         }
 
+
+
         holder.dashboardSiteBinding.rtocounts.setText(items.rtocount.toString())
-        holder.dashboardSiteBinding.rtovalues.setText((items.rtoamount).toString())
+        holder.dashboardSiteBinding.rtovalues.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
         holder.dashboardSiteBinding.rrrtocounts.setText(items.rrtocount.toString())
-        holder.dashboardSiteBinding.rrrtovalues.setText((items.rrtoamount).toString())
+        holder.dashboardSiteBinding.rrrtovalues.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
 
 
     }

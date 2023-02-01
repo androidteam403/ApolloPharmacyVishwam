@@ -768,7 +768,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
 
 
-        listView.addHeaderModel(new HeaderModel("Wish Chairman",Color.WHITE,false,R.drawable.ic_baseline_celebration_24));
+//        listView.addHeaderModel(new HeaderModel("Wish Chairman",Color.WHITE,false,R.drawable.ic_baseline_celebration_24));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(

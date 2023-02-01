@@ -18,7 +18,7 @@ import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>(),
-        QcDashBoardCallback {
+    QcDashBoardCallback {
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
     private var designationsList = ArrayList<String>()
     private var dashboardHistoryList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
@@ -49,15 +49,14 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     override fun setup() {
         showLoading()
 //
-//        Preferences.savingToken("APL41185")
-//        Preferences.setAppLevelDesignationQCFail("MANAGER")
+//        Preferences.savingToken("APL49380")
+//        Preferences.setAppLevelDesignationQCFail("GENERAL MANAGER")
 
 
-
-
-
-        viewModel.getQcPendingList(Preferences.getToken(),
-                Preferences.getAppLevelDesignationQCFail())
+        viewModel.getQcPendingList(
+            Preferences.getToken(),
+            Preferences.getAppLevelDesignationQCFail()
+        )
 
 
         viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
@@ -75,6 +74,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                 if (charText.replace(" ", "").startsWith("AP")) {
                     if (charText.length > 3) {
                         viewBinding.rtodashboardrecycleview.visibility = View.GONE
+                        viewBinding.noOrderFound.visibility = View.GONE
 
                         viewBinding.close.visibility = View.GONE
                         viewBinding.closeArrow.visibility = View.VISIBLE
@@ -84,13 +84,17 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                         } else {
 
                             qcDashboardList =
-                                    dashboardHistoryList.stream()
-                                            .filter { dashboardHistoryList: Getqcfailpendinghistorydashboard.Pendingcount ->
-                                                dashboardHistoryList.empid?.contains(charText.replace(" ",
-                                                        "").toUpperCase()
-                                                        .replace(" ", ""))!!
-                                            }
-                                            .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
+                                dashboardHistoryList.distinctBy { it.empid }.stream()
+                                    .filter { dashboardHistoryList: Getqcfailpendinghistorydashboard.Pendingcount ->
+                                        dashboardHistoryList.empid?.contains(
+                                            charText.replace(
+                                                " ",
+                                                ""
+                                            ).toUpperCase()
+                                                .replace(" ", "")
+                                        )!!
+                                    }
+                                    .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>
 
                         }
 
@@ -105,7 +109,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
                             viewBinding.summaryRecycleView.adapter =
-                                    context?.let { DashboardSummaryAdapter(it, qcDashboardList) }
+                                context?.let { DashboardSummaryAdapter(it, qcDashboardList) }
                         }
 
                     }
@@ -120,10 +124,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
                         } else {
                             qcList = getHierarchyList?.stream()
-                                    ?.filter { getHierarchyList: Getqcfailpendinghistoryforhierarchy.Pendingcount ->
-                                        getHierarchyList.siteid?.contains(charText.replace(" ", ""))!!
-                                    }
-                                    ?.collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
+                                ?.filter { getHierarchyList: Getqcfailpendinghistoryforhierarchy.Pendingcount ->
+                                    getHierarchyList.siteid?.contains(charText.replace(" ", ""))!!
+                                }
+                                ?.collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
                         }
 
 
@@ -144,9 +148,11 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                             viewBinding.searchrecycleview.visibility = View.VISIBLE
                             viewBinding.noOrderFound.visibility = View.GONE
                             viewBinding.searchrecycleview.adapter = context?.let {
-                                DashboardSearchSitesAdapter(it,
-                                        qcDashboardList,
-                                        qcList)
+                                DashboardSearchSitesAdapter(
+                                    it,
+                                    qcDashboardList,
+                                    qcList
+                                )
                             }
 
                         }
@@ -156,6 +162,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                 }
 
                 if (charText.length < 3) {
+                    viewBinding.noOrderFound.visibility = View.GONE
                     viewBinding.rtodashboardrecycleview.visibility = View.VISIBLE
                     viewBinding.summaryRecycleView.visibility = View.GONE
 
@@ -181,8 +188,11 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         })
 
 
+
         viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
+
             hideLoading()
+
             designationsList.clear()
             pendingCountResponseList.clear()
             callApi()
@@ -194,22 +204,24 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
                 if (!it.pendingcount.isNullOrEmpty()) {
                     pendingCountResponseList =
-                            it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
+                        it.pendingcount as ArrayList<PendingCountResponse.Pendingcount>
                 }
 
                 val designations: List<String> = pendingCountResponseList.stream()
-                        .map<String>(PendingCountResponse.Pendingcount::designation).distinct()
-                        .collect(Collectors.toList()).reversed()
+                    .map<String>(PendingCountResponse.Pendingcount::designation).distinct()
+                    .collect(Collectors.toList()).reversed()
 
                 for (i in designations.indices) {
                     designationsList.add(designations.get(i))
                 }
 
                 viewBinding.dashboardrecycleview.adapter =
-                        context?.let { it1 ->
-                            DashBaordAdapter(it1, pendingCountResponseList,
-                                    designationsList)
-                        }
+                    context?.let { it1 ->
+                        DashBaordAdapter(
+                            it1, pendingCountResponseList,
+                            designationsList
+                        )
+                    }
 
 
             } else {
@@ -224,6 +236,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
         viewModel.qcPendingHierarchyHistoryList.observe(viewLifecycleOwner, {
             hideLoading()
+
             if (it.status == true) {
 
 
@@ -244,16 +257,31 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
             }
 
+
+//            dashboardHierarchyList.stream().flatMap { p -> p.pendingcount?.stream()?.filter { x -> x.rtocount.toString().equals("0") } }.collect(
+//                Collectors.toList()
+//            )
+
+//            colors.stream()
+//                .filter { x -> x != null } // or `Objects::nonNull`
+//                .collect(Collectors.toList())
+
+
             hierarchyList = dashboardHierarchyList.stream()
-                    .filter { dashboardHierarchyList: Getqcfailpendinghistoryforhierarchy ->
-                        dashboardHierarchyList.designation?.replace(" ",
-                                "")
-                                .equals("EXECUTIVE")
-                    }
-                    .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy>
+                .filter { dashboardHierarchyList: Getqcfailpendinghistoryforhierarchy ->
+                    dashboardHierarchyList.designation?.replace(
+                        " ",
+                        ""
+                    )
+                        .equals("EXECUTIVE")
+                }
+                .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy>
 
 
-            getHierarchyList = hierarchyList.stream().flatMap { p -> p.pendingcount?.stream() }.collect(Collectors.toList())
+            getHierarchyList =
+                hierarchyList.stream().flatMap { p -> p.pendingcount?.stream() }.collect(
+                    Collectors.toList()
+                )
 
 
 
@@ -293,16 +321,17 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
 
-
                 rtoPendencyAdapter =
-                        context?.let { it1 ->
-                            dashboardHistoryList?.let { it2 ->
-                                RtoPendencyAdapter(it1,
-                                        this, desig,
-                                        it2,
-                                        dashboardHierarchyList)
-                            }
+                    context?.let { it1 ->
+                        dashboardHistoryList?.let { it2 ->
+                            RtoPendencyAdapter(
+                                it1,
+                                this, desig,
+                                it2,
+                                dashboardHierarchyList
+                            )
                         }
+                    }
 
 
                 viewBinding.rtodashboardrecycleview.adapter = rtoPendencyAdapter
@@ -312,10 +341,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         })
 
         viewBinding.rtopendency.setOnClickListener {
-            if (getdashboardHistoryList.isNullOrEmpty()){
+            if (getdashboardHistoryList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
 
-            }else{
+            } else {
                 viewBinding.noOrderFoundText.visibility = View.GONE
                 viewBinding.rtodashboardrecycleview.visibility = View.VISIBLE
                 viewBinding.searchLayout.visibility = View.VISIBLE
@@ -336,10 +365,9 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         }
 
         viewBinding.vishwampendency.setOnClickListener {
-            if(pendingCountResponseList.isNullOrEmpty()){
+            if (pendingCountResponseList.isNullOrEmpty()) {
                 viewBinding.noOrderFoundText.visibility = View.VISIBLE
-            }
-            else{
+            } else {
                 viewBinding.noOrderFoundText.visibility = View.GONE
                 viewBinding.dashboardrecycleview.visibility = View.VISIBLE
                 viewBinding.searchLayout.visibility = View.GONE
@@ -359,21 +387,23 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             viewBinding.vishwampendency.setTextColor(Color.parseColor("#FF000000"))
 
 
-
         }
 
 
     }
 
 
-    fun callApi(){
+    fun callApi() {
         showLoading()
 
-        viewModel.getQcPendingDashboardHistoryList(Preferences.getToken(),
-                Preferences.getAppLevelDesignationQCFail())
+        viewModel.getQcPendingDashboardHistoryList(
+            Preferences.getToken(),
+            Preferences.getAppLevelDesignationQCFail()
+        )
 
 
     }
+
     override fun onClick(position: Int, designation: String, empId: String, click: Boolean) {
 
         showLoading()

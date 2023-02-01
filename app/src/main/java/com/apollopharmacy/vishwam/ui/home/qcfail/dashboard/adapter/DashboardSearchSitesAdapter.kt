@@ -11,6 +11,9 @@ import com.apollopharmacy.vishwam.databinding.SearchSiteBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class DashboardSearchSitesAdapter(
     val mContext: Context,
@@ -40,21 +43,21 @@ class DashboardSearchSitesAdapter(
         val items = pendingCountResponseList.get(position)
 
 
+        holder.searchSiteBinding.sitedname.setText(items.siteid.toString())
 
 
-
-        if (items.designation.equals("executive", true)) {
-            holder.searchSiteBinding.executiveempId.setText(items.empid.toString())
-
-        } else if (items.designation.equals("manager", true)) {
-            holder.searchSiteBinding.managerempId.setText(items.empid.toString())
-
-        } else if (items.designation?.replace(" ", "")
-                .equals("generalmanager", true)
-        ) {
-            holder.searchSiteBinding.gmanagerempId.setText(items.empid.toString())
-
-        }
+//        if (items.designation.equals("executive", true)) {
+//            holder.searchSiteBinding.executiveempId.setText(items.empid.toString())
+//
+//        } else if (items.designation.equals("manager", true)) {
+//            holder.searchSiteBinding.managerempId.setText(items.empid.toString())
+//
+//        } else if (items.designation?.replace(" ", "")
+//                .equals("generalmanager", true)
+//        ) {
+//            holder.searchSiteBinding.gmanagerempId.setText(items.empid.toString())
+//
+//        }
 
         if(items.rtocount==null){
             holder.searchSiteBinding.rtocount.setText("-")
@@ -74,14 +77,15 @@ class DashboardSearchSitesAdapter(
             holder.searchSiteBinding.rtovalue.setText("-")
 
         }else{
-            holder.searchSiteBinding.rtovalue.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
+            holder.searchSiteBinding.rtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
 
         }
         if(items.rrtoamount==null){
             holder.searchSiteBinding.rrtovalue.setText("-")
 
         }else{
-            holder.searchSiteBinding.rrtovalue.setText(DecimalFormat("#,###.00").format(items.rrtoamount).toString())
+
+            holder.searchSiteBinding.rrtovalue.setText(NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
 
         }
 
