@@ -154,10 +154,12 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             val itemTypeList = Preferences.getItemTypeListJson()
 
 
-
             val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
             this.itemTypeDropDownResponse =
-                gson.fromJson<List<ItemTypeDropDownResponse>>(itemTypeList, type) as ItemTypeDropDownResponse
+                gson.fromJson<List<ItemTypeDropDownResponse>>(
+                    itemTypeList,
+                    type
+                ) as ItemTypeDropDownResponse
 
             ItemTypeDialog().apply {
                 arguments =
@@ -173,10 +175,12 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
 
 
-
             val type = object : TypeToken<ItemTypeDropDownResponse>() {}.type
             this.doctorSpecialityDropDownREsponse =
-                gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
+                gson.fromJson<List<ItemTypeDropDownResponse>>(
+                    doctorSpecialityList,
+                    type
+                ) as ItemTypeDropDownResponse
 
             DoctorSpecialityDialog().apply {
                 arguments =
@@ -745,8 +749,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                     try {
                         val gson = GsonBuilder().setPrettyPrinting().create()
                         employeeDetailsResponse =
-                            gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
-                                EmployeeDetailsResponse::class.java)
+                            gson.fromJson<EmployeeDetailsResponse>(
+                                empDetailsResponse,
+                                EmployeeDetailsResponse::class.java
+                            )
                     } catch (e: JsonParseException) {
                         e.printStackTrace()
                     }
@@ -966,26 +972,46 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
 
     private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     private fun askPermissions(PermissonCode: Int) {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ), PermissonCode
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
+            )
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
+            )
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -1018,8 +1044,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        val orientation = exifInterface!!.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-            ExifInterface.ORIENTATION_UNDEFINED)
+        val orientation = exifInterface!!.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_UNDEFINED
+        )
         val matrix = Matrix()
         when (orientation) {
             ExifInterface.ORIENTATION_ROTATE_90 -> matrix.setRotate(90f)
@@ -1189,47 +1217,35 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
             viewBinding.itemName.requestFocus()
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        }
-
-        else if (itemType.isEmpty()) {
+        } else if (itemType.isEmpty()) {
             showErrorMsg(
                 "Kindly select the Item type"
             )
 
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        }
-
-
-        else if (requireQty.isEmpty()) {
+        } else if (requireQty.isEmpty()) {
             showErrorMsg(
                 "Please enter Required quantity"
             )
             viewBinding.requiredQuantity.requestFocus()
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        }
-
-        else if (doctorName.isEmpty()) {
+        } else if (doctorName.isEmpty()) {
             showErrorMsg(
                 "Please enter Doctor's name"
             )
             viewBinding.doctorname.requestFocus()
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        }
-
-        else if (doctorSpeciality.isEmpty()) {
+        } else if (doctorSpeciality.isEmpty()) {
             showErrorMsg(
                 "Kindly select the Doctor speciality"
             )
 
 //            viewBinding.branchNameTextInput.error = ""
             return false
-        }
-
-
-        else if (packsize.isEmpty()) {
+        } else if (packsize.isEmpty()) {
             showErrorMsg(
                 "Please enter Pack size"
             )
@@ -1345,8 +1361,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.dcTextInput.visibility = View.VISIBLE
         viewBinding.dcCode.visibility = View.VISIBLE
 
-        viewBinding.dcCode.setText("" + (departmentDto.dc_code?.code
-            ?: String()) + " - " + departmentDto.dc_code?.name)
+        viewBinding.dcCode.setText(
+            "" + (departmentDto.dc_code?.code
+                ?: String()) + " - " + departmentDto.dc_code?.name
+        )
 //        viewBinding.dcTextInput.setBoxBackgroundColorResource(R.color.cement)
 //        viewBinding.createdInput.setBoxBackgroundColorResource(R.color.cement)
         viewBinding.createdOn.setText(currentDate)

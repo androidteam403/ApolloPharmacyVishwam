@@ -274,4 +274,9 @@
     <string name="err_msg_enter_approval_code">Please Enter Approval Code</string>
     <string name="err_msg_enter_bill_amount">Please Enter Bill Amount</string>
     <string name="label_confirm_aleart">Do you want to exit</string>
+    <string name="label_preview">PREVIEW</string>
+    <string name="label_continue">continue</string>
+    <string name="label_write_your_text">write your text</string>
+    <string name="label_your_nsignature_nhere">Your\nSignature\nHere</string>
+    <string name="label_your_signature">your signature</string>
 </resources>

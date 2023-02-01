@@ -1,7 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.reshootactivity
 
-import android.R.attr.bottom
-import android.R.attr.top
+import android.Manifest
 import android.app.Activity
 import android.app.Dialog
 import android.app.ProgressDialog
@@ -65,8 +64,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityreShootBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_re_shoot
+            this, R.layout.activity_re_shoot
 
         )
         viewModel = ViewModelProvider(this)[ReShootActivityViewModel::class.java]
@@ -79,7 +77,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         val partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")
 
         activityreShootBinding.storeId.text = storeId
-        activityreShootBinding.swachId.text=swachId
+        activityreShootBinding.swachId.text = swachId
 
 
 
@@ -108,8 +106,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
-                    context,
-                    R.color.greenn
+                    context, R.color.greenn
                 )
             );
         } else if (status == "Partially Approved") {
@@ -137,8 +134,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
-                    context,
-                    R.color.color_red
+                    context, R.color.color_red
                 )
             );
         } else if (status == "Reshoot") {
@@ -166,8 +162,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
-                    context,
-                    R.color.color_red
+                    context, R.color.color_red
                 )
             );
         } else if (status == "Pending") {
@@ -184,8 +179,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             activityreShootBinding.statusTop.text = status
             activityreShootBinding.statusTop.setTextColor(
                 ContextCompat.getColor(
-                    context,
-                    R.color.material_amber_accent_700
+                    context, R.color.material_amber_accent_700
                 )
             );
         }
@@ -201,7 +195,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         viewModel.getImageUrlsList.observeForever {
 
             if (it != null && it.categoryList != null) {
-               hideLoadingTemp()
+                hideLoadingTemp()
                 getImageUrlsList.add(it)
 
                 if (it.remarks?.size!! > 0 && it.remarks?.get(0)?.remarks != "") {
@@ -232,7 +226,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                         activityreShootBinding.reshootButton.setBackgroundColor(Color.parseColor("#a6a6a6"));
                     }
 
-                }else{
+                } else {
                     val params = LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.MATCH_PARENT
@@ -251,7 +245,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 activityreShootBinding.imageRecyclerViewRes.adapter = onClickStatusClickAdapter
 
             } else {
-               hideLoadingTemp()
+                hideLoadingTemp()
                 Toast.makeText(applicationContext, "Please try again", Toast.LENGTH_SHORT).show()
             }
 
@@ -267,7 +261,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
         viewModel.uploadSwachModelRes.observeForever {
             if (it != null) {
                 Toast.makeText(context, "Images Uploaded Successfully", Toast.LENGTH_SHORT).show()
-               onBackPressed()
+                onBackPressed()
             }
 
 //            viewModel.onUploadSwachRes(submit)
@@ -277,7 +271,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
         }
         activityreShootBinding.backButton.setOnClickListener {
-           super.onBackPressed()
+            super.onBackPressed()
         }
 
         viewModel.commands.observeForever {
@@ -331,15 +325,12 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFromCameraFile =
-            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        imageFromCameraFile = File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                imageFromCameraFile!!
+                context, context.packageName + ".provider", imageFromCameraFile!!
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
@@ -352,29 +343,47 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 
 
     private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(
-            context,
-            android.Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            context,
-            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            context,
-            android.Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                context, Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
-
 
     private fun askPermissions(PermissonCode: Int) {
-        requestPermissions(
-            arrayOf(
-                android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                android.Manifest.permission.CAMERA
-            ), PermissonCode
-        )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
+            )
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
+            )
+        }
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -392,8 +401,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                         context,
                         context?.resources?.getString(R.string.label_permission_denied),
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
             }
         }
@@ -469,8 +477,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 //        )
 
         PopUpWIndow(
-            context, R.layout.popup_imageview, view,
-            url.toString(), null, category, position
+            context, R.layout.popup_imageview, view, url.toString(), null, category, position
         )
 
 
@@ -494,17 +501,14 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
 //            val exifOrientation = exif.getAttribute(ExifInterface.TAG_ORIENTATION)
 
 
-            val resizedImage = Resizer(this)
-                .setTargetLength(1080)
-                .setQuality(100)
-                .setOutputFormat("JPG")
+            val resizedImage =
+                Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
-                .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
-                )
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
 
-                .setSourceImage(imageFromCameraFile)
-                .resizedFile
+                    .setSourceImage(imageFromCameraFile).resizedFile
 
 
 
@@ -535,7 +539,8 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
                 for (i in getImageUrlsList.get(0).categoryList?.indices!!) {
                     for (j in getImageUrlsList.get(0).categoryList!!.get(i).imageUrls!!.indices) {
                         if (getImageUrlsList.get(0).categoryList!!.get(i).imageUrls!!.get(j).status.equals(
-                                "2")
+                                "2"
+                            )
                         ) {
                             var imageUrl = submit.ImageUrl()
                             imageUrl.url =
@@ -556,6 +561,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             Toast.makeText(context, "Please re-shoot all the images", Toast.LENGTH_SHORT).show()
         }
     }
+
     var mProgressDialogTemp: ProgressDialog? = null
     fun showLoadingTemp(context: Context) {
         hideLoadingTemp()
@@ -567,6 +573,7 @@ class ReShootActivity : AppCompatActivity(), ImagesCardViewAdapterRes.CallbackIn
             mProgressDialogTemp!!.dismiss()
         }
     }
+
     fun showLoadingDialogTemp(context: Context?): ProgressDialog? {
         val progressDialog = ProgressDialog(context)
         progressDialog.show()

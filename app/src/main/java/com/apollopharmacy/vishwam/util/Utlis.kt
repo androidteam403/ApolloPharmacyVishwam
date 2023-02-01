@@ -124,14 +124,13 @@ object Utlis {
     }
 
 
-
     fun getDatethirtyDays(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 
 //        Date date = new Date();
 //        String todate = sdf.format(date);
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE,30)
+        cal.add(Calendar.DATE, 30)
         val todate1 = cal.time
         return sdf.format(todate1)
     }
@@ -140,10 +139,11 @@ object Utlis {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         return sdf.format(Date())
     }
+
     fun getCurrent30Date(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE,-30)
+        cal.add(Calendar.DATE, -30)
         val todate1 = cal.time
         return sdf.format(todate1)
     }
@@ -158,5 +158,10 @@ object Utlis {
         } catch (e: ParseException) {
         }
         return datetime
+    }
+
+    fun getCurrentTimeStamp(): String {
+        val tsLong = System.currentTimeMillis() / 1000
+        return tsLong.toString()
     }
 }

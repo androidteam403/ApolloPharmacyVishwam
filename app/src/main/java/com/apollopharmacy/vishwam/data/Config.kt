@@ -7,7 +7,7 @@ object Config {
     val PROBLEM_SINCE_DAYS = 30
     var URL_MAIN ="https://online.apollopharmacy.org/CPOS/APOLLO/" //"http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"
     var DEVICE_ID = "34.87.87.09.909"
-    var KEY = "2039" //Producation : 2034 OTHER : 2027 UAT : 2039
+    var KEY = "2034" //Producation : 2034 OTHER : 2027 UAT : 2039
     var TYPE_REJECT = "REJECT"
     var TYPE_ACCEPT = "ACCEPT"
     var ENCRIPTION_KEY = "discount"
@@ -48,4 +48,8 @@ object Config {
 
 //    val CMS_Registration= "http://172.16.2.250:8085/CMS/cmsRegistrarionCrtlr/registration"
 //    val CMS_Registered_Cmp_List= "http://172.16.2.250:8085/CMS/complientsListController/registeredComplientsList"
+
+    //made changes by naveen
+    val EMPLOYEE_WISHES_CONTAINAER_NAME = "apselfisignature"//"ap_selfi_signature"
+   const val EMPLOYEE_WISHES_STORAGE_CONNECTIONS = "DefaultEndpointsProtocol=https;"+"AccountName=pharmtest;"+"AccountKey=dhJpbROM1e6MzzjAHPXyP52+w1U+cN2DQKnqwc77Uwp6LkIH/9k2hHktS3zpfJPCEQdL2jcqYdANTdEox+Fiww=="
 }

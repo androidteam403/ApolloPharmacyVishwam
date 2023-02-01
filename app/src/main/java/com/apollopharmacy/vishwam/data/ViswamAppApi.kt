@@ -6,6 +6,8 @@ import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
+import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
+import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsRequest
@@ -340,14 +342,13 @@ interface ViswamAppApi {
 //                                    @Query("DESIGNATION") designation: String,): PendingCountResponse
 
 
-   //QcDashboard
+    //QcDashboard
     @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
     suspend fun qcPendingCountList(
         @Url url: String,
         @Query("EMPID") empId: String,
         @Query("DESIGNATION") designation: String,
     ): PendingCountResponse
-
 
 
     @GET// ("https://online.apollopharmacy.org/QCFAILUAT/APOLLO/QCFAIL/GETQCFAILDESIGNATIONWISEPENDINGCOUNT?EMPID=APL49396&DESIGNATION=GENERAL MANAGER")
@@ -363,9 +364,6 @@ interface ViswamAppApi {
         @Query("EMPID") empId: String,
         @Query("DESIGNATION") designation: String,
     ): Getqcfailpendinghistoryforhierarchy
-
-
-
 
 
     @GET//("https://online.apollopharmacy.org/VISWAMUAT/Apollo/DiscountRequest/APPLEVELDESIGNATION?")//qcfail
@@ -475,6 +473,12 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body getDetailsRequest: GetDetailsRequest,
     ): ResponseBody
+
+    @POST
+    suspend fun EMPLOYEE_WISHES_API_CALL(
+        @Url url: String,
+        @Body data: EmployeeWishesRequest?,
+    ): EmployeeWishesResponse
 }
 
 

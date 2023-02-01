@@ -54,7 +54,6 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashboardFragment;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
@@ -359,9 +358,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
         //creating fragment object
-        currentItem = itemName;
-        if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
-            return;
+        if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
+            currentItem = itemName;
+            if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
+                return;
+            }
         }
         //initializing the fragment object which is selected
         switch (itemName) {
@@ -495,10 +496,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-            case "Wish Chairman":
+            case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
                 startActivity(i);
-
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -768,7 +768,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
 
 
-        listView.addHeaderModel(new HeaderModel("Wish Chairman",Color.WHITE,false,R.drawable.ic_baseline_celebration_24));
+        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_baseline_celebration_24));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(
@@ -838,9 +838,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (listHeader.get(groupPosition).getTitle().equals("Logout")) {
                 displaySelectedScreen("Logout");
                 drawer.closeDrawer(GravityCompat.START);
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Wish Chairman")) {
-                displaySelectedScreen("Wish Chairman");
+            } else if (listHeader.get(groupPosition).getTitle().equals("Greetings to Chairman")) {
+                displaySelectedScreen("Greetings to Chairman");
                 drawer.closeDrawer(GravityCompat.START);
             }
             return false;
