@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.QcApiRepo
@@ -12,6 +13,8 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryda
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 import com.apollopharmacy.vishwam.ui.login.Command
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -36,9 +39,12 @@ class DashBoardViewModel: ViewModel() {
             if (data.APIS[i].NAME.equals("QC TOTALDASHBAORD")) {
                 baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
+
                 break
             }
         }
+
+
 
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
@@ -46,9 +52,15 @@ class DashBoardViewModel: ViewModel() {
             val result = withContext(Dispatchers.IO) {
                 QcApiRepo.getqcPendingDashboardHistory(baseUrl,empId, designation)
             }
+
             when (result) {
+
+
+
                 is ApiResult.Success -> {
+
                     if (result.value.status ?: null == true) {
+
                         state.value = State.ERROR
                         qcPendingDashboardHistoryList.value = result.value
 
@@ -69,6 +81,7 @@ class DashBoardViewModel: ViewModel() {
                     state.value = State.ERROR
                 }
                 is ApiResult.UnknownError -> {
+
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }

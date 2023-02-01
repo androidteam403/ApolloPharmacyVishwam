@@ -52,12 +52,12 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 //        Preferences.savingToken("APL49380")
 //        Preferences.setAppLevelDesignationQCFail("GENERAL MANAGER")
 
+        callApi()
 
         viewModel.getQcPendingList(
             Preferences.getToken(),
             Preferences.getAppLevelDesignationQCFail()
         )
-
 
         viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
@@ -195,7 +195,6 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
             designationsList.clear()
             pendingCountResponseList.clear()
-            callApi()
 
             if (it.status == true) {
 
@@ -394,7 +393,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
     fun callApi() {
-        showLoading()
+//        showLoading()
 
         viewModel.getQcPendingDashboardHistoryList(
             Preferences.getToken(),
