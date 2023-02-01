@@ -7,11 +7,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+
         android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:id="@+id/parentLayout"
             android:visibility="visible"
             android:orientation="vertical">
@@ -20,7 +23,6 @@
                 android:id="@+id/generalmanager_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_55dp"
-                android:layout_marginBottom="@dimen/five5_sp"
                 android:background="#00acae"
                 android:orientation="horizontal"
                 android:visibility="visible">

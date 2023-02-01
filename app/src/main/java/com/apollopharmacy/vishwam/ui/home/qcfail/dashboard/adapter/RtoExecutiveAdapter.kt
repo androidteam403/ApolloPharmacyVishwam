@@ -13,7 +13,11 @@ import com.apollopharmacy.vishwam.databinding.ExecutiveLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryforhierarchy
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
+import java.text.NumberFormat
+import java.util.*
 import java.util.function.Predicate
+import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 class RtoExecutiveAdapter(
         val mContext: Context,
@@ -27,6 +31,8 @@ class RtoExecutiveAdapter(
         ) :
     RecyclerView.Adapter<RtoExecutiveAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
+    var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
+
     var empId: String = ""
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -45,6 +51,9 @@ class RtoExecutiveAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val items = getqcfailhierarchyList.get(position)
+
+
+
 
         if (qcfailhierarchyList.isNotEmpty()) {
             for (i in qcfailhierarchyList.indices) {
@@ -65,11 +74,16 @@ class RtoExecutiveAdapter(
                     }
 
 
+                    dashBoardList= item.pendingcount!!.stream().filter { x -> x.rtocount !=0 || x.rrtocount!=0} // or `Objects::nonNull`
+                        .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
 
-
-
+                    dashBoardList.sortWith { o1: Getqcfailpendinghistoryforhierarchy.Pendingcount, o2: Getqcfailpendinghistoryforhierarchy.Pendingcount ->
+                        o2.rtoamount!!.compareTo(
+                            o1.rtoamount!!
+                        )
+                    }
                     rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
-                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                            dashBoardList)
                     holder.executiveLayoutBinding.sitesRecyclerView.adapter = rtoSitesAdapter
                     rtoSitesAdapter!!.notifyDataSetChanged()
 
@@ -92,12 +106,13 @@ class RtoExecutiveAdapter(
                     if(qcfailDashboardList.get(i).rtoamount.toString().isNullOrEmpty()){
 
                     }else{
-                        holder.executiveLayoutBinding.rtovalues.setText((qcfailDashboardList.get(i).rtoamount).toString())
+
+                        holder.executiveLayoutBinding.rtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rtoamount).toString())
                     }
 
-                    holder.executiveLayoutBinding.rrtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.executiveLayoutBinding.rrtovalues.setText((
-                            qcfailDashboardList.get(i).rrtoamount).toString())
+                    holder.executiveLayoutBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.executiveLayoutBinding.rrtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(qcfailDashboardList.get(i).rrtoamount).toString())
+
 
 
                 }
@@ -114,6 +129,16 @@ class RtoExecutiveAdapter(
 
         holder.executiveLayoutBinding.generalmanagerArrow.setOnClickListener {
 
+            for ( i in getqcfailhierarchyList.indices){
+                if (getqcfailhierarchyList[position]==getqcfailhierarchyList[i]){
+                    getqcfailhierarchyList[position].setisexecutiveClick(true)
+
+                }else{
+                    getqcfailhierarchyList[i].setisexecutiveClick(false)
+
+                }
+            }
+
             var isContain: Boolean
             val predicate =
                 Predicate { qcfailDashboardList: Getqcfailpendinghistorydashboard.Pendingcount ->
@@ -123,12 +148,12 @@ class RtoExecutiveAdapter(
 
             isContain = qcfailDashboardList.stream().anyMatch(predicate)
             if (isContain) {
-                getqcfailhierarchyList[position].setisexecutiveClick(true)
+//                getqcfailhierarchyList[position].setisexecutiveClick(true)
 
                 mCallBack.notify(position, false)
                 notifyDataSetChanged()
             } else {
-                getqcfailhierarchyList[position].setisexecutiveClick(true)
+//                getqcfailhierarchyList[position].setisexecutiveClick(true)
                 items.designation?.let { it1 ->
                     items.empid?.let { it2 ->
                         mCallBack.onClickExecutive(position,

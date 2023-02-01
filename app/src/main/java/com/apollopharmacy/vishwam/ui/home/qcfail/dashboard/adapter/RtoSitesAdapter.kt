@@ -16,6 +16,9 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistoryfo
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.PendingCountResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcDashBoardCallback
 import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RtoSitesAdapter(
     val mContext: Context,
@@ -40,6 +43,11 @@ class RtoSitesAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = pendingCountResponseList.get(position)
+
+
+
+
+
 
       if (items.siteid.toString().isNullOrEmpty()){
           holder.dashboardSitesBinding.parentLayout.visibility=View.GONE
@@ -67,7 +75,8 @@ class RtoSitesAdapter(
             holder.dashboardSitesBinding.rtovalues.setText("-")
 
         }else{
-            holder.dashboardSitesBinding.rtovalues.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
+            holder.dashboardSitesBinding.rtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(items.rtoamount).toString())
+
 
         }
         if (items.rrtocount.toString().isNullOrEmpty()|| items.rrtocount!!.equals("null")){
@@ -81,7 +90,9 @@ class RtoSitesAdapter(
             holder.dashboardSitesBinding.rrtovalues.setText("-")
 
         }else{
-            holder.dashboardSitesBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(items.rrtoamount).toString())
+
+
+            holder.dashboardSitesBinding.rrtovalues.setText( NumberFormat.getNumberInstance(Locale.US).format(items.rrtoamount).toString())
 
         }
 

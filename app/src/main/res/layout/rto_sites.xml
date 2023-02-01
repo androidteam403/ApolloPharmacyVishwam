@@ -23,9 +23,9 @@
 
                 android:orientation="vertical">
 
-
                 <TextView
                     android:id="@+id/siteIdS"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_5dp"
@@ -33,10 +33,12 @@
                     android:paddingStart="4sp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
-                    android:text="16001"
+                    android:text="RTO Count"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textSize="@dimen/dimen11sp" />
+
+
 
             </TableLayout>
 
@@ -228,7 +230,7 @@
                             android:paddingBottom="8dp"
                             android:drawablePadding="2dp"
                             android:text=""
-                            android:paddingStart="@dimen/value_25dp"
+                            android:paddingStart="10dp"
                             android:textAlignment="textStart"
 
                             android:textColor="@color/black"
@@ -283,7 +285,7 @@
                             android:paddingBottom="8dp"
                             android:drawablePadding="2dp"
                             android:text=""
-                            android:paddingStart="@dimen/value_25dp"
+                            android:paddingStart="10dp"
                             android:textAlignment="textStart"
 
                             android:textColor="@color/black"

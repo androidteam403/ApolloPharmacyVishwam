@@ -33,7 +33,7 @@ class RtoManagerAdapter(
         RecyclerView.Adapter<RtoManagerAdapter.ViewHolder>() {
     var rtoSitesAdapter: RtoSitesAdapter? = null
     var rtoExecutiveAdapter: RtoExecutiveAdapter? = null
-    var dashBoardList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
+    var dashBoardList = ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>()
     var empId: String = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,12 +56,41 @@ class RtoManagerAdapter(
         val items = getqcfailhierarchyList.get(position)
 
 
+        if (qcfailDashboardList.isNotEmpty()) {
+            for (i in qcfailDashboardList.indices) {
+                if (qcfailDashboardList.get(i).empid.equals(
+                        getqcfailhierarchyList.get(position).empid)
+                ) {
+
+                    holder.dashboardSiteBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
+                    holder.dashboardSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
+                        qcfailDashboardList.get(i).rtoamount).toString())
+                    holder.dashboardSiteBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
+                    holder.dashboardSiteBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
+                        qcfailDashboardList.get(i).rrtoamount).toString())
+
+
+                }
+            }
+
+
+        }
+
 
         if (getqcfailhierarchyList[position].isClick) {
 
+            if(getqcfailhierarchyList[position].designation.equals("EXECUTIVE")){
+
+            }
+            else{
+                holder.dashboardSiteBinding.executiveRecycleview.visibility = View.VISIBLE
+
+            }
+
+
+
             holder.dashboardSiteBinding.closeArrow.visibility = View.VISIBLE
             holder.dashboardSiteBinding.rtoLayout.visibility = View.VISIBLE
-            holder.dashboardSiteBinding.executiveRecycleview.visibility = View.VISIBLE
             holder.dashboardSiteBinding.generalmanagerArrow.visibility = View.GONE
             holder.dashboardSiteBinding.sitesRecyclerView.visibility = View.VISIBLE
             rtoExecutiveAdapter?.notifyDataSetChanged()
@@ -89,9 +118,16 @@ class RtoManagerAdapter(
                         }
                     }
 
+                    dashBoardList= item.pendingcount!!.stream().filter { x -> x.rtocount !=0 || x.rrtocount!=0} // or `Objects::nonNull`
+                        .collect(Collectors.toList()) as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>
+                    dashBoardList.sortWith { o1: Getqcfailpendinghistoryforhierarchy.Pendingcount, o2: Getqcfailpendinghistoryforhierarchy.Pendingcount ->
+                        o2.rtoamount!!.compareTo(
+                            o1.rtoamount!!
+                        )
+                    }
 
                     rtoSitesAdapter = RtoSitesAdapter(mContext, mCallBack,
-                            item.pendingcount as ArrayList<Getqcfailpendinghistoryforhierarchy.Pendingcount>)
+                            dashBoardList)
                     holder.dashboardSiteBinding.sitesRecyclerView.adapter = rtoSitesAdapter
                     rtoExecutiveAdapter?.notifyDataSetChanged()
                     rtoSitesAdapter!!.notifyDataSetChanged()
@@ -112,25 +148,6 @@ class RtoManagerAdapter(
 
         }
 
-        if (qcfailDashboardList.isNotEmpty()) {
-            for (i in qcfailDashboardList.indices) {
-                if (qcfailDashboardList.get(i).empid.equals(
-                                getqcfailhierarchyList.get(position).empid)
-                ) {
-
-                    holder.dashboardSiteBinding.rtocounts.setText(qcfailDashboardList.get(i).rtocount.toString())
-                    holder.dashboardSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rtoamount).toString())
-                    holder.dashboardSiteBinding.rrtocounts.setText(qcfailDashboardList.get(i).rrtocount.toString())
-                    holder.dashboardSiteBinding.rrtovalues.setText(DecimalFormat("#,###.00").format(
-                            qcfailDashboardList.get(i).rrtoamount).toString())
-
-
-                }
-            }
-
-
-        }
 
 
 
@@ -140,7 +157,17 @@ class RtoManagerAdapter(
 
         holder.dashboardSiteBinding.generalmanagerArrow.setOnClickListener {
 
-            getqcfailhierarchyList[position].setisClick(true)
+            for ( i in getqcfailhierarchyList.indices){
+                if (getqcfailhierarchyList[position]==getqcfailhierarchyList[i]){
+                    getqcfailhierarchyList[position].setisClick(true)
+
+                }else{
+                    getqcfailhierarchyList[i].setisClick(false)
+
+                }
+            }
+
+
 
             var isContain: Boolean
             val predicate =
