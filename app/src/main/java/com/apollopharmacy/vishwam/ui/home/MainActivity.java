@@ -63,14 +63,10 @@ import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
@@ -277,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
             userNameText.setText(loginData.getEMPNAME());
-            idText.setText("ID: "+loginData.getEMPID());
+            idText.setText("ID: " + loginData.getEMPID());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
 
 //            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
@@ -549,7 +545,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-            case "QcPending":
+            case "OutStanding":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -816,12 +812,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
         listView.init(this)
-                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
+                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
 
         listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_baseline_celebration_24));
 
-                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
         if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_baseline_attendance)
@@ -831,7 +826,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (isCMSRequired) {
             listView.addHeaderModel(
-                    new HeaderModel("CMS", Color.WHITE, true,R.drawable.ic_menu_cms)
+                    new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
                             .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
             );
@@ -857,11 +852,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         if (isQcFailRequired) {
-            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.returns)
-                    .addChildModel(new ChildModel("Dashboard"))
-                    .addChildModel(new ChildModel("OutStanding"))
-                    .addChildModel(new ChildModel("Approved"))
-                    .addChildModel(new ChildModel("Rejected"))
+            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
+                    .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
+                    .addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending))
+                    .addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_))
+                    .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
 
 
             );
@@ -876,7 +871,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)));
             } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
                 listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
-                        .addChildModel(new ChildModel("List",R.drawable.ic_apollo_list2)));
+                        .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
         listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
@@ -948,7 +943,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("QcDashboard");
                 }
                 if (childModelList.get(childPosition).getTitle().equals("OutStanding")) {
-                    displaySelectedScreen("QcPending");
+                    displaySelectedScreen("OutStanding");
                 } else if (childModelList.get(childPosition).getTitle().equals("Approved")) {
                     displaySelectedScreen("QcApproved");
                 } else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
@@ -962,14 +957,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("List")) {
                     displaySelectedScreen("List");
                 }
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
                     displaySelectedScreen("Champs Survey");
                 } else if (childModelList.get(childPosition).getTitle().equals("Champs Reports")) {
                     displaySelectedScreen("Champs Reports");
-                }else if(childModelList.get(childPosition).getTitle().equals("Champs Admin")){
+                } else if (childModelList.get(childPosition).getTitle().equals("Champs Admin")) {
                     displaySelectedScreen("Champs Admin");
                 }
             }

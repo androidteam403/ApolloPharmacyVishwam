@@ -38,25 +38,25 @@
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
+            android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity"
+            android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity"
+            android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy"
+            android:name=".ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity"
+            android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
+            android:name=".ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity"
+            android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
             android:exported="true" />
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
@@ -113,7 +113,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 
