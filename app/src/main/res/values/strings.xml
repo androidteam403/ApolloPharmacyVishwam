@@ -79,6 +79,7 @@
     <string name="label_batch">Batch</string>
     <string name="label_enter_mrp">Enter MRP</string>
     <string name="label_enter_purchase_price">Enter Purchase Price</string>
+    <string name="hint"><font size="16">Enter Store Name / ID</font></string>
     <string name="label_select_expire_date">Select Expire Date</string>
     <!--  <string name="label_problem_description">Problem Description  <font color='#FF0000'>*</font></string>-->
     <string name="label_problem_description">Complaint Description  <font color='#FF0000'>*</font></string>

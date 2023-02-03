@@ -12,7 +12,7 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
+import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent

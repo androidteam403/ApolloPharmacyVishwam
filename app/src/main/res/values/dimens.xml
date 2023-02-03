@@ -96,4 +96,7 @@
     <dimen name="dimen11sp">11sp</dimen>
     <dimen name="dimen350dp">350dp</dimen>
     <dimen name="dimen365dp">365dp</dimen>
+    <dimen name="dimen36dp">36dp</dimen>
+    <dimen name="forty_three_dp">43dp</dimen>
+    <dimen name="thirty_fourdp">34dp</dimen>
 </resources>
