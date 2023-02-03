@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.apollopharmacy.vishwam">
+    package="com.apollopharmacy.vishwam" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -24,25 +24,30 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity"></activity>
+        android:usesCleartextTraffic="true" >
+        <activity android:name=".ui.home.champs.admin.adminmodule.AdminModuleActivity" >
+        </activity>
+        <activity android:name=".ui.home.champs.survey.activity.surveylist.SurveyListActivity" />
+        <activity android:name=".ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity" />
+        <activity android:name=".ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseAnalysisReportActivity" />
+        <activity android:name=".ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity" />
         <activity android:name=".ui.home.champs.reports.activity.champssurveyreports.ChampsSurveyReportsActivity" />
-        <activity android:name=".ui.home.champs.survey.activity.champssurveyactivity.ChampsSurveyActivity" />
-        <activity android:name=".ui.home.champs.survey.activity.surveydetailsactivity.SurveyDetailsActivity" />
+        <activity android:name=".ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity" />
+        <activity android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity" />
         <activity android:name=".ui.home.champs.survey.activity.StartSurveyActivity" />
         <activity android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity" />
         <activity android:name=".ui.home.qcfail.qcfilter.QcFilterActivity" />
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy" />
-        <activity android:name=".ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity" />
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity" />
-        <activity android:name=".ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity" />
+        <activity android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity" />
+        <activity android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity" />
+        <activity android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity" />
+        <activity android:name=".ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy" />
+        <activity android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity" />
+        <activity android:name=".ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity" />
+        <activity android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity" />
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -83,13 +88,13 @@
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
@@ -108,7 +113,7 @@
         <service
             android:name=".util.firebase.MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -797,6 +797,6 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachhListCallback" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachhListCallback" />
     </data>
 </layout>

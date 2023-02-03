@@ -111,5 +111,11 @@
     <color name="light_orange">#f5cf71</color>
     <color name="brown">#c69c6d</color>
     <color name="light_skyblue">#93d8eb</color>
+    <color name="dark_grey_for_heading">#76828e</color>
+    <color name="dark_orangee">#ed643a</color>
+    <color name="light_greyyy">#999d9b</color>
+    <color name="dark_greenn">#009140</color>
+    <color name="light_yellow_color">#fff6e4</color>
+    <color name="lightt_green">#009245</color>
 
 </resources>

@@ -5,7 +5,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.sampleui.swachuploadmodule.ReShootActivity">
+        tools:context=".ui.home.swach.swachuploadmodule.ReShootActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1828,7 +1828,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved" />
 
         <variable
             name="pendingCount"
@@ -1852,7 +1852,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.ApproveListcallback" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.ApproveListcallback" />
 
     </data>
 </layout>

@@ -7,10 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityChampsSummaryReportsBinding
-import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyBinding
-import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyReportsBinding
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurveyactivity.ChampsSurveyViewModel
 import com.apollopharmacy.vishwam.util.Utils
 
 class ChampsSummaryReportsActivity : AppCompatActivity(), ChampsSummaryReportsCallBack,ComplaintListCalendarDialog.DateSelected {
@@ -98,6 +95,6 @@ class ChampsSummaryReportsActivity : AppCompatActivity(), ChampsSummaryReportsCa
     }
 
     override fun selectedDatefrom(dateSelected: String, showingDate: String) {
-        TODO("Not yet implemented")
+
     }
 }

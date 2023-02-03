@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,11 +27,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -43,6 +48,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -56,9 +62,9 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListFragment;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy;
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.sampleswachui.SampleSwachUi;
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachListFragment;
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy;
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUi;
 import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
@@ -143,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public ImageView siteIdIcon;
     public RelativeLayout filterIcon;
     public RelativeLayout qcfilterIcon;
-
+    public LinearLayout logout;
     public static Boolean isAtdLogout = false;
     private Context context;
     public View filterIndicator;
@@ -162,6 +168,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mInstance = this;
         filterIndicator = (View) findViewById(R.id.filter_indication);
         qcfilterIndicator = (View) findViewById(R.id.qc_filter_indication);
+        logout = findViewById(R.id.logout_menu);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogExit();
+            }
+        });
 
 //       Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -234,7 +247,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         navigationView = findViewById(R.id.nav_view);
+        int colorInt = getResources().getColor(R.color.white);
+        ColorStateList csl = ColorStateList.valueOf(colorInt);
+        navigationView.setItemTextColor(csl);
         TextView userNameText = navigationView.getHeaderView(0).findViewById(R.id.userName);
+        TextView idText = navigationView.getHeaderView(0).findViewById(R.id.id_for_menu);
         navigationView.setNavigationItemSelectedListener(this);
 
         String loginJson = Preferences.INSTANCE.getLoginJson();
@@ -252,7 +269,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
-            userNameText.setText("Hi, " + loginData.getEMPNAME());
+            userNameText.setText(loginData.getEMPNAME());
+            idText.setText("ID: "+loginData.getEMPID());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
 
 //            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
@@ -548,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                fragment = new SelectSiteActivityy();
 //                imageView.setVisibility(View.GONE);
 //                break;
-            case "CHAMPS SURVEY":
+            case "Champs Survey":
                 headerText.setText("New Survey");
                 fragment = new NewSurveyFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -556,9 +574,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-            case "CHAMPS - REPORTS":
+            case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
                 fragment = new ChampsReportsFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Champs Admin":
+                headerText.setText("Admin Module");
+                fragment = new AdminModuleFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -595,8 +622,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+        resetAllMenuItemsTextColor(navigationView);
+        setTextColorForMenuItem(item, R.color.white);
         //calling the method displayselectedscreen and passing the id of selected menu
         displaySelectedScreen(String.valueOf(item.getItemId()));
+        setTextColorForMenuItem(item, R.color.white);
         //make this method blank
         return true;
     }
@@ -769,67 +799,68 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
         listView.init(this)
-                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_baseline_home));
+                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
         if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_baseline_attendance)
-                            .addChildModel(new ChildModel("Attendance"))
-                            .addChildModel(new ChildModel("History"))
+                            .addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports))
+                            .addChildModel(new ChildModel("History", R.drawable.ic_menu_survey))
             );
         }
         if (isCMSRequired) {
             listView.addHeaderModel(
-                    new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_baseline_article)
-                            .addChildModel(new ChildModel("Complaint Register"))
-                            .addChildModel(new ChildModel("Complaint List"))
+                    new HeaderModel("CMS", Color.WHITE, true,R.drawable.ic_menu_cms)
+                            .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
+                            .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
             listView.addHeaderModel(
-                    new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_baseline_discount)
-                            .addChildModel(new ChildModel("Pending"))
-                            .addChildModel(new ChildModel("Approved"))
-                            .addChildModel(new ChildModel("Rejected"))
-                            .addChildModel(new ChildModel("Bill"))
+                    new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_menu_discount)
+                            .addChildModel(new ChildModel("Pending", R.drawable.ic_apollo_pending))
+                            .addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_))
+                            .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
+                            .addChildModel(new ChildModel("Bill", R.drawable.ic_apollo_bill))
             );
         }
         if (isDrugRequired) {
             if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
                 listView.addHeaderModel(
-                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_baseline_article)
-                                .addChildModel(new ChildModel("New Drug Request"))
-                                .addChildModel(new ChildModel("New Drug List")));
+                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_menu_drug_request)
+                                .addChildModel(new ChildModel("New Drug Request", R.drawable.ic_apollo_new_drug_request__1_))
+                                .addChildModel(new ChildModel("New Drug List", R.drawable.ic_apollo_new_drug_list)));
 
             }
         }
         if (isQcFailRequired) {
-            listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.returns)
-                    .addChildModel(new ChildModel("Dashboard"))
-                    .addChildModel(new ChildModel("Pending"))
-                    .addChildModel(new ChildModel("Approved"))
-                    .addChildModel(new ChildModel("Rejected"))
+            listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
+                    .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
+                    .addChildModel(new ChildModel("Pending",R.drawable.ic_apollo_pending))
+                    .addChildModel(new ChildModel("Approved",  R.drawable.ic_apollo_approve__1_))
+                    .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
 
 
             );
         }
         if (isSwachhRequired) {
             if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                        .addChildModel(new ChildModel("Upload"))
-                        .addChildModel(new ChildModel("List")));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
+                        .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload))
+                        .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             } else if (employeeRole.equalsIgnoreCase("Yes")) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                        .addChildModel(new ChildModel("Upload")));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
+                        .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)));
             } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.apollo_icon)
-                        .addChildModel(new ChildModel("List")));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
+                        .addChildModel(new ChildModel("List",R.drawable.ic_apollo_list2)));
             }
         }
-        listView.addHeaderModel(new HeaderModel("CHAMPS", Color.WHITE, true, R.drawable.icons8_trophy_64)
-                .addChildModel(new ChildModel("CHAMPS SURVEY"))
-                .addChildModel(new ChildModel("CHAMPS - REPORTS"))
+        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         );
-        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
+//        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
@@ -902,12 +933,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("List");
                 }
             }
-            else if (listHeader.get(groupPosition).getTitle().equals("CHAMPS")) {
+            else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                if (childModelList.get(childPosition).getTitle().equals("CHAMPS SURVEY")) {
-                    displaySelectedScreen("CHAMPS SURVEY");
-                } else if (childModelList.get(childPosition).getTitle().equals("CHAMPS - REPORTS")) {
-                    displaySelectedScreen("CHAMPS - REPORTS");
+                if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
+                    displaySelectedScreen("Champs Survey");
+                } else if (childModelList.get(childPosition).getTitle().equals("Champs Reports")) {
+                    displaySelectedScreen("Champs Reports");
+                }else if(childModelList.get(childPosition).getTitle().equals("Champs Admin")){
+                    displaySelectedScreen("Champs Admin");
                 }
             }
 
@@ -1398,6 +1431,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+    }
+
+    private void setTextColorForMenuItem(MenuItem menuItem, @ColorRes int color) {
+        SpannableString spanString = new SpannableString(menuItem.getTitle().toString());
+        spanString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(this, color)), 0, spanString.length(), 0);
+        menuItem.setTitle(spanString);
+    }
+
+    private void resetAllMenuItemsTextColor(NavigationView navigationView) {
+        for (int i = 0; i < navigationView.getMenu().size(); i++)
+            setTextColorForMenuItem(navigationView.getMenu().getItem(i), R.color.white);
     }
 
 

@@ -154,7 +154,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIdCallback" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIdCallback" />
     </data>
 
 </layout>

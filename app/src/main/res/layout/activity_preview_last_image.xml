@@ -5,7 +5,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity">
+        tools:context=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -446,11 +446,11 @@
 
         <variable
             name="pendingAndApprovedModel"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved" />
 
         <variable
             name="imageUrlModel"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse.ImageUrl" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse.ImageUrl" />
 
         <variable
             name="totalImages"
@@ -458,7 +458,7 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageCallback" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageCallback" />
 
         <variable
             name="isAllComplete"

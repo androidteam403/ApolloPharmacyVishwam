@@ -1,15 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.champs.reports.fragment
 
 import android.content.Intent
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.FragmentChampsReportsBinding
+import com.apollopharmacy.vishwam.ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseAnalysisReportActivity
 import com.apollopharmacy.vishwam.ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.reports.activity.champssurveyreports.ChampsSurveyReportsActivity
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetailsactivity.SurveyDetailsActivity
-import com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.SwachListViewModel
 
 class ChampsReportsFragment : BaseFragment<ChampsReportsViewModel, FragmentChampsReportsBinding>(),
     ChampsReportsFragmentCallBack {
@@ -40,6 +38,8 @@ class ChampsReportsFragment : BaseFragment<ChampsReportsViewModel, FragmentChamp
     }
 
     override fun onClickRegionWiseAnalysisReport() {
-
+        val intent = Intent(context, ChampsRegionWiseAnalysisReportActivity::class.java)
+        startActivity(intent)
+        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 }

@@ -3,18 +3,12 @@ package com.apollopharmacy.vishwam.ui.home.champs.reports.activity.champssurveyr
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityChampsSurveyReportsBinding
-import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
-import com.apollopharmacy.vishwam.dialog.CalenderNew
 import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
-import com.apollopharmacy.vishwam.dialog.model.Dialog
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetailsactivity.SurveyDetailsViewModel
 import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
 
 class ChampsSurveyReportsActivity : AppCompatActivity(),ComplaintListCalendarDialog.DateSelected, ChampsSurveyReportsCallBack{
     var isFromDateSelected: Boolean = false

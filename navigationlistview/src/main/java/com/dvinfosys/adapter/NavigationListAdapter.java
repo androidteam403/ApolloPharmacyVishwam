@@ -54,6 +54,8 @@ public class NavigationListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         LinearLayout childParentLayout = convertView.findViewById(R.id.child_parent_layout);
         txtListChild.setText(childText.getTitle());
+        ImageView iconMenuChild = convertView.findViewById(R.id.icon_menu_child);
+        iconMenuChild.setImageResource(childText.getIcon());
 
         if (childText.isSelected()) {
             childParentLayout.setVisibility(View.VISIBLE);
