@@ -59,13 +59,14 @@ import com.apollopharmacy.vishwam.ui.home.discount.pending.PendingOrderFragment;
 import com.apollopharmacy.vishwam.ui.home.discount.rejected.RejectedFragment;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.Drug;
 import com.apollopharmacy.vishwam.ui.home.drugmodule.druglist.DrugListFragment;
+import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity;
 import com.apollopharmacy.vishwam.ui.home.home.HomeFragment;
 import com.apollopharmacy.vishwam.ui.home.menu.notification.NotificationActivity;
-import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboardFragment;
+import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.QcDashboard;
+import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.SwachListFragment;
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy;
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.SampleSwachUi;
-import com.apollopharmacy.vishwam.ui.home.swacchlist.SwacchFragment;
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.swachuploadfragment.SwacchImagesUploadFragment;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.dvinfosys.model.ChildModel;
@@ -166,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
+
+
         filterIndicator = (View) findViewById(R.id.filter_indication);
         qcfilterIndicator = (View) findViewById(R.id.qc_filter_indication);
         logout = findViewById(R.id.logout_menu);
@@ -270,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
             userNameText.setText(loginData.getEMPNAME());
-            idText.setText("ID: "+loginData.getEMPID());
+            idText.setText("ID: " + loginData.getEMPID());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
 
 //            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
@@ -325,18 +328,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if(frg instanceof IOnBackPressed ){
-            if(((IOnBackPressed) frg).onBackPressed()) {
-                if(frg instanceof RegistrationFragment) {
-                    showAlertDialog("HOME","Do you want to exit Complaint Registration?");
-                }else if(frg instanceof Drug){
-                    showAlertDialog("HOME","Do you want to exit New Drug Request?");
+        if (frg instanceof IOnBackPressed) {
+            if (((IOnBackPressed) frg).onBackPressed()) {
+                if (frg instanceof RegistrationFragment) {
+                    showAlertDialog("HOME", "Do you want to exit Complaint Registration?");
+                } else if (frg instanceof Drug) {
+                    showAlertDialog("HOME", "Do you want to exit New Drug Request?");
                 }
-            }else{
+            } else {
                 displaySelectedScreen("HOME");
                 drawer.closeDrawer(GravityCompat.START);
             }
-        }else {
+        } else {
             if (isHomeScreen) {
                 finish();
             } else {
@@ -364,7 +367,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
     private boolean isAllowFragmentChange = false;
+
     public void displaySelectedScreen(String itemName) {
 //        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 //        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
@@ -373,9 +378,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
         //creating fragment object
-        currentItem = itemName;
-        if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
-            return;
+        if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
+            currentItem = itemName;
+            if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
+                return;
+            }
         }
         //initializing the fragment object which is selected
         switch (itemName) {
@@ -434,6 +441,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Approved":
                 headerText.setText("Approved List");
+
                 fragment = new ApprovedFragment();
                 filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -508,6 +516,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+            case "Greetings to Chairman":
+                Intent i = new Intent(this, GreetingActivity.class);
+                startActivity(i);
+                break;
+
             case "New Drug List":  //"Drug List":
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
@@ -525,14 +538,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
-                fragment=new QcDashboardFragment();
+                fragment = new QcDashboard();
                 qcfilterIcon.setVisibility(View.GONE);
 
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-            case "QcPending":
+            case "OutStanding":
                 headerText.setText("Pending List");
                 fragment = new PendingFragment();
                 qcfilterIcon.setVisibility(View.VISIBLE);
@@ -605,7 +618,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void close(){
+    public void close() {
         listView.setSelected(3);
 
     }
@@ -800,6 +813,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
         listView.init(this)
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
+
+
+        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_baseline_celebration_24));
+
         if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_baseline_attendance)
@@ -809,7 +826,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (isCMSRequired) {
             listView.addHeaderModel(
-                    new HeaderModel("CMS", Color.WHITE, true,R.drawable.ic_menu_cms)
+                    new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
                             .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
             );
@@ -832,11 +849,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             }
         }
+
+
         if (isQcFailRequired) {
-            listView.addHeaderModel(new HeaderModel("QC Fail", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
+            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
                     .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
-                    .addChildModel(new ChildModel("Pending",R.drawable.ic_apollo_pending))
-                    .addChildModel(new ChildModel("Approved",  R.drawable.ic_apollo_approve__1_))
+                    .addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending))
+                    .addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_))
                     .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
 
 
@@ -852,7 +871,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)));
             } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
                 listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
-                        .addChildModel(new ChildModel("List",R.drawable.ic_apollo_list2)));
+                        .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
         listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
@@ -871,6 +890,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (listHeader.get(groupPosition).getTitle().equals("Logout")) {
                 displaySelectedScreen("Logout");
                 drawer.closeDrawer(GravityCompat.START);
+            } else if (listHeader.get(groupPosition).getTitle().equals("Greetings to Chairman")) {
+                displaySelectedScreen("Greetings to Chairman");
+                drawer.closeDrawer(GravityCompat.START);
             }
             return false;
 
@@ -886,7 +908,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("History");
                 }
 
-            } else if (listHeader.get(groupPosition).getTitle().equals("CMS")) {
+            }
+//
+
+            else if (listHeader.get(groupPosition).getTitle().equals("CMS")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Complaint Register")) {
                     displaySelectedScreen("Complaint Register");
@@ -912,13 +937,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("New Drug List")) {
                     displaySelectedScreen("New Drug List");
                 }
-            } else if (listHeader.get(groupPosition).getTitle().equals("QC Fail")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("OMS QC")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                  if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+                if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
                     displaySelectedScreen("QcDashboard");
                 }
-                if (childModelList.get(childPosition).getTitle().equals("Pending")) {
-                    displaySelectedScreen("QcPending");
+                if (childModelList.get(childPosition).getTitle().equals("OutStanding")) {
+                    displaySelectedScreen("OutStanding");
                 } else if (childModelList.get(childPosition).getTitle().equals("Approved")) {
                     displaySelectedScreen("QcApproved");
                 } else if (childModelList.get(childPosition).getTitle().equals("Rejected")) {
@@ -932,14 +957,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("List")) {
                     displaySelectedScreen("List");
                 }
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
                     displaySelectedScreen("Champs Survey");
                 } else if (childModelList.get(childPosition).getTitle().equals("Champs Reports")) {
                     displaySelectedScreen("Champs Reports");
-                }else if(childModelList.get(childPosition).getTitle().equals("Champs Admin")){
+                } else if (childModelList.get(childPosition).getTitle().equals("Champs Admin")) {
                     displaySelectedScreen("Champs Admin");
                 }
             }
@@ -1460,7 +1484,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
-    public void showAlertDialog(String itemName,String description){
+    public void showAlertDialog(String itemName, String description) {
         android.app.Dialog dialog = new android.app.Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);

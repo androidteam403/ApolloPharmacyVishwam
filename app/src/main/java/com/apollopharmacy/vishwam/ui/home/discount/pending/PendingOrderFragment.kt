@@ -136,6 +136,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
         viewBinding.refreshSwipe.setOnRefreshListener {

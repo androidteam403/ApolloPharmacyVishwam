@@ -77,7 +77,10 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Command.MpinValidation -> {
                     if (command.value.Status) {
-                        Preferences.setSiteIdListFetched(false)
+//                        Preferences.setDoctorSpecialityListFetched(false)
+//                        Preferences.setItemTypeListFetched(false)
+//                        Preferences.setSiteIdListFetched(false)
+//                        Preferences.setReasonListFetched(false)
                         val homeIntent = Intent(this, ValidatePinActivity::class.java)
                         startActivity(homeIntent)
                         finish()
@@ -90,6 +93,7 @@ class LoginActivity : AppCompatActivity() {
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                     }
                 }
+                else -> {}
             }
         })
 

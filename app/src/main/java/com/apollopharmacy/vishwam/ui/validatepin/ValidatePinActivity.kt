@@ -54,8 +54,11 @@ class ValidatePinActivity : AppCompatActivity() {
         Preferences.setSiteIdListQcFail("")
         Preferences.setRegionIdListFetchedQcFail(false)
         Preferences.setRegionIdListQcFail("")
-
-        viewModel.commands.observeForever({ command ->
+        Preferences.setDoctorSpecialityListFetched(false)
+        Preferences.setItemTypeListFetched(false)
+        Preferences.setSiteIdListFetched(false)
+        Preferences.setReasonListFetched(false)
+        viewModel.commands.observeForever { command ->
             Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
@@ -76,8 +79,9 @@ class ValidatePinActivity : AppCompatActivity() {
                         Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
-        })
+        }
 
 //        viewModel.employeeDetails.observeForever {
 //            if(it.data?.uploadSwach?.uid!=null){

@@ -73,6 +73,7 @@ class SwachListViewModel : ViewModel() {
                         true -> {
                             getpendingAndApprovedListResponse.value = response.value
                         }
+                        else -> {}
                     }
                 }
                 is ApiResult.GenericError -> {

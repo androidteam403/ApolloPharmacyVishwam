@@ -21,66 +21,94 @@
                 android:background="@drawable/squareboxright"
                 android:orientation="horizontal"
 
-                android:weightSum="4">
+                android:weightSum="5">
 
 
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/squarebox_right"
+                    android:background="@drawable/dashquarebox_right"
 
                     android:orientation="vertical">
 
 
                     <TextView
-                        android:id="@+id/sitedid"
+                        android:id="@+id/empid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:paddingStart="4sp"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:text="120"
                         android:textAlignment="center"
-                        android:textColor="#FD7F20"
-                        android:textSize="12sp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
 
                 </TableLayout>
 
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_weight="3.015"
 
-                    android:background="@drawable/squarebox_right"
+                    android:background="@drawable/site_dashquarebox_right"
 
 
                     android:orientation="vertical">
 
 
                     <TextView
-                        android:id="@+id/executive"
+                        android:id="@+id/storeid"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_5dp"
-                        android:fontFamily="@font/roboto_bold"
-                        android:paddingStart="8dp"
+                        android:fontFamily="@font/roboto_medium"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
                         android:text="300"
+                        android:paddingStart="4sp"
                         android:textAlignment="center"
 
-                        android:textColor="#0053a4"
-                        android:textSize="12sp" />
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
 
                 </TableLayout>
+
 
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:background="@drawable/dashquarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/pending_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="120"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_10sp" />
+
+                </TableLayout>
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
 
                     android:background="@drawable/squarebox_right"
 
@@ -101,13 +129,14 @@
                         android:textAlignment="center"
                         android:textColor="#40a776"
 
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_10sp" />
                 </TableLayout>
 
                 <TableLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:visibility="gone"
                     android:background="@drawable/squarebox"
 
                     android:orientation="vertical">

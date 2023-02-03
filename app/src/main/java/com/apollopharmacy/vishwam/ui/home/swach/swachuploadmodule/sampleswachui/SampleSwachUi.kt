@@ -8,6 +8,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.media.ExifInterface
 import android.os.Build
 import android.os.Handler
 import android.view.LayoutInflater
@@ -901,6 +902,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
     }
    var checkDayWiseAccessResponses: CheckDayWiseAccessResponse?=null
 
+    @SuppressLint("SimpleDateFormat")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onSuccessDayWiseAccesss(checkDayWiseAccessResponse: CheckDayWiseAccessResponse) {
         var isAlreadyUpload:Boolean=false
@@ -922,7 +924,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                 val strDate = checkDayWiseAccessResponse.lastUploadedDate
                 val dateFormat = SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
                 val date = dateFormat.parse(strDate)
-                 lastUploadedDate = SimpleDateFormat("dd MMM, yyyy").format(date)// - hh:mm a
+                 lastUploadedDate = SimpleDateFormat("dd MMM, yyyy").format(date)  +" - "+SimpleDateFormat("hh:mm:ss a").format(date)
                 viewBinding.uploadedOn.text = lastUploadedDate
                 if(lastUploadedDate!=null && !lastUploadedDate.isEmpty() && todaysDate.equals(lastUploadedDate)){
                     isAlreadyUpload=true

@@ -16,6 +16,7 @@ import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
+import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
@@ -41,6 +42,9 @@ class RegistrationViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     var visibleState = LiveEvent<State>()
     var siteLiveData = ArrayList<StoreListItem>()
+    var reasonLiveData = ArrayList<ReasonmasterV2Response>()
+    var reasonDepartmentLiveData = ArrayList<ReasonmasterV2Response.Department>()
+
     var pendingListLiveData = MutableLiveData<PendingListToAcknowledge>()
     var storeDetailsSend = StoreListItem()
     val TAG = "RegistrationModel"
@@ -156,70 +160,105 @@ class RegistrationViewModel : ViewModel() {
 
     //get Remarsks list api......................................
     fun getRemarksMasterList() {
-        val url = Preferences.getApi()
-        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseUrL = ""
-        var token = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
-                baseUrL = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
-            }
-        }
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
-                var baseUrl = data.APIS[i].URL + "page=1&rows=1000"
-                viewModelScope.launch {
-                    state.value = State.SUCCESS
-                    val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(baseUrL,
-                            token,
-                            GetDetailsRequest(baseUrl, "GET", "The", "", ""))
-                        //  RegistrationRepo.getReasonslistmaster(baseUrl)
-                    }
-                    when (response) {
-                        is ApiResult.Success -> {
-                            state.value = State.ERROR
-                            if (response != null) {
-                                val resp: String = response.value.string()
-                                if (resp != null) {
-                                    val res = BackShlash.removeBackSlashes(resp)
-                                    val reasonmasterV2Response =
-                                        Gson().fromJson(BackShlash.removeSubString(res),
-                                            ReasonmasterV2Response::class.java)
 
-                                    if (reasonmasterV2Response.success) {
-                                        deartmentlist.clear()
-                                        Reasonlistdata = reasonmasterV2Response
-                                        reasonlistapiresponse.value = reasonmasterV2Response
-                                        val reasonlitrows =
-                                            reasonmasterV2Response.data.listdata.rows
-                                        for (row in reasonlitrows) {
-                                            deartmentlist.add(row.department)
+        if (Preferences.isReasonIdListFetched()) {
+
+            reasonLiveData.clear()
+            val gson = Gson()
+            val resonList = Preferences.getReasonIdListJson()
+            val reasonListObject=Preferences.getReasonIdObjectJson()
+            val resonDepartmentList = Preferences.getReasondDepartmentIdList()
+
+            val type1 = object : TypeToken<List<ReasonmasterV2Response.Department?>?>() {}.type
+
+            this.reasonDepartmentLiveData =
+                gson.fromJson<List<ReasonmasterV2Response.Department>>(resonDepartmentList, type1) as ArrayList<ReasonmasterV2Response.Department>
+            val type = object : TypeToken<List<ReasonmasterV2Response?>?>() {}.type
+            val type2 = object : TypeToken<ReasonmasterV2Response>() {}.type
+            Reasonlistdata=gson.fromJson<List<ReasonmasterV2Response>>(reasonListObject, type2) as ReasonmasterV2Response
+
+
+            this.reasonLiveData =
+                gson.fromJson<List<ReasonmasterV2Response>>(resonList, type) as ArrayList<ReasonmasterV2Response>
+            command.value = CmsCommand.ShowSiteInfo("")
+        } else {
+            val url = Preferences.getApi()
+            val data = Gson().fromJson(url, ValidateResponse::class.java)
+            var baseUrL = ""
+            var token = ""
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                    baseUrL = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
+            val userData = LoginRepo.getProfile()!!
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
+                    var baseUrl =
+                        data.APIS[i].URL + "emp_id=" + userData.EMPID + "&page=1&rows=1000"
+                    viewModelScope.launch {
+                        state.value = State.SUCCESS
+                        val response = withContext(Dispatchers.IO) {
+                            RegistrationRepo.getDetails(baseUrL,
+                                token,
+                                GetDetailsRequest(baseUrl, "GET", "The", "", ""))
+                            //  RegistrationRepo.getReasonslistmaster(baseUrl)
+                        }
+                        when (response) {
+                            is ApiResult.Success -> {
+                                state.value = State.ERROR
+                                if (response != null) {
+                                    val resp: String = response.value.string()
+                                    if (resp != null) {
+                                        val res = BackShlash.removeBackSlashes(resp)
+                                        val reasonmasterV2Response =
+                                            Gson().fromJson(BackShlash.removeSubString(res),
+                                                ReasonmasterV2Response::class.java)
+
+                                        if (reasonmasterV2Response.success) {
+                                            reasonLiveData.add(reasonmasterV2Response)
+                                            Preferences.setReasonIdList(Gson().toJson(reasonLiveData))
+                                            Preferences.setReasonListFetched(true)
+                                            deartmentlist.clear()
+                                            Reasonlistdata = reasonmasterV2Response
+                                            Preferences.setReasonIdObject(Gson().toJson(Reasonlistdata))
+                                            reasonlistapiresponse.value = reasonmasterV2Response
+                                            val reasonlitrows =
+                                                reasonmasterV2Response.data.listdata.rows
+//                                            val reasonlitrows =
+//                                                reasonmasterV2Response.data.listdata.rows
+                                            for (row in reasonlitrows) {
+                                                deartmentlist.add(row.department)
+                                                reasonDepartmentLiveData.add(row.department)
+                                                Preferences.setReasondDepartmentIdList(Gson().toJson(reasonDepartmentLiveData))
+                                            }
+
+
+                                        } else {
+                                            command.value =
+                                                CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
                                         }
-                                    } else {
-                                        command.value =
-                                            CmsCommand.ShowToast(reasonmasterV2Response.message.toString())
                                     }
-                                }
-                            } else {
+                                } else {
 //                                command.value = CmsCommand.ShowToast(
 //                                    response.value.message.toString()
 //                                )
+                                }
                             }
-                        }
-                        is ApiResult.GenericError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.NetworkError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownError -> {
-                            state.value = State.ERROR
-                        }
-                        is ApiResult.UnknownHostException -> {
-                            state.value = State.ERROR
+                            is ApiResult.GenericError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.NetworkError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownError -> {
+                                state.value = State.ERROR
+                            }
+                            is ApiResult.UnknownHostException -> {
+                                state.value = State.ERROR
+                            }
                         }
                     }
                 }
@@ -566,9 +605,14 @@ class RegistrationViewModel : ViewModel() {
         uniquedeartmentlist.clear()
         var tempuniquedeartmentlist = ArrayList<ReasonmasterV2Response.Department>()
         var checkuplicate: Boolean
-        if (deartmentlist.size > 1) {
+
+
+
+
+
+        if (reasonDepartmentLiveData.size > 1) {
             tempuniquedeartmentlist.clear()
-            for (item in deartmentlist) {
+            for (item in reasonDepartmentLiveData) {
                 checkuplicate = true;
                 if (tempuniquedeartmentlist.size > 0) {
                     for (item1 in tempuniquedeartmentlist) {
@@ -589,7 +633,7 @@ class RegistrationViewModel : ViewModel() {
             // uniquedeartmentlist =
             //  deartmentlist.distinct() as ArrayList<ReasonmasterV2Response.Department>;*/
         } else {
-            uniquedeartmentlist = deartmentlist;
+            uniquedeartmentlist = reasonDepartmentLiveData;
         }
         return uniquedeartmentlist;
     }
@@ -980,6 +1024,9 @@ class RegistrationViewModel : ViewModel() {
 
     fun getSiteData(): ArrayList<StoreListItem> {
         return siteLiveData
+    }
+    fun getresonData(): ArrayList<ReasonmasterV2Response> {
+        return reasonLiveData
     }
 
     fun getSelectedStoreDetails(storeDetails: StoreListItem) {

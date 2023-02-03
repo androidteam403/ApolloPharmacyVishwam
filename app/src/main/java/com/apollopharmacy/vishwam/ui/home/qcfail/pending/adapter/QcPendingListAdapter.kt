@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter
 
 import android.content.Context
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 import com.apollopharmacy.vishwam.util.Utlis
+import java.sql.Types.TIME
 
 class QcPendingListAdapter(
     val mContext: Context,
@@ -230,8 +232,9 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
         }
         holder.pendingLayoutBinding.acceptClick.setOnClickListener {
-
-            imageClicklistner.accept(position,
+            imageClicklistner.accept(
+                holder.pendingLayoutBinding.acceptClick,
+                position,
                 pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,
@@ -239,7 +242,11 @@ class QcPendingListAdapter(
         }
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
-            imageClicklistner.reject(position,
+
+
+            imageClicklistner.reject(
+                holder.pendingLayoutBinding.rejectClick,
+                position,
                 pendingOrders.orderno.toString(),
                 holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
                 pendingOrders.storeid!!,

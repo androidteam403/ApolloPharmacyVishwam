@@ -117,5 +117,6 @@
     <color name="dark_greenn">#009140</color>
     <color name="light_yellow_color">#fff6e4</color>
     <color name="lightt_green">#009245</color>
+    <color name="color_wish_chairmain_dialog_bg">#E6000000</color>
 
 </resources>

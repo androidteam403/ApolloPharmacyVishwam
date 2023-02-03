@@ -196,6 +196,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
                 }
 
 
+                else -> {}
             }
         }
         viewModel.qcStoreList.observeForever {

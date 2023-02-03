@@ -563,7 +563,7 @@
                         <include
                             android:id="@+id/product_image_view"
                             layout="@layout/layout_product_images"
-                            android:layout_marginLeft="@dimen/value_15dp"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:layout_width="match_parent"

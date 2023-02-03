@@ -102,6 +102,7 @@ class SelectSiteActivityy : AppCompatActivity(), SelectSiteIdCallback {
 //                            SiteDialog().generateParsedData(viewModel.getSiteData())
 
                 }
+                else -> {}
             }
         }
 

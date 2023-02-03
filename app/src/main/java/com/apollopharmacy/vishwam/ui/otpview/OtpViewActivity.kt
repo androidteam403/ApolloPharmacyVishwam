@@ -1,15 +1,12 @@
 package com.apollopharmacy.vishwam.ui.otpview
 
-import `in`.aabhasjindal.otptextview.OTPListener
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Editable
 import android.text.InputFilter
-import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -33,6 +30,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.messaging.FirebaseMessaging
 import java.lang.reflect.Field
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -55,7 +53,7 @@ class OtpViewActivity : AppCompatActivity() {
         if (intent.extras != null) {
             empVal = intent.getStringExtra("EmpID").toString()
             otpViewBinding.employeeId.append(
-                " (" + Preferences.getCompany()+ Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
+                " (" + Preferences.getCompany() + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
                     R.string.please_check_employee_id
                 )
             )
@@ -83,8 +81,12 @@ class OtpViewActivity : AppCompatActivity() {
 
         otpViewModel.validateOtpModel.observeForever {
             Utlis.hideLoading()
+            println(84)
+            println(it)
+            println(86)
             if (it.STATUS) {
-                otpViewBinding.buttonLayout.visibility =View.GONE
+                println(87)
+                otpViewBinding.buttonLayout.visibility = View.GONE
                 otpViewBinding.customerMobileNum.visibility = View.VISIBLE
                 otpViewBinding.customerMobileNum.setText("")
                 otpViewBinding.customerMobileNum.setText(resources.getText(R.string.please_type_the_verification_code_sent_to_))
@@ -105,7 +107,7 @@ class OtpViewActivity : AppCompatActivity() {
                 otpViewBinding.confirmButton.isClickable = true
                 otpViewBinding.employeeIdET.isEnabled = true
                 otpViewBinding.proceedButton.isClickable = true
-                otpViewBinding.buttonLayout.visibility =View.GONE
+                otpViewBinding.buttonLayout.visibility = View.GONE
                 otpViewBinding.updateIdLayout.visibility = View.VISIBLE
                 otpViewBinding.employeeIdET.setText(empVal)
                 otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
@@ -138,13 +140,13 @@ class OtpViewActivity : AppCompatActivity() {
             }
         }
 
-        otpViewBinding.cancelButton.setOnClickListener{
-            otpViewBinding.buttonLayout.visibility =View.VISIBLE
+        otpViewBinding.cancelButton.setOnClickListener {
+            otpViewBinding.buttonLayout.visibility = View.VISIBLE
             otpViewBinding.updateIdLayout.visibility = View.GONE
         }
 
         otpViewBinding.updateButton.setOnClickListener {
-            otpViewBinding.buttonLayout.visibility =View.GONE
+            otpViewBinding.buttonLayout.visibility = View.GONE
 //            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
 //            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
 //            otpViewBinding.updateButton.isClickable = false
@@ -280,11 +282,11 @@ class OtpViewActivity : AppCompatActivity() {
 
     private fun handleNextIntent() {
         enteredOtp = otpViewBinding.otpView.otp
-        if(enteredOtp == receivedOtp && otpViewBinding.resendOtpLayout.visibility == View.VISIBLE){
+        if (enteredOtp == receivedOtp && otpViewBinding.resendOtpLayout.visibility == View.VISIBLE) {
             Toast.makeText(this, "Entered OTP has Expired", Toast.LENGTH_SHORT).show()
             return
         }
-         //   otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
+        //   otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
         if (enteredOtp == receivedOtp) {
             countDownTimer.cancel()
             otpViewBinding.timer.setText("")
@@ -329,7 +331,7 @@ class OtpViewActivity : AppCompatActivity() {
             }
             otpViewModel.checkEmpAvailability(
                 ValidateOtpRequest(
-                    empID.toUpperCase(),
+                    empID.toUpperCase(Locale.ROOT),
                     Utils.getDeviceId(this),
                     FCM_KEY,
                     codeName,

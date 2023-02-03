@@ -9,10 +9,8 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.DeviceDeRegResponse
 import com.apollopharmacy.vishwam.data.model.ValidateOtpRequest
 import com.apollopharmacy.vishwam.data.model.ValidateOtpResponse
-import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ValidateOtpRepo
-import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,19 +33,21 @@ class OtpViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.STATUS) {
                         state.value = State.ERROR
+                        Preferences.setEmpPhoneNumber(result.value.MOBILENO)
                         validateOtpModel.value = result.value
                     } else {
                         state.value = State.ERROR
+                        println(41)
+                        println(result.value)
+                        println(43)
                         validateOtpModel.value = result.value
                         commands.value = Command.ShowToast(result.value.MESSAGE)
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -83,11 +83,9 @@ class OtpViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {

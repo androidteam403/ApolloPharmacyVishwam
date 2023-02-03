@@ -248,6 +248,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     )
                 }
             }
+            else -> {}
         }
     }
 
@@ -290,6 +291,7 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     )
                 }
             }
+            else -> {}
         }
 
     }
@@ -370,9 +372,11 @@ class PreviewLastImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                                 finish()
                             }
                         }
+                        else -> {}
                     }
 
                 }
+                else -> {}
             }
         }
     }

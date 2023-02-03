@@ -379,6 +379,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
     }
@@ -470,6 +471,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun accept(
+        view: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -482,6 +484,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     }
 
     override fun reject(
+        view: View,
         position: Int,
         orderno: String,
         remarks: String,
@@ -492,6 +495,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     ) {
         TODO("Not yet implemented")
     }
+
 
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
 

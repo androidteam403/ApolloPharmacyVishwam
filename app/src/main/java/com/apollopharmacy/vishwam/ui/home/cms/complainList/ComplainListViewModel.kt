@@ -29,6 +29,7 @@ class ComplainListViewModel : ViewModel() {
     var newtickethistoryLiveData = MutableLiveData<ResponseNewTicketlist.NewTicketHistoryResponse>()
     var getManagersLiveData = MutableLiveData<Data>()
     var inventoryDetailsLiveData = MutableLiveData<InventoryDetailsModel>()
+    var ticketDetailsResponseLiveData = MutableLiveData<TicketDetailsResponse>()
     var creditCardDetailsLiveData = MutableLiveData<CreditCardTSDetails>()
     var command = LiveEvent<CmsCommand>()
     val state = MutableLiveData<State>()
@@ -47,6 +48,8 @@ class ComplainListViewModel : ViewModel() {
         requestComplainList: RequestComplainList,
         status: String,
         isDrugList: Boolean,
+        isSearch: Boolean,
+        searchQuary: String
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -92,7 +95,7 @@ class ComplainListViewModel : ViewModel() {
                 "reason_code=new_drug&"
             } else {
                 ""
-            } + "${
+            }+if(isSearch){"site_ticket=$searchQuary&"}else{"site_ticket=$searchQuary&"} + "${
                 URLEncoder.encode("status[0]",
                     "utf-8")
             }=${new}&${
@@ -1210,4 +1213,92 @@ class ComplainListViewModel : ViewModel() {
         }
     }
 
+
+    fun getTicketFullDetails(requestTicketHistory: String?, itemPos: Int) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        var baseUrL =""
+//        if (Config.KEY.equals("2034")){
+//            baseUrL = "https://cms.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
+//        }else{
+//            baseUrL = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
+//        }
+
+
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
+                baseUrL = data.APIS[i].URL
+                //val token = data.APIS[i].TOKEN
+                break
+            }
+
+        }
+        val baseUrl = "${baseUrL}ticket_id=${requestTicketHistory}"//data.APIS[i].URL
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "GET",
+                        "The",
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val responseNewTicketlistNewTicketHistoryResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    TicketDetailsResponse::class.java
+                                )
+                            if (responseNewTicketlistNewTicketHistoryResponse.success) {
+                                responseNewTicketlistNewTicketHistoryResponse.position =
+                                    itemPos
+                                ticketDetailsResponseLiveData.value =
+                                    responseNewTicketlistNewTicketHistoryResponse
+                            } else {
+                                command.value = CmsCommand.ShowToast(
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
+                                )
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 }
