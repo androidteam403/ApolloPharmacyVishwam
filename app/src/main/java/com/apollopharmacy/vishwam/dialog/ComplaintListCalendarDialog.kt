@@ -24,7 +24,7 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
     }
 
-    private lateinit var dateSelectedListner: DateSelected
+    private var dateSelectedListner: DateSelected?=null
     private var selectedDate: String = ""
 
     companion object {
@@ -53,8 +53,12 @@ class ComplaintListCalendarDialog : DialogFragment() {
             container,
             false
         ) as DialogDatePickerBinding
+        if(parentFragment!=null){
+            dateSelectedListner = parentFragment as DateSelected
+        }else{
+            dateSelectedListner = activity as DateSelected
+        }
 
-        dateSelectedListner = parentFragment as DateSelected
 
         val calendar = Calendar.getInstance()
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
@@ -101,7 +105,10 @@ class ComplaintListCalendarDialog : DialogFragment() {
             val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
             val getDate =
                 "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-            dateSelectedListner.selectedDateTo(getDate, getDate)
+
+                dateSelectedListner!!.selectedDateTo(getDate, getDate)
+
+
             dismiss()
         }
         return dataPickerBinding.root

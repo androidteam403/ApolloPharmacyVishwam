@@ -6,7 +6,7 @@ import com.apollopharmacy.vishwam.data.model.CMSCommonRequest
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
-import com.apollopharmacy.vishwam.ui.home.sampleui.model.AppLevelDesignationModelResponse
+import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.util.EncryptionManager
 import com.google.gson.Gson
 import com.google.gson.JsonParseException

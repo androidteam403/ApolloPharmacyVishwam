@@ -100,6 +100,7 @@ class ValidatePinActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ENABLE) {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
+//                handleNextIntent()
                 viewModel.getRole(Preferences.getValidatedEmpId())
                 viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
                     "SWACHH",

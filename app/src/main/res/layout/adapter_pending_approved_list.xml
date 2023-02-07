@@ -254,6 +254,6 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.fragment.model.PendingAndApproved" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved" />
     </data>
 </layout>

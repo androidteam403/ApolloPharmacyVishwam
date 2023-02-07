@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.apollopharmacy.vishwam">
+    package="com.apollopharmacy.vishwam" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -38,31 +38,31 @@
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
+            android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.previewImage.PreviewImageActivity"
+            android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.previewlastimage.PreviewLastImageActivity"
+            android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteActivityy"
+            android:name=".ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachlistmodule.approvelist.ApproveListActivity"
+            android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
+            android:name=".ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
             android:exported="true" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.reshootactivity.ReShootActivity"
+            android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
             android:exported="true" />
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -113,14 +113,14 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.sampleui.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
@@ -139,7 +139,7 @@
         <service
             android:name=".util.firebase.MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

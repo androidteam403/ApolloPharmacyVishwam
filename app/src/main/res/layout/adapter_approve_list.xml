@@ -322,7 +322,7 @@
 
         <variable
             name="model"
-            type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.approvelist.model.GetImageUrlsResponse.Category" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse.Category" />
 
         <variable
             name="status"

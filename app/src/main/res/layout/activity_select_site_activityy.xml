@@ -175,7 +175,7 @@
     <data>
     <variable
         name="callback"
-        type="com.apollopharmacy.vishwam.ui.home.sampleui.swachlistmodule.siteIdselect.SelectSiteIdCallback" />
+        type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteIdCallback" />
     </data>
 
 </layout>
