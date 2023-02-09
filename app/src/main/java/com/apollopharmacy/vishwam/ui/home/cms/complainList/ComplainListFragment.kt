@@ -27,6 +27,7 @@ import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.*
+import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
@@ -48,7 +49,7 @@ import com.hsalf.smilerating.SmileRating
 import java.util.*
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
-    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
+    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,SubmitticketDialog.AbstractDialogFinanceClickListner,
     OnTransactionSearchManagerListnier {
 
     var isFromDateSelected: Boolean = false
@@ -155,6 +156,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
         })
 
+
+        viewModel.cmsTicketResponseList.observe(viewLifecycleOwner){
+            hideLoading()
+            if (it.success!!){
+                SubmitticketDialog().apply {
+                    arguments =
+                        SubmitticketDialog().generateParsedData(it)
+                }.show(childFragmentManager, "")
+            }
+
+
+
+        }
 
         viewModel.resLiveData.observe(viewLifecycleOwner) {
             Utlis.hideLoading()
@@ -717,10 +731,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     } else {
                         binding.ccActionLayout.visibility = View.VISIBLE
                         binding.acceptBtn.setOnClickListener {
+
+
+
+
+
+
+//                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+
                             imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
                         }
-                        binding.rejectBtn.setOnClickListener {
-                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                        binding.frwdToFinance.setOnClickListener {
+                            var cmsTicketUid=CmsTicketRequest.Ticket(items.ticketDetailsResponse!!.data.ticket_it.uid)
+//                            var cmsTicketUid=CmsTicketRequest.Ticket("39BB81C0A7FE756A3B38E033F5C98A2E")
+                            var cmsTicketRequest=CmsTicketRequest(items.ticketDetailsResponse!!.data.uid,cmsTicketUid)
+
+//                            var cmsTicketRequest=CmsTicketRequest("C508823522941B1DDF6ED798D45F598A",cmsTicketUid)
+                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+//                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
                         }
                     }
                 } else {
@@ -1202,6 +1230,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         // adapter.notifyAdapter(orderData)
 
 
+    }
+
+    override fun onClickForwardToFinance(data: CmsTicketRequest) {
+        viewModel.cmsTicketStatusUpdate(data)
     }
 
     override fun onClickCCAccept(data: TicketData) {
@@ -1818,6 +1850,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.show()
 
     }
+
+    override fun confirmsavetheticket() {
+        submitClick()
+
+    }
 }
 
 fun checkResonDepot(
@@ -1855,6 +1892,7 @@ interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)
 
     fun onComplaintItemClick(position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>)
+    fun onClickForwardToFinance(data: CmsTicketRequest)
 
     fun onClickCCAccept(data: TicketData)
 

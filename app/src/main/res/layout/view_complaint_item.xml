@@ -13,10 +13,10 @@
         app:cardUseCompatPadding="true">
 
 
-    <!--        android:layout_marginStart="4sp"-->
-<!--        android:layout_marginEnd="4sp"-->
-<!--        app:cardCornerRadius="3dp"-->
-<!--        app:cardElevation="@dimen/value_5dp"-->
+        <!--        android:layout_marginStart="4sp"-->
+        <!--        android:layout_marginEnd="4sp"-->
+        <!--        app:cardCornerRadius="3dp"-->
+        <!--        app:cardElevation="@dimen/value_5dp"-->
 
 
         <LinearLayout
@@ -881,7 +881,7 @@
                     android:id="@+id/cc_action_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginTop="3dp"
                     android:orientation="vertical"
                     android:visibility="gone">
 
@@ -903,6 +903,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Accept"
+                            android:visibility="invisible"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             android:background="@drawable/green_background"
@@ -910,10 +911,12 @@
                             android:textSize="@dimen/text_14sp"
                             android:textColor="@color/white"/>
                         <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/reject_btn"
+                            android:id="@+id/frwd_to_finance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Reject"
+                            android:text="Forward To Finance"
+                            android:paddingStart="13dp"
+                            android:paddingEnd="13dp"
                             app:layout_constraintStart_toEndOf="@+id/accept_btn"
                             app:layout_constraintTop_toTopOf="parent"
                             android:layout_marginEnd="@dimen/value_10dp"
@@ -921,7 +924,8 @@
                             android:layout_marginStart="@dimen/value_5dp"
                             android:textSize="@dimen/text_14sp"
                             android:textColor="@color/white"
-                            android:background="@drawable/red_rounded_corners"/>
+                            android:background="@drawable/green_background"
+                            />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
 
