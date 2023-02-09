@@ -18,6 +18,7 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -300,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedScreen("HOME");
         listView.setSelected(0);
 
+
         FrameLayout notificationLayout = findViewById(R.id.notificationLayout);
         textCartItemCount = findViewById(R.id.cart_badge);
         setupBadge();
@@ -368,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     private boolean isAllowFragmentChange = false;
 
     public void displaySelectedScreen(String itemName) {
@@ -378,6 +381,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
         //creating fragment object
+
+
         if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
             currentItem = itemName;
             if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
@@ -814,8 +819,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listView.init(this)
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
+//        listView = findViewById(R.id.expandable_navigation);
+//        LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)listView.getLayoutParams();
+//        params.leftMargin=20;
+//        params.topMargin=5;
 
-        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_baseline_celebration_24));
+                listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
+
+
+
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(

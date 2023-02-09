@@ -47,6 +47,9 @@ public class NavigationListView extends ExpandableListView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
         ViewGroup.LayoutParams params = getLayoutParams();
         params.height = getMeasuredHeight();
+//        if (listHeader.get(1).getTitle().equals("Greetings to Chairman")){
+//            params.height=70;
+//        }
     }
 
     public NavigationListView init(Context context) {

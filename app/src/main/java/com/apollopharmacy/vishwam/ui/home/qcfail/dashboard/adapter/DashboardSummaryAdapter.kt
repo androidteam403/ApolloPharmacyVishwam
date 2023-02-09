@@ -62,7 +62,7 @@ class DashboardSummaryAdapter(
         holder.searchSiteBinding.rtocounts.setText(items.rtocount.toString())
         holder.searchSiteBinding.rtovalues.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
         holder.searchSiteBinding.rrrtocounts.setText(items.rrtocount.toString())
-        holder.searchSiteBinding.rrrtovalues.setText(DecimalFormat("#,###.00").format(items.rtoamount).toString())
+        holder.searchSiteBinding.rrrtovalues.setText(DecimalFormat("#,###.00").format(items.rrtoamount).toString())
 
 
 

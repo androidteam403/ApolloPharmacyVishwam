@@ -23,6 +23,7 @@ import kotlinx.coroutines.withContext
 import java.net.URLEncoder
 
 class ComplainListViewModel : ViewModel() {
+    var cmsTicketResponse = MutableLiveData<CmsTicketResponse>()
 
     var complainLiveData = MutableLiveData<ArrayList<CmsResposeV2.DataItem>>()
     var newcomplainLiveData = MutableLiveData<ArrayList<ResponseNewTicketlist.Row>>()
@@ -36,6 +37,7 @@ class ComplainListViewModel : ViewModel() {
     val TAG = "ComplainListViewModel"
     var resLiveData = MutableLiveData<ResponseNewTicketlist>()
     var tickethistory = ArrayList<ResponseNewTicketlist.NewTicketHistoryResponse.Row>()
+    var cmsTicketResponseList = MutableLiveData<CmsTicketResponse>()
 
     lateinit var Ticketlistdata: ResponseNewTicketlist
     var baseUrL = ""
@@ -278,7 +280,75 @@ class ComplainListViewModel : ViewModel() {
         }
 
     }
+    fun cmsTicketStatusUpdate(cmsTicketRequest: CmsTicketRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_it/save-update/it-cc-frwd-to-fin-status-update"
+        var token1 = ""
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
+//                baseUrl = data.APIS[i].URL
+//                token1 = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val requestcmsTicketRequestJson =
+            Gson().toJson(cmsTicketRequest)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(
+                        baseUrl,
+                        "POST",
+                        requestcmsTicketRequestJson,
+                        "",
+                        ""
+                    )
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val cmsTicketResponse =
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    CmsTicketResponse::class.java
+                                )
 
+                            cmsTicketResponseList.value=cmsTicketResponse
+
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
     fun getInventoryAdditionalDetails(requestTicketHistory: String?, itemPos: Int) {
 

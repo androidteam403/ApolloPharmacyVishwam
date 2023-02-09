@@ -15,17 +15,19 @@ import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
-import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
+import com.apollopharmacy.vishwam.data.network.*
 import com.apollopharmacy.vishwam.dialog.model.TransactionPOSModel
+import com.apollopharmacy.vishwam.ui.createpin.Command
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.InventoryAcceptRejectResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FetchItemModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListRequest
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListResponse
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -39,6 +41,7 @@ class RegistrationViewModel : ViewModel() {
     var departmentLiveData = ArrayList<DepartmentV2Response.DepartmentListItem>()
     var categoryLiveData = ArrayList<CategoryListResponse.CategoryListItem>()
     var command = LiveEvent<CmsCommand>()
+
     val state = MutableLiveData<State>()
     var visibleState = LiveEvent<State>()
     var siteLiveData = ArrayList<StoreListItem>()
@@ -1011,6 +1014,14 @@ class RegistrationViewModel : ViewModel() {
             }
         }
     }
+
+
+
+
+
+
+
+
 
 
     fun connectToAzure(image: ArrayList<ImageDataDto>, tag: String) {
