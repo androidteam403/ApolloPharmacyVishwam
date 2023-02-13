@@ -12,12 +12,6 @@ class CmsTicketRequest : Serializable {
     @SerializedName("ticket")
     @Expose
     var ticket: Ticket? = null
-
-    constructor(uid: String?, ticket: Ticket?) {
-        this.uid = uid
-        this.ticket = ticket
-    }
-
     fun withUid(uid: String?): CmsTicketRequest {
         this.uid = uid
         return this
@@ -28,16 +22,11 @@ class CmsTicketRequest : Serializable {
         return this
     }
 
-     class Ticket : Serializable {
+    public class Ticket : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
-
-         constructor(uid: String?) {
-             this.uid = uid
-         }
-
-         fun withUid(uid: String?): Ticket {
+        fun withUid(uid: String?): Ticket {
             this.uid = uid
             return this
         }

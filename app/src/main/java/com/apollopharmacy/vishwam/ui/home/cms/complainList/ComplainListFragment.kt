@@ -26,7 +26,10 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.dialog.*
+import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
+import com.apollopharmacy.vishwam.dialog.OnTransactionSearchManagerListnier
+import com.apollopharmacy.vishwam.dialog.SearchManagerDialog
+import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
@@ -49,7 +52,8 @@ import com.hsalf.smilerating.SmileRating
 import java.util.*
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
-    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,SubmitticketDialog.AbstractDialogFinanceClickListner,
+    ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
+    SubmitticketDialog.AbstractDialogFinanceClickListner,
     OnTransactionSearchManagerListnier {
 
     var isFromDateSelected: Boolean = false
@@ -157,15 +161,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         })
 
 
-        viewModel.cmsTicketResponseList.observe(viewLifecycleOwner){
+        viewModel.cmsTicketResponseList.observe(viewLifecycleOwner) {
             hideLoading()
-            if (it.success!!){
+            if (it.success!!) {
                 SubmitticketDialog().apply {
                     arguments =
                         SubmitticketDialog().generateParsedData(it)
                 }.show(childFragmentManager, "")
             }
-
 
 
         }
@@ -281,7 +284,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     hideLoading()
                     submitClick()
                 }
-                else -> {}
+                else -> {
+                }
             }
         })
 
@@ -698,6 +702,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 binding.itTicketManagerLayout.visibility = View.GONE
             }
+
+
 //            }else{
 //                binding.itTicketExecutiveLayout.visibility = View.GONE
 //                binding.itTicketManagerLayout.visibility = View.GONE
@@ -716,6 +722,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
                 binding.billAmount.text =
                     "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
+
+
+//                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
+//                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
+//                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
+
+
                 if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen"))
                             && items.ticketDetailsResponse!!.data.executive.uid.equals(
                         employeeDetailsResponse?.data!!.uid)
@@ -730,23 +743,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.ccActionLayout.visibility = View.GONE
                     } else {
                         binding.ccActionLayout.visibility = View.VISIBLE
-                        binding.acceptBtn.setOnClickListener {
-
-
-
-
-
-
-//                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
-
-                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
-                        }
+//                        binding.acceptBtn.setOnClickListener {
+//
+//
+//
+//
+//
+//
+////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+//
+//                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+//                        }
                         binding.frwdToFinance.setOnClickListener {
-                            var cmsTicketUid=CmsTicketRequest.Ticket(items.ticketDetailsResponse!!.data.ticket_it.uid)
-//                            var cmsTicketUid=CmsTicketRequest.Ticket("39BB81C0A7FE756A3B38E033F5C98A2E")
-                            var cmsTicketRequest=CmsTicketRequest(items.ticketDetailsResponse!!.data.uid,cmsTicketUid)
 
-//                            var cmsTicketRequest=CmsTicketRequest("C508823522941B1DDF6ED798D45F598A",cmsTicketUid)
+                            val cmsTicketRequest = CmsTicketRequest()
+                            val cms = CmsTicketRequest.Ticket()
+                            cmsTicketRequest.uid = items.ticketDetailsResponse!!.data.ticket_it.uid
+                            cms.uid = items.ticketDetailsResponse!!.data.uid
+                            cmsTicketRequest.ticket = cms
+
+
+//
+
+
                             imageClickListener.onClickForwardToFinance(cmsTicketRequest)
 //                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
                         }
@@ -763,17 +782,21 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
 //                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
                 binding.drugLayout.drugItemNumber.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
+                        ?: "--"
 //                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
                 binding.drugLayout.drugPackSize.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString() ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
+                        ?: "--"
                 binding.drugLayout.drugMrp.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString() ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
+                        ?: "--"
 //                binding.drugLayout.drugPurchasePrice.text =
 //                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
 //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
                 binding.drugLayout.drugBatchNo.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
+                        ?: "--"
 
 
                 //From made changes by naveen//
@@ -831,7 +854,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
             }
             binding.complainDetails.text =
-                items.ticketDetailsResponse?.data?.description?.trim()?.replace("\\s+".toRegex(), " ") ?: "--"
+                items.ticketDetailsResponse?.data?.description?.trim()?.replace("\\s+".toRegex(),
+                    " ") ?: "--"
             if (items.status?.code.isNullOrEmpty()) {
             } else {
 
@@ -866,7 +890,41 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ticketResolveBtn.visibility = View.GONE
                         binding.ticketActionLayout.visibility = View.GONE
-                    } else {
+                    } else if (items.status!!.code.equals("inprogress") && items.ticketDetailsResponse!!.data.department.code.equals(
+                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+                            "pos")
+                    ) {
+                        binding.ticketResolveBtn.visibility = View.GONE
+                        binding.ticketActionLayout.visibility = View.GONE
+                    }
+
+//                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
+//                            "FN")
+//                    ) {
+//                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+//                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
+//                            && items.ticketDetailsResponse!!.data.user.uid.equals(
+//                                employeeDetailsResponse?.data!!.uid)
+//                            && items.status!!.code.equals("inprogress")
+//                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
+//                        ) {
+//
+//                            binding.ticketResolveBtn.visibility = View.GONE
+//                            binding.ticketActionLayout.visibility = View.GONE
+//                        }
+//                        else {
+//                            binding.ticketResolveBtn.visibility = View.VISIBLE
+//                            binding.ticketCloseBtn.visibility = View.GONE
+//                            binding.ticketResolveBtn.text = "Resolve"
+//                            binding.ticketResolveBtn.setOnClickListener {
+//                                imageClickListener.onClickTicketResolve(items)
+//                            }
+//                            binding.ticketActionLayout.visibility = View.VISIBLE
+//                        }
+//
+//                        }
+
+                    else {
                         binding.ticketResolveBtn.visibility = View.VISIBLE
                         binding.ticketCloseBtn.visibility = View.GONE
                         binding.ticketResolveBtn.text = "Resolve"
@@ -879,6 +937,35 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.ticketActionLayout.visibility = View.GONE
                 }
             }
+
+            if (items.ticketDetailsResponse != null) {
+                if (employeeDetailsResponse?.data!!.department!!.code.equals(
+                        "FN")
+                ) {
+                    if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+                            "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
+                        && items.ticketDetailsResponse!!.data.user.uid.equals(
+                            employeeDetailsResponse?.data!!.uid) && items.ticketDetailsResponse!!.data.ticket_it.status
+                            .uid.equals("forwarded_to_fin")
+                        && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
+                            "FN")
+                        && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
+                    ) {
+
+                        binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
+                        binding.acceptBtn.setOnClickListener {
+                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+                        }
+                        binding.rejectBtn.setOnClickListener {
+                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                        }
+                    } else {
+                        binding.ccAcceptrejectLayout.visibility = View.INVISIBLE
+                    }
+                }
+
+            }
+
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "
                 binding.siteid.text = "Self"
@@ -906,7 +993,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 imageClickListener.onComplaintItemClick(position, orderData)
 
             }
-            if (items.isExpanded) {
+            if (orderData.get(position).isExpanded) {
 
                 binding.extraData.visibility = View.VISIBLE
                 binding.arrow.visibility = View.GONE
@@ -919,6 +1006,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.extraData.visibility = View.GONE
                 binding.arrow.visibility = View.VISIBLE
                 binding.arrowClose.visibility = View.GONE
+
             }
 
             if (items.Tickethistory == null) {
@@ -934,7 +1022,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
             var problemimages = ArrayList<ResponseNewTicketlist.Image>()
             if (orderData[position].ticketDetailsResponse?.data?.problem_images != null && orderData[position].ticketDetailsResponse?.data?.problem_images?.images != null) {
-                problemimages = orderData[position].ticketDetailsResponse?.data?.problem_images!!.images
+                problemimages =
+                    orderData[position].ticketDetailsResponse?.data?.problem_images!!.images
                 binding.addedImagesRecyclerView.adapter =
                     ImageRecyclerView(problemimages, imageClickListener)
                 binding.attacheImages.visibility = View.VISIBLE
@@ -953,7 +1042,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     .equals("In Progress")
             ) {
                 binding.closedDateLayout.visibility = View.VISIBLE
-                binding.closedDate.text = orderData[position].ticketDetailsResponse?.data?.closed_date
+                binding.closedDate.text =
+                    orderData[position].ticketDetailsResponse?.data?.closed_date
 
             } else {
                 binding.closedDateLayout.visibility = View.GONE
@@ -1367,8 +1457,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 var workFlowUpdateModel = WorkFlowUpdateModel(
                     Action("97A318ACE84930236386DB1A70944825", "resolve"),
                     "Resolved",
-                    Department(data.ticketDetailsResponse?.data?.department?.uid, data.ticketDetailsResponse?.data?.department?.code),
-                    Level(data.ticketDetailsResponse?.data?.level?.uid, data.ticketDetailsResponse?.data?.level?.code),
+                    Department(data.ticketDetailsResponse?.data?.department?.uid,
+                        data.ticketDetailsResponse?.data?.department?.code),
+                    Level(data.ticketDetailsResponse?.data?.level?.uid,
+                        data.ticketDetailsResponse?.data?.level?.code),
                     NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
                     null,
                     Site(data.site?.uid),
@@ -1377,7 +1469,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     data.ticket_id,
                     TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
                     data.ticketDetailsResponse!!.data.ticket_inventory.uid,
-                    User(data.ticketDetailsResponse?.data?.user?.first_name, data.ticketDetailsResponse?.data?.user?.uid),
+                    User(data.ticketDetailsResponse?.data?.user?.first_name,
+                        data.ticketDetailsResponse?.data?.user?.uid),
                     "Yes",
                     "manager"
                 )
@@ -1430,8 +1523,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 var workFlowUpdateModel = WorkFlowUpdateModel(
                     Action("52E2C8F5C204B5BD03DF3A73EB096484", "reject"),
                     "Resolved",
-                    Department(data.ticketDetailsResponse?.data?.department?.uid, data.ticketDetailsResponse?.data?.department?.code),
-                    Level(data.ticketDetailsResponse?.data?.level?.uid, data.ticketDetailsResponse?.data?.level?.code),
+                    Department(data.ticketDetailsResponse?.data?.department?.uid,
+                        data.ticketDetailsResponse?.data?.department?.code),
+                    Level(data.ticketDetailsResponse?.data?.level?.uid,
+                        data.ticketDetailsResponse?.data?.level?.code),
                     NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
                     null,
                     Site(data.site?.uid),
@@ -1440,7 +1535,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     data.ticket_id,
                     TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
                     data.ticketDetailsResponse!!.data.ticket_inventory.uid,
-                    User(data.ticketDetailsResponse?.data?.user?.first_name, data.ticketDetailsResponse?.data?.user?.uid),
+                    User(data.ticketDetailsResponse?.data?.user?.first_name,
+                        data.ticketDetailsResponse?.data?.user?.uid),
                     "Yes",
                     "manager"
                 )
