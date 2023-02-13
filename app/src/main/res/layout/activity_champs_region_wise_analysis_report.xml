@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseAnalysisReportActivity">
+
+     <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/text_color_blue"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/value_10dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginTop="@dimen/value_3dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickBack()}"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CHAMPS Region wise Analysis Report"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_17sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    tools:context=".ui.home.champs.reports.ChampsReportFragment">
+
+                    <RelativeLayout
+                        android:id="@+id/formLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#e8f7f2"
+                        android:paddingHorizontal="@dimen/value_10dp"
+                        android:paddingTop="@dimen/value_10dp"
+                        android:paddingBottom="@dimen/value_20dp">
+
+                        <TextView
+                            android:id="@+id/region"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/value_4dp"
+                            android:text="Region" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/regionSelect"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_below="@+id/region"
+                            android:background="@drawable/grey_border_bg"
+                            android:drawableEnd="@drawable/bottomarrow"
+                            android:drawableTint="#cacaca"
+                            android:editable="false"
+                            android:hint="Select Region"
+                            android:paddingLeft="@dimen/value_15dp"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <TextView
+                            android:id="@+id/state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/regionSelect"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginBottom="@dimen/value_4dp"
+                            android:text="State" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/stateSelect"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_below="@+id/state"
+                            android:background="@drawable/grey_border_bg"
+                            android:drawableEnd="@drawable/bottomarrow"
+                            android:drawableTint="#cacaca"
+                            android:editable="false"
+                            android:hint="Select State"
+                            android:paddingLeft="@dimen/value_15dp"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <TextView
+                            android:id="@+id/parameter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/stateSelect"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginBottom="@dimen/value_4dp"
+                            android:text="Parameter" />
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/parameterSelect"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_below="@+id/parameter"
+                            android:layout_marginBottom="@dimen/value_10dp"
+                            android:background="@drawable/grey_border_bg"
+                            android:drawableEnd="@drawable/bottomarrow"
+                            android:drawableTint="#cacaca"
+                            android:editable="false"
+                            android:hint="Select Parameter"
+                            android:paddingLeft="@dimen/value_15dp"
+                            android:textSize="@dimen/text_14sp" />
+
+
+                        <LinearLayout
+                            android:weightSum="1"
+                            android:id="@+id/date_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/parameterSelect">
+
+                            <LinearLayout
+                                android:layout_weight="0.4"
+                                android:id="@+id/startDateLayout"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/value_10dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/startDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/value_4dp"
+                                    android:text="Start Date" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/fromDateEdittext"
+                                    android:onClick="@{()-> callback.onClickStartDate()}"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:textAlignment="center"
+                                    android:background="@drawable/grey_border_bg"
+                                    android:drawableEnd="@drawable/ic_p_gray_calendar"
+                                    android:editable="false"
+                                    android:textStyle="bold"
+                                    android:paddingLeft="@dimen/value_5dp"
+                                    android:paddingRight="@dimen/value_5dp"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/text_15sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/endDateLayout"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/value_10dp"
+                                android:layout_toRightOf="@+id/startDateLayout"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/endDate"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/value_4dp"
+                                    android:text="End Date" />
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/endDateEdittext"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:onClick="@{()-> callback.onClickEndDate()}"
+                                    android:background="@drawable/grey_border_bg"
+                                    android:drawableEnd="@drawable/ic_p_gray_calendar"
+                                    android:editable="false"
+                                    android:textAlignment="center"
+                                    android:textStyle="bold"
+                                    android:paddingLeft="@dimen/value_5dp"
+                                    android:paddingRight="@dimen/value_5dp"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/text_15sp" />
+                            </LinearLayout>
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:layout_width="0dp"
+                                android:layout_weight="0.2"
+                                android:layout_height="@dimen/value_40dp"
+                                android:layout_gravity="bottom"
+                                android:onClick="@{()-> callback.onClickView()}"
+                                android:layout_toRightOf="@id/endDateLayout"
+                                android:background="@drawable/rounded_green_bg"
+                                android:hint="View"
+                                android:textColorHint="@color/colorWhite"
+                                android:textSize="@dimen/text_18sp" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_below="@+id/formLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_60dp"
+                        android:layout_marginTop="@dimen/value_1dp"
+                        android:background="@color/very_lightt_greyy"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Result:" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:text="0"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/value_60dp"
+                                android:layout_height="@dimen/value_60dp">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_60dp"
+                                    android:layout_height="@dimen/value_60dp"
+                                    android:src="@drawable/p_gray_search" />
+                            </LinearLayout>
+
+
+
+                            <ImageView
+                                android:layout_width="@dimen/value_60dp"
+                                android:layout_height="@dimen/value_60dp"
+                                android:src="@drawable/grey_filter" />
+
+                            <ImageView
+                                android:layout_width="@dimen/value_60dp"
+                                android:layout_height="@dimen/value_60dp"
+                                android:src="@drawable/grey_download" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/formLayout"
+                        android:layout_marginTop="2dp"
+                        android:background="#f2f2f2"
+                        android:paddingVertical="@dimen/value_5dp"
+                        android:paddingLeft="@dimen/value_20dp">
+
+                        <TextView
+                            android:id="@+id/result"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:text="Result: " />
+
+                        <TextView
+                            android:id="@+id/resultText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@+id/result"
+                            android:text="0"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="@dimen/value_20dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/value_10dp"
+                                android:src="@drawable/ic_grey_search_circle" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="@dimen/value_10dp"
+                                android:src="@drawable/ic_grey_search_circle" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/ic_grey_search_circle" />
+                        </LinearLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+     </RelativeLayout>
+
+</RelativeLayout>
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseReportCallback" />
+    </data>
+</layout>

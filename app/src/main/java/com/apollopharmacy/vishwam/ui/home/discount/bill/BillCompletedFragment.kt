@@ -64,6 +64,7 @@ class BillCompletedFragment : BaseFragment<BillCompletedViewModel, FragmentBillC
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         })
     }

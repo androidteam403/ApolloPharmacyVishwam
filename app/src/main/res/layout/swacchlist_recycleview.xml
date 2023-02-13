@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/value_5dp"
+            android:visibility="visible"
+            app:cardCornerRadius="@dimen/value_5dp"
+            app:cardElevation="@dimen/value_5dp"
+            app:cardUseCompatPadding="true">
+
+
+            <LinearLayout
+                android:id="@+id/orderHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/pendingLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:baselineAligned="false"
+                    android:orientation="vertical"
+                    android:padding="@dimen/value_5dp"
+                    android:weightSum="3">
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/value_120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Store Id                     "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=":"
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+                        <TextView
+                            android:id="@+id/storeId"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_2dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:fontFamily="@font/droidsans"
+                            android:text=" "
+
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_13sp" />
+
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <ImageView
+                                android:id="@+id/arrowClose"
+                                android:layout_width="@dimen/value_30dp"
+                                android:layout_height="@dimen/value_30dp"
+                                android:layout_alignParentEnd="true"
+                                android:contentDescription="@string/app_name"
+                                android:rotation="0"
+
+                                android:src="@drawable/rightarrow"
+                                android:visibility="visible" />
+
+                            <ImageView
+                                android:id="@+id/arrow"
+                                android:layout_width="@dimen/value_30dp"
+                                android:layout_height="@dimen/value_30dp"
+                                android:layout_alignParentEnd="true"
+                                android:contentDescription="@string/app_name"
+                                android:rotation="90"
+                                android:src="@drawable/rightarrow"
+                                android:visibility="gone" />
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="@dimen/value_120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Category Name      "
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=":"
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/categoryname"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_2dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=" "
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="@dimen/value_120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Category autoid      "
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=":"
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/categoryaut"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_2dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=" "
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="@dimen/value_120dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text="Status      "
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=":"
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+
+                        <TextView
+                            android:id="@+id/categoryautoid"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_2dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:text=" "
+
+                            android:textColor="@color/black"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/extraData"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#dceaf4"
+                    android:orientation="vertical">
+
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/approveimages_recycleview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/swacchimagelist_recycleview" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/accept"
+                        android:layout_width="@dimen/value_100dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginLeft="@dimen/value_20dp"
+                        android:background="@drawable/accept_button_drawable"
+                        android:text="Accept"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_10sp" />
+
+                    <Button
+                        android:id="@+id/reject"
+                        android:layout_width="@dimen/value_100dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginLeft="@dimen/value_10dp"
+                        android:background="@drawable/reject_button_drawable"
+                        android:text="Reject"
+                        android:textColor="@color/black"
+
+                        android:textSize="@dimen/text_10sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_150dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+
+            android:background="@color/white"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="List Found Empty"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_18sp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>
+
