@@ -250,7 +250,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             adapter.orderData[it.position].ticketDetailsResponse = it
             Utlis.hideLoading()
             adapter.notifyItemChanged(it.position)
-
         })
 
 //        viewModel.creditCardDetailsLiveData.observe(viewLifecycleOwner, Observer {
@@ -799,7 +798,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         ?: "--"
 
 
-                //From made changes by naveen//
+                //From - made changes by naveen//
                 binding.drugLayout.itemType.text =
                     items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
                 binding.drugLayout.requiredQty.text =
@@ -809,7 +808,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.doctorSpeciality.text =
                     items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
 
-                //To made changes by naveen//
+                //To - made changes by naveen//
 
 
 //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
@@ -960,7 +959,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
                         }
                     } else {
-                        binding.ccAcceptrejectLayout.visibility = View.INVISIBLE
+                        binding.ccAcceptrejectLayout.visibility = View.GONE
                     }
                 }
 
