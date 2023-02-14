@@ -824,7 +824,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        params.leftMargin=20;
 //        params.topMargin=5;
 
-                listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
+//                listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
 
 
@@ -886,11 +886,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
-        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
-                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
-                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
-        );
+//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
+//                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
+//                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
+//        );
 //        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {

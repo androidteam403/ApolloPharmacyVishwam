@@ -42,13 +42,15 @@ class ValidatePinActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_pin)
-
+        Preferences.setResponseNewTicketlist("")
         viewModel = ViewModelProvider(this)[ValidatePinViewModel::class.java]
         userData = LoginRepo.getProfile()!!
 
         onCheckBuildDetails()
         handleMPinService()
-        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH", applicationContext)
+        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+            "SWACHH",
+            applicationContext)
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
@@ -110,19 +112,19 @@ class ValidatePinActivity : AppCompatActivity() {
 
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
-                    if(it.message!=null && it.status.equals(true)){
+                    if (it.message != null && it.status.equals(true)) {
 
-                    }else{
+                    } else {
 //                        Preferences.setAppLevelDesignationSwach("")
                     }
 
                 }
 
                 viewModel.appLevelDesignationRespQCFail.observeForever {
-                    if(it.message!=null && it.status.equals(true)){
+                    if (it.message != null && it.status.equals(true)) {
                         Preferences.setAppLevelDesignationQCFail(it.message)
 //                        Toast.makeText(applicationContext, "QcFail: "+Preferences.getAppLevelDesignationQCFail(), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Preferences.setAppLevelDesignationQCFail("")
                     }
                 }
@@ -149,8 +151,7 @@ class ValidatePinActivity : AppCompatActivity() {
                         } else {
                             Preferences.setEmployeeRoleUid("")
                         }
-                    }
-                    else {
+                    } else {
                         Preferences.setEmployeeRoleUid("")
                     }
 
@@ -165,16 +166,15 @@ class ValidatePinActivity : AppCompatActivity() {
                             if (it.data?.newDrugRequest?.uid!!.equals("Yes",
                                     true)
                             ) {
-                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
-                            }else{
+                                Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            } else {
                                 Preferences.setEmployeeRoleUidNewDrugRequest("")
                             }
 
                         } else {
                             Preferences.setEmployeeRoleUidNewDrugRequest("")
                         }
-                    }
-                    else {
+                    } else {
                         Preferences.setEmployeeRoleUidNewDrugRequest("")
                     }
 
@@ -190,9 +190,6 @@ class ValidatePinActivity : AppCompatActivity() {
                     }
 
                 }
-
-
-
 
 
 //                if (dialogStatus) {

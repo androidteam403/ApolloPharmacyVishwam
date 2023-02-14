@@ -16,6 +16,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -51,7 +52,7 @@ class ComplainListViewModel : ViewModel() {
         status: String,
         isDrugList: Boolean,
         isSearch: Boolean,
-        searchQuary: String
+        searchQuary: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -97,7 +98,11 @@ class ComplainListViewModel : ViewModel() {
                 "reason_code=new_drug&"
             } else {
                 ""
-            }+if(isSearch){"site_ticket=$searchQuary&"}else{"site_ticket=$searchQuary&"} + "${
+            } + if (isSearch) {
+                "site_ticket=$searchQuary&"
+            } else {
+                "site_ticket=$searchQuary&"
+            } + "${
                 URLEncoder.encode("status[0]",
                     "utf-8")
             }=${new}&${
@@ -181,6 +186,12 @@ class ComplainListViewModel : ViewModel() {
         }
     }
 
+    fun setTicketListFromSheredPeff() {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        resLiveData.value = gson.fromJson<ResponseNewTicketlist>(
+            Preferences.getResponseNewTicketlist(),
+            ResponseNewTicketlist::class.java)
+    }
 
     //get new ticket history...........................................
     fun getNewticketHistory(requestTicketHistory: RequestTicketHistory) {
@@ -280,10 +291,12 @@ class ComplainListViewModel : ViewModel() {
         }
 
     }
+
     fun cmsTicketStatusUpdate(cmsTicketRequest: CmsTicketRequest) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_it/save-update/it-cc-frwd-to-fin-status-update"
+        var baseUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_it/save-update/it-cc-frwd-to-fin-status-update"
         var token1 = ""
 //        for (i in data.APIS.indices) {
 //            if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
@@ -328,7 +341,7 @@ class ComplainListViewModel : ViewModel() {
                                     CmsTicketResponse::class.java
                                 )
 
-                            cmsTicketResponseList.value=cmsTicketResponse
+                            cmsTicketResponseList.value = cmsTicketResponse
 
 
                         }
@@ -1298,7 +1311,7 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrL =""
+        var baseUrL = ""
 //        if (Config.KEY.equals("2034")){
 //            baseUrL = "https://cms.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
 //        }else{

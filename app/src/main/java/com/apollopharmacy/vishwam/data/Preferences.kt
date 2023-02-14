@@ -3,6 +3,9 @@ package com.apollopharmacy.vishwam.data
 import android.content.Context
 import android.content.SharedPreferences
 import com.apollopharmacy.vishwam.data.Config.VISWAM_PREFERENCE
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
+import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
+import com.google.gson.GsonBuilder
 
 object Preferences {
 
@@ -42,7 +45,8 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
-
+    private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
+        "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -499,5 +503,14 @@ object Preferences {
 
     fun getEmpPhoneNumber(): String {
         return sharedPreferences.getString(KEY_EMP_MOBILE_NUMBER, "")!!
+    }
+
+    fun setResponseNewTicketlist(responseNewTicketlistJson: String) {
+        sharedPreferences.edit()
+            .putString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, responseNewTicketlistJson).apply()
+    }
+
+    fun getResponseNewTicketlist(): String {
+            return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
     }
 }
