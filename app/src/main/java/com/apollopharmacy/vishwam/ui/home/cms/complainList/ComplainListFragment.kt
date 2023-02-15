@@ -735,13 +735,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                             && checkResonDepot(items.ticketDetailsResponse!!.data.reason.reason_dept,
                         employeeDetailsResponse))
                 ) {
-                    if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                    if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null
+                        && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
                             "approved") || items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
                             "rejected"))
                     ) {
                         binding.ccActionLayout.visibility = View.GONE
                     } else {
-                        binding.ccActionLayout.visibility = View.VISIBLE
+                        if(items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
+
+                            binding.ccActionLayout.visibility = View.VISIBLE
 //                        binding.acceptBtn.setOnClickListener {
 //
 //
@@ -753,20 +756,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //
 //                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
 //                        }
-                        binding.frwdToFinance.setOnClickListener {
+                            binding.frwdToFinance.setOnClickListener {
 
-                            val cmsTicketRequest = CmsTicketRequest()
-                            val cms = CmsTicketRequest.Ticket()
-                            cmsTicketRequest.uid = items.ticketDetailsResponse!!.data.ticket_it.uid
-                            cms.uid = items.ticketDetailsResponse!!.data.uid
-                            cmsTicketRequest.ticket = cms
+                                val cmsTicketRequest = CmsTicketRequest()
+                                val cms = CmsTicketRequest.Ticket()
+                                cmsTicketRequest.uid =
+                                    items.ticketDetailsResponse!!.data.ticket_it.uid
+                                cms.uid = items.ticketDetailsResponse!!.data.uid
+                                cmsTicketRequest.ticket = cms
 
 
 //
 
 
-                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+                                imageClickListener.onClickForwardToFinance(cmsTicketRequest)
 //                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                            }
+                        }else{
+                            binding.ccActionLayout.visibility = View.GONE
                         }
                     }
                 } else {
