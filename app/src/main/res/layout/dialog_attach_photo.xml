@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/image_layout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_450dp">
+
+            <LinearLayout
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimen400dp"
+                android:background="@drawable/black_rounded_border"
+                android:padding="@dimen/value_10dp">
+
+                <ImageView
+                    android:id="@+id/image_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/rounded_outline"
+                    android:scaleType="fitXY"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/capture" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="@dimen/value_15dp"
+                android:src="@drawable/red_circle" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_layout"
+            android:layout_marginTop="@dimen/value_40dp"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:id="@+id/attach_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/sky_rounded_background"
+                android:gravity="center_vertical"
+                android:paddingEnd="@dimen/value_10dp">
+
+                <ImageView
+                    android:layout_width="@dimen/value_45dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:src="@drawable/ic_pending_list_icons_attach_photo"
+                    app:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Attach Photo"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

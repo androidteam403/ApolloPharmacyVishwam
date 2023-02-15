@@ -20,6 +20,9 @@ object ValidateOtpRepo {
     ): ApiResult<ValidateOtpResponse> {
         return try {
             val response = Api.getClient().validateEmpWithOtp(token, validateOtpRequest)
+            println(23)
+            println(response)
+            println(25)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

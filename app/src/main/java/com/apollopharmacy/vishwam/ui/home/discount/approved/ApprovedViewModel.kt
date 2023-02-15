@@ -26,7 +26,7 @@ class ApprovedViewModel : ViewModel() {
     val command = LiveEvent<Command>()
 
     fun getFilterApprovedList(filterDiscReq: FilterDiscountRequest) {
-        state.value = State.LOADING
+
         viewModelScope.launch {
             Utils.printMessage("ApproveViewModel", "Req: " + filterDiscReq.toString())
             val url = Preferences.getApi()
