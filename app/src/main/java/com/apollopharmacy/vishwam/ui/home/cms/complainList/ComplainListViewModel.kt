@@ -566,9 +566,9 @@ class ComplainListViewModel : ViewModel() {
                                     CCAcceptRejectResponse::class.java
                                 )
                             if (request.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    request.message
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    request.message
+//                                )
                             } else {
                                 command.value = CmsCommand.ShowToast(
                                     request.message.toString()
@@ -648,9 +648,9 @@ class ComplainListViewModel : ViewModel() {
                                     InventoryAcceptRejectResponse::class.java
                                 )
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
+//                                )
 //                                command.value = CmsCommand.ShowToast(
 //                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
 //                                )
@@ -1108,9 +1108,9 @@ class ComplainListViewModel : ViewModel() {
                                     ChangeManagerResponse::class.java
                                 )
                             if (response.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    response.message
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    response.message
+//                                )
                                 command.value = CmsCommand.ShowToast(
                                     response.message.toString()
                                 )
@@ -1196,9 +1196,9 @@ class ComplainListViewModel : ViewModel() {
                                     InventoryAcceptRejectResponse::class.java
                                 )
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    ""
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    ""
+//                                )
                             } else {
                                 command.value = CmsCommand.ShowToast(
                                     responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg

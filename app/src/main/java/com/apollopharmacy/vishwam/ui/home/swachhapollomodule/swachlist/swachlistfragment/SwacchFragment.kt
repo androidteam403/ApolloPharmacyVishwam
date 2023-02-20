@@ -183,23 +183,41 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 
     }
 
-    override fun onClickForwardToFinance(data: CmsTicketRequest) {
+    override fun onClickForwardToFinance(
+        data: CmsTicketRequest,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickCCAccept(data: TicketData) {
+
+
+    override fun onClickCCAccept(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickCCReject(data: TicketData) {
+    override fun onClickCCReject(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+
+
+    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
         TODO("Not yet implemented")
     }
 
@@ -207,19 +225,29 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         TODO("Not yet implemented")
     }
 
-    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row,pos:Int,
+                                             responseList: ArrayList<ResponseNewTicketlist.Row>) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketResolve(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketClose(data: ResponseNewTicketlist.Row) {
+
+    override fun onClickTicketClose(data: ResponseNewTicketlist.Row,
+                                    responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                    position: Int,) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row,
+                                     responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                     position: Int,) {
         TODO("Not yet implemented")
     }
 

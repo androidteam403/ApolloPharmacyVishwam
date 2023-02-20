@@ -16,7 +16,7 @@ data class TicketDetailsResponse (
     val success: Boolean,
     @Expose
     @SerializedName("data")
-    val data: TicketData,
+    var data: TicketData,
     var position: Int
 )
 
@@ -26,7 +26,7 @@ data class TicketData(
     val uid: String,
     @Expose
     @SerializedName("description")
-    val description: String,
+    var description: String,
     @Expose
     @SerializedName("platform")
     val platform: Platform,

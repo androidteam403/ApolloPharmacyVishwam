@@ -317,16 +317,16 @@ data class ResponseNewTicketlist(
         val uid: String? = null,
 
         @field:SerializedName("code")
-        val code: String? = null,
+        var code: String? = null,
 
         @field:SerializedName("name")
-        val name: String? = null,
+        var name: String? = null,
 
         @field:SerializedName("background_color")
-        val background_color: String? = null,
+        var background_color: String? = null,
 
         @field:SerializedName("text_color")
-        val text_color: String? = null
+        var text_color: String? = null
     ):Serializable
 
     data class  Site(

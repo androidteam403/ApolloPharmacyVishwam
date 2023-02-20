@@ -40,6 +40,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Manager
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Site
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Status
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.Getqcfailpendinghistorydashboard
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.PhotoPopupWindow
 import com.apollopharmacy.vishwam.util.Utils
@@ -50,6 +51,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.hsalf.smilerating.SmileRating
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
     ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
@@ -57,6 +59,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     OnTransactionSearchManagerListnier {
 
     var isFromDateSelected: Boolean = false
+    var resList = ArrayList<ResponseNewTicketlist.Row>()
+    var pos:Int=0
+    var frwdMngrPos:Int=0
+    var resListMnger = ArrayList<ResponseNewTicketlist.Row>()
 
     lateinit var storeData: LoginDetails.StoreData
 
@@ -164,6 +170,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewModel.cmsTicketResponseList.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.success!!) {
+
                 SubmitticketDialog().apply {
                     arguments =
                         SubmitticketDialog().generateParsedData(it)
@@ -617,16 +624,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.inventoryAcceptBtn.text = "Approve"
                     }
                     binding.inventoryAcceptBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryAccept(items)
+                        imageClickListener.onClickInventoryAccept(items,position,orderData)
                     }
                     binding.inventoryRejectBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryReject(items)
+                        imageClickListener.onClickInventoryReject(items,position,orderData)
                     }
                     binding.inventoryForwardManagerBtn.setOnClickListener {
                         imageClickListener.onClickForwardToManager(items)
                     }
                     binding.inventoryChangeForwardBtn.setOnClickListener {
-                        imageClickListener.onClickForwardChangeManager(items)
+                        imageClickListener.onClickForwardChangeManager(items,position,orderData)
                     }
                 } else {
                     binding.inventoryActionLayout.visibility = View.GONE
@@ -742,7 +749,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ccActionLayout.visibility = View.GONE
                     } else {
-                        if(items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
+                        if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
 
                             binding.ccActionLayout.visibility = View.VISIBLE
 //                        binding.acceptBtn.setOnClickListener {
@@ -769,10 +776,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //
 
 
-                                imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+                                imageClickListener.onClickForwardToFinance(cmsTicketRequest,orderData,position)
 //                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
                             }
-                        }else{
+                        } else {
                             binding.ccActionLayout.visibility = View.GONE
                         }
                     }
@@ -876,12 +883,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     }
                     binding.ticketCloseBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.setOnClickListener {
-                        imageClickListener.onClickTicketClose(items)
+                        imageClickListener.onClickTicketClose(items,orderData,position)
                     }
                     binding.ticketActionLayout.visibility = View.VISIBLE
                     binding.ticketResolveBtn.text = "Reopen"
                     binding.ticketResolveBtn.setOnClickListener {
-                        imageClickListener.onClickTicketReopen(items)
+                        imageClickListener.onClickTicketReopen(items,orderData,position)
                     }
                 } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
                         items.ticketDetailsResponse?.data?.user?.uid)
@@ -935,7 +942,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.ticketCloseBtn.visibility = View.GONE
                         binding.ticketResolveBtn.text = "Resolve"
                         binding.ticketResolveBtn.setOnClickListener {
-                            imageClickListener.onClickTicketResolve(items)
+
+//                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
+                            imageClickListener.onClickTicketResolve(items, orderData, position)
                         }
                         binding.ticketActionLayout.visibility = View.VISIBLE
                     }
@@ -960,10 +969,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
                         binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
                         binding.acceptBtn.setOnClickListener {
-                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
                         }
                         binding.rejectBtn.setOnClickListener {
-                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
                         }
                     } else {
                         binding.ccAcceptrejectLayout.visibility = View.GONE
@@ -1328,11 +1341,22 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickForwardToFinance(data: CmsTicketRequest) {
+    override fun onClickForwardToFinance(data: CmsTicketRequest, responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                         position: Int) {
+        showLoading()
+
+        resList=responseList
+        pos=position
         viewModel.cmsTicketStatusUpdate(data)
+
+//        responseList.get(position).isExpanded=false
+
     }
 
-    override fun onClickCCAccept(data: TicketData) {
+    override fun onClickCCAccept(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1357,7 +1381,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val ccAcceptRejectModel = CCAcceptRejectModel()
                 ccAcceptRejectModel.setAction("resolve")
                 ccAcceptRejectModel.setComment(remark.text.toString())
@@ -1369,7 +1393,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 ticket_it.setUid("approved")
                 ccAcceptRejectModel.setTicket_it(ticket_it)
                 ccAcceptRejectModel.setUid(data.uid)
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "solved"
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+
+                adapter.notifyDataSetChanged()
+
+//                \"background_color\":\"#047604\",\"code\":\"solved\",\"name\":\"Resolved\",\"text_color\":\"#FFFFFF\
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1378,7 +1411,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickCCReject(data: TicketData) {
+    override fun onClickCCReject(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1403,7 +1439,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val ccAcceptRejectModel = CCAcceptRejectModel()
                 ccAcceptRejectModel.setAction(null)
                 ccAcceptRejectModel.setComment(remark.text.toString())
@@ -1415,7 +1451,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 ticket_it.setUid("rejected")
                 ccAcceptRejectModel.setTicket_it(ticket_it)
                 ccAcceptRejectModel.setUid(data.uid)
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "rejected"
+                responseList.get(position).status!!.name = "Rejected"
+                responseList.get(position).status!!.background_color = "#ed001c"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+
+                adapter.notifyDataSetChanged()
+
+
+//                "background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF\"}
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1423,7 +1469,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1448,7 +1495,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
                     null,
                     remark.text.toString(),
@@ -1480,9 +1527,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     "Yes",
                     "manager"
                 )
-                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
-                    workFlowUpdateModel,
-                    0)
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "solved"
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel, workFlowUpdateModel, 0)
+                adapter.notifyDataSetChanged()
+
+
+//                \"background_color\":\"#047604\",\"code\":\"solved\",\"name\":\"Resolved\",\"text_color\":\"#FFFFFF\
+//                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
+//                    workFlowUpdateModel,
+//                    0)
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1490,7 +1547,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1515,7 +1573,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
                     remark.text.toString(),
                     null,
@@ -1546,9 +1604,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     "Yes",
                     "manager"
                 )
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "rejected"
+                responseList.get(position).status!!.name = "Rejected"
+                responseList.get(position).status!!.background_color = "#ed001c"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
                     workFlowUpdateModel,
                     0)
+                adapter.notifyDataSetChanged()
+
+//                background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF
+
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1597,7 +1664,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     private lateinit var selectedInventeryTicket: ResponseNewTicketlist.Row
-    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row,pos:Int,
+                                             responseList: ArrayList<ResponseNewTicketlist.Row>) {
+        resListMnger=responseList
+        frwdMngrPos=pos
         selectedInventeryTicket = data
         viewModel.getManagersLiveData.observe(viewLifecycleOwner, Observer {
             SearchManagerDialog(it).apply { }.show(childFragmentManager, "")
@@ -1605,7 +1675,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewModel.getManagers(data.site?.uid!!)
     }
 
-    override fun onClickTicketResolve(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1630,7 +1704,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val inventoryAcceptrejectModel = TicketResolveCloseModel(
                     "resolve",
                     remark.text.toString(),
@@ -1639,6 +1713,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     data.ticket_id!!,
                     null
                 )
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "Resolved"
+
+                data.isExpanded = false
+
+                adapter.notifyDataSetChanged()
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
             }
         }
@@ -1646,7 +1728,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.show()
     }
 
-    override fun onClickTicketClose(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketClose(data: ResponseNewTicketlist.Row,
+                                    responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                    position: Int,) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1686,7 +1770,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     Toast.LENGTH_SHORT).show()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val inventoryAcceptrejectModel = TicketResolveCloseModel(
                     "close",
                     remark.text.toString(),
@@ -1695,14 +1779,27 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     data.ticket_id!!,
                     Feedback(Rating(ratingduid))
                 )
+
+                responseList.get(position).status!!.name = "Closed"
+                responseList.get(position).status!!.background_color = "#00ba00"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "closed"
+
+                data.isExpanded = false
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+                adapter.notifyDataSetChanged()
+
+//                "background_color\":\"#00ba00\",\"code\":\"closed\",\"name\":\"Closed\",\"text_color\":\"#FFFFFF\
+//                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
 
-    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row,
+                                     responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                     position: Int,) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1727,7 +1824,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val inventoryAcceptrejectModel = TicketResolveCloseModel(
                     "reopen",
                     remark.text.toString(),
@@ -1736,7 +1833,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     data.ticket_id!!,
                     null
                 )
+                responseList.get(position).status!!.name = "Reopen"
+                responseList.get(position).status!!.background_color = "#f57200"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "reopened"
+
+                data.isExpanded = false
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+
+                adapter.notifyDataSetChanged()
+//                \"background_color\":\"#f57200\",\"code\":\"reopened\",\"name\":\"Reopen\",\"text_color\":\"#FFFFFF\"},
+//                data.status.
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1946,6 +2053,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid)
                 )
                 viewModel.actionChangeForwardToManager(actionRequest, request, 0)
+
+                if (resListMnger!=null){
+                    resListMnger.get(frwdMngrPos).isExpanded=false
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1954,7 +2066,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     override fun confirmsavetheticket() {
-        submitClick()
+        if (resList!=null){
+            resList.get(pos).isExpanded=false
+            adapter.notifyDataSetChanged()
+
+
+        }
+//        submitClick()
 
     }
 }
@@ -1994,25 +2112,43 @@ interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)
 
     fun onComplaintItemClick(position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>)
-    fun onClickForwardToFinance(data: CmsTicketRequest)
+    fun onClickForwardToFinance(data: CmsTicketRequest, responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                position: Int)
 
-    fun onClickCCAccept(data: TicketData)
+    fun onClickCCAccept(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickCCReject(data: TicketData)
+    fun onClickCCReject(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickInventoryAccept(data: ResponseNewTicketlist.Row)
+    fun onClickInventoryAccept(data: ResponseNewTicketlist.Row,position: Int,
+                               responseList: ArrayList<ResponseNewTicketlist.Row>)
 
-    fun onClickInventoryReject(data: ResponseNewTicketlist.Row)
+    fun onClickInventoryReject(data: ResponseNewTicketlist.Row,position: Int,
+                               responseList: ArrayList<ResponseNewTicketlist.Row>)
 
     fun onClickForwardToManager(data: ResponseNewTicketlist.Row)
 
-    fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row)
+    fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row,position: Int,
+                                    responseList: ArrayList<ResponseNewTicketlist.Row>)
 
-    fun onClickTicketResolve(data: ResponseNewTicketlist.Row)
+    fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickTicketClose(data: ResponseNewTicketlist.Row)
+    fun onClickTicketClose(data: ResponseNewTicketlist.Row,
+                           responseList: ArrayList<ResponseNewTicketlist.Row>,
+                           position: Int,)
 
-    fun onClickTicketReopen(data: ResponseNewTicketlist.Row)
+    fun onClickTicketReopen(data: ResponseNewTicketlist.Row,
+                            responseList: ArrayList<ResponseNewTicketlist.Row>,
+                            position: Int,)
     //  fun gettickethistory(uid:String):ArrayList<NewTicketHistoryResponse.Row>
 
     // fun calltickethistory(uid:String?);
