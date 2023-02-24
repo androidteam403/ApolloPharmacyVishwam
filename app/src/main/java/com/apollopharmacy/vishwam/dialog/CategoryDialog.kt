@@ -3,15 +3,22 @@ package com.apollopharmacy.vishwam.dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputType
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.DepartmentV2Response
 import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
 import com.apollopharmacy.vishwam.databinding.DialogCustomBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
+import com.apollopharmacy.vishwam.dialog.model.CategotyViewModel
+import com.apollopharmacy.vishwam.dialog.model.DepartmentViewModel
 
 class CategoryDialog : DialogFragment() {
 
@@ -88,7 +95,7 @@ interface OnCategorySelected {
 
     lateinit var viewBinding: DialogCustomBinding
     lateinit var abstractDialogClick: SubCategoryDialogClickListner
-
+    var siteDataArrayList= ArrayList<ReasonmasterV2Response.TicketCategory>()
     init {
         setCancelable(false)
     }
@@ -120,16 +127,49 @@ interface OnCategorySelected {
         abstractDialogClick = parentFragment as SubCategoryDialogClickListner
         viewBinding.textHead.text = context?.resources?.getString(R.string.label_select_category)
         viewBinding.closeDialog.setOnClickListener { dismiss() }
-        viewBinding.searchSite.visibility = View.GONE
-        var data =
+        viewBinding.searchSite.visibility = View.VISIBLE
+        var viewModel = ViewModelProviders.of(requireActivity())[CategotyViewModel::class.java]
+        viewBinding.searchSiteText.setHint("Search Category Name")
+        viewBinding.searchSiteText.inputType = InputType.TYPE_CLASS_TEXT
+        siteDataArrayList =
             arguments?.getSerializable(KEY_DATA_SUBCATEGORY) as ArrayList<ReasonmasterV2Response.TicketCategory>
-        viewBinding.fieldRecyclerView.adapter =
-            SubCategoryRecyclerView(data, object : OnCategorySelected {
-                override fun onSelected(data: ReasonmasterV2Response.TicketCategory) {
-                    abstractDialogClick.selectCategory(data)
-                    dismiss()
+        viewModel.siteArrayList(siteDataArrayList)
+
+        viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
+            if (it.size == 0) {
+                viewBinding.siteNotAvailable.text = "Category not available"
+                viewBinding.siteNotAvailable.visibility = View.VISIBLE
+                viewBinding.fieldRecyclerView.visibility = View.GONE
+            } else {
+                viewBinding.siteNotAvailable.visibility = View.GONE
+                viewBinding.fieldRecyclerView.visibility = View.VISIBLE
+                viewBinding.fieldRecyclerView.adapter =
+                    SubCategoryRecyclerView(it, object : OnCategorySelected {
+                        override fun onSelected(data: ReasonmasterV2Response.TicketCategory) {
+                            abstractDialogClick.selectCategory(data)
+                            dismiss()
+                        }
+                    })
+            }
+        })
+
+        viewBinding.searchSiteText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                var textChanged = s.toString().trim()
+                if (s.toString().length > 1) {
+                    viewModel.filterDataBySiteId(textChanged)
+                } else {
+                    viewModel.siteArrayList(siteDataArrayList)
                 }
-            })
+            }
+        })
+
         return viewBinding.root
     }
 }

@@ -6,8 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
-import android.text.Editable
-import android.text.TextWatcher
+import android.text.InputFilter
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -31,7 +30,9 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.messaging.FirebaseMessaging
 import java.lang.reflect.Field
+import java.util.*
 import java.util.concurrent.TimeUnit
+
 
 class OtpViewActivity : AppCompatActivity() {
     lateinit var otpViewModel: OtpViewModel
@@ -51,8 +52,11 @@ class OtpViewActivity : AppCompatActivity() {
         otpViewModel = ViewModelProvider(this)[OtpViewModel::class.java]
         if (intent.extras != null) {
             empVal = intent.getStringExtra("EmpID").toString()
-            otpViewBinding.employeeId.append(" (" + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
-                R.string.please_check_employee_id))
+            otpViewBinding.employeeId.append(
+                " (" + Preferences.getCompany() + Utils.getMaskedEmpID(empVal) + ")" + resources.getString(
+                    R.string.please_check_employee_id
+                )
+            )
         }
 
         FirebaseMessaging.getInstance().token
@@ -60,8 +64,10 @@ class OtpViewActivity : AppCompatActivity() {
                 override fun onComplete(task: Task<String>) {
                     if (!task.isSuccessful) {
                         FCM_KEY = "Unknown"
-                        Utils.printMessage(TAG,
-                            "Fetching FCM registration token failed" + task.exception)
+                        Utils.printMessage(
+                            TAG,
+                            "Fetching FCM registration token failed" + task.exception
+                        )
                         return
                     }
 
@@ -75,22 +81,38 @@ class OtpViewActivity : AppCompatActivity() {
 
         otpViewModel.validateOtpModel.observeForever {
             Utlis.hideLoading()
+            println(84)
+            println(it)
+            println(86)
             if (it.STATUS) {
+                println(87)
+                otpViewBinding.buttonLayout.visibility = View.GONE
                 otpViewBinding.customerMobileNum.visibility = View.VISIBLE
                 otpViewBinding.customerMobileNum.setText("")
                 otpViewBinding.customerMobileNum.setText(resources.getText(R.string.please_type_the_verification_code_sent_to_))
                 otpViewBinding.customerMobileNum.append(" " + Utils.getMaskedNumber(it.MOBILENO))
                 otpViewBinding.linearEdtOtp.visibility = View.VISIBLE
+                otpViewBinding.otpView.visibility = View.VISIBLE
                 otpViewBinding.fabNext.visibility = View.VISIBLE
+                otpViewBinding.timer.visibility = View.VISIBLE
+//                otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//                otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+                otpViewBinding.updateButton.isClickable = true
+                otpViewBinding.confirmButton.isClickable = false
+                otpViewBinding.updateIdLayout.visibility = View.GONE
                 countDownTimer.start()
                 receivedOtp = it.OTP
-                otpViewBinding.txtOtp1.requestFocus()
             } else {
                 otpViewBinding.updateButton.isClickable = true
                 otpViewBinding.confirmButton.isClickable = true
                 otpViewBinding.employeeIdET.isEnabled = true
                 otpViewBinding.proceedButton.isClickable = true
-                Toast.makeText(this, it.MESSAGE, Toast.LENGTH_SHORT).show()
+                otpViewBinding.buttonLayout.visibility = View.GONE
+                otpViewBinding.updateIdLayout.visibility = View.VISIBLE
+                otpViewBinding.employeeIdET.setText(empVal)
+                otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
+                otpViewBinding.employeeIdET.requestFocus()
+//                Toast.makeText(this, it.MESSAGE, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -98,78 +120,6 @@ class OtpViewActivity : AppCompatActivity() {
             Utlis.hideLoading()
             handleOtpService(serviceEmpID)
         }
-
-        otpViewBinding.txtOtp1.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp2.setSelection(otpViewBinding.txtOtp2.text!!.length)
-                    otpViewBinding.txtOtp2.requestFocus()
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp2.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp3.setSelection(otpViewBinding.txtOtp3.text!!.length)
-                    otpViewBinding.txtOtp3.requestFocus()
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp3.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp4.setSelection(otpViewBinding.txtOtp4.text!!.length)
-                    otpViewBinding.txtOtp4.requestFocus()
-                    otpViewBinding.txtOtp4.setCursorVisible(true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
-
-        otpViewBinding.txtOtp4.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 1) {
-                    otpViewBinding.txtOtp4.setSelection(otpViewBinding.txtOtp4.text!!.length)
-//                    otpViewBinding.txtOtp4.requestFocus()
-                    otpViewBinding.txtOtp4.hideKeyboard()
-                } else {
-                    otpViewBinding.txtOtp4.setCursorVisible(true)
-                }
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-        })
 
         otpViewModel.commands.observeForever { command ->
             Utlis.hideLoading()
@@ -190,34 +140,54 @@ class OtpViewActivity : AppCompatActivity() {
             }
         }
 
+        otpViewBinding.cancelButton.setOnClickListener {
+            otpViewBinding.buttonLayout.visibility = View.VISIBLE
+            otpViewBinding.updateIdLayout.visibility = View.GONE
+        }
+
         otpViewBinding.updateButton.setOnClickListener {
-            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
-            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
-            otpViewBinding.updateButton.isClickable = false
-            otpViewBinding.confirmButton.isClickable = false
+            otpViewBinding.buttonLayout.visibility = View.GONE
+//            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+//            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//            otpViewBinding.updateButton.isClickable = false
+//            otpViewBinding.confirmButton.isClickable = true
+//            otpViewBinding.employeeIdET.isEnabled = true
+//            otpViewBinding.proceedButton.isClickable = true
             otpViewBinding.updateIdLayout.visibility = View.VISIBLE
+            otpViewBinding.employeeIdET.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
             otpViewBinding.employeeIdET.setText(empVal)
             otpViewBinding.employeeIdET.setSelection(otpViewBinding.employeeIdET.text!!.length)
             otpViewBinding.employeeIdET.requestFocus()
+            otpViewBinding.linearEdtOtp.visibility = View.GONE
+            otpViewBinding.otpView.visibility = View.GONE
+            otpViewBinding.customerMobileNum.visibility = View.GONE
+            otpViewBinding.fabNext.visibility = View.GONE
+            otpViewBinding.timer.visibility = View.GONE
+            countDownTimer.cancel()
         }
 
         otpViewBinding.confirmButton.setOnClickListener {
-            isTimerStarted = true;
-            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
-            otpViewBinding.updateButton.isClickable = false
-            otpViewBinding.confirmButton.isClickable = false
+            isTimerStarted = true
+//            otpViewBinding.updateButton.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
+//            otpViewBinding.confirmButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
+//            otpViewBinding.updateButton.isClickable = true
+//            otpViewBinding.confirmButton.isClickable = false
+            otpViewBinding.updateIdLayout.visibility = View.GONE
             handleOtpConfirmView(empVal)
         }
 
         otpViewBinding.proceedButton.setOnClickListener {
             isTimerStarted = true;
-            otpViewBinding.employeeIdET.postDelayed({ otpViewBinding.employeeIdET.hideKeyboard() },
-                50)
+            otpViewBinding.employeeIdET.postDelayed(
+                { otpViewBinding.employeeIdET.hideKeyboard() },
+                50
+            )
             otpViewBinding.employeeIdET.isEnabled = false
             otpViewBinding.proceedButton.setBackgroundDrawable(resources.getDrawable(R.drawable.yellow_drawable))
             otpViewBinding.proceedButton.isClickable = false
-            handleOtpConfirmView(otpViewBinding.employeeIdET.text.toString().trim()
-                .replace(" ", ""))
+            empVal = otpViewBinding.employeeIdET.text.toString().trim()
+                .replace(" ", "")
+            handleOtpConfirmView(empVal)
         }
 
         otpViewBinding.fabPrevious.setOnClickListener {
@@ -231,10 +201,11 @@ class OtpViewActivity : AppCompatActivity() {
         }
 
         otpViewBinding.resendOtpLayout.setOnClickListener {
+            otpViewBinding.otpView.setOTP("")
             countDownTimer.onFinish()
             countDownTimer.cancel()
             countDownTimer.start()
-            otpViewBinding.resendOtpLayout.isClickable = false
+            otpViewBinding.resendOtpLayout.visibility = View.GONE
             otpViewBinding.resendOtpLayout.setBackgroundDrawable(resources.getDrawable(R.drawable.grey_rectangle))
             val userID: String
             if (otpViewBinding.employeeIdET.text.toString().isEmpty()) {
@@ -270,18 +241,20 @@ class OtpViewActivity : AppCompatActivity() {
     }
 
     private fun millisecondsToTime(milliseconds: Long): String? {
-        return "Time remaining " + String.format("%02d : %02d",
+        return "Time remaining " + String.format(
+            "%02d : %02d",
             TimeUnit.MILLISECONDS.toMinutes(milliseconds),
             TimeUnit.MILLISECONDS.toSeconds(milliseconds) -
-                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds)))
+                    TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(milliseconds))
+        )
     }
 
     override fun onStop() {
         super.onStop()
-        if (countDownTimer != null) {
-            countDownTimer.onFinish()
-            countDownTimer.cancel()
-        }
+//        if (countDownTimer != null) {
+//            countDownTimer.onFinish()
+//            countDownTimer.cancel()
+//        }
     }
 
     override fun onDestroy() {
@@ -294,11 +267,11 @@ class OtpViewActivity : AppCompatActivity() {
 
     override fun onResume() {
         Utils.printMessage(TAG, "isTimerStarted : " + isTimerStarted)
-        if (isTimerStarted) {
-            otpViewBinding.resendOtpLayout.visibility = View.VISIBLE
-        } else {
-            otpViewBinding.resendOtpLayout.visibility = View.GONE
-        }
+//        if (isTimerStarted) {
+//            otpViewBinding.resendOtpLayout.visibility = View.VISIBLE
+//        } else {
+//            otpViewBinding.resendOtpLayout.visibility = View.GONE
+//        }
         super.onResume()
     }
 
@@ -308,8 +281,12 @@ class OtpViewActivity : AppCompatActivity() {
     }
 
     private fun handleNextIntent() {
-        enteredOtp =
-            otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
+        enteredOtp = otpViewBinding.otpView.otp
+        if (enteredOtp == receivedOtp && otpViewBinding.resendOtpLayout.visibility == View.VISIBLE) {
+            Toast.makeText(this, "Entered OTP has Expired", Toast.LENGTH_SHORT).show()
+            return
+        }
+        //   otpViewBinding.txtOtp1.text.toString() + "" + otpViewBinding.txtOtp2.text.toString() + "" + otpViewBinding.txtOtp3.text.toString() + "" + otpViewBinding.txtOtp4.text.toString()
         if (enteredOtp == receivedOtp) {
             countDownTimer.cancel()
             otpViewBinding.timer.setText("")
@@ -352,13 +329,17 @@ class OtpViewActivity : AppCompatActivity() {
                     e.printStackTrace()
                 }
             }
-            otpViewModel.checkEmpAvailability(ValidateOtpRequest(empID.toUpperCase(),
-                Utils.getDeviceId(this),
-                FCM_KEY,
-                codeName,
-                versionNum.toString(),
-                Build.MANUFACTURER,
-                Build.MODEL, "Test"))
+            otpViewModel.checkEmpAvailability(
+                ValidateOtpRequest(
+                    empID.toUpperCase(Locale.ROOT),
+                    Utils.getDeviceId(this),
+                    FCM_KEY,
+                    codeName,
+                    versionNum.toString(),
+                    Build.MANUFACTURER,
+                    Build.MODEL, Preferences.getCompany()
+                )
+            )
         } else {
             Toast.makeText(
                 this,
@@ -371,6 +352,7 @@ class OtpViewActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         //Disable Back
+        finish()
     }
 
     private fun showBottomSheetDialog(msg: String) {
