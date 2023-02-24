@@ -18,7 +18,6 @@ import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -410,6 +409,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
+                fragment = new ComplainListFragment();
+                filterIcon.setVisibility(View.VISIBLE);
+                qcfilterIcon.setVisibility(View.GONE);
+
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+            case "Approval List":
+                headerText.setText("Approval List");
                 fragment = new ComplainListFragment();
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -824,9 +832,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        params.leftMargin=20;
 //        params.topMargin=5;
 
-                listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
-
-
+        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
 
         if (isAttendanceRequired) {
@@ -841,6 +847,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
                             .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
+                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
@@ -929,6 +936,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Complaint Register");
                 } else if (childModelList.get(childPosition).getTitle().equals("Complaint List")) {
                     displaySelectedScreen("Complaint List");
+                } else if (childModelList.get(childPosition).getTitle().equals("Approval List")) {
+                    displaySelectedScreen("Approval List");
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("Discount")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();

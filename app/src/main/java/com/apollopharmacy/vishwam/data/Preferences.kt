@@ -142,7 +142,8 @@ object Preferences {
     private const val KEY_REGISTRATION_SITE_ID = "KEY_REGISTRATION_SITE_ID"
 
     private const val KEY_EMP_MOBILE_NUMBER = "KEY_EMP_MOBILE_NUMBER"
-
+    private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
+        "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -499,5 +500,14 @@ object Preferences {
 
     fun getEmpPhoneNumber(): String {
         return sharedPreferences.getString(KEY_EMP_MOBILE_NUMBER, "")!!
+    }
+
+    fun setResponseNewTicketlist(responseNewTicketlistJson: String) {
+        sharedPreferences.edit()
+            .putString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, responseNewTicketlistJson).apply()
+    }
+
+    fun getResponseNewTicketlist(): String {
+        return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
     }
 }
