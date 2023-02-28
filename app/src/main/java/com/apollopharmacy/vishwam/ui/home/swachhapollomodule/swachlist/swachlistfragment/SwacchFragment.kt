@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.SwachhApollo.SwachhListViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -182,19 +183,41 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
 
     }
 
-    override fun onClickCCAccept(data: TicketData) {
+    override fun onClickForwardToFinance(
+        data: CmsTicketRequest,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickCCReject(data: TicketData) {
+
+
+    override fun onClickCCAccept(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+    override fun onClickCCReject(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+
+
+    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row,position: Int,
+                                        responseList: ArrayList<ResponseNewTicketlist.Row>) {
         TODO("Not yet implemented")
     }
 
@@ -202,19 +225,45 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         TODO("Not yet implemented")
     }
 
-    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row,pos:Int,
+                                             responseList: ArrayList<ResponseNewTicketlist.Row>) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketResolve(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketClose(data: ResponseNewTicketlist.Row) {
+
+    override fun onClickTicketClose(data: ResponseNewTicketlist.Row,
+                                    responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                    position: Int,) {
         TODO("Not yet implemented")
     }
 
-    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row,
+                                     responseList: ArrayList<ResponseNewTicketlist.Row>,
+                                     position: Int,) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSubWorkflowAccept(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSubWorkflowReject(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         TODO("Not yet implemented")
     }
 

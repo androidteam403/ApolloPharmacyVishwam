@@ -11,6 +11,8 @@ import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
@@ -26,7 +29,11 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
-import com.apollopharmacy.vishwam.dialog.*
+import com.apollopharmacy.vishwam.dialog.ComplaintListCalendarDialog
+import com.apollopharmacy.vishwam.dialog.OnTransactionSearchManagerListnier
+import com.apollopharmacy.vishwam.dialog.SearchManagerDialog
+import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
+import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
@@ -42,6 +49,7 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
 import com.hsalf.smilerating.SmileRating
@@ -49,15 +57,21 @@ import java.util.*
 
 class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplaintsBinding>(),
     ImageClickListener, ComplaintListCalendarDialog.DateSelected, MainActivityCallback,
-    OnTransactionSearchManagerListnier {
+    SubmitticketDialog.AbstractDialogFinanceClickListner, OnTransactionSearchManagerListnier,
+    ComplaintListFragmentCallback {
 
     var isFromDateSelected: Boolean = false
+    var resList = ArrayList<ResponseNewTicketlist.Row>()
+    var pos: Int = 0
+    var frwdMngrPos: Int = 0
+    var resListMnger = ArrayList<ResponseNewTicketlist.Row>()
 
     lateinit var storeData: LoginDetails.StoreData
 
     var complaintListStatus: String = "new,inprogress,solved,rejected,reopened,closed,onHold"
 
     // var TicketHistorydata:ArrayList<NewTicketHistoryResponse.Row>()
+    var isTicketListThereFirstTime: Boolean = true
 
     override fun onPause() {
         super.onPause()
@@ -84,10 +98,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         return ViewModelProvider(this).get(ComplainListViewModel::class.java)
     }
 
+    fun diffTime(currentDate: Date, listFetchedDate: Date): Long {
+        //get time in milliseconds
+        //get time in milliseconds
+        val diff: Long = listFetchedDate.getTime() - currentDate.getTime()
+//get time in seconds
+//get time in seconds
+        val seconds = diff / 1000
+//and so on
+//and so on
+        val minutes = seconds / 60
+        val hours = minutes / 60
+        val days = hours / 24
+        return minutes
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
+        if (arguments?.getBoolean("isFromApprovalList") == true) {
+            viewBinding.dateSelectionLayout.visibility = View.GONE
+
+        }
         setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
@@ -106,9 +139,31 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         Utlis.showLoading(requireContext())
         viewModel.getTicketRatingApi()
         viewModel.cmsticketRatingresponse.observe(viewLifecycleOwner) {
-            Utlis.hideLoading()
-            ticketratingapiresponse = it.data;
-            callAPI(1)
+//            Utlis.hideLoading()
+//            ticketratingapiresponse = it.data;
+//            callAPI(1)
+            if (!Preferences.getResponseNewTicketlist().isEmpty()) {
+                if (Config.COMPLAINTLISTFETCHEDTIME != null) {
+                    if (diffTime(Config.COMPLAINTLISTFETCHEDTIME!!,
+                            Calendar.getInstance().getTime()) < 6
+                    ) {
+                        isTicketListThereFirstTime = false
+                        viewModel.setTicketListFromSheredPeff()
+                    } else {
+                        Utlis.hideLoading()
+                        ticketratingapiresponse = it.data;
+                        callAPI(1)
+                    }
+                } else {
+                    Utlis.hideLoading()
+                    ticketratingapiresponse = it.data;
+                    callAPI(1)
+                }
+            } else {
+                Utlis.hideLoading()
+                ticketratingapiresponse = it.data;
+                callAPI(1)
+            }
         }
 
 //        viewBinding.searchView.setOnTouchListener(object : View.OnTouchListener {
@@ -138,23 +193,34 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
                     var toDate =
                         Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
-                    viewModel.getNewticketlist(
-                        RequestComplainList(
-                            Preferences.getSiteId(),
-                            fromDate,
-                            toDate,
-                            userData.EMPID,
-                            1
-                        ), complaintListStatus, arguments?.getBoolean("isFromDrugList") ?: false,
+                    viewModel.getNewticketlist(RequestComplainList(Preferences.getSiteId(),
+                        fromDate,
+                        toDate,
+                        userData.EMPID,
+                        1),
+                        complaintListStatus,
+                        arguments?.getBoolean("isFromDrugList") ?: false,
                         true,
-                        viewBinding.searchView.text.toString().trim()
-                    )
+                        viewBinding.searchView.text.toString().trim(),
+                        arguments?.getBoolean("isFromApprovalList") == true)
                     return true
                 }
                 return false
             }
         })
 
+
+        viewModel.cmsTicketResponseList.observe(viewLifecycleOwner) {
+            hideLoading()
+            if (it.success!!) {
+
+                SubmitticketDialog().apply {
+                    arguments = SubmitticketDialog().generateParsedData(it)
+                }.show(childFragmentManager, "")
+            }
+
+
+        }
 
         viewModel.resLiveData.observe(viewLifecycleOwner) {
             Utlis.hideLoading()
@@ -179,6 +245,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     isLoadMoreAvailable = false
                 }
                 responseData = it
+
+                if (isTicketListThereFirstTime) {
+                    isTicketListThereFirstTime = false
+                    Config.COMPLAINTLISTFETCHEDTIME = Calendar.getInstance().getTime()
+                    Preferences.setResponseNewTicketlist(Gson().toJson(responseData))
+                }
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewApproved.visibility = View.VISIBLE
                 if (isLoading) {
@@ -233,7 +305,6 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             adapter.orderData[it.position].ticketDetailsResponse = it
             Utlis.hideLoading()
             adapter.notifyItemChanged(it.position)
-
         })
 
 //        viewModel.creditCardDetailsLiveData.observe(viewLifecycleOwner, Observer {
@@ -267,7 +338,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     hideLoading()
                     submitClick()
                 }
-                else -> {}
+                else -> {
+                }
             }
         })
 
@@ -306,13 +378,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     fun setFilterIndication() {
-        if (!this.complaintListStatus.contains("new")
-            || !this.complaintListStatus.contains("inprogress")
-            || !this.complaintListStatus.contains("solved")
-            || !this.complaintListStatus.contains("rejected")
-            || !this.complaintListStatus.contains("reopened")
-            || !this.complaintListStatus.contains("closed")
-            || !this.complaintListStatus.contains("onHold")
+        if (!this.complaintListStatus.contains("new") || !this.complaintListStatus.contains("inprogress") || !this.complaintListStatus.contains(
+                "solved") || !this.complaintListStatus.contains("rejected") || !this.complaintListStatus.contains(
+                "reopened") || !this.complaintListStatus.contains("closed") || !this.complaintListStatus.contains(
+                "onHold")
         ) {
             MainActivity.mInstance.filterIndicator.visibility = View.VISIBLE
         } else {
@@ -324,19 +393,19 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     var isLoadMoreAvailable = true
     private fun loadMore() {
         //notify adapter using Handler.post() or RecyclerView.post()
-        handler.post(Runnable
-        {
+        handler.post(Runnable {
             if (isLoadMoreAvailable) {
                 isLoading = true
-                val newdata = ResponseNewTicketlist.Row(
+                val newdata = ResponseNewTicketlist.Row("",
                     "",
-                    "",
                     null,
                     null,
                     null,
                     null,
                     null,
                     null,
+                    false,
+                    false,
                     false,
                     null,
                     null
@@ -350,34 +419,33 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     fun callAPI(page: Int) {
+        if (page == 1) {
+            isTicketListThereFirstTime = true
+        } else {
+            isTicketListThereFirstTime = false
+        }
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             isFirstTime = false
             var fromDate = Utils.getticketlistfiltersdate(viewBinding.fromDateText.text.toString())
             var toDate = Utils.getticketlistfiltersdate(viewBinding.toDateText.text.toString())
-            if (!isLoading)
-                Utlis.showLoading(requireContext())
+            if (!isLoading) Utlis.showLoading(requireContext())
 
-            viewModel.getNewticketlist(
-                RequestComplainList(
-                    //"11002",
-                    Preferences.getSiteId(),
-                    // viewBinding.fromDateText.text.toString(),
-                    // viewBinding.toDateText.text.toString(),
-                    fromDate,
-                    toDate,
-                    userData.EMPID,
-                    page
-                ), complaintListStatus, this.arguments?.getBoolean("isFromDrugList") ?: false,
-                false, viewBinding.searchView.text.toString().trim()
-            )
+            viewModel.getNewticketlist(RequestComplainList(
+                //"11002",
+                Preferences.getSiteId(),
+                // viewBinding.fromDateText.text.toString(),
+                // viewBinding.toDateText.text.toString(),
+                fromDate, toDate, userData.EMPID, page),
+                complaintListStatus,
+                this.arguments?.getBoolean("isFromDrugList") ?: false,
+                false,
+                viewBinding.searchView.text.toString().trim(),
+                this.arguments?.getBoolean("isFromApprovalList") == true)
 
         } else {
-            Toast.makeText(
-                requireContext(),
+            Toast.makeText(requireContext(),
                 resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+                Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -385,16 +453,13 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         var fromDate = viewBinding.fromDateText.text.toString()
         var toDate = viewBinding.toDateText.text.toString()
         if (getDateDifference(fromDate, toDate) > 0) {
-            if (!viewBinding.pullToRefresh.isRefreshing)
-                Utlis.showLoading(requireContext())
+            if (!viewBinding.pullToRefresh.isRefreshing) Utlis.showLoading(requireContext())
             isLoadMoreAvailable = true
             callAPI(1)
         } else {
-            Toast.makeText(
-                requireContext(),
+            Toast.makeText(requireContext(),
                 resources.getString(R.string.label_check_dates),
-                Toast.LENGTH_SHORT
-            ).show()
+                Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -435,12 +500,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         override fun onCreateViewHolder(parent: ViewGroup, viewtype: Int): RecyclerView.ViewHolder {
             return when (viewtype) {
                 VIEW_TYPE_DATA -> {//inflates row layout
-                    val binding = DataBindingUtil.inflate<ViewComplaintItemBinding>(
-                        LayoutInflater.from(parent.context),
-                        R.layout.view_complaint_item,
-                        parent,
-                        false
-                    )
+                    val binding =
+                        DataBindingUtil.inflate<ViewComplaintItemBinding>(LayoutInflater.from(parent.context),
+                            R.layout.view_complaint_item,
+                            parent,
+                            false)
                     DataViewHolder(binding)
                 }
                 VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
@@ -496,9 +560,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             ) {
             binding.ticketNumber.text = items.ticket_id
             binding.regDate.text = items.created_time?.let {
-                Utlis.cmsComplaintDateFormat(
-                    it
-                )
+                Utlis.cmsComplaintDateFormat(it)
             }
 
             lateinit var userData: LoginDetails
@@ -579,19 +641,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 }
 
                 if (items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopen")) {
-                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null &&
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
-                            "forward") &&
-                        managerUid.equals(employeeDetailsResponse?.data!!.uid)
+                    if (items.ticketDetailsResponse?.data?.category?.code.equals("mrp_cr") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid != null && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid.equals(
+                            "forward") && managerUid.equals(employeeDetailsResponse?.data!!.uid)
                     ) {
                         binding.inventoryActionLayout.visibility = View.VISIBLE
                         binding.inventoryRejectBtn.visibility = View.VISIBLE
                         binding.inventoryForwardManagerBtn.visibility = View.GONE
                         binding.inventoryChangeForwardBtn.visibility = View.VISIBLE
                         binding.inventoryAcceptBtn.text = "Approve"
-                    } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") &&
-                        items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null &&
-                        employeeDetailsResponse?.data!!.uid.equals(items.ticketDetailsResponse?.data?.user!!.uid)
+                    } else if (items.ticketDetailsResponse?.data?.category?.code.equals("new_batch_req") && items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].item_status.uid == null && employeeDetailsResponse?.data!!.uid.equals(
+                            items.ticketDetailsResponse?.data?.user!!.uid)
                     ) {
                         binding.inventoryActionLayout.visibility = View.VISIBLE
                         binding.inventoryRejectBtn.visibility = View.VISIBLE
@@ -600,16 +659,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.inventoryAcceptBtn.text = "Approve"
                     }
                     binding.inventoryAcceptBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryAccept(items)
+                        imageClickListener.onClickInventoryAccept(items, position, orderData)
                     }
                     binding.inventoryRejectBtn.setOnClickListener {
-                        imageClickListener.onClickInventoryReject(items)
+                        imageClickListener.onClickInventoryReject(items, position, orderData)
                     }
                     binding.inventoryForwardManagerBtn.setOnClickListener {
                         imageClickListener.onClickForwardToManager(items)
                     }
                     binding.inventoryChangeForwardBtn.setOnClickListener {
-                        imageClickListener.onClickForwardChangeManager(items)
+                        imageClickListener.onClickForwardChangeManager(items, position, orderData)
                     }
                 } else {
                     binding.inventoryActionLayout.visibility = View.GONE
@@ -618,12 +677,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.isNullOrEmpty()) {
                     Glide.with(context)
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.frontImgView)
+                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
                     binding.frontImgView.setOnClickListener {
                         items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
+                            imageClickListener.onItemClick(position, it1)
                         }
                     }
                 } else {
@@ -633,12 +690,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob.isNullOrEmpty()) {
                     Glide.with(context)
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].back_img_blob)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.backImgView)
+                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
                     binding.backImgView.setOnClickListener {
                         items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
+                            imageClickListener.onItemClick(position, it1)
                         }
                     }
                 } else {
@@ -648,12 +703,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (!items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob.isNullOrEmpty()) {
                     Glide.with(context)
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].other_img_blob)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.otherImgView)
+                        .placeholder(R.drawable.thumbnail_image).into(binding.otherImgView)
                     binding.otherImgView.setOnClickListener {
                         items.ticketDetailsResponse?.data?.ticket_inventory!!.ticket_inventory_item[0].front_img_blob.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
+                            imageClickListener.onItemClick(position, it1)
                         }
                     }
                     binding.otherImgLabel.visibility = View.VISIBLE
@@ -684,6 +737,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 binding.itTicketManagerLayout.visibility = View.GONE
             }
+
+
 //            }else{
 //                binding.itTicketExecutiveLayout.visibility = View.GONE
 //                binding.itTicketManagerLayout.visibility = View.GONE
@@ -702,11 +757,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     " ${items.ticketDetailsResponse?.data?.ticket_it!!.approval_code}"
                 binding.billAmount.text =
                     "₹ ${items.ticketDetailsResponse?.data?.ticket_it!!.bill_amount}"
-                if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen"))
-                            && items.ticketDetailsResponse!!.data.executive.uid.equals(
-                        employeeDetailsResponse?.data!!.uid)
-                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
-                            && checkResonDepot(items.ticketDetailsResponse!!.data.reason.reason_dept,
+
+
+//                department?.code == 'IT' && category.code == 'pos'  && reason.code == 'asb_not_completed'
+//                        && user?.uid == session user.uid && ticket_it?.status?.uid == 'forwarded_to_fin' && status?.code == 'inprogress'
+//                && sessionuser.department.code == 'FN' && reason?.sub_workflow?.uid ==  'Yes'
+
+
+                if (((items.status!!.code.equals("new") || items.status!!.code.equals("reopen")) && items.ticketDetailsResponse!!.data.executive.uid.equals(
+                        employeeDetailsResponse?.data!!.uid) && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                        "Yes") && checkResonDepot(items.ticketDetailsResponse!!.data.reason.reason_dept,
                         employeeDetailsResponse))
                 ) {
                     if (items.ticketDetailsResponse!!.data.ticket_it.status.uid != null && (items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
@@ -715,12 +775,40 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ccActionLayout.visibility = View.GONE
                     } else {
-                        binding.ccActionLayout.visibility = View.VISIBLE
-                        binding.acceptBtn.setOnClickListener {
-                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
-                        }
-                        binding.rejectBtn.setOnClickListener {
-                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                        if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
+
+                            binding.ccActionLayout.visibility = View.VISIBLE
+//                        binding.acceptBtn.setOnClickListener {
+//
+//
+//
+//
+//
+//
+////                            imageClickListener.onClickForwardToFinance(cmsTicketRequest)
+//
+//                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data)
+//                        }
+                            binding.frwdToFinance.setOnClickListener {
+
+                                val cmsTicketRequest = CmsTicketRequest()
+                                val cms = CmsTicketRequest.Ticket()
+                                cmsTicketRequest.uid =
+                                    items.ticketDetailsResponse!!.data.ticket_it.uid
+                                cms.uid = items.ticketDetailsResponse!!.data.uid
+                                cmsTicketRequest.ticket = cms
+
+
+//
+
+
+                                imageClickListener.onClickForwardToFinance(cmsTicketRequest,
+                                    orderData,
+                                    position)
+//                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data)
+                            }
+                        } else {
+                            binding.ccActionLayout.visibility = View.GONE
                         }
                     }
                 } else {
@@ -735,20 +823,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.drugDetailsLayout.visibility = View.VISIBLE
 //                binding.drugLayout.drugBarcode.text = items.ticket_inventory.drug_request.barcode ?: "--"
                 binding.drugLayout.drugItemNumber.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_name
+                        ?: "--"
 //                binding.drugLayout.drugItemDetailsNumber.text = items.subcategory?.name ?: "--"
                 binding.drugLayout.drugPackSize.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString() ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.pack_size.toString()
+                        ?: "--"
                 binding.drugLayout.drugMrp.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString() ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.mrp.toString()
+                        ?: "--"
 //                binding.drugLayout.drugPurchasePrice.text =
 //                    items.ticket_inventory.drug_request.purchase_price.toString() ?: "--"
 //                binding.drugLayout.drugRemarks.text = items.ticket_inventory.drug_request.remarks ?: "--"
                 binding.drugLayout.drugBatchNo.text =
-                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no ?: "--"
+                    items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.batch_no
+                        ?: "--"
 
 
-                //From made changes by naveen//
+                //From - made changes by naveen//
                 binding.drugLayout.itemType.text =
                     items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.item_type.name
                 binding.drugLayout.requiredQty.text =
@@ -758,7 +850,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.doctorSpeciality.text =
                     items.ticketDetailsResponse?.data?.ticket_inventory!!.drug_request.doctor_specialty.name
 
-                //To made changes by naveen//
+                //To - made changes by naveen//
 
 
 //                binding.drugLayout.drugManufactuing.text = if(items.ticket_inventory.drug_request?.manufacturing_date == null ){ "--"} else { Utlis.convertCmsExparyDate(items.ticket_inventory.drug_request.manufacturing_date)}
@@ -770,12 +862,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb != null) {
                     Glide.with(context)
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.frontImgView)
+                        .placeholder(R.drawable.thumbnail_image).into(binding.frontImgView)
                     binding.frontImgView.setOnClickListener {
                         items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.front_mb.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
+                            imageClickListener.onItemClick(position, it1)
                         }
                     }
                 } else {
@@ -785,12 +875,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 if (items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request?.back_mb != null) {
                     Glide.with(context)
                         .load(items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb)
-                        .placeholder(R.drawable.thumbnail_image)
-                        .into(binding.backImgView)
+                        .placeholder(R.drawable.thumbnail_image).into(binding.backImgView)
                     binding.backImgView.setOnClickListener {
                         items.ticketDetailsResponse?.data?.ticket_inventory?.drug_request!!.back_mb.let { it1 ->
-                            imageClickListener.onItemClick(position,
-                                it1)
+                            imageClickListener.onItemClick(position, it1)
                         }
                     }
                 } else {
@@ -802,8 +890,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.drugLayout.drugDetailsLayout.visibility = View.GONE
 
             }
-            binding.complainDetails.text =
-                items.ticketDetailsResponse?.data?.description?.trim()?.replace("\\s+".toRegex(), " ") ?: "--"
+            binding.complainDetails.text = items.ticketDetailsResponse?.data?.description?.trim()
+                ?.replace("\\s+".toRegex(), " ") ?: "--"
             if (items.status?.code.isNullOrEmpty()) {
             } else {
 
@@ -818,12 +906,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     }
                     binding.ticketCloseBtn.visibility = View.VISIBLE
                     binding.ticketCloseBtn.setOnClickListener {
-                        imageClickListener.onClickTicketClose(items)
+                        imageClickListener.onClickTicketClose(items, orderData, position)
                     }
                     binding.ticketActionLayout.visibility = View.VISIBLE
                     binding.ticketResolveBtn.text = "Reopen"
                     binding.ticketResolveBtn.setOnClickListener {
-                        imageClickListener.onClickTicketReopen(items)
+                        imageClickListener.onClickTicketReopen(items, orderData, position)
                     }
                 } else if ((items.status!!.code.equals("inprogress") || items.status!!.code.equals("reopened")) && employeeDetailsResponse?.data!!.uid.equals(
                         items.ticketDetailsResponse?.data?.user?.uid)
@@ -838,12 +926,47 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ticketResolveBtn.visibility = View.GONE
                         binding.ticketActionLayout.visibility = View.GONE
-                    } else {
+                    } else if (items.status!!.code.equals("inprogress") && items.ticketDetailsResponse!!.data.department.code.equals(
+                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
+                    ) {
+                        binding.ticketResolveBtn.visibility = View.GONE
+                        binding.ticketActionLayout.visibility = View.GONE
+                    }
+
+//                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
+//                            "FN")
+//                    ) {
+//                        if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+//                                "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed")
+//                            && items.ticketDetailsResponse!!.data.user.uid.equals(
+//                                employeeDetailsResponse?.data!!.uid)
+//                            && items.status!!.code.equals("inprogress")
+//                            && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals("Yes")
+//                        ) {
+//
+//                            binding.ticketResolveBtn.visibility = View.GONE
+//                            binding.ticketActionLayout.visibility = View.GONE
+//                        }
+//                        else {
+//                            binding.ticketResolveBtn.visibility = View.VISIBLE
+//                            binding.ticketCloseBtn.visibility = View.GONE
+//                            binding.ticketResolveBtn.text = "Resolve"
+//                            binding.ticketResolveBtn.setOnClickListener {
+//                                imageClickListener.onClickTicketResolve(items)
+//                            }
+//                            binding.ticketActionLayout.visibility = View.VISIBLE
+//                        }
+//
+//                        }
+
+                    else {
                         binding.ticketResolveBtn.visibility = View.VISIBLE
                         binding.ticketCloseBtn.visibility = View.GONE
                         binding.ticketResolveBtn.text = "Resolve"
                         binding.ticketResolveBtn.setOnClickListener {
-                            imageClickListener.onClickTicketResolve(items)
+
+//                            items.Tickethistory!!.data.listData.rows[0].description=items.Tickethistory!!.data.listData.rows[0].description.replace("Accepted","Resolved")
+                            imageClickListener.onClickTicketResolve(items, orderData, position)
                         }
                         binding.ticketActionLayout.visibility = View.VISIBLE
                     }
@@ -851,6 +974,62 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.ticketActionLayout.visibility = View.GONE
                 }
             }
+
+            if (items.ticketDetailsResponse != null) {
+                if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
+                    if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
+                            "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data.user.uid.equals(
+                            employeeDetailsResponse?.data!!.uid) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
+                            "forwarded_to_fin") && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
+                            "FN") && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
+                            "Yes")
+                    ) {
+
+                        binding.ccAcceptrejectLayout.visibility = View.VISIBLE;
+                        binding.acceptBtn.setOnClickListener {
+                            imageClickListener.onClickCCAccept(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
+                        }
+                        binding.rejectBtn.setOnClickListener {
+                            imageClickListener.onClickCCReject(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
+                        }
+                    } else {
+                        binding.ccAcceptrejectLayout.visibility = View.GONE
+                    }
+                }
+
+            }
+            if (items!!.have_subworkflow != null) {
+                if (items!!.have_subworkflow == true) {
+                    if (items!!.is_subworkflow_completed == true) {
+                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                    } else {
+                        binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
+                        binding.subWorkflowAcceptBtn.setOnClickListener {
+                            imageClickListener.onClickSubWorkflowAccept(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
+                        }
+
+                        binding.subWorkflowRejectBtn.setOnClickListener {
+                            imageClickListener.onClickSubWorkflowReject(items.ticketDetailsResponse!!.data,
+                                orderData,
+                                position)
+                        }
+
+                    }
+                } else {
+                    binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                }
+            } else {
+                binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+            }
+
+
+
             if (items.site?.uid == null) {
                 binding.siteidLable.text = "Ticket type: "
                 binding.siteid.text = "Self"
@@ -878,7 +1057,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 imageClickListener.onComplaintItemClick(position, orderData)
 
             }
-            if (items.isExpanded) {
+            if (orderData.get(position).isExpanded) {
 
                 binding.extraData.visibility = View.VISIBLE
                 binding.arrow.visibility = View.GONE
@@ -891,6 +1070,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 binding.extraData.visibility = View.GONE
                 binding.arrow.visibility = View.VISIBLE
                 binding.arrowClose.visibility = View.GONE
+
             }
 
             if (items.Tickethistory == null) {
@@ -906,7 +1086,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
             var problemimages = ArrayList<ResponseNewTicketlist.Image>()
             if (orderData[position].ticketDetailsResponse?.data?.problem_images != null && orderData[position].ticketDetailsResponse?.data?.problem_images?.images != null) {
-                problemimages = orderData[position].ticketDetailsResponse?.data?.problem_images!!.images
+                problemimages =
+                    orderData[position].ticketDetailsResponse?.data?.problem_images!!.images
                 binding.addedImagesRecyclerView.adapter =
                     ImageRecyclerView(problemimages, imageClickListener)
                 binding.attacheImages.visibility = View.VISIBLE
@@ -915,8 +1096,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
 
 
-            binding.cmpStatus.text =
-                " " + items.status!!.name
+            binding.cmpStatus.text = " " + items.status!!.name
             binding.cmpStatus.setTextColor(Color.parseColor(items.status!!.background_color))
 
 
@@ -925,7 +1105,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     .equals("In Progress")
             ) {
                 binding.closedDateLayout.visibility = View.VISIBLE
-                binding.closedDate.text = orderData[position].ticketDetailsResponse?.data?.closed_date
+                binding.closedDate.text =
+                    orderData[position].ticketDetailsResponse?.data?.closed_date
 
             } else {
                 binding.closedDateLayout.visibility = View.GONE
@@ -944,12 +1125,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 parent: ViewGroup,
                 viewType: Int,
             ): ViewHolder {
-                val view = DataBindingUtil.inflate(
-                    LayoutInflater.from(parent.context),
+                val view = DataBindingUtil.inflate(LayoutInflater.from(parent.context),
                     R.layout.view_order_status,
                     parent,
-                    false
-                ) as ViewOrderStatusBinding
+                    false) as ViewOrderStatusBinding
                 return ViewHolder(view)
             }
 
@@ -1142,11 +1321,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     class ImageRecyclerView(
         var orderData: ArrayList<ResponseNewTicketlist.Image>,
         val imageClickListener: ImageClickListener,
-    ) :
-        SimpleRecyclerView<ViewImageShowBinding, ResponseNewTicketlist.Image>(
-            orderData,
-            R.layout.view_image_show
-        ) {
+    ) : SimpleRecyclerView<ViewImageShowBinding, ResponseNewTicketlist.Image>(orderData,
+        R.layout.view_image_show) {
         override fun bindItems(
             binding: ViewImageShowBinding,
             items: ResponseNewTicketlist.Image,
@@ -1174,13 +1350,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     fun calltickethistory(uid: String) {
         Utlis.showLoading(requireContext())
         val tickethistory = ArrayList<NewTicketHistoryResponse.Row>()
-        viewModel.getNewticketHistory(
-            RequestTicketHistory(
-                1,
-                50,
-                uid
-            )
-        )
+        viewModel.getNewticketHistory(RequestTicketHistory(1, 50, uid))
     }
 
     override fun onComplaintItemClick(
@@ -1204,7 +1374,24 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickCCAccept(data: TicketData) {
+    override fun onClickForwardToFinance(
+        data: CmsTicketRequest, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        showLoading()
+
+        resList = responseList
+        pos = position
+        viewModel.cmsTicketStatusUpdate(data)
+
+//        responseList.get(position).isExpanded=false
+
+    }
+
+    override fun onClickCCAccept(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1229,7 +1416,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val ccAcceptRejectModel = CCAcceptRejectModel()
                 ccAcceptRejectModel.setAction("resolve")
                 ccAcceptRejectModel.setComment(remark.text.toString())
@@ -1241,7 +1428,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 ticket_it.setUid("approved")
                 ccAcceptRejectModel.setTicket_it(ticket_it)
                 ccAcceptRejectModel.setUid(data.uid)
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "solved"
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+
+                adapter.notifyDataSetChanged()
+
+//                \"background_color\":\"#047604\",\"code\":\"solved\",\"name\":\"Resolved\",\"text_color\":\"#FFFFFF\
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1250,7 +1446,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickCCReject(data: TicketData) {
+    override fun onClickCCReject(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1275,7 +1474,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
+//                showLoading()
                 val ccAcceptRejectModel = CCAcceptRejectModel()
                 ccAcceptRejectModel.setAction(null)
                 ccAcceptRejectModel.setComment(remark.text.toString())
@@ -1287,7 +1486,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 ticket_it.setUid("rejected")
                 ccAcceptRejectModel.setTicket_it(ticket_it)
                 ccAcceptRejectModel.setUid(data.uid)
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "rejected"
+                responseList.get(position).status!!.name = "Rejected"
+                responseList.get(position).status!!.background_color = "#ed001c"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionCCAccept(ccAcceptRejectModel, 0)
+
+                adapter.notifyDataSetChanged()
+
+
+//                "background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF\"}
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1295,7 +1504,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickInventoryAccept(data: ResponseNewTicketlist.Row) {
+    override fun onClickInventoryAccept(
+        data: ResponseNewTicketlist.Row, position: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1320,9 +1532,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
-                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
-                    null,
+//                showLoading()
+                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(null,
                     remark.text.toString(),
                     ItemStatus("approved"),
                     data.site!!.site!!,
@@ -1330,28 +1541,41 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     userData.EMPID,
                     "inprogress",
                     data.ticketDetailsResponse!!.data.ticket_id,
-                    "resolve"
-                )
-                var workFlowUpdateModel = WorkFlowUpdateModel(
-                    Action("97A318ACE84930236386DB1A70944825", "resolve"),
-                    "Resolved",
-                    Department(data.ticketDetailsResponse?.data?.department?.uid, data.ticketDetailsResponse?.data?.department?.code),
-                    Level(data.ticketDetailsResponse?.data?.level?.uid, data.ticketDetailsResponse?.data?.level?.code),
-                    NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
-                    null,
-                    Site(data.site?.uid),
-                    "",
-                    Status(data.status?.code, data.status?.uid),
-                    data.ticket_id,
-                    TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
-                    data.ticketDetailsResponse!!.data.ticket_inventory.uid,
-                    User(data.ticketDetailsResponse?.data?.user?.first_name, data.ticketDetailsResponse?.data?.user?.uid),
-                    "Yes",
-                    "manager"
-                )
+                    "resolve")
+                var workFlowUpdateModel =
+                    WorkFlowUpdateModel(Action("97A318ACE84930236386DB1A70944825", "resolve"),
+                        "Resolved",
+                        Department(data.ticketDetailsResponse?.data?.department?.uid,
+                            data.ticketDetailsResponse?.data?.department?.code),
+                        Level(data.ticketDetailsResponse?.data?.level?.uid,
+                            data.ticketDetailsResponse?.data?.level?.code),
+                        NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                        null,
+                        Site(data.site?.uid),
+                        "",
+                        Status(data.status?.code, data.status?.uid),
+                        data.ticket_id,
+                        TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
+                        data.ticketDetailsResponse!!.data.ticket_inventory.uid,
+                        User(data.ticketDetailsResponse?.data?.user?.first_name,
+                            data.ticketDetailsResponse?.data?.user?.uid),
+                        "Yes",
+                        "manager")
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "solved"
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
                     workFlowUpdateModel,
                     0)
+                adapter.notifyDataSetChanged()
+
+
+//                \"background_color\":\"#047604\",\"code\":\"solved\",\"name\":\"Resolved\",\"text_color\":\"#FFFFFF\
+//                viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
+//                    workFlowUpdateModel,
+//                    0)
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1359,7 +1583,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
     }
 
-    override fun onClickInventoryReject(data: ResponseNewTicketlist.Row) {
+    override fun onClickInventoryReject(
+        data: ResponseNewTicketlist.Row, position: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1384,37 +1611,49 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
-                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(
-                    remark.text.toString(),
+//                showLoading()
+                val inventoryAcceptrejectModel = InventoryAcceptrejectModel(remark.text.toString(),
                     null,
                     ItemStatus("rejected"),
                     data.site!!.site!!,
                     data.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item[0].uid,
-                    userData.EMPID, "reject", data.ticketDetailsResponse!!.data.ticket_id,
+                    userData.EMPID,
+                    "reject",
+                    data.ticketDetailsResponse!!.data.ticket_id,
                     null
 
                 )
-                var workFlowUpdateModel = WorkFlowUpdateModel(
-                    Action("52E2C8F5C204B5BD03DF3A73EB096484", "reject"),
-                    "Resolved",
-                    Department(data.ticketDetailsResponse?.data?.department?.uid, data.ticketDetailsResponse?.data?.department?.code),
-                    Level(data.ticketDetailsResponse?.data?.level?.uid, data.ticketDetailsResponse?.data?.level?.code),
-                    NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
-                    null,
-                    Site(data.site?.uid),
-                    "",
-                    Status(data.status?.code, data.status?.uid),
-                    data.ticket_id,
-                    TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
-                    data.ticketDetailsResponse!!.data.ticket_inventory.uid,
-                    User(data.ticketDetailsResponse?.data?.user?.first_name, data.ticketDetailsResponse?.data?.user?.uid),
-                    "Yes",
-                    "manager"
-                )
+                var workFlowUpdateModel =
+                    WorkFlowUpdateModel(Action("52E2C8F5C204B5BD03DF3A73EB096484", "reject"),
+                        "Resolved",
+                        Department(data.ticketDetailsResponse?.data?.department?.uid,
+                            data.ticketDetailsResponse?.data?.department?.code),
+                        Level(data.ticketDetailsResponse?.data?.level?.uid,
+                            data.ticketDetailsResponse?.data?.level?.code),
+                        NextLevel("64D9D9BE4A621E9C13A2C73404646655"),
+                        null,
+                        Site(data.site?.uid),
+                        "",
+                        Status(data.status?.code, data.status?.uid),
+                        data.ticket_id,
+                        TicketOwner(data.ticketDetailsResponse?.data?.user?.uid),
+                        data.ticketDetailsResponse!!.data.ticket_inventory.uid,
+                        User(data.ticketDetailsResponse?.data?.user?.first_name,
+                            data.ticketDetailsResponse?.data?.user?.uid),
+                        "Yes",
+                        "manager")
+                responseList.get(position).isExpanded = false
+                responseList.get(position).status!!.code = "rejected"
+                responseList.get(position).status!!.name = "Rejected"
+                responseList.get(position).status!!.background_color = "#ed001c"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
                 viewModel.actionInventoryAcceptReject(inventoryAcceptrejectModel,
                     workFlowUpdateModel,
                     0)
+                adapter.notifyDataSetChanged()
+
+//                background_color\":\"#ed001c\",\"code\":\"rejected\",\"name\":\"Rejected\",\"text_color\":\"#FFFFFF
+
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
@@ -1448,13 +1687,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 dialog.dismiss()
                 showLoading()
-                var forwardToManagerModel = ForwardToManagerModel(
-                    remark.text.toString(),
+                var forwardToManagerModel = ForwardToManagerModel(remark.text.toString(),
                     Manager(""),//data.inventoryDetailsModel!!.data.ticket_inventory.ticket_inventory_item[0].manager.uid
                     FMTicket(data.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item[0].uid),
                     data.ticketDetailsResponse!!.data.ticket_inventory.uid,
-                    userData.EMPID
-                )
+                    userData.EMPID)
                 viewModel.actionForwardToManager(forwardToManagerModel, 0)
             }
         }
@@ -1463,7 +1700,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     }
 
     private lateinit var selectedInventeryTicket: ResponseNewTicketlist.Row
-    override fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row) {
+    override fun onClickForwardChangeManager(
+        data: ResponseNewTicketlist.Row, pos: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    ) {
+        resListMnger = responseList
+        frwdMngrPos = pos
         selectedInventeryTicket = data
         viewModel.getManagersLiveData.observe(viewLifecycleOwner, Observer {
             SearchManagerDialog(it).apply { }.show(childFragmentManager, "")
@@ -1471,7 +1713,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         viewModel.getManagers(data.site?.uid!!)
     }
 
-    override fun onClickTicketResolve(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1496,15 +1742,21 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
-                val inventoryAcceptrejectModel = TicketResolveCloseModel(
-                    "resolve",
+//                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel("resolve",
                     remark.text.toString(),
                     userData.EMPID,
                     "solved",
                     data.ticket_id!!,
-                    null
-                )
+                    null)
+                responseList.get(position).status!!.name = "Resolved"
+                responseList.get(position).status!!.background_color = "#047604"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "Resolved"
+
+                data.isExpanded = false
+
+                adapter.notifyDataSetChanged()
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
             }
         }
@@ -1512,7 +1764,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.show()
     }
 
-    override fun onClickTicketClose(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketClose(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1552,23 +1808,36 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     Toast.LENGTH_SHORT).show()
             } else {
                 dialog.dismiss()
-                showLoading()
-                val inventoryAcceptrejectModel = TicketResolveCloseModel(
-                    "close",
+//                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel("close",
                     remark.text.toString(),
                     userData.EMPID,
                     "closed",
                     data.ticket_id!!,
-                    Feedback(Rating(ratingduid))
-                )
+                    Feedback(Rating(ratingduid)))
+
+                responseList.get(position).status!!.name = "Closed"
+                responseList.get(position).status!!.background_color = "#00ba00"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "closed"
+
+                data.isExpanded = false
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+                adapter.notifyDataSetChanged()
+
+//                "background_color\":\"#00ba00\",\"code\":\"closed\",\"name\":\"Closed\",\"text_color\":\"#FFFFFF\
+//                viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
     }
 
-    override fun onClickTicketReopen(data: ResponseNewTicketlist.Row) {
+    override fun onClickTicketReopen(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -1593,19 +1862,69 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 remark.requestFocus()
             } else {
                 dialog.dismiss()
-                showLoading()
-                val inventoryAcceptrejectModel = TicketResolveCloseModel(
-                    "reopen",
+//                showLoading()
+                val inventoryAcceptrejectModel = TicketResolveCloseModel("reopen",
                     remark.text.toString(),
                     userData.EMPID,
                     "reopened",
                     data.ticket_id!!,
-                    null
-                )
+                    null)
+                responseList.get(position).status!!.name = "Reopen"
+                responseList.get(position).status!!.background_color = "#f57200"
+                responseList.get(position).status!!.text_color = "#FFFFFF"
+                responseList.get(position).status!!.code = "reopened"
+
+                data.isExpanded = false
                 viewModel.actionTicketResolveClose(inventoryAcceptrejectModel)
+
+                adapter.notifyDataSetChanged()
+//                \"background_color\":\"#f57200\",\"code\":\"reopened\",\"name\":\"Reopen\",\"text_color\":\"#FFFFFF\"},
+//                data.status.
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
+        dialog.show()
+    }
+
+    override fun onClickSubWorkflowAccept(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        var subWorkflowAcceptRequest = SubWorkflowAcceptRequest()
+        subWorkflowAcceptRequest.uid = data.uid
+        subWorkflowAcceptRequest.employee_id = Preferences.getValidatedEmpId()
+        Utlis.showLoading(requireContext())
+        viewModel.subWorkflowAcceptApiCAll(subWorkflowAcceptRequest, this@ComplainListFragment)
+    }
+
+    override fun onClickSubWorkflowReject(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_subworkflow_reject)
+        val dismissDialog = dialog.findViewById(R.id.diloga_close) as ImageView
+        dismissDialog.setOnClickListener {
+            dialog.dismiss()
+        }
+        val submit = dialog.findViewById(R.id.submit) as AppCompatButton
+        submit.setOnClickListener {
+            dialog.dismiss()
+            Utlis.showLoading(requireContext())
+            var subWorkflowRejectRequest = SubWorkflowRejectRequest()
+            val commentInput = dialog.findViewById(R.id.remark) as AppCompatEditText
+            subWorkflowRejectRequest.comment = commentInput.text.toString()
+            subWorkflowRejectRequest.uid = data.uid
+            subWorkflowRejectRequest.status = "reject"
+            subWorkflowRejectRequest.employee_id = Preferences.getValidatedEmpId()
+            subWorkflowRejectRequest.ticket_id = data.ticket_id
+            viewModel.subWorkflowRejectApiCall(subWorkflowRejectRequest, this@ComplainListFragment)
+        }
+
         dialog.show()
     }
 
@@ -1629,11 +1948,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun onClickFilterIcon() {
         val complaintListStatusFilterDialog = context?.let { Dialog(it) }
         val dialogComplaintListFilterBinding: DialogComplaintListFilterBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(context), R.layout.dialog_complaint_list_filter, null, false)
+            DataBindingUtil.inflate(LayoutInflater.from(context),
+                R.layout.dialog_complaint_list_filter,
+                null,
+                false)
         complaintListStatusFilterDialog!!.setContentView(dialogComplaintListFilterBinding.root)
-        complaintListStatusFilterDialog.window
-            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        complaintListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         dialogComplaintListFilterBinding.closeDialog.setOnClickListener {
             complaintListStatusFilterDialog.dismiss()
@@ -1791,32 +2111,52 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             } else {
                 dialog.dismiss()
                 showLoading()
-                var request = ChangeManagerRequest(
-                    remark.text.toString(),
+                var request = ChangeManagerRequest(remark.text.toString(),
                     ChangeManager(data.uid),
                     OldManager(selectedInventeryTicket.ticketDetailsResponse!!.data.site.uid),
                     ChangeSite(selectedInventeryTicket.ticketDetailsResponse!!.data.site.site,
                         selectedInventeryTicket.ticketDetailsResponse!!.data.site.uid),
                     selectedInventeryTicket.ticketDetailsResponse!!.data.ticket_inventory.ticket_inventory_item[0].uid,
                     userData.EMPID,
-                    CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid)
-                )
-                var actionRequest = ChangeManagerRequest(
-                    remark.text.toString(),
+                    CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid))
+                var actionRequest = ChangeManagerRequest(remark.text.toString(),
                     ChangeManager(data.uid),
                     OldManager(selectedInventeryTicket.ticketDetailsResponse!!.data.site.manager.uid),
                     ChangeSite(selectedInventeryTicket.ticketDetailsResponse!!.data.site.site,
                         selectedInventeryTicket.ticketDetailsResponse!!.data.site.uid),
                     selectedInventeryTicket.ticketDetailsResponse!!.data.uid,
                     userData.EMPID,
-                    CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid)
-                )
+                    CCTicket(selectedInventeryTicket.ticketDetailsResponse!!.data.uid))
                 viewModel.actionChangeForwardToManager(actionRequest, request, 0)
+
+                if (resListMnger != null) {
+                    resListMnger.get(frwdMngrPos).isExpanded = false
+                    adapter.notifyDataSetChanged()
+                }
             }
         }
         noBtn.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
+    }
+
+    override fun confirmsavetheticket() {
+        if (resList != null) {
+            resList.get(pos).isExpanded = false
+            adapter.notifyDataSetChanged()
+
+
+        }
+//        submitClick()
+
+    }
+
+    override fun onSuccessSubWorkflowAcceptApiCall() {
+        callAPI(1)
+    }
+
+    override fun onSuccessSubWorkflowRejectApiCall() {
+        callAPI(1)
     }
 }
 
@@ -1834,14 +2174,7 @@ fun checkResonDepot(
 
 
 fun submitButtonEnable(dialogComplaintListFilterBinding: DialogComplaintListFilterBinding) {
-    if (!dialogComplaintListFilterBinding.newStatus.isChecked
-        && !dialogComplaintListFilterBinding.inProgressStatus.isChecked
-        && !dialogComplaintListFilterBinding.resolvedStatus.isChecked
-        && !dialogComplaintListFilterBinding.rejectedStatus.isChecked
-        && !dialogComplaintListFilterBinding.reopenStatus.isChecked
-        && !dialogComplaintListFilterBinding.closedStatus.isChecked
-        && !dialogComplaintListFilterBinding.onholdStatus.isChecked
-    ) {
+    if (!dialogComplaintListFilterBinding.newStatus.isChecked && !dialogComplaintListFilterBinding.inProgressStatus.isChecked && !dialogComplaintListFilterBinding.resolvedStatus.isChecked && !dialogComplaintListFilterBinding.rejectedStatus.isChecked && !dialogComplaintListFilterBinding.reopenStatus.isChecked && !dialogComplaintListFilterBinding.closedStatus.isChecked && !dialogComplaintListFilterBinding.onholdStatus.isChecked) {
         dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
         dialogComplaintListFilterBinding.isSubmitEnable = false
     } else {
@@ -1855,26 +2188,66 @@ interface ImageClickListener {
     fun onItemClick(position: Int, imagePath: String)
 
     fun onComplaintItemClick(position: Int, orderData: ArrayList<ResponseNewTicketlist.Row>)
+    fun onClickForwardToFinance(
+        data: CmsTicketRequest, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickCCAccept(data: TicketData)
+    fun onClickCCAccept(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickCCReject(data: TicketData)
+    fun onClickCCReject(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickInventoryAccept(data: ResponseNewTicketlist.Row)
+    fun onClickInventoryAccept(
+        data: ResponseNewTicketlist.Row, position: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    )
 
-    fun onClickInventoryReject(data: ResponseNewTicketlist.Row)
+    fun onClickInventoryReject(
+        data: ResponseNewTicketlist.Row, position: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    )
 
     fun onClickForwardToManager(data: ResponseNewTicketlist.Row)
 
-    fun onClickForwardChangeManager(data: ResponseNewTicketlist.Row)
+    fun onClickForwardChangeManager(
+        data: ResponseNewTicketlist.Row, position: Int,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+    )
 
-    fun onClickTicketResolve(data: ResponseNewTicketlist.Row)
+    fun onClickTicketResolve(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickTicketClose(data: ResponseNewTicketlist.Row)
+    fun onClickTicketClose(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 
-    fun onClickTicketReopen(data: ResponseNewTicketlist.Row)
+    fun onClickTicketReopen(
+        data: ResponseNewTicketlist.Row,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
     //  fun gettickethistory(uid:String):ArrayList<NewTicketHistoryResponse.Row>
 
     // fun calltickethistory(uid:String?);
     // abstract fun callticketHistory(uid: String?)
+    fun onClickSubWorkflowAccept(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
+
+    fun onClickSubWorkflowReject(
+        data: TicketData, responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    )
 }

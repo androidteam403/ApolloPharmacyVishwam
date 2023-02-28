@@ -300,6 +300,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displaySelectedScreen("HOME");
         listView.setSelected(0);
 
+
         FrameLayout notificationLayout = findViewById(R.id.notificationLayout);
         textCartItemCount = findViewById(R.id.cart_badge);
         setupBadge();
@@ -368,6 +369,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     private boolean isAllowFragmentChange = false;
 
     public void displaySelectedScreen(String itemName) {
@@ -378,6 +380,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
         //creating fragment object
+
+
         if (!itemName.equalsIgnoreCase("Greetings to Chairman")) {
             currentItem = itemName;
             if (previousItem.equals(currentItem) && !currentItem.equals("Logout")) {
@@ -409,6 +413,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
 
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+            case "Approval List":
+                headerText.setText("Approval List");
+//                fragment = new ComplainListFragment();
+                filterIcon.setVisibility(View.GONE);
+                qcfilterIcon.setVisibility(View.GONE);
+                Bundle bundle1 = new Bundle();
+                bundle1.putBoolean("isFromApprovalList", true);
+                ComplainListFragment fragInfo1 = new ComplainListFragment();
+                fragInfo1.setArguments(bundle1);
+                fragment = fragInfo1;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
@@ -814,8 +831,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listView.init(this)
                 .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
+//        listView = findViewById(R.id.expandable_navigation);
+//        LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)listView.getLayoutParams();
+//        params.leftMargin=20;
+//        params.topMargin=5;
 
-        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_baseline_celebration_24));
+        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
+
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(
@@ -829,6 +851,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
                             .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
+                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
@@ -917,6 +940,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Complaint Register");
                 } else if (childModelList.get(childPosition).getTitle().equals("Complaint List")) {
                     displaySelectedScreen("Complaint List");
+                } else if (childModelList.get(childPosition).getTitle().equals("Approval List")) {
+                    displaySelectedScreen("Approval List");
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("Discount")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();

@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
@@ -16,6 +17,8 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonParseException
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,6 +26,7 @@ import kotlinx.coroutines.withContext
 import java.net.URLEncoder
 
 class ComplainListViewModel : ViewModel() {
+    var cmsTicketResponse = MutableLiveData<CmsTicketResponse>()
 
     var complainLiveData = MutableLiveData<ArrayList<CmsResposeV2.DataItem>>()
     var newcomplainLiveData = MutableLiveData<ArrayList<ResponseNewTicketlist.Row>>()
@@ -36,6 +40,7 @@ class ComplainListViewModel : ViewModel() {
     val TAG = "ComplainListViewModel"
     var resLiveData = MutableLiveData<ResponseNewTicketlist>()
     var tickethistory = ArrayList<ResponseNewTicketlist.NewTicketHistoryResponse.Row>()
+    var cmsTicketResponseList = MutableLiveData<CmsTicketResponse>()
 
     lateinit var Ticketlistdata: ResponseNewTicketlist
     var baseUrL = ""
@@ -49,16 +54,35 @@ class ComplainListViewModel : ViewModel() {
         status: String,
         isDrugList: Boolean,
         isSearch: Boolean,
-        searchQuary: String
+        searchQuary: String,
+        isApprovalList: Boolean,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
-                baseUrl = data.APIS[i].URL
+        if (isApprovalList) {
+            var empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
+            var employeeDetailsResponse: EmployeeDetailsResponse? = null
+            try {
+                val gson = GsonBuilder().setPrettyPrinting().create()
+                employeeDetailsResponse = gson.fromJson<EmployeeDetailsResponse>(empDetailsResponse,
+                    EmployeeDetailsResponse::class.java)
+
+            } catch (e: JsonParseException) {
+                e.printStackTrace()
+            }
+            baseUrl =
+//                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=498DA96C612D21956508945D24896C6D&emp_dept=64D9D9BE4A621E9C13A2C73404646655"
+
+                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
+
+        } else {
+            for (i in data.APIS.indices) {
+                if (data.APIS[i].NAME.equals("CMS mobile_ticket_list_by_emp_id")) {
+                    baseUrl = data.APIS[i].URL
 //                token = data.APIS[i].TOKEN
-                break
+                    break
+                }
             }
         }
 
@@ -89,48 +113,39 @@ class ComplainListViewModel : ViewModel() {
         val reopened = if (status.contains("reopened")) "reopened" else ""
         val closed = if (status.contains("closed")) "closed" else ""
         val onHold = if (status.contains("onHold")) "onHold" else ""
-
-        baseUrl =
-            baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
-                "reason_code=new_drug&"
-            } else {
-                ""
-            }+if(isSearch){"site_ticket=$searchQuary&"}else{"site_ticket=$searchQuary&"} + "${
-                URLEncoder.encode("status[0]",
-                    "utf-8")
-            }=${new}&${
-                URLEncoder.encode("status[1]",
-                    "utf-8")
-            }=${inprogress}&${
-                URLEncoder.encode("status[2]",
-                    "utf-8")
-            }=${solved}&${
-                URLEncoder.encode("status[3]",
-                    "utf-8")
-            }=${rejected}&${
-                URLEncoder.encode("status[4]",
-                    "utf-8")
-            }=${reopened}&${
-                URLEncoder.encode("status[5]",
-                    "utf-8")
-            }=${closed}&${
-                URLEncoder.encode("status[6]",
-                    "utf-8")
-            }=${onHold}"
+        if (!isApprovalList) {
+            baseUrl =
+                baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                    "reason_code=new_drug&"
+                } else {
+                    ""
+                } + if (isSearch) {
+                    "site_ticket=$searchQuary&"
+                } else {
+                    "site_ticket=$searchQuary&"
+                } + "${
+                    URLEncoder.encode("status[0]", "utf-8")
+                }=${new}&${
+                    URLEncoder.encode("status[1]", "utf-8")
+                }=${inprogress}&${
+                    URLEncoder.encode("status[2]", "utf-8")
+                }=${solved}&${
+                    URLEncoder.encode("status[3]", "utf-8")
+                }=${rejected}&${
+                    URLEncoder.encode("status[4]", "utf-8")
+                }=${reopened}&${
+                    URLEncoder.encode("status[5]", "utf-8")
+                }=${closed}&${
+                    URLEncoder.encode("status[6]", "utf-8")
+                }=${onHold}"
+        }
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(baseUrL,
                     token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -140,10 +155,8 @@ class ComplainListViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val responseNewTicketlist =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ResponseNewTicketlist::class.java
-                                )
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    ResponseNewTicketlist::class.java)
                             if (responseNewTicketlist.success) {
                                 resLiveData.value = responseNewTicketlist
 //                                        newcomplainLiveData.value =
@@ -179,6 +192,12 @@ class ComplainListViewModel : ViewModel() {
         }
     }
 
+    fun setTicketListFromSheredPeff() {
+        val gson = GsonBuilder().setPrettyPrinting().create()
+        resLiveData.value =
+            gson.fromJson<ResponseNewTicketlist>(Preferences.getResponseNewTicketlist(),
+                ResponseNewTicketlist::class.java)
+    }
 
     //get new ticket history...........................................
     fun getNewticketHistory(requestTicketHistory: RequestTicketHistory) {
@@ -196,7 +215,9 @@ class ComplainListViewModel : ViewModel() {
         var baseUrl = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
-                baseUrl = data.APIS[i].URL
+                baseUrl =
+                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
+//                data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -208,14 +229,11 @@ class ComplainListViewModel : ViewModel() {
 
                 RegistrationRepo.getDetails(proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(
-                        baseUrl + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
+                    GetDetailsRequest(baseUrl+"?" + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
                         "GET",
                         "The",
                         "",
-                        ""
-                    )
-                )
+                        ""))
 
 
 //                        RegistrationRepo.getticketHistory(
@@ -232,11 +250,9 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ResponseNewTicketlist.NewTicketHistoryResponse::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                ResponseNewTicketlist.NewTicketHistoryResponse::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
                                 newtickethistoryLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse
@@ -246,8 +262,7 @@ class ComplainListViewModel : ViewModel() {
 
                             } else {
                                 command.value = CmsCommand.VisibleLayout(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString())
                             }
 
                         }
@@ -279,6 +294,65 @@ class ComplainListViewModel : ViewModel() {
 
     }
 
+    fun cmsTicketStatusUpdate(cmsTicketRequest: CmsTicketRequest) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl =
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_it/save-update/it-cc-frwd-to-fin-status-update"
+        var token1 = ""
+//        for (i in data.APIS.indices) {
+//            if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
+//                baseUrl = data.APIS[i].URL
+//                token1 = data.APIS[i].TOKEN
+//                break
+//            }
+//        }
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val requestcmsTicketRequestJson = Gson().toJson(cmsTicketRequest)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestcmsTicketRequestJson, "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val cmsTicketResponse = Gson().fromJson(BackShlash.removeSubString(res),
+                                CmsTicketResponse::class.java)
+
+                            cmsTicketResponseList.value = cmsTicketResponse
+
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 
     fun getInventoryAdditionalDetails(requestTicketHistory: String?, itemPos: Int) {
 
@@ -313,14 +387,7 @@ class ComplainListViewModel : ViewModel() {
 
                 RegistrationRepo.getDetails(baseUrL,
                     token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -329,19 +396,16 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    InventoryDetailsModel::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                InventoryDetailsModel::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
                                 responseNewTicketlistNewTicketHistoryResponse.position = itemPos
                                 inventoryDetailsLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString())
                             }
 
                         }
@@ -396,14 +460,7 @@ class ComplainListViewModel : ViewModel() {
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(proxyUrl,
                     proxyToken,
-                    GetDetailsRequest(
-                        baseUrL,
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrL, "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -412,19 +469,16 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    CreditCardTSDetails::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                CreditCardTSDetails::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
                                 responseNewTicketlistNewTicketHistoryResponse.position = itemPos
                                 creditCardDetailsLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString())
                             }
 
                         }
@@ -467,21 +521,13 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/pos-ticket-accept-reject-update"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(baseUrL,
                     token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -490,19 +536,14 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val request =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    CCAcceptRejectResponse::class.java
-                                )
+                            val request = Gson().fromJson(BackShlash.removeSubString(res),
+                                CCAcceptRejectResponse::class.java)
                             if (request.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    request.message
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    request.message
+//                                )
                             } else {
-                                command.value = CmsCommand.ShowToast(
-                                    request.message.toString()
-                                )
+                                command.value = CmsCommand.ShowToast(request.message.toString())
                             }
 
                         }
@@ -549,21 +590,13 @@ class ComplainListViewModel : ViewModel() {
         }
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-approve-reject-update"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 RegistrationRepo.getDetails(baseUrL,
                     token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -572,23 +605,20 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    InventoryAcceptRejectResponse::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                InventoryAcceptRejectResponse::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    responseNewTicketlistNewTicketHistoryResponse.data.uid
+//                                )
 //                                command.value = CmsCommand.ShowToast(
 //                                    responseNewTicketlistNewTicketHistoryResponse.data.uid.toString()
 //                                )
 //                                actionWorkflowUpdate(workFlowUpdateModel,itemPos)
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.res.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.data.res.toString())
                             }
 
                         }
@@ -633,21 +663,13 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-actions-workflow-update"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    baseUrL, token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -656,22 +678,13 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ChangeManagerResponse::class.java
-                                )
+                            val response = Gson().fromJson(BackShlash.removeSubString(res),
+                                ChangeManagerResponse::class.java)
                             if (response.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    response.message
-                                )
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.RefreshPageOnSuccess(response.message)
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             } else {
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             }
 
                         }
@@ -714,20 +727,13 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-request-save"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(baseUrL, token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -736,22 +742,13 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    InventoryAcceptRejectResponse::class.java
-                                )
+                            val response = Gson().fromJson(BackShlash.removeSubString(res),
+                                InventoryAcceptRejectResponse::class.java)
                             if (response.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    response.message
-                                )
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.RefreshPageOnSuccess(response.message)
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             } else {
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             }
 
                         }
@@ -783,25 +780,20 @@ class ComplainListViewModel : ViewModel() {
                 val token = data.APIS[i].TOKEN
                 viewModelScope.launch() {
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getListOfComplain(
-                            token,
+                        RegistrationRepo.getListOfComplain(token,
                             baseUrl,
                             Config.CMS_Registered_Cmp_List,
-                            requestComplainList
-                        )
+                            requestComplainList)
                     }
                     when (response) {
                         is ApiResult.Success -> {
-                            Utils.printMessage(
-                                TAG,
-                                "Complaint List :: " + response.value.toString()
-                            )
+                            Utils.printMessage(TAG,
+                                "Complaint List :: " + response.value.toString())
                             complainLiveData.value = response.value.data
                             state.value = State.ERROR
                         }
                         is ApiResult.NetworkError -> {
-                            command.value =
-                                CmsCommand.ShowToast("Please Check Internet Connection")
+                            command.value = CmsCommand.ShowToast("Please Check Internet Connection")
                             state.value = State.ERROR
                         }
                         is ApiResult.GenericError -> {
@@ -847,19 +839,12 @@ class ComplainListViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    baseUrL, token,
+                RegistrationRepo.getDetails(baseUrL, token,
 //                            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/list/store-manager-list-for-change-manager?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D="+uid,
 
-                    GetDetailsRequest(
-                        "" + baseUrl + "?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D=" + uid,
+                    GetDetailsRequest("" + baseUrl + "?page=1&rows=10&globalFilter%5BfieldName%5D=globalFilter&globalFilter%5Bkey%5D=globalFilter&globalFilter%5Bvalue%5D=ra&globalFilter%5BmatchType%5D=any&sort%5B0%5D%5Bkey%5D=first_name&sort%5B0%5D%5Border%5D=ASC&dependents%5Bmanager%5D%5Buid%5D=" + uid,
 
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                        "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -868,18 +853,15 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    GetManagersModel::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                GetManagersModel::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
                                 getManagersLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse.data
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString())
                             }
 
                         }
@@ -931,20 +913,13 @@ class ComplainListViewModel : ViewModel() {
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/change-site-manager-in-ticket"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    baseUrL, token, GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -953,17 +928,12 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ChangeManagerResponse::class.java
-                                )
+                            val response = Gson().fromJson(BackShlash.removeSubString(res),
+                                ChangeManagerResponse::class.java)
                             if (response.success) {
                                 actionInventoryItemsRequestSave(actionRequest, itemPos)
                             } else {
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             }
 
                         }
@@ -1010,20 +980,13 @@ class ComplainListViewModel : ViewModel() {
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_inventory_item/save-update/inventory-items-request-save"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    baseUrL, token, GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -1032,22 +995,15 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val response =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ChangeManagerResponse::class.java
-                                )
+                            val response = Gson().fromJson(BackShlash.removeSubString(res),
+                                ChangeManagerResponse::class.java)
                             if (response.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    response.message
-                                )
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    response.message
+//                                )
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             } else {
-                                command.value = CmsCommand.ShowToast(
-                                    response.message.toString()
-                                )
+                                command.value = CmsCommand.ShowToast(response.message.toString())
                             }
 
                         }
@@ -1097,21 +1053,13 @@ class ComplainListViewModel : ViewModel() {
 
 
 //        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-status-update-by-emp-id"
-        val requestNewComplaintRegistrationJson =
-            Gson().toJson(request)
+        val requestNewComplaintRegistrationJson = Gson().toJson(request)
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                RegistrationRepo.getDetails(
-                    baseUrL, token,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "POST",
-                        requestNewComplaintRegistrationJson,
-                        "",
-                        ""
-                    )
-                )
+                RegistrationRepo.getDetails(baseUrL,
+                    token,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -1120,19 +1068,16 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    InventoryAcceptRejectResponse::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                InventoryAcceptRejectResponse::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                command.value = CmsCommand.RefreshPageOnSuccess(
-                                    ""
-                                )
+//                                command.value = CmsCommand.RefreshPageOnSuccess(
+//                                    ""
+//                                )
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.data.errors[0].msg)
                             }
 
                         }
@@ -1173,15 +1118,9 @@ class ComplainListViewModel : ViewModel() {
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
-                        RegistrationRepo.getDetails(baseUrL, token,
-                            GetDetailsRequest(
-                                baseUrl,
-                                "GET",
-                                "the",
-                                "",
-                                ""
-                            )
-                        )
+                        RegistrationRepo.getDetails(baseUrL,
+                            token,
+                            GetDetailsRequest(baseUrl, "GET", "the", "", ""))
                     }
                     when (response) {
                         is ApiResult.Success -> {
@@ -1189,10 +1128,8 @@ class ComplainListViewModel : ViewModel() {
                             val resp: String = response.value.string()
                             val res = BackShlash.removeBackSlashes(resp)
                             val responseticketRatingApi =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    ResponseticketRatingApi::class.java
-                                )
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    ResponseticketRatingApi::class.java)
                             cmsticketRatingresponse.value = responseticketRatingApi
                         }
                         is ApiResult.GenericError -> {
@@ -1228,7 +1165,7 @@ class ComplainListViewModel : ViewModel() {
                 break
             }
         }
-        var baseUrL =""
+        var baseUrL = ""
 //        if (Config.KEY.equals("2034")){
 //            baseUrL = "https://cms.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/select/mobile-ticket-details?"
 //        }else{
@@ -1238,7 +1175,9 @@ class ComplainListViewModel : ViewModel() {
 
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
-                baseUrL = data.APIS[i].URL
+                baseUrL =
+                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
+                //data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -1251,14 +1190,7 @@ class ComplainListViewModel : ViewModel() {
 
                 RegistrationRepo.getDetails(proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(
-                        baseUrl,
-                        "GET",
-                        "The",
-                        "",
-                        ""
-                    )
-                )
+                    GetDetailsRequest(baseUrl, "GET", "The", "", ""))
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -1267,20 +1199,154 @@ class ComplainListViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val responseNewTicketlistNewTicketHistoryResponse =
-                                Gson().fromJson(
-                                    BackShlash.removeSubString(res),
-                                    TicketDetailsResponse::class.java
-                                )
+                            val responseNewTicketlistNewTicketHistoryResponse = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                TicketDetailsResponse::class.java)
                             if (responseNewTicketlistNewTicketHistoryResponse.success) {
-                                responseNewTicketlistNewTicketHistoryResponse.position =
-                                    itemPos
+                                responseNewTicketlistNewTicketHistoryResponse.position = itemPos
                                 ticketDetailsResponseLiveData.value =
                                     responseNewTicketlistNewTicketHistoryResponse
                             } else {
                                 command.value = CmsCommand.ShowToast(
-                                    responseNewTicketlistNewTicketHistoryResponse.message.toString()
-                                )
+                                    responseNewTicketlistNewTicketHistoryResponse.message.toString())
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun subWorkflowAcceptApiCAll(
+        subWorkflowAcceptRequest: SubWorkflowAcceptRequest,
+        mCallback: ComplaintListFragmentCallback,
+    ) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val subWorkflowAcceptRequestJson = Gson().toJson(subWorkflowAcceptRequest)
+
+        val subWorkflowAcceptUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-update"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(subWorkflowAcceptUrl,
+                        "POST",
+                        subWorkflowAcceptRequestJson,
+                        "",
+                        ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val subWorkflowAcceptResponse =
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    SubWorkflowAcceptResponse::class.java)
+                            if (subWorkflowAcceptResponse!!.success == true) {
+                                mCallback.onSuccessSubWorkflowAcceptApiCall()
+                            } else {
+                                command.value =
+                                    CmsCommand.ShowToast(subWorkflowAcceptResponse.message.toString())
+                            }
+
+                        }
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun subWorkflowRejectApiCall(
+        subWorkflowRejectRequest: SubWorkflowRejectRequest,
+        mCallback: ComplaintListFragmentCallback,
+    ) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var proxyBaseUrl = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrl = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val subWorkflowRejectRequestJson = Gson().toJson(subWorkflowRejectRequest)
+
+        val subWorkflowRejectUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-reject"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+
+                RegistrationRepo.getDetails(proxyBaseUrl,
+                    proxyToken,
+                    GetDetailsRequest(subWorkflowRejectUrl,
+                        "POST",
+                        subWorkflowRejectRequestJson,
+                        "",
+                        ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val subWorkflowRejectResponse =
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    SubWorkflowRejectResponse::class.java)
+                            if (subWorkflowRejectResponse!!.success == true) {
+                                mCallback.onSuccessSubWorkflowRejectApiCall()
+                            } else {
+                                command.value =
+                                    CmsCommand.ShowToast(subWorkflowRejectResponse.message.toString())
                             }
 
                         }

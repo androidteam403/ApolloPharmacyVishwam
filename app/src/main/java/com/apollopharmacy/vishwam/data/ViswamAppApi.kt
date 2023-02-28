@@ -3,6 +3,8 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
@@ -57,6 +59,15 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ApproveRejectListRequest,
     ): ApproveRejectListResponse
+
+    @POST//("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetpendingAndApprovedList")
+    suspend fun cmsTicketStatusUpdate(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: CmsTicketRequest,
+    ): CmsTicketResponse
+
+
 
     @POST
     suspend fun swachhResponseImageList(

@@ -23,11 +23,11 @@ data class ResponseNewTicketlist(
     val zcServerIp: String? = null,
 
     @field:SerializedName("zcServerHost")
-    val zcServerHost: String? = null
+    val zcServerHost: String? = null,
 ) : Serializable {
     data class Data(
         @field:SerializedName("listData")
-        val listData: ListData
+        val listData: ListData,
 
         ) : Serializable
 
@@ -58,7 +58,7 @@ data class ResponseNewTicketlist(
         val size: Int? = null,
 
         @field:SerializedName("rows")
-        val rows: ArrayList<Row>
+        val rows: ArrayList<Row>,
     ) : Serializable
 
     data class Row(
@@ -126,9 +126,16 @@ data class ResponseNewTicketlist(
 //        @field:SerializedName("problem_images")
 //        var problem_images: ProblemImages? = null,
 
-        var isExpanded:Boolean,
+        @field:SerializedName("have_subworkflow")
+        var have_subworkflow: Boolean? = null,
 
-        var Tickethistory:NewTicketHistoryResponse?,
+        @field:SerializedName("is_subworkflow_completed")
+        var is_subworkflow_completed: Boolean? = null,
+
+
+        var isExpanded: Boolean,
+
+        var Tickethistory: NewTicketHistoryResponse?,
 
         var ticketDetailsResponse: TicketDetailsResponse?,
 
@@ -157,7 +164,7 @@ data class ResponseNewTicketlist(
         @field:SerializedName("last_name")
         val last_name: String,
         @field:SerializedName("middle_name")
-        val middle_name: String
+        val middle_name: String,
     )
 
     data class Executive(
@@ -174,31 +181,32 @@ data class ResponseNewTicketlist(
         @field:SerializedName("middle_name")
         val middle_name: String,
         @field:SerializedName("login_unique")
-        val login_unique: String
+        val login_unique: String,
     )
 
     data class TicketInventory(
         @field:SerializedName("uid")
         val uid: String? = null,
         @field:SerializedName("drug_request")
-        val drug_request: DrugRequestDetailsModel?
+        val drug_request: DrugRequestDetailsModel?,
     )
-    data class  LocationObj(
+
+    data class LocationObj(
         @field:SerializedName("uid")
         var uid: String? = null,
         @field:SerializedName("name")
         var name: String? = null,
-    ): Serializable
+    ) : Serializable
 
-    data class  ProblemImages(
+    data class ProblemImages(
         @field:SerializedName("images")
-        val images: ArrayList<Image>
-    ):Serializable
+        val images: ArrayList<Image>,
+    ) : Serializable
 
-    data class  Image(
+    data class Image(
         @field:SerializedName("url")
-        val url: String? = null
-    ):Serializable
+        val url: String? = null,
+    ) : Serializable
 
     data class Priority(
 
@@ -212,7 +220,7 @@ data class ResponseNewTicketlist(
         val other: Other,
 
         @field:SerializedName("icon")
-        val icon: String? = null
+        val icon: String? = null,
     ) : Serializable
 
     data class Parent(
@@ -220,10 +228,10 @@ data class ResponseNewTicketlist(
         val uid: String? = null,
 
         @field:SerializedName("ticket_id")
-        val ticket_id: String? = null
+        val ticket_id: String? = null,
     ) : Serializable
 
-    data class  Cluster(
+    data class Cluster(
         @field:SerializedName("uid")
         val uid: String? = null,
 
@@ -231,10 +239,10 @@ data class ResponseNewTicketlist(
         val code: String? = null,
 
         @field:SerializedName("name")
-        val name: String? = null
-    ):Serializable
+        val name: String? = null,
+    ) : Serializable
 
-    data class  CreatedId(
+    data class CreatedId(
         @field:SerializedName("uid")
         val uid: String? = null,
 
@@ -255,64 +263,9 @@ data class ResponseNewTicketlist(
 
         @field:SerializedName("level")
         val level: Level? = null,
-        ):Serializable
+    ) : Serializable
 
-    data class  Category(
-        @field:SerializedName("uid")
-        val uid: String? = null,
-
-        @field:SerializedName("code")
-        val code: String? = null,
-
-        @field:SerializedName("name")
-        val name: String? = null
-        ):Serializable
-
-    data class  Department(
-        @field:SerializedName("uid")
-        val uid: String? = null,
-
-        @field:SerializedName("code")
-        val code: String? = null,
-
-        @field:SerializedName("name")
-        val name: String? = null
-    ):Serializable
-
-    data class  Region(
-        @field:SerializedName("uid")
-        val uid: String? = null,
-
-        @field:SerializedName("code")
-        val code: String? = null,
-
-        @field:SerializedName("name")
-        val name: String? = null
-    ):Serializable
-
-    data class  Reason(
-        @field:SerializedName("uid")
-        val uid: String? = null,
-
-        @field:SerializedName("code")
-        val code: String? = null,
-
-        @field:SerializedName("name")
-        val name: String? = null
-    ):Serializable
-
-     data class  Level(
-         @field:SerializedName("uid")
-         val uid: String? = null,
-
-         @field:SerializedName("code")
-         val code: String? = null,
-
-         @field:SerializedName("name")
-         val name: String? = null
-     ):Serializable
-
-    data class  Status(
+    data class Category(
         @field:SerializedName("uid")
         val uid: String? = null,
 
@@ -321,15 +274,70 @@ data class ResponseNewTicketlist(
 
         @field:SerializedName("name")
         val name: String? = null,
+    ) : Serializable
+
+    data class Department(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
+        @field:SerializedName("code")
+        val code: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
+    ) : Serializable
+
+    data class Region(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
+        @field:SerializedName("code")
+        val code: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
+    ) : Serializable
+
+    data class Reason(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
+        @field:SerializedName("code")
+        val code: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
+    ) : Serializable
+
+    data class Level(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
+        @field:SerializedName("code")
+        val code: String? = null,
+
+        @field:SerializedName("name")
+        val name: String? = null,
+    ) : Serializable
+
+    data class Status(
+        @field:SerializedName("uid")
+        val uid: String? = null,
+
+        @field:SerializedName("code")
+        var code: String? = null,
+
+        @field:SerializedName("name")
+        var name: String? = null,
 
         @field:SerializedName("background_color")
-        val background_color: String? = null,
+        var background_color: String? = null,
 
         @field:SerializedName("text_color")
-        val text_color: String? = null
-    ):Serializable
+        var text_color: String? = null,
+    ) : Serializable
 
-    data class  Site(
+    data class Site(
 
         @field:SerializedName("uid")
         val uid: String? = null,
@@ -338,11 +346,11 @@ data class ResponseNewTicketlist(
         val site: String? = null,
 
         @field:SerializedName("store_name")
-        val store_name: String? = null
-    ):Serializable
+        val store_name: String? = null,
+    ) : Serializable
 
 
-    data class  Subcategory(
+    data class Subcategory(
 
         @field:SerializedName("uid")
         val uid: String? = null,
@@ -351,10 +359,10 @@ data class ResponseNewTicketlist(
         val code: String? = null,
 
         @field:SerializedName("name")
-        val name: String? = null
-    ):Serializable
+        val name: String? = null,
+    ) : Serializable
 
-    data class  User(
+    data class User(
 
         @field:SerializedName("uid")
         val uid: String? = null,
@@ -375,10 +383,10 @@ data class ResponseNewTicketlist(
         val level: Level? = null,
 
         @field:SerializedName("login_unique")
-        val login_unique: String? = null
-        ):Serializable
+        val login_unique: String? = null,
+    ) : Serializable
 
-    data class  Role(
+    data class Role(
 
         @field:SerializedName("uid")
         val uid: String? = null,
@@ -387,16 +395,16 @@ data class ResponseNewTicketlist(
         val name: String? = null,
 
         @field:SerializedName("code")
-        val code: String? = null
+        val code: String? = null,
 
-    ):Serializable
+        ) : Serializable
 
-    data class  Other(
+    data class Other(
 
         @field:SerializedName("color")
-        val color: String? = null
+        val color: String? = null,
 
-    ):Serializable
+        ) : Serializable
 
     //ticket Histroy Response.........
     data class NewTicketHistoryResponse(
@@ -417,17 +425,16 @@ data class ResponseNewTicketlist(
         var zcServerIp: String? = null,
 
         @field:SerializedName("zcServerHost")
-        var zcServerHost: String? = null
+        var zcServerHost: String? = null,
 
 
-        ):Serializable
-    {
+        ) : Serializable {
         data class Data(
             @field:SerializedName("listData")
-            var listData:ListData
+            var listData: ListData,
         ) : Serializable
 
-        data class  Status(
+        data class Status(
             @field:SerializedName("uid")
             var uid: String? = null,
 
@@ -441,8 +448,8 @@ data class ResponseNewTicketlist(
             var background_color: String? = null,
 
             @field:SerializedName("text_color")
-            var text_color: String? = null
-        ):Serializable
+            var text_color: String? = null,
+        ) : Serializable
 
         data class ListData(
             @field:SerializedName("records")
@@ -470,11 +477,11 @@ data class ResponseNewTicketlist(
             var aggregation: String? = null,
 
             @field:SerializedName("size")
-            var size: Int? = null
+            var size: Int? = null,
 
-        ):Serializable
+            ) : Serializable
 
-        data class  Row(
+        data class Row(
 
             @field:SerializedName("uid")
             var uid: String? = null,
@@ -483,10 +490,10 @@ data class ResponseNewTicketlist(
             var description: String? = null,
 
             @field:SerializedName("ticket")
-            var ticket:Ticket,
+            var ticket: Ticket,
 
             @field:SerializedName("created_id")
-            var created_id:CreatedId,
+            var created_id: CreatedId,
 
             @field:SerializedName("workflow_comment")
             var workflow_comment: String? = null,
@@ -497,12 +504,12 @@ data class ResponseNewTicketlist(
             @field:SerializedName("user")
             var user: User,
 
-            var status:String?=null
+            var status: String? = null,
 
 
-        ):Serializable
+            ) : Serializable
 
-        data class  Ticket(
+        data class Ticket(
 
             @field:SerializedName("uid")
             var uid: String? = null,
@@ -511,17 +518,17 @@ data class ResponseNewTicketlist(
             var ticket_id: String? = null,
 
             @field:SerializedName("ticket_workflow_history")
-            var ticket_workflow_history: ArrayList<TicketWorkflowHistory>
+            var ticket_workflow_history: ArrayList<TicketWorkflowHistory>,
 
-        ):Serializable
+            ) : Serializable
 
         data class TicketWorkflowHistory(
             @field:SerializedName("uid")
             var uid: String? = null,
 
             @field:SerializedName("comment")
-            var comment: String? = null
-        ):Serializable
+            var comment: String? = null,
+        ) : Serializable
 
         data class CreatedId(
 
@@ -538,16 +545,14 @@ data class ResponseNewTicketlist(
             var middle_name: String? = null,
 
 
-
-
             @field:SerializedName("role")
             var role: Role,
 
 
             @field:SerializedName("pic")
-            var pic: ArrayList<Pic>
+            var pic: ArrayList<Pic>,
 
-        ):Serializable
+            ) : Serializable
 
         data class Role(
 
@@ -555,8 +560,8 @@ data class ResponseNewTicketlist(
             var uid: String? = null,
 
             @field:SerializedName("name")
-            var name: String? = null
-        ):Serializable
+            var name: String? = null,
+        ) : Serializable
 
         data class Pic(
             @field:SerializedName("size")
@@ -572,7 +577,7 @@ data class ResponseNewTicketlist(
             val contentType: String? = null,
 
             @field:SerializedName("dimenesions")
-            val dimenesions:Dimenesions,
+            val dimenesions: Dimenesions,
 
             @field:SerializedName("path")
             val path: String? = null,
@@ -581,25 +586,25 @@ data class ResponseNewTicketlist(
             val fullPath: String? = null,
 
             @field:SerializedName("created_info")
-            val created_info: CreatedInfo
-            ):Serializable
+            val created_info: CreatedInfo,
+        ) : Serializable
 
-    data class  Dimenesions(
+        data class Dimenesions(
 
-        @field:SerializedName("200_200")
-        val image_200_200: String? = null,
+            @field:SerializedName("200_200")
+            val image_200_200: String? = null,
 
-        @field:SerializedName("200_200_fullPath")
-        val fullPath_200_200: String? = null,
+            @field:SerializedName("200_200_fullPath")
+            val fullPath_200_200: String? = null,
 
-        @field:SerializedName("100_100")
-        val image100_100: String? = null,
+            @field:SerializedName("100_100")
+            val image100_100: String? = null,
 
-        @field:SerializedName("100_100_fullPath")
-        val fullPath_100_100: String? = null
-        ):Serializable
+            @field:SerializedName("100_100_fullPath")
+            val fullPath_100_100: String? = null,
+        ) : Serializable
 
-        data class  CreatedInfo(
+        data class CreatedInfo(
             @field:SerializedName("created_on")
             val created_on: String? = null,
 
@@ -628,9 +633,9 @@ data class ResponseNewTicketlist(
             val role_code: String? = null,
 
             @field:SerializedName("role_name")
-            val role_name: String? = null
+            val role_name: String? = null,
 
-        ):Serializable
+            ) : Serializable
 
 
     }
