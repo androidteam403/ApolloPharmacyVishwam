@@ -251,6 +251,22 @@ class SwacchFragment() : BaseFragment<SwachhListViewModel, SwacchListBinding>(),
         TODO("Not yet implemented")
     }
 
+    override fun onClickSubWorkflowAccept(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSubWorkflowReject(
+        data: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        TODO("Not yet implemented")
+    }
+
     fun setSupportActionBar(toolbarswachh: Toolbar) {
         TODO("Not yet implemented")
     }

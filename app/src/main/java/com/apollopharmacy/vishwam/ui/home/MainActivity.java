@@ -418,10 +418,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Approval List":
                 headerText.setText("Approval List");
-                fragment = new ComplainListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
+//                fragment = new ComplainListFragment();
+                filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-
+                Bundle bundle1 = new Bundle();
+                bundle1.putBoolean("isFromApprovalList", true);
+                ComplainListFragment fragInfo1 = new ComplainListFragment();
+                fragInfo1.setArguments(bundle1);
+                fragment = fragInfo1;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
