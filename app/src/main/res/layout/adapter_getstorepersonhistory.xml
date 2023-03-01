@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/light_blue">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <androidx.cardview.widget.CardView
+            app:cardCornerRadius="@dimen/value_6dp"
+            app:cardElevation="@dimen/value_5dp"
+            android:layout_marginTop="@dimen/value_3dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:layout_marginRight="@dimen/value_5dp"
+            android:layout_marginLeft="@dimen/value_5dp"
+            android:id="@+id/cardview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+
+            <LinearLayout
+                android:id="@+id/orderHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_5dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/overallLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorWhite"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Swachh ID: "
+                            android:textColor="@color/heading_blue"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/swachidgetStore"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:gravity="end">
+
+                            <TextView
+                                android:id="@+id/position"
+                                android:layout_gravity="end"
+                                android:gravity="end"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+
+                        </LinearLayout>
+
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Created Date: "
+                            android:textColor="@color/heading_blue"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/date_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_marginTop="@dimen/value_3dp"
+                            android:id="@+id/three_dots"
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_gravity="end"
+                            android:gravity="end"
+                            android:layout_height="@dimen/value_15dp"
+                            tools:ignore="Orientation">
+
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/threedots"-->
+<!--                                android:layout_gravity="end"/>-->
+
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/four4_dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Created By: "
+                            android:textColor="@color/heading_blue"
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+                            android:id="@+id/by_details"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                           android:id="@+id/empNamegetStore"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/four4_dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Total Ratings: "
+                            android:textSize="@dimen/text_12sp" />
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/total_ratings"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_1dp"
+                        android:layout_marginTop="@dimen/value_8dp"
+                        android:background="@color/color_ash" />
+
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/green_approved_layot"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="@dimen/value_3dp"
+                        android:layout_marginStart="@dimen/value_7dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:src="@drawable/greenright" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="APPROVED"
+                            android:textAlignment="center"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/greenn" />
+
+                        <RelativeLayout
+                            android:id="@+id/reviewButtonApproved"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/value_7dp"
+                            android:gravity="end"
+                            android:textAlignment="viewEnd">
+
+                            <!--                            <TextView-->
+                            <!--                                android:layout_width="wrap_content"-->
+                            <!--                                android:layout_height="wrap_content"-->
+                            <!--                                android:text="10/10"-->
+                            <!--                                android:textColor="@color/black"-->
+                            <!--                                android:textSize="@dimen/text_12sp"-->
+                            <!--                                android:textStyle="bold"-->
+                            <!--                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />-->
+
+                            <TextView
+
+                                android:layout_width="@dimen/value_80dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:background="@drawable/seablue_roundedcorners"
+                                android:padding="2sp"
+                                android:text="Review"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_13sp"
+                                android:textStyle="bold" />
+                        </RelativeLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/re_shoot_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/value_3dp"
+                        android:layout_marginStart="@dimen/value_7dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/clock_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="RESHOOT"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/red" />
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonReshoot"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="@dimen/value_80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/pending_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/value_3dp"
+                        android:layout_marginStart="@dimen/value_7dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/clock_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PENDING"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/material_amber_accent_700" />
+
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonPending"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/not_updated_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/five5_sp"
+                        android:background="@color/light_pink"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/value_6dp"
+                            android:src="@drawable/clock_small" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="NOT UPDATED"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/red" />
+
+                        <TextView
+                            android:padding="@dimen/value_3dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/value_7dp"
+                            android:textSize="@dimen/text_12sp"
+                            android:textAlignment="viewEnd"
+                            android:textColor="@color/black"
+
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/partially_approved_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="@dimen/value_3dp"
+                        android:layout_marginStart="@dimen/value_7dp"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/text_13sp"
+                            android:layout_height="@dimen/text_13sp"
+                            android:layout_gravity="center"
+                            android:src="@drawable/clock_small" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="@dimen/five5_sp"
+                            android:text="Status: " />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PARTIALLY APPROVED"
+                            android:textStyle="bold"
+                            android:textAlignment="center"
+                            android:textSize="@dimen/text_12sp"
+                            android:textColor="@color/color_red" />
+
+<!--                        <RelativeLayout-->
+<!--                            android:id="@+id/reviewButtonpartial"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:textAlignment="viewEnd">-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="@dimen/value_80dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:background="@drawable/seablue_roundedcorners"-->
+<!--                                android:padding="2sp"-->
+<!--                                android:text="Review"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/white"-->
+<!--                                android:textSize="@dimen/text_13sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </RelativeLayout>-->
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+
+    </LinearLayout>
+
+</RelativeLayout>
+
+</layout>

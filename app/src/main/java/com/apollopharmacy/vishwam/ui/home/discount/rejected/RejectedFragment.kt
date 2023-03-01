@@ -89,6 +89,7 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         })
 

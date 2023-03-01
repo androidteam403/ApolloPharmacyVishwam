@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.dialog
 
 import android.os.Bundle
+import android.provider.ContactsContract.ProfileSyncState.set
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DialogDatePickerBinding
 import com.apollopharmacy.vishwam.util.Utils
+import java.lang.reflect.Array.set
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -18,18 +20,24 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
     interface DateSelected {
         fun selectedDateTo(dateSelected: String, showingDate: String)
+        fun selectedDatefrom(dateSelected: String, showingDate: String)
+
     }
 
-    private lateinit var dateSelectedListner: DateSelected
+    private var dateSelectedListner: DateSelected?=null
     private var selectedDate: String = ""
 
     companion object {
         const val KEY_DATA = "data"
+        const val KEY_FROM_DATE = "from_date"
+        const val KEY_IS_TO ="is_to_date"
     }
 
-    fun generateParsedData(data: String): Bundle {
+    fun generateParsedData(data: String, isToDate: Boolean, fromDate: String ): Bundle {
         return Bundle().apply {
             putString(KEY_DATA, data)
+            putString(KEY_FROM_DATE,fromDate)
+            putBoolean(KEY_IS_TO,isToDate)
         }
     }
 
@@ -45,8 +53,12 @@ class ComplaintListCalendarDialog : DialogFragment() {
             container,
             false
         ) as DialogDatePickerBinding
+        if(parentFragment!=null){
+            dateSelectedListner = parentFragment as DateSelected
+        }else{
+            dateSelectedListner = activity as DateSelected
+        }
 
-        dateSelectedListner = parentFragment as DateSelected
 
         val calendar = Calendar.getInstance()
 //        calendar.add(Calendar.DATE, -PROBLEM_SINCE_DAYS);
@@ -79,6 +91,11 @@ class ComplaintListCalendarDialog : DialogFragment() {
 
         dataPickerBinding.datePicker.updateDate(year, (month - 1), day)
         dataPickerBinding.datePicker.maxDate = (c.timeInMillis)
+        if(arguments?.getBoolean(KEY_IS_TO) == true){
+            val date = SimpleDateFormat("dd-MMM-yyyy").parse(arguments?.getString(KEY_FROM_DATE))
+            dataPickerBinding.datePicker.minDate =date.time
+        }
+
 
         dataPickerBinding.ok.setOnClickListener {
             val _year = dataPickerBinding.datePicker.year
@@ -88,7 +105,10 @@ class ComplaintListCalendarDialog : DialogFragment() {
             val monthFormat = SimpleDateFormat("MMM", Locale.ENGLISH)
             val getDate =
                 "${checkVal.format(_date)}-${monthFormat.format(c.time)}-${_year}"
-            dateSelectedListner.selectedDateTo(getDate, getDate)
+
+                dateSelectedListner!!.selectedDateTo(getDate, getDate)
+
+
             dismiss()
         }
         return dataPickerBinding.root
