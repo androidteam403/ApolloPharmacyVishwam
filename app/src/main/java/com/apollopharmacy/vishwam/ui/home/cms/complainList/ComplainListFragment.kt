@@ -142,28 +142,28 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //            Utlis.hideLoading()
 //            ticketratingapiresponse = it.data;
 //            callAPI(1)
-            if (!Preferences.getResponseNewTicketlist().isEmpty()) {
-                if (Config.COMPLAINTLISTFETCHEDTIME != null) {
-                    if (diffTime(Config.COMPLAINTLISTFETCHEDTIME!!,
-                            Calendar.getInstance().getTime()) < 6
-                    ) {
-                        isTicketListThereFirstTime = false
-                        viewModel.setTicketListFromSheredPeff()
-                    } else {
-                        Utlis.hideLoading()
-                        ticketratingapiresponse = it.data;
-                        callAPI(1)
-                    }
-                } else {
-                    Utlis.hideLoading()
-                    ticketratingapiresponse = it.data;
-                    callAPI(1)
-                }
-            } else {
+//            if (!Preferences.getResponseNewTicketlist().isEmpty()) {
+//                if (Config.COMPLAINTLISTFETCHEDTIME != null) {
+//                    if (diffTime(Config.COMPLAINTLISTFETCHEDTIME!!,
+//                            Calendar.getInstance().getTime()) < 6
+//                    ) {
+//                        isTicketListThereFirstTime = false
+//                        viewModel.setTicketListFromSheredPeff()
+//                    } else {
+//                        Utlis.hideLoading()
+//                        ticketratingapiresponse = it.data;
+//                        callAPI(1)
+//                    }
+//                } else {
+//                    Utlis.hideLoading()
+//                    ticketratingapiresponse = it.data;
+//                    callAPI(1)
+//                }
+//            } else {
                 Utlis.hideLoading()
                 ticketratingapiresponse = it.data;
                 callAPI(1)
-            }
+//            }
         }
 
 //        viewBinding.searchView.setOnTouchListener(object : View.OnTouchListener {

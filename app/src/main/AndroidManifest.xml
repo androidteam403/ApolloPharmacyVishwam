@@ -146,10 +146,6 @@
             android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

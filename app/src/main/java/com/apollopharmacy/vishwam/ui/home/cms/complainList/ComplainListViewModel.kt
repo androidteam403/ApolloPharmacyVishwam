@@ -216,8 +216,8 @@ class ComplainListViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
                 baseUrl =
-                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
-//                data.APIS[i].URL
+//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
+                data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -1176,8 +1176,8 @@ class ComplainListViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
                 baseUrL =
-                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
-                //data.APIS[i].URL
+//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
+                data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }

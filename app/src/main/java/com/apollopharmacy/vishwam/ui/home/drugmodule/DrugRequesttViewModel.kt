@@ -219,6 +219,7 @@ class DrugFragmentViewModel : ViewModel() {
                                 responsenewcomplaintregistration.value =
                                     responseNewComplaintRegistration
                             } else {
+
                                 commands.postValue(Commands.ShowToast(
                                     responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()))
 

@@ -1747,6 +1747,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         Preferences.setDoctorSpecialityListFetched(true)
 
     }
+
+    override fun onFailureMessage(message: String) {
+
+    }
 }
 
 
