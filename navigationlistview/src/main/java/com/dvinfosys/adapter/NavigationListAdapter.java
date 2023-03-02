@@ -2,6 +2,7 @@ package com.dvinfosys.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +19,11 @@ import com.dvinfosys.model.HeaderModel;
 
 import java.util.List;
 
-public class NavigationListAdapter extends BaseExpandableListAdapter {
+public class NavigationListAdapter extends BaseExpandableListAdapter  {
 
     private Context context;
     private List<HeaderModel> listHeader;
+
 
     public NavigationListAdapter(Context context, List<HeaderModel> listHeader) {
         this.context = context;
@@ -111,6 +113,10 @@ public class NavigationListAdapter extends BaseExpandableListAdapter {
         TextView isNew = convertView.findViewById(R.id.is_new);
         iconMenu.setImageResource(header.getIcon());
         lblListHeader.setText(header.getTitle());
+
+
+
+
 
 //        if (header.getResource() != -1) {
 //            iconMenu.setBackgroundResource(header.getResource());
