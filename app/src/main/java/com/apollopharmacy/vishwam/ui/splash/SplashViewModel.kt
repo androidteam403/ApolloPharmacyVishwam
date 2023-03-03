@@ -30,11 +30,13 @@ class SplashViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     if (response.value.status) {
+                        println(33)
                         validateResponseMutableList.value = response.value
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
                         Utils.printMessage("SplashScreen", response.value.toString())
                         command.value = Command.NavigateTo(response.value)
+                        println(39)
                     } else {
                         command.value = Command.ShowToast(response.value.message)
                     }
