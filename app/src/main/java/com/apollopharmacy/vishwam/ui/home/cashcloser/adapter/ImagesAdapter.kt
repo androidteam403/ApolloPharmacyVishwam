@@ -34,7 +34,7 @@ class ImagesAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-var imageItem  = images.get(position)
+        var imageItem = images.get(position)
         if (imageItem.file != null) {
             holder.captureImagesLayoutBinding.beforecapturelayout.visibility = View.GONE
             holder.captureImagesLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
