@@ -19,9 +19,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.Window
 import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -795,7 +798,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             imagesList.distinct(),
                             viewBinding.descriptionText.text.toString(),
                             store, employeeDetailsResponse!!
-                        )
+                        ), this@Drug
                     )
 
                 }
@@ -1749,7 +1752,18 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
     }
 
     override fun onFailureMessage(message: String) {
-
+        hideLoading()
+        val dialog = android.app.Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_message_popup)
+        val messageTextView = dialog.findViewById(R.id.messagetext) as TextView
+        messageTextView.text = message
+        val submit = dialog.findViewById(R.id.ok_button) as AppCompatButton
+        submit.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }
 
