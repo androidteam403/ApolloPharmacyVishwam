@@ -3,6 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/preview_image_dialog.xml" value="0.139" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/capture_images_layout.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/dialog_delete.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_cash_closer.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_drug.xml" value="0.21481481481481482" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/preview_image_dialog.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/qc_cash_closer_layout.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/qc_fragment_pending.xml" value="0.21851851851851853" />
         <entry key="app/src/main/res/drawable/green_background.xml" value="0.164" />
         <entry key="app/src/main/res/drawable/reject_button.xml" value="0.1625" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.12863247863247862" />
