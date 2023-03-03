@@ -48,6 +48,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
@@ -621,6 +622,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+
+            case "Assets":
+                headerText.setText("Apollo Assets");
+                fragment = new AssetsFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "Logout":
                 dialogExit();
                 break;
@@ -902,6 +912,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
                 .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         );
+
+        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
+
 //        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
@@ -915,6 +928,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Greetings to Chairman")) {
                 displaySelectedScreen("Greetings to Chairman");
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
+                displaySelectedScreen("Assets");
                 drawer.closeDrawer(GravityCompat.START);
             }
             return false;

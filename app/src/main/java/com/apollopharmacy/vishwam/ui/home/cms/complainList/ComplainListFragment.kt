@@ -160,9 +160,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //                    callAPI(1)
 //                }
 //            } else {
-                Utlis.hideLoading()
-                ticketratingapiresponse = it.data;
-                callAPI(1)
+            Utlis.hideLoading()
+            ticketratingapiresponse = it.data;
+            callAPI(1)
 //            }
         }
 
@@ -1907,6 +1907,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_subworkflow_reject)
+        val ticketNo = dialog.findViewById(R.id.ticketNo) as TextView
+        ticketNo.text = data.ticket_id
         val dismissDialog = dialog.findViewById(R.id.diloga_close) as ImageView
         dismissDialog.setOnClickListener {
             dialog.dismiss()
@@ -1923,6 +1925,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             subWorkflowRejectRequest.employee_id = Preferences.getValidatedEmpId()
             subWorkflowRejectRequest.ticket_id = data.ticket_id
             viewModel.subWorkflowRejectApiCall(subWorkflowRejectRequest, this@ComplainListFragment)
+        }
+        val cancel = dialog.findViewById(R.id.cancel) as AppCompatButton
+        cancel.setOnClickListener {
+            dialog.dismiss()
         }
 
         dialog.show()
