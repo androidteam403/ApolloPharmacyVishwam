@@ -261,7 +261,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     adapter.notifyDataSetChanged()
                     isLoading = false
                 } else {
-                    adapter = ApproveRecyclerView(it.data.listData.rows, this)
+                    adapter = ApproveRecyclerView(it.data.listData.rows,
+                        this,
+                        arguments?.getBoolean("isFromApprovalList") == true)
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
             }
@@ -484,6 +486,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     class ApproveRecyclerView(
         var orderData: ArrayList<ResponseNewTicketlist.Row>,
         val imageClickListener: ImageClickListener,
+        var isApprovalListFragment: Boolean,
 
         ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         var orderItemsId = ArrayList<String>()
@@ -1004,23 +1007,29 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             if (items!!.have_subworkflow != null) {
                 if (items!!.have_subworkflow == true) {
-                    binding.ticketResolveBtn.visibility = View.GONE
-                    if (items!!.is_subworkflow_completed == true) {
-                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                    if (items!!.is_subworkflow_completed == false) {
+                        binding.ticketResolveBtn.visibility = View.GONE
+                    }
+                    if (isApprovalListFragment) {
+                        if (items!!.is_subworkflow_completed == true) {
+                            binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
+                        } else {
+                            binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
+                            binding.subWorkflowAcceptBtn.setOnClickListener {
+                                imageClickListener.onClickSubWorkflowAccept(items.ticketDetailsResponse!!.data,
+                                    orderData,
+                                    position)
+                            }
+
+                            binding.subWorkflowRejectBtn.setOnClickListener {
+                                imageClickListener.onClickSubWorkflowReject(items.ticketDetailsResponse!!.data,
+                                    orderData,
+                                    position)
+                            }
+
+                        }
                     } else {
-                        binding.subWorkflowAcceptrejectLayout.visibility = View.VISIBLE
-                        binding.subWorkflowAcceptBtn.setOnClickListener {
-                            imageClickListener.onClickSubWorkflowAccept(items.ticketDetailsResponse!!.data,
-                                orderData,
-                                position)
-                        }
-
-                        binding.subWorkflowRejectBtn.setOnClickListener {
-                            imageClickListener.onClickSubWorkflowReject(items.ticketDetailsResponse!!.data,
-                                orderData,
-                                position)
-                        }
-
+                        binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                     }
                 } else {
                     binding.subWorkflowAcceptrejectLayout.visibility = View.GONE

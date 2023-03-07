@@ -22,17 +22,13 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentCashCloserBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.adapter.CashCloserPendingAdapter
-import com.apollopharmacy.vishwam.ui.home.cashcloser.cashdepositbolbstorage.CashDepositBlobStorage
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashCloserList
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.ImageData
-import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
-import com.apollopharmacy.vishwam.ui.home.greeting.wishesblobstorage.EmployeeWishesBlobStorage
 import com.bumptech.glide.Glide
 import java.io.File
 
@@ -55,29 +51,28 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     }
 
     override fun setup() {
-
+        showLoading()
         var siteId = Preferences.getSiteId()
         Log.i("TAG", "siteID: $siteId")
+        viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
 
-        viewModel.getCashDepositDetails("14068")
-
-        viewModel.cashDepositDetails.observe(viewLifecycleOwner, {
-            if (it.status == true) {
-                if (!it.cashdeposit.isNullOrEmpty()) {
-                    cashDepositDetailsList =
-                        it.cashdeposit as ArrayList<CashDepositDetailsResponse.Cashdeposit>
-
-                    cashCloserPendingAdapter = CashCloserPendingAdapter(
-                        requireContext(),
-                        cashDepositDetailsList,
-                        this
-                    )
-                    val linearLayoutManager = LinearLayoutManager(requireContext())
-                    viewBinding.recyclerViewCashCloser.adapter = cashCloserPendingAdapter
-                    viewBinding.recyclerViewCashCloser.layoutManager = linearLayoutManager
-                }
-            }
-        })
+//        viewModel.cashDepositDetails.observe(viewLifecycleOwner, {
+//            if (it.status == true) {
+//                if (!it.cashdeposit.isNullOrEmpty()) {
+//                    cashDepositDetailsList =
+//                        it.cashdeposit as ArrayList<CashDepositDetailsResponse.Cashdeposit>
+//
+//                    cashCloserPendingAdapter = CashCloserPendingAdapter(
+//                        requireContext(),
+//                        cashDepositDetailsList,
+//                        this
+//                    )
+//                    val linearLayoutManager = LinearLayoutManager(requireContext())
+//                    viewBinding.recyclerViewCashCloser.adapter = cashCloserPendingAdapter
+//                    viewBinding.recyclerViewCashCloser.layoutManager = linearLayoutManager
+//                }
+//            }
+//        })
     }
 
     var imagePosition: Int = 0
@@ -166,13 +161,28 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 
         viewModel.saveCashDepositDetails(cashDepositDetailsRequest)
 
-        viewModel.cashDepositDetails.observe(viewLifecycleOwner, {
-            if (it.status == true) {
-                Toast.makeText(requireContext(),
-                    "Cash deposit saved successfully",
-                    Toast.LENGTH_SHORT).show()
-            }
-        })
+    }
+
+    override fun onSuccessGetCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
+        hideLoading()
+        if (cashDepositDetailsResponse != null && cashDepositDetailsResponse.cashdeposit != null && cashDepositDetailsResponse.cashdeposit!!.size > 0) {
+            cashDepositDetailsList =
+                cashDepositDetailsResponse.cashdeposit as ArrayList<CashDepositDetailsResponse.Cashdeposit>
+
+            cashCloserPendingAdapter = CashCloserPendingAdapter(
+                requireContext(),
+                cashDepositDetailsList,
+                this
+            )
+            val linearLayoutManager = LinearLayoutManager(requireContext())
+            viewBinding.recyclerViewCashCloser.adapter = cashCloserPendingAdapter
+            viewBinding.recyclerViewCashCloser.layoutManager = linearLayoutManager
+        }
+    }
+
+    override fun onFailureGetCashDepositDetailsApiCall(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     private fun openCamera() {
@@ -197,18 +207,19 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null && resultCode == Activity.RESULT_OK) {
 
-                    val captureImageUrl = CashDepositBlobStorage.captureImageBlobStorage(
-                        imageFile!!,
-                        "${Preferences.getValidatedEmpId()}_p.jpg"
-                    )
+//            val captureImageUrl = CashDepositBlobStorage.captureImageBlobStorage(
+//                imageFile!!,
+//                "${Preferences.getValidatedEmpId()}_p.jpg"
+//            )
 
-                    for (i in cashDepositDetailsList) {
-                        if (i.siteid.equals(siteId)) {
-                            i.setImageUrl(captureImageUrl)
-                        }
-                    }
+//            for (i in cashDepositDetailsList) {
+//                if (i.siteid.equals(siteId)) {
+//                    i.setImageUrl(captureImageUrl)
+//                }
+//            }
+            cashDepositDetailsList.get(imagePosition).imagePath = imageFile
 
-                    cashCloserPendingAdapter!!.notifyDataSetChanged()
+            cashCloserPendingAdapter!!.notifyDataSetChanged()
 
         }
     }

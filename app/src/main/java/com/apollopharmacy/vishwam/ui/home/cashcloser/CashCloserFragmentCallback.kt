@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.cashcloser
 
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import java.io.File
 
 interface CashCloserFragmentCallback {
@@ -19,6 +20,10 @@ interface CashCloserFragmentCallback {
         amount: String,
         remarks: String,
         dcid: String,
-        createdBy: String
+        createdBy: String,
     )
+
+    fun onSuccessGetCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse)
+
+    fun onFailureGetCashDepositDetailsApiCall(message: String)
 }

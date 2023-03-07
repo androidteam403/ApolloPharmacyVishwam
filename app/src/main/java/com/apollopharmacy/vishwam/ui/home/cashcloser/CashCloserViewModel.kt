@@ -3,16 +3,12 @@ package com.apollopharmacy.vishwam.ui.home.cashcloser
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.CashDepositApiRepo
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.login.Command
-import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,7 +19,7 @@ class CashCloserViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
 
-    fun getCashDepositDetails(siteId: String) {
+    fun getCashDepositDetails(siteId: String, mCallback: CashCloserFragmentCallback) {
         var token = "h72genrSSNFivOi/cfiX3A=="
 
         viewModelScope.launch {
@@ -34,11 +30,13 @@ class CashCloserViewModel : ViewModel() {
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
-                        state.value = State.ERROR
-                        cashDepositDetails.value = result.value
+                        state.value = State.SUCCESS
+//                        cashDepositDetails.value = result.value
+                        mCallback.onSuccessGetCashDepositDetailsApiCall(result.value)
                     } else {
-                        cashDepositDetails.value = result.value
+//                        cashDepositDetails.value = result.value
                         state.value = State.ERROR
+                        mCallback.onFailureGetCashDepositDetailsApiCall(result.value.message!!)
                     }
                 }
                 is ApiResult.GenericError -> {
