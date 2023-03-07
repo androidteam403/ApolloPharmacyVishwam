@@ -5,6 +5,8 @@ class CashCloserList {
     var date: String? = null
     var status: String? = null
     var isExpanded: Boolean = false
+    var isUploaded: Boolean = false
+    var amount: String? = null
     var imageList: List<ImageData>? = null
 
     constructor(
@@ -12,15 +14,21 @@ class CashCloserList {
         date: String?,
         status: String?,
         imageList: List<ImageData>?,
+        amount: String?,
     ) {
         this.siteId = siteId
         this.date = date
         this.status = status
         this.imageList = imageList
+        this.amount = amount
     }
 
     fun setIsExpanded(expanded: Boolean) {
         isExpanded = expanded
+    }
+
+    fun setIsUploaded(uploaded: Boolean) {
+        isUploaded = uploaded
     }
 
 

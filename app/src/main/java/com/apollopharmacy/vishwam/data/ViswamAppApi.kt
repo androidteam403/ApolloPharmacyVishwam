@@ -3,6 +3,8 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -66,7 +68,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
-
 
 
     @POST
@@ -490,6 +491,18 @@ interface ViswamAppApi {
         @Url url: String,
         @Body data: EmployeeWishesRequest?,
     ): EmployeeWishesResponse
+
+    @GET("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
+    suspend fun getCashDepositDetails(
+        @Header("token") token: String,
+        @Query("SITEID") siteid: String,
+    ): CashDepositDetailsResponse
+
+    @POST("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")
+    suspend fun saveCashDepositDetails(
+        @Header("token") token: String,
+        @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
+    ): CashDepositDetailsResponse
 }
 
 

@@ -1,29 +1,36 @@
 package com.apollopharmacy.vishwam.ui.home.cashcloser.adapter
 
+import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DialogUploadCommentBinding
 import com.apollopharmacy.vishwam.databinding.QcCashCloserLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragmentCallback
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashCloserList
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.ImageData
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
+import com.bumptech.glide.Glide
+import java.text.DecimalFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class CashCloserPendingAdapter(
     val mContext: Context,
-    val list: ArrayList<CashCloserList>,
+    val cashDeposit: ArrayList<CashDepositDetailsResponse.Cashdeposit>,
     val mCallback: CashCloserFragmentCallback,
 ) :
     RecyclerView.Adapter<CashCloserPendingAdapter.ViewHolder>() {
-
-    var imagesAdapter: ImagesAdapter? = null
-    var filteredImags: ArrayList<ImageData>? = null
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -38,12 +45,81 @@ class CashCloserPendingAdapter(
         return ViewHolder(cashCloserLayoutBinding)
     }
 
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.cashCloserLayoutBinding.siteId.text = list[position].siteId
-        holder.cashCloserLayoutBinding.date.text = list[position].date
-        holder.cashCloserLayoutBinding.status.text = list[position].status
+        holder.cashCloserLayoutBinding.siteId.text = cashDeposit[position].siteid
+        holder.cashCloserLayoutBinding.dcId.text = cashDeposit[position].dcid
 
-        if (list[position].isExpanded) {
+        val closingDate = cashDeposit[position].closingdate
+        val date = LocalDate.parse(closingDate)
+        val formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy")
+        val formattedDate = date.format(formatter)
+        holder.cashCloserLayoutBinding.closingDate.text = formattedDate
+
+        holder.cashCloserLayoutBinding.amount.setText(DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
+            .toString())
+        holder.cashCloserLayoutBinding.remarks.setText(cashDeposit[position].remarks)
+
+        if (holder.cashCloserLayoutBinding.amountDeposit.text.toString().isEmpty()) {
+            holder.cashCloserLayoutBinding.amountDeposit.setText("0")
+        }
+
+
+        // image 1
+        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
+            holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash1.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
+            Glide.with(mContext)
+                .load(cashDeposit.get(position).imageurl)
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.cashCloserLayoutBinding.aftercapturedimage1)
+            holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
+        }
+
+
+        // image 2
+        holder.cashCloserLayoutBinding.plusSysmbol.setOnClickListener {
+            mCallback.addImage(cashDeposit.get(position).siteid!!, position)
+        }
+
+        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
+            holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
+            Glide.with(mContext)
+                .load(cashDeposit.get(position).imageurl)
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
+            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        if (
+//            holder.cashCloserLayoutBinding.aftercapturedimage1.drawable != null &&
+//            holder.cashCloserLayoutBinding.aftercapturedimage.drawable != null
+//        ) {
+//            holder.cashCloserLayoutBinding.status.text = "Completed"
+//            holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
+//        } else {
+//            holder.cashCloserLayoutBinding.status.text = "Pending"
+//            holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#EA0D0D"))
+//        }
+
+
+        if (cashDeposit[position].isExpanded) {
             holder.cashCloserLayoutBinding.arrow.visibility = View.GONE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.VISIBLE
             holder.cashCloserLayoutBinding.extraData.visibility = View.VISIBLE
@@ -54,23 +130,56 @@ class CashCloserPendingAdapter(
         }
 
         holder.cashCloserLayoutBinding.arrow.setOnClickListener {
-            mCallback.headrItemClickListener(list[position].siteId!!, position)
+            mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
 
         }
         holder.cashCloserLayoutBinding.arrowClose.setOnClickListener {
-            mCallback.headrItemClickListener(list[position].siteId!!, position)
+            mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
 
 
-        imagesAdapter =
-            ImagesAdapter(mContext, list[position].imageList as ArrayList<ImageData>, mCallback)
-        val layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false)
-        holder.cashCloserLayoutBinding.recyclerViewImages.adapter = imagesAdapter
-        holder.cashCloserLayoutBinding.recyclerViewImages.layoutManager = layoutManager
+        holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
+            mCallback.saveCashDepositDetails(
+                cashDeposit.get(position).siteid!!,
+                cashDeposit.get(position).imageurl!!,
+                cashDeposit.get(position).amount!!,
+                holder.cashCloserLayoutBinding.remarks.text.toString(),
+                cashDeposit.get(position).dcid!!,
+                LoginRepo.getProfile()!!.EMPID
+            )
+        }
+
+    }
+
+    private fun openDialog() {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        var dialogUploadCommentBinding: DialogUploadCommentBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.dialog_upload_comment,
+                null,
+                false
+            )
+        dialog.setContentView(dialogUploadCommentBinding.root)
+
+        dialogUploadCommentBinding.cancelButton.setOnClickListener {
+            dialog.dismiss()
+        }
+
+        dialogUploadCommentBinding.submitButton.setOnClickListener {
+            if (dialogUploadCommentBinding.commentText.text.toString().isEmpty()) {
+                Toast.makeText(mContext, "Please enter comment", Toast.LENGTH_LONG).show()
+            } else {
+                dialog.dismiss()
+            }
+        }
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     override fun getItemCount(): Int {
-        return list.size
+        return cashDeposit.size
     }
 
     class ViewHolder(val cashCloserLayoutBinding: QcCashCloserLayoutBinding) :

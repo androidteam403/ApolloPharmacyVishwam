@@ -540,8 +540,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
                 break;
 
-            case "Cash Closer":
-                headerText.setText("Cash Closer");
+            case "Cash Deposit":
+                headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
@@ -858,7 +858,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
-        listView.addHeaderModel(new HeaderModel("Cash Closer", Color.WHITE, false, R.drawable.ic_apollo_pending));
+        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(
@@ -940,8 +940,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (listHeader.get(groupPosition).getTitle().equals("Greetings to Chairman")) {
                 displaySelectedScreen("Greetings to Chairman");
                 drawer.closeDrawer(GravityCompat.START);
-            } else if (listHeader.get(groupPosition).getTitle().equals("Cash Closer")) {
-                displaySelectedScreen("Cash Closer");
+            } else if (listHeader.get(groupPosition).getTitle().equals("Cash Deposit")) {
+                displaySelectedScreen("Cash Deposit");
                 drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
                 displaySelectedScreen("Assets");
