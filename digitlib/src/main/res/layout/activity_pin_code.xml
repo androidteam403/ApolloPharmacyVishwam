@@ -25,7 +25,7 @@
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/app_name"
             android:layout_marginBottom="@dimen/pin_code_logo_margin"
-            android:src="@drawable/logo_vishwam"
+            android:src="@drawable/apollo_vishwam_logo"
             tools:visibility="visible" />
 
         <com.github.omadahealth.typefaceview.TypefaceTextView
