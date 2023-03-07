@@ -566,7 +566,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_10sp" />
+                                        android:textSize="12sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 

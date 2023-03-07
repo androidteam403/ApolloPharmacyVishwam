@@ -84,23 +84,16 @@ class CashCloserPendingAdapter(
             mCallback.addImage(cashDeposit.get(position).siteid!!, position)
         }
 
-        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
-            holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
-            holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
-            holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
-            Glide.with(mContext)
-                .load(cashDeposit.get(position).imageurl)
-                .placeholder(R.drawable.placeholder_image)
-                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
-            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
-        }
-
-
-
-
-
-
-
+//        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
+//            holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
+//            holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
+//            holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
+//            Glide.with(mContext)
+//                .load(cashDeposit.get(position).imageurl)
+//                .placeholder(R.drawable.placeholder_image)
+//                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
+//            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
+//        }
 
 
 
