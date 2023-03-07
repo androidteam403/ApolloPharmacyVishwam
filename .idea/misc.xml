@@ -3,11 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/cancel_button.xml" value="0.136" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/preview_image_dialog.xml" value="0.139" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/submit_button.xml" value="0.136" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/drawable/upload_button.xml" value="0.136" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/activity_create_pin.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/activity_greeting.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/capture_images_layout.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/dialog_delete.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/dialog_upload_comment.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_assets.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_cash_closer.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_drug.xml" value="0.21481481481481482" />
+        <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/fragment_registration.xml" value="0.18425925925925926" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/preview_image_dialog.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/qc_cash_closer_layout.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/qc_fragment_pending.xml" value="0.21851851851851853" />

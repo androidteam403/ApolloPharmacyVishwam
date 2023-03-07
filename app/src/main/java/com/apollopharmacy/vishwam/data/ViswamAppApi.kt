@@ -6,6 +6,8 @@ import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -527,6 +529,18 @@ interface ViswamAppApi {
     suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL_JSONBLOB(
         @Url url: String,
     ): SaveCategoryConfigurationDetailsResponse
+
+    @GET("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
+    suspend fun getCashDepositDetails(
+        @Header("token") token: String,
+        @Query("SITEID") siteid: String,
+    ): CashDepositDetailsResponse
+
+    @POST("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")
+    suspend fun saveCashDepositDetails(
+        @Header("token") token: String,
+        @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
+    ): CashDepositDetailsResponse
 }
 
 
