@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -24,6 +25,7 @@ import com.bumptech.glide.Glide
 import java.text.DecimalFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.stream.Collectors
 
 class CashCloserPendingAdapter(
     val mContext: Context,
@@ -48,6 +50,7 @@ class CashCloserPendingAdapter(
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         holder.cashCloserLayoutBinding.siteId.text = cashDeposit[position].siteid
         holder.cashCloserLayoutBinding.dcId.text = cashDeposit[position].dcid
 
@@ -97,33 +100,70 @@ class CashCloserPendingAdapter(
 
 
         // image 2
-        holder.cashCloserLayoutBinding.plusSysmbol1.setOnClickListener {
-            mCallback.addImage(cashDeposit.get(position).siteid!!, position)
+        if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl!!.equals(
+                "URL1")
+        ) {
+            holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash.visibility = View.GONE
+            holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
+            Glide.with(mContext)
+                .load(cashDeposit.get(position).imageurl)
+                .placeholder(R.drawable.placeholder_image)
+                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
+            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
+        } else if (cashDeposit.get(position).imagePathTwo != null) {
+            if (cashDeposit.get(position).imagePathTwo!!.exists()) {
+                val bitmap: Bitmap =
+                    BitmapFactory.decodeFile(cashDeposit.get(position).imagePathTwo!!.getAbsolutePath())
+                holder.cashCloserLayoutBinding.aftercapturedimage.setImageBitmap(bitmap)
+                holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
+            } else {
+                holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.GONE
+                holder.cashCloserLayoutBinding.redTrash.visibility = View.GONE
+                holder.cashCloserLayoutBinding.eyeImage.visibility = View.GONE
+            }
         }
 
-//        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
-//            holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
-//            holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
-//            holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
-//            Glide.with(mContext)
-//                .load(cashDeposit.get(position).imageurl)
-//                .placeholder(R.drawable.placeholder_image)
-//                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
-//            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
-//        }
 
+        // image 1
+        holder.cashCloserLayoutBinding.plusSysmbol1.setOnClickListener {
+            mCallback.addImage(cashDeposit.get(position).siteid!!, position, 1)
+        }
 
-//        if (
-//            holder.cashCloserLayoutBinding.aftercapturedimage1.drawable != null &&
-//            holder.cashCloserLayoutBinding.aftercapturedimage.drawable != null
-//        ) {
-//            holder.cashCloserLayoutBinding.status.text = "Completed"
-//            holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
-//        } else {
-//            holder.cashCloserLayoutBinding.status.text = "Pending"
-//            holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#EA0D0D"))
-//        }
+        // image 2
+        holder.cashCloserLayoutBinding.plusSysmbol.setOnClickListener {
+            mCallback.addImage(cashDeposit.get(position).siteid!!, position, 2)
+        }
 
+        holder.cashCloserLayoutBinding.redTrash1.setOnClickListener {
+            mCallback.deleteImage(cashDeposit.get(position).siteid!!, 1)
+        }
+
+        holder.cashCloserLayoutBinding.redTrash.setOnClickListener {
+            mCallback.deleteImage(cashDeposit.get(position).siteid!!, 2)
+        }
+
+        holder.cashCloserLayoutBinding.eyeImage1.setOnClickListener {
+            mCallback.previewImage(cashDeposit.get(position).imagePath!!, position)
+        }
+
+        holder.cashCloserLayoutBinding.eyeImage.setOnClickListener {
+            mCallback.previewImage(cashDeposit.get(position).imagePathTwo!!, position)
+        }
+
+        if (cashDeposit.get(position).isUploaded!!) {
+            holder.cashCloserLayoutBinding.uploadButton.visibility = View.GONE
+            holder.cashCloserLayoutBinding.redTrash1.visibility = View.GONE
+            holder.cashCloserLayoutBinding.redTrash.visibility = View.GONE
+        } else {
+            holder.cashCloserLayoutBinding.uploadButton.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash1.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
+        }
 
         if (cashDeposit[position].isExpanded) {
             holder.cashCloserLayoutBinding.arrow.visibility = View.GONE
@@ -145,16 +185,19 @@ class CashCloserPendingAdapter(
 
 
         holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
-            mCallback.saveCashDepositDetails(
-                cashDeposit.get(position).siteid!!,
-                cashDeposit.get(position).imageurl!!,
-                cashDeposit.get(position).amount!!,
-                holder.cashCloserLayoutBinding.remarks.text.toString(),
-                cashDeposit.get(position).dcid!!,
-                LoginRepo.getProfile()!!.EMPID
-            )
+            if (cashDeposit[position].imagePath != null && cashDeposit[position].imagePathTwo != null) {
+                mCallback.onClickUpload(
+                    cashDeposit.get(position).siteid!!,
+                    cashDeposit.get(position).imageurl!!,
+                    holder.cashCloserLayoutBinding.amountDeposit.text.toString(),
+                    cashDeposit.get(position).remarks!!,
+                    cashDeposit.get(position).dcid!!,
+                    LoginRepo.getProfile()!!.EMPID
+                )
+            } else {
+//                Toast.makeText(mContext, "Provide all info", Toast.LENGTH_SHORT).show()
+            }
         }
-
     }
 
     private fun openDialog() {

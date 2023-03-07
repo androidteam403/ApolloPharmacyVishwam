@@ -46,6 +46,10 @@ class CashDepositDetailsResponse {
 
         var imagePath: File? = null
 
+        var imagePathTwo: File? = null
+
+        var isUploaded: Boolean? = false
+
         fun setIsExpanded(expanded: Boolean) {
             isExpanded = expanded
         }

@@ -31,10 +31,8 @@ class CashCloserViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.SUCCESS
-//                        cashDepositDetails.value = result.value
                         mCallback.onSuccessGetCashDepositDetailsApiCall(result.value)
                     } else {
-//                        cashDepositDetails.value = result.value
                         state.value = State.ERROR
                         mCallback.onFailureGetCashDepositDetailsApiCall(result.value.message!!)
                     }
@@ -61,7 +59,7 @@ class CashCloserViewModel : ViewModel() {
         }
     }
 
-    fun saveCashDepositDetails(cashDepositDetailsRequest: CashDepositDetailsRequest) {
+    fun saveCashDepositDetails(cashDepositDetailsRequest: CashDepositDetailsRequest, mCallback: CashCloserFragmentCallback) {
         var token = "h72genrSSNFivOi/cfiX3A=="
 
         viewModelScope.launch {
@@ -72,11 +70,11 @@ class CashCloserViewModel : ViewModel() {
             when (result) {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
-                        state.value = State.ERROR
-                        cashDepositDetails.value = result.value
+                        state.value = State.SUCCESS
+                        mCallback.onSuccessSaveCashDepositDetailsApiCall(result.value)
                     } else {
-                        cashDepositDetails.value = result.value
                         state.value = State.ERROR
+                        mCallback.onFailureSaveCashDepositDetailsApiCall(result.value.message!!)
                     }
                 }
                 is ApiResult.GenericError -> {
