@@ -1004,6 +1004,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             }
             if (items!!.have_subworkflow != null) {
                 if (items!!.have_subworkflow == true) {
+                    binding.ticketResolveBtn.visibility = View.GONE
                     if (items!!.is_subworkflow_completed == true) {
                         binding.subWorkflowAcceptrejectLayout.visibility = View.GONE
                     } else {

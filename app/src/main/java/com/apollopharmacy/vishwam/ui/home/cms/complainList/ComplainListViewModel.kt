@@ -73,8 +73,10 @@ class ComplainListViewModel : ViewModel() {
             }
             baseUrl =
 //                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=498DA96C612D21956508945D24896C6D&emp_dept=64D9D9BE4A621E9C13A2C73404646655"
+                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"
 
-                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
+            // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
+            //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"// dept - 64D9D9BE4A621E9C13A2C73404646655  role - 498DA96C612D21956508945D24896C6D
 
         } else {
             for (i in data.APIS.indices) {
@@ -217,7 +219,7 @@ class ComplainListViewModel : ViewModel() {
             if (data.APIS[i].NAME.equals("CMS TICKETTRACKING")) {
                 baseUrl =
 //                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
-                data.APIS[i].URL
+                    data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -229,7 +231,7 @@ class ComplainListViewModel : ViewModel() {
 
                 RegistrationRepo.getDetails(proxyBaseUrl,
                     proxyToken,
-                    GetDetailsRequest(baseUrl+"?" + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
+                    GetDetailsRequest(baseUrl + "?" + "&page=" + requestTicketHistory.page + "&rows=" + requestTicketHistory.rows + "&ticket_uid=" + requestTicketHistory.dependents,
                         "GET",
                         "The",
                         "",
@@ -1177,7 +1179,7 @@ class ComplainListViewModel : ViewModel() {
             if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
                 baseUrL =
 //                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
-                data.APIS[i].URL
+                    data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -1250,7 +1252,8 @@ class ComplainListViewModel : ViewModel() {
         val subWorkflowAcceptRequestJson = Gson().toJson(subWorkflowAcceptRequest)
 
         val subWorkflowAcceptUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-update"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-update"
+        //"https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-update"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -1319,7 +1322,8 @@ class ComplainListViewModel : ViewModel() {
         val subWorkflowRejectRequestJson = Gson().toJson(subWorkflowRejectRequest)
 
         val subWorkflowRejectUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-reject"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-reject"
+        // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-reject"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
