@@ -4,17 +4,15 @@ import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRes
 import java.io.File
 
 interface CashCloserFragmentCallback {
-    fun addImage(siteId: String, imagePosition: Int)
+    fun addImage(siteId: String, imagePosition: Int, imageState: Int)
 
-    fun deleteImage(imagePosition: Int)
+    fun deleteImage(siteId: String, imageState: Int)
 
     fun previewImage(file: File, position: Int)
 
     fun headrItemClickListener(storeId: String, pos: Int)
 
-    fun uploadClicked(siteId: String, position: Int)
-
-    fun saveCashDepositDetails(
+    fun onClickUpload(
         siteid: String,
         imageurl: String,
         amount: String,
@@ -26,4 +24,8 @@ interface CashCloserFragmentCallback {
     fun onSuccessGetCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse)
 
     fun onFailureGetCashDepositDetailsApiCall(message: String)
+
+    fun onSuccessSaveCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse)
+
+    fun onFailureSaveCashDepositDetailsApiCall(message: String)
 }

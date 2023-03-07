@@ -14,20 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/refreshSwipe"
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewCashCloser"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewCashCloser"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="4"
-                    tools:listitem="@layout/qc_cash_closer_layout" />
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                android:layout_height="match_parent"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/qc_cash_closer_layout" />
 
             <RelativeLayout
                 android:id="@+id/emptyList"
@@ -46,6 +40,7 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/qca" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -60,9 +55,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminateTint="@color/backgroundColor"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

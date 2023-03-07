@@ -30,6 +30,7 @@ import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsReq
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.ImageData
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.adapter_getstorepersonhistory.*
 import java.io.File
 
 
@@ -38,7 +39,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     lateinit var cashCloserPendingAdapter: CashCloserPendingAdapter
-    val list = ArrayList<CashCloserList>()
 
     private var cashDepositDetailsList = ArrayList<CashDepositDetailsResponse.Cashdeposit>()
 
@@ -52,35 +52,17 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 
     override fun setup() {
         showLoading()
-        var siteId = Preferences.getSiteId()
-        Log.i("TAG", "siteID: $siteId")
-        viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
 
-//        viewModel.cashDepositDetails.observe(viewLifecycleOwner, {
-//            if (it.status == true) {
-//                if (!it.cashdeposit.isNullOrEmpty()) {
-//                    cashDepositDetailsList =
-//                        it.cashdeposit as ArrayList<CashDepositDetailsResponse.Cashdeposit>
-//
-//                    cashCloserPendingAdapter = CashCloserPendingAdapter(
-//                        requireContext(),
-//                        cashDepositDetailsList,
-//                        this
-//                    )
-//                    val linearLayoutManager = LinearLayoutManager(requireContext())
-//                    viewBinding.recyclerViewCashCloser.adapter = cashCloserPendingAdapter
-//                    viewBinding.recyclerViewCashCloser.layoutManager = linearLayoutManager
-//                }
-//            }
-//        })
+        viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
     }
 
     var imagePosition: Int = 0
     var siteId: String = ""
-
-    override fun addImage(siteId: String, imagePosition: Int) {
+    var imageState: Int = 0
+    override fun addImage(siteId: String, imagePosition: Int, imageState: Int) {
         this.imagePosition = imagePosition
         this.siteId = siteId
+        this.imageState = imageState
         if (!checkPermission()) {
             askPermissions(100)
             return
@@ -89,12 +71,15 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         }
     }
 
-    override fun deleteImage(imagePosition: Int) {
-        var data = list
-        for (i in list.indices) {
-            if (list[i].siteId == expandedItemSiteId) {
-                val imageList = data[i].imageList as ArrayList<ImageData>
-                imageList[imagePosition].file = null
+    override fun deleteImage(siteId: String, imageState: Int) {
+        var data = cashDepositDetailsList
+        for (i in data.indices) {
+            if (data[i].siteid == siteId) {
+                if (imageState == 1) {
+                    data.get(i).imagePath = null
+                } else {
+                    data.get(i).imagePathTwo = null
+                }
             }
         }
         cashCloserPendingAdapter.notifyDataSetChanged()
@@ -134,16 +119,8 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         cashCloserPendingAdapter.notifyDataSetChanged()
     }
 
-    override fun uploadClicked(siteId: String, position: Int) {
-        for (i in list.indices) {
-            if (list[i].siteId == siteId) {
-                list[i].isUploaded = true
-            }
-        }
-        cashCloserPendingAdapter.notifyDataSetChanged()
-    }
-
-    override fun saveCashDepositDetails(
+    var uploadedItemSiteId: String = ""
+    override fun onClickUpload(
         siteid: String,
         imageurl: String,
         amount: String,
@@ -151,6 +128,8 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         dcid: String,
         createdBy: String,
     ) {
+        showLoading()
+        uploadedItemSiteId = siteId
         val cashDepositDetailsRequest = CashDepositDetailsRequest()
         cashDepositDetailsRequest.siteid = siteid
         cashDepositDetailsRequest.imageurl = imageurl
@@ -159,8 +138,7 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         cashDepositDetailsRequest.dcid = dcid
         cashDepositDetailsRequest.createdby = createdBy
 
-        viewModel.saveCashDepositDetails(cashDepositDetailsRequest)
-
+        viewModel.saveCashDepositDetails(cashDepositDetailsRequest, this)
     }
 
     override fun onSuccessGetCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
@@ -181,6 +159,27 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     }
 
     override fun onFailureGetCashDepositDetailsApiCall(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessSaveCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
+        hideLoading()
+        Toast.makeText(context, "Save success", Toast.LENGTH_SHORT).show()
+
+        if (cashDepositDetailsResponse != null && cashDepositDetailsResponse.cashdeposit != null && cashDepositDetailsResponse.cashdeposit!!.size > 0) {
+            viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
+        }
+
+        for (i in cashDepositDetailsList.indices) {
+            if (cashDepositDetailsList.get(i).siteid == uploadedItemSiteId) {
+                cashDepositDetailsList.get(i).isUploaded = true
+            }
+        }
+        cashCloserPendingAdapter.notifyDataSetChanged()
+    }
+
+    override fun onFailureSaveCashDepositDetailsApiCall(message: String) {
         hideLoading()
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
@@ -217,7 +216,11 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 //                    i.setImageUrl(captureImageUrl)
 //                }
 //            }
-            cashDepositDetailsList.get(imagePosition).imagePath = imageFile
+            if (imageState == 1) {
+                cashDepositDetailsList.get(imagePosition).imagePath = imageFile
+            } else {
+                cashDepositDetailsList.get(imagePosition).imagePathTwo = imageFile
+            }
 
             cashCloserPendingAdapter!!.notifyDataSetChanged()
 
