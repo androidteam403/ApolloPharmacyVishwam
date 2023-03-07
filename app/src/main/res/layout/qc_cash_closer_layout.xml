@@ -304,7 +304,7 @@
                                 tools:ignore="Orientation">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_centerInParent="true"
                                     android:orientation="vertical">
@@ -531,8 +531,8 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:layout_weight="2">
+                            android:layout_weight="2"
+                            android:gravity="center_vertical|center_horizontal">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -545,25 +545,22 @@
                                     android:layout_height="wrap_content"
                                     android:text="Amount Deposit"
                                     android:textColor="@color/black"
-                                    android:textStyle="bold"
-                                    android:textSize="8sp"/>
+                                    android:textSize="@dimen/dimen11sp"
+                                    android:textStyle="bold" />
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="60dp"
+                                    android:layout_width="@dimen/value_50dp"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
                                     app:layout_constraintTop_toTopOf="parent">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/amountDeposit"
-                                        android:layout_width="60dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:clickable="true"
                                         android:gravity="center"
                                         android:inputType="number"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
                                         android:textSize="12sp" />
@@ -571,13 +568,16 @@
                             </LinearLayout>
 
 
-                            <androidx.appcompat.widget.AppCompatButton
+                            <TextView
                                 android:id="@+id/upload_button"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginStart="@dimen/value_8dp"
+                                android:layout_marginStart="@dimen/value_5dp"
                                 android:background="@drawable/upload_button"
+                                android:paddingStart="@dimen/value_10dp"
+                                android:paddingTop="@dimen/value_5dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:paddingBottom="@dimen/value_5dp"
                                 android:text="UPLOAD"
                                 android:textColor="#ffffff"
                                 android:textSize="12sp"

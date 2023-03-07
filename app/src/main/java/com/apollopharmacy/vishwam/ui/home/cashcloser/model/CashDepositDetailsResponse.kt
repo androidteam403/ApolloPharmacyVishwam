@@ -44,6 +44,8 @@ class CashDepositDetailsResponse {
 
         var isExpanded: Boolean = false
 
+        var imagePath: File? = null
+
         fun setIsExpanded(expanded: Boolean) {
             isExpanded = expanded
         }
@@ -51,6 +53,7 @@ class CashDepositDetailsResponse {
         fun setImageUrl(imageurl: String) {
             this.imageurl = imageurl
         }
+
 
     }
 }

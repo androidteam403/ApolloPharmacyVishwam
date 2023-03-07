@@ -3,6 +3,9 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
@@ -491,6 +494,41 @@ interface ViswamAppApi {
         @Url url: String,
         @Body data: EmployeeWishesRequest?,
     ): EmployeeWishesResponse
+
+
+    //champs admin
+    @GET
+    suspend fun GET_CATEGORY_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): GetCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): GetCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): GetSubCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): GetSubCategoryDetailsResponse
+
+    @GET
+    suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): SaveCategoryConfigurationDetailsResponse
+
+    @GET
+    suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): SaveCategoryConfigurationDetailsResponse
 
     @GET("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
     suspend fun getCashDepositDetails(

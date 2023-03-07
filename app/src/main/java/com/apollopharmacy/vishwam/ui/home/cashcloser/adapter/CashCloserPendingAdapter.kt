@@ -3,7 +3,8 @@ package com.apollopharmacy.vishwam.ui.home.cashcloser.adapter
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.DialogUploadCommentBinding
 import com.apollopharmacy.vishwam.databinding.QcCashCloserLayoutBinding
@@ -67,20 +67,37 @@ class CashCloserPendingAdapter(
 
 
         // image 1
-        if (cashDeposit.get(position).imageurl!!.isNotEmpty()) {
+        if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl!!.equals(
+                "URL1")
+        ) {
             holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
-            holder.cashCloserLayoutBinding.redTrash1.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.redTrash1.visibility = View.GONE
             holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
             Glide.with(mContext)
                 .load(cashDeposit.get(position).imageurl)
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.cashCloserLayoutBinding.aftercapturedimage1)
             holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
+        } else if (cashDeposit.get(position).imagePath != null) {
+            if (cashDeposit.get(position).imagePath!!.exists()) {
+                val myBitmap: Bitmap =
+                    BitmapFactory.decodeFile(cashDeposit.get(position).imagePath!!.getAbsolutePath())
+                holder.cashCloserLayoutBinding.aftercapturedimage1.setImageBitmap(myBitmap)
+                holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.redTrash1.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
+                holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
+            }
+        } else {
+            holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.GONE
+            holder.cashCloserLayoutBinding.redTrash1.visibility = View.GONE
+            holder.cashCloserLayoutBinding.eyeImage1.visibility = View.GONE
         }
 
 
         // image 2
-        holder.cashCloserLayoutBinding.plusSysmbol.setOnClickListener {
+        holder.cashCloserLayoutBinding.plusSysmbol1.setOnClickListener {
             mCallback.addImage(cashDeposit.get(position).siteid!!, position)
         }
 
@@ -94,10 +111,6 @@ class CashCloserPendingAdapter(
 //                .into(holder.cashCloserLayoutBinding.aftercapturedimage)
 //            holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
 //        }
-
-
-
-
 
 
 //        if (

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{model.subCategoryName}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/value_1dp"
+                    android:paddingRight="@dimen/value_1dp">
+
+                    <com.apollopharmacy.vishwam.ui.home.champs.FloatSeekBar
+                        android:id="@+id/seekbar"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:min="0"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_progress_style"
+                        android:thumb="@android:color/transparent" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginHorizontal="@dimen/value_20dp"
+                        android:weightSum="4">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Max. : "
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <TextView
+                            android:id="@+id/max_rating"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{String.valueOf(model.rating)}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_14sp" />
+
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="0"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center_horizontal"-->
+<!--                            android:text="2"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="center_horizontal"-->
+<!--                            android:text="3"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold" />-->
+
+<!--                        <TextView-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:gravity="end"-->
+<!--                            android:text="5"-->
+<!--                            android:textColor="@color/black"-->
+<!--                            android:textSize="@dimen/text_13sp"-->
+<!--                            android:textStyle="bold" />-->
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/cleanliness_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:layout_weight="0.1"
+                    android:gravity="center">
+
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:layout_marginStart="@dimen/value_5dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> mCallback.onClickEditSubCategoryRatingRange(model, position)}"
+                        android:src="@drawable/p_blue_edit" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse.SubCategoryDetails" />
+
+        <variable
+            name="mCallback"
+            type="com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleCallBack" />
+
+        <variable
+            name="position"
+            type="Integer" />
+    </data>
+</layout>
