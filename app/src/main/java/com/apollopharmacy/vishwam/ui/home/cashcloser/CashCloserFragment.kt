@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
@@ -23,6 +25,7 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.CashDepositConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.FragmentCashCloserBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.adapter.CashCloserPendingAdapter
@@ -135,21 +138,34 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         createdBy: String,
     ) {
         showLoading()
+
         var capturedImageUrl: String? = null
         var capturedImageUrlTwo: String? = null
         var url: String? = null
+        uploadedItemSiteId = siteId
 
         val thread = Thread {
             try {
-                capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl!!,
-                    "${System.currentTimeMillis()}.jpg")
 
-                capturedImageUrlTwo = CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo!!,
-                    "${System.currentTimeMillis()}.jpg")
+                if (imageurl != null && imageurlTwo != null) {
+                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl,
+                        "${System.currentTimeMillis()}.jpg")
 
-                url = "$capturedImageUrl,$capturedImageUrlTwo"
+                    capturedImageUrlTwo =
+                        CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo,
+                            "${System.currentTimeMillis()}.jpg")
 
-                uploadedItemSiteId = siteId
+                    url = "$capturedImageUrl,$capturedImageUrlTwo"
+                } else if (imageurl != null) {
+                    capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl,
+                        "${System.currentTimeMillis()}.jpg")
+                    url = capturedImageUrl
+                } else {
+                    capturedImageUrlTwo =
+                        CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo!!,
+                            "${System.currentTimeMillis()}.jpg")
+                    url = capturedImageUrlTwo
+                }
 
                 val cashDepositDetailsRequest = CashDepositDetailsRequest()
                 cashDepositDetailsRequest.siteid = siteid
@@ -158,7 +174,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
                 cashDepositDetailsRequest.remarks = remarks
                 cashDepositDetailsRequest.dcid = dcid
                 cashDepositDetailsRequest.createdby = createdBy
-
                 viewModel.saveCashDepositDetails(cashDepositDetailsRequest, this@CashCloserFragment)
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -193,7 +208,22 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         hideLoading()
 
         if (cashDepositDetailsResponse.status == true) {
+            val dialog = Dialog(requireContext())
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val cashDepositConfirmDialog: CashDepositConfirmDialogBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(requireContext()),
+                R.layout.cash_deposit_confirm_dialog,
+                null,
+                false
+            )
+            dialog.setContentView(cashDepositConfirmDialog.root)
+            cashDepositConfirmDialog.okButton.setOnClickListener {
             viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
+                dialog.dismiss()
+            }
+            dialog.setCancelable(false)
+            dialog.show()
         }
     }
 

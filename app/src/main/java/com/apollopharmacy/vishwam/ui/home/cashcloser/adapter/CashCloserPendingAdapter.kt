@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.DialogUploadCommentBinding
 import com.apollopharmacy.vishwam.databinding.QcCashCloserLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragmentCallback
@@ -32,8 +34,6 @@ class CashCloserPendingAdapter(
     val mCallback: CashCloserFragmentCallback,
 ) :
     RecyclerView.Adapter<CashCloserPendingAdapter.ViewHolder>() {
-
-    var isClicked: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -64,9 +64,9 @@ class CashCloserPendingAdapter(
             .toString())
         holder.cashCloserLayoutBinding.remarks.setText(cashDeposit[position].remarks)
 
-        if (holder.cashCloserLayoutBinding.amountDeposit.text.toString().isEmpty()) {
-            holder.cashCloserLayoutBinding.amountDeposit.setText("0")
-        }
+//        if (holder.cashCloserLayoutBinding.amountDeposit.text.toString().isEmpty()) {
+//            holder.cashCloserLayoutBinding.amountDeposit.setText("0")
+//        }
 
 
         // image 1
@@ -172,11 +172,13 @@ class CashCloserPendingAdapter(
         }
 
         holder.cashCloserLayoutBinding.redTrash1.setOnClickListener {
-            mCallback.deleteImage(position, 1)
+            confirmDialog(position, 1)
+//            mCallback.deleteImage(position, 1)
         }
 
         holder.cashCloserLayoutBinding.redTrash.setOnClickListener {
-            mCallback.deleteImage(position, 2)
+            confirmDialog(position, 2)
+//            mCallback.deleteImage(position, 2)
         }
 
         holder.cashCloserLayoutBinding.eyeImage1.setOnClickListener {
@@ -230,9 +232,9 @@ class CashCloserPendingAdapter(
         }
 
 
-        if (cashDeposit[position].imagePath != null && cashDeposit[position].imagePathTwo != null) {
+        if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
             cashDeposit.get(position).setIsClicked(true)
-        } else if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
+        } else if (cashDeposit[position].imagePath == null || cashDeposit[position].imagePathTwo == null) {
             cashDeposit.get(position).setIsClicked(false)
         }
 
@@ -243,16 +245,35 @@ class CashCloserPendingAdapter(
         }
 
         holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
-
-            if (cashDeposit[position].imagePath != null && cashDeposit[position].imagePathTwo != null && cashDeposit.get(
-                    position).isClicked!!
-            ) {
-                openDialog(position, holder.cashCloserLayoutBinding.amountDeposit.text.toString())
+            if (cashDeposit.get(position).isClicked!!) {
+                openDialog(position)
             }
         }
     }
 
-    private fun openDialog(position: Int, amount: String) {
+    private fun confirmDialog(position: Int, imageState: Int) {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val deleteConfirmDialogBinding: DeleteConfirmDialogBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(mContext),
+            R.layout.delete_confirm_dialog,
+            null,
+            false
+        )
+        dialog.setContentView(deleteConfirmDialogBinding.root)
+        deleteConfirmDialogBinding.noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        deleteConfirmDialogBinding.yesButton.setOnClickListener {
+            mCallback.deleteImage(position, imageState)
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+    private fun openDialog(position: Int) {
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         var dialogUploadCommentBinding: DialogUploadCommentBinding =
@@ -276,7 +297,7 @@ class CashCloserPendingAdapter(
                     cashDeposit.get(position).siteid!!,
                     cashDeposit.get(position).imagePath,
                     cashDeposit.get(position).imagePathTwo,
-                    amount,
+                    dialogUploadCommentBinding.cashDepositText.text.toString(),
                     dialogUploadCommentBinding.commentText.text.toString(),
                     cashDeposit.get(position).dcid!!,
                     LoginRepo.getProfile()!!.EMPID
