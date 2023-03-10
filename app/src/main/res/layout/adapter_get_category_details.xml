@@ -99,7 +99,7 @@
                             android:layout_marginStart="@dimen/value_10dp"
                             android:background="@drawable/blue_circle"
                             android:contentDescription="@string/app_name"
-                            android:onClick="@{()-> mCallback.onClickEditOverall(model)}"
+                            android:onClick="@{()-> mCallback.onClickEditOverall(model, sumOfSubCategoryMaxRatings, position)}"
                             android:padding="@dimen/value_5dp"
                             android:src="@drawable/white_pencil" />
 

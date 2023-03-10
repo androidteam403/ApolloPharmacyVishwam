@@ -42,5 +42,7 @@ class GetCategoryDetailsResponse {
         var modifiedDate: String? = null
 
         var isItemExpanded: Boolean? = false
+
+        var sumOfSubCategoryRating: Double = 0.0
     }
 }

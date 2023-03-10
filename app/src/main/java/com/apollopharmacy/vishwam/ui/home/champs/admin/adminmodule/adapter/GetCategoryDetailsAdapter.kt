@@ -35,13 +35,14 @@ class GetCategoryDetailsAdapter(
         holder.adapterGetCategoryDetailsBinding.mCallback = mCallback
         holder.adapterGetCategoryDetailsBinding.position = "${position + 1}"
         holder.adapterGetCategoryDetailsBinding.isItemExpanded = getCategoryDetails.isItemExpanded
+        var sumOfSubCategoryMaxRating = 0.0
         if (subCategoryDetailsList != null && subCategoryDetailsList!!.size > 0) {
-            var sumOfSubCategoryMaxRating = 0.0
             for (i in subCategoryDetailsList!!) {
                 sumOfSubCategoryMaxRating = sumOfSubCategoryMaxRating + i.rating!!.toDouble()
             }
+            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
             holder.adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
-                sumOfSubCategoryMaxRating
+                getCategoryDetails.sumOfSubCategoryRating
 
             var getSubCategoryDetailsAdapter =
                 GetSubCategoryDetailsAdapter(subCategoryDetailsList!!,
@@ -53,6 +54,10 @@ class GetCategoryDetailsAdapter(
                 layoutManager
             holder.adapterGetCategoryDetailsBinding.getSubCategoryDetailsRecyclerview.adapter =
                 getSubCategoryDetailsAdapter
+        }else{
+            getCategoryDetails.sumOfSubCategoryRating = sumOfSubCategoryMaxRating
+            holder.adapterGetCategoryDetailsBinding.sumOfSubCategoryMaxRatings =
+                getCategoryDetails.sumOfSubCategoryRating
         }
 
     }

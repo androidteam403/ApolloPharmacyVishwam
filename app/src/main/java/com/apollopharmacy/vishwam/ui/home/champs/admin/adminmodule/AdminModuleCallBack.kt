@@ -10,7 +10,11 @@ interface AdminModuleCallBack {
 
     fun onClickEdit()
 
-    fun onClickEditOverall(categoryDetails: GetCategoryDetailsResponse.CategoryDetails)
+    fun onClickEditOverall(
+        categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
+        sumOfSubCategoryMaxRatings: Double,
+        categoryPos: String,
+    )
 
     fun onClickEditOverallHospitality()
 
