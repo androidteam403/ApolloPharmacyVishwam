@@ -5,6 +5,7 @@ import android.content.Context
 import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse
 
 class CommonUtils {
+
     protected var mProgressDialog: ProgressDialog? = null
 
     protected   var historydatatranseferredarray=ArrayList<NewTicketHistoryResponse.Row>()

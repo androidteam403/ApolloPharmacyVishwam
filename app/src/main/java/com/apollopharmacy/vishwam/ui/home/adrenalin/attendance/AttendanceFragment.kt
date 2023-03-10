@@ -13,6 +13,7 @@ import android.graphics.drawable.ColorDrawable
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION_CODES.TIRAMISU
 import android.provider.MediaStore
 import android.view.View
 import android.widget.*
@@ -704,8 +705,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 //        )
 //    }
 
+    @SuppressLint("ObsoleteSdkInt")
     private fun checkPermission(): Boolean {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        return if (Build.VERSION.SDK_INT >= TIRAMISU) {
             ContextCompat.checkSelfPermission(
                 requireContext(), Manifest.permission.CAMERA
             ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
@@ -727,7 +729,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     private fun askPermissions(PermissonCode: Int) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        if (Build.VERSION.SDK_INT >= TIRAMISU) {
             requestPermissions(
                 arrayOf(
                     Manifest.permission.READ_MEDIA_AUDIO,
