@@ -22,16 +22,21 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentCashCloserBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.adapter.CashCloserPendingAdapter
+import com.apollopharmacy.vishwam.ui.home.cashcloser.cashdepositbolbstorage.CashDepositBlobStorage
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashCloserList
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.ImageData
+import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
+import com.apollopharmacy.vishwam.ui.home.greeting.wishesblobstorage.EmployeeWishesBlobStorage
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.adapter_getstorepersonhistory.*
 import java.io.File
+import java.lang.reflect.InvocationTargetException
 
 
 class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserBinding>(),
@@ -41,7 +46,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     lateinit var cashCloserPendingAdapter: CashCloserPendingAdapter
 
     private var cashDepositDetailsList = ArrayList<CashDepositDetailsResponse.Cashdeposit>()
-
 
     override val layoutRes: Int
         get() = R.layout.fragment_cash_closer
@@ -71,21 +75,21 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         }
     }
 
-    override fun deleteImage(siteId: String, imageState: Int) {
-        var data = cashDepositDetailsList
-        for (i in data.indices) {
-            if (data[i].siteid == siteId) {
+    override fun deleteImage(position: Int, imageState: Int) {
+
+        for (i in cashDepositDetailsList) {
+            if (cashDepositDetailsList.indexOf(i) == position) {
                 if (imageState == 1) {
-                    data.get(i).imagePath = null
-                } else {
-                    data.get(i).imagePathTwo = null
+                    i.imagePath = null
+                } else if (imageState == 2) {
+                    i.imagePathTwo = null
                 }
             }
         }
         cashCloserPendingAdapter.notifyDataSetChanged()
     }
 
-    override fun previewImage(file: File, position: Int) {
+    override fun previewImage(file: String, position: Int) {
         var dialog = Dialog(requireContext(), android.R.style.Theme_Black_NoTitleBar_Fullscreen)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         var previewImageDialogBinding: PreviewImageDialogBinding = DataBindingUtil.inflate(
@@ -97,7 +101,7 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         dialog.setContentView(previewImageDialogBinding.root)
         Glide
             .with(requireContext())
-            .load(file.toString())
+            .load(file)
             .placeholder(R.drawable.placeholder_image)
             .into(previewImageDialogBinding.previewImage)
         previewImageDialogBinding.close.setOnClickListener {
@@ -120,25 +124,47 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
     }
 
     var uploadedItemSiteId: String = ""
+
     override fun onClickUpload(
         siteid: String,
-        imageurl: String,
+        imageurl: File?,
+        imageurlTwo: File?,
         amount: String,
         remarks: String,
         dcid: String,
         createdBy: String,
     ) {
         showLoading()
-        uploadedItemSiteId = siteId
-        val cashDepositDetailsRequest = CashDepositDetailsRequest()
-        cashDepositDetailsRequest.siteid = siteid
-        cashDepositDetailsRequest.imageurl = imageurl
-        cashDepositDetailsRequest.amount = amount
-        cashDepositDetailsRequest.remarks = remarks
-        cashDepositDetailsRequest.dcid = dcid
-        cashDepositDetailsRequest.createdby = createdBy
+        var capturedImageUrl: String? = null
+        var capturedImageUrlTwo: String? = null
+        var url: String? = null
 
-        viewModel.saveCashDepositDetails(cashDepositDetailsRequest, this)
+        val thread = Thread {
+            try {
+                capturedImageUrl = CashDepositBlobStorage.captureImageBlobStorage(imageurl!!,
+                    "${System.currentTimeMillis()}.jpg")
+
+                capturedImageUrlTwo = CashDepositBlobStorage.captureImageBlobStorage(imageurlTwo!!,
+                    "${System.currentTimeMillis()}.jpg")
+
+                url = "$capturedImageUrl,$capturedImageUrlTwo"
+
+                uploadedItemSiteId = siteId
+
+                val cashDepositDetailsRequest = CashDepositDetailsRequest()
+                cashDepositDetailsRequest.siteid = siteid
+                cashDepositDetailsRequest.imageurl = url
+                cashDepositDetailsRequest.amount = amount
+                cashDepositDetailsRequest.remarks = remarks
+                cashDepositDetailsRequest.dcid = dcid
+                cashDepositDetailsRequest.createdby = createdBy
+
+                viewModel.saveCashDepositDetails(cashDepositDetailsRequest, this@CashCloserFragment)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        thread.start()
     }
 
     override fun onSuccessGetCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
@@ -165,18 +191,10 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
 
     override fun onSuccessSaveCashDepositDetailsApiCall(cashDepositDetailsResponse: CashDepositDetailsResponse) {
         hideLoading()
-        Toast.makeText(context, "Save success", Toast.LENGTH_SHORT).show()
 
-        if (cashDepositDetailsResponse != null && cashDepositDetailsResponse.cashdeposit != null && cashDepositDetailsResponse.cashdeposit!!.size > 0) {
+        if (cashDepositDetailsResponse.status == true) {
             viewModel.getCashDepositDetails("14068", this@CashCloserFragment)
         }
-
-        for (i in cashDepositDetailsList.indices) {
-            if (cashDepositDetailsList.get(i).siteid == uploadedItemSiteId) {
-                cashDepositDetailsList.get(i).isUploaded = true
-            }
-        }
-        cashCloserPendingAdapter.notifyDataSetChanged()
     }
 
     override fun onFailureSaveCashDepositDetailsApiCall(message: String) {
@@ -206,16 +224,6 @@ class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserB
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null && resultCode == Activity.RESULT_OK) {
 
-//            val captureImageUrl = CashDepositBlobStorage.captureImageBlobStorage(
-//                imageFile!!,
-//                "${Preferences.getValidatedEmpId()}_p.jpg"
-//            )
-
-//            for (i in cashDepositDetailsList) {
-//                if (i.siteid.equals(siteId)) {
-//                    i.setImageUrl(captureImageUrl)
-//                }
-//            }
             if (imageState == 1) {
                 cashDepositDetailsList.get(imagePosition).imagePath = imageFile
             } else {
