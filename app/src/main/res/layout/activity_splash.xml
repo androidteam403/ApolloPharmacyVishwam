@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/apollo_vishwam_bg">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -16,11 +17,11 @@
 
             <ImageView
                 android:id="@+id/image_app_logo"
-                android:layout_width="@dimen/value_140dp"
-                android:layout_height="@dimen/value_140dp"
+                android:layout_width="@dimen/value_115dp"
+                android:layout_height="@dimen/value_115dp"
                 android:layout_centerInParent="true"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/logo_vishwam" />
+                android:src="@drawable/apollo_vishwam_logo_new" />
 
             <TextView
                 android:id="@+id/end_to_end"

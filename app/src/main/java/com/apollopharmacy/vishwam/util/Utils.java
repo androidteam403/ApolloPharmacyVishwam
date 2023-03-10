@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
@@ -12,9 +13,22 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextUtils;
+import android.text.style.RelativeSizeSpan;
+import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.transition.Slide;
+import androidx.transition.Transition;
+import androidx.transition.TransitionManager;
 
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
@@ -29,17 +43,50 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class Utils {
-
+    public static String ORDER_DETAILS_RESPONSE = "ORDER_DETAILS_RESPONSE";
+    public static String CURRENT_SCREEN = "";
+    public static int NOTIFICATIONS_COUNT = 0;
+    public static boolean is_order_delivery_screen = false;
+    public static boolean isIs_order_delivery_or_track_map_screen = false;
+    public static final int ONLINE_PAYMENT_ACTIVITY = 151;
+    public static String selectedTab = "";
+    public static boolean isMyOrdersListApiCall = false;
     public static final boolean IS_LOG_ENABLED = true;
 
     public  static  ArrayList<NewTicketHistoryResponse.Row> historytransferredarray=new ArrayList<>();
-
+    public static SpannableString convertSpannableStringSizes(Context context, String defaultStr, String resultCnt, String resultsTxt, String inputSearchTxt,
+                                                              float headerSize, float descSize, int font) {
+        Typeface typeface = ResourcesCompat.getFont(context, font);
+        SpannableString stringDefault = new SpannableString(defaultStr);
+        stringDefault.setSpan(new RelativeSizeSpan(descSize), 0, stringDefault.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString stringResultCnt = new SpannableString(resultCnt);
+        stringResultCnt.setSpan(new RelativeSizeSpan(headerSize), 0, stringResultCnt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        stringResultCnt.setSpan(new StyleSpan(typeface.getStyle()), 0, stringResultCnt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString stringResultsTxt = new SpannableString(resultsTxt);
+        stringResultsTxt.setSpan(new RelativeSizeSpan(descSize), 0, stringResultsTxt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableString stringSearchTxt = new SpannableString(inputSearchTxt);
+        stringSearchTxt.setSpan(new RelativeSizeSpan(headerSize), 0, stringSearchTxt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        stringSearchTxt.setSpan(new StyleSpan(typeface.getStyle()), 0, stringSearchTxt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return new SpannableString(TextUtils.concat(stringDefault, stringResultCnt, stringResultsTxt, stringSearchTxt));
+    }
     public static void printMessage(String tag, String message) {
         if (IS_LOG_ENABLED) {
             Log.e(tag, message);
         }
     }
-
+    public static String getCurrentDateTimeMSUnique() {
+        Date dNow = new Date();
+        java.text.SimpleDateFormat ft = new java.text.SimpleDateFormat("mmss");
+        String datetime = ft.format(dNow);
+        return datetime;
+    }
+    public static String getCurrentTime() {
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("hh:mm a", Locale.ENGLISH);
+        return dateFormat.format(new Date()).toString();
+    }
+    public static String getCurrentTimeDate() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+    }
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.show();
@@ -52,7 +99,13 @@ public class Utils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
-
+    public static void showTextDownAnimation(int targetId, LinearLayout parentLayout, TextView childText) {
+        Transition transition = new Slide(Gravity.TOP);
+        transition.setDuration(1000);
+        transition.addTarget(targetId);
+        TransitionManager.beginDelayedTransition(parentLayout, transition);
+        childText.setVisibility(View.VISIBLE);
+    }
     public static String getCurrentDate() {
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -60,7 +113,9 @@ public class Utils {
         }
         return currDate;
     }
-
+    public static String getTodayDate() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+    }
     public static String getOneWeekBackDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
@@ -318,9 +373,9 @@ public class Utils {
         return convertedDate;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
+
     public static int getDateDifference(String fromDate, String toDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
 
@@ -457,7 +512,7 @@ public class Utils {
         String maskedStr = "";
         for (char c : employeeID.toCharArray()) {
             if (Character.isLetter(c)) {
-                maskedStr = maskedStr + "" + Character.toUpperCase(c);
+              //  maskedStr = maskedStr + "" + Character.toUpperCase(c);
             } else {
                 maskedStr = maskedStr + "X";
             }

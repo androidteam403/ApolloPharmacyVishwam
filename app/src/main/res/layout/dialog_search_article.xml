@@ -63,7 +63,6 @@
                 android:id="@+id/searchSiteText"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_50dp"
-                android:hint="@string/label_search_article"
                 android:inputType="text"
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
