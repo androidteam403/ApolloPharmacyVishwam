@@ -32,7 +32,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
 
                         <RelativeLayout
                             android:id="@+id/siteId_layout"
@@ -265,7 +266,8 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp">
 
                         <TextView
                             android:layout_width="wrap_content"
