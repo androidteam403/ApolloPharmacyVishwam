@@ -58,6 +58,11 @@ class CashDepositDetailsResponse {
             this.imageurl = imageurl
         }
 
+        var isClicked: Boolean? = false
+
+        fun setIsClicked(clicked: Boolean) {
+            isClicked = clicked
+        }
 
     }
 }

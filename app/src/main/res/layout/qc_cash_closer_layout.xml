@@ -117,6 +117,32 @@
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight=".10"
+                            android:gravity="center_vertical"
+                            android:paddingRight="15dp">
+
+                            <ImageView
+                                android:id="@+id/arrowClose"
+                                android:layout_width="@dimen/text_22sp"
+                                android:layout_height="@dimen/text_22sp"
+                                android:rotation="90"
+                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                                android:visibility="gone"
+                                app:tint="#606f6a" />
+
+                            <ImageView
+                                android:id="@+id/arrow"
+                                android:layout_width="@dimen/text_22sp"
+                                android:layout_height="@dimen/text_22sp"
+                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                                android:visibility="visible"
+                                app:tint="#606f6a" />
+
+                        </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -153,7 +179,7 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.24"
+                            android:layout_weight="0.40"
                             android:gravity="start">
 
                             <TextView
@@ -189,31 +215,6 @@
                                 android:textStyle="bold" />
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight=".10"
-                            android:gravity="end"
-                            android:paddingRight="15dp">
-
-                            <ImageView
-                                android:id="@+id/arrowClose"
-                                android:layout_width="@dimen/text_22sp"
-                                android:layout_height="@dimen/text_22sp"
-                                android:rotation="90"
-                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                                android:visibility="gone"
-                                app:tint="#606f6a" />
-
-                            <ImageView
-                                android:id="@+id/arrow"
-                                android:layout_width="@dimen/text_22sp"
-                                android:layout_height="@dimen/text_22sp"
-                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                                android:visibility="visible"
-                                app:tint="#606f6a" />
-
-                        </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
@@ -226,7 +227,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="start">
-
 
                             <TextView
                                 android:id="@+id/remarksText"
@@ -258,7 +258,7 @@
                     android:layout_height="wrap_content"
                     android:background="#DCEDE7"
                     android:orientation="vertical"
-                    android:paddingStart="5dp"
+                    android:paddingStart="@dimen/value_10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
                     android:visibility="gone">
@@ -282,15 +282,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="4">
+                        android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
+                            android:layout_width="110dp"
                             android:layout_height="@dimen/value_100dp"
                             android:layout_marginEnd="@dimen/value_5dp"
                             android:layout_marginBottom="@dimen/value_5dp"
-                            android:layout_weight="1"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="@dimen/value_10dp"
                             app:cardElevation="@dimen/value_5dp">
@@ -361,7 +359,6 @@
                                     android:layout_height="match_parent"
                                     android:alpha="0.5"
                                     android:contentDescription="@string/app_name"
-
                                     android:scaleType="fitXY"
                                     android:src="@drawable/capture" />
 
@@ -406,11 +403,12 @@
                         </androidx.cardview.widget.CardView>
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="0dp"
+                            android:id="@+id/second_image_Layout"
+                            android:layout_width="110dp"
                             android:layout_height="@dimen/value_100dp"
                             android:layout_marginEnd="@dimen/value_5dp"
                             android:layout_marginBottom="@dimen/value_5dp"
-                            android:layout_weight="1"
+                            android:visibility="visible"
                             app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="@dimen/value_10dp"
                             app:cardElevation="@dimen/value_5dp">
@@ -466,7 +464,6 @@
                                         android:padding="3dp"
                                         android:src="@drawable/plus" />
                                 </LinearLayout>
-
 
                             </RelativeLayout>
 
@@ -529,43 +526,12 @@
 
 
                         <LinearLayout
+                            android:id="@+id/amount_layout"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="2"
-                            android:gravity="center_vertical|center_horizontal">
-
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_horizontal"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Amount Deposit"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/dimen11sp"
-                                    android:textStyle="bold" />
-
-                                <com.google.android.material.textfield.TextInputLayout
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="@dimen/value_50dp"
-                                    android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/amountDeposit"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center"
-                                        android:inputType="number"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
-                            </LinearLayout>
+                            android:gravity="center_vertical|center_horizontal"
+                            android:visibility="visible">
 
 
                             <TextView
@@ -573,7 +539,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_5dp"
-                                android:background="@drawable/upload_button"
+                                android:background="@drawable/upload_button_disable"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingTop="@dimen/value_5dp"
                                 android:paddingEnd="@dimen/value_10dp"
