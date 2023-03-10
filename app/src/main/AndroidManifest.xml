@@ -29,90 +29,110 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.home.greeting.GreetingActivity"></activity>
+        <activity
+            android:name=".ui.home.greeting.GreetingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.rider.login.LoginActivity"
             android:exported="true"
-
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.qcfail.qcfilter.QcFilterActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.previewImage.PreviewImageActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.reports.activity.champsregionwiseanalysisreport.ChampsRegionWiseAnalysisReportActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.reports.activity.champssurveyreports.ChampsSurveyReportsActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.champs.survey.activity.surveylist.SurveyListActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
 
 
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -126,9 +146,7 @@
             android:name=".ui.rider.activity.SplashScreen"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/splash_theme">
-
-        </activity>
+            android:theme="@style/splash_theme" />
         <activity
             android:name=".ui.rider.orderdelivery.OrderDeliveryActivity"
             android:label="New Order"
@@ -171,24 +189,24 @@
         <activity
             android:name=".util.ForgotPinActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.validatepin.ValidatePinActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.HomeActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.home.MainActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"
@@ -204,6 +222,7 @@
 
         <activity
             android:name=".ui.rider.activity.ScannerActivity"
+            android:exported="true"
             android:label="Scan Barcode"
             android:screenOrientation="portrait">
             <meta-data
@@ -213,8 +232,9 @@
         <activity
             android:name=".ui.home.menu.notification.NotificationActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
         <service android:name=".ui.rider.service.FloatingTouchService" />
         <service
             android:name=".ui.rider.service.BatteryLevelLocationService"
@@ -223,6 +243,7 @@
 
         <activity
             android:name=".ui.rider.activity.SearchProductActivity"
+            android:exported="true"
             android:label="Products List"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
@@ -232,6 +253,7 @@
         </activity>
         <activity
             android:name=".ui.rider.activity.CartActivity"
+            android:exported="true"
             android:label="CART"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
@@ -242,6 +264,7 @@
         <activity android:name=".ui.rider.activity.MapViewActivity" />
         <activity
             android:name=".ui.rider.activity.NewOrderActivity"
+            android:exported="true"
             android:label="New Order"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
@@ -251,6 +274,7 @@
         </activity>
         <activity
             android:name=".ui.rider.reports.ReportsActivity"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <!--            <intent-filter>-->
@@ -262,8 +286,10 @@
         </activity>
         <activity
             android:name=".ui.rider.activity.CancelOrderActivity"
+            android:exported="true"
             android:label="Cancelling Order Items"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.home.MainActivity" />
@@ -273,13 +299,13 @@
         <activity
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -299,8 +325,10 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
+
         <service
-            android:name=".ui.rider.service.MyFirebaseMessagingService">
+            android:name=".ui.rider.service.MyFirebaseMessagingService"
+            android:exported="true">
 
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -314,6 +342,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCIfiXJzjIsYegXANaoSXbifkoK-ROb0oM" />

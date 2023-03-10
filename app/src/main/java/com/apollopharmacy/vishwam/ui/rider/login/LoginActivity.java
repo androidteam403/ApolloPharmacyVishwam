@@ -9,24 +9,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
-import com.apollopharmacy.vishwam.ui.home.MainActivity;
-import com.apollopharmacy.vishwam.ui.rider.dashboard.DashboardFragment;
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
-
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
-
 
 import com.apollopharmacy.vishwam.R;
-import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding;
 import com.apollopharmacy.vishwam.databinding.ActivityLoginRiderBinding;
+import com.apollopharmacy.vishwam.ui.home.MainActivity;
 import com.apollopharmacy.vishwam.ui.rider.activity.BaseActivity;
 import com.apollopharmacy.vishwam.ui.rider.dialog.ForgotPwdDialog;
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse;
 import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.DeliveryFailreReasonsResponse;
 import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse;
-import com.apollopharmacy.vishwam.ui.verifyuser.VerifyUserActivity;
-import com.apollopharmacy.vishwam.util.Utlis;
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.novoda.merlin.Merlin;
@@ -137,7 +129,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityCallback
 //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
 
             Intent i = new Intent(com.apollopharmacy.vishwam.ui.rider.login.LoginActivity.this, MainActivity.class);
-            boolean True=true;
+            boolean True = true;
             i.putExtra("tag", true);
             startActivity(i);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
