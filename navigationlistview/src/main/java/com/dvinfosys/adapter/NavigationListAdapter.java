@@ -23,13 +23,25 @@ public class NavigationListAdapter extends BaseExpandableListAdapter  {
 
     private Context context;
     private List<HeaderModel> listHeader;
+    private HeaderModel data[] = null;
 
 
     public NavigationListAdapter(Context context, List<HeaderModel> listHeader) {
         this.context = context;
         this.listHeader = listHeader;
     }
-
+    public void onSelection(int position) {
+        int pos = 0;
+        for (HeaderModel dataModel : data) {
+            if (position == pos) {
+                dataModel.setSelected(true);
+            } else {
+                dataModel.setSelected(false);
+            }
+            pos++;
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
         return this.listHeader.get(groupPosition).getChildModelList().get(childPosititon);

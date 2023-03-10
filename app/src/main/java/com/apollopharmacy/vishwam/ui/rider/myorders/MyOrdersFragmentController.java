@@ -40,7 +40,6 @@ public class MyOrdersFragmentController {
 
     public void myOrdersListApiCall() {
         if (NetworkUtils.isNetworkConnected(context)) {
-            Utlis.INSTANCE.showLoading(context);
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
@@ -57,7 +56,6 @@ public class MyOrdersFragmentController {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                     ActivityUtils.hideDialog();
-                    Utlis.INSTANCE.hideLoading();
                     if (response.body() != null) {
                         String resp = null;
                         try {

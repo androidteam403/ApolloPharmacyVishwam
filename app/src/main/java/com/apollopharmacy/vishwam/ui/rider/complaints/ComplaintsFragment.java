@@ -20,12 +20,12 @@ import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.BottomSheetBinding;
 import com.apollopharmacy.vishwam.databinding.FragmentComplaintsRiderBinding;
 import com.apollopharmacy.vishwam.ui.home.MainActivity;
+import com.apollopharmacy.vishwam.ui.rider.adapter.CustomReasonAdapter;
 import com.apollopharmacy.vishwam.ui.rider.base.BaseFragment;
 import com.apollopharmacy.vishwam.ui.rider.complaints.adapter.ComplaintsListAdapter;
 import com.apollopharmacy.vishwam.ui.rider.complaints.model.ComplaintsResponse;
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
 import com.apollopharmacy.vishwam.ui.rider.login.model.ComplaintReasonsListResponse;
-import com.apollopharmacy.vishwam.ui.rider.profile.adapter.CustomReasonAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 import java.util.ArrayList;

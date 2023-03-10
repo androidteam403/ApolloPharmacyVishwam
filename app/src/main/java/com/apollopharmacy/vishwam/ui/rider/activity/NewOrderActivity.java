@@ -42,14 +42,16 @@ import com.ahmadrosid.lib.drawroutemap.PiontsCallback;
 import com.ahmadrosid.lib.drawroutemap.TaskLoadedCallback;
 
 import com.apollopharmacy.vishwam.R;
+import com.apollopharmacy.vishwam.ui.rider.adapter.CustomReasonAdapter;
 import com.apollopharmacy.vishwam.ui.rider.dialog.DialogManager;
 import com.apollopharmacy.vishwam.ui.rider.model.OrderItemModel;
 import com.apollopharmacy.vishwam.ui.rider.neworder.NewOrderActivityCallback;
 import com.apollopharmacy.vishwam.ui.rider.neworder.NewOrderActivityController;
 import com.apollopharmacy.vishwam.ui.rider.neworder.model.OrderDetailsResponse;
-import com.apollopharmacy.vishwam.ui.rider.profile.adapter.CustomReasonAdapter;
+import com.apollopharmacy.vishwam.ui.rider.orderdelivery.OrderDeliveryActivity;
 import com.apollopharmacy.vishwam.ui.rider.service.FloatingTouchService;
 import com.apollopharmacy.vishwam.ui.rider.service.GPSLocationService;
+import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils;
 import com.example.easywaylocation.EasyWayLocation;
@@ -299,7 +301,6 @@ public class NewOrderActivity extends BaseActivity implements DirectionApiCallba
         }
     }
 
-    @SuppressLint("MissingSuperCall")
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
@@ -468,7 +469,7 @@ public class NewOrderActivity extends BaseActivity implements DirectionApiCallba
 //        Intent i = new Intent(this, OrderDeliveryActivity.class);
 //        startActivityForResult(i, ACTIVITY_CHANGE);
         if (orderDetailsResponse != null) {
-//            startActivityForResult(OrderDeliveryActivity.getStartIntent(this, orderDetailsResponse), ACTIVITY_CHANGE);
+            startActivityForResult(OrderDeliveryActivity.getStartIntent(this, orderDetailsResponse), ACTIVITY_CHANGE);
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
         }
     }

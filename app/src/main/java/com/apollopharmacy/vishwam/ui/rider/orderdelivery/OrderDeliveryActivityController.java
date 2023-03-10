@@ -845,10 +845,128 @@ public class OrderDeliveryActivityController {
         }
     }
     //https://apis.v35.dev.zeroco.de/zc-v3.1-fs-svc/2.0/apollo_rider/upload
+//proxy//    public void uploadFile(Bitmap bmp, String orderuid, String orderNumber, String customerName) throws IOException {
+//        if (NetworkUtils.isNetworkConnected(context)) {
+//            ActivityUtils.showDialog(context, "Please wait.");
+//            ApiInterface apiInterface = ApiClient.getApiService();
+//            File f = new File(context.getCacheDir(), "signature.jpg");
+//            f.createNewFile();
+//
+//            Bitmap bitmap = bmp;
+//            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 0 /*ignored for PNG*/, bos);
+//            byte[] bitmapdata = bos.toByteArray();
+//
+////write the bytes in file
+//            FileOutputStream fos = null;
+//            try {
+//                fos = new FileOutputStream(f);
+//            } catch (FileNotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                fos.write(bitmapdata);
+//                fos.flush();
+//                fos.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//
+//            RequestBody requestBody = null;
+//            MultipartBody.Builder builder = new MultipartBody.Builder();
+//            builder.setType(MultipartBody.FORM);
+//            builder.addFormDataPart("file", f.getName(), RequestBody.create(MediaType.parse("multipart/form-data"), f));
+//            requestBody = builder.build();
+//
+//            HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+//            logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            OkHttpClient client = new OkHttpClient.Builder()
+//                    .connectTimeout(1, TimeUnit.MINUTES)
+//                    .writeTimeout(1, TimeUnit.MINUTES)
+//                    .readTimeout(1, TimeUnit.MINUTES)
+//                    .addInterceptor(logging)
+//                    .addInterceptor(chain -> {
+//                        Request original = chain.request();
+//                        Request request = original.newBuilder()
+//                                .header("deviceMode", "ANDROID")
+//                                .header("mobile", "false")
+//                                .header("Authorization", "Bearer " + new SessionManager(context).getLoginToken())
+//                                .method(original.method(), original.body())
+//                                .build();
+//                        return chain.proceed(request);
+//                    })
+//                    .build();
+//
+//            //The gson builder
+//            Gson gson = new GsonBuilder()
+//                    .setLenient()
+//                    .create();
+//            //creating retrofit object
+//            Retrofit retrofit = new Retrofit.Builder()
+//                    .baseUrl(AppConstants.UPLOAD_BASE_URL)
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+//                    .client(client)
+//                    .build();
+//
+//            //creating our api
+//            ApiInterface api = retrofit.create(ApiInterface.class);
+//            Gson gson1 = new Gson();
+//            String jsonLoginRequest = gson1.toJson(requestBody);
+//            GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
+//            getDetailsRequest.setRequesturl(AppConstants.UPLOAD_BASE_URL+"upload");
+//            getDetailsRequest.setRequestjson(jsonLoginRequest);
+//            getDetailsRequest.setHeadertokenkey("");
+//            getDetailsRequest.setHeadertokenvalue("");
+//            getDetailsRequest.setRequesttype("POST");
+//            Call<ResponseBody> calls = apiInterface.getDetails(AppConstants.PROXY_URL, AppConstants.PROXY_TOKEN, getDetailsRequest);
+//            calls.enqueue(new Callback<ResponseBody>() {
+//                @Override
+//                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                    if (response.body() != null) {
+//                        String resp = null;
+//                        try {
+//                            resp = response.body().string();
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        if (resp != null) {
+//                            String res = BackSlash.removeBackSlashes(resp);
+//                            Gson gson = new Gson();
+//                            FileDataResponse fileDataResponse = gson.fromJson(BackSlash.removeSubString(res), FileDataResponse.class);
+//                            if (fileDataResponse != null && fileDataResponse.getData() != null && fileDataResponse.getSuccess()) {
+//                                if (response.isSuccessful()) {
+//                                    Log.e("Success", "" + response.isSuccessful());
+//                                    if (response.code() == 200) {
+//                                        if (response.body() != null) {
+//                                            orderHandoverSaveUpdate(fileDataResponse, bmp, orderuid, orderNumber, customerName);
+//                                        }
+//                                    }
+//                                    else if (response.code() == 401) {
+//                                        ActivityUtils.hideDialog();
+//                                    }
+//                                } else if (response.code() == 401) {
+//                                    ActivityUtils.hideDialog();
+//                                }
+//                                Log.e("onResponse", "" + response.toString());
+//                            }
+//
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                    Log.e("error_details", "" + t.toString());
+//                    ActivityUtils.hideDialog();
+//                }
+//            });
+//        } else {
+//            mListener.onFialureMessage("Something went wrong.");
+//        }
+//    }
     public void uploadFile(Bitmap bmp, String orderuid, String orderNumber, String customerName) throws IOException {
         if (NetworkUtils.isNetworkConnected(context)) {
             ActivityUtils.showDialog(context, "Please wait.");
-            ApiInterface apiInterface = ApiClient.getApiService();
             File f = new File(context.getCacheDir(), "signature.jpg");
             f.createNewFile();
 
@@ -910,52 +1028,32 @@ public class OrderDeliveryActivityController {
 
             //creating our api
             ApiInterface api = retrofit.create(ApiInterface.class);
-            Gson gson1 = new Gson();
-            String jsonLoginRequest = gson1.toJson(requestBody);
-            GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
-            getDetailsRequest.setRequesturl(AppConstants.UPLOAD_BASE_URL+"upload");
-            getDetailsRequest.setRequestjson(jsonLoginRequest);
-            getDetailsRequest.setHeadertokenkey("");
-            getDetailsRequest.setHeadertokenvalue("");
-            getDetailsRequest.setRequesttype("POST");
-            Call<ResponseBody> calls = apiInterface.getDetails(AppConstants.PROXY_URL, AppConstants.PROXY_TOKEN, getDetailsRequest);
-            calls.enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                    if (response.body() != null) {
-                        String resp = null;
-                        try {
-                            resp = response.body().string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        if (resp != null) {
-                            String res = BackSlash.removeBackSlashes(resp);
-                            Gson gson = new Gson();
-                            FileDataResponse fileDataResponse = gson.fromJson(BackSlash.removeSubString(res), FileDataResponse.class);
-                            if (fileDataResponse != null && fileDataResponse.getData() != null && fileDataResponse.getSuccess()) {
-                                if (response.isSuccessful()) {
-                                    Log.e("Success", "" + response.isSuccessful());
-                                    if (response.code() == 200) {
-                                        if (response.body() != null) {
-                                            orderHandoverSaveUpdate(fileDataResponse, bmp, orderuid, orderNumber, customerName);
-                                        }
-                                    }
-                                    else if (response.code() == 401) {
-                                        ActivityUtils.hideDialog();
-                                    }
-                                } else if (response.code() == 401) {
-                                    ActivityUtils.hideDialog();
-                                }
-                                Log.e("onResponse", "" + response.toString());
-                            }
 
+            //creating a call and calling the upload image method
+            Call<FileDataResponse> call = api.UPLOAD_IMAGE_API_CALL(requestBody);
+
+            //finally performing the call
+            call.enqueue(new Callback<FileDataResponse>() {
+
+                @Override
+                public void onResponse(Call<FileDataResponse> call, retrofit2.Response<FileDataResponse> response) {
+                    if (response.isSuccessful()) {
+                        Log.e("Success", "" + response.isSuccessful());
+                        if (response.code() == 200) {
+                            if (response.body() != null) {
+                                orderHandoverSaveUpdate(response.body(), bmp, orderuid, orderNumber, customerName);
+                            }
+                        } else if (response.code() == 401) {
+                            ActivityUtils.hideDialog();
                         }
+                    } else if (response.code() == 401) {
+                        ActivityUtils.hideDialog();
                     }
+                    Log.e("onResponse", "" + response.toString());
                 }
 
                 @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                public void onFailure(Call<FileDataResponse> call, Throwable t) {
                     Log.e("error_details", "" + t.toString());
                     ActivityUtils.hideDialog();
                 }

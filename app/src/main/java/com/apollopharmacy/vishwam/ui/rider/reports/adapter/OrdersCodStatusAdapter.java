@@ -1,5 +1,4 @@
 package com.apollopharmacy.vishwam.ui.rider.reports.adapter;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -48,10 +47,10 @@ public class OrdersCodStatusAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
             AdapterOrdersCodStatusBinding ordersCodStatusBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.adapter_orders_cod_status, parent, false);
-            return new ItemViewHolder(ordersCodStatusBinding);
+            return new OrdersCodStatusAdapter.ItemViewHolder(ordersCodStatusBinding);
         } else {
             LoadingProgressbarBinding loadingProgressbarBinding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.loading_progressbar, parent, false);
-            return new LoadingViewHolder(loadingProgressbarBinding);
+            return new OrdersCodStatusAdapter.LoadingViewHolder(loadingProgressbarBinding);
         }
     }
 

@@ -14,8 +14,9 @@ import androidx.databinding.DataBindingUtil;
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.ActivitySplashBinding;
 import com.apollopharmacy.vishwam.databinding.ActivitySplashRiderBinding;
+import com.apollopharmacy.vishwam.ui.home.MainActivity;
 import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
-import com.apollopharmacy.vishwam.ui.verifyuser.VerifyUserActivity;
+import com.apollopharmacy.vishwam.ui.rider.orderdelivery.OrderDeliveryActivity;
 import com.novoda.merlin.Merlin;
 
 import butterknife.ButterKnife;
@@ -47,29 +48,26 @@ public class SplashScreen extends BaseActivity {
         new Handler().postDelayed(() -> {
             if (getSessionManager().getLoginToken() != null && !getSessionManager().getLoginToken().isEmpty()) {
                 if (getIntent() != null) {
-                    Intent mainIntent = new Intent(SplashScreen.this, VerifyUserActivity.class);
-                    startActivity(mainIntent);
-
                     String notificationType = getIntent().getStringExtra("notification_type");
                     if (notificationType != null && notificationType.equals("ORDER_ASSIGNED")) {
-//                        startActivity(OrderDeliveryActivity.getStartIntent(SplashScreen.this, getIntent().getStringExtra("uid"), true));
+                        startActivity(OrderDeliveryActivity.getStartIntent(SplashScreen.this, getIntent().getStringExtra("uid"), true));
                         finish();
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     } else if (notificationType != null && notificationType.equals("COMPLAINT_RESOLVED")) {
-//                        Intent mainIntent = new Intent(SplashScreen.this, NavigationActivity.class);
-//                        mainIntent.putExtra("COMPLAINT_RESOLVED", true);
-//                        startActivity(mainIntent);
+                        Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                        mainIntent.putExtra("COMPLAINT_RESOLVED", true);
+                        startActivity(mainIntent);
                         finish();
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     } else {
-//                        Intent mainIntent = new Intent(SplashScreen.this, NavigationActivity.class);
-//                        startActivity(mainIntent);
+                        Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                        startActivity(mainIntent);
                         finish();
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                     }
                 } else {
-//                    Intent mainIntent = new Intent(SplashScreen.this, NavigationActivity.class);
-//                    startActivity(mainIntent);
+                    Intent mainIntent = new Intent(SplashScreen.this, MainActivity.class);
+                    startActivity(mainIntent);
                     finish();
                     overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
                 }

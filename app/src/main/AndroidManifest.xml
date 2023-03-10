@@ -85,7 +85,22 @@
             android:theme="@style/splash_theme">
 
         </activity>
-
+        <activity
+            android:name=".ui.rider.orderdelivery.OrderDeliveryActivity"
+            android:label="New Order"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="apollo:orders:create-orders-form" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--            </intent-filter>-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.rider.activity.NewOrderActivity" />
+        </activity>
+        <activity
+            android:name=".ui.rider.activity.CaptureSignatureActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.otpview.OtpViewActivity"
             android:exported="true"
@@ -123,10 +138,86 @@
             android:name=".ui.home.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.rider.trackmap.TrackMapActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.rider.onlinepayment.OnlinePaymentActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".ui.rider.activity.ScannerActivity"
+            android:label="Scan Barcode"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.MainActivity" />
+        </activity>
         <activity
             android:name=".ui.home.menu.notification.NotificationActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
+        <service android:name=".ui.rider.service.FloatingTouchService" />
+        <service
+            android:name=".ui.rider.service.BatteryLevelLocationService"
+            android:enabled="true" />
+
+
+        <activity
+            android:name=".ui.rider.activity.SearchProductActivity"
+            android:label="Products List"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.rider.activity.CartActivity"
+            android:label="CART"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.GuidelinesCompat.Light.DarkToolbar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.MainActivity" />
+        </activity>
+        <activity android:name=".ui.rider.activity.MapViewActivity" />
+        <activity
+            android:name=".ui.rider.activity.NewOrderActivity"
+            android:label="New Order"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.rider.reports.ReportsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
+
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
+
+        </activity>
+        <activity
+            android:name=".ui.rider.activity.CancelOrderActivity"
+            android:label="Cancelling Order Items"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.home.MainActivity" />
+        </activity>
+
+
         <activity
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:exported="true"
@@ -169,6 +260,13 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCIfiXJzjIsYegXANaoSXbifkoK-ROb0oM" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

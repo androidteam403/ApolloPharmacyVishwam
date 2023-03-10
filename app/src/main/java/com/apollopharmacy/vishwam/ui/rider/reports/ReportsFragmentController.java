@@ -41,7 +41,6 @@ public class ReportsFragmentController {
 
     public void getRiderDashboardCountsApiCall() {
         if (NetworkUtils.isNetworkConnected(context)) {
-            Utlis.INSTANCE.showLoading(context);
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
@@ -55,7 +54,6 @@ public class ReportsFragmentController {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                     ActivityUtils.hideDialog();
-                    Utlis.INSTANCE.hideLoading();
                     if (response.body() != null) {
                         String resp = null;
                         try {
@@ -134,7 +132,6 @@ public class ReportsFragmentController {
 
     public void getOrdersCodStatusApiCall(int page) {
         if (NetworkUtils.isNetworkConnected(context)) {
-            Utlis.INSTANCE.showLoading(context);
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
 
@@ -152,7 +149,6 @@ public class ReportsFragmentController {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                     ActivityUtils.hideDialog();
-                    Utlis.INSTANCE.hideLoading();
                     if (response.body() != null) {
                         String resp = null;
                         try {
@@ -230,7 +226,6 @@ public class ReportsFragmentController {
 
     public void logout() {
         if (NetworkUtils.isNetworkConnected(context)) {
-            Utlis.INSTANCE.showLoading(context);
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
             RiderActiveStatusRequest riderActiveStatusRequest = new RiderActiveStatusRequest();
@@ -255,7 +250,6 @@ public class ReportsFragmentController {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
                     ActivityUtils.hideDialog();
-                    Utlis.INSTANCE.hideLoading();
 
                     if (response.body() != null) {
                         String resp = null;

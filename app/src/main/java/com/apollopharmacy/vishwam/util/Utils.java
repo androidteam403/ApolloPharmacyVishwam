@@ -113,7 +113,9 @@ public class Utils {
         }
         return currDate;
     }
-
+    public static String getTodayDate() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+    }
     public static String getOneWeekBackDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);

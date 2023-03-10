@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
@@ -48,6 +49,7 @@ import android.widget.Toast;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -95,11 +97,13 @@ import com.apollopharmacy.vishwam.ui.rider.dashboard.DashboardFragment;
 import com.apollopharmacy.vishwam.ui.rider.help.HelpFragment;
 import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
 import com.apollopharmacy.vishwam.ui.rider.myorders.MyOrdersFragment;
+import com.apollopharmacy.vishwam.ui.rider.myorders.MyOrdersFragmentCallback;
 import com.apollopharmacy.vishwam.ui.rider.profile.ProfileFragment;
 import com.apollopharmacy.vishwam.ui.rider.reports.ReportsFragment;
 import com.apollopharmacy.vishwam.ui.rider.service.BatteryLevelLocationService;
 import com.apollopharmacy.vishwam.ui.rider.service.FloatingTouchService;
 import com.apollopharmacy.vishwam.ui.rider.summary.SummaryFragment;
+import com.apollopharmacy.vishwam.util.FragmentUtils;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
 import com.bumptech.glide.Glide;
@@ -154,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isSwachhRequired = false;
     public static boolean isDrugRequired = false;
     private String mCurrentFrag;
+    private int selectedItemPos = -1;
+
     private static TextView cartCount, notificationText;
     public static boolean isCMSRequired = false;
     public static boolean isDiscountRequired = false;
@@ -199,6 +205,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ViewGroup header;
     private boolean isLanchedByPushNotification;
     private boolean IS_COMPLAINT_RESOLVED;
+    private MyOrdersFragmentCallback myOrdersFragmentCallback;
+
     Fragment fragment = null;
     private boolean isFromNotificaionIcon;
     private LocationManager locationManager;
@@ -514,7 +522,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             checkExternalPermission();
         }
     }
-
+    public void setMyOrdersFragmentCallback(MyOrdersFragmentCallback myOrdersFragmentCallback) {
+        this.myOrdersFragmentCallback = myOrdersFragmentCallback;
+    }
     private void setUp() {
         if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
@@ -778,6 +788,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(j);
                 break;
             case "Dashboard":
+                mCurrentFrag="Dashboard";
                 headerText.setText("Dashboard");
                 fragment = new DashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -787,6 +798,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Profile":
+                mCurrentFrag="Profile";
+
                 headerText.setText("Profile");
                 fragment = new ProfileFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -796,6 +809,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "My Orders":
+                mCurrentFrag="My Orders";
                 headerText.setText("My Orders");
                 fragment = new MyOrdersFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -805,6 +819,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Cash Deposits":
+                mCurrentFrag="Cash Deposits";
+
                 headerText.setText("Cash Deposits");
                 fragment = new ReportsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -814,6 +830,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Summary":
+                mCurrentFrag="Summary";
+
                 headerText.setText("Summary");
                 fragment = new SummaryFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -823,6 +841,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Complaints":
+                mCurrentFrag="Complaints";
+
                 headerText.setText("Complaints");
                 fragment = new ComplaintsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -832,6 +852,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Change Password":
+                mCurrentFrag="Change Password";
+
                 headerText.setText("Dashboard");
                 fragment = new ChangePasswordFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -841,6 +863,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
             case "Help":
+                mCurrentFrag="Help";
+
                 headerText.setText("Help");
                 fragment = new HelpFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -1306,16 +1330,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (true) {
 
             if (getSessionManager().getLoginToken().isEmpty()) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
+                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
                         .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
             } else if (getSessionManager().getLoginToken().length() > 1) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
+                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
 
                         .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
 
                         .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
                         .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
-                        .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_report__1_))
+                        .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
                         .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
 
                         .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
@@ -1959,7 +1983,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent i = new Intent(MainActivity.this, SelectSiteActivityy.class);
         startActivity(i);
     }
+    public void updateSelection(int pos) {
+        selectedItemPos = pos;
+        if (pos==0){
+            mCurrentFrag="Dashboard";
+            displaySelectedScreen("Dashboard");
+        }else   if (pos==1){
+            mCurrentFrag="My Orders";
 
+            displaySelectedScreen("My Orders");
+        }
+        else   if (pos==2){
+            mCurrentFrag="Cash Deposits";
+
+            displaySelectedScreen("Cash Deposits");
+        }else   if (pos==3){
+            mCurrentFrag="Summary";
+
+            displaySelectedScreen("Summary");
+        }
+        else   if (pos==4){
+            mCurrentFrag="Complaints";
+
+            displaySelectedScreen("Complaints");
+        }else   if (pos==5){
+            mCurrentFrag="Profile";
+
+            displaySelectedScreen("Profile");
+        }
+        else   if (pos==6){
+            mCurrentFrag="Change Password";
+
+            displaySelectedScreen("Change Password");
+        }
+        else   if (pos==7){
+            mCurrentFrag="Help";
+
+            displaySelectedScreen("Help");
+        }
+        adapter.onSelection(pos);
+    }
+    @SuppressLint("WrongConstant")
+    public void showFragment(Fragment fragment, @StringRes int titleResId) {
+        FragmentUtils.replaceFragment(this, fragment, R.id.content_frame, true, 5);
+//        if (titleResId == 0)
+//            return;
+//        setTitle(titleResId);
+    }
     @Override
     public void onClickSiteIdIcon() {
 

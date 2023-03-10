@@ -16,19 +16,21 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.ActivityReportsBinding;
+import com.apollopharmacy.vishwam.ui.home.MainActivity;
 import com.apollopharmacy.vishwam.ui.rider.activity.BaseActivity;
+import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
+import com.apollopharmacy.vishwam.ui.rider.reports.ReportsActivityCallback;
+import com.apollopharmacy.vishwam.ui.rider.reports.ReportsActivityController;
 import com.apollopharmacy.vishwam.ui.rider.reports.adapter.OrdersCodStatusAdapter;
 import com.apollopharmacy.vishwam.ui.rider.reports.model.OrdersCodStatusResponse;
-import com.apollopharmacy.vishwam.util.CommonUtils;
 import com.apollopharmacy.vishwam.util.Utils;
-import com.apollopharmacy.vishwam.util.Utlis;
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils;
 import com.novoda.merlin.Merlin;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ReportsActivity extends BaseActivity implements ReportsActivityCallback {
@@ -95,7 +97,6 @@ public class ReportsActivity extends BaseActivity implements ReportsActivityCall
     @Override
     public void onSuccessOrdersCodStatusApiCall(OrdersCodStatusResponse ordersCodStatusResponse) {
         ActivityUtils.hideDialog();
-        Utlis.INSTANCE.hideLoading();
         if (ordersCodStatusResponse != null && ordersCodStatusResponse.getData() != null
                 && ordersCodStatusResponse.getData().getListData() != null
                 && ordersCodStatusResponse.getData().getListData().getRows() != null
@@ -193,12 +194,12 @@ public class ReportsActivity extends BaseActivity implements ReportsActivityCall
 
     @Override
     public void onLogout() {
-//        getSessionManager().clearAllSharedPreferences();
-//        NavigationActivity.getInstance().stopBatteryLevelLocationService();
-//        Intent intent = new Intent(ReportsActivity.this, LoginActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(intent);
-//        finish();
+        getSessionManager().clearAllSharedPreferences();
+       MainActivity.mInstance.stopBatteryLevelLocationService();
+        Intent intent = new Intent(ReportsActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
         overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 

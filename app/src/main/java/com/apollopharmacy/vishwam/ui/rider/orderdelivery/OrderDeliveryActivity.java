@@ -55,7 +55,6 @@ import com.ahmadrosid.lib.drawroutemap.DirectionApiCallback;
 import com.ahmadrosid.lib.drawroutemap.DrawRouteMaps;
 import com.ahmadrosid.lib.drawroutemap.PiontsCallback;
 import com.ahmadrosid.lib.drawroutemap.TaskLoadedCallback;
-
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.ActivityOrderDeliveryBinding;
 import com.apollopharmacy.vishwam.databinding.BottomSheetBinding;
@@ -80,7 +79,7 @@ import com.apollopharmacy.vishwam.ui.rider.service.FloatingTouchService;
 import com.apollopharmacy.vishwam.ui.rider.service.GPSLocationService;
 import com.apollopharmacy.vishwam.ui.rider.trackmap.TrackMapActivity;
 import com.apollopharmacy.vishwam.ui.rider.trackmap.model.OrderEndJourneyUpdateResponse;
-import com.apollopharmacy.vishwam.util.CommonUtils;
+import com.apollopharmacy.vishwam.util.AppConstants;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils;
@@ -112,9 +111,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static com.apollopharmacy.vishwam.util.AppConstants.LAST_ACTIVITY;
-import static com.apollopharmacy.vishwam.util.Utils.showTextDownAnimation;
+import static com.apollopharmacy.vishwam.util.Utils.getCurrentTime;
 import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showLayoutDownAnimation;
+import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showTextDownAnimation;
 
 
 public class OrderDeliveryActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,
@@ -508,7 +507,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
             showTextDownAnimation(R.id.anim_reach_store_layout, animReachStoreLayout, storeReachedTime);
 //            ActivityUtils.footerAnimation(mActivity, animReachStoreLayout, storeReachedTime);
-            storeReachedTime.setText(Utils.getCurrentTime());
+            storeReachedTime.setText(getCurrentTime());
         }
     }
 
@@ -538,7 +537,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
             takenParcelImg.setImageDrawable(getDrawable(R.drawable.icon_status_completed));
 
             showTextDownAnimation(R.id.anim_taken_parcel_layout, animTakenParcelLayout, parcelTakenTime);
-            parcelTakenTime.setText(Utils.getCurrentTime());
+            parcelTakenTime.setText(getCurrentTime());
             continueProcessLayout.setVisibility(View.VISIBLE);
         }
     }
@@ -574,7 +573,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
             selectionTag = 5;
             reachedDeliveryAddressLayout.setBackgroundColor(getResources().getColor(R.color.order_status_processed_color));
             reachedAddressImg.setImageDrawable(getDrawable(R.drawable.icon_status_completed));
-            addressReachedTime.setText(Utils.getCurrentTime());
+            addressReachedTime.setText(getCurrentTime());
             addressReachedTime.setVisibility(View.VISIBLE);
             cancelItemBtn.setVisibility(View.VISIBLE);
         }
@@ -993,7 +992,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
         if (getSessionManager().getNotificationStatus()) {
             if (isOrderDelivered) {
                 notificationText.clearAnimation();
-                MainActivity.mInstance.notificationDotVisibility(false);
+                MainActivity.notificationDotVisibility(false);
                 DashboardFragment.newOrderViewVisibility(false);
 //                getSessionManager().setNotificationStatus(false);
 
@@ -1949,7 +1948,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     @Override
     public void onLogout() {
         getSessionManager().clearAllSharedPreferences();
-        MainActivity.mInstance.stopBatteryLevelLocationService();
+       MainActivity.mInstance.stopBatteryLevelLocationService();
         Intent intent = new Intent(OrderDeliveryActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -2129,7 +2128,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     @Override
     protected void onResume() {
         Utils.CURRENT_SCREEN = getClass().getSimpleName();
-        Hawk.put(LAST_ACTIVITY, getClass().getSimpleName());
+        Hawk.put(AppConstants.LAST_ACTIVITY, getClass().getSimpleName());
         super.onResume();
         startService(new Intent(OrderDeliveryActivity.this, FloatingTouchService.class));
         if (GPSLocationService.isFromSetting == true) {
@@ -2918,7 +2917,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                 cancelOrderBtn.setVisibility(View.GONE);
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                String orderDate =Utils.getCurrentTimeDate();
+                String orderDate = Utils.getCurrentTimeDate();
                 Date orderDates = formatter.parse(orderDate);
                 long orderDateMills = orderDates.getTime();
                 orderDeliveryBinding.cancelledOrderHandedoverToPharmacyTime.setText(Utlis.INSTANCE.getTimeFormatter(orderDateMills));

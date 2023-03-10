@@ -20,14 +20,17 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.ViewPager;
 
+
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.FragmentMyOrdersBinding;
+import com.apollopharmacy.vishwam.ui.home.MainActivity;
+import com.apollopharmacy.vishwam.ui.rider.adapter.CustomReasonAdapter;
+import com.apollopharmacy.vishwam.ui.rider.adapter.MyOrdersListAdapter;
 import com.apollopharmacy.vishwam.ui.rider.base.BaseFragment;
 import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
-import com.apollopharmacy.vishwam.ui.rider.myorders.adapter.MyOrderListAdapter;
 import com.apollopharmacy.vishwam.ui.rider.myorders.adapter.ViewPagerAdapter;
 import com.apollopharmacy.vishwam.ui.rider.myorders.model.MyOrdersListResponse;
-import com.apollopharmacy.vishwam.ui.rider.profile.adapter.CustomReasonAdapter;
+import com.apollopharmacy.vishwam.ui.rider.orderdelivery.OrderDeliveryActivity;
 import com.apollopharmacy.vishwam.util.Utils;
 
 import java.util.ArrayList;
@@ -42,7 +45,7 @@ import butterknife.OnClick;
 public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItemSelectedListener, MyOrdersFragmentCallback, ViewPager.OnPageChangeListener {
     private Activity mActivity;
     private FragmentMyOrdersBinding myOrdersBinding;
-    private MyOrderListAdapter myOrdersListAdapter;
+    private MyOrdersListAdapter myOrdersListAdapter;
     private List<MyOrdersListResponse.Row> myOrdersList = new ArrayList<>();
     private List<MyOrdersListResponse.Row> tempOrdersList = new ArrayList<>();
     private ViewPagerAdapter viewPagerAdapter;
@@ -79,9 +82,8 @@ public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItem
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-//        NavigationActivity.getInstance().setTitle(R.string.menu_my_orders);
         Utils.isMyOrdersListApiCall = false;
-//        NavigationActivity.getInstance().setMyOrdersFragmentCallback(this);
+        MainActivity.mInstance.setMyOrdersFragmentCallback(this);
         final Calendar c = Calendar.getInstance();
         setUp();
         if (mYear == 0 && mMonth == 0 && mDay == 0) {
@@ -221,13 +223,18 @@ public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItem
                 for (MyOrdersListResponse.Row order : myOrdersList)
                     if (order.getOrderStatus().getUid() == null)
                         System.out.println("naveen");
+                    else if (order.getOrderStatus().getUid().equals("DELIVERYATTEMPTED")||order.getOrderStatus().getUid().equals("PICKUP") || order.getOrderStatus().getUid().equals("OUTFORDELIVERY") || order.getOrderStatus().getUid().equals("RETURNPICKED"))
+                        myInTransitOrdersList.add(order);
                     else if (order.getOrderStatus().getUid().equals("ORDERUPDATE") || order.getOrderStatus().getUid().equals("ORDERACCEPTED") || (order.getOrderStatus().getUid().equals("DELIVERYATTEMPTED") && order.getFailureAttempts() <= 2))
                         myNewOrdersList.add(order);
-                    else if (order.getOrderStatus().getUid().equals("PICKUP") || order.getOrderStatus().getUid().equals("OUTFORDELIVERY") || order.getOrderStatus().getUid().equals("RETURNPICKED"))
-                        myInTransitOrdersList.add(order);
+
                     else if (order.getOrderStatus().getUid().equals("DELIVERED") || order.getOrderStatus().getUid().equals("RETURNORDERRTO"))
                         deliveredOrdersList.add(order);
-                    else if ((order.getOrderStatus().getUid().equals("DELIVERYATTEMPTED") && order.getFailureAttempts() > 2) || order.getOrderStatus().getUid().equals("DELIVERYFAILED") || order.getOrderStatus().getUid().equals("CANCELRETURNINITIATED")
+//                    else if ((order.getOrderStatus().getUid().equals("DELIVERYATTEMPTED") && order.getFailureAttempts() > 2) || order.getOrderStatus().getUid().equals("DELIVERYFAILED") || order.getOrderStatus().getUid().equals("CANCELRETURNINITIATED")
+//                            || (order.getOrderStatus().getUid().equals("CANCELLED") && !order.getOrderSh().get(order.getOrderSh().size() - 1).getOrderStatus().getUid().equals("ORDERUPDATE")) && !order.getOrderSh().get(order.getOrderSh().size() - 1).getOrderStatus().getUid().equals("ORDERACCEPTED")
+//                            || order.getOrderStatus().getUid().equals("CANCELORDERRTO"))
+//                        orderNotDeliveredList.add(order);
+                    else if (order.getOrderStatus().getUid().equals("DELIVERYFAILED") || order.getOrderStatus().getUid().equals("CANCELRETURNINITIATED")
                             || (order.getOrderStatus().getUid().equals("CANCELLED") && !order.getOrderSh().get(order.getOrderSh().size() - 1).getOrderStatus().getUid().equals("ORDERUPDATE")) && !order.getOrderSh().get(order.getOrderSh().size() - 1).getOrderStatus().getUid().equals("ORDERACCEPTED")
                             || order.getOrderStatus().getUid().equals("CANCELORDERRTO"))
                         orderNotDeliveredList.add(order);
@@ -279,7 +286,7 @@ public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItem
         if (getSessionManager().getAsignedOrderUid() != null && getSessionManager().getAsignedOrderUid().size() > 0) {
             for (String orderUid : getSessionManager().getAsignedOrderUid()) {
                 if (orderUid.equals(item.getUid())) {
-//                    NavigationActivity.notificationDotVisibility(false);
+                    MainActivity.notificationDotVisibility(false);
                     getSessionManager().setNotificationStatus(false);
                     getSessionManager().setAsignedOrderUid(null);
                     break;
@@ -301,7 +308,7 @@ public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItem
                 break;
             default:
         }
-//        startActivity(OrderDeliveryActivity.getStartIntent(getContext(), item.getOrderNumber()));
+        startActivity(OrderDeliveryActivity.getStartIntent(getContext(), item.getOrderNumber()));
         getActivity().overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left);
     }
 
@@ -313,7 +320,7 @@ public class MyOrdersFragment extends BaseFragment implements AdapterView.OnItem
     @Override
     public void onLogout() {
         getSessionManager().clearAllSharedPreferences();
-//        NavigationActivity.getInstance().stopBatteryLevelLocationService();
+      MainActivity.mInstance.stopBatteryLevelLocationService();
         Intent intent = new Intent(getContext(), LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

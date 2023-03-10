@@ -17,13 +17,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.FragmentReportsBinding;
+import com.apollopharmacy.vishwam.ui.home.MainActivity;
 import com.apollopharmacy.vishwam.ui.rider.base.BaseFragment;
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
+import com.apollopharmacy.vishwam.ui.rider.login.LoginActivity;
 import com.apollopharmacy.vishwam.ui.rider.reports.adapter.OrdersCodStatusAdapter;
 import com.apollopharmacy.vishwam.ui.rider.reports.model.OrdersCodStatusResponse;
+import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils;
 
@@ -34,6 +36,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 public class ReportsFragment extends BaseFragment implements ReportsFragmentCallback {
     private Activity mActivity;
@@ -43,7 +46,7 @@ public class ReportsFragment extends BaseFragment implements ReportsFragmentCall
     private List<OrdersCodStatusResponse.Row> ordersCodStatusList;
     private List<OrdersCodStatusResponse.Row> ordersCodStatusListLoad;
     private String fromDate = Utlis.INSTANCE.getBeforeSevenDaysDate();//CommonUtils.getfromDate() + "-01";
-    private String toDate = Utlis.INSTANCE.getCurrentDate("yyyy-MM-dd");
+    private String toDate = Utils.getTodayDate();
     private int page = 1;
     private boolean isLastRecord = false;
 
@@ -68,7 +71,7 @@ public class ReportsFragment extends BaseFragment implements ReportsFragmentCall
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        NavigationActivity.getInstance().setTitle(R.string.menu_reports);
+
         reportsBinding.setCallback(this);
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
@@ -97,15 +100,16 @@ public class ReportsFragment extends BaseFragment implements ReportsFragmentCall
 
     @Override
     public void onSuccessOrdersCodStatusApiCall(OrdersCodStatusResponse ordersCodStatusResponse) {
+        if (ordersCodStatusResponse.getData().getListData().getRows()!=null){
+            this.ordersCodStatusListLoad=ordersCodStatusResponse.getData().getListData().getRows();
+        }
         if (page == 1) {
-            Utlis.INSTANCE.hideLoading();
             ActivityUtils.hideDialog();
             if (ordersCodStatusResponse != null && ordersCodStatusResponse.getData() != null
                     && ordersCodStatusResponse.getData().getListData() != null
                     && ordersCodStatusResponse.getData().getListData().getRows() != null
                     && ordersCodStatusResponse.getData().getListData().getRows().size() > 0) {
                 page++;
-                this.ordersCodStatusListLoad = ordersCodStatusResponse.getData().getListData().getRows();
 
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 reportsBinding.reportsRecycler.setLayoutManager(mLayoutManager);
@@ -191,12 +195,12 @@ public class ReportsFragment extends BaseFragment implements ReportsFragmentCall
 
     @Override
     public void onLogout() {
-//        getSessionManager().clearAllSharedPreferences();
-//        NavigationActivity.getInstance().stopBatteryLevelLocationService();
-//        Intent intent = new Intent(getContext(), LoginActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        startActivity(intent);
-//        getActivity().finish();
+        getSessionManager().clearAllSharedPreferences();
+       MainActivity.mInstance.stopBatteryLevelLocationService();
+        Intent intent = new Intent(getContext(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        getActivity().finish();
         getActivity().overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
     }
 
