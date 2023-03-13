@@ -1294,13 +1294,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
-        if (isAttendanceRequired) {
+//        if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_baseline_attendance)
                             .addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports))
                             .addChildModel(new ChildModel("History", R.drawable.ic_menu_survey))
             );
-        }
+//        }
         if (isCMSRequired) {
             listView.addHeaderModel(
                     new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
