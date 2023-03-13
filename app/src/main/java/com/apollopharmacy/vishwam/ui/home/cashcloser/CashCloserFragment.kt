@@ -10,7 +10,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.Window
 import android.widget.Toast
@@ -22,24 +21,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.CashDepositConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.FragmentCashCloserBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.cashcloser.adapter.CashCloserPendingAdapter
 import com.apollopharmacy.vishwam.ui.home.cashcloser.cashdepositbolbstorage.CashDepositBlobStorage
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashCloserList
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.ImageData
-import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
-import com.apollopharmacy.vishwam.ui.home.greeting.wishesblobstorage.EmployeeWishesBlobStorage
 import com.bumptech.glide.Glide
-import kotlinx.android.synthetic.main.adapter_getstorepersonhistory.*
 import java.io.File
-import java.lang.reflect.InvocationTargetException
 
 
 class CashCloserFragment : BaseFragment<CashCloserViewModel, FragmentCashCloserBinding>(),
