@@ -122,7 +122,10 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
         editBoxDialog.show()
     }
 
-    override fun onClickEditOverall(categoryDetails: GetCategoryDetailsResponse.CategoryDetails) {
+    override fun onClickEditOverall(
+        categoryDetails: GetCategoryDetailsResponse.CategoryDetails,
+        sumOfSubCategoryMaxRatings: Double, categoryPos: String,
+    ) {
         if (categoryDetails != null) {
             val editBoxDialog = context?.let { Dialog(it, R.style.fadeinandoutcustomDialog) }
             dialogEditRangeChampsBinding = DataBindingUtil.inflate(LayoutInflater.from(context),
@@ -136,9 +139,34 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
             editBoxDialog.setCancelable(false)
             dialogEditRangeChampsBinding.enterPoints.setText(categoryDetails.rating)
             dialogEditRangeChampsBinding.continueChamps.setOnClickListener { view ->
-                categoryDetails.rating = dialogEditRangeChampsBinding.enterPoints.text.toString()
-                editBoxDialog.dismiss()
-                getCategoryDetailsAdapter!!.notifyDataSetChanged()
+                var sumOfAllCategoriesRating = 0.0
+                for (i in categoryDetailsList!!) {
+                    if (categoryDetailsList!!.indexOf(i) == (categoryPos.toInt() - 1)) {
+                        sumOfAllCategoriesRating =
+                            sumOfAllCategoriesRating + dialogEditRangeChampsBinding.enterPoints.text.toString()
+                                .toDouble()
+                    } else {
+                        sumOfAllCategoriesRating = sumOfAllCategoriesRating + i.rating!!.toDouble()
+                    }
+                }
+                if (sumOfAllCategoriesRating <= 100) {
+                    if (dialogEditRangeChampsBinding.enterPoints.text.toString()
+                            .toDouble() >= categoryDetails.sumOfSubCategoryRating
+                    ) {
+                        categoryDetails.rating =
+                            dialogEditRangeChampsBinding.enterPoints.text.toString()
+                        editBoxDialog.dismiss()
+                        getCategoryDetailsAdapter!!.notifyDataSetChanged()
+                    } else {
+                        Toast.makeText(context,
+                            "Maximum rating should not less than sum of all sub categories rating.",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(context,
+                        "Sum of categories rating should less than or equal to 100.",
+                        Toast.LENGTH_SHORT).show()
+                }
             }
             dialogEditRangeChampsBinding.closeAddressDialog.setOnClickListener { view ->
                 editBoxDialog.dismiss()

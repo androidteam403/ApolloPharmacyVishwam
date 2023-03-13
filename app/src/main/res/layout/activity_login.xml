@@ -36,7 +36,7 @@
                 android:layout_height="@dimen/value_130dp"
                 android:layout_gravity="center"
                 android:contentDescription="@string/app_name"
-                android:src="@drawable/logo_vishwam" />
+                android:src="@drawable/apollo_vishwam_logo" />
 
             <RelativeLayout
                 android:id="@+id/entitiy_layout"

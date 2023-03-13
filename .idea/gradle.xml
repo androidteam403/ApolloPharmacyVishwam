@@ -12,8 +12,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/cusotmloader" />
             <option value="$PROJECT_DIR$/digitlib" />
+            <option value="$PROJECT_DIR$/drawroutemap" />
+            <option value="$PROJECT_DIR$/easywaylocation" />
             <option value="$PROJECT_DIR$/navigationlistview" />
+            <option value="$PROJECT_DIR$/permissions" />
           </set>
         </option>
       </GradleProjectSettings>

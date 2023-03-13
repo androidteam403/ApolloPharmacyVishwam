@@ -981,7 +981,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             if (items.ticketDetailsResponse != null) {
                 if (employeeDetailsResponse?.data!!.department!!.code.equals("FN")) {
                     if (items.ticketDetailsResponse!!.data.department.code.equals("IT") && items.ticketDetailsResponse!!.data.category.code.equals(
-                            "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data.user.uid.equals(
+                            "pos") && items.ticketDetailsResponse!!.data.reason.code.equals("asb_not_completed") && items.ticketDetailsResponse!!.data!!.user!!.uid != null && items.ticketDetailsResponse!!.data!!.user!!.uid!!.equals(
                             employeeDetailsResponse?.data!!.uid) && items.ticketDetailsResponse!!.data.ticket_it.status.uid.equals(
                             "forwarded_to_fin") && items.status!!.code.equals("inprogress") && employeeDetailsResponse?.data!!.department!!.code.equals(
                             "FN") && items.ticketDetailsResponse!!.data.reason.sub_workflow.uid.equals(
