@@ -12,9 +12,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/fifty_five_dp"
-            android:paddingStart="@dimen/ten_dp"
+            android:paddingStart="3dp"
             android:paddingTop="@dimen/two_dp"
-            android:paddingEnd="@dimen/ten_dp"
+            android:paddingEnd="3dp"
             android:paddingBottom="@dimen/three_dp" />
 
         <RelativeLayout
@@ -56,8 +56,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="@dimen/thirty_dp"
-            android:layout_marginEnd="@dimen/thirty_dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="17dp"
             android:layout_marginBottom="@dimen/ten_dp"
             android:background="@drawable/btn_complaint_ripple_effect"
             android:fontFamily="@font/poppin_bold"
