@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Are you sure you want to \n delete?"
+            android:text="Are you sure want to delete?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 

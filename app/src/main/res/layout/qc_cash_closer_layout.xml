@@ -5,13 +5,13 @@
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/value_5dp"
-        app:cardElevation="@dimen/value_5dp">
+        android:layout_marginBottom="@dimen/value_5dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="wrap_content"
+            android:background="@drawable/cash_deposit_item_background">
+            <!--            e5f7f7-->
 
             <LinearLayout
                 android:id="@+id/orderHead"
@@ -23,9 +23,8 @@
                     android:id="@+id/pendingLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#D1F2E7"
                     android:orientation="vertical"
-                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingStart="12dp"
                     android:paddingTop="8dp"
                     android:paddingBottom="8dp"
                     android:weightSum="1">
@@ -33,7 +32,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="5dp">
+                        android:layout_marginBottom="6dp">
 
                         <RelativeLayout
                             android:id="@+id/siteId_layout"
@@ -113,42 +112,18 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/statusText"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="pending"
+                                android:text="Pending"
                                 android:textColor="#EA0D0D"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
                         </RelativeLayout>
 
-                        <RelativeLayout
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight=".10"
-                            android:gravity="center_vertical"
-                            android:paddingRight="15dp">
-
-                            <ImageView
-                                android:id="@+id/arrowClose"
-                                android:layout_width="@dimen/text_22sp"
-                                android:layout_height="@dimen/text_22sp"
-                                android:rotation="90"
-                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                                android:visibility="gone"
-                                app:tint="#606f6a" />
-
-                            <ImageView
-                                android:id="@+id/arrow"
-                                android:layout_width="@dimen/text_22sp"
-                                android:layout_height="@dimen/text_22sp"
-                                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                                android:visibility="visible"
-                                app:tint="#606f6a" />
-
-                        </RelativeLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp">
 
                         <RelativeLayout
                             android:layout_width="0dp"
@@ -180,7 +155,7 @@
                         <RelativeLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.40"
+                            android:layout_weight="0.35"
                             android:gravity="start">
 
                             <TextView
@@ -254,15 +229,396 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_5dp"
+                    android:background="#01bec0"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/upload_receipt_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/upload_receipt_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:fontFamily="@font/roboto_medium"
+                            android:paddingVertical="@dimen/value_4dp"
+                            android:paddingStart="@dimen/value_10dp"
+                            android:text="Upload Deposit Receipt"
+                            android:textStyle="bold"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/dimen11sp" />
+
+                        <ImageView
+                            android:id="@+id/arrow"
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                        <ImageView
+                            android:id="@+id/arrowClose"
+                            android:layout_width="@dimen/value_20dp"
+                            android:layout_height="@dimen/value_20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                            android:tint="@color/black"
+                            android:visibility="gone"
+                            tools:ignore="UseAppTint" />
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/extraData"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:visibility="gone">
+
+                        <!--<LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="5dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/remarksText"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Upload Deposit Receipt"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>-->
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/value_100dp"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:layout_marginBottom="@dimen/value_5dp"
+                                android:layout_weight=".5"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/value_10dp"
+                                app:cardElevation="@dimen/value_5dp">
+
+
+                                <RelativeLayout
+                                    android:id="@+id/beforecapturelayout1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="visible"
+                                    tools:ignore="Orientation">
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/ash_color_caera" />
+
+                                        <TextView
+                                            android:id="@+id/imageTextandNumber1"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:text="Image"
+                                            android:textColor="@color/ashcolor"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_margin="@dimen/four4_dp"
+                                        android:background="@drawable/green_backgroundplus"
+                                        android:padding="@dimen/value_3dp"
+                                        android:visibility="visible">
+
+                                        <ImageView
+                                            android:id="@+id/plusSysmbol1"
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:padding="3dp"
+                                            android:src="@drawable/plus" />
+                                    </LinearLayout>
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/aftercapturelayout1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="gone">
+
+
+                                    <ImageView
+                                        android:id="@+id/aftercapturedimage1"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0.5"
+                                        android:contentDescription="@string/app_name"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/capture" />
+
+                                    <LinearLayout
+                                        android:id="@+id/redTrash1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/value_30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_margin="@dimen/six6_sp"
+                                        android:background="@drawable/red_rounded_corners"
+                                        android:padding="@dimen/value_4dp"
+                                        android:visibility="gone">
+
+                                        <ImageView
+                                            android:id="@+id/showcapturedimage1"
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:padding="@dimen/value_3dp"
+                                            android:src="@drawable/trash" />
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:id="@+id/eyeImage1"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:visibility="gone">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/value_30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/eye2withbackground" />
+                                    </LinearLayout>
+
+
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/second_image_Layout"
+                                android:layout_width="0dp"
+                                android:layout_height="@dimen/value_100dp"
+                                android:layout_marginBottom="@dimen/value_5dp"
+                                android:layout_weight=".5"
+                                android:visibility="visible"
+                                app:cardBackgroundColor="@color/white"
+                                app:cardCornerRadius="@dimen/value_10dp"
+                                app:cardElevation="@dimen/value_5dp">
+
+
+                                <RelativeLayout
+                                    android:id="@+id/beforecapturelayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="visible"
+                                    tools:ignore="Orientation">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:orientation="vertical">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:src="@drawable/ash_color_caera" />
+
+                                        <TextView
+                                            android:id="@+id/imageTextandNumber"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:text="Image"
+                                            android:textColor="@color/ashcolor"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_margin="@dimen/four4_dp"
+                                        android:background="@drawable/green_backgroundplus"
+                                        android:padding="@dimen/value_3dp"
+                                        android:visibility="visible">
+
+                                        <ImageView
+                                            android:id="@+id/plusSysmbol"
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:padding="3dp"
+                                            android:src="@drawable/plus" />
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/aftercapturelayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:visibility="gone">
+
+
+                                    <ImageView
+                                        android:id="@+id/aftercapturedimage"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:alpha="0.5"
+                                        android:contentDescription="@string/app_name"
+                                        android:scaleType="fitXY"
+                                        android:src="@drawable/capture" />
+
+                                    <LinearLayout
+                                        android:id="@+id/redTrash"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="@dimen/value_30dp"
+                                        android:layout_alignParentRight="true"
+                                        android:layout_alignParentBottom="true"
+                                        android:layout_margin="@dimen/six6_sp"
+                                        android:background="@drawable/red_rounded_corners"
+                                        android:padding="@dimen/value_4dp"
+                                        android:visibility="gone">
+
+                                        <ImageView
+                                            android:id="@+id/showcapturedimage"
+                                            android:layout_width="@dimen/value_20dp"
+                                            android:layout_height="@dimen/value_20dp"
+                                            android:layout_gravity="center"
+                                            android:padding="@dimen/value_3dp"
+                                            android:src="@drawable/trash" />
+
+
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:id="@+id/eyeImage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:visibility="gone">
+
+                                        <ImageView
+                                            android:layout_width="@dimen/value_30dp"
+                                            android:layout_height="30dp"
+                                            android:src="@drawable/eye2withbackground" />
+                                    </LinearLayout>
+
+                                </RelativeLayout>
+
+
+                            </androidx.cardview.widget.CardView>
+
+
+                            <LinearLayout
+                                android:id="@+id/amount_layout"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:layout_weight="1"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_8dp"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginBottom="@dimen/value_5dp"
+                                        android:text="Amount Deposit"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_10sp"
+                                        android:textStyle="bold" />
+
+                                    <EditText
+                                        android:id="@+id/amountDeposit"
+                                        android:layout_width="@dimen/value_55dp"
+                                        android:layout_height="wrap_content"
+                                        android:background="@drawable/grey_border_bg"
+                                        android:padding="@dimen/value_5dp"
+                                        android:textAlignment="center"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+
+                                <TextView
+                                    android:id="@+id/upload_button"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_5dp"
+                                    android:background="@drawable/upload_button_disable"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:paddingTop="@dimen/value_5dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:paddingBottom="@dimen/value_5dp"
+                                    android:layout_marginTop="8dp"
+                                    android:text="UPLOAD"
+                                    android:textColor="#ffffff"
+                                    android:textSize="10sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!--<LinearLayout
                     android:id="@+id/extraData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#DCEDE7"
+                    android:layout_margin="@dimen/value_5dp"
+                    android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -275,7 +631,7 @@
                             android:layout_below="@+id/remarksText"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Upload Deposit Receipt"
-                            android:textColor="@color/black"
+                            android:textColor="@color/gray"
                             android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -284,11 +640,13 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:weightSum="2"
                         android:orientation="horizontal">
 
                         <androidx.cardview.widget.CardView
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
                             android:layout_height="@dimen/value_100dp"
+                            android:layout_weight=".5"
                             android:layout_marginEnd="@dimen/value_5dp"
                             android:layout_marginBottom="@dimen/value_5dp"
                             app:cardBackgroundColor="@color/white"
@@ -406,9 +764,9 @@
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/second_image_Layout"
-                            android:layout_width="110dp"
+                            android:layout_width="0dp"
                             android:layout_height="@dimen/value_100dp"
-                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:layout_weight=".5"
                             android:layout_marginBottom="@dimen/value_5dp"
                             android:visibility="visible"
                             app:cardBackgroundColor="@color/white"
@@ -531,9 +889,30 @@
                             android:id="@+id/amount_layout"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="2"
+                            android:layout_weight="1"
                             android:gravity="center_vertical|center_horizontal"
                             android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:layout_marginEnd="@dimen/value_8dp"
+                                android:gravity="center_horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:text="Amount Deposit"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <EditText
+                                    android:layout_width="@dimen/value_70dp"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/grey_border_bg" />
+                            </LinearLayout>
 
 
                             <TextView
@@ -553,7 +932,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                </LinearLayout>
+                </LinearLayout>-->
 
             </LinearLayout>
 

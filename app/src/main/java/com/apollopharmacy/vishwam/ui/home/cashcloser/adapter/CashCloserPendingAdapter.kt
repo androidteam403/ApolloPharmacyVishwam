@@ -60,9 +60,12 @@ class CashCloserPendingAdapter(
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
 
-        holder.cashCloserLayoutBinding.amount.text = DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
-            .toString()
+        holder.cashCloserLayoutBinding.amount.text =
+            DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
+                .toString()
         holder.cashCloserLayoutBinding.remarks.text = cashDeposit[position].remarks
+
+        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())
 
 
         // image 1
@@ -207,21 +210,25 @@ class CashCloserPendingAdapter(
         if (cashDeposit[position].isExpanded) {
             holder.cashCloserLayoutBinding.arrow.visibility = View.GONE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+            holder.cashCloserLayoutBinding.uploadReceiptText.setTextColor(Color.parseColor("#808080"))
             holder.cashCloserLayoutBinding.extraData.visibility = View.VISIBLE
         } else {
             holder.cashCloserLayoutBinding.arrow.visibility = View.VISIBLE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.GONE
+            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#01bec0"))
+            holder.cashCloserLayoutBinding.uploadReceiptText.setTextColor(Color.parseColor("#ffffff"))
             holder.cashCloserLayoutBinding.extraData.visibility = View.GONE
         }
 
+
         holder.cashCloserLayoutBinding.arrow.setOnClickListener {
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
-
         }
+
         holder.cashCloserLayoutBinding.arrowClose.setOnClickListener {
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
-
 
         if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
             cashDeposit[position].setIsClicked(true)
@@ -237,7 +244,7 @@ class CashCloserPendingAdapter(
 
         holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
             if (cashDeposit[position].isClicked!!) {
-                openDialog(position)
+                openDialog(position, holder.cashCloserLayoutBinding.amountDeposit.text.toString())
             }
         }
     }
@@ -264,7 +271,7 @@ class CashCloserPendingAdapter(
         dialog.show()
     }
 
-    private fun openDialog(position: Int) {
+    private fun openDialog(position: Int, amount: String) {
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val dialogUploadCommentBinding: DialogUploadCommentBinding =
@@ -288,7 +295,7 @@ class CashCloserPendingAdapter(
                     cashDeposit[position].siteid!!,
                     cashDeposit[position].imagePath,
                     cashDeposit[position].imagePathTwo,
-                    dialogUploadCommentBinding.cashDepositText.text.toString(),
+                    amount,
                     dialogUploadCommentBinding.commentText.text.toString(),
                     cashDeposit[position].dcid!!,
                     LoginRepo.getProfile()!!.EMPID

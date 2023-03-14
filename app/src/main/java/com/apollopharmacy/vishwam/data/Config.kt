@@ -63,4 +63,5 @@ object Config {
         "DefaultEndpointsProtocol=https;" + "AccountName=pharmtest;" + "AccountKey=dhJpbROM1e6MzzjAHPXyP52+w1U+cN2DQKnqwc77Uwp6LkIH/9k2hHktS3zpfJPCEQdL2jcqYdANTdEox+Fiww=="
     var COMPLAINTLISTFETCHEDTIME: Date? = null
 
+    val CASH_DEPOSIT_CONTAINAER_NAME = "cashclousr" // CASHCLOUSR
 }
