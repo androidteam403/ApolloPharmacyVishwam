@@ -30,7 +30,7 @@ import java.time.format.DateTimeFormatter
 
 class CashCloserPendingAdapter(
     val mContext: Context,
-    val cashDeposit: ArrayList<CashDepositDetailsResponse.Cashdeposit>,
+    private val cashDeposit: ArrayList<CashDepositDetailsResponse.Cashdeposit>,
     val mCallback: CashCloserFragmentCallback,
 ) :
     RecyclerView.Adapter<CashCloserPendingAdapter.ViewHolder>() {
@@ -60,31 +60,28 @@ class CashCloserPendingAdapter(
         val formattedDate = date.format(formatter)
         holder.cashCloserLayoutBinding.closingDate.text = formattedDate
 
-        holder.cashCloserLayoutBinding.amount.setText(DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
-            .toString())
-        holder.cashCloserLayoutBinding.remarks.setText(cashDeposit[position].remarks)
+        holder.cashCloserLayoutBinding.amount.text =
+            DecimalFormat("#,###.00").format(cashDeposit[position].amount!!.toDouble())
+                .toString()
+        holder.cashCloserLayoutBinding.remarks.text = cashDeposit[position].remarks
 
-//        if (holder.cashCloserLayoutBinding.amountDeposit.text.toString().isEmpty()) {
-//            holder.cashCloserLayoutBinding.amountDeposit.setText("0")
-//        }
+        holder.cashCloserLayoutBinding.amountDeposit.setText(cashDeposit[position].amount!!.toString())
 
 
         // image 1
-        if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl!!.equals(
-                "URL1")
+        if (cashDeposit[position].imageurl!!.isNotEmpty() && cashDeposit[position].imageurl!! != "URL1"
         ) {
-            if (cashDeposit.get(position).imageurl!!.contains(",")) {
-//                holder.cashCloserLayoutBinding.secondImageLayout.visibility = View.GONE
+            if (cashDeposit[position].imageurl!!.contains(",")) {
                 holder.cashCloserLayoutBinding.amountLayout.visibility = View.GONE
                 holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
                 Glide.with(mContext)
-                    .load(cashDeposit.get(position).imageurl!!.split(",").get(0))
+                    .load(cashDeposit[position].imageurl!!.split(",")[0])
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.cashCloserLayoutBinding.aftercapturedimage1)
                 holder.cashCloserLayoutBinding.redTrash1.visibility = View.GONE
                 holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
-                holder.cashCloserLayoutBinding.status.setText("Completed")
+                holder.cashCloserLayoutBinding.status.text = "Completed"
                 holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
                 holder.cashCloserLayoutBinding.remarksLayout.visibility = View.VISIBLE
             } else {
@@ -92,20 +89,20 @@ class CashCloserPendingAdapter(
                 holder.cashCloserLayoutBinding.amountLayout.visibility = View.GONE
                 holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
                 Glide.with(mContext)
-                    .load(cashDeposit.get(position).imageurl)
+                    .load(cashDeposit[position].imageurl)
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.cashCloserLayoutBinding.aftercapturedimage1)
                 holder.cashCloserLayoutBinding.redTrash1.visibility = View.GONE
                 holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
-                holder.cashCloserLayoutBinding.status.setText("Completed")
+                holder.cashCloserLayoutBinding.status.text = "Completed"
                 holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
                 holder.cashCloserLayoutBinding.remarksLayout.visibility = View.VISIBLE
             }
-        } else if (cashDeposit.get(position).imagePath != null) {
-            if (cashDeposit.get(position).imagePath!!.exists()) {
+        } else if (cashDeposit[position].imagePath != null) {
+            if (cashDeposit[position].imagePath!!.exists()) {
                 val myBitmap: Bitmap =
-                    BitmapFactory.decodeFile(cashDeposit.get(position).imagePath!!.getAbsolutePath())
+                    BitmapFactory.decodeFile(cashDeposit[position].imagePath!!.absolutePath)
                 holder.cashCloserLayoutBinding.aftercapturedimage1.setImageBitmap(myBitmap)
                 holder.cashCloserLayoutBinding.aftercapturelayout1.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.redTrash1.visibility = View.VISIBLE
@@ -121,15 +118,14 @@ class CashCloserPendingAdapter(
 
 
         // image 2
-        if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl!!.equals(
-                "URL1")
+        if (cashDeposit[position].imageurl!!.isNotEmpty() && cashDeposit[position].imageurl!! != "URL1"
         ) {
-            if (cashDeposit.get(position).imageurl!!.contains(",")) {
+            if (cashDeposit[position].imageurl!!.contains(",")) {
                 holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.redTrash.visibility = View.GONE
                 holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
                 Glide.with(mContext)
-                    .load(cashDeposit.get(position).imageurl!!.split(",").get(1))
+                    .load(cashDeposit[position].imageurl!!.split(",")[1])
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.cashCloserLayoutBinding.aftercapturedimage)
                 holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
@@ -138,15 +134,15 @@ class CashCloserPendingAdapter(
                 holder.cashCloserLayoutBinding.redTrash.visibility = View.GONE
                 holder.cashCloserLayoutBinding.eyeImage.visibility = View.VISIBLE
                 Glide.with(mContext)
-                    .load(cashDeposit.get(position).imageurl)
+                    .load(cashDeposit[position].imageurl)
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.cashCloserLayoutBinding.aftercapturedimage)
                 holder.cashCloserLayoutBinding.beforecapturelayout.visibility = View.GONE
             }
-        } else if (cashDeposit.get(position).imagePathTwo != null) {
-            if (cashDeposit.get(position).imagePathTwo!!.exists()) {
+        } else if (cashDeposit[position].imagePathTwo != null) {
+            if (cashDeposit[position].imagePathTwo!!.exists()) {
                 val bitmap: Bitmap =
-                    BitmapFactory.decodeFile(cashDeposit.get(position).imagePathTwo!!.getAbsolutePath())
+                    BitmapFactory.decodeFile(cashDeposit[position].imagePathTwo!!.absolutePath)
                 holder.cashCloserLayoutBinding.aftercapturedimage.setImageBitmap(bitmap)
                 holder.cashCloserLayoutBinding.aftercapturelayout.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.redTrash.visibility = View.VISIBLE
@@ -163,52 +159,50 @@ class CashCloserPendingAdapter(
 
         // image 1
         holder.cashCloserLayoutBinding.plusSysmbol1.setOnClickListener {
-            mCallback.addImage(cashDeposit.get(position).siteid!!, position, 1)
+            mCallback.addImage(cashDeposit[position].siteid!!, position, 1)
         }
 
         // image 2
         holder.cashCloserLayoutBinding.plusSysmbol.setOnClickListener {
-            mCallback.addImage(cashDeposit.get(position).siteid!!, position, 2)
+            mCallback.addImage(cashDeposit[position].siteid!!, position, 2)
         }
 
         holder.cashCloserLayoutBinding.redTrash1.setOnClickListener {
             confirmDialog(position, 1)
-//            mCallback.deleteImage(position, 1)
         }
 
         holder.cashCloserLayoutBinding.redTrash.setOnClickListener {
             confirmDialog(position, 2)
-//            mCallback.deleteImage(position, 2)
         }
 
         holder.cashCloserLayoutBinding.eyeImage1.setOnClickListener {
 
-            if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl.equals(
+            if (cashDeposit[position].imageurl!!.isNotEmpty() && !cashDeposit[position].imageurl.equals(
                     "URL1")
             ) {
-                if (cashDeposit.get(position).imageurl!!.contains(",")) {
-                    mCallback.previewImage(cashDeposit.get(position).imageurl!!.split(",").get(0),
+                if (cashDeposit[position].imageurl!!.contains(",")) {
+                    mCallback.previewImage(cashDeposit[position].imageurl!!.split(",")[0],
                         position)
                 } else {
-                    mCallback.previewImage(cashDeposit.get(position).imageurl!!, position)
+                    mCallback.previewImage(cashDeposit[position].imageurl!!, position)
                 }
             } else {
-                mCallback.previewImage(cashDeposit.get(position).imagePath!!.toString(), position)
+                mCallback.previewImage(cashDeposit[position].imagePath!!.toString(), position)
             }
         }
 
         holder.cashCloserLayoutBinding.eyeImage.setOnClickListener {
-            if (cashDeposit.get(position).imageurl!!.isNotEmpty() && !cashDeposit.get(position).imageurl.equals(
+            if (cashDeposit[position].imageurl!!.isNotEmpty() && !cashDeposit[position].imageurl.equals(
                     "URL1")
             ) {
-                if (cashDeposit.get(position).imageurl!!.contains(",")) {
-                    mCallback.previewImage(cashDeposit.get(position).imageurl!!.split(",").get(1),
+                if (cashDeposit[position].imageurl!!.contains(",")) {
+                    mCallback.previewImage(cashDeposit[position].imageurl!!.split(",")[1],
                         position)
                 } else {
-                    mCallback.previewImage(cashDeposit.get(position).imageurl!!, position)
+                    mCallback.previewImage(cashDeposit[position].imageurl!!, position)
                 }
             } else {
-                mCallback.previewImage(cashDeposit.get(position).imagePathTwo!!.toString(),
+                mCallback.previewImage(cashDeposit[position].imagePathTwo!!.toString(),
                     position)
             }
         }
@@ -216,37 +210,41 @@ class CashCloserPendingAdapter(
         if (cashDeposit[position].isExpanded) {
             holder.cashCloserLayoutBinding.arrow.visibility = View.GONE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.VISIBLE
+            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#ffffff"))
+            holder.cashCloserLayoutBinding.uploadReceiptText.setTextColor(Color.parseColor("#808080"))
             holder.cashCloserLayoutBinding.extraData.visibility = View.VISIBLE
         } else {
             holder.cashCloserLayoutBinding.arrow.visibility = View.VISIBLE
             holder.cashCloserLayoutBinding.arrowClose.visibility = View.GONE
+            holder.cashCloserLayoutBinding.uploadReceiptLayout.setBackgroundColor(Color.parseColor("#01bec0"))
+            holder.cashCloserLayoutBinding.uploadReceiptText.setTextColor(Color.parseColor("#ffffff"))
             holder.cashCloserLayoutBinding.extraData.visibility = View.GONE
         }
 
+
         holder.cashCloserLayoutBinding.arrow.setOnClickListener {
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
-
         }
+
         holder.cashCloserLayoutBinding.arrowClose.setOnClickListener {
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
 
-
         if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
-            cashDeposit.get(position).setIsClicked(true)
+            cashDeposit[position].setIsClicked(true)
         } else if (cashDeposit[position].imagePath == null || cashDeposit[position].imagePathTwo == null) {
-            cashDeposit.get(position).setIsClicked(false)
+            cashDeposit[position].setIsClicked(false)
         }
 
-        if (cashDeposit.get(position).isClicked!!) {
+        if (cashDeposit[position].isClicked!!) {
             holder.cashCloserLayoutBinding.uploadButton.setBackgroundResource(R.drawable.upload_button)
         } else {
             holder.cashCloserLayoutBinding.uploadButton.setBackgroundResource(R.drawable.upload_button_disable)
         }
 
         holder.cashCloserLayoutBinding.uploadButton.setOnClickListener {
-            if (cashDeposit.get(position).isClicked!!) {
-                openDialog(position)
+            if (cashDeposit[position].isClicked!!) {
+                openDialog(position, holder.cashCloserLayoutBinding.amountDeposit.text.toString())
             }
         }
     }
@@ -273,10 +271,10 @@ class CashCloserPendingAdapter(
         dialog.show()
     }
 
-    private fun openDialog(position: Int) {
+    private fun openDialog(position: Int, amount: String) {
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        var dialogUploadCommentBinding: DialogUploadCommentBinding =
+        val dialogUploadCommentBinding: DialogUploadCommentBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(mContext),
                 R.layout.dialog_upload_comment,
@@ -294,12 +292,12 @@ class CashCloserPendingAdapter(
                 Toast.makeText(mContext, "Please enter comment", Toast.LENGTH_LONG).show()
             } else {
                 mCallback.onClickUpload(
-                    cashDeposit.get(position).siteid!!,
-                    cashDeposit.get(position).imagePath,
-                    cashDeposit.get(position).imagePathTwo,
-                    dialogUploadCommentBinding.cashDepositText.text.toString(),
+                    cashDeposit[position].siteid!!,
+                    cashDeposit[position].imagePath,
+                    cashDeposit[position].imagePathTwo,
+                    amount,
                     dialogUploadCommentBinding.commentText.text.toString(),
-                    cashDeposit.get(position).dcid!!,
+                    cashDeposit[position].dcid!!,
                     LoginRepo.getProfile()!!.EMPID
                 )
                 dialog.dismiss()
