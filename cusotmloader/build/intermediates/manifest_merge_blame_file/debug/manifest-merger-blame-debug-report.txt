@@ -6,11 +6,11 @@
 6
 7    <uses-sdk
 8        android:minSdkVersion="15"
-8-->E:\AndroidWorkspace\ApolloPharmacyVishwamNew\cusotmloader\src\main\AndroidManifest.xml
+8-->D:\test\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 9        android:targetSdkVersion="27" />
-9-->E:\AndroidWorkspace\ApolloPharmacyVishwamNew\cusotmloader\src\main\AndroidManifest.xml
+9-->D:\test\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 10
 11    <application />
-11-->E:\AndroidWorkspace\ApolloPharmacyVishwamNew\cusotmloader\src\main\AndroidManifest.xml:3:5-19
+11-->D:\test\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:3:5-19
 12
 13</manifest>

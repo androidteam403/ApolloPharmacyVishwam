@@ -247,6 +247,9 @@ class CashCloserPendingAdapter(
                 openDialog(position, holder.cashCloserLayoutBinding.amountDeposit.text.toString())
             }
         }
+        holder.cashCloserLayoutBinding.headerLayout.setOnClickListener{
+            mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
+        }
     }
 
     private fun confirmDialog(position: Int, imageState: Int) {

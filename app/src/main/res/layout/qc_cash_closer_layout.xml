@@ -8,6 +8,7 @@
         android:layout_marginBottom="@dimen/value_5dp">
 
         <RelativeLayout
+            android:id="@+id/header_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/cash_deposit_item_background">

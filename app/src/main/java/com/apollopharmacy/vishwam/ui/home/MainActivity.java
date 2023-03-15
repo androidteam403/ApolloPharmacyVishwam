@@ -1383,7 +1383,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         );
 
-        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
+//        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
 //        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
