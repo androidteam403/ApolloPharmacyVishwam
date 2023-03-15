@@ -33,10 +33,10 @@
                         android:layout_height="@dimen/value_30dp"
                         android:gravity="center"
                         android:text="@{position}"
-                        android:textColor="#1f7477"
+                        android:textColor="#1d7374"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
-
+<!--                    @{position}-->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -49,11 +49,11 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginStart="5dp"
                             android:layout_weight=".45"
-                            android:text="@{model.categoryName}"
-                            android:textColor="@color/grey_for_text"
-                            android:textSize="@dimen/text_16sp"
+                            android:text="@{model.categoryName.toUpperCase()}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
                             android:textStyle="bold" />
-
+<!--                        @{model.categoryName.toUpperCase()}-->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                                     android:id="@+id/cleanlinessOverallPoints"
                                     android:layout_width="@dimen/value_50dp"
                                     android:layout_height="@dimen/value_30dp"
-                                    android:background="@drawable/grey_orange_rectangle"
+                                    android:background="@drawable/grey_yellow_rectangle"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:text="@{String.valueOf(sumOfSubCategoryMaxRatings)}"
                                     android:textAlignment="center"
@@ -92,10 +92,10 @@
                                 <TextView
                                     android:layout_width="@dimen/value_30dp"
                                     android:layout_height="@dimen/value_30dp"
-                                    android:gravity="center_vertical|center_horizontal"
+                                    android:gravity="center_vertical"
                                     android:text="@{model.rating}"
                                     android:textColor="@color/black"
-                                    android:textSize="18sp"
+                                    android:textSize="14sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
