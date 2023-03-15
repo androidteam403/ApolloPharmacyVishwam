@@ -230,6 +230,10 @@ class CashCloserPendingAdapter(
             mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
         }
 
+        holder.cashCloserLayoutBinding.pendingLayout.setOnClickListener {
+            mCallback.headrItemClickListener(cashDeposit[position].siteid!!, position)
+        }
+
         if (cashDeposit[position].imagePath != null || cashDeposit[position].imagePathTwo != null) {
             cashDeposit[position].setIsClicked(true)
         } else if (cashDeposit[position].imagePath == null || cashDeposit[position].imagePathTwo == null) {
