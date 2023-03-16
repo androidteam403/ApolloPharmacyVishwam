@@ -16,6 +16,14 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+
+import com.apollopharmacy.vishwam.BuildConfig;
+import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
+import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
+import com.apollopharmacy.vishwam.ui.rider.activity.SplashScreen;
+import com.apollopharmacy.vishwam.ui.rider.complaints.ComplaintsFragmentCallback;
+import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
+
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -127,7 +135,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
-import com.google.zxing.client.android.BuildConfig;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -466,9 +473,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
-            userNameText.setText(loginData.getEMPNAME());
+//            userNameText.setText("JaiKumar Loknathan Mudaliar");
             idText.setText("ID: " + loginData.getEMPID());
             isSuperAdmin = loginData.getIS_SUPERADMIN();
+            userNameText.setText(loginData.getEMPNAME());
 
 //            Toast.makeText(getApplicationContext(), "" + userDesignation, Toast.LENGTH_SHORT).show();
 

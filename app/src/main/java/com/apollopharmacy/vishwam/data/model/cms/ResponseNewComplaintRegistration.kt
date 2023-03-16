@@ -26,6 +26,9 @@ data class ResponseNewComplaintRegistration(
     data class Data(
         @field:SerializedName("uid")
         val uid: String? = null,
+        @field:SerializedName("created_user")
+        var createdUser: CreatedUser? = null,
+
 
         @field:SerializedName("ticket_id")
         val ticket_id: String? = null,
@@ -36,6 +39,11 @@ data class ResponseNewComplaintRegistration(
         @field:SerializedName("errors")
         val errors: ArrayList<Error>? = null,
         ) : Serializable
+
+
+
+
+
 }
 
 

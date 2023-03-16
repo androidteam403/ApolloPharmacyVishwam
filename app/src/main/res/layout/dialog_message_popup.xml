@@ -20,11 +20,20 @@
             android:visibility="gone" />
 
         <TextView
-            android:id="@+id/messagetext"
+            android:id="@+id/user_text_drug"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/value_10dp"
+            android:gravity="center_horizontal"
+            android:textColor="@color/new_order_header_view_bg"
+            android:textSize="@dimen/text_16sp" />
+
+        <TextView
+            android:id="@+id/messagetext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/value_10dp"
             android:gravity="center_horizontal"
             android:textColor="@color/black"
