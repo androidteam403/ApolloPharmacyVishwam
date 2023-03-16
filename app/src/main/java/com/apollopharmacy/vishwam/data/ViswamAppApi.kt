@@ -3,6 +3,10 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -214,6 +218,18 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("EMPID") id: String,
     ): ArrayList<GetTaskListResponse>
+    @POST
+    suspend fun getSiteList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Body siteId: SiteListRequest,
+    ): SiteListResponse
+    @POST
+    suspend fun getDoctorList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Body siteId: DoctorListRequest,
+    ): DoctorListResponse
 
     @POST
     suspend fun taskInsertUpdate(

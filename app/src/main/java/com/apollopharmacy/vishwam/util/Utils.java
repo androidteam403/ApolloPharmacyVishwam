@@ -32,6 +32,7 @@ import androidx.transition.TransitionManager;
 
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -54,6 +55,10 @@ public class Utils {
     public static final boolean IS_LOG_ENABLED = true;
 
     public  static  ArrayList<NewTicketHistoryResponse.Row> historytransferredarray=new ArrayList<>();
+
+
+
+
     public static SpannableString convertSpannableStringSizes(Context context, String defaultStr, String resultCnt, String resultsTxt, String inputSearchTxt,
                                                               float headerSize, float descSize, int font) {
         Typeface typeface = ResourcesCompat.getFont(context, font);
@@ -161,8 +166,8 @@ public class Utils {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            format1 = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-            format2 = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
+            format1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
         }
         String convertedDate = "";
         try {
@@ -344,6 +349,47 @@ public class Utils {
         }
         return convertedDate;
     }
+    public static String timeCoversion12to24(String loginDate) throws ParseException {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("hh:mm:ssaa", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("HH:mm:ss", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(loginDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+
+    }
+
+    public static String dateCoversiontoTime(String twelveHoursTime) throws ParseException {
+
+        //Date/time pattern of input date (12 Hours format - hh used for 12 hours)
+        DateFormat df = new SimpleDateFormat("dd/MMM/yyyy, hh:mm:ssaa");
+
+        //Date/time pattern of desired output date (24 Hours format HH - Used for 24 hours)
+        DateFormat outputformat = new SimpleDateFormat("HH:mm:ss");
+        Date date = null;
+        String output = null;
+
+        //Returns Date object
+        date = df.parse(twelveHoursTime);
+
+        //old date format to new date format
+        output = outputformat.format(date);
+        System.out.println(output);
+
+        return output;
+    }
+
 
     public static String getAttendanceCurrentDate() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

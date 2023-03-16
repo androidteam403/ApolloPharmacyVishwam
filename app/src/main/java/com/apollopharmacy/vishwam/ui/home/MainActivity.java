@@ -1296,7 +1296,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        if (isAttendanceRequired) {
             listView.addHeaderModel(
-                    new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_baseline_attendance)
+                    new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports))
                             .addChildModel(new ChildModel("History", R.drawable.ic_menu_survey))
             );

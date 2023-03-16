@@ -358,7 +358,7 @@
     <string name="label_sunday">Sun</string>
     <string name="label_sign_in">Sign In</string>
     <string name="label_sign_out">Sign Out</string>
-    <string name="label_last_login">Last Attendance Sign-In :</string>
+    <string name="label_last_login">Last Attendance Sign-In </string>
     <string name="label_attendance_sign_in">Attendance Sign-In</string>
     <string name="label_attendance_sign_out">Attendance Sign-Out</string>
     <string name="label_task_sign_in">Task In</string>
