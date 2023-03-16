@@ -1742,15 +1742,18 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
     }
 
-    override fun onFailureMessage(user:String,message: String) {
+    override fun onFailureMessage(ticketId: String, userName: String, message: String) {
         hideLoading()
         val dialog = android.app.Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_message_popup)
         val messageTextView = dialog.findViewById(R.id.messagetext) as TextView
-        val userTextView = dialog.findViewById(R.id.user_text_drug) as TextView
-        userTextView.text=user
+        val ticketIdTextView = dialog.findViewById(R.id.ticket_id) as TextView
+        val createdUserName = dialog.findViewById(R.id.created_user_name) as TextView
+
+        ticketIdTextView.text = ticketId
+        createdUserName.text = userName
 
         messageTextView.text = message
         val submit = dialog.findViewById(R.id.ok_button) as AppCompatButton

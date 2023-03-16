@@ -16,14 +16,6 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-
-import com.apollopharmacy.vishwam.BuildConfig;
-import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
-import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
-import com.apollopharmacy.vishwam.ui.rider.activity.SplashScreen;
-import com.apollopharmacy.vishwam.ui.rider.complaints.ComplaintsFragmentCallback;
-import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
-
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
@@ -65,6 +57,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.apollopharmacy.vishw.PendingFragment;
+import com.apollopharmacy.vishwam.BuildConfig;
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.Preferences;
 import com.apollopharmacy.vishwam.data.model.EmployeeDetailsResponse;
@@ -1299,13 +1292,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
-//        if (isAttendanceRequired) {
+        if (isAttendanceRequired) {
             listView.addHeaderModel(
                     new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports))
                             .addChildModel(new ChildModel("History", R.drawable.ic_menu_survey))
             );
-//        }
+        }
         if (isCMSRequired) {
             listView.addHeaderModel(
                     new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
