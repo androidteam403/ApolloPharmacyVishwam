@@ -82,6 +82,7 @@ class CashCloserPendingAdapter(
                 holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
                 holder.cashCloserLayoutBinding.status.text = "Completed"
+                holder.cashCloserLayoutBinding.uploadReceiptText.setText("Receipt Details")
                 holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
                 holder.cashCloserLayoutBinding.remarksLayout.visibility = View.VISIBLE
             } else {
@@ -96,6 +97,7 @@ class CashCloserPendingAdapter(
                 holder.cashCloserLayoutBinding.eyeImage1.visibility = View.VISIBLE
                 holder.cashCloserLayoutBinding.beforecapturelayout1.visibility = View.GONE
                 holder.cashCloserLayoutBinding.status.text = "Completed"
+                holder.cashCloserLayoutBinding.uploadReceiptText.setText("Receipt Details")
                 holder.cashCloserLayoutBinding.status.setTextColor(Color.parseColor("#00c853"))
                 holder.cashCloserLayoutBinding.remarksLayout.visibility = View.VISIBLE
             }
