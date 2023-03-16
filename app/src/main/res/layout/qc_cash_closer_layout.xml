@@ -250,9 +250,9 @@
                             android:paddingVertical="@dimen/value_4dp"
                             android:paddingStart="@dimen/value_10dp"
                             android:text="Upload Deposit Receipt"
-                            android:textStyle="bold"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/dimen11sp" />
+                            android:textSize="@dimen/dimen11sp"
+                            android:textStyle="bold" />
 
                         <ImageView
                             android:id="@+id/arrow"
