@@ -13,16 +13,27 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.AttendanceRepo
+import com.apollopharmacy.vishwam.data.network.SwachhListApiResponse
+import com.apollopharmacy.vishwam.ui.createpin.Command
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListRequest
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class AttendanceViewModel : ViewModel() {
     var complainLiveData = MutableLiveData<ArrayList<GetTaskListResponse>>()
     var lastLoginData = MutableLiveData<LoginInfoRes>()
     var command = LiveEvent<AttendanceCommand>()
+    var siteLiveData = MutableLiveData<SiteListResponse>()
+    var doctorLiveData = MutableLiveData<DoctorListResponse>()
+
     val state = MutableLiveData<State>()
     var departmentData = MutableLiveData<DepartmentListRes>()
     var departmentTaskData = MutableLiveData<DepartmentTaskListRes>()
@@ -126,6 +137,7 @@ class AttendanceViewModel : ViewModel() {
                     }
                     when (response) {
                         is ApiResult.Success -> {
+
                             state.value = State.ERROR
                             command.value =
                                 AttendanceCommand.UpdateTaskList(response.value.message.toString())
@@ -166,6 +178,106 @@ class AttendanceViewModel : ViewModel() {
                 )
             command.postValue(AttendanceCommand.ImageIsUploadedInAzur(response))
         }
+    }
+
+
+    fun siteListResponse(siteListRequest: SiteListRequest) {
+
+                val url = Preferences.getApi()
+                val data = Gson().fromJson(url, ValidateResponse::class.java)
+                var baseUrl = ""
+                var token = ""
+                for (i in data.APIS.indices) {
+                    if (data.APIS[i].NAME.equals("ATTENDENCEGETSITEANDDOCTORLIST")) {
+                        baseUrl = data.APIS[i].URL
+                        token = data.APIS[i].TOKEN
+                        break
+                    }
+                }
+
+                viewModelScope.launch {
+                    val response = withContext(Dispatchers.IO) {
+                        AttendanceRepo.getSiteList(token, baseUrl, siteListRequest)
+                    }
+                    when (response) {
+                        is ApiResult.Success -> {
+//                            Expected BEGIN_ARRAY but was BEGIN_OBJECT at line 1 column 2 path $
+                            state.value = State.ERROR
+                            siteLiveData.value = response.value
+
+                        }
+                        is ApiResult.NetworkError -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Please Check Internet Connection")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.GenericError -> {
+                            command.value = AttendanceCommand.ShowToast("Unknown Error")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownError -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                            state.value = State.ERROR
+                        }
+                        is ApiResult.UnknownHostException -> {
+                            command.value =
+                                AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                            state.value = State.ERROR
+                        }
+                    }
+                }
+
+
+    }
+
+    fun doctorListResponse(doctorListRequest: DoctorListRequest) {
+
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("ATTENDENCEGETSITEANDDOCTORLIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                AttendanceRepo.getDoctorList(token, baseUrl, doctorListRequest)
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    doctorLiveData.value = response.value
+
+                }
+                is ApiResult.NetworkError -> {
+                    command.value =
+                        AttendanceCommand.ShowToast("Please Check Internet Connection")
+                    state.value = State.ERROR
+                }
+                is ApiResult.GenericError -> {
+                    command.value = AttendanceCommand.ShowToast("Unknown Error")
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    command.value =
+                        AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownHostException -> {
+                    command.value =
+                        AttendanceCommand.ShowToast("Something went wrong, please try again later")
+                    state.value = State.ERROR
+                }
+            }
+        }
+
+
     }
 
     fun attendanceSignInOutService(atdLogInOutReq: AtdLogInOutReq) {

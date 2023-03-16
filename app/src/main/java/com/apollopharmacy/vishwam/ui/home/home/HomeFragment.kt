@@ -21,6 +21,7 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>() {
     }
 
     override fun setup() {
+        hideLoading()
 
         val userData = LoginRepo.getProfile()
         if (userData != null) {

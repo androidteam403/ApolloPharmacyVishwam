@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="navy">#dceaf4</color>
     <color name="cement">#EFEFEF</color>
+    <color name="border_card">#01bfc0</color>
     <color name="filter_color">#D1F2E7</color>
 
     <color name="splash_start_color">#173b5e</color>
@@ -48,7 +49,7 @@
     <color name="status_acknowledge">#00CCCC</color>
     <color name="status_reopen_for_process">#CC0066</color>
     <color name="complaint_bg">#ecf5f8</color>
-
+<color name="newtask_bg">#dbf2f8</color>
     <color name="task_card_bg">#b2e2f2</color>
     <color name="dialog_corner_color">#d4d4d4</color>
     <color name="header_bg">#d5d6d8</color>

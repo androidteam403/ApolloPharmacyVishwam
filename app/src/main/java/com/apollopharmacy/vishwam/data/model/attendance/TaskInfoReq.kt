@@ -7,5 +7,7 @@ data class TaskInfoReq(
     var LATITUDE: String,
     var LONGITUDE: String,
     var TYPE: String,
-    var CITY: String
-)
+    var CITY: String,
+    var Remarks: String
+
+    )
