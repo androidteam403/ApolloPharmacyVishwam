@@ -66,17 +66,17 @@
         android:layout_marginEnd="10dp"
         android:textColorHint="@color/black"
         app:counterEnabled="true"
-        app:counterMaxLength="250"
+        app:counterMaxLength="150"
         app:layout_constraintTop_toBottomOf="@+id/extraLayout">
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/descriptionTextattendence"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="80dp"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
             android:gravity="top|start"
             android:hint="Remarks *"
-            android:maxLength="250"
+            android:maxLength="150"
             android:paddingStart="@dimen/value_10dp"
             android:paddingEnd="@dimen/value_10dp"
             android:scrollbars="vertical"
