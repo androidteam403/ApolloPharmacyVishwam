@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DatepickerLayoutBinding
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis.formatTheDate
+import java.util.*
 
 class DatePickerDialog : DialogFragment() {
     val TAG = "DatePickerDialog"
@@ -17,7 +19,10 @@ class DatePickerDialog : DialogFragment() {
     interface DateSelected {
         fun selectDateFrom(dateSelected: String, showingDate: String)
         fun selectedDateTo(dateSelected: String, showingDate: String)
+
     }
+
+
 
     private lateinit var dateSelectedListner: DateSelected
     private var tagSelected: String? = null

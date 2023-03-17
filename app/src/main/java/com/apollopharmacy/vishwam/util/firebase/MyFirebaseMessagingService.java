@@ -47,16 +47,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String body = remoteMessage.getNotification().getBody();
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            int pendingFlags;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+            } else {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+            }
+            
+
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0 /* Request code */, resultIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    pendingFlags);
+//                    PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
             notificationBuilder.setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.drawable.logo_apollo)
                     .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                     .setNumber(10)
                     .setTicker("Bestmarts")
@@ -71,16 +81,23 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String body = data.get("body");
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            int pendingFlags;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+            } else {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0 /* Request code */, resultIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    pendingFlags);
+//                    PendingIntent.FLAG_UPDATE_CURRENT);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
             notificationBuilder.setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setWhen(System.currentTimeMillis())
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.drawable.logo_apollo)
                     .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
                     .setNumber(10)
                     .setTicker("Bestmarts")
@@ -124,13 +141,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String body = remoteMessage.getNotification().getBody();
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            int pendingFlags;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+            } else {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0 /* Request code */, resultIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    pendingFlags);
+//                    PendingIntent.FLAG_UPDATE_CURRENT);
             Uri defaultsound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
             OreoNotification oreoNotification = new OreoNotification(this);
-            Notification.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent, defaultsound, String.valueOf(R.drawable.ic_launcher_background));
+            Notification.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent, defaultsound, String.valueOf(R.drawable.logo));
 
             int i = 0;
             oreoNotification.getManager().notify(i, builder.build());
@@ -140,13 +164,20 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             String body = remoteMessage.getData().get("body");
             Intent resultIntent = new Intent(getApplicationContext(), MainActivity.class);
             resultIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            int pendingFlags;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE;
+            } else {
+                pendingFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+            }
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
                     0 /* Request code */, resultIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT);
+                    pendingFlags);
+//                    PendingIntent.FLAG_UPDATE_CURRENT);
             Uri defaultsound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
             OreoNotification oreoNotification = new OreoNotification(this);
-            Notification.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent, defaultsound, String.valueOf(R.drawable.ic_launcher_background));
+            Notification.Builder builder = oreoNotification.getOreoNotification(title, body, pendingIntent, defaultsound, String.valueOf(R.drawable.logo));
 
             NotificationManager notificationManager =
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
