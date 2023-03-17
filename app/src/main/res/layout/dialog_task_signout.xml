@@ -82,7 +82,7 @@
             android:scrollbars="vertical"
             android:textColor="@color/black"
             android:textColorHint="@color/black"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

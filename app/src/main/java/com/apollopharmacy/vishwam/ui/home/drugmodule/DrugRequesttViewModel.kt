@@ -221,7 +221,7 @@ class DrugFragmentViewModel : ViewModel() {
                                 responsenewcomplaintregistration.value =
                                     responseNewComplaintRegistration
                             } else {
-                                mCallback.onFailureMessage("Ticket Id - "+ responseNewComplaintRegistration.data.ticket_id+"\n"+ " Created By - "+responseNewComplaintRegistration.data.createdUser!!.firstName+ "  "+responseNewComplaintRegistration.data.createdUser!!.lastName,responseNewComplaintRegistration.data?.errors?.get(
+                                mCallback.onFailureMessage("Ticket Id - "+ responseNewComplaintRegistration.data.ticket_id+"\n"+ " Created By - "+responseNewComplaintRegistration.data.createdUser!!.firstName+ "  "+responseNewComplaintRegistration.data.createdUser!!.middleName+" "+responseNewComplaintRegistration.data.createdUser!!.lastName,responseNewComplaintRegistration.data?.errors?.get(
                                     0)?.msg.toString())
 
 
