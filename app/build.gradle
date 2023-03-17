@@ -146,7 +146,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
     implementation 'id.zelory:compressor:2.1.0'
-    implementation 'com.github.hkk595:Resizer:v1.5'
+    compile 'com.github.hkk595:Resizer:v1.5'
 
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'

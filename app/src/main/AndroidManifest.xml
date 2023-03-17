@@ -143,7 +143,7 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
 

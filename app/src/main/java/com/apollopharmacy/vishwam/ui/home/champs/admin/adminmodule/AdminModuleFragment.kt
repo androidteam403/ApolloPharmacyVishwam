@@ -14,7 +14,6 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.ActivityAdminModuleBinding
 import com.apollopharmacy.vishwam.databinding.DialogEditRangeChampsBinding
-import kotlinx.android.synthetic.main.activity_champs_survey.view.*
 
 @Suppress("CAST_NEVER_SUCCEEDS")
 class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModuleBinding>(),

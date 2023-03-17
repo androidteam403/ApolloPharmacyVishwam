@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.adrenalin.attendance
+package com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

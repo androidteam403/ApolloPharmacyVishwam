@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesRequest
 import com.apollopharmacy.vishwam.ui.home.greeting.model.EmployeeWishesResponse
+import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsRequest
@@ -66,7 +67,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
-
 
 
     @POST
@@ -490,6 +490,89 @@ interface ViswamAppApi {
         @Url url: String,
         @Body data: EmployeeWishesRequest?,
     ): EmployeeWishesResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1081086295635410944")
+    suspend fun GET_STORE_DETAILS_CHAMPS(): StoreDetailsModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getStoreDetails")
+    suspend fun GET_STORE_DETAILS_API(
+        @Header("token") token: String,
+    ): StoreDetailsModelResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1081087017311551488")
+    suspend fun GET_STORE_WISE_DETAILS_CHAMPS(): GetStoreWiseDetailsModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getStoreBasedDetails?storeId=")
+    suspend fun GET_STORE_WISE_DETAILS_CHAMPS_API(
+        @Header("token") token: String,
+        @Query("EmpId") id: String,
+    ): GetStoreWiseDetailsModelResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1080156717643481088")
+    suspend fun GET_EMAIL_DETAILS(): GetEmailAddressModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getEmailListDetails?type=")
+    suspend fun GET_EMAIL_DETAILS_API(
+        @Header("token") token: String,
+        @Query("Type") id: String,
+    ): GetEmailAddressModelResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1080351000740773888")
+    suspend fun GET_CATEGORY_DETAILS(): GetCategoryDetailsModelResponse
+
+//    @GET("http://jsonblob.com/api/jsonBlob/1083401510129516544")
+//    suspend fun GET_CATEGORY_DETAILS_OL(): GetCategoryDetailsModelResponseOl
+
+
+    @GET("https://172.16.103.116/Apollo/Champs/getCategoryDetails")
+    suspend fun GET_CATEGORY_DETAILS_API(
+        @Header("token") token: String,
+    ): GetCategoryDetailsModelResponse
+
+
+    @GET("http://jsonblob.com/api/jsonBlob/1080703461032738816")
+    suspend fun GET_SUB_CATEGORY_DETAILS(): GetSubCategoryDetailsModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=")
+    suspend fun GET_SUB_CATEGORY_DETAILS_API(
+        @Header("token") token: String,
+        @Query("Type") id: String,
+    ): GetSubCategoryDetailsModelResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
+    suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=")
+    suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
+        @Header("token") token: String,
+        @Query("Type") id: String,
+    ): GetTrainingAndColorDetailsModelResponse
+
+    @POST("https://172.16.103.116/Apollo/Champs/saveChampsDetails")
+    suspend fun saveChampsApi(
+        @Header("token") token: String,
+        @Body saveSurveyModelRequest: SaveSurveyModelRequest,
+    ): SaveSurveyModelResponse
+
+    //    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=fromDate&toDate=ToDate&empId=id")
+//    suspend fun getSurveyDetails(
+//        @Query("EmpId") id: String,
+//        @Query("FromDate") fromDate: String,
+//        @Query("ToDate") tomDate: String,
+//    ): GetSurveyDetailsModelResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1085226360330534912")
+    suspend fun GET_SURVEY_DETAILS_(): GetSurveyDetailsModelResponse
+
+    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetailsByChampId?CHAMPID=")
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID_API(
+        @Header("token") token: String,
+        @Query("Type") id: String,
+    ): GetSurevyDetailsByChampsIdResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
+    suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
+
 }
 
 
