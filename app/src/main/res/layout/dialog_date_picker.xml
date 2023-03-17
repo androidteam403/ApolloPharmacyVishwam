@@ -22,7 +22,7 @@
             android:layout_marginEnd="@dimen/value_15dp"
             android:gravity="center"
             android:padding="@dimen/value_10dp"
-            android:text="@string/label_submit"
+            android:text="@string/label_select"
             android:textColor="@color/black"
             android:textSize="@dimen/text_20sp"
             app:layout_constraintRight_toRightOf="parent"

@@ -13,13 +13,29 @@
         android:orientation="vertical"
         android:visibility="gone" />
 
-    <TextView
-        android:id="@+id/lblListItem"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+    <LinearLayout
         android:paddingTop="14dp"
-        android:paddingBottom="14dp" />
+        android:paddingBottom="14dp"
+        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_gravity="center"
+            android:id="@+id/icon_menu_child"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="10dp" />
+
+        <TextView
+            android:id="@+id/lblListItem"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+
 </RelativeLayout>

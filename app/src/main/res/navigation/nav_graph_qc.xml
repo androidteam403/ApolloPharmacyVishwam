@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph_qc"
+    app:startDestination="@id/dashboardFragment">
+
+    <fragment
+        android:id="@+id/dashboardFragment"
+        android:name="com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.DashboardFragment"
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_approvedFragment"
+            app:destination="@id/approvedFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_pendingFragment"
+            app:destination="@id/pendingFragment" />
+        <action
+            android:id="@+id/action_dashboardFragment_to_rejectedFragment"
+            app:destination="@id/rejectedFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/approvedFragment"
+        android:name="com.apollopharmacy.vishwam.ui.home.qcfail.approved.ApprovedFragment"
+        android:label="ApprovedFragment" />
+    <fragment
+        android:id="@+id/pendingFragment"
+        android:name="com.apollopharmacy.vishw.PendingFragment"
+        android:label="PendingFragment" />
+    <fragment
+        android:id="@+id/rejectedFragment"
+        android:name="com.apollopharmacy.vishwam.ui.home.qcfail.rejected.RejectedFragment"
+        android:label="RejectedFragment" />
+</navigation>
