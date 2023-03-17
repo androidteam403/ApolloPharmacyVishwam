@@ -5,6 +5,6 @@ import com.apollopharmacy.vishwam.ui.home.drugmodule.model.ItemTypeDropDownRespo
 interface DrugFragmentCallback {
     fun onSuccessItemTypeApi(itemTypeDropDownResponse: ItemTypeDropDownResponse)
     fun onSuccessDoctorSpecialityApi(doctorSpecialityDropDownResponse: ItemTypeDropDownResponse)
-    fun onFailureMessage(user:String,message: String)
+    fun onFailureMessage(ticketId: String, userName: String, message: String)
 
 }

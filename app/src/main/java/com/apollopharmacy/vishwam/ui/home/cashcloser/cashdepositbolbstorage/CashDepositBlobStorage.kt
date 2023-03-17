@@ -19,7 +19,7 @@ object CashDepositBlobStorage {
             .parse(storageConnectionString)
         // Create the blob client.
         val blobClient = storageAccount.createCloudBlobClient()
-        return blobClient.getContainerReference(Config.EMPLOYEE_WISHES_CONTAINAER_NAME)
+        return blobClient.getContainerReference(Config.CASH_DEPOSIT_CONTAINAER_NAME)
     }
 
 
@@ -36,7 +36,7 @@ object CashDepositBlobStorage {
             CloudStorageAccount.parse(Config.EMPLOYEE_WISHES_STORAGE_CONNECTIONS)
         val blobClient = cloudStorageAccount.createCloudBlobClient()
         val container: CloudBlobContainer =
-            blobClient.getContainerReference(Config.EMPLOYEE_WISHES_CONTAINAER_NAME)
+            blobClient.getContainerReference(Config.CASH_DEPOSIT_CONTAINAER_NAME)
         container.createIfNotExists()
         val containerPermissions = BlobContainerPermissions()
         containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
