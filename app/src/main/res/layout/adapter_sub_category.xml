@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,14 +24,14 @@
             android:textColor="@color/black"
             android:textSize="@dimen/text_14sp" />
 
-        <androidx.appcompat.widget.AppCompatSeekBar
+        <com.warkiz.widget.IndicatorSeekBar
             android:id="@+id/seekbar1"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/value_50dp"
-            android:progress="0"
-            android:progressDrawable="@drawable/seekbar_progress_style"
-            android:thumb="@android:color/transparent" />
-
+            android:layout_height="50dp"
+            app:isb_progress="0"
+            app:isb_show_indicator="rectangle"
+            app:isb_show_tick_marks_type="divider"
+            app:isb_ticks_count="6" />
         <LinearLayout
             android:visibility="gone"
             android:layout_width="match_parent"

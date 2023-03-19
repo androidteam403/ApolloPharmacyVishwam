@@ -159,6 +159,10 @@ dependencies {
     implementation 'com.github.MohammedAlaaMorsi:RangeSeekBar:1.0.6'
     implementation 'com.squareup.picasso:picasso:2.5.0'
     compileOnly 'com.google.android.wearable:wearable:2.9.0'
+    compile 'com.xw.repo:bubbleseekbar:3.5-lite'
+    implementation 'com.github.warkiz.widget:indicatorseekbar:2.1.2'
+    implementation 'com.github.warkiz.tickseekbar:tickseekbar:0.1.4'
+
     implementation 'org.apache.commons:commons-collections4:4.4'
 
 }
