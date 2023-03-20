@@ -563,7 +563,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                             "SIGNIN",
                                             getAttendanceCity(requireContext(),
                                                 locationLatitude.toDouble(),
-                                                locationLongitude.toDouble()), comment,siteIds,doctorNAme))
+                                                locationLongitude.toDouble()), "",siteIds,doctorNAme))
                                         dialog.dismiss()
                                     } else {
                                         Toast.makeText(
