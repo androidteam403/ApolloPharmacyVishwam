@@ -1,88 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
-
-    <LinearLayout
-        android:id="@+id/ratingBar1"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/value_8dp"
-        android:orientation="vertical">
+        android:background="@color/white">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/value_15dp"
-            android:layout_marginEnd="@dimen/value_15dp"
-            android:textStyle="bold"
-            android:id="@+id/sub_category_heading"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_14sp" />
-
-        <com.warkiz.widget.IndicatorSeekBar
-            android:id="@+id/seekbar1"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            app:isb_progress="0"
-            app:isb_show_indicator="rectangle"
-            app:isb_show_tick_marks_type="divider"
-            app:isb_ticks_count="6" />
         <LinearLayout
-            android:visibility="gone"
+            android:id="@+id/ratingBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/value_20dp"
-            android:weightSum="4">
+            android:layout_marginTop="@dimen/value_8dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/first_range"
-                android:layout_width="0dp"
+                android:id="@+id/sub_category_heading"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_13sp"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:layout_marginEnd="@dimen/value_15dp"
                 android:textColor="@color/black"
-                android:text="0" />
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/second_range"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_13sp"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:textColor="@color/black"
-                android:text="2" />
+                android:id="@+id/tvProgress"
+                android:layout_width="50dp"
+                android:layout_height="@dimen/text_20sp"
+                android:thumb="@drawable/progressbar_thumb"
+                android:backgroundTint="@color/black"
+                android:fontFamily="@font/price_bold"
+                android:gravity="center"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
+                android:text=""
+                android:visibility="invisible"
 
-            <TextView
-                android:id="@+id/third_range"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_13sp"
-                android:textStyle="bold"
-                android:gravity="center_horizontal"
-                android:textColor="@color/black"
-                android:text="3" />
+                android:textColor="@color/black" />
+            <androidx.appcompat.widget.AppCompatSeekBar
+                android:id="@+id/seekbar1"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:progress="0"
+                android:thumbOffset="0dp"
+                android:progressDrawable="@drawable/seekbar_progress_style"
+                 />
 
-            <TextView
-                android:id="@+id/fourth_range"
-                android:layout_width="0dp"
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="@dimen/text_13sp"
-                android:textStyle="bold"
-                android:textColor="@color/black"
-                android:gravity="end"
-                android:text="5" />
+                android:visibility="visible"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/first_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="0"
+                    android:paddingStart="5sp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/second_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="2"
+                    android:visibility="invisible"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/third_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal"
+                    android:text="3"
+                    android:visibility="invisible"
+
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/fourth_range"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:text="5"
+                    android:paddingEnd="5sp"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
 </layout>
