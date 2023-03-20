@@ -38,7 +38,7 @@
                 android:id="@+id/ticket_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_5dp"
+                android:layout_marginStart="3dp"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp" />
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginTop="1dp"
             android:orientation="horizontal">
 
             <TextView

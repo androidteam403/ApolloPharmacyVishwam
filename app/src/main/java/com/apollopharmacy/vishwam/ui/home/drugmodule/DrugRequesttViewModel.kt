@@ -222,7 +222,7 @@ class DrugFragmentViewModel : ViewModel() {
                                     responseNewComplaintRegistration
                             } else {
                                 mCallback.onFailureMessage(responseNewComplaintRegistration.data.ticket_id!!,
-                                    responseNewComplaintRegistration.data.createdUser!!.firstName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
+                                    responseNewComplaintRegistration.data.createdUser!!.firstName+ "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
                                     responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString())
 
 

@@ -84,6 +84,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     private lateinit var siteId: TextInputLayout
     private lateinit var doctorSpecialist: EditText
     var comment: String = ""
+    var siteIds: String = ""
+    var doctorNAme: String = ""
 
     private lateinit var siteIdText: EditText
     private lateinit var doctorId: TextInputLayout
@@ -426,7 +428,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 }
 
 
-
                 DEPT_LIST.clear()
 
 
@@ -562,8 +563,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                             "SIGNIN",
                                             getAttendanceCity(requireContext(),
                                                 locationLatitude.toDouble(),
-                                                locationLongitude.toDouble()),
-                                            comment))
+                                                locationLongitude.toDouble()), "",siteIds,doctorNAme))
                                         dialog.dismiss()
                                     } else {
                                         Toast.makeText(
@@ -783,7 +783,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 requireContext(),
                                 locationLatitude.toDouble(),
                                 locationLongitude.toDouble()
-                            ),remarks
+                            ),remarks,siteIds,doctorNAme
                         )
                     )
                 } else {
@@ -1150,10 +1150,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 //        siteId.visibility = View.VISIBLE
         val doctorListRequest = DoctorListRequest("DOCTORLIST", departmentDto.siteid!!)
         viewModel.doctorListResponse(doctorListRequest)
+        siteIds= departmentDto.siteid!!
         siteIdText.setText(departmentDto.siteid + " - " + departmentDto.sitename)
     }
 
     override fun selectSite(departmentDto: DoctorListResponse.Doctor) {
+        doctorNAme= departmentDto.doctorname!!
         doctorText.setText(departmentDto.doctorname)
         doctorSpecialist.visibility=View.VISIBLE
         doctorSpecialist.setText(departmentDto.speciality)

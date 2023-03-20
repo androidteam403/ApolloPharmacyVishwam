@@ -8,6 +8,8 @@ data class TaskInfoReq(
     var LONGITUDE: String,
     var TYPE: String,
     var CITY: String,
-    var Remarks: String
+    var Remarks: String,
+    var SITEID: String,
+    var DOCTORNAME: String,
 
     )
