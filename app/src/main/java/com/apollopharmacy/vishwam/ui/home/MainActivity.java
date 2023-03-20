@@ -1288,7 +1288,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        params.leftMargin=20;
 //        params.topMargin=5;
 
-//        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
+        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
         listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
@@ -1304,7 +1304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
                             .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
                             .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
+                           // .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
@@ -1350,39 +1350,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
-        if (true) {
+//        if (true) {
+//
+//            if (getSessionManager().getLoginToken().isEmpty()) {
+//                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
+//                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
+//            } else if (getSessionManager().getLoginToken().length() > 1) {
+//                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
+//
+//                        .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
+//
+//                        .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
+//                        .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
+//                        .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
+//                        .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
+//
+//                        .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
+//
+//                        .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
+//                        .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
+//                        .addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
+//
+//
+//                );
+//            }
+//
+//        }
 
-            if (getSessionManager().getLoginToken().isEmpty()) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
-                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
-            } else if (getSessionManager().getLoginToken().length() > 1) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
 
-                        .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
-
-                        .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
-                        .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
-                        .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
-                        .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
-
-                        .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
-
-                        .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
-                        .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
-                        .addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
-
-
-                );
-            }
-
-        }
-
-
-        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
-                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
-                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
-        );
+//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
+//                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
+//                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
+//        );
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
