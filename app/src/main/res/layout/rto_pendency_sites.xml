@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/squareboxright"
+                android:orientation="horizontal"
+
+                android:weightSum="4">
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/dashquarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/rtocount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="120"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.017"
+
+                    android:background="@drawable/site_dashquarebox_right"
+
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/rtovalue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="300"
+                        android:paddingStart="4sp"
+                        android:textAlignment="center"
+
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
+
+                </TableLayout>
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/dashquarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/sitertocount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="120"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/site_dashquarebox_right"
+
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/sitertovalue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="300"
+                        android:paddingStart="4sp"
+                        android:textAlignment="center"
+
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/dimen11sp" />
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/dashquarebox_right"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/pending_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="120"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_10sp" />
+
+                </TableLayout>
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+
+                    android:background="@drawable/squarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/manager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="4sp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="240"
+
+                        android:textAlignment="center"
+                        android:textColor="#40a776"
+
+                        android:textSize="@dimen/text_10sp" />
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:visibility="gone"
+                    android:background="@drawable/squarebox"
+
+                    android:orientation="vertical">
+
+
+
+                    <TextView
+                        android:id="@+id/generalmanager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingStart="8dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="8dp"
+                        android:text="50"
+
+                        android:textAlignment="center"
+                        android:textColor="#663399"
+
+                        android:textSize="12sp" />
+                </TableLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

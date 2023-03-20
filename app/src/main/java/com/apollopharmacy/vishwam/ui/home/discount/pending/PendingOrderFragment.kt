@@ -94,7 +94,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         for (orderItem in separated) {
                             if (orderItem.trim().equals(item.INDENTNO)) {
                                 tempPendingArr.add(item)
-     //                           pendingRecyclerView.pendingOrderList.removeAt(itemPos)
+                                //                           pendingRecyclerView.pendingOrderList.removeAt(itemPos)
 //                                pendingRecyclerView.notifyItemRemoved(itemPos)
 //                                break
                             }
@@ -136,6 +136,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+                else -> {}
             }
         }
         viewBinding.refreshSwipe.setOnRefreshListener {

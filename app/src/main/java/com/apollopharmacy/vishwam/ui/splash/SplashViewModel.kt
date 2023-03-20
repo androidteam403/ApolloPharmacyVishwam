@@ -9,7 +9,7 @@ import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.repo.SplashRepo
-import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryCommand
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryCommand
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -30,11 +30,13 @@ class SplashViewModel : ViewModel() {
             when (response) {
                 is ApiResult.Success -> {
                     if (response.value.status) {
+                        println(33)
                         validateResponseMutableList.value = response.value
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
                         Utils.printMessage("SplashScreen", response.value.toString())
                         command.value = Command.NavigateTo(response.value)
+                        println(39)
                     } else {
                         command.value = Command.ShowToast(response.value.message)
                     }
