@@ -99,7 +99,7 @@ data class Ticket_it(
     @field:SerializedName("approval_code")
     val approval_code: String,
     @field:SerializedName("bill_amount")
-    var bill_amount: Int
+    var bill_amount: Double
 )
 
 

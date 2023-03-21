@@ -1393,7 +1393,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                             viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
                             viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
                             viewBinding.transactionDetailsLayout.billAmountEdit.text.toString()
-                                .toInt()
+                                .toDouble()
                         )
                     } else {
                         null
@@ -1498,7 +1498,7 @@ class RegistrationFragment : BaseFragment<RegistrationViewModel, FragmentRegistr
                         viewBinding.transactionDetailsLayout.billNumberEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.transactionIdEdit.text.toString(),
                         viewBinding.transactionDetailsLayout.approvalCodeEdit.text.toString(),
-                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString().toInt()
+                        viewBinding.transactionDetailsLayout.billAmountEdit.text.toString().toDouble()
                     )
                 } else {
                     null
