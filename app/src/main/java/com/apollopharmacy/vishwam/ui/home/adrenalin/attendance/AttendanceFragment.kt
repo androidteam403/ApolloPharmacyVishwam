@@ -281,6 +281,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 taskAlreadyAvailable = false
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
+
                 viewBinding.emptyList.visibility = View.GONE
                 adapter = TaskRecyclerView(it, this, requireContext())
                 viewBinding.taskRecyclerView.adapter = adapter
@@ -300,7 +301,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
                         is AttendanceCommand.ShowToast -> {
                     hideLoading()
-                    viewBinding.emptyList.visibility = View.VISIBLE
                 }
                 is AttendanceCommand.UpdateTaskList -> {
                     hideLoading()
