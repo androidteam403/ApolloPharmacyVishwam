@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="330dp"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/custom_dialog_background"
     android:orientation="vertical">
 
@@ -9,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/splash_start_color"
+        android:background="#01bfc0"
         android:gravity="center"
         android:paddingTop="@dimen/value_10dp"
         android:paddingBottom="@dimen/value_10dp"
@@ -21,18 +22,18 @@
     <TextView
         android:id="@+id/taskName"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_gravity="center"
         android:layout_marginStart="@dimen/value_15dp"
         android:layout_marginTop="@dimen/value_10dp"
         android:layout_marginEnd="@dimen/value_15dp"
-        android:layout_marginBottom="@dimen/value_10dp"
+        android:layout_marginBottom="5dp"
         android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/signInTimeText"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="@dimen/value_15dp"
         android:layout_marginEnd="@dimen/value_15dp"
         android:textColor="@color/black" />
@@ -40,20 +41,50 @@
     <TextView
         android:id="@+id/currentTime"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="@dimen/value_15dp"
         android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/durationValue"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="35dp"
         android:layout_marginStart="@dimen/value_15dp"
-        android:layout_marginTop="@dimen/value_10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="@dimen/value_15dp"
         android:textColor="@color/black" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/description"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="10dp"
+        android:textColorHint="@color/black"
+        app:counterEnabled="true"
+        app:counterMaxLength="150"
+        app:layout_constraintTop_toBottomOf="@+id/extraLayout">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/descriptionTextattendence"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
+            android:gravity="top|start"
+            android:hint="Remarks *"
+            android:maxLength="150"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <LinearLayout
         android:id="@+id/singOutLayout"

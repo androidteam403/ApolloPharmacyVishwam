@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -11,14 +12,18 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.attendance.AttendanceHistoryRes
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.FragmentHistoryBinding
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adapter.AttendenceHistoryAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.rejected.adapter.QcRejectedListAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
+import org.apache.commons.lang3.StringUtils
 
 class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>() {
 
     val TAG = "HistoryFragment"
     lateinit var userData: LoginDetails
     var employeeID: String = ""
+    var adapter: AttendenceHistoryAdapter? = null
 
     override val layoutRes: Int
         get() = R.layout.fragment_history
@@ -52,12 +57,17 @@ class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>
                 viewBinding.emptyList.visibility = View.VISIBLE
             } else {
                 viewBinding.emptyList.visibility = View.GONE
-                handleHistoryList(it)
-            }
+                adapter= context?.let { it1 -> AttendenceHistoryAdapter(it1,it) }
+                viewBinding.taskRecyclerView.adapter = adapter            }
         })
     }
 
+    @SuppressLint("SetTextI18n")
     private fun handleHistoryList(historyList: ArrayList<AttendanceHistoryRes>) {
+
+
+
+
         var index = 1
         for (item in historyList) {
             val view: View = layoutInflater.inflate(R.layout.view_history_table, null, false)
@@ -80,7 +90,8 @@ class HistoryFragment() : BaseFragment<HistoryViewModel, FragmentHistoryBinding>
             } else {
                 durationVal = Utils.getHistoryDurationTimeFormat(item.duration)
             }
-            rowDuration.text = durationVal
+
+            rowDuration.text =durationVal
             viewBinding.tableLayout.addView(view)
         }
     }

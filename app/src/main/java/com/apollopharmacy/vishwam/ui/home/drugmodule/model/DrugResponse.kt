@@ -30,4 +30,7 @@ class DrugResponse : Serializable {
         this.referenceId = referenceId
         return this
     }
+
+
+
 }

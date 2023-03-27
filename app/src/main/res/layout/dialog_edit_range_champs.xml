@@ -2,10 +2,10 @@
 <layout xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/parentLayoutForTimer"
         android:layout_width="match_parent"
-        android:background="@color/transparent"
         android:layout_height="match_parent"
-        android:id="@+id/parentLayoutForTimer">
+        android:background="#CC000000">
 
 
         <FrameLayout
@@ -25,19 +25,19 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:weightSum="1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="1">
 
 
                     <TextView
-                        android:layout_weight="0.9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_weight="0.9"
                         android:gravity="center"
                         android:textAlignment="center"
                         android:textColor="@color/colorWhite"
@@ -45,51 +45,50 @@
                         android:textStyle="bold" />
 
                     <LinearLayout
-                        android:layout_weight="0.1"
                         android:id="@+id/close_address_dialog"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="0.1"
                         android:gravity="end">
 
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
-                            android:tint="@color/black"
-                            android:src="@drawable/closee_whitee" />
+                            android:src="@drawable/closee_whitee"
+                            android:tint="@color/black" />
                     </LinearLayout>
 
                 </LinearLayout>
 
 
-
                 <LinearLayout
-                    android:layout_marginRight="@dimen/value_5dp"
-                    android:layout_marginLeft="@dimen/value_5dp"
-                    android:layout_marginBottom="@dimen/value_5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/value_5dp"
                     android:layout_marginTop="@dimen/value_6dp"
+                    android:layout_marginRight="@dimen/value_5dp"
+                    android:layout_marginBottom="@dimen/value_5dp"
                     android:background="@drawable/custom_dialog_background"
                     android:padding="@dimen/value_10dp"
                     tools:ignore="Orientation">
 
                     <LinearLayout
-                        android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
 
-                                            <TextView
-                                                android:id="@+id/heading_for_dialog"
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:gravity="center"
-                                                android:text="Cleanliness"
-                                                android:textColor="@color/black"
-                                                android:textSize="@dimen/text_18sp"
-                                                android:textStyle="bold" />
+                        <TextView
+                            android:id="@+id/heading_for_dialog"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Cleanliness"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_18sp"
+                            android:textStyle="bold" />
 
                         <!--            <com.google.android.material.textfield.TextInputLayout-->
                         <!--                android:id="@+id/siteId"-->
@@ -103,13 +102,13 @@
                         <!--                android:textColorHint="@color/black">-->
 
                         <EditText
-                            android:background="@drawable/champs_site_bg"
                             android:id="@+id/enterPoints"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
                             android:layout_marginLeft="@dimen/value_5dp"
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_5dp"
+                            android:background="@drawable/champs_site_bg"
                             android:clickable="true"
                             android:enabled="true"
                             android:hint="Enter Points"
@@ -120,11 +119,11 @@
                             android:textSize="@dimen/text_15sp" />
                         <!--            </com.google.android.material.textfield.TextInputLayout>-->
                         <LinearLayout
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/value_10dp"
                             android:id="@+id/continue_champs"
                             android:layout_width="@dimen/value_120dp"
                             android:layout_height="@dimen/value_40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginTop="@dimen/value_10dp"
                             android:background="@drawable/scan_btn_bg"
                             android:gravity="center"
                             android:orientation="horizontal">
@@ -139,7 +138,6 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
                     </LinearLayout>
-
 
 
                 </LinearLayout>

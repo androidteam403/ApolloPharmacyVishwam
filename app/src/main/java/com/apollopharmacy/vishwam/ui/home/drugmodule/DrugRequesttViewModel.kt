@@ -17,7 +17,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.model.cms.*
 import com.apollopharmacy.vishwam.data.network.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugReason
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugRequest
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DrugResponse
@@ -44,7 +43,7 @@ class DrugFragmentViewModel : ViewModel() {
 
     var drugList = MutableLiveData<DrugResponse>()
 
-    fun getDrugList(drugRequest: DrugRequest) {
+    fun getDrugList(drugRequest: DrugRequest, mCallback: DrugFragmentCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
@@ -137,7 +136,7 @@ class DrugFragmentViewModel : ViewModel() {
                             tisketstatusresponse.data.executive,
                             tisketstatusresponse.data.manager,
                             tisketstatusresponse.data.region_head,
-                        ))
+                        ), mCallback)
                     } else {
                         state.value = State.ERROR
                         commands.postValue(Commands.ShowToast(result.value.message))
@@ -167,7 +166,10 @@ class DrugFragmentViewModel : ViewModel() {
 
     var responsenewcomplaintregistration = MutableLiveData<ResponseNewComplaintRegistration>()
 
-    fun submitTicketInventorySaveUpdate(requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration) {
+    fun submitTicketInventorySaveUpdate(
+        requestNewComplaintRegistration: RequestSaveUpdateComplaintRegistration,
+        mCallback: DrugFragmentCallback,
+    ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseProxyUrl = ""
@@ -219,8 +221,13 @@ class DrugFragmentViewModel : ViewModel() {
                                 responsenewcomplaintregistration.value =
                                     responseNewComplaintRegistration
                             } else {
-                                commands.postValue(Commands.ShowToast(
-                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()))
+                                mCallback.onFailureMessage(responseNewComplaintRegistration.data.ticket_id!!,
+                                    responseNewComplaintRegistration.data.createdUser!!.firstName+ "  " + responseNewComplaintRegistration.data.createdUser!!.middleName + "  " + responseNewComplaintRegistration.data.createdUser!!.lastName,
+                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString())
+
+
+//                                commands.postValue(Commands.ShowToast(
+//                                    responseNewComplaintRegistration.data?.errors?.get(0)?.msg.toString()))
 
                             }
                         }
@@ -506,7 +513,7 @@ class DrugFragmentViewModel : ViewModel() {
         val userData = LoginRepo.getProfile()!!
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS REASONLIST")) {
-                var baseUrl = data.APIS[i].URL+"emp_id="+ userData.EMPID + "&page=1&rows=1000"
+                var baseUrl = data.APIS[i].URL + "emp_id=" + userData.EMPID + "&page=1&rows=1000"
                 viewModelScope.launch {
                     state.value = State.SUCCESS
                     val response = withContext(Dispatchers.IO) {
@@ -629,9 +636,6 @@ class DrugFragmentViewModel : ViewModel() {
         return names
 
     }
-
-
-
 
 
     sealed class Commands {

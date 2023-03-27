@@ -19,9 +19,12 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
+import android.view.Window
 import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -115,7 +118,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.mrpp.setText("0")
         viewBinding.fromDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
         viewBinding.toDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
-        viewBinding.batchNo.setText("12345")
+//        viewBinding.batchNo.setText("12345")
         viewBinding.purchasePrice.setText("0")
 //        viewBinding.selectDepartment.setText("0")
         viewBinding.packsize.setText("1")
@@ -147,7 +150,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         viewBinding.itemType.setOnClickListener {
             if (viewBinding.batchNo.text.toString().isEmpty()) {
-                viewBinding.batchNo.setText("12345")
             }
 
             val gson = Gson()
@@ -169,7 +171,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         }
         viewBinding.doctorSpecialty.setOnClickListener {
             if (viewBinding.batchNo.text.toString().isEmpty()) {
-                viewBinding.batchNo.setText("12345")
             }
             val gson = Gson()
             val doctorSpecialityList = Preferences.getDoctorSpecialityListJson()
@@ -192,7 +193,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
         viewBinding.selectCategory.setOnClickListener {
             if (viewBinding.batchNo.text.toString().isEmpty()) {
-                viewBinding.batchNo.setText("12345")
             }
             Dialog().apply {
                 arguments =
@@ -229,7 +229,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (viewBinding.batchNo.text.toString().isEmpty()) {
-                    viewBinding.batchNo.setText("12345")
+                    viewBinding.batchNo.setText("")
                 }
                 if (s != null) {
                     if (s.length == 1) {
@@ -378,7 +378,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -392,7 +391,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -406,7 +404,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -419,7 +416,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -432,7 +428,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -445,7 +440,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -460,7 +454,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -473,7 +466,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -486,7 +478,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -499,7 +490,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -512,7 +502,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -525,7 +514,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -538,7 +526,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -551,7 +538,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -564,7 +550,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
+//                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -577,7 +563,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
+//                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -589,7 +575,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 when (event?.action) {
                     MotionEvent.ACTION_DOWN ->
                         if (viewBinding.batchNo.text.toString().isEmpty()) {
-                            viewBinding.batchNo.setText("12345")
+//                            viewBinding.batchNo.setText("12345")
                         }
                 }
 
@@ -628,13 +614,13 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.hsnCode.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 if (viewBinding.batchNo.text.toString().isEmpty()) {
-                    viewBinding.batchNo.setText("12345")
+//                    viewBinding.batchNo.setText("12345")
                 }
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (viewBinding.batchNo.text.toString().isEmpty()) {
-                    viewBinding.batchNo.setText("12345")
+//                    viewBinding.batchNo.setText("12345")
                 }
                 if (s != null) {
                     if (s.length > 1 && s.startsWith("0")) {
@@ -795,7 +781,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                             imagesList.distinct(),
                             viewBinding.descriptionText.text.toString(),
                             store, employeeDetailsResponse!!
-                        )
+                        ), this@Drug
                     )
 
                 }
@@ -1262,13 +1248,17 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
                 context?.resources?.getString(R.string.err_msg_purchace_price_diff)
             )
             return false
-        } else if (batchNo.isEmpty()) {
-            showErrorMsg(
-                "Please enter Batch number"
-            )
-            viewBinding.BatchTextInput.requestFocus()
-            return false
-        } else if (manufDate.isEmpty()) {
+        }
+
+//        else if (batchNo.isEmpty()) {
+//            showErrorMsg(
+//                "Please enter Batch number"
+//            )
+//            viewBinding.BatchTextInput.requestFocus()
+//            return false
+//        }
+
+        else if (manufDate.isEmpty()) {
             showErrorMsg(
                 "Please select Manufacturing date"
             )
@@ -1432,6 +1422,7 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.requiredQuantity.setText("")
         viewBinding.doctorname.setText("")
 
+        viewBinding.batchNo.setText("")
 
         viewBinding.siteIdSelect.setText("")
 //        viewBinding.barCode.setText("")
@@ -1467,7 +1458,6 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         viewBinding.mrpp.setText("0")
         viewBinding.fromDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
         viewBinding.toDateText.setText(Utlis.getCurrentDate("dd-MMM-yyyy").toString())
-        viewBinding.batchNo.setText("12345")
         viewBinding.purchasePrice.setText("0")
 //        viewBinding.selectDepartment.setText("0")
         viewBinding.packsize.setText("1")
@@ -1485,6 +1475,10 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
         backImageList.clear()
         sideImageList.clear()
         billImageList.clear()
+        viewBinding.imageRecyclerView1.visibility = View.GONE
+        viewBinding.imageRecyclerView.visibility = View.GONE
+        viewBinding.imageRecyclerView2.visibility = View.GONE
+        viewBinding.imageRecyclerView4.visibility = View.GONE
         adapter.notifyAdapter(frontImageList)
         adapter1.notifyAdapter(backImageList)
         adapter2.notifyAdapter(sideImageList)
@@ -1746,6 +1740,27 @@ class Drug : BaseFragment<DrugFragmentViewModel, FragmentDrugBinding>(),
 //            gson.fromJson<List<ItemTypeDropDownResponse>>(doctorSpecialityList, type) as ItemTypeDropDownResponse
         Preferences.setDoctorSpecialityListFetched(true)
 
+    }
+
+    override fun onFailureMessage(ticketId: String, userName: String, message: String) {
+        hideLoading()
+        val dialog = android.app.Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_message_popup)
+        val messageTextView = dialog.findViewById(R.id.messagetext) as TextView
+        val ticketIdTextView = dialog.findViewById(R.id.ticket_id) as TextView
+        val createdUserName = dialog.findViewById(R.id.created_user_name) as TextView
+
+        ticketIdTextView.text = ticketId
+        createdUserName.text = userName
+
+        messageTextView.text = message
+        val submit = dialog.findViewById(R.id.ok_button) as AppCompatButton
+        submit.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 }
 

@@ -3,6 +3,15 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -67,6 +76,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
+
 
 
     @POST
@@ -210,6 +220,18 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("EMPID") id: String,
     ): ArrayList<GetTaskListResponse>
+    @POST
+    suspend fun getSiteList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Body siteId: SiteListRequest,
+    ): SiteListResponse
+    @POST
+    suspend fun getDoctorList(
+        @Header("token") token: String,
+        @Url url: String,
+        @Body siteId: DoctorListRequest,
+    ): DoctorListResponse
 
     @POST
     suspend fun taskInsertUpdate(
@@ -573,6 +595,55 @@ interface ViswamAppApi {
     @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
 
+
+
+    //champs admin
+    @GET
+    suspend fun GET_CATEGORY_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): GetCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): GetCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): GetSubCategoryDetailsResponse
+
+    @GET
+    suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): GetSubCategoryDetailsResponse
+
+    @GET
+    suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(
+        @Header("token") token: String,
+        @Url url: String,
+    ): SaveCategoryConfigurationDetailsResponse
+
+    @GET
+    suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL_JSONBLOB(
+        @Url url: String,
+    ): SaveCategoryConfigurationDetailsResponse
+
+    @GET //("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
+    suspend fun getCashDepositDetails(
+        @Url url: String,
+        @Header("token") token: String,
+        @Query("SITEID") siteid: String,
+    ): CashDepositDetailsResponse
+
+    @POST //("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")
+    suspend fun saveCashDepositDetails(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
+    ): CashDepositDetailsResponse
 }
 
 
