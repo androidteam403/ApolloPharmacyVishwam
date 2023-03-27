@@ -31,6 +31,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     var storeId: String?=""
     var address:String?=""
     var siteName:String?=""
+    var siteCity:String?=""
 
     override val layoutRes: Int
         get() = R.layout.fragment_champs_survey
@@ -143,6 +144,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         intent.putExtra("storeId", storeId)
         intent.putExtra("address", address)
         intent.putExtra("siteName", siteName)
+        intent.putExtra("storeCity", siteCity)
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -156,6 +158,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 if(storeDetailsResponse.storeDetails.get(i).siteid.equals(viewBinding.enterStoreEdittext.text.toString())){
                     storeId =storeDetailsResponse.storeDetails.get(i).siteid
                     siteName = storeDetailsResponse.storeDetails.get(i).sitename
+                    siteCity = storeDetailsResponse.storeDetails.get(i).city
                     address = storeDetailsResponse.storeDetails.get(i).region +", " + storeDetailsResponse.storeDetails.get(i).city
                     viewBinding.storeId.text= storeDetailsResponse.storeDetails.get(i).siteid
                     viewBinding.address.text=storeDetailsResponse.storeDetails.get(i).region +", " + storeDetailsResponse.storeDetails.get(i).city

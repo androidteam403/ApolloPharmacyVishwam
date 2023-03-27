@@ -12,6 +12,8 @@ interface ChampsSurveyCallBack {
     
     fun onClickSaveDraft()
 
+    fun onClickPreview()
+
      fun onSuccessgetCategoryDetails(value: GetCategoryDetailsModelResponse)
      fun onFailuregetCategoryDetails(value: GetCategoryDetailsModelResponse)
     fun onSuccessgetTrainingDetails(value: GetTrainingAndColorDetailsModelResponse)
@@ -23,4 +25,9 @@ interface ChampsSurveyCallBack {
      fun onFailureSurveyList(value: GetSurveyDetailsModelResponse)
      fun onSuccessGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
      fun onFailureGetSurveyDetailsByChampsId(value: GetSurevyDetailsByChampsIdResponse)
+     fun onSuccessgetSubCategoryDetails(
+         value: GetSubCategoryDetailsModelResponse,
+         categoryName: String
+     )
+     fun onFailuregetSubCategoryDetails(value: GetSubCategoryDetailsModelResponse)
 }

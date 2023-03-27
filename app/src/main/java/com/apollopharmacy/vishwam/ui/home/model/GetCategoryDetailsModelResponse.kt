@@ -15,6 +15,39 @@ class GetCategoryDetailsModelResponse : Serializable {
     @Expose
     var message: String? = null
 
+    var storeIdP:String?=""
+
+    var addressP:String?=""
+
+    var issuedOnP:String?=""
+
+    var storeNameP:String?=""
+
+    var storeCityP:String?=""
+
+    var storeStateP:String?=""
+
+    var technicalDetails: String?=""
+
+    var technicalText:String?=""
+
+    var softSkills: String?=""
+
+    var softSkillsText:String?=""
+
+    var otherTraining: String?=""
+
+    var otherTrainingText:String?=""
+
+    var issuesToBeResolved: String?=""
+
+    var issuesToBeResolvedText:String?=""
+
+    var totalProgressP:Float?=0f
+
+
+
+
     @SerializedName("emailDetails")
     @Expose
     var emailDetails: List<EmailDetail>? = null
@@ -36,6 +69,8 @@ class GetCategoryDetailsModelResponse : Serializable {
         @SerializedName("created_date")
         @Expose
         var createdDate: String? = null
+
+        var sumOfThreePicsinMb:String?=null
 
 
         var sumOfSubCategoryRating: Float? = 0f
@@ -76,7 +111,7 @@ class GetCategoryDetailsModelResponse : Serializable {
             @Expose
             var createdDate: String? = null
 
-            var givenRating: Float? = 0f
+            var givenRating: Float = 0f
 
             }
 

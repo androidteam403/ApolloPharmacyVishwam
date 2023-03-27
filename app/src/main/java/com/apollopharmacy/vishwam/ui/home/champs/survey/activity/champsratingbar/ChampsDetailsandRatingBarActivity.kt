@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -19,7 +18,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toFile
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +36,7 @@ import com.bumptech.glide.Glide
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
 
 
 class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandRatingBarCallBack {
@@ -60,6 +59,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
     private var categoryPosition: Int = 0
     private var isPending: Boolean = false
+    private var threeFilesUploaded : Boolean=false
+    private var  imageFiles = ArrayList<File>()
+    private var uploadedFromGallery: Int = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,6 +95,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             activityChampsDetailsandRatingBarBinding.overallSum.text =
                 getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).rating
         }
+        activityChampsDetailsandRatingBarBinding.mbUsedText.text =
+            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).sumOfThreePicsinMb.toString() + " KB Used"
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
                 categoryPosition
             ).sumOfSubCategoryRating != null
@@ -163,6 +167,15 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
     override fun onClickSubmit() {
+        getCategoryAndSubCategoryDetails?.emailDetails?.get(categoryPosition)!!.sumOfThreePicsinMb =
+            sumOfThreePics.toString()
+        if(imageFiles!=null && imageFiles.size>0){
+            for(i in imageFiles.indices){
+                champsDetailsAndRatingBarViewModel.connectToAzure(imageFiles.get(i), this)
+            }
+        }
+
+        calucateSumOfSubCategory()
         val intent = Intent()
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
         intent.putExtra("categoryPosition", categoryPosition)
@@ -223,6 +236,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             if (redTrashClicked == 1) {
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout1.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.image1.visibility = View.VISIBLE
+//                imageFiles.removeAt(0)
                 var afterDec = sumOfThreePics - decrementMb1
                 sumOfThreePics = afterDec
                 activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
@@ -241,6 +255,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             } else if (redTrashClicked == 2) {
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout2.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.image2.visibility = View.VISIBLE
+//                imageFiles.removeAt(1)
                 var afterDec = sumOfThreePics - decrementMb2
                 sumOfThreePics = afterDec
                 activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
@@ -260,6 +275,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             } else {
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout3.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.image3.visibility = View.VISIBLE
+//                imageFiles.removeAt(2)
                 var afterDec = sumOfThreePics - decrementMb3
                 sumOfThreePics = afterDec
                 activityChampsDetailsandRatingBarBinding.uploadImagesProgressBar.progress =
@@ -378,9 +394,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null) {
             for (i in getCategoryAndSubCategoryDetails!!.emailDetails!!.indices) {
                 if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).categoryName.equals(
-                        getCategoryName
-                    )
-                ) {
+                        getCategoryName)) {
                     if (getCategoryAndSubCategoryDetails?.emailDetails?.get(i)?.imageUrls != null && getCategoryAndSubCategoryDetails?.emailDetails?.get(
                             i
                         )!!.imageUrls?.size!! > 0 && getCategoryAndSubCategoryDetails?.emailDetails?.get(
@@ -464,6 +478,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
             activityChampsDetailsandRatingBarBinding.sumOfrating.text =
                 getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
+            subCategoryAdapter!!.notifyDataSetChanged()
 
         }
 
@@ -533,6 +548,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             activityChampsDetailsandRatingBarBinding.mbUsedText.text =
                 sumOfThreePics.toString() + " KB Used"
             if (camera1Clicked == 1) {
+                uploadedFromGallery=1
                 activityChampsDetailsandRatingBarBinding.image1.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout1.visibility =
                     View.VISIBLE
@@ -540,7 +556,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     .placeholder(R.drawable.placeholder_image)
                     .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps1)
                 decrementMb1 = fileSizeInMBC
+
             } else if (camera1Clicked == 2) {
+                uploadedFromGallery=2
                 activityChampsDetailsandRatingBarBinding.image2.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout2.visibility =
                     View.VISIBLE
@@ -549,6 +567,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps2)
                 decrementMb2 = fileSizeInMBC
             } else {
+                uploadedFromGallery=3
                 activityChampsDetailsandRatingBarBinding.image3.visibility = View.GONE
                 activityChampsDetailsandRatingBarBinding.uploadImageLayout3.visibility =
                     View.VISIBLE
@@ -566,19 +585,28 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             if (data != null) {
                 try {
                     imageUri = data.getData()
+
+
+                    var path = getRealPathFromURI(imageUri)
+
 //                    var file: File = imageUri!!.toFile()
-//                    var files: File = File(file.getPath());
-//                    val resizedImage =
-//                        Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
-////                .setOutputFilename(fileNameForCompressedImage)
-//                            .setOutputDirPath(
-//                                ViswamApp.context.cacheDir.toString()
-//                            )
-//
-//                            .setSourceImage(files).resizedFile
+                    var file: File = File(imageUri!!.getPath());
+
+                    var files: File = File(path);
 
 
-                    val fileSizeInBytesC: Long = 123
+//                    var fileSplit = files.toPath().toString().split(":")
+                    val resizedImage =
+                        Resizer(this).setTargetLength(1080).setQuality(100).setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                            .setOutputDirPath(
+                                ViswamApp.context.cacheDir.toString()
+                            )
+
+                            .setSourceImage(files).resizedFile
+
+
+                    val fileSizeInBytesC: Long = resizedImage.length()
 
                     val fileSizeInKBC = fileSizeInBytesC / 1024
 
@@ -591,39 +619,51 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         sumOfThreePics.toInt()
                     activityChampsDetailsandRatingBarBinding.mbUsedText.text =
                         sumOfThreePics.toString() + " KB Used"
-                    if (camera1Clicked == 3) {
+                    if (uploadedFromGallery!=1 && uploadedFromGallery==2 && imageFiles.size<3) {
+                        uploadedFromGallery=3
                         activityChampsDetailsandRatingBarBinding.image3.visibility = View.GONE
                         activityChampsDetailsandRatingBarBinding.uploadImageLayout3.visibility =
                             View.VISIBLE
-//                        Glide.with(ViswamApp.context).load(resizedImage)
-//                            .placeholder(R.drawable.placeholder_image)
-//                            .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps3)
-                        activityChampsDetailsandRatingBarBinding.uploadImageChamps3.setImageURI(imageUri)
+                        Glide.with(ViswamApp.context).load(resizedImage)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps3)
+//                        activityChampsDetailsandRatingBarBinding.uploadImageChamps3.setImageURI(imageUri)
                         decrementMb3 = fileSizeInMBC
+                        imageFiles.add(resizedImage)
+                        disableUploadOption()
 
-                    } else if (camera1Clicked == 2) {
+                    } else if (uploadedFromGallery == 1 && uploadedFromGallery!=3 && imageFiles.size<3) {
+                        uploadedFromGallery=2
                         activityChampsDetailsandRatingBarBinding.image2.visibility = View.GONE
                         activityChampsDetailsandRatingBarBinding.uploadImageLayout2.visibility =
                             View.VISIBLE
-//                        Glide.with(ViswamApp.context).load(resizedImage)
-//                            .placeholder(R.drawable.placeholder_image)
-//                            .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps2)
-                        activityChampsDetailsandRatingBarBinding.uploadImageChamps2.setImageURI(imageUri)
+                        Glide.with(ViswamApp.context).load(resizedImage)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps2)
+//                        activityChampsDetailsandRatingBarBinding.uploadImageChamps2.setImageURI(imageUri)
                         decrementMb2 = fileSizeInMBC
+                        imageFiles.add(resizedImage)
+                        disableUploadOption()
                     } else {
+                        if(imageFiles.size<3){
+                            uploadedFromGallery=1
 //                        activityChampsDetailsandRatingBarBinding.uploadImageChamps1.setImageURI(file)
-                        activityChampsDetailsandRatingBarBinding.image1.visibility = View.GONE
-                        activityChampsDetailsandRatingBarBinding.uploadImageLayout1.visibility =
-                            View.VISIBLE
-//                        Glide.with(ViswamApp.context).load(resizedImage)
-////                            .placeholder(R.drawable.placeholder_image)
-//                            .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps1)
-                        activityChampsDetailsandRatingBarBinding.uploadImageChamps2.setImageURI(imageUri)
-                        decrementMb1 = fileSizeInMBC
+                            activityChampsDetailsandRatingBarBinding.image1.visibility = View.GONE
+                            activityChampsDetailsandRatingBarBinding.uploadImageLayout1.visibility =
+                                View.VISIBLE
+                            Glide.with(ViswamApp.context).load(resizedImage)
+//                            .placeholder(R.drawable.placeholder_image)
+                                .into(activityChampsDetailsandRatingBarBinding.uploadImageChamps1)
+//                        activityChampsDetailsandRatingBarBinding.uploadImageChamps2.setImageURI(imageUri)
+                            decrementMb1 = fileSizeInMBC
+                            imageFiles.add(resizedImage)
+                            disableUploadOption()
+                        }
+
                     }
 
 //                    Utlis.showLoading(this)
-//                    champsDetailsAndRatingBarViewModel.connectToAzure(files, this)
+
 //                        var bitmap =
 //                            MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), data.getData())
 
@@ -633,10 +673,29 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
         }
         else if (resultCode === RESULT_CANCELED) {
-            Toast.makeText(applicationContext, "Canceled", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "Cancelled", Toast.LENGTH_SHORT).show()
         }
 
 
+    }
+
+    fun disableUploadOption(){
+        if(imageFiles!=null && imageFiles.size>0){
+            if(imageFiles.size==3){
+                activityChampsDetailsandRatingBarBinding.openGallery.visibility=View.GONE
+                activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility=View.VISIBLE
+            }else{
+                activityChampsDetailsandRatingBarBinding.openGallery.visibility=View.VISIBLE
+                activityChampsDetailsandRatingBarBinding.openGalleryAsh.visibility=View.GONE
+            }
+        }
+    }
+    fun getRealPathFromURI(contentUri: Uri?): String? {
+        val proj = arrayOf(MediaStore.Audio.Media.DATA)
+        val cursor = managedQuery(contentUri, proj, null, null, null)
+        val column_index = cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA)
+        cursor.moveToFirst()
+        return cursor.getString(column_index)
     }
 
     override fun onSuccessgetSubCategoryDetails(getSubCategoryDetails: GetSubCategoryDetailsModelResponse) {

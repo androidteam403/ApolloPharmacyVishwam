@@ -61,26 +61,25 @@
                         android:layout_gravity="center">
 
 
-                        <LinearLayout
-                            android:onClick="@{()-> callback.onClickPreview()}"
-                            android:gravity="end"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+<!--                        <LinearLayout-->
+<!--                            android:gravity="end"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical">-->
 
-                            <ImageView
-                                android:layout_gravity="center"
-                                android:layout_width="30dp"
-                                android:layout_height="@dimen/value_30dp"
-                                android:src="@drawable/blue_eye_icon"/>
+<!--                            <ImageView-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="@dimen/value_30dp"-->
+<!--                                android:src="@drawable/blue_eye_icon"/>-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Preview"
-                                android:textColor="@color/white"/>
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Preview"-->
+<!--                                android:textColor="@color/white"/>-->
 
-                        </LinearLayout>
+<!--                        </LinearLayout>-->
 
 
                     </LinearLayout>
@@ -328,7 +327,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                       android:id="@+id/site_id"
+                                        android:id="@+id/site_id"
                                         android:textColor="@color/black"
                                         android:textStyle="bold" />
 
@@ -367,28 +366,28 @@
                                     </LinearLayout>
 
 
-<!--                                    <LinearLayout-->
-<!--                                        android:layout_width="0dp"-->
-<!--                                        android:layout_height="wrap_content"-->
-<!--                                        android:layout_weight="0.5"-->
-<!--                                        android:orientation="vertical">-->
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.5"
+                                        android:orientation="vertical">
 
-<!--                                        <TextView-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="11dp"-->
-<!--                                            android:text="State: "-->
-<!--                                            android:textColor="@color/very_light_greyy"-->
-<!--                                            android:textStyle="bold" />-->
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="State: "
+                                            android:textColor="@color/very_light_greyy"
+                                            android:textStyle="bold" />
 
-<!--                                        <TextView-->
-<!--                                            android:id="@+id/State"-->
-<!--                                            android:layout_width="wrap_content"-->
-<!--                                            android:layout_height="wrap_content"-->
-<!--                                            android:textColor="@color/black"-->
-<!--                                            android:textStyle="bold" />-->
+                                        <TextView
+                                            android:id="@+id/state"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
 
 
-<!--                                    </LinearLayout>-->
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
@@ -1200,36 +1199,37 @@
                                     android:gravity="start"
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
+                                    android:editable="false"
                                     android:textAlignment="textStart"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black"
                                     android:textSize="@dimen/text_15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
-                            <LinearLayout
-                                android:id="@+id/charLeftLayoutTechnical"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/value_5dp"
-                                android:gravity="end"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutTechnical"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Char Left: "
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
 
-                                <TextView
-                                    android:id="@+id/charLeft_technical"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_technical"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
 
                             <CheckBox
                                 android:id="@+id/softskills_checkbox"
@@ -1258,37 +1258,38 @@
                                     android:maxLength="250"
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
+                                    android:editable="false"
                                     android:textAlignment="textStart"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black"
                                     android:textSize="@dimen/text_15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
-                            <LinearLayout
-                                android:id="@+id/charLeftLayoutSoftskills"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/value_5dp"
-                                android:gravity="end"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutSoftskills"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Char Left: "
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
 
-                                <TextView
-                                    android:id="@+id/charLeft_softskills"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="250"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_softskills"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="250"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
 
                             <CheckBox
                                 android:id="@+id/otherTraining_checkbox"
@@ -1318,37 +1319,38 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:gravity="start"
+                                    android:editable="false"
                                     android:textAlignment="textStart"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black"
                                     android:textSize="@dimen/text_15sp" />
                             </com.google.android.material.textfield.TextInputLayout>
 
-                            <LinearLayout
-                                android:id="@+id/charLeftLayoutOtherrTraining"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="@dimen/value_5dp"
-                                android:gravity="end"
-                                android:orientation="horizontal"
-                                android:visibility="gone">
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutOtherrTraining"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Char Left: "
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp" />
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
 
-                                <TextView
-                                    android:id="@+id/charLeft_otherTraining"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="250"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_12sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_otherTraining"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="250"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -1402,7 +1404,8 @@
                                 android:id="@+id/enter_issues_tobe_resolved_edittext"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_100dp"
-                                android:clickable="true"
+                                android:editable="false"
+                                android:clickable="false"
                                 android:ellipsize="start"
                                 android:gravity="start"
                                 android:hint="Issues to be resolved text here"
@@ -1415,28 +1418,28 @@
                                 android:textSize="@dimen/text_15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="@dimen/value_5dp"
-                            android:gravity="end"
-                            android:orientation="horizontal">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:orientation="horizontal">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Char Left: "
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_12sp" />
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Char Left: "-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
 
-                            <TextView
-                                android:id="@+id/charLeft_IssuestoBeResolved"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_12sp"
-                                android:textStyle="bold" />
-                        </LinearLayout>
+<!--                            <TextView-->
+<!--                                android:id="@+id/charLeft_IssuestoBeResolved"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </LinearLayout>-->
 
 
 
@@ -1460,9 +1463,9 @@
                                 android:textStyle="bold" />
 
                             <RelativeLayout
-                                android:layout_width="230dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_40dp"
-                                android:layout_marginStart="@dimen/value_10dp">
+                                android:layout_marginEnd="@dimen/value_10dp">
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -1527,148 +1530,147 @@
 
                             </RelativeLayout>
 
-                            <LinearLayout
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_width="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_height="wrap_content">
+<!--                            <LinearLayout-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_height="wrap_content">-->
 
-                                <ImageView
-                                    android:layout_width="@dimen/value_45dp"
-                                    android:layout_height="@dimen/value_45dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/help_icon_question_mark" />
-                            </LinearLayout>
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:layout_marginTop="@dimen/value_15dp"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="@dimen/value_60dp"
-                                    android:layout_height="@dimen/value_60dp"
-                                    android:src="@drawable/important_alert" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Important"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_16sp"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
-
-
-                            <TextView
-                                android:layout_marginTop="@dimen/value_2dp"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/value_15dp"
-                                android:text="You can save your inputs in draft, the final information will be submitted once you click the submit button on completion of the survey"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/text_15sp" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/value_15dp"
-                            android:layout_marginTop="@dimen/twenty20_dp"
-                            android:orientation="horizontal"
-                            android:weightSum="1">
-
-
-                            <LinearLayout
-                                android:onClick="@{()-> callback.onClickPreview()}"
-
-                                android:layout_width="0dp"
-                                android:layout_height="@dimen/value_50dp"
-                                android:layout_weight="0.15"
-                                android:background="@drawable/preview_blue_icon_bg"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="@dimen/value_60dp"
-                                    android:layout_height="@dimen/twenty20_dp"
-                                    android:layout_gravity="center"
-                                    android:src="@drawable/white_eye_icon" />
-
-
-                                <TextView
-                                    android:layout_marginEnd="@dimen/value_1dp"
-                                    android:layout_marginStart="@dimen/value_1dp"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="@dimen/value_3dp"
-                                    android:gravity="center"
-                                    android:text="Preview"
-                                    android:textColor="@color/white"
-                                    android:textSize="@dimen/text_14sp" />
-
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:onClick="@{()-> callback.onClickSaveDraft()}"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:background="@drawable/background_for_champs_green"
-                                android:layout_width="0dp"
-                                android:padding="@dimen/value_6dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.42">
-
-                                <TextView
-                                    android:gravity="center"
-                                    android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Save Draft"/>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:onClick="@{()-> callback.onClickSubmit()}"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:background="@drawable/background_for_champs_green"
-                                android:layout_width="0dp"
-                                android:padding="@dimen/value_6dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="0.42">
-
-                                <TextView
-                                    android:gravity="center"
-                                    android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/white"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Submit"/>
-                            </LinearLayout>
+<!--                                <ImageView-->
+<!--                                    android:layout_width="@dimen/value_45dp"-->
+<!--                                    android:layout_height="@dimen/value_45dp"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:src="@drawable/help_icon_question_mark" />-->
+<!--                            </LinearLayout>-->
 
 
                         </LinearLayout>
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_15dp"-->
+<!--                            android:layout_marginTop="@dimen/value_15dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="vertical">-->
+
+<!--                                <ImageView-->
+<!--                                    android:layout_width="@dimen/value_60dp"-->
+<!--                                    android:layout_height="@dimen/value_60dp"-->
+<!--                                    android:src="@drawable/important_alert" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Important"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_16sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_marginTop="@dimen/value_2dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:text="You can save your inputs in draft, the final information will be submitted once you click the submit button on completion of the survey"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_15sp" />-->
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_15dp"-->
+<!--                            android:layout_marginTop="@dimen/twenty20_dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:weightSum="1">-->
+
+
+<!--&lt;!&ndash;                            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:onClick="@{()-> callback.onClickSaveDraft()}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_height="@dimen/value_50dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_weight="0.15"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:background="@drawable/preview_blue_icon_bg"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:orientation="vertical">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="@dimen/value_60dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="@dimen/twenty20_dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:src="@drawable/white_eye_icon" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginEnd="@dimen/value_1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginStart="@dimen/value_1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginBottom="@dimen/value_3dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:text="Preview"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textColor="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textSize="@dimen/text_14sp" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                            </LinearLayout>&ndash;&gt;-->
+
+<!--                            <LinearLayout-->
+
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:background="@drawable/background_for_champs_green"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:padding="@dimen/value_6dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="0.42">-->
+
+<!--                                <TextView-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:textSize="@dimen/text_18sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Save Draft"/>-->
+<!--                            </LinearLayout>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:onClick="@{()-> callback.onClickSubmit()}"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:background="@drawable/background_for_champs_green"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:padding="@dimen/value_6dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="0.42">-->
+
+<!--                                <TextView-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:textSize="@dimen/text_18sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Submit"/>-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
 
 
 
@@ -1684,6 +1686,6 @@
 
         <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack" />
+            type="com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivityCallback" />
     </data>
 </layout>

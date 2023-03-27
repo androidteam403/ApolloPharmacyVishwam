@@ -39,6 +39,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     val surveyRecDetailsList= ArrayList<String>()
     val surveyCCDetailsList = ArrayList<String>()
     private var storeId:String =""
+    private var storeCity:String =""
     private var address:String=""
     var siteName:String?=""
 
@@ -106,6 +107,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         address = intent.getStringExtra("address")!!
         storeId = intent.getStringExtra("storeId")!!
         siteName= intent.getStringExtra("siteName")
+        storeCity = intent.getStringExtra("storeCity")!!
         if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
             activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
             activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
@@ -169,6 +171,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
+        intent.putExtra("storeCity", storeCity)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         startActivity(intent)

@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingba
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.Toast
@@ -14,10 +15,11 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import kotlin.math.roundToInt
 
+
 class SubCategoryAdapter(
     private var subCategoryDetails: List<GetSubCategoryDetailsModelResponse.SubCategoryDetail>,
     private var applicationContext: Context,
-    private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack
+    private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
 ) : RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>()  {
 
 
@@ -35,31 +37,68 @@ class SubCategoryAdapter(
         return ViewHolder(adapterSubCategoryAdapterBinding)
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
         val subCategory = subCategoryDetails.get(position)
         holder.adapterSubCategoryAdapterBinding.subCategoryHeading.text = subCategory.subCategoryName
         holder.adapterSubCategoryAdapterBinding.seekbar1.max=
             ((subCategoryDetails.get(position).rating)!!.toFloat()*2).toInt()
 
+
         if(subCategory.givenRating!=null){
             var value = (subCategory.givenRating)!!.toFloat()*2
             holder.adapterSubCategoryAdapterBinding.seekbar1.progress=(value.roundToInt())
+
+//            holder.adapterSubCategoryAdapterBinding.firstRange.text="0"
+//            holder.adapterSubCategoryAdapterBinding.secondRange.text=(subCategory.rating!!.toFloat()/3).toString()
+//            holder.adapterSubCategoryAdapterBinding.thirdRange.text=(subCategory.rating!!.toFloat()/2).toString()
+//            holder.adapterSubCategoryAdapterBinding.fourthRange.text=subCategory.rating.toString()
+
+        }
+
+        if(subCategory.rating!!.equals("5")){
+            holder.adapterSubCategoryAdapterBinding.secondRange.text="2"
+            holder.adapterSubCategoryAdapterBinding.thirdRange.text="3"
+            holder.adapterSubCategoryAdapterBinding.fourthRange.text=subCategory.rating.toString()
+        }else{
+            holder.adapterSubCategoryAdapterBinding.secondRange.text="1"
+            holder.adapterSubCategoryAdapterBinding.thirdRange.text="1.5"
+            holder.adapterSubCategoryAdapterBinding.fourthRange.text=subCategory.rating.toString()
         }
 
         holder.adapterSubCategoryAdapterBinding.seekbar1.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                Toast.makeText(applicationContext,
-                    "Value: " + getConvertedValue((progress).toFloat()),
-                    Toast.LENGTH_SHORT).show()
-                champsDetailsandRatingBarCallBack.onClickSeekBar(getConvertedValue((progress).toFloat()), position)
+                val width = (seekBar.width
+                        - seekBar.paddingLeft
+                        - seekBar.paddingRight)
+                val thumbPos: Float = width * (seekBar.getProgress() / seekBar.getMax().toFloat())
+
+                holder.adapterSubCategoryAdapterBinding.tvProgress.setTranslationX(thumbPos);
+                holder.adapterSubCategoryAdapterBinding.tvProgress.text = getConvertedValue(progress.toFloat()).toString()
+//                Toast.makeText(applicationContext,
+//                    "Value: " + getConvertedValue((progress).toFloat()),
+//                    Toast.LENGTH_SHORT).show()
+                champsDetailsandRatingBarCallBack.onClickSeekBar(getConvertedValue((progress).toFloat()),
+                    position)
 
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onStartTrackingTouch(seekBar: SeekBar) {
+
+
+                holder.adapterSubCategoryAdapterBinding.tvProgress.visibility= View.VISIBLE
+            }
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+
+                holder.adapterSubCategoryAdapterBinding.tvProgress.visibility= View.INVISIBLE
+
+            }
         })
     }
+
+
+
     private fun getConvertedValue(intVal: Float): Float {
         var floatVal = 0.0f
         floatVal = .5f * intVal
@@ -69,6 +108,6 @@ class SubCategoryAdapter(
         return subCategoryDetails.size
     }
 
-    class ViewHolder(val adapterSubCategoryAdapterBinding:AdapterSubCategoryBinding):
+    class ViewHolder(val adapterSubCategoryAdapterBinding: AdapterSubCategoryBinding):
         RecyclerView.ViewHolder(adapterSubCategoryAdapterBinding.root)
 }

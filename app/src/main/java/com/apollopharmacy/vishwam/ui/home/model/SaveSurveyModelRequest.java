@@ -23,7 +23,7 @@ public class SaveSurveyModelRequest implements Serializable {
         this.headerDetails = headerDetails;
     }
 
-    public class HeaderDetails implements Serializable {
+    public static class HeaderDetails implements Serializable {
 
         @SerializedName("state")
         @Expose
@@ -224,7 +224,7 @@ public class SaveSurveyModelRequest implements Serializable {
         this.categoryDetails = categoryDetails;
     }
 
-    public class CategoryDetails implements Serializable {
+    public static class CategoryDetails implements Serializable {
 
         @SerializedName("appearance_store")
         @Expose

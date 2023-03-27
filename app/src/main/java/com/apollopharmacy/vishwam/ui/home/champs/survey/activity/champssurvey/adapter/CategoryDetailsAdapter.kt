@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDetailsBinding
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 
@@ -39,7 +41,7 @@ class CategoryDetailsAdapter(
         holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
         holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
 
-        if(categoryDetailss.sumOfSubCategoryRating!=null && categoryDetailss.sumOfSubCategoryRating!! >0f){
+        if(categoryDetailss.sumOfSubCategoryRating!=null){
             holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility=View.VISIBLE
             holder.adapterCategoryDetailsBinding.progressBar.progress=(categoryDetailss.sumOfSubCategoryRating)!!.toInt()
             holder.adapterCategoryDetailsBinding.progressBar.max=(categoryDetailss.rating)!!.toInt()
@@ -61,6 +63,7 @@ class CategoryDetailsAdapter(
         holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener{
             champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
         }
+
     }
 
     override fun getItemCount(): Int {
