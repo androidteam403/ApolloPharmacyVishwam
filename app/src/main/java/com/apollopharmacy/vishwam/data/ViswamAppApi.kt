@@ -546,14 +546,16 @@ interface ViswamAppApi {
         @Url url: String,
     ): SaveCategoryConfigurationDetailsResponse
 
-    @GET("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
+    @GET //("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/GETCASHDEPOSITDETAILS") // SITEID=14068
     suspend fun getCashDepositDetails(
+        @Url url: String,
         @Header("token") token: String,
         @Query("SITEID") siteid: String,
     ): CashDepositDetailsResponse
 
-    @POST("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")
+    @POST //("https://online.apollopharmacy.org/LIGHTPOS/Apollo/UTIES/SAVECASHDEPOSITDETAILS")
     suspend fun saveCashDepositDetails(
+        @Url url: String,
         @Header("token") token: String,
         @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): CashDepositDetailsResponse

@@ -14,11 +14,12 @@ import java.util.concurrent.TimeoutException
 object CashDepositApiRepo {
 
     suspend fun getCashDepositDetails(
+        url: String,
         token: String,
         siteId: String,
     ): ApiResult<CashDepositDetailsResponse> {
         return try {
-            val response = Api.getClient().getCashDepositDetails(token, siteId)
+            val response = Api.getClient().getCashDepositDetails(url, token, siteId)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -50,11 +51,13 @@ object CashDepositApiRepo {
     }
 
     suspend fun saveCashDepositDetails(
+        url: String,
         token: String,
-        cashDepositDetailsRequest: CashDepositDetailsRequest
+        cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): ApiResult<CashDepositDetailsResponse> {
         return try {
-            val response = Api.getClient().saveCashDepositDetails(token, cashDepositDetailsRequest)
+            val response =
+                Api.getClient().saveCashDepositDetails(url, token, cashDepositDetailsRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

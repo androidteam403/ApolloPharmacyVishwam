@@ -3,12 +3,15 @@ package com.apollopharmacy.vishwam.ui.home.cashcloser
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.CashDepositApiRepo
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.login.Command
+import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,12 +23,26 @@ class CashCloserViewModel : ViewModel() {
     val command = LiveEvent<Command>()
 
     fun getCashDepositDetails(siteId: String, mCallback: CashCloserFragmentCallback) {
-        var token = "h72genrSSNFivOi/cfiX3A=="
+        // var token = "h72genrSSNFivOi/cfiX3A=="
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var apiUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CD GETCASHDEPOSITDETAILS")) {
+                apiUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
+
 
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
             val result = withContext(Dispatchers.IO) {
-                CashDepositApiRepo.getCashDepositDetails(token, siteId)
+                CashDepositApiRepo.getCashDepositDetails(apiUrl, token, siteId)
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -59,13 +76,26 @@ class CashCloserViewModel : ViewModel() {
         }
     }
 
-    fun saveCashDepositDetails(cashDepositDetailsRequest: CashDepositDetailsRequest, mCallback: CashCloserFragmentCallback) {
-        var token = "h72genrSSNFivOi/cfiX3A=="
-
+    fun saveCashDepositDetails(
+        cashDepositDetailsRequest: CashDepositDetailsRequest,
+        mCallback: CashCloserFragmentCallback,
+    ) {
+        // var token = "h72genrSSNFivOi/cfiX3A=="
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var apiUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CD SAVECASHDEPOSITDETAILS")) {
+                apiUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
         viewModelScope.launch {
             state.postValue(State.SUCCESS)
             val result = withContext(Dispatchers.IO) {
-                CashDepositApiRepo.saveCashDepositDetails(token, cashDepositDetailsRequest)
+                CashDepositApiRepo.saveCashDepositDetails(apiUrl, token, cashDepositDetailsRequest)
             }
             when (result) {
                 is ApiResult.Success -> {
