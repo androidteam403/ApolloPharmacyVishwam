@@ -238,7 +238,7 @@ class AttendanceViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("ATTENDENCEGETSITEANDDOCTORLIST")) {
+            if (data.APIS[i].NAME.equals("ATTENDENCE GETSITEANDDOCTORLIST")) {
                 baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
