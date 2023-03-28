@@ -33,7 +33,7 @@
             android:thumb="@android:color/transparent" />
 
         <LinearLayout
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/value_20dp"
@@ -58,7 +58,7 @@
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
-                android:text="2" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/third_range"
@@ -69,7 +69,7 @@
                 android:textStyle="bold"
                 android:gravity="center_horizontal"
                 android:textColor="@color/black"
-                android:text="3" />
+                android:text="" />
 
             <TextView
                 android:id="@+id/fourth_range"
