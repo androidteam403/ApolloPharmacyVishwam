@@ -331,11 +331,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-        if (isGpsEnambled()) {
-            checkLocationPermission();
-        } else {
-            buildAlertMessageNoGps();
-        }
+//        if (isGpsEnambled()) {
+//            checkLocationPermission();
+//        } else {
+//            buildAlertMessageNoGps();
+//        }
         setUp();
 
 

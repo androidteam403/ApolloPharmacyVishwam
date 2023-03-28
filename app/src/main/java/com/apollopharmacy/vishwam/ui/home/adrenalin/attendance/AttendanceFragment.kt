@@ -63,6 +63,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     lateinit var adapter: TaskRecyclerView
     lateinit var userData: LoginDetails
     var employeeID: String = ""
+    var branchName: String = ""
+
     var lastLogDateTime: String = ""
     var taskAlreadyAvailable: Boolean = false
     var taskAvailableId: String = ""
@@ -454,20 +456,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 isDepartmentSelected = true
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
-                                if (enteredTaskName.equals("DR CONNECT")) {
-                                    showLoading()
-                                    siteId.visibility = View.VISIBLE
-                                    val siteListRequest = SiteListRequest("SITELIST", "")
-                                    viewModel.siteListResponse(siteListRequest)
-                                } else if (enteredTaskName.equals("HR")) {
-                                    siteIdText.setText("")
-                                    doctorText.setText("")
-                                    siteId.visibility = View.GONE
-                                    doctorId.visibility = View.GONE
 
-                                    doctorSpecialist.visibility = View.GONE
-
-                                }
                                 viewModel.getDepartmentTaskList(
                                     getKeyFromValue(
                                         dept_List_Map,
@@ -485,24 +474,6 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     }
                 }
 
-                deptTaskSpinner.onItemSelectedListener = object :
-                    AdapterView.OnItemSelectedListener {
-                    override fun onItemSelected(
-                        parent: AdapterView<*>,
-                        view: View, position: Int, id: Long,
-                    ) {
-                        if (position != 0) {
-                            enteredTaskName = enteredTaskName + " - " + DEPT_TASK_LIST[position]
-                            isDepartmentTaskSelected = true
-                        }
-                    }
-
-                    override fun onNothingSelected(parent: AdapterView<*>) {
-                        isDepartmentTaskSelected = false
-                        // write code to perform some action
-                    }
-                }
-
 
 
 
@@ -515,6 +486,21 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         view: View, position: Int, id: Long,
                     ) {
                         if (position != 0) {
+                            if(DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
+                                branchName="DOCTOR VISIT"
+                                showLoading()
+                                siteId.visibility = View.VISIBLE
+                                val siteListRequest = SiteListRequest("SITELIST", "")
+                                viewModel.siteListResponse(siteListRequest)
+                            }else{
+                                branchName=""
+                                siteIdText.setText("")
+                                doctorText.setText("")
+                                siteId.visibility = View.GONE
+                                doctorId.visibility = View.GONE
+
+                                doctorSpecialist.visibility = View.GONE
+                            }
 
                             enteredTaskName = enteredTaskName + " - " + DEPT_TASK_LIST[position]
                             isDepartmentTaskSelected = true
@@ -740,6 +726,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     private fun validationCheck(): Boolean {
 
+
+        if (branchName.equals("DOCTOR VISIT")){
+
         val siteId =siteIdText.text.toString().trim()
         val doctorName = doctorText.text.toString().trim()
         if (siteId.isEmpty()) {
@@ -758,6 +747,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
                 .show()
             return false
+        }
+            else{
+            return true
+
+        }
+
         }
 
         return true
@@ -860,11 +855,11 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
         dialogCurrentTime.text =
             getAttendanceCurrentDate()
-        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
+//        Log.e("vaseem", timeCoversion12to24(lastLogDateTime.split(" ").get(1)).split(":").get(0))
 
-        dialogDurationHrs.text= timeCoversion12to24(lastLogDateTime.split(" ").get(1)+lastLogDateTime.split(" ").get(2)).split(":").get(0)
-        dialogDurationMins.text=timeCoversion12to24(lastLogDateTime.split(" ").get(1)+lastLogDateTime.split(" ").get(2)).split(":").get(1)
-        dialogDurationSecs.text=timeCoversion12to24(lastLogDateTime.split(" ").get(1)+lastLogDateTime.split(" ").get(2)).split(":").get(2)
+        dialogDurationHrs.text= lastLogDateTime.split(" ").get(1).split(":").get(0)
+        dialogDurationMins.text=lastLogDateTime.split(" ").get(1).split(":").get(1)
+        dialogDurationSecs.text=lastLogDateTime.split(" ").get(1).split(":").get(2)
 
 //        dialogDurationTime.text =
 //            " " + lastLogDateTime.trimSubstring(9, 19).trimSubstring(
