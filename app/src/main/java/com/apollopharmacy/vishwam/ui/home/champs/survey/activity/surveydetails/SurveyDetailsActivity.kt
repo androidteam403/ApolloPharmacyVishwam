@@ -270,9 +270,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     }
 
     override fun onSuccessgetEmailDetails(getEmailAddressResponse: GetEmailAddressModelResponse) {
-        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails.size!=null){
-            for(i in getEmailAddressResponse.emailDetails.indices){
-                surveyRecDetailsList.add(getEmailAddressResponse.emailDetails.get(i).email)
+        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails!!.size!=null){
+            for(i in getEmailAddressResponse.emailDetails!!.indices){
+                surveyRecDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
             }
             adapterRec = EmailAddressAdapter(surveyRecDetailsList, applicationContext, this)
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(LinearLayoutManager(this))
@@ -317,9 +317,9 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     }
 
     override fun onSuccessgetEmailDetailsCC(getEmailAddressResponse: GetEmailAddressModelResponse) {
-        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails.size!=null){
-            for(i in getEmailAddressResponse.emailDetails.indices){
-                surveyCCDetailsList.add(getEmailAddressResponse.emailDetails.get(i).email)
+        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails!!.size!=null){
+            for(i in getEmailAddressResponse.emailDetails!!.indices){
+                surveyCCDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
             }
             adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, applicationContext)
             activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))

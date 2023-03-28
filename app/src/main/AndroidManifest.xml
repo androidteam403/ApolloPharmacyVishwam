@@ -30,9 +30,11 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".PreviewActivity"
-            android:exported="false" />
-        <activity android:name=".ui.home.greeting.GreetingActivity" />
+            android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+<!--        <activity android:name=".ui.home.greeting.GreetingActivity" />-->
         <activity
             android:name=".ui.home.greeting.GreetingActivity"
             android:exported="true"
@@ -115,6 +117,12 @@
             android:theme="@style/AppTheme" />
 
         <activity
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -133,14 +141,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
-            android:exported="true" />
-        <activity
             android:name=".ui.verifyuser.VerifyUserActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustPan">
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

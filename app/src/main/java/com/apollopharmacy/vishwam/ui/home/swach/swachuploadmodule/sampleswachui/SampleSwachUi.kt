@@ -1089,6 +1089,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
         }
         // hideLoading()
+        viewBinding.uploadNowLayout.visibility = View.VISIBLE
 
     }
 

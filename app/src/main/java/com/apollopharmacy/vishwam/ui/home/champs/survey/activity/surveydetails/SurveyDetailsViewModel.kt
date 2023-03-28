@@ -26,14 +26,14 @@ class SurveyDetailsViewModel:ViewModel() {
             }
             when (result) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
+                    if (result.value.status!!) {
                         state.value = State.ERROR
                         surveyDetailsCallback.onSuccessgetEmailDetails(result.value)
 //                        getStoreDetailsChamps.value = result.value
                     } else {
                         state.value = State.ERROR
                         surveyDetailsCallback.onFailuregetEmailDetails(result.value)
-                        commands.value = Command.ShowToast(result.value.message)
+                        commands.value = Command.ShowToast(result.value.message!!)
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -66,7 +66,7 @@ class SurveyDetailsViewModel:ViewModel() {
             }
             when (result) {
                 is ApiResult.Success -> {
-                    if (result.value.status) {
+                    if (result.value.status!!) {
                         state.value = State.ERROR
                         if(type.equals("RECIPIENTS")){
                             surveyDetailsCallback.onSuccessgetEmailDetails(result.value)
@@ -76,7 +76,7 @@ class SurveyDetailsViewModel:ViewModel() {
 
                     } else {
                         state.value = State.ERROR
-                        commands.value = Command.ShowToast(result.value.message)
+                        commands.value = Command.ShowToast(result.value.message!!)
                         surveyDetailsCallback.onFailuregetEmailDetails(result.value)
                     }
                 }

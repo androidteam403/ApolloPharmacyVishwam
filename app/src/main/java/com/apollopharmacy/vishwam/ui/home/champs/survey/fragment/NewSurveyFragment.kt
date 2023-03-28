@@ -46,7 +46,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         Utlis.hideLoading()
         if (Preferences.getSwachhSiteId().isEmpty()) {
             showLoading()
-            val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
+            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
             startActivityForResult(i, 781)
         } else {
 
