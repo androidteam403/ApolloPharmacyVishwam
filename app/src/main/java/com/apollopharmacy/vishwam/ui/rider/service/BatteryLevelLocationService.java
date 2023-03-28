@@ -220,6 +220,8 @@ public class BatteryLevelLocationService extends Service implements LocationList
         Location locationB = new Location("point B");
         locationB.setLatitude(currentLocationss.latitude);
         locationB.setLongitude(currentLocationss.latitude);
+        distanceTravelled = Double.parseDouble(getSessionManager().getRiderTravelledDistanceinDay());
+        distances = distanceTravelled;
         if (locationA.distanceTo(locationB) > 5 && locationA.distanceTo(locationB) < 15) {
 //            Toast.makeText(this, "" + locationA.distanceTo(locationB), Toast.LENGTH_LONG).show();
             distances = distances + locationA.distanceTo(locationB);

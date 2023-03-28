@@ -1,5 +1,10 @@
 package com.apollopharmacy.vishwam.ui.rider.orderdelivery;
 
+import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static com.apollopharmacy.vishwam.util.Utils.getCurrentTime;
+import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showLayoutDownAnimation;
+import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showTextDownAnimation;
+
 import android.Manifest;
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
@@ -19,6 +24,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -109,11 +115,6 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-import static com.apollopharmacy.vishwam.util.Utils.getCurrentTime;
-import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showLayoutDownAnimation;
-import static com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils.showTextDownAnimation;
 
 
 public class OrderDeliveryActivity extends BaseActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener,
@@ -357,9 +358,20 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
     private boolean isLaunchedByPushNotification;
 
+    private Handler liveDistanceCalculateHandler = new Handler();
+    private Runnable liveDistanceCalculateRunnable = new Runnable() {
+        @Override
+        public void run() {
+            Toast.makeText(OrderDeliveryActivity.this, getSessionManager().getRiderTravelledDistanceinDay()+"m", Toast.LENGTH_SHORT).show();
+            liveDistanceCalculateHandler.removeCallbacks(liveDistanceCalculateRunnable);
+            liveDistanceCalculateHandler.postDelayed(liveDistanceCalculateRunnable, 3000);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSessionManager().setRiderTravelledDistanceinDay("0.0");
         orderDeliveryBinding = DataBindingUtil.setContentView(this, R.layout.activity_order_delivery);
         orderDeliveryBinding.setCallback(this);
         ButterKnife.bind(this);
@@ -1948,7 +1960,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     @Override
     public void onLogout() {
         getSessionManager().clearAllSharedPreferences();
-       MainActivity.mInstance.stopBatteryLevelLocationService();
+        MainActivity.mInstance.stopBatteryLevelLocationService();
         Intent intent = new Intent(OrderDeliveryActivity.this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -2127,6 +2139,8 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
     @Override
     protected void onResume() {
+        liveDistanceCalculateHandler.removeCallbacks(liveDistanceCalculateRunnable);
+        liveDistanceCalculateHandler.postDelayed(liveDistanceCalculateRunnable, 3000);
         Utils.CURRENT_SCREEN = getClass().getSimpleName();
         Hawk.put(AppConstants.LAST_ACTIVITY, getClass().getSimpleName());
         super.onResume();
@@ -3076,6 +3090,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
 
     @Override
     protected void onPause() {
+        liveDistanceCalculateHandler.removeCallbacks(liveDistanceCalculateRunnable);
         super.onPause();
     }
 
