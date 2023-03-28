@@ -63,6 +63,8 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     lateinit var adapter: TaskRecyclerView
     lateinit var userData: LoginDetails
     var employeeID: String = ""
+    var branchName: String = ""
+
     var lastLogDateTime: String = ""
     var taskAlreadyAvailable: Boolean = false
     var taskAvailableId: String = ""
@@ -485,11 +487,13 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                     ) {
                         if (position != 0) {
                             if(DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
+                                branchName="DOCTOR VISIT"
                                 showLoading()
                                 siteId.visibility = View.VISIBLE
                                 val siteListRequest = SiteListRequest("SITELIST", "")
                                 viewModel.siteListResponse(siteListRequest)
                             }else{
+                                branchName=""
                                 siteIdText.setText("")
                                 doctorText.setText("")
                                 siteId.visibility = View.GONE
@@ -722,6 +726,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
 
     private fun validationCheck(): Boolean {
 
+
+        if (branchName.equals("DOCTOR VISIT")){
+
         val siteId =siteIdText.text.toString().trim()
         val doctorName = doctorText.text.toString().trim()
         if (siteId.isEmpty()) {
@@ -740,6 +747,12 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
             )
                 .show()
             return false
+        }
+            else{
+            return true
+
+        }
+
         }
 
         return true
