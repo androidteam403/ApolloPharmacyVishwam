@@ -96,6 +96,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     var isDepartmentSelected: Boolean = false
     var isDepartmentTaskSelected: Boolean = false
     var enteredTaskName: String = ""
+    var taskName: Boolean = false
 
     val LOCATION_PERMISSION_REQUEST = 101
     private lateinit var locationViewModel: LocationViewModel
@@ -456,6 +457,18 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 isDepartmentSelected = true
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
+                                if (DEPT_LIST[position].equals("DR CONNECT")){
+                                    taskName=true
+                                }else{
+                                    branchName=""
+                                    siteIdText.setText("")
+                                    doctorText.setText("")
+                                    siteId.visibility = View.GONE
+                                    doctorId.visibility = View.GONE
+
+                                    doctorSpecialist.visibility = View.GONE
+                                    taskName=false
+                                }
 
                                 viewModel.getDepartmentTaskList(
                                     getKeyFromValue(
@@ -486,7 +499,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         view: View, position: Int, id: Long,
                     ) {
                         if (position != 0) {
-                            if(DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
+                            if(taskName&&DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
                                 branchName="DOCTOR VISIT"
                                 showLoading()
                                 siteId.visibility = View.VISIBLE
@@ -1144,6 +1157,9 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         showLoading()
 //        siteId.visibility = View.VISIBLE
         val doctorListRequest = DoctorListRequest("DOCTORLIST", departmentDto.siteid!!)
+        doctorText.setText("")
+        doctorSpecialist.visibility=View.GONE
+
         viewModel.doctorListResponse(doctorListRequest)
         siteIds= departmentDto.siteid!!
         siteIdText.setText(departmentDto.siteid + " - " + departmentDto.sitename)
