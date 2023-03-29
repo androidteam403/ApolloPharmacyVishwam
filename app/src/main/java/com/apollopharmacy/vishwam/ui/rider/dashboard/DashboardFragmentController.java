@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.rider.dashboard;
 import android.content.Context;
 
 
+import com.apollopharmacy.vishwam.BuildConfig;
 import com.apollopharmacy.vishwam.network.ApiClient;
 import com.apollopharmacy.vishwam.network.ApiInterface;
 import com.apollopharmacy.vishwam.ui.rider.dashboard.DashboardFragmentCallback;
