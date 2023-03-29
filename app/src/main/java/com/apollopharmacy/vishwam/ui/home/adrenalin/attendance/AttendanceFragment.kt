@@ -458,6 +458,7 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                                 isDepartmentTaskSelected = false
                                 enteredTaskName = DEPT_LIST[position]
                                 if (DEPT_LIST[position].equals("DR CONNECT")){
+                                    siteIdText.setText("")
                                     taskName=true
                                 }else{
                                     branchName=""
@@ -499,9 +500,27 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                         view: View, position: Int, id: Long,
                     ) {
                         if (position != 0) {
-                            if(taskName&&DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
+                            if(taskName&&DEPT_TASK_LIST.get(position).equals("BRANCH VISIT")){
+                                branchName="BRANCH VISIT"
+                                showLoading()
+                                siteIdText.setText("")
+                                doctorText.setText("")
+                                doctorSpecialist.setText("")
+
+                                doctorSpecialist.visibility = View.GONE
+
+                                doctorId.visibility = View.GONE
+
+                                siteId.visibility = View.VISIBLE
+                                val siteListRequest = SiteListRequest("SITELIST", "")
+                                viewModel.siteListResponse(siteListRequest)
+                                }
+
+                           else if(taskName&&DEPT_TASK_LIST.get(position).equals("DOCTOR VISIT")){
                                 branchName="DOCTOR VISIT"
                                 showLoading()
+                                siteIdText.setText("")
+
                                 siteId.visibility = View.VISIBLE
                                 val siteListRequest = SiteListRequest("SITELIST", "")
                                 viewModel.siteListResponse(siteListRequest)
@@ -761,6 +780,19 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
                 .show()
             return false
         }
+            else if(branchName.equals("BRANCH VISIT")){
+            val siteId =siteIdText.text.toString().trim()
+            if (siteId.isEmpty()) {
+                Toast.makeText(
+                    requireContext(),
+                    "Please Select Site Id",
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+                return false
+            }
+        }
+
             else{
             return true
 
@@ -1154,13 +1186,16 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
     }
 
     override fun selectSite(departmentDto: SiteListResponse.Site) {
-        showLoading()
 //        siteId.visibility = View.VISIBLE
-        val doctorListRequest = DoctorListRequest("DOCTORLIST", departmentDto.siteid!!)
-        doctorText.setText("")
-        doctorSpecialist.visibility=View.GONE
+        if (branchName.equals("DOCTOR VISIT")) {
+            showLoading()
+            val doctorListRequest = DoctorListRequest("DOCTORLIST", departmentDto.siteid!!)
 
-        viewModel.doctorListResponse(doctorListRequest)
+            doctorText.setText("")
+            doctorSpecialist.visibility = View.GONE
+
+            viewModel.doctorListResponse(doctorListRequest)
+        }
         siteIds= departmentDto.siteid!!
         siteIdText.setText(departmentDto.siteid + " - " + departmentDto.sitename)
     }
