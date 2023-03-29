@@ -73,7 +73,6 @@
             android:id="@+id/descriptionTextattendence"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"
             android:gravity="top|start"
             android:hint="Remarks *"
             android:maxLength="150"
