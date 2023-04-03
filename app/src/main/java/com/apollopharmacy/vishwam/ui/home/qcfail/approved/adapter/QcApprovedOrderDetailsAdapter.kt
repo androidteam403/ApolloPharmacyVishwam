@@ -50,6 +50,9 @@ class QcApprovedOrderDetailsAdapter(
             holder.approvedorderdetailsBinding.approveQtyText.setText("-")
 
         }
+        else if(items.approvedqty.toString().equals("null")){
+            holder.approvedorderdetailsBinding.approveQtyText.setText("0")
+        }
         else{
             holder.approvedorderdetailsBinding.approveQtyText.setText(items.approvedqty.toString())
 

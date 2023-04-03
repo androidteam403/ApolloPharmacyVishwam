@@ -179,7 +179,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             it.setorderno(orderId)
             for (j in it.itemlist!!) {
                 j.orderno = orderId
-                j.approvedqty = j.qty
+
             }
             var isItemAdded = false;
             for (i in itemsList) {
