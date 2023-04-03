@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.network;
 import com.apollopharmacy.vishwam.BuildConfig;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.localebro.okhttpprofiler.OkHttpProfilerInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,14 +13,19 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    public  static final String BASE_URL = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_rider/";
+    public static final String BASE_URL = "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_rider/";
 
     public static ApiInterface getApiService() {
         return getRetrofitInstance().create(ApiInterface.class);
     }
 
     private static Retrofit getRetrofitInstance() {
-        OkHttpClient client = new OkHttpClient.Builder()
+        OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(new OkHttpProfilerInterceptor());
+        }
+
+        OkHttpClient client = builder
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
@@ -34,7 +40,6 @@ public class ApiClient {
                 .client(client)
                 .build();
     }
-
 
 
 }
