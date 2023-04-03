@@ -320,10 +320,10 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     private String cusPickupVerificationCode = "00000000";
     private String cusDeliveryVerificationCode = "00000000";//
 
-    private boolean isBranPickupVerificationCode = false;
-    private boolean isBranReturnVerificatonCode = false;
-    private boolean isCusPickupVerificationCode = false;
-    private boolean isCusDeliveryVerificationCode = false;
+    private boolean isBranPickupVerificationCode = false; // forward flow pickup verification
+    private boolean isBranReturnVerificatonCode = false; //
+    private boolean isCusPickupVerificationCode = false; // return flow pickup verification
+    private boolean isCusDeliveryVerificationCode = false; // forward Delivery verification
 
     private String orderUid;
     private String orderNumber;
@@ -362,7 +362,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     private Runnable liveDistanceCalculateRunnable = new Runnable() {
         @Override
         public void run() {
-            Toast.makeText(OrderDeliveryActivity.this, getSessionManager().getRiderTravelledDistanceinDay()+"m", Toast.LENGTH_SHORT).show();
+            Toast.makeText(OrderDeliveryActivity.this, getSessionManager().getRiderTravelledDistanceinDay() + "m", Toast.LENGTH_SHORT).show();
             liveDistanceCalculateHandler.removeCallbacks(liveDistanceCalculateRunnable);
             liveDistanceCalculateHandler.postDelayed(liveDistanceCalculateRunnable, 3000);
         }
@@ -2317,17 +2317,34 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                             orderDeliveryBinding.orderNotDeliveredInnerHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_disable_curves_bg));
                             orderDeliveryBinding.orderCancelTxt.setTextColor(getResources().getColor(R.color.colorGrey));
                             orderDeliveryBinding.orderCancelTxt.setBackground(getResources().getDrawable(R.drawable.order_disable_circle_bg));
-                            if (orderDetailsResponse.getData().getCusPickupVerCode() == null || orderDetailsResponse.getData().getCusPickupVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpCustPickup())) {
-                                orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
-                                orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
-                                isCusPickupVerificationCode = true;
-                                orderDeliveryBinding.pickupOptNum1.setText("0");
-                                orderDeliveryBinding.pickupOptNum2.setText("0");
-                                orderDeliveryBinding.pickupOptNum3.setText("0");
-                                orderDeliveryBinding.pickupOptNum4.setText("0");
-                                orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
-                                orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                                orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+
+
+                            if (orderDetailsResponse.getData().getPickupSite().getOtpCustPickup() == null) {
+                                if (orderDetailsResponse.getData().getCusPickupVerCode() == null || orderDetailsResponse.getData().getCusPickupVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpCustPickup())) {
+                                    orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
+                                    orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
+                                    isCusPickupVerificationCode = true;
+                                    orderDeliveryBinding.pickupOptNum1.setText("0");
+                                    orderDeliveryBinding.pickupOptNum2.setText("0");
+                                    orderDeliveryBinding.pickupOptNum3.setText("0");
+                                    orderDeliveryBinding.pickupOptNum4.setText("0");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+                                }
+                            } else {
+                                if (orderDetailsResponse.getData().getCusPickupVerCode() == null || orderDetailsResponse.getData().getCusPickupVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpCustPickup() != null && !orderDetailsResponse.getData().getPickupSite().getOtpCustPickup())) {
+                                    orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
+                                    orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
+                                    isCusPickupVerificationCode = true;
+                                    orderDeliveryBinding.pickupOptNum1.setText("0");
+                                    orderDeliveryBinding.pickupOptNum2.setText("0");
+                                    orderDeliveryBinding.pickupOptNum3.setText("0");
+                                    orderDeliveryBinding.pickupOptNum4.setText("0");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+                                }
                             }
                         } else {
                             orderDeliveryBinding.deliveryheadTxt.setBackground(getResources().getDrawable(R.drawable.order_disable_circle_bg));
@@ -2335,17 +2352,33 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                             orderDeliveryBinding.customerheadName.setTextColor(getResources().getColor(R.color.colorGrey));
                             orderDeliveryBinding.deliverNameHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_disable_curves_bg));
                             orderDeliveryBinding.deliverNameInnerHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_disable_curves_bg));
-                            if (orderDetailsResponse.getData().getBranpickupVerCode() == null || orderDetailsResponse.getData().getBranpickupVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpPickup())) {
-                                orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
-                                orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
-                                isBranPickupVerificationCode = true;
-                                orderDeliveryBinding.pickupOptNum1.setText("0");
-                                orderDeliveryBinding.pickupOptNum2.setText("0");
-                                orderDeliveryBinding.pickupOptNum3.setText("0");
-                                orderDeliveryBinding.pickupOptNum4.setText("0");
-                                orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
-                                orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                                orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+
+                            if (orderDetailsResponse.getData().getPickupSite().getOtpPickup() == null) {
+                                if (orderDetailsResponse.getData().getBranpickupVerCode() == null || orderDetailsResponse.getData().getBranpickupVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpPickup())) {
+                                    orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
+                                    orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
+                                    isBranPickupVerificationCode = true;
+                                    orderDeliveryBinding.pickupOptNum1.setText("0");
+                                    orderDeliveryBinding.pickupOptNum2.setText("0");
+                                    orderDeliveryBinding.pickupOptNum3.setText("0");
+                                    orderDeliveryBinding.pickupOptNum4.setText("0");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+                                }
+                            } else {
+                                if (orderDetailsResponse.getData().getBranpickupVerCode() == null || orderDetailsResponse.getData().getBranpickupVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpPickup() != null && !orderDetailsResponse.getData().getPickupSite().getOtpPickup())) {
+                                    orderDeliveryBinding.pickupOtpVerifyText.setText("1. Pickup verification");
+                                    orderDeliveryBinding.pickupOtpEditTextLayout.setVisibility(View.GONE);
+                                    isBranPickupVerificationCode = true;
+                                    orderDeliveryBinding.pickupOptNum1.setText("0");
+                                    orderDeliveryBinding.pickupOptNum2.setText("0");
+                                    orderDeliveryBinding.pickupOptNum3.setText("0");
+                                    orderDeliveryBinding.pickupOptNum4.setText("0");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.pickupVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pickupPinHiddenEdittext.setText("00000000");
+                                }
                             }
                         }
 
@@ -2371,35 +2404,70 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                             orderDeliveryBinding.orderNotDeliveredAddHeadId.setTextColor(getResources().getColor(R.color.pharmacy_circle_color));
                             orderDeliveryBinding.returnLabel.setVisibility(View.GONE);
                             orderDeliveryBinding.orderNotDeliveredParentLayout.setVisibility(View.VISIBLE);
-                            if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
-                                orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
-                                orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+
+
+                            if (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() == null) {
+                                if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
+                                    orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                                    orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
 //                                isBranReturnVerificatonCode = true;
-                                isCusDeliveryVerificationCode = true;
-                                orderDeliveryBinding.cancelledOptNum1.setText("0");
-                                orderDeliveryBinding.cancelledOptNum2.setText("0");
-                                orderDeliveryBinding.cancelledOptNum3.setText("0");
-                                orderDeliveryBinding.cancelledOptNum4.setText("0");
-                                orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
-                                orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                                orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                                    isCusDeliveryVerificationCode = true;
+                                    orderDeliveryBinding.cancelledOptNum1.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum2.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum3.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum4.setText("0");
+                                    orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                                }
+                            } else {
+                                if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() != null && !orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr())) {
+                                    orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                                    orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+//                                isBranReturnVerificatonCode = true;
+                                    isCusDeliveryVerificationCode = true;
+                                    orderDeliveryBinding.cancelledOptNum1.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum2.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum3.setText("0");
+                                    orderDeliveryBinding.cancelledOptNum4.setText("0");
+                                    orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                                }
+
                             }
                             new OrderDeliveryActivityController(this, this).orderStatusHistoryListApiCall(this.orderDetailsResponse.getData().getUid());
                         } else {
                             onClickDeliveredLabel();
                             selectionTag = 1;
                             onContinueDrivingClick();
-                            if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpDelivery())) {
-                                orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
-                                orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
-                                isCusDeliveryVerificationCode = true;
-                                orderDeliveryBinding.optNum1.setText("0");
-                                orderDeliveryBinding.optNum2.setText("0");
-                                orderDeliveryBinding.optNum3.setText("0");
-                                orderDeliveryBinding.optNum4.setText("0");
-                                orderDeliveryBinding.verifyOtpBtn.setText("Verify");
-                                orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                                orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
+                            if (orderDetailsResponse.getData().getPickupSite().getOtpDelivery() == null) {
+                                if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpDelivery())) {
+                                    orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
+                                    orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
+                                    isCusDeliveryVerificationCode = true;
+                                    orderDeliveryBinding.optNum1.setText("0");
+                                    orderDeliveryBinding.optNum2.setText("0");
+                                    orderDeliveryBinding.optNum3.setText("0");
+                                    orderDeliveryBinding.optNum4.setText("0");
+                                    orderDeliveryBinding.verifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
+                                }
+                            } else {
+                                if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpDelivery() != null && !orderDetailsResponse.getData().getPickupSite().getOtpDelivery())) {
+                                    orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
+                                    orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
+                                    isCusDeliveryVerificationCode = true;
+                                    orderDeliveryBinding.optNum1.setText("0");
+                                    orderDeliveryBinding.optNum2.setText("0");
+                                    orderDeliveryBinding.optNum3.setText("0");
+                                    orderDeliveryBinding.optNum4.setText("0");
+                                    orderDeliveryBinding.verifyOtpBtn.setText("Verify");
+                                    orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                    orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
+                                }
+
                             }
                             new OrderDeliveryActivityController(this, this).orderStatusHistoryListApiCall(this.orderDetailsResponse.getData().getUid());
                         }
@@ -2420,17 +2488,34 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                         new OrderDeliveryActivityController(this, this).orderStatusHistoryListApiCall(this.orderDetailsResponse.getData().getUid());
                         orderDeliveryBinding.cancelOrderBtn.setVisibility(View.GONE);
                         orderDeliveryBinding.orderDeliveryProcessImg.setVisibility(View.VISIBLE);
-                        if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
-                            orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
-                            orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
-                            isBranReturnVerificatonCode = true;
-                            orderDeliveryBinding.cancelledOptNum1.setText("0");
-                            orderDeliveryBinding.cancelledOptNum2.setText("0");
-                            orderDeliveryBinding.cancelledOptNum3.setText("0");
-                            orderDeliveryBinding.cancelledOptNum4.setText("0");
-                            orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
-                            orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                            orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+
+
+                        if (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() == null) {
+                            if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
+                                orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                                orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                                isBranReturnVerificatonCode = true;
+                                orderDeliveryBinding.cancelledOptNum1.setText("0");
+                                orderDeliveryBinding.cancelledOptNum2.setText("0");
+                                orderDeliveryBinding.cancelledOptNum3.setText("0");
+                                orderDeliveryBinding.cancelledOptNum4.setText("0");
+                                orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                                orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                            }
+                        } else {
+                            if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() != null && !orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr())) {
+                                orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                                orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                                isBranReturnVerificatonCode = true;
+                                orderDeliveryBinding.cancelledOptNum1.setText("0");
+                                orderDeliveryBinding.cancelledOptNum2.setText("0");
+                                orderDeliveryBinding.cancelledOptNum3.setText("0");
+                                orderDeliveryBinding.cancelledOptNum4.setText("0");
+                                orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                                orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                                orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                            }
                         }
                     }
                     if (this.orderDetailsResponse.getData().getOrderState().getName().equals("RETURN")) {
@@ -2646,18 +2731,35 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                     orderDeliveryBinding.orderNotDeliveredAddHeadId.setTextColor(getResources().getColor(R.color.pharmacy_circle_color));
                     orderDeliveryBinding.returnLabel.setVisibility(View.GONE);
                     orderDeliveryBinding.orderNotDeliveredParentLayout.setVisibility(View.VISIBLE);
-                    if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
-                        orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
-                        orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
-                        isCusDeliveryVerificationCode = true;
+
+                    if (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() == null) {
+                        if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
+                            orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                            orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                            isCusDeliveryVerificationCode = true;
 //                        isBranReturnVerificatonCode = true;
-                        orderDeliveryBinding.cancelledOptNum1.setText("0");
-                        orderDeliveryBinding.cancelledOptNum2.setText("0");
-                        orderDeliveryBinding.cancelledOptNum3.setText("0");
-                        orderDeliveryBinding.cancelledOptNum4.setText("0");
-                        orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
-                        orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                        orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                            orderDeliveryBinding.cancelledOptNum1.setText("0");
+                            orderDeliveryBinding.cancelledOptNum2.setText("0");
+                            orderDeliveryBinding.cancelledOptNum3.setText("0");
+                            orderDeliveryBinding.cancelledOptNum4.setText("0");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                            orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                        }
+                    }else{
+                        if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() != null && !orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr())) {
+                            orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                            orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                            isCusDeliveryVerificationCode = true;
+//                        isBranReturnVerificatonCode = true;
+                            orderDeliveryBinding.cancelledOptNum1.setText("0");
+                            orderDeliveryBinding.cancelledOptNum2.setText("0");
+                            orderDeliveryBinding.cancelledOptNum3.setText("0");
+                            orderDeliveryBinding.cancelledOptNum4.setText("0");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                            orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                        }
                     }
                 } else {
                     onContinueDrivingClick();
@@ -2667,18 +2769,33 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                     orderDeliveryBinding.deliveryTxt.setBackground(getResources().getDrawable(R.drawable.order_active_circle_bg));
                     orderDeliveryBinding.deliverNameHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_processing_curves_bg));
                     orderDeliveryBinding.deliverNameInnerHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_processing_curves_bg));
-                    if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpDelivery())) {
-                        orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
-                        orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
-                        isCusDeliveryVerificationCode = true;
-                        orderDeliveryBinding.optNum1.setText("0");
-                        orderDeliveryBinding.optNum2.setText("0");
-                        orderDeliveryBinding.optNum3.setText("0");
-                        orderDeliveryBinding.optNum4.setText("0");
-                        orderDeliveryBinding.verifyOtpBtn.setText("Verify");
-                        orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                        orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
-                    }
+                   if (orderDetailsResponse.getData().getPickupSite().getOtpDelivery() == null) {
+                       if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpDelivery())) {
+                           orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
+                           orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
+                           isCusDeliveryVerificationCode = true;
+                           orderDeliveryBinding.optNum1.setText("0");
+                           orderDeliveryBinding.optNum2.setText("0");
+                           orderDeliveryBinding.optNum3.setText("0");
+                           orderDeliveryBinding.optNum4.setText("0");
+                           orderDeliveryBinding.verifyOtpBtn.setText("Verify");
+                           orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                           orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
+                       }
+                   }else {
+                       if (orderDetailsResponse.getData().getCusDeliveryVerCode() == null || orderDetailsResponse.getData().getCusDeliveryVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpDelivery() != null && !orderDetailsResponse.getData().getPickupSite().getOtpDelivery())) {
+                           orderDeliveryBinding.deliveryOtpVerificationText.setText("2. Delivery verification");
+                           orderDeliveryBinding.otpEditTextLayout.setVisibility(View.GONE);
+                           isCusDeliveryVerificationCode = true;
+                           orderDeliveryBinding.optNum1.setText("0");
+                           orderDeliveryBinding.optNum2.setText("0");
+                           orderDeliveryBinding.optNum3.setText("0");
+                           orderDeliveryBinding.optNum4.setText("0");
+                           orderDeliveryBinding.verifyOtpBtn.setText("Verify");
+                           orderDeliveryBinding.verifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                           orderDeliveryBinding.pinHiddenEdittext.setText("00000000");
+                       }
+                   }
                 }
                 ActivityUtils.hideDialog();
             } else if (status.equals("DELIVERED") || status.equals("RETURNORDERRTO")) {
@@ -2863,17 +2980,33 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
                 } else {
                     orderDeliveryBinding.deliverNameHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_disable_curves_bg));
                     orderDeliveryBinding.deliverNameInnerHeadLayout.setBackground(getResources().getDrawable(R.drawable.status_disable_curves_bg));
-                    if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
-                        orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
-                        orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
-                        isBranReturnVerificatonCode = true;
-                        orderDeliveryBinding.cancelledOptNum1.setText("0");
-                        orderDeliveryBinding.cancelledOptNum2.setText("0");
-                        orderDeliveryBinding.cancelledOptNum3.setText("0");
-                        orderDeliveryBinding.cancelledOptNum4.setText("0");
-                        orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
-                        orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
-                        orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+
+                    if (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() == null) {
+                        if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (getSessionManager().getGlobalSettingSelectResponse() != null && !getSessionManager().getGlobalSettingSelectResponse().getData().getOtpBranchHndovr())) {
+                            orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                            orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                            isBranReturnVerificatonCode = true;
+                            orderDeliveryBinding.cancelledOptNum1.setText("0");
+                            orderDeliveryBinding.cancelledOptNum2.setText("0");
+                            orderDeliveryBinding.cancelledOptNum3.setText("0");
+                            orderDeliveryBinding.cancelledOptNum4.setText("0");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                            orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                        }
+                    } else {
+                        if (orderDetailsResponse.getData().getBranreturnVerCode() == null || orderDetailsResponse.getData().getBranreturnVerCode().isEmpty() || (orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr() != null && !orderDetailsResponse.getData().getPickupSite().getOtpBranchHndovr())) {
+                            orderDeliveryBinding.cancelledOtpVerifyText.setText("2. Return verification");
+                            orderDeliveryBinding.cancelledOtpEditTextLayout.setVisibility(View.GONE);
+                            isBranReturnVerificatonCode = true;
+                            orderDeliveryBinding.cancelledOptNum1.setText("0");
+                            orderDeliveryBinding.cancelledOptNum2.setText("0");
+                            orderDeliveryBinding.cancelledOptNum3.setText("0");
+                            orderDeliveryBinding.cancelledOptNum4.setText("0");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setText("Verify");
+                            orderDeliveryBinding.cancelledVerifyOtpBtn.setBackground(getResources().getDrawable(R.drawable.continue_driving_btn_bg));
+                            orderDeliveryBinding.cancelledPinHiddenEdittext.setText("00000000");
+                        }
                     }
                 }
                 if (status.equals("DELIVERYATTEMPTED"))

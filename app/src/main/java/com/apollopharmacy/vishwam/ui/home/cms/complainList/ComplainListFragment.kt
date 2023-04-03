@@ -779,8 +779,9 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         binding.ccActionLayout.visibility = View.GONE
                     } else {
                         if (items.ticketDetailsResponse!!.data.ticket_it.status.uid == null) {
-
-                            binding.ccActionLayout.visibility = View.VISIBLE
+                            //Change to visible if required
+                            binding.ccActionLayout.visibility = View.GONE
+//                            binding.ccActionLayout.visibility = View.VISIBLE
 //                        binding.acceptBtn.setOnClickListener {
 //
 //
@@ -929,12 +930,14 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     ) {
                         binding.ticketResolveBtn.visibility = View.GONE
                         binding.ticketActionLayout.visibility = View.GONE
-                    } else if (items.status!!.code.equals("inprogress") && items.ticketDetailsResponse!!.data.department.code.equals(
-                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
-                    ) {
-                        binding.ticketResolveBtn.visibility = View.GONE
-                        binding.ticketActionLayout.visibility = View.GONE
                     }
+//                    else if (items.status!!.code.equals("inprogress")
+//                        && items.ticketDetailsResponse!!.data.department.code.equals(
+//                            "IT") && items.ticketDetailsResponse!!.data.category.code.equals("pos")
+//                    ) {
+//                        binding.ticketResolveBtn.visibility = View.GONE
+//                        binding.ticketActionLayout.visibility = View.GONE
+//                    }
 
 //                    else  if (employeeDetailsResponse?.data!!.department!!.code.equals(
 //                            "FN")
@@ -1762,7 +1765,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 responseList.get(position).status!!.name = "Resolved"
                 responseList.get(position).status!!.background_color = "#047604"
                 responseList.get(position).status!!.text_color = "#FFFFFF"
-                responseList.get(position).status!!.code = "Resolved"
+                responseList.get(position).status!!.code = "solved"
 
                 data.isExpanded = false
 
