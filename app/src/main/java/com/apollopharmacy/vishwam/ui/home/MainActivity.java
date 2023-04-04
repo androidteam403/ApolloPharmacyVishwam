@@ -1288,9 +1288,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        params.leftMargin=20;
 //        params.topMargin=5;
 
-        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
+//        listView.addHeaderModel(new HeaderModel("Greetings to Chairman", Color.WHITE, false, R.drawable.ic_network__1___2_));
 
-        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
+//        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(
