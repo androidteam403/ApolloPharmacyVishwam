@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.data.model.attendance
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class DepartmentTaskListRes(
     @field:SerializedName("status")

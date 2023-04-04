@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+
+        tools:context=".ui.home.qcfail.pending">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/empname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/four4_dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="Lena Aravind"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/empid"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_medium"
+                android:text="APL49396"
+
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/overview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/text_10sp"
+                android:background="#f2b086"
+                android:fontFamily="@font/roboto_medium"
+                android:paddingTop="@dimen/value_5dp"
+
+                android:paddingBottom="@dimen/value_5dp"
+                android:text="OverView"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/squarebox"
+                android:orientation="horizontal"
+
+                android:weightSum="4">
+
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/squarebox_right"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squarebox"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="5dp"
+                        android:text="Request"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/request_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:text="120"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/squarebox_right"
+
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squarebox"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="5dp"
+                        android:text="Pending"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/pending_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="8dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:text="300"
+                        android:textAlignment="center"
+
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:background="@drawable/squarebox_right"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squarebox"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+
+                        android:paddingBottom="5dp"
+                        android:text="Approved"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/approve_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:text="240"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+
+                        android:textSize="12sp" />
+                </TableLayout>
+
+                <TableLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@drawable/squarebox"
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/squarebox"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="4sp"
+                        android:paddingTop="4sp"
+                        android:paddingBottom="5dp"
+                        android:text="Reject"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/reject_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:paddingStart="8dp"
+                        android:paddingTop="3dp"
+                        android:paddingBottom="3dp"
+                        android:text="50"
+
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+
+                        android:textSize="12sp" />
+                </TableLayout>
+            </LinearLayout>
+
+                        <com.anychart.AnyChartView
+                            android:id="@+id/piechart"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_200dp"
+                            android:layout_marginStart="@dimen/text_15sp"
+                            android:layout_marginTop="@dimen/text_10sp"
+                            android:layout_marginEnd="@dimen/text_15sp"
+                            android:layout_marginBottom="@dimen/text_10sp" />
+
+
+<!--            <com.github.mikephil.charting.charts.PieChart-->
+<!--                android:id="@+id/piechart"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="@dimen/value_200dp"-->
+<!--                android:layout_marginStart="@dimen/text_15sp"-->
+<!--                android:layout_marginTop="@dimen/text_10sp"-->
+<!--                android:layout_marginEnd="@dimen/text_15sp"-->
+<!--                android:layout_marginBottom="@dimen/text_10sp" />-->
+            <!--            -->
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dashboardrecycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/text_10sp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/qc_dashboard_sites" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>

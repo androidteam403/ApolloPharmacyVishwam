@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.DeviceDeRegResponse
 import com.apollopharmacy.vishwam.data.model.ValidateOtpRequest
@@ -32,18 +33,21 @@ class OtpViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.STATUS) {
                         state.value = State.ERROR
+                        Preferences.setEmpPhoneNumber(result.value.MOBILENO)
                         validateOtpModel.value = result.value
                     } else {
                         state.value = State.ERROR
+                        println(41)
+                        println(result.value)
+                        println(43)
+                        validateOtpModel.value = result.value
                         commands.value = Command.ShowToast(result.value.MESSAGE)
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {
@@ -79,11 +83,9 @@ class OtpViewModel : ViewModel() {
                     }
                 }
                 is ApiResult.GenericError -> {
-                    commands.postValue(
-                        result.error?.let {
-                            Command.ShowToast(it)
-                        }
-                    )
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
                     state.value = State.ERROR
                 }
                 is ApiResult.NetworkError -> {

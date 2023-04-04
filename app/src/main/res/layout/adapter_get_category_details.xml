@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_5dp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/value_5dp">
+
+            <LinearLayout
+                android:id="@+id/category_details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_for_champs_names"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_30dp"
+                        android:gravity="center"
+                        android:text="@{position}"
+                        android:textColor="#1d7374"
+                        android:textSize="@dimen/text_17sp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="5dp"
+                            android:layout_weight=".45"
+                            android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                            android:text="@{model.categoryName.toUpperCase()}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight=".55"
+                            android:gravity="end|center_vertical"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/cleanlinessOverallPoints"
+                                    android:layout_width="@dimen/value_50dp"
+                                    android:layout_height="@dimen/value_30dp"
+                                    android:background="@drawable/grey_yellow_rectangle"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:text="@{String.valueOf(sumOfSubCategoryMaxRatings)}"
+                                    android:textAlignment="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="15sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/value_5dp"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:text="/"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_20sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="@dimen/value_30dp"
+                                    android:layout_height="@dimen/value_30dp"
+                                    android:gravity="center_vertical"
+                                    android:text="@{model.rating}"
+                                    android:textColor="@color/black"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:background="@drawable/blue_circle"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()-> mCallback.onClickEditOverall(model, sumOfSubCategoryMaxRatings, position)}"
+                                android:padding="@dimen/value_5dp"
+                                android:src="@drawable/white_pencil" />
+
+                            <ImageView
+                                android:id="@+id/arrowImage"
+                                android:layout_width="25dp"
+                                android:layout_height="25dp"
+                                android:layout_marginStart="@dimen/value_5dp"
+                                android:contentDescription="@string/app_name"
+                                android:onClick="@{()-> mCallback.onClickSubCategoryDetailsItem(model)}"
+                                android:rotation="@{isItemExpanded ? 90 : 0}"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                                android:tint="@color/black"
+                                tools:ignore="UseAppTint" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/value_5dp"
+                    android:layout_marginVertical="@dimen/value_5dp"
+                    android:orientation="vertical"
+                    android:visibility="@{isItemExpanded ? view.VISIBLE : view.GONE}">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/get_sub_category_details_recyclerview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:itemCount="4"
+                        tools:listitem="@layout/adapter_get_sub_category_details" />
+
+                    <!--<TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Update"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:background="@drawable/upload_button"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"/>-->
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="mCallback"
+            type="com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleCallBack" />
+
+        <variable
+            name="model"
+            type="com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse.CategoryDetails" />
+
+        <variable
+            name="position"
+            type="String" />
+
+        <variable
+            name="isItemExpanded"
+            type="Boolean" />
+
+        <variable
+            name="view"
+            type="android.view.View" />
+
+        <variable
+            name="sumOfSubCategoryMaxRatings"
+            type="Double" />
+    </data>
+</layout>

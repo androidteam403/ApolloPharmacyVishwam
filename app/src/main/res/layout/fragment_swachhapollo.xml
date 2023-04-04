@@ -1,6 +1,7 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
@@ -427,12 +428,11 @@
 
             <Button
                 android:id="@+id/right_arrow"
-                android:layout_width="0dp"
-                android:layout_weight="0.2"
+                android:layout_width="20dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:background="@drawable/right_arrow">
-            </Button>
+                android:layout_weight="0.2"
+                android:background="@drawable/right_arrow"></Button>
         </LinearLayout>
     </RelativeLayout>
 </layout>
