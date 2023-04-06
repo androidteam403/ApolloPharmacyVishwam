@@ -280,7 +280,7 @@ class AttendanceViewModel : ViewModel() {
 
     }
 
-    fun attendanceSignInOutService(atdLogInOutReq: AtdLogInOutReq) {
+    fun attendanceSignInOutService(atdLogInOutReq: AtdLogInOutReq, mCallback: AttendanceFragmentCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -295,6 +295,7 @@ class AttendanceViewModel : ViewModel() {
                     when (response) {
                         is ApiResult.Success -> {
                             state.value = State.ERROR
+                           // mCallback.onSuccessAttendanceSignedOut("Attendance Signed-Out Successfully")
                             command.value =
                                 AttendanceCommand.RefreshPageOnSuccess(
                                     response.value.status,
