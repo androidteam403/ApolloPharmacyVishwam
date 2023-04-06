@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.AttendanceRepo
 import com.apollopharmacy.vishwam.data.network.SwachhListApiResponse
 import com.apollopharmacy.vishwam.ui.createpin.Command
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
@@ -280,7 +281,7 @@ class AttendanceViewModel : ViewModel() {
 
     }
 
-    fun attendanceSignInOutService(atdLogInOutReq: AtdLogInOutReq) {
+    fun attendanceSignInOutService(atdLogInOutReq: AtdLogInOutReq, mCallback: AttendanceFragmentCallback) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         for (i in data.APIS.indices) {
@@ -295,6 +296,7 @@ class AttendanceViewModel : ViewModel() {
                     when (response) {
                         is ApiResult.Success -> {
                             state.value = State.ERROR
+                           // mCallback.onSuccessAttendanceSignedOut("Attendance Signed-Out Successfully")
                             command.value =
                                 AttendanceCommand.RefreshPageOnSuccess(
                                     response.value.status,

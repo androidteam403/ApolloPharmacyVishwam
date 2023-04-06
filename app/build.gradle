@@ -23,8 +23,8 @@ android {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
         minSdkVersion 24
         targetSdkVersion 33
-        versionCode 14
-        versionName "2.1.0"
+        versionCode 15 //14
+        versionName "2.1.1" //"2.1.0"
 
 //        versionName "1.1.10"
         multiDexEnabled true

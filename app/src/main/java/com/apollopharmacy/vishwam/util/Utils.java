@@ -10,7 +10,6 @@ import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.Build;
 import android.provider.Settings;
 import android.text.Spannable;
@@ -24,7 +23,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.RequiresApi;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.transition.Slide;
 import androidx.transition.Transition;
@@ -32,7 +30,6 @@ import androidx.transition.TransitionManager;
 
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.data.model.cms.NewTicketHistoryResponse;
-import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest;
 
 import java.io.IOException;
 import java.text.ParseException;
@@ -54,9 +51,7 @@ public class Utils {
     public static boolean isMyOrdersListApiCall = false;
     public static final boolean IS_LOG_ENABLED = true;
 
-    public  static  ArrayList<NewTicketHistoryResponse.Row> historytransferredarray=new ArrayList<>();
-
-
+    public static ArrayList<NewTicketHistoryResponse.Row> historytransferredarray = new ArrayList<>();
 
 
     public static SpannableString convertSpannableStringSizes(Context context, String defaultStr, String resultCnt, String resultsTxt, String inputSearchTxt,
@@ -74,24 +69,29 @@ public class Utils {
         stringSearchTxt.setSpan(new StyleSpan(typeface.getStyle()), 0, stringSearchTxt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         return new SpannableString(TextUtils.concat(stringDefault, stringResultCnt, stringResultsTxt, stringSearchTxt));
     }
+
     public static void printMessage(String tag, String message) {
         if (IS_LOG_ENABLED) {
             Log.e(tag, message);
         }
     }
+
     public static String getCurrentDateTimeMSUnique() {
         Date dNow = new Date();
         java.text.SimpleDateFormat ft = new java.text.SimpleDateFormat("mmss");
         String datetime = ft.format(dNow);
         return datetime;
     }
+
     public static String getCurrentTime() {
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("hh:mm a", Locale.ENGLISH);
         return dateFormat.format(new Date()).toString();
     }
+
     public static String getCurrentTimeDate() {
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
     }
+
     public static ProgressDialog showLoadingDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.show();
@@ -104,6 +104,7 @@ public class Utils {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
+
     public static void showTextDownAnimation(int targetId, LinearLayout parentLayout, TextView childText) {
         Transition transition = new Slide(Gravity.TOP);
         transition.setDuration(1000);
@@ -111,6 +112,7 @@ public class Utils {
         TransitionManager.beginDelayedTransition(parentLayout, transition);
         childText.setVisibility(View.VISIBLE);
     }
+
     public static String getCurrentDate() {
         String currDate = "";
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
@@ -118,9 +120,11 @@ public class Utils {
         }
         return currDate;
     }
+
     public static String getTodayDate() {
         return new java.text.SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
     }
+
     public static String getOneWeekBackDate() {
         Calendar cal = Calendar.getInstance();
         cal.add(Calendar.DATE, -7);
@@ -320,16 +324,98 @@ public class Utils {
         } else {
             minsLbl = elapsedMinutes + " Mins";
         }
-//        String secsLbl = "";
-//        if (elapsedSeconds == 0 || elapsedSeconds == 1) {
-//            secsLbl = elapsedSeconds + " Sec";
-//        } else {
-//            secsLbl = elapsedSeconds + " Secs";
-//        }
+        String secsLbl = "";
+        if (elapsedSeconds == 0 || elapsedSeconds == 1) {
+            secsLbl = elapsedSeconds + " Sec";
+        } else {
+            secsLbl = elapsedSeconds + " Secs";
+        }
         resultTime = hrsLbl + " " + minsLbl;
         return resultTime;
     }
 
+    @SuppressLint("NewApi")
+    public static String getDurationTimeSec(String currentDate, String previousDate) {
+        String resultTime = "";
+        DateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.ENGLISH);
+        Date dateCurrent = null;
+        Date dateBefore = null;
+        try {
+            dateCurrent = simpleDateFormat.parse(currentDate);
+            dateBefore = simpleDateFormat.parse(previousDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        assert dateCurrent != null;
+        assert dateBefore != null;
+        long timeDifference = dateCurrent.getTime() - dateBefore.getTime();
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+        long elapsedHours = timeDifference / hoursInMilli;
+        timeDifference = timeDifference % hoursInMilli;
+        long elapsedMinutes = timeDifference / minutesInMilli;
+        long elapsedSeconds = timeDifference % 60;
+        String hrsLbl = "";
+        if (elapsedHours == 0 || elapsedHours == 1) {
+            hrsLbl = elapsedHours + " Hr";
+        } else {
+            hrsLbl = elapsedHours + " Hrs";
+        }
+        String minsLbl = "";
+        if (elapsedMinutes == 0 || elapsedMinutes == 1) {
+            minsLbl = elapsedMinutes + " Min";
+        } else {
+            minsLbl = elapsedMinutes + " Mins";
+        }
+        String secsLbl = "";
+        if (elapsedSeconds == 0 || elapsedSeconds == 1) {
+            secsLbl = elapsedSeconds + " Sec";
+        } else {
+            secsLbl = elapsedSeconds + " Secs";
+        }
+        resultTime = hrsLbl + "-" + minsLbl + "-" + secsLbl;
+        return resultTime;
+    }
+    public static String getLastLoginDateNew(String loginDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM yyyy, hh:mm aa", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(loginDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
+    public static String getLastLoginDateNewinSec(String loginDate) {
+        SimpleDateFormat format1 = null;
+        SimpleDateFormat format2 = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            format1 = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH);
+            format2 = new SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH);
+        }
+        String convertedDate = "";
+        try {
+            Date date = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+                date = format1.parse(loginDate);
+                convertedDate = format2.format(date);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return convertedDate;
+    }
     public static String getLastLoginDate(String loginDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -349,6 +435,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String timeCoversion12to24(String loginDate) throws ParseException {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -398,7 +485,13 @@ public class Utils {
             return "";
         }
     }
-
+    public static String getAttendanceCurrentDateNew() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return new SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH).format(Calendar.getInstance().getTime());
+        } else {
+            return "";
+        }
+    }
     public static String getAttendanceCustomDate(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -558,7 +651,7 @@ public class Utils {
         String maskedStr = "";
         for (char c : employeeID.toCharArray()) {
             if (Character.isLetter(c)) {
-              //  maskedStr = maskedStr + "" + Character.toUpperCase(c);
+                //  maskedStr = maskedStr + "" + Character.toUpperCase(c);
             } else {
                 maskedStr = maskedStr + "X";
             }
