@@ -19,7 +19,6 @@ ADDED from D:\ApolloPharmacyVishwamRiderTemp\core\src\main\AndroidManifest.xml:6
 		ADDED from D:\ApolloPharmacyVishwamRiderTemp\core\src\main\AndroidManifest.xml:6:20-74
 application
 ADDED from D:\ApolloPharmacyVishwamRiderTemp\core\src\main\AndroidManifest.xml:8:3-14:17
-ADDED from D:\ApolloPharmacyVishwamChamps\core\src\main\AndroidManifest.xml:8:3-14:17
 service#com.novoda.merlin.MerlinService
 ADDED from D:\ApolloPharmacyVishwamRiderTemp\core\src\main\AndroidManifest.xml:10:5-12:34
 	android:exported
