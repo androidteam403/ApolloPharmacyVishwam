@@ -203,6 +203,19 @@ public class LoginResponse {
         @SerializedName("email")
         @Expose
         private Object email;
+
+        @SerializedName("meta_history")
+        @Expose
+        private Object metaHistory;
+
+        public Object getMetaHistory() {
+            return metaHistory;
+        }
+
+        public void setMetaHistory(Object metaHistory) {
+            this.metaHistory = metaHistory;
+        }
+
         @SerializedName("first_name")
         @Expose
         private String firstName;

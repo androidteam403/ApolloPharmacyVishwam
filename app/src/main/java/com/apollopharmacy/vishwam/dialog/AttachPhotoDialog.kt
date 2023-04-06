@@ -40,4 +40,15 @@ class AttachPhotoDialog : DialogFragment() {
 
         return viewBinding.root
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+       viewBinding.redCircle.setOnClickListener{
+
+       }
+
+        viewBinding.attachPhoto.setOnClickListener{
+
+        }
+    }
 }

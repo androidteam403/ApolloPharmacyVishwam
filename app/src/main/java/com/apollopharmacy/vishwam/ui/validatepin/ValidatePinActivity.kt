@@ -3,9 +3,12 @@ package com.apollopharmacy.vishwam.ui.validatepin
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.text.TextUtils
+import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.media.MediaSessionManager.getSessionManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -16,17 +19,22 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
-import com.apollopharmacy.vishwam.util.ForgotPinActivity
-import com.apollopharmacy.vishwam.util.NetworkUtil
-import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
+import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
+import com.apollopharmacy.vishwam.ui.rider.orderdelivery.model.DeliveryFailreReasonsResponse
+import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse
+import com.apollopharmacy.vishwam.util.*
+import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
 import com.github.omadahealth.lollipin.lib.managers.AppLock
+import com.google.android.gms.tasks.*
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 
 @Suppress("DEPRECATION")
-class ValidatePinActivity : AppCompatActivity() {
+class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
 
     lateinit var viewModel: ValidatePinViewModel
+    lateinit var validatePinCallBack: ValidatePinCallBack
     private val REQUEST_CODE_ENABLE = 11
     private val REQUEST_CODE_CHANGE = 13
     lateinit var userData: LoginDetails
@@ -37,6 +45,7 @@ class ValidatePinActivity : AppCompatActivity() {
     private var downloadUrl: String = ""
     private var serviceAppVer: Int = 0
     private var currentAppVer: Int = 0
+    private var firebaseToken: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +53,9 @@ class ValidatePinActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_pin)
 
         viewModel = ViewModelProvider(this)[ValidatePinViewModel::class.java]
+
         userData = LoginRepo.getProfile()!!
+
 
         onCheckBuildDetails()
         handleMPinService()
@@ -82,6 +93,21 @@ class ValidatePinActivity : AppCompatActivity() {
                 else -> {}
             }
         }
+        FirebaseMessaging.getInstance().token.addOnSuccessListener(OnSuccessListener { token: String ->
+            if (!TextUtils.isEmpty(token)) {
+                firebaseToken = token
+                Log.d("newToken", "retrieve token successful : $token")
+            } else {
+                Log.w("newToken", "token should not be null...")
+            }
+        }).addOnFailureListener(OnFailureListener { e: Exception? -> }).addOnCanceledListener(
+            OnCanceledListener {}).addOnCompleteListener(OnCompleteListener { task: Task<String> ->
+            Log.v(
+                "newToken",
+                "This is the token : " + task.result
+            )
+        })
+
 
 //        viewModel.employeeDetails.observeForever {
 //            if(it.data?.uploadSwach?.uid!=null){
@@ -101,6 +127,7 @@ class ValidatePinActivity : AppCompatActivity() {
             if (resultCode == RESULT_OK) {
                 val dialogStatus = data!!.getBooleanExtra("showDialog", false)
 //                handleNextIntent()
+
                 viewModel.getRole(Preferences.getValidatedEmpId())
                 viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
                     "SWACHH",
@@ -220,11 +247,12 @@ class ValidatePinActivity : AppCompatActivity() {
     }
 
     private fun handleNextIntent() {
-        Preferences.setIsPinCreated(true)
-        val homeIntent = Intent(this, MainActivity::class.java)
-        startActivity(homeIntent)
-        finish()
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        viewModel.loginApiCall("emp-102", "R1D36#012022", Preferences.getFcmKey(), this, this)
+//        Preferences.setIsPinCreated(true)
+//        val homeIntent = Intent(this, MainActivity::class.java)
+//        startActivity(homeIntent)
+//        finish()
+//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     private fun handleCreatePinIntent() {
@@ -282,4 +310,53 @@ class ValidatePinActivity : AppCompatActivity() {
             }
         }
     }
+
+    override fun onSuccessLoginApi(loginResponse: LoginResponse) {
+
+        if (loginResponse != null && loginResponse.data != null && loginResponse.success && loginResponse.data.token != null) {
+            try {
+                SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
+                SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
+               viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(), applicationContext, this)
+            } catch (e: java.lang.Exception) {
+                println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
+                ActivityUtils.hideDialog()
+                Toast.makeText(this, "Please try again later", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    override fun onFailureLoginApi(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onFialureMessage(message: String?) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessGetProfileDetailsApi(riderProfileResponse: GetRiderProfileResponse?) {
+        if (riderProfileResponse != null) {
+            SessionManager(this).setRiderProfileDetails(riderProfileResponse)
+         viewModel.deliveryFailureReasonApiCall(applicationContext, this)
+            viewModel.getComplaintReasonsListApiCall(applicationContext, this)
+        }
+    }
+
+    override fun onFailureGetProfileDetailsApi(s: String) {
+        Toast.makeText(applicationContext, ""+ s, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
+        if (deliveryFailreReasonsResponse != null) {
+           SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
+            //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
+            val i = Intent(this, MainActivity::class.java)
+            val True = true
+            i.putExtra("tag", true)
+            startActivity(i)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+            finish()
+        }
+    }
+
 }

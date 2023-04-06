@@ -42,6 +42,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_SWACH = "APP_LEVEL_DESIGNATION_SWACH"
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
+    private const val FCM_KEY = "FCM_KEY"
 
 
     fun savingToken(userId: String) {
@@ -117,6 +118,13 @@ object Preferences {
 
     fun getUserPassword(): String {
         return sharedPreferences.getString(KEY_USER_PASSWORD, "")!!
+    }
+    fun getFcmKey(): String {
+        return sharedPreferences.getString(FCM_KEY, "")!!
+    }
+
+    fun setFcmKey(fcmKey: String) {
+        sharedPreferences.edit().putString(FCM_KEY, fcmKey).apply()
     }
 
     //-------------------- get Api details -----------------------
