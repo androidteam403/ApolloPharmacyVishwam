@@ -17,22 +17,31 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityStartSurvey2Binding
+import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
-import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
 
 class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
-
+    private var getStoreWiseDetails: GetStoreWiseDetailsModelResponse? = null
     private lateinit var activityStartSurvey2Binding: ActivityStartSurvey2Binding
     private lateinit var surveyDetailsViewModel: SurveyDetailsViewModel
     private var adapterRec: EmailAddressAdapter? = null
     private var adapterCC: EmailAddressCCAdapter? = null
-    val surveyRecDetailsList: MutableList<String> = ArrayList<String>()
-    val surveyCCDetailsList: MutableList<String> = ArrayList<String>()
+    val surveyRecDetailsList= ArrayList<String>()
+    val surveyCCDetailsList = ArrayList<String>()
+    private var storeId:String =""
+    private var storeCity:String =""
+    private var address:String=""
+    var siteName:String?=""
 
     //    private lateinit var seekbar : SeekBar
     private lateinit var dialog: Dialog
@@ -93,9 +102,52 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
     private fun setUp() {
         activityStartSurvey2Binding.callback = this
 
+        getStoreWiseDetails =
+            intent.getSerializableExtra("getStoreWiseDetailsResponses") as GetStoreWiseDetailsModelResponse?
+        address = intent.getStringExtra("address")!!
+        storeId = intent.getStringExtra("storeId")!!
+        siteName= intent.getStringExtra("siteName")
+        storeCity = intent.getStringExtra("storeCity")!!
+        if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
+            activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
+            activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
+            activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
+            activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
+        }
+
+        activityStartSurvey2Binding.storeId.text=storeId
+        activityStartSurvey2Binding.address.text=siteName
+
+
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            surveyDetailsViewModel.getEmailDetailsChamps(this);
+
+        } else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+//            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "CC");
+//
+//        } else {
+//            Toast.makeText(
+//                context,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
+
 
 //        surveyRecDetailsList.add("kkr@apollopharmacy.org")
 //        surveyCCDetailsList.add("kkabcr@apollopharmacy.org")
+
 
 
         adapterRec = EmailAddressAdapter(surveyRecDetailsList, applicationContext, this)
@@ -115,6 +167,13 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
     override fun onClickStartChampsSurvey() {
         val intent = Intent(context, ChampsSurveyActivity::class.java)
+        intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
+        intent.putExtra("address", address)
+        intent.putExtra("storeId", storeId)
+        intent.putExtra("siteName", siteName)
+        intent.putExtra("storeCity", storeCity)
+        intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
+        intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -209,4 +268,66 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         }
 
     }
+
+    override fun onSuccessgetEmailDetails(getEmailAddressResponse: GetEmailAddressModelResponse) {
+        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails!!.size!=null){
+            for(i in getEmailAddressResponse.emailDetails!!.indices){
+                surveyRecDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
+            }
+            adapterRec = EmailAddressAdapter(surveyRecDetailsList, applicationContext, this)
+            activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(LinearLayoutManager(this))
+            activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
+        }
+        onSuccessgetEmailDetailsCC(getEmailAddressResponse)
+        Utlis.hideLoading()
+
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+//            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "RECIPIENTS");
+//
+//        } else {
+//            Toast.makeText(
+//                context,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
+
+
+
+
+    }
+
+    override fun onFailuregetEmailDetails(value: GetEmailAddressModelResponse) {
+    Toast.makeText(context, ""+value.message, Toast.LENGTH_SHORT).show()
+        Utlis.hideLoading()
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+//            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "RECIPIENTS");
+//
+//        } else {
+//            Toast.makeText(
+//                context,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
+    }
+
+    override fun onSuccessgetEmailDetailsCC(getEmailAddressResponse: GetEmailAddressModelResponse) {
+        if(getEmailAddressResponse!=null && getEmailAddressResponse.emailDetails!=null && getEmailAddressResponse.emailDetails!!.size!=null){
+            for(i in getEmailAddressResponse.emailDetails!!.indices){
+                surveyCCDetailsList.add(getEmailAddressResponse.emailDetails!!.get(i).email!!)
+            }
+            adapterCC = EmailAddressCCAdapter(surveyCCDetailsList, this, applicationContext)
+            activityStartSurvey2Binding.emailCCRecyclerView.setLayoutManager(LinearLayoutManager(this))
+            activityStartSurvey2Binding.emailCCRecyclerView.setAdapter(adapterCC)
+            Utlis.hideLoading()
+        }
+
+    }
+
+
 }

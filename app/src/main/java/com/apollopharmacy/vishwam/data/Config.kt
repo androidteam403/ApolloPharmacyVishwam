@@ -6,6 +6,7 @@ object Config {
     var STORAGE_CONNECTION_FOR_CCR_APP =
         "DefaultEndpointsProtocol=https;" + "AccountName=pharmtest;" + "AccountKey=dhJpbROM1e6MzzjAHPXyP52+w1U+cN2DQKnqwc77Uwp6LkIH/9k2hHktS3zpfJPCEQdL2jcqYdANTdEox+Fiww=="
     var CONTAINER_NAME = "cms"
+    var CONTAINER_NAME_CHAMPS = "champs"
     val PROBLEM_SINCE_DAYS = 30
     var URL_MAIN =
         "https://online.apollopharmacy.org/CPOS/APOLLO/" //"http://lms.apollopharmacy.org:8033/CPOS/APOLLO/"

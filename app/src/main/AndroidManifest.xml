@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.apollopharmacy.vishwam">
+    package="com.apollopharmacy.vishwam" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
 
     <application
@@ -29,6 +29,12 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+<!--        <activity android:name=".ui.home.greeting.GreetingActivity" />-->
         <activity
             android:name=".ui.home.greeting.GreetingActivity"
             android:exported="true"
@@ -106,6 +112,12 @@
 
         <activity
             android:name=".ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -302,7 +314,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
+            android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -310,7 +322,7 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
@@ -337,7 +349,7 @@
         <service
             android:name=".util.firebase.MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

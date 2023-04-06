@@ -1,0 +1,1711 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/text_color_blue"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/value_10dp">
+
+                    <ImageView
+                        android:id="@+id/backButton"
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_marginTop="@dimen/value_3dp"
+                        android:contentDescription="@string/app_name"
+                        android:onClick="@{()-> callback.onClickBack()}"
+                        android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="CHAMPS Survey Preview"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_17sp"
+                            android:textStyle="bold" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:gravity="end"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_gravity="center">
+
+
+<!--                        <LinearLayout-->
+<!--                            android:gravity="end"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="vertical">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_width="30dp"-->
+<!--                                android:layout_height="@dimen/value_30dp"-->
+<!--                                android:src="@drawable/blue_eye_icon"/>-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Preview"-->
+<!--                                android:textColor="@color/white"/>-->
+
+<!--                        </LinearLayout>-->
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_70dp"
+                        android:background="@color/white"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_weight="0.15"
+                                android:gravity="center">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_80dp"
+                                    android:layout_height="@dimen/value_80dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/survey_green" />
+
+                                <!--                                        <LinearLayout-->
+
+                                <!--                                            android:layout_width="match_parent"-->
+                                <!--                                            android:layout_height="match_parent"-->
+                                <!--                                            android:layout_marginStart="@dimen/value_10dp"-->
+                                <!--                                            android:layout_gravity="center"-->
+                                <!--                                            android:gravity="center"-->
+                                <!--                                            android:layout_marginTop="@dimen/value_10dp"-->
+                                <!--                                            android:orientation="horizontal">-->
+
+                                <!--                                         -->
+
+
+                                <!--                                        </LinearLayout>-->
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_10dp"
+                                android:layout_weight="0.65"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/store_id"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_20sp"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/address"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/crossMark"
+                                android:onClick="@{()-> callback.onClickBack()}"
+                                android:layout_width="76dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:layout_weight="0.2"
+                                android:gravity="end">
+
+                                <ImageView
+                                    android:layout_width="@dimen/dimen36dp"
+                                    android:layout_height="@dimen/dimen36dp"
+                                    android:src="@drawable/close_ashh" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:orientation="vertical"
+                                android:visibility="visible">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:weightSum="1">
+
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.33"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Name: "
+                                                android:textColor="@color/very_light_greyy"
+                                                android:textStyle="bold" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/employee_name"
+                                                android:textColor="@color/black"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.33"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Employee ID: "
+                                                android:textColor="@color/very_light_greyy"
+                                                android:textStyle="bold" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/employee_id"
+                                                android:textColor="@color/black"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="0.33"
+                                            android:orientation="vertical">
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:text="Issued on: "
+                                                android:textColor="@color/very_light_greyy"
+                                                android:textStyle="bold" />
+
+                                            <TextView
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:id="@+id/issued_on"
+                                                android:textColor="@color/black"
+                                                android:textStyle="bold" />
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Store Name: "
+                                        android:textColor="@color/very_light_greyy"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/store_name"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Site: "
+                                        android:textColor="@color/very_light_greyy"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/site_id"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.5"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="Store City: "
+                                            android:textColor="@color/very_light_greyy"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/storeCity"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+
+
+                                    <LinearLayout
+                                        android:visibility="gone"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="0.5"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="State: "
+                                            android:textColor="@color/very_light_greyy"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/state"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_45dp"
+                            android:layout_marginTop="@dimen/value_15dp"
+                            android:layout_marginEnd="@dimen/value_25dp"
+                            android:background="@drawable/background_for_attending_points"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_20dp"
+                                android:text="ATTENDING POINTS"
+                                android:textAlignment="center"
+                                android:textColor="#386785"
+                                android:textSize="@dimen/text_17sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:gravity="end">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_45dp"
+                                    android:layout_height="@dimen/value_45dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/help_icon_question_mark" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+<!--                        <ScrollView-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="match_parent">-->
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:layout_marginTop="@dimen/value_8dp"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:id="@+id/category_recyclerView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+<!--                        </ScrollView>-->
+
+
+                        <RelativeLayout
+                            android:visibility="gone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/value_10dp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:visibility="visible">
+
+                                <RelativeLayout
+                                    android:id="@+id/cleanliness"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_green"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:background="@drawable/background_black"-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="1"-->
+                                        <!--                                                android:textColor="@color/white"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <LinearLayout
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:orientation="vertical"
+                                            android:padding="@dimen/value_10dp">
+
+                                            <TextView
+                                                android:id="@+id/cleanliness_category"
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="wrap_content"
+                                                android:layout_marginStart="@dimen/value_10dp"
+                                                android:textColor="@color/white"
+                                                android:textSize="@dimen/text_18sp"
+                                                android:textStyle="bold" />
+
+                                            <LinearLayout
+                                                android:layout_width="wrap_content"
+                                                android:layout_height="@dimen/value_15dp"
+                                                android:orientation="horizontal">
+
+
+                                                <ProgressBar
+                                                    android:clickable="false"
+                                                    android:contextClickable="false"
+                                                    android:id="@+id/progressBar"
+                                                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                                    android:layout_width="@dimen/value_200dp"
+                                                    android:layout_height="5dp"
+                                                    android:layout_gravity="center"
+                                                    android:layout_marginStart="@dimen/value_10dp"
+                                                    android:max="15"
+                                                    android:progress="10"
+                                                    android:progressDrawable="@drawable/progress_drawable_green"
+                                                    android:theme="@style/progressBarGreen" />
+
+
+
+
+                                                <TextView
+                                                    android:layout_width="wrap_content"
+                                                    android:layout_height="wrap_content"
+                                                    android:layout_marginStart="@dimen/value_5dp"
+                                                    android:text="10/15"
+                                                    android:textColor="@color/white"
+                                                    android:textSize="@dimen/text_12sp" />
+
+
+                                            </LinearLayout>
+
+
+                                        </LinearLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_tick_green"
+                                                android:padding="@dimen/value_3dp"
+                                                android:src="@drawable/white_tick_1" />
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                                                android:visibility="gone" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/background_green"
+                                            android:padding="@dimen/value_6dp"
+                                            android:text="1"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/white"
+                                            android:textSize="@dimen/text_17sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+
+                                </RelativeLayout>
+
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_names"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:background="@drawable/round_background_ash"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="2"-->
+                                        <!--                                                android:textColor="@color/black"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:padding="@dimen/value_15dp"
+                                            android:id="@+id/hospitality"
+                                            android:textColor="@color/grey_for_text"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/round_background_ash"
+                                            android:padding="@dimen/value_6dp"
+                                            android:text="2"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/darkkk_grey"
+                                            android:textSize="@dimen/text_17sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_names"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:background="@drawable/round_background_ash"-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="3"-->
+                                        <!--                                                android:textColor="@color/black"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:padding="@dimen/value_15dp"
+                                            android:id="@+id/accuracy"
+                                            android:textColor="@color/grey_for_text"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <!--                                    <RelativeLayout-->
+                                    <!--                                        android:layout_width="wrap_content"-->
+                                    <!--                                        android:layout_height="wrap_content"-->
+                                    <!--                                        android:layout_centerVertical="true"-->
+                                    <!--                                        android:gravity="center"-->
+                                    <!--                                        android:visibility="gone">-->
+
+                                    <!--                                        <TextView-->
+                                    <!--                                            android:layout_width="wrap_content"-->
+                                    <!--                                            android:layout_height="wrap_content"-->
+                                    <!--                                            android:background="@drawable/round_background_ash"-->
+                                    <!--                                            android:padding="@dimen/value_6dp"-->
+                                    <!--                                            android:text="3"-->
+                                    <!--                                            android:textAlignment="center"-->
+                                    <!--                                            android:textColor="@color/darkkk_grey"-->
+                                    <!--                                            android:textSize="@dimen/text_17sp"-->
+                                    <!--                                            android:textStyle="bold" />-->
+
+                                    <!--                                    </RelativeLayout>-->
+
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_names"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:background="@drawable/round_background_ash"-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="4"-->
+                                        <!--                                                android:textColor="@color/black"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:padding="@dimen/value_15dp"
+                                            android:id="@+id/maintainance"
+                                            android:textColor="@color/grey_for_text"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/round_background_ash"
+                                            android:padding="@dimen/value_6dp"
+                                            android:text="4"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/darkkk_grey"
+                                            android:textSize="@dimen/text_17sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_names"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:background="@drawable/round_background_ash"-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="5"-->
+                                        <!--                                                android:textColor="@color/black"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:padding="@dimen/value_15dp"
+                                            android:id="@+id/products"
+                                            android:textColor="@color/grey_for_text"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/round_background_ash"
+                                            android:padding="@dimen/value_6dp"
+                                            android:text="5"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/darkkk_grey"
+                                            android:textSize="@dimen/text_17sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:background="@drawable/background_for_champs_names"
+                                        android:orientation="horizontal">
+
+                                        <!--                                        <RelativeLayout-->
+                                        <!--                                            android:background="@drawable/round_background_ash"-->
+                                        <!--                                            android:layout_width="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_height="@dimen/value_25dp"-->
+                                        <!--                                            android:layout_centerVertical="true"-->
+                                        <!--                                            android:layout_gravity="center"-->
+                                        <!--                                            android:layout_marginStart="@dimen/value_5dp"-->
+                                        <!--                                            android:gravity="center">-->
+
+                                        <!--                                            <TextView-->
+
+                                        <!--                                                android:layout_width="wrap_content"-->
+                                        <!--                                                android:layout_height="wrap_content"-->
+                                        <!--                                                android:text="6"-->
+                                        <!--                                                android:textColor="@color/black"-->
+                                        <!--                                                android:textSize="@dimen/text_18sp"-->
+                                        <!--                                                android:textStyle="bold" />-->
+
+                                        <!--                                        </RelativeLayout>-->
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginStart="@dimen/value_25dp"
+                                            android:padding="@dimen/value_15dp"
+                                            android:text="Speed of Service"
+                                            android:id="@+id/speedOfService"
+                                            android:textColor="@color/grey_for_text"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:layout_gravity="center"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:gravity="end">
+
+                                            <ImageView
+                                                android:layout_width="@dimen/value_35dp"
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:background="@drawable/background_for_pending"
+                                                android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />
+
+
+                                        </LinearLayout>
+
+
+                                    </LinearLayout>
+
+                                    <RelativeLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerVertical="true"
+                                        android:gravity="center"
+                                        android:visibility="gone">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:background="@drawable/round_background_ash"
+                                            android:padding="@dimen/value_6dp"
+                                            android:text="6"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/darkkk_grey"
+                                            android:textSize="@dimen/text_17sp"
+                                            android:textStyle="bold" />
+
+                                    </RelativeLayout>
+
+
+                                </RelativeLayout>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_marginTop="@dimen/value_25dp"
+                                android:layout_marginStart="@dimen/value_15dp"
+                                android:orientation="vertical"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:background="@drawable/background_green"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="1"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+                                <View
+                                    android:layout_gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="3dp"
+                                    android:layout_height="@dimen/value_45dp"
+                                    android:background="@color/very_dark_green" />
+
+                                <TextView
+                                    android:background="@drawable/round_background_ash"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="2"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+                                <View
+                                    android:layout_gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="3dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:background="@color/fadedTextColor" />
+                                <TextView
+                                    android:background="@drawable/round_background_ash"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="3"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+                                <View
+                                    android:layout_gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="3dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:background="@color/fadedTextColor" />
+
+                                <TextView
+                                    android:background="@drawable/round_background_ash"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="4"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+                                <View
+                                    android:layout_gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="3dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:background="@color/fadedTextColor" />
+
+                                <TextView
+                                    android:background="@drawable/round_background_ash"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="5"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+                                <View
+                                    android:layout_gravity="center"
+                                    android:layout_centerVertical="true"
+                                    android:layout_width="3dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:background="@color/fadedTextColor" />
+
+
+                                <TextView
+                                    android:background="@drawable/round_background_ash"
+                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:text="6"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+
+
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_45dp"
+                            android:layout_marginTop="@dimen/value_15dp"
+                            android:layout_marginEnd="@dimen/value_25dp"
+                            android:background="@drawable/background_for_attending_points"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_20dp"
+                                android:text="TRAINING IMPARTED"
+                                android:textAlignment="center"
+                                android:textColor="#386785"
+                                android:textSize="@dimen/text_17sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:gravity="end">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_45dp"
+                                    android:layout_height="@dimen/value_45dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/help_icon_question_mark" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_15dp"
+                            android:layout_marginEnd="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:background="@color/white"
+                            android:orientation="vertical">
+
+                            <CheckBox
+                                android:id="@+id/technical_checkbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/dark_green"
+                                android:enabled="false"
+                                android:editable="false"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:id="@+id/technical_edittext"-->
+<!--                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColorHint="@color/black"-->
+<!--                                android:visibility="gone">-->
+
+                                <TextView
+                                    android:id="@+id/enter_text_technical_edittext"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:maxLength="250"
+                                    android:gravity="start"
+                                   android:layout_marginStart="@dimen/value_25dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:editable="false"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/text_15sp" />
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutTechnical"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_technical"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+                            <CheckBox
+                                android:id="@+id/softskills_checkbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/dark_green"
+                                android:enabled="false"
+                                android:editable="false"
+                                android:textColor="@color/black"
+                                android:textStyle="bold" />
+
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:id="@+id/softSkills_edittext"-->
+<!--                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColorHint="@color/black"-->
+<!--                                android:visibility="gone"-->
+<!--                                app:counterMaxLength="250">-->
+
+                                <TextView
+                                    android:id="@+id/enter_softSkills_edittext"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:gravity="start"
+                                    android:maxLength="250"
+                                    android:layout_marginStart="@dimen/value_25dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:editable="false"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/text_15sp" />
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutSoftskills"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_softskills"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="250"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+                            <CheckBox
+                                android:id="@+id/otherTraining_checkbox"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:buttonTint="@color/dark_green"
+                                android:textColor="@color/black"
+                                android:enabled="false"
+                                android:editable="false"
+                                android:textStyle="bold" />
+
+
+<!--                            <com.google.android.material.textfield.TextInputLayout-->
+<!--                                android:layout_marginTop="@dimen/value_10dp"-->
+<!--                                android:id="@+id/otherTraining_edittext"-->
+<!--                                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColorHint="@color/black"-->
+<!--                                android:visibility="gone"-->
+<!--                                app:counterMaxLength="250">-->
+
+                                <TextView
+                                    android:id="@+id/enter_otherTraining_edittext"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:clickable="true"
+                                    android:maxLength="250"
+                                    android:layout_marginStart="@dimen/value_25dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:gravity="start"
+                                    android:editable="false"
+                                    android:textAlignment="textStart"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/text_15sp" />
+<!--                            </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/charLeftLayoutOtherrTraining"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:orientation="horizontal"-->
+<!--                                android:visibility="gone">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Char Left: "-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:id="@+id/charLeft_otherTraining"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="250"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/issuesToBeResolvedOverallLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/value_45dp"
+                            android:layout_marginTop="@dimen/value_15dp"
+                            android:layout_marginEnd="@dimen/value_25dp"
+                            android:background="@drawable/background_for_attending_points"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:textAllCaps="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/value_20dp"
+                                android:id="@+id/issuess_tobe_resolved_text"
+                                android:textAlignment="center"
+                                android:textColor="#386785"
+                                android:textSize="@dimen/text_17sp"
+                                android:textStyle="bold" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/value_15dp"
+                                android:gravity="end">
+
+                                <ImageView
+                                    android:layout_width="@dimen/value_45dp"
+                                    android:layout_height="@dimen/value_45dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/help_icon_question_mark" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+<!--                        <com.google.android.material.textfield.TextInputLayout-->
+<!--                            android:id="@+id/issues_tobe_resolved_edittext"-->
+<!--                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_15dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_15dp"-->
+<!--                            android:layout_marginTop="@dimen/value_3dp"-->
+<!--                            android:textColorHint="@color/black"-->
+<!--                            app:counterMaxLength="750">-->
+
+                            <TextView
+                                android:id="@+id/enter_issues_tobe_resolved_edittext"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:clickable="false"
+                                android:ellipsize="start"
+                                android:gravity="start"
+                                android:maxLength="250"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+<!--                        </com.google.android.material.textfield.TextInputLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:gravity="end"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Char Left: "-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/charLeft_IssuestoBeResolved"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                        </LinearLayout>-->
+
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_15dp"
+                            android:layout_marginTop="@dimen/value_15dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total: "
+                                android:layout_gravity="center"
+                                android:textAlignment="center"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/twenty_three23_sp"
+                                android:textStyle="bold" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/value_40dp"
+                                android:layout_marginEnd="@dimen/twenty20_dp">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:background="@drawable/background_forprogress_bar">
+
+
+                                    <ProgressBar
+                                        android:visibility="visible"
+                                        android:id="@+id/progressBarTotalOrange"
+                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/background_forprogress_bar"
+                                        android:max="100"
+                                        android:padding="@dimen/value_1dp"
+                                        android:progressDrawable="@drawable/progress_bar_orange" />
+                                    <ProgressBar
+                                        android:visibility="gone"
+                                        android:id="@+id/progressBarTotalRed"
+                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/background_forprogress_bar"
+                                        android:max="100"
+                                        android:padding="@dimen/value_1dp"
+                                        android:progress="80"
+                                        android:progressDrawable="@drawable/progress_bar_red" />
+                                    <ProgressBar
+                                        android:visibility="gone"
+                                        android:id="@+id/progressBarTotalGreen"
+                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_gravity="center"
+                                        android:background="@drawable/background_forprogress_bar"
+                                        android:max="100"
+                                        android:padding="@dimen/value_1dp"
+                                        android:progress="80"
+                                        android:progressDrawable="@drawable/progress_bar_green" />
+
+
+                                </RelativeLayout>
+
+                                <LinearLayout
+                                    android:layout_centerInParent="true"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginStart="@dimen/value_10dp">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:id="@+id/percentageSum"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen25sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+
+                            </RelativeLayout>
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_height="wrap_content">-->
+
+<!--                                <ImageView-->
+<!--                                    android:layout_width="@dimen/value_45dp"-->
+<!--                                    android:layout_height="@dimen/value_45dp"-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:src="@drawable/help_icon_question_mark" />-->
+<!--                            </LinearLayout>-->
+
+
+                        </LinearLayout>
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_15dp"-->
+<!--                            android:layout_marginTop="@dimen/value_15dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:orientation="vertical">-->
+
+<!--                                <ImageView-->
+<!--                                    android:layout_width="@dimen/value_60dp"-->
+<!--                                    android:layout_height="@dimen/value_60dp"-->
+<!--                                    android:src="@drawable/important_alert" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Important"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_16sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_marginTop="@dimen/value_2dp"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:text="You can save your inputs in draft, the final information will be submitted once you click the submit button on completion of the survey"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_15sp" />-->
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_15dp"-->
+<!--                            android:layout_marginTop="@dimen/twenty20_dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:weightSum="1">-->
+
+
+<!--&lt;!&ndash;                            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:onClick="@{()-> callback.onClickSaveDraft()}"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_width="0dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_height="@dimen/value_50dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:layout_weight="0.15"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:background="@drawable/preview_blue_icon_bg"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                android:orientation="vertical">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                                <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="@dimen/value_60dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="@dimen/twenty20_dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:src="@drawable/white_eye_icon" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginEnd="@dimen/value_1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginStart="@dimen/value_1dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:layout_marginBottom="@dimen/value_3dp"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:gravity="center"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:text="Preview"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textColor="@color/white"&ndash;&gt;-->
+<!--&lt;!&ndash;                                    android:textSize="@dimen/text_14sp" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;                            </LinearLayout>&ndash;&gt;-->
+
+<!--                            <LinearLayout-->
+
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:background="@drawable/background_for_champs_green"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:padding="@dimen/value_6dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="0.42">-->
+
+<!--                                <TextView-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:textSize="@dimen/text_18sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Save Draft"/>-->
+<!--                            </LinearLayout>-->
+
+<!--                            <LinearLayout-->
+<!--                                android:onClick="@{()-> callback.onClickSubmit()}"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:background="@drawable/background_for_champs_green"-->
+<!--                                android:layout_width="0dp"-->
+<!--                                android:padding="@dimen/value_6dp"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_weight="0.42">-->
+
+<!--                                <TextView-->
+<!--                                    android:gravity="center"-->
+<!--                                    android:textSize="@dimen/text_18sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="Submit"/>-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+
+
+                    </LinearLayout>
+
+
+                </ScrollView>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.PreviewActivityCallback" />
+    </data>
+</layout>

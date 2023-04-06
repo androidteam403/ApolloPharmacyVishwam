@@ -5,8 +5,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 
-
-class QcAcceptRejectRequest:Serializable {
+class QcAcceptRejectRequest : Serializable {
     @SerializedName("type")
     @Expose
     var type: String? = null
@@ -50,7 +49,7 @@ class QcAcceptRejectRequest:Serializable {
         return this
     }
 
-     class Item {
+    class Item {
         @SerializedName("QTY")
         @Expose
         var qty: Int? = null
@@ -62,6 +61,11 @@ class QcAcceptRejectRequest:Serializable {
         @SerializedName("ITEMID")
         @Expose
         var itemid: String? = null
+
+        @SerializedName("RECID")
+        @Expose
+        var recId: Int? = null
+
         fun withQty(qty: Int?): Item {
             this.qty = qty
             return this
@@ -76,9 +80,14 @@ class QcAcceptRejectRequest:Serializable {
             this.itemid = itemid
             return this
         }
+
+        fun withRecId(recId: Int?): Item {
+            this.recId = recId
+            return this
+        }
     }
 
-     class Order {
+    class Order {
         @SerializedName("ORDERNO")
         @Expose
         var orderno: String? = null
@@ -103,23 +112,23 @@ class QcAcceptRejectRequest:Serializable {
         @Expose
         var items: List<Item>? = null
 
-         constructor(
-             orderno: String?,
-             status: String?,
-             designation: String?,
-             empid: String?,
-             storeid: String?,
-             items: List<Item>?,
-         ) {
-             this.orderno = orderno
-             this.status = status
-             this.designation = designation
-             this.empid = empid
-             this.storeid = storeid
-             this.items = items
-         }
+        constructor(
+            orderno: String?,
+            status: String?,
+            designation: String?,
+            empid: String?,
+            storeid: String?,
+            items: List<Item>?,
+        ) {
+            this.orderno = orderno
+            this.status = status
+            this.designation = designation
+            this.empid = empid
+            this.storeid = storeid
+            this.items = items
+        }
 
-         fun withOrderno(orderno: String?): Order {
+        fun withOrderno(orderno: String?): Order {
             this.orderno = orderno
             return this
         }

@@ -9,7 +9,7 @@ import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.repo.SplashRepo
-import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryCommand
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryCommand
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent

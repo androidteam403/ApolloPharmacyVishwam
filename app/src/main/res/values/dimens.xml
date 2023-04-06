@@ -98,6 +98,7 @@
     <dimen name="dimen365dp">365dp</dimen>
     <dimen name="dimen36dp">36dp</dimen>
     <dimen name="thirty_fourdp">34dp</dimen>
+    <dimen name="one_ninety_dp">190dp</dimen>
     <dimen name="spot_size">6dp</dimen>
     <dimen name="title_margin">10dp</dimen>
     <dimen name="title_padding">6dp</dimen>

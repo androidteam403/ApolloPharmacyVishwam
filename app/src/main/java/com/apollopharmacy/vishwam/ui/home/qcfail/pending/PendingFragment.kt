@@ -32,7 +32,6 @@ import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBinding>(),
@@ -42,8 +41,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var adapter: QcPendingListAdapter? = null
     public var isBulkChecked: Boolean = false
     public var isBulk: Boolean = false
-    public var storeList=ArrayList<String>()
-    public var regionList=ArrayList<String>()
+    public var storeList = ArrayList<String>()
+    public var regionList = ArrayList<String>()
 
     var TIME = (1 * 6000).toLong()
 
@@ -75,7 +74,6 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var lastIndex = 0
     var increment: Int = 0
     var names = ArrayList<QcListsResponse.Pending>();
-
 
 
     override val layoutRes: Int
@@ -395,7 +393,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
             it.setEnabled(false)
 
-            Handler().postDelayed(Runnable { it.setEnabled(true)
+            Handler().postDelayed(Runnable {
+                it.setEnabled(true)
                 it.alpha = 1F
             }, TIME)
 
@@ -638,8 +637,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
 
         v.setEnabled(false)
 
-        Handler().postDelayed({ v.setEnabled(true)
-            v.alpha =1F
+        Handler().postDelayed({
+            v.setEnabled(true)
+            v.alpha = 1F
 
         }, TIME)
 
@@ -650,8 +650,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         for (i in itemlist!!) {
             val rejItems = QcAcceptRejectRequest.Item()
             rejItems.itemid = i.itemid
-            rejItems.qty = i.approvedqty
+            if (i.approvedqty != null) {
+                rejItems.qty = i.approvedqty
+            } else {
+                rejItems.qty = i.qty
+            }
             rejItems.remarks = ""
+            rejItems.recId = i.recid
             qcRejectItemsList.add(rejItems)
 
         }
@@ -679,7 +684,7 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             showLoading()
             dialogBinding.yesBtn.setEnabled(false)
 
-            Handler().postDelayed({   dialogBinding.yesBtn.setEnabled(true) }, TIME)
+            Handler().postDelayed({ dialogBinding.yesBtn.setEnabled(true) }, TIME)
             customDialog.dismiss()
 //            viewModel.getQcPendingItemsList(orderId)
             viewModel.getAcceptRejectResult(QcAcceptRejectRequest("ACCEPT",
@@ -717,7 +722,8 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
         Handler().postDelayed({
             view.alpha = 1F
 
-            view.setEnabled(true) }, TIME)
+            view.setEnabled(true)
+        }, TIME)
 
         acceptOrRejectItemPos = position
         var isAllReasonsFound = true
@@ -748,8 +754,13 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
             for (i in itemlist!!) {
                 val rejItems = QcAcceptRejectRequest.Item()
                 rejItems.itemid = i.itemid
-                rejItems.qty = i.approvedqty
+                if (i.approvedqty != null) {
+                    rejItems.qty = i.approvedqty
+                } else {
+                    rejItems.qty = i.qty
+                }
                 rejItems.remarks = i.remarks
+                rejItems.recId = i.recid
                 qcRejectItemsList.add(rejItems)
 
             }

@@ -21,6 +21,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.ValidateOtpRequest
 import com.apollopharmacy.vishwam.databinding.ActivityOtpViewBinding
+import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.splash.SplashActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
@@ -76,6 +77,7 @@ class OtpViewActivity : AppCompatActivity() {
                     // Log and toast
                     Utils.printMessage(TAG, "FCM Key : " + token)
                     FCM_KEY = token
+                    Preferences.setFcmKey(FCM_KEY)
                 }
             })
 

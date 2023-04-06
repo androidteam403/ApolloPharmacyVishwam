@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -94,6 +94,7 @@
                                             android:textSize="@dimen/text_14sp" />
 
                                         <TextView
+                                            android:id="@+id/store_id"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:text="16520"
@@ -126,7 +127,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_15dp"
-                                android:text="B V Nagar, Nellore"
+                               android:id="@+id/address"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
@@ -154,9 +155,9 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/trainer"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="testhov18@ap.org"
                                     android:textColor="@color/darkk_blue"
                                     android:textStyle="bold" />
 
@@ -177,9 +178,9 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/regionalHead"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="bn.devendrathreddy@apollopharmcay.org"
                                     android:textColor="@color/darkk_blue"
                                     android:textStyle="bold" />
 
@@ -200,9 +201,9 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/manager"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="sadasivareddy@apollopharmacy.org"
                                     android:textColor="@color/darkk_blue"
                                     android:textStyle="bold" />
 
@@ -223,9 +224,9 @@
                                     android:textStyle="bold" />
 
                                 <TextView
+                                    android:id="@+id/executive"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="ramesh_p@apollopharmacy.org"
                                     android:textColor="@color/darkk_blue"
                                     android:textStyle="bold" />
 
@@ -275,6 +276,7 @@
 
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_10dp"
@@ -378,6 +380,7 @@
 
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_10dp"
@@ -1279,34 +1282,34 @@
 
             </LinearLayout>
 
-            <RelativeLayout
-                android:id="@+id/startSurveyButton"
-                android:layout_width="match_parent"
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/startSurveyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:layout_marginBottom="@dimen/value_10dp"
+            android:background="@drawable/greenbackgrounf_forstartsurvey"
+            android:gravity="center"
+            android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
+            android:padding="@dimen/value_12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/value_15dp"
-                android:layout_marginEnd="@dimen/value_10dp"
-                android:layout_marginBottom="@dimen/value_10dp"
-                android:background="@drawable/greenbackgrounf_forstartsurvey"
                 android:gravity="center"
-                android:onClick="@{()-> callback.onClickStartChampsSurvey()}"
-                android:padding="@dimen/value_12dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="Start CHAMPS SURVEY"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/text_17sp"
-                    android:textStyle="bold" />
+                android:text="START CHAMPS SURVEY"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_17sp"
+                android:textStyle="bold" />
 
 
-            </RelativeLayout>
         </RelativeLayout>
-
-
     </RelativeLayout>
 
     <data>

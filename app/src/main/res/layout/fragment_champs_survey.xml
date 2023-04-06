@@ -40,7 +40,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/value_15dp"
-                    android:text="Search Store Name / ID"
+                    android:text="Store Name / ID"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_17sp"
                     android:textStyle="bold" />
@@ -56,15 +56,15 @@
                     android:background="@drawable/edit_comment_bg"
                     android:layout_height="wrap_content">
 
-                        <EditText
+                        <TextView
 
                             android:id="@+id/enter_store_edittext"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/value_50dp"
                             android:background="@drawable/edit_comment_bg"
-                            android:hint="@string/hint"
                             android:textStyle="bold"
                             android:textAlignment="center"
+                            android:gravity="center"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_20sp" />
 
@@ -85,6 +85,7 @@
 
 
                 <LinearLayout
+
                     android:id="@+id/search_button"
                     android:layout_width="@dimen/value_100dp"
                     android:layout_height="wrap_content"
@@ -92,7 +93,7 @@
                     android:background="@drawable/search_green"
                     android:gravity="center"
                     android:onClick="@{()-> callback.onClickSearch()}"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -115,7 +116,7 @@
                     android:layout_marginStart="@dimen/value_10dp"
                     android:layout_marginTop="@dimen/twenty20_dp"
                     android:layout_marginEnd="@dimen/value_10dp"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardElevation="@dimen/value_15dp">
 
                     <FrameLayout
@@ -168,7 +169,7 @@
                                             <TextView
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
-                                                android:text="16520"
+                                               android:id="@+id/storeId"
                                                 android:textColor="@color/black"
                                                 android:textSize="@dimen/text_12sp"
                                                 android:textStyle="bold" />
@@ -198,7 +199,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
-                                        android:text="B V Nagar, Nellore"
+                                        android:id="@+id/address"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp"
                                         android:textStyle="bold" />
@@ -222,10 +223,10 @@
 
 
                                         <TextView
+                                            android:id="@+id/email_id"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_5dp"
-                                            android:text="ramesh_p@apollopharmacay.org"
                                             android:textColor="@color/darkk_blue"
                                             android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />
