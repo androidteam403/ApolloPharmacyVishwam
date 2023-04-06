@@ -20,7 +20,7 @@ class SiteViewModel : ViewModel() {
         Utils.printMessage(TAG, "Orginal Data :: " + orginalArrayList.toString())
         var data =
             orginalArrayList.filter { m ->
-                m.sITEID!!.contains(siteId) || m.sITENAME!!.contains(siteId.toUpperCase())
+                m.site!!.contains(siteId) || m.store_name!!.contains(siteId.toUpperCase())
             } as ArrayList<StoreListItem>
         Utils.printMessage(TAG, "Filter Data :: " + data.toString())
         fixedArrayList.value = data

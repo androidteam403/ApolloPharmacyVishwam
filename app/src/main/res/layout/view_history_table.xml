@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
-    android:background="#e0edf1"
+    android:background="#dbf2f8"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="@dimen/value_5dp">
@@ -12,20 +12,29 @@
         android:id="@+id/rowSerialNumber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/value_10dp"
-        android:layout_weight="0.5"
+        android:fontFamily="@font/poppin_bold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:layout_weight="0.3"
         android:gravity="center" />
 
     <TextView
         android:id="@+id/rowSignInTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/poppin_bold"
+        android:textSize="12sp"
+        android:textColor="@color/black"
         android:layout_weight="1"
         android:gravity="center" />
 
     <TextView
         android:id="@+id/rowSignOutTime"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/poppin_bold"
+        android:textSize="12sp"
+
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center" />
@@ -33,8 +42,12 @@
     <TextView
         android:id="@+id/rowDuration"
         android:layout_width="wrap_content"
+        android:fontFamily="@font/poppin_bold"
+        android:textSize="12sp"
+
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:gravity="center" />
 
 </TableRow>

@@ -1,0 +1,737 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <RelativeLayout
+
+                    android:id="@+id/category_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:layout_marginEnd="@dimen/value_5dp">
+
+                    <LinearLayout
+                        android:padding="@dimen/value_5dp"
+                        android:id="@+id/apply_background_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/background_for_champs_names"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/categoryIdBg"
+                            android:background="@drawable/grey_backgroundup"
+                            android:layout_width="@dimen/value_25dp"
+                            android:layout_height="@dimen/value_25dp"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:gravity="center">
+
+                            <TextView
+                                android:id="@+id/category_number"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_18sp"
+                                android:textStyle="bold" />
+
+                        </RelativeLayout>
+
+
+                        <LinearLayout
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="0.85"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:padding="@dimen/value_10dp">
+
+                                <TextView
+                                    android:id="@+id/category_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_18sp"
+                                    android:textStyle="bold" />
+
+                                <LinearLayout
+                                    android:weightSum="1"
+                                    android:visibility="gone"
+                                    android:id="@+id/rating_bar_visible"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_15dp"
+                                    android:orientation="horizontal">
+
+
+                                    <ProgressBar
+                                        android:clickable="false"
+                                        android:contextClickable="false"
+                                        android:id="@+id/progressBar"
+                                        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="0.8"
+                                        android:layout_height="5dp"
+
+                                        android:layout_gravity="center"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:progressDrawable="@drawable/progress_drawable_green"
+                                        android:theme="@style/progressBarGreen" />
+
+
+
+
+                                    <TextView
+                                        android:layout_weight="0.2"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_5dp"
+                                        android:id="@+id/outOfRating"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_weight="0.15"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginEnd="@dimen/value_10dp"
+                                android:gravity="end">
+
+
+                                <ImageView
+                                    android:id="@+id/tickMarkGreen"
+                                    android:visibility="gone"
+                                    android:layout_width="@dimen/value_35dp"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:background="@drawable/background_tick_green"
+                                    android:padding="@dimen/value_3dp"
+                                    android:src="@drawable/white_tick_1" />
+
+                                <ImageView
+
+                                    android:id="@+id/right_arrow"
+                                    android:layout_width="@dimen/value_35dp"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:background="@drawable/background_for_pending"
+                                    android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
+                                    android:visibility="visible" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/background_green"
+                            android:padding="@dimen/value_6dp"
+                            android:text="1"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_17sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+
+
+
+                </RelativeLayout>
+
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/category_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/layout2"
+                        android:visibility="gone"
+                        android:layout_marginTop="@dimen/value_8dp" />
+                </ScrollView>
+
+
+
+
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp">-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                    android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                    android:background="@drawable/background_for_champs_names"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    &lt;!&ndash;                                        <RelativeLayout&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_width="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_height="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:gravity="center">&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                            <TextView&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                                android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:text="2"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textColor="@color/black"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textSize="@dimen/text_18sp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                        </RelativeLayout>&ndash;&gt;-->
+
+                <!--                    <TextView-->
+
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="@dimen/value_25dp"-->
+                <!--                        android:padding="@dimen/value_15dp"-->
+                <!--                        android:id="@+id/hospitality"-->
+                <!--                        android:textColor="@color/grey_for_text"-->
+                <!--                        android:textSize="@dimen/text_18sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                        android:gravity="end">-->
+
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="@dimen/value_35dp"-->
+                <!--                            android:layout_height="@dimen/value_35dp"-->
+                <!--                            android:background="@drawable/background_for_pending"-->
+                <!--                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />-->
+
+                <!--                    </LinearLayout>-->
+
+
+                <!--                </LinearLayout>-->
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:visibility="gone">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/round_background_ash"-->
+                <!--                        android:padding="@dimen/value_6dp"-->
+                <!--                        android:text="2"-->
+                <!--                        android:textAlignment="center"-->
+                <!--                        android:textColor="@color/darkkk_grey"-->
+                <!--                        android:textSize="@dimen/text_17sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                </RelativeLayout>-->
+
+
+                <!--            </RelativeLayout>-->
+
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp">-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                    android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                    android:background="@drawable/background_for_champs_names"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    &lt;!&ndash;                                        <RelativeLayout&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_width="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_height="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:gravity="center">&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                            <TextView&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                                android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:text="3"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textColor="@color/black"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textSize="@dimen/text_18sp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                        </RelativeLayout>&ndash;&gt;-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="@dimen/value_25dp"-->
+                <!--                        android:padding="@dimen/value_15dp"-->
+                <!--                        android:id="@+id/accuracy"-->
+                <!--                        android:textColor="@color/grey_for_text"-->
+                <!--                        android:textSize="@dimen/text_18sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                        android:gravity="end">-->
+
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="@dimen/value_35dp"-->
+                <!--                            android:layout_height="@dimen/value_35dp"-->
+                <!--                            android:background="@drawable/background_for_pending"-->
+                <!--                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />-->
+
+                <!--                    </LinearLayout>-->
+
+
+                <!--                </LinearLayout>-->
+
+                <!--                &lt;!&ndash;                                    <RelativeLayout&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                        android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                        android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                        android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                        android:gravity="center"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                        android:visibility="gone">&ndash;&gt;-->
+
+                <!--                &lt;!&ndash;                                        <TextView&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:padding="@dimen/value_6dp"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:text="3"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:textAlignment="center"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:textColor="@color/darkkk_grey"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:textSize="@dimen/text_17sp"&ndash;&gt;-->
+                <!--                &lt;!&ndash;                                            android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                &lt;!&ndash;                                    </RelativeLayout>&ndash;&gt;-->
+
+
+                <!--            </RelativeLayout>-->
+
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp">-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                    android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                    android:background="@drawable/background_for_champs_names"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    &lt;!&ndash;                                        <RelativeLayout&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_width="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_height="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:gravity="center">&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                            <TextView&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                                android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:text="4"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textColor="@color/black"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textSize="@dimen/text_18sp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                        </RelativeLayout>&ndash;&gt;-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="@dimen/value_25dp"-->
+                <!--                        android:padding="@dimen/value_15dp"-->
+                <!--                        android:id="@+id/maintainance"-->
+                <!--                        android:textColor="@color/grey_for_text"-->
+                <!--                        android:textSize="@dimen/text_18sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                        android:gravity="end">-->
+
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="@dimen/value_35dp"-->
+                <!--                            android:layout_height="@dimen/value_35dp"-->
+                <!--                            android:background="@drawable/background_for_pending"-->
+                <!--                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />-->
+
+                <!--                    </LinearLayout>-->
+
+
+                <!--                </LinearLayout>-->
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:visibility="gone">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/round_background_ash"-->
+                <!--                        android:padding="@dimen/value_6dp"-->
+                <!--                        android:text="4"-->
+                <!--                        android:textAlignment="center"-->
+                <!--                        android:textColor="@color/darkkk_grey"-->
+                <!--                        android:textSize="@dimen/text_17sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                </RelativeLayout>-->
+
+
+                <!--            </RelativeLayout>-->
+
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp">-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                    android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                    android:background="@drawable/background_for_champs_names"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    &lt;!&ndash;                                        <RelativeLayout&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_width="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_height="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:gravity="center">&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                            <TextView&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                                android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:text="5"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textColor="@color/black"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textSize="@dimen/text_18sp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                        </RelativeLayout>&ndash;&gt;-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="@dimen/value_25dp"-->
+                <!--                        android:padding="@dimen/value_15dp"-->
+                <!--                        android:id="@+id/products"-->
+                <!--                        android:textColor="@color/grey_for_text"-->
+                <!--                        android:textSize="@dimen/text_18sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                        android:gravity="end">-->
+
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="@dimen/value_35dp"-->
+                <!--                            android:layout_height="@dimen/value_35dp"-->
+                <!--                            android:background="@drawable/background_for_pending"-->
+                <!--                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />-->
+
+                <!--                    </LinearLayout>-->
+
+
+                <!--                </LinearLayout>-->
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:visibility="gone">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/round_background_ash"-->
+                <!--                        android:padding="@dimen/value_6dp"-->
+                <!--                        android:text="5"-->
+                <!--                        android:textAlignment="center"-->
+                <!--                        android:textColor="@color/darkkk_grey"-->
+                <!--                        android:textSize="@dimen/text_17sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                </RelativeLayout>-->
+
+
+                <!--            </RelativeLayout>-->
+
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp">-->
+
+                <!--                <LinearLayout-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                    android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                    android:background="@drawable/background_for_champs_names"-->
+                <!--                    android:orientation="horizontal">-->
+
+                <!--                    &lt;!&ndash;                                        <RelativeLayout&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:background="@drawable/round_background_ash"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_width="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_height="@dimen/value_25dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_centerVertical="true"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_gravity="center"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:layout_marginStart="@dimen/value_5dp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                            android:gravity="center">&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                            <TextView&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                                android:layout_width="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:layout_height="wrap_content"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:text="6"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textColor="@color/black"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textSize="@dimen/text_18sp"&ndash;&gt;-->
+                <!--                    &lt;!&ndash;                                                android:textStyle="bold" />&ndash;&gt;-->
+
+                <!--                    &lt;!&ndash;                                        </RelativeLayout>&ndash;&gt;-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginStart="@dimen/value_25dp"-->
+                <!--                        android:padding="@dimen/value_15dp"-->
+                <!--                        android:text="Speed of Service"-->
+                <!--                        android:id="@+id/speedOfService"-->
+                <!--                        android:textColor="@color/grey_for_text"-->
+                <!--                        android:textSize="@dimen/text_18sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                    <LinearLayout-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_gravity="center"-->
+                <!--                        android:layout_marginEnd="@dimen/value_10dp"-->
+                <!--                        android:gravity="end">-->
+
+                <!--                        <ImageView-->
+                <!--                            android:layout_width="@dimen/value_35dp"-->
+                <!--                            android:layout_height="@dimen/value_35dp"-->
+                <!--                            android:background="@drawable/background_for_pending"-->
+                <!--                            android:src="@drawable/ic_baseline_keyboard_arrow_right_24" />-->
+
+
+                <!--                    </LinearLayout>-->
+
+
+                <!--                </LinearLayout>-->
+
+                <!--                <RelativeLayout-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_centerVertical="true"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:visibility="gone">-->
+
+                <!--                    <TextView-->
+                <!--                        android:layout_width="wrap_content"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:background="@drawable/round_background_ash"-->
+                <!--                        android:padding="@dimen/value_6dp"-->
+                <!--                        android:text="6"-->
+                <!--                        android:textAlignment="center"-->
+                <!--                        android:textColor="@color/darkkk_grey"-->
+                <!--                        android:textSize="@dimen/text_17sp"-->
+                <!--                        android:textStyle="bold" />-->
+
+                <!--                </RelativeLayout>-->
+
+
+                <!--            </RelativeLayout>-->
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/value_15dp"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:background="@drawable/background_green"
+                    android:layout_width="@dimen/value_25dp"
+                    android:layout_height="@dimen/value_25dp"
+                    android:text="1"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_18sp"
+                    android:textStyle="bold" />
+                <View
+                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_width="3dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:background="@color/very_dark_green" />
+
+                <!--            <TextView-->
+                <!--                android:background="@drawable/round_background_ash"-->
+                <!--                android:layout_width="@dimen/value_25dp"-->
+                <!--                android:layout_height="@dimen/value_25dp"-->
+                <!--                android:text="2"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_18sp"-->
+                <!--                android:textStyle="bold" />-->
+
+                <!--            <View-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:layout_centerVertical="true"-->
+                <!--                android:layout_width="3dp"-->
+                <!--                android:layout_height="@dimen/value_40dp"-->
+                <!--                android:background="@color/fadedTextColor" />-->
+                <!--            <TextView-->
+                <!--                android:background="@drawable/round_background_ash"-->
+                <!--                android:layout_width="@dimen/value_25dp"-->
+                <!--                android:layout_height="@dimen/value_25dp"-->
+                <!--                android:text="3"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_18sp"-->
+                <!--                android:textStyle="bold" />-->
+
+                <!--            <View-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:layout_centerVertical="true"-->
+                <!--                android:layout_width="3dp"-->
+                <!--                android:layout_height="@dimen/value_40dp"-->
+                <!--                android:background="@color/fadedTextColor" />-->
+
+                <!--            <TextView-->
+                <!--                android:background="@drawable/round_background_ash"-->
+                <!--                android:layout_width="@dimen/value_25dp"-->
+                <!--                android:layout_height="@dimen/value_25dp"-->
+                <!--                android:text="4"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_18sp"-->
+                <!--                android:textStyle="bold" />-->
+
+                <!--            <View-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:layout_centerVertical="true"-->
+                <!--                android:layout_width="3dp"-->
+                <!--                android:layout_height="@dimen/value_40dp"-->
+                <!--                android:background="@color/fadedTextColor" />-->
+
+                <!--            <TextView-->
+                <!--                android:background="@drawable/round_background_ash"-->
+                <!--                android:layout_width="@dimen/value_25dp"-->
+                <!--                android:layout_height="@dimen/value_25dp"-->
+                <!--                android:text="5"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_18sp"-->
+                <!--                android:textStyle="bold" />-->
+
+                <!--            <View-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:layout_centerVertical="true"-->
+                <!--                android:layout_width="3dp"-->
+                <!--                android:layout_height="@dimen/value_40dp"-->
+                <!--                android:background="@color/fadedTextColor" />-->
+
+
+                <!--            <TextView-->
+                <!--                android:background="@drawable/round_background_ash"-->
+                <!--                android:layout_width="@dimen/value_25dp"-->
+                <!--                android:layout_height="@dimen/value_25dp"-->
+                <!--                android:text="6"-->
+                <!--                android:layout_gravity="center"-->
+                <!--                android:gravity="center"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_18sp"-->
+                <!--                android:textStyle="bold" />-->
+
+
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

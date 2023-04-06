@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -11,48 +12,70 @@
             type="Boolean" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/value_5dp"
-        android:layout_marginEnd="@dimen/value_5dp"
+        app:strokeColor="#01bfc0"
+        app:strokeWidth="0.10dp"
+        android:layout_marginBottom="10dp"
+
         app:cardCornerRadius="@dimen/value_5dp"
-        app:cardElevation="@dimen/value_5dp"
-        app:cardUseCompatPadding="true">
+        app:cardElevation="3dp"
+       >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
+            android:background="#dbf2f8"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/viewTaskLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:orientation="horizontal"
                 android:padding="@dimen/value_10dp"
-                android:weightSum="1">
+                android:weightSum="3">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:layout_weight="0.36"
+
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Task :"
+                    android:textColor="#4f9b99"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/taskName"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/value_5dp"
-                    android:layout_weight="0.95"
-                    android:textColor="@color/black" />
+                    android:layout_marginTop="2dp"
+
+                    android:layout_weight="1.99"
+
+                    android:fontFamily="@font/roboto_medium"
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.05">
+                    android:layout_weight="1">
 
                     <ImageView
                         android:id="@+id/viewExpand"
                         android:layout_width="@dimen/value_20dp"
                         android:layout_height="@dimen/value_20dp"
+
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/up_arrow"
+                        android:rotation="90"
+                        android:src="@drawable/black_right_arroww"
                         android:visibility="gone" />
 
                     <ImageView
@@ -61,25 +84,30 @@
                         android:layout_height="@dimen/value_20dp"
                         android:layout_centerInParent="true"
                         android:contentDescription="@string/app_name"
-                        android:src="@drawable/down_arrow"
+                        android:src="@drawable/black_right_arroww"
                         android:visibility="visible" />
                 </RelativeLayout>
+
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/taskCompletedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/value_7dp"
-                android:background="@color/task_card_bg"
+                android:background="#dbf2f8"
+
+
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:paddingBottom="@dimen/value_7dp"
+                android:visibility="visible">
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_1dp"
-                    android:layout_marginBottom="@dimen/value_7dp"
-                    android:background="@color/dialog_corner_color" />
+                    android:layout_height="0.4dp"
+                    android:background="#01bfc0">
+
+                </View>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -87,52 +115,252 @@
                     android:orientation="horizontal"
                     android:weightSum="2">
 
-                    <TextView
-                        android:id="@+id/signInTime"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_15dp"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/black" />
+                        android:layout_weight="1.3"
+                        android:orientation="vertical">
 
-                    <View
-                        android:layout_width="@dimen/value_1dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/dialog_corner_color" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/signOutTime"
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="3dp"
+
+                                android:src="@drawable/ic_task_in" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Task In Time"
+
+                                    android:textColor="#889a9c"
+
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/signInTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:fontFamily="@font/poppin_bold"
+
+                                    android:text="09 March"
+                                    android:textColor="@color/black"
+
+                                    android:textSize="11sp" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="4dp"
+
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_marginTop="3dp"
+
+                                android:src="@drawable/ic_task_out" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:fontFamily="@font/roboto_medium"
+
+                                    android:text="Task Out Time"
+                                    android:textColor="#889a9c"
+
+                                    android:textSize="11sp" />
+
+                                <TextView
+                                    android:id="@+id/signOutTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:textColor="@color/black"
+                                    android:textSize="11sp" />
+
+                            </LinearLayout>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/value_15dp"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:layout_weight="1"
-                        android:textColor="@color/black" />
+                        android:layout_marginStart="35dp"
+                        android:layout_marginTop="17dp"
+
+                        android:layout_marginEnd="@dimen/value_30dp"
+
+                        android:layout_weight="0.8"
+                        android:orientation="vertical">
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="67dp"
+
+                            app:cardCornerRadius="3dp"
+                            app:cardElevation="3dp"
+                            app:cardUseCompatPadding="true">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:fontFamily="@font/roboto_medium"
+
+                                    android:paddingStart="10sp"
+                                    android:paddingTop="7dp"
+                                    android:text="Duration"
+                                    android:textColor="#889a9c"
+                                    android:textSize="10sp" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="3">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:paddingStart="10sp"
+                                            android:paddingTop="1dp"
+
+                                            android:text="Hrs"
+                                            android:textColor="#889a9c"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/durationTexthrs"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:paddingStart="10sp"
+                                            android:paddingBottom="5dp"
+                                            android:text="22"
+                                            android:textColor="#4f9b99"
+                                            android:textSize="10sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:paddingStart="10sp"
+                                            android:paddingTop="1dp"
+
+                                            android:text="Min"
+                                            android:textColor="#889a9c"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/durationTextminutes"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:paddingStart="10sp"
+                                            android:paddingBottom="5dp"
+                                            android:text="05"
+                                            android:textColor="#4f9b99"
+                                            android:textSize="10sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:paddingStart="10sp"
+                                            android:paddingTop="1dp"
+
+                                            android:text="Sec"
+                                            android:textColor="#889a9c"
+                                            android:textSize="10sp" />
+
+                                        <TextView
+                                            android:id="@+id/durationTextsecs"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:paddingStart="10sp"
+                                            android:paddingBottom="5dp"
+                                            android:text="22"
+                                            android:textColor="#4f9b99"
+                                            android:textSize="10sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+                            </LinearLayout>
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_1dp"
-                    android:layout_marginTop="@dimen/value_7dp"
-                    android:background="@color/dialog_corner_color" />
 
-                <TextView
-                    android:id="@+id/durationText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_15dp"
-                    android:padding="@dimen/value_6dp"
-                    android:textColor="@color/black" />
             </LinearLayout>
+
 
             <LinearLayout
                 android:id="@+id/taskPendingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/value_7dp"
-                android:orientation="vertical"
                 android:background="@color/active_task_color"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/value_7dp"
                 android:visibility="gone">
 
                 <View
@@ -151,7 +379,7 @@
 
                 <LinearLayout
                     android:id="@+id/signOutLayout"
-                    android:layout_width="@dimen/value_200dp"
+                    android:layout_width="180dp"
                     android:layout_height="@dimen/value_40dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/value_15dp"
@@ -177,5 +405,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </layout>

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/splash_start_color"
+        android:background="#01bfc0"
         android:gravity="center"
         android:paddingTop="@dimen/value_10dp"
         android:paddingBottom="@dimen/value_10dp"
@@ -35,6 +35,94 @@
         android:layout_marginBottom="@dimen/value_15dp"
         android:background="@drawable/spinner_border"
         android:visibility="gone" />
+<!--    <Spinner-->
+<!--        android:id="@+id/site_spinner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/value_40dp"-->
+
+<!--        android:layout_marginStart="@dimen/value_15dp"-->
+<!--        android:layout_marginEnd="@dimen/value_15dp"-->
+<!--        android:layout_marginBottom="@dimen/value_15dp"-->
+<!--        android:background="@drawable/spinner_border"-->
+<!--        android:visibility="visible" />-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/siteIdAttendence"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:focusable="true"
+        android:textColorHint="@color/black"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/value_15dp"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/siteIdSelectAttendence"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/spinner_arrow"
+            android:editable="false"
+            android:enabled="true"
+            android:focusable="false"
+            android:hint="@string/label_select_site_id"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/doctornameAttendence"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/value_15dp"
+        android:layout_marginRight="@dimen/value_15dp"
+        android:focusable="true"
+        android:textColorHint="@color/black"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/value_15dp"
+
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/doctorNameSelectAttendence"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:clickable="true"
+            android:drawableEnd="@drawable/spinner_arrow"
+            android:editable="false"
+            android:enabled="true"
+            android:focusable="false"
+            android:hint="Select Doctor"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingEnd="@dimen/value_10dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="12sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <EditText
+        android:id="@+id/doctorspecialityinattendence"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/backcolor"
+        android:editable="false"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/value_15dp"
+        android:layout_marginEnd="@dimen/value_15dp"
+        android:paddingStart="@dimen/value_10dp"
+        android:layout_marginBottom="@dimen/value_15dp"
+
+        android:textColor="@color/black"
+        android:textColorHint="@android:color/black"
+        android:textSize="@dimen/text_14sp" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/createTask"
