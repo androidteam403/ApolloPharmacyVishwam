@@ -65,8 +65,8 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragment;
-import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
@@ -924,7 +924,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new NewSurveyFragment();
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 break;
             case "Champs Reports":
@@ -1378,11 +1378,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
-//                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
-//                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
-//                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
-//        );
+        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
+        );
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
