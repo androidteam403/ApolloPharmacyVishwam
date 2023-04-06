@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.AttendanceRepo
 import com.apollopharmacy.vishwam.data.network.SwachhListApiResponse
 import com.apollopharmacy.vishwam.ui.createpin.Command
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.AttendanceFragmentCallback
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
