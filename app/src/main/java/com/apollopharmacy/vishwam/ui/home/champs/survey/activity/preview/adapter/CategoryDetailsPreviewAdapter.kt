@@ -44,19 +44,34 @@ class CategoryDetailsPreviewAdapter(
         holder.adapterCategoryPreviewBinding.categoryName.text = categoryDetailss.categoryName
         holder.adapterCategoryPreviewBinding.categoryNumber.text = categoryDetailss.id.toString()
 
-        if(categoryDetailss.sumOfSubCategoryRating!=null){
-            holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.VISIBLE
-            holder.adapterCategoryPreviewBinding.progressBar.progress=(categoryDetailss.sumOfSubCategoryRating)!!.toInt()
-            holder.adapterCategoryPreviewBinding.progressBar.max=(categoryDetailss.rating)!!.toInt()
-            holder.adapterCategoryPreviewBinding.outOfRating.text= ((categoryDetailss.sumOfSubCategoryRating)).toString()+ "/" + categoryDetailss.rating
-//            holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
-//            holder.adapterCategoryDetailsBinding.rightArrow.visibility=View.GONE
-//            holder.adapterCategoryDetailsBinding.categoryName.setTextColor(applicationContext.getColor(R.color.white))
-//            holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility=View.VISIBLE
-//            holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.background_green)
+//
+        if(categoryDetailss.sumOfSubCategoryRating!=null && categoryDetailss.clickedSubmit!!){
+
+//            if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
+//                holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.VISIBLE
+//                holder.adapterCategoryPreviewBinding.outOfRating.visibility=View.VISIBLE
+//                holder.adapterCategoryPreviewBinding.progressBar.visibility=View.VISIBLE
+//                holder.adapterCategoryPreviewBinding.progressBar.progress = 0
+////                holder.adapterCategoryPreviewBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progrss_drawable_skyblue))
+//                holder.adapterCategoryPreviewBinding.progressBar.max=(categoryDetailss.rating)!!.toInt()
+//                holder.adapterCategoryPreviewBinding.outOfRating.text= ((categoryDetailss.sumOfSubCategoryRating)).toString()+ "/" + categoryDetailss.rating
+//
+//            } else {
+                holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.VISIBLE
+                holder.adapterCategoryPreviewBinding.outOfRating.visibility=View.VISIBLE
+                holder.adapterCategoryPreviewBinding.progressBar.visibility=View.VISIBLE
+                holder.adapterCategoryPreviewBinding.progressBar.progress =
+                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
+//                holder.adapterCategoryPreviewBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
+                holder.adapterCategoryPreviewBinding.progressBar.max=(categoryDetailss.rating)!!.toInt()
+                holder.adapterCategoryPreviewBinding.outOfRating.text= ((categoryDetailss.sumOfSubCategoryRating)).toString()+ "/" + categoryDetailss.rating
+
+//          }
         }else{
+            holder.adapterCategoryPreviewBinding.outOfRating.visibility=View.GONE
+            holder.adapterCategoryPreviewBinding.progressBar.visibility=View.GONE
             holder.adapterCategoryPreviewBinding.tickMarkGreen.visibility=View.GONE
-            holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.GONE
+//            holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.GONE
             holder.adapterCategoryPreviewBinding.rightArrow.visibility=View.VISIBLE
             holder.adapterCategoryPreviewBinding.categoryName.setTextColor(applicationContext.getColor(R.color.black))
             holder.adapterCategoryPreviewBinding.categoryIdBg.setBackgroundResource(R.drawable.grey_backgroundup)
@@ -65,6 +80,22 @@ class CategoryDetailsPreviewAdapter(
         }
         holder.adapterCategoryPreviewBinding.categoryLayout.setOnClickListener{
             if(!recyclerViewVisible && categoryDetailss.subCategoryDetails!=null){
+//                if(categoryDetailss.clickedSubmit!!){
+//            holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.VISIBLE
+//            holder.adapterCategoryPreviewBinding.outOfRating.visibility=View.VISIBLE
+//            holder.adapterCategoryPreviewBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
+//            holder.adapterCategoryPreviewBinding.outOfRating.text= ((categoryDetailss.sumOfSubCategoryRating)).toString()+ "/" + categoryDetailss.rating
+//            holder.adapterCategoryPreviewBinding.progressBar.visibility=View.VISIBLE
+//            holder.adapterCategoryPreviewBinding.progressBar.progress= (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
+//        }
+//                else{
+//            holder.adapterCategoryPreviewBinding.ratingBarVisible.visibility=View.GONE
+//            holder.adapterCategoryPreviewBinding.outOfRating.visibility=View.GONE
+//            holder.adapterCategoryPreviewBinding.progressBar.visibility=View.GONE
+//        }
+///
+
+                holder.adapterCategoryPreviewBinding.rightArrow.rotation=90f
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.visibility=View.VISIBLE
                 recyclerViewVisible=true
                 subCategoryPreviewAdapter =
@@ -80,6 +111,8 @@ class CategoryDetailsPreviewAdapter(
                     subCategoryPreviewAdapter
                 )
             }else{
+
+                holder.adapterCategoryPreviewBinding.rightArrow.rotation=0f
                 holder.adapterCategoryPreviewBinding.categoryRecyclerView.visibility=View.GONE
                 recyclerViewVisible=false
             }

@@ -17,13 +17,16 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.S
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveylist.SurveyListViewModel
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import kotlin.math.roundToInt
 
+@Suppress("DEPRECATION")
 class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
     private lateinit var activityPreviewBinding: ActivityPreviewBinding
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
     private lateinit var previewActivityViewModel: PreviewActivityViewModel
     private var categoryDetailsPreviewAdapter: CategoryDetailsPreviewAdapter? = null
+    private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse?=null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,9 +44,11 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
     }
 
     private fun setUp() {
+        activityPreviewBinding.callback=this
         getCategoryAndSubCategoryDetails =
             intent.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
         activityPreviewBinding.employeeId.text= Preferences.getValidatedEmpId()
+        getSubCategoryResponses = intent.getSerializableExtra("getSubCategoryResponses") as GetSubCategoryDetailsModelResponse
         val userData = LoginRepo.getProfile()
         if(userData!=null){
              activityPreviewBinding.employeeName.text = userData.EMPNAME
@@ -60,16 +65,50 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             activityPreviewBinding.state.setText(getCategoryAndSubCategoryDetails?.storeStateP)
 
             activityPreviewBinding.technicalCheckbox.setText(getCategoryAndSubCategoryDetails?.technicalDetails)
-            activityPreviewBinding.enterTextTechnicalEdittext.setText(getCategoryAndSubCategoryDetails?.technicalText)
             activityPreviewBinding.softskillsCheckbox.setText(getCategoryAndSubCategoryDetails?.softSkills)
-            activityPreviewBinding.enterSoftSkillsEdittext.setText(getCategoryAndSubCategoryDetails?.softSkillsText)
             activityPreviewBinding.otherTrainingCheckbox.setText(getCategoryAndSubCategoryDetails?.otherTraining)
-            activityPreviewBinding.enterOtherTrainingEdittext.setText(getCategoryAndSubCategoryDetails?.otherTrainingText)
             activityPreviewBinding.issuessTobeResolvedText.setText(getCategoryAndSubCategoryDetails?.issuesToBeResolved)
-            activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.issuesToBeResolvedText)
+
+            if(!getCategoryAndSubCategoryDetails?.technicalText!!.isEmpty()){
+                activityPreviewBinding.technicalCheckbox.isChecked=true
+                activityPreviewBinding.enterTextTechnicalEdittext.visibility=View.VISIBLE
+                activityPreviewBinding.enterTextTechnicalEdittext.setText(getCategoryAndSubCategoryDetails?.technicalText)
+
+            }else{
+                activityPreviewBinding.technicalCheckbox.isChecked=false
+                activityPreviewBinding.enterTextTechnicalEdittext.visibility=View.GONE
+            }
+            if(!getCategoryAndSubCategoryDetails?.softSkillsText!!.isEmpty()){
+                activityPreviewBinding.softskillsCheckbox.isChecked=true
+                activityPreviewBinding.enterSoftSkillsEdittext.visibility=View.VISIBLE
+                activityPreviewBinding.enterSoftSkillsEdittext.setText(getCategoryAndSubCategoryDetails?.softSkillsText)
+            }else{
+                activityPreviewBinding.softskillsCheckbox.isChecked=false
+                activityPreviewBinding.enterSoftSkillsEdittext.visibility=View.GONE
+            }
+            if(!getCategoryAndSubCategoryDetails?.otherTrainingText!!.isEmpty()){
+                activityPreviewBinding.otherTrainingCheckbox.isChecked=true
+                activityPreviewBinding.enterOtherTrainingEdittext.visibility=View.VISIBLE
+                activityPreviewBinding.enterOtherTrainingEdittext.setText(getCategoryAndSubCategoryDetails?.otherTrainingText)
+            }else{
+                activityPreviewBinding.otherTrainingCheckbox.isChecked=false
+                activityPreviewBinding.enterOtherTrainingEdittext.visibility=View.GONE
+            }
+            if(!getCategoryAndSubCategoryDetails?.issuesToBeResolvedText!!.isEmpty()){
+                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.otherTrainingText)
+            }else{
+                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText("--")
+            }
             overallProgressBarCount(getCategoryAndSubCategoryDetails!!.totalProgressP!!)
 
         }
+        for(i in getCategoryAndSubCategoryDetails!!.emailDetails!!.indices){
+            if(!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).clickedSubmit!!){
+                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails=
+                    getSubCategoryResponses!!.subCategoryDetails
+            }
+        }
+
 
         categoryDetailsPreviewAdapter =
             CategoryDetailsPreviewAdapter(
@@ -88,39 +127,43 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
     }
 
     override fun onClickBack() {
-       super.onBackPressed()
+        onBackPressed()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
     }
 
     private fun checkListeners(){
-        activityPreviewBinding.technicalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                activityPreviewBinding.technicalEdittext.visibility = View.VISIBLE
-//                activityPreviewBinding.charLeftLayoutTechnical.visibility = View.VISIBLE
-            } else {
-                activityPreviewBinding.technicalEdittext.visibility = View.GONE
-//                activityPreviewBinding.charLeftLayoutTechnical.visibility = View.GONE
-            }
-        }
-
-        activityPreviewBinding.softskillsCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                activityPreviewBinding.softSkillsEdittext.visibility = View.VISIBLE
-//                activityPreviewBinding.charLeftLayoutSoftskills.visibility = View.VISIBLE
-            } else {
-                activityPreviewBinding.softSkillsEdittext.visibility = View.GONE
-                //              activityPreviewBinding.charLeftLayoutSoftskills.visibility = View.GONE
-            }
-        }
-
-        activityPreviewBinding.otherTrainingCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                activityPreviewBinding.otherTrainingEdittext.visibility = View.VISIBLE
-                //          activityPreviewBinding.charLeftLayoutOtherrTraining.visibility = View.VISIBLE
-            } else {
-                activityPreviewBinding.otherTrainingEdittext.visibility = View.GONE
-                //        activityPreviewBinding.charLeftLayoutOtherrTraining.visibility = View.GONE
-            }
-        }
+//        activityPreviewBinding.technicalCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) {
+//                activityPreviewBinding.technicalEdittext.visibility = View.VISIBLE
+////                activityPreviewBinding.charLeftLayoutTechnical.visibility = View.VISIBLE
+//            } else {
+//                activityPreviewBinding.technicalEdittext.visibility = View.GONE
+////                activityPreviewBinding.charLeftLayoutTechnical.visibility = View.GONE
+//            }
+//        }
+//
+//        activityPreviewBinding.softskillsCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) {
+//                activityPreviewBinding.softSkillsEdittext.visibility = View.VISIBLE
+////                activityPreviewBinding.charLeftLayoutSoftskills.visibility = View.VISIBLE
+//            } else {
+//                activityPreviewBinding.softSkillsEdittext.visibility = View.GONE
+//                //              activityPreviewBinding.charLeftLayoutSoftskills.visibility = View.GONE
+//            }
+//        }
+//
+//        activityPreviewBinding.otherTrainingCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
+//            if (isChecked) {
+//                activityPreviewBinding.otherTrainingEdittext.visibility = View.VISIBLE
+//                //          activityPreviewBinding.charLeftLayoutOtherrTraining.visibility = View.VISIBLE
+//            } else {
+//                activityPreviewBinding.otherTrainingEdittext.visibility = View.GONE
+//                //        activityPreviewBinding.charLeftLayoutOtherrTraining.visibility = View.GONE
+//            }
+//        }
     }
 
     private fun overallProgressBarCount(sumOfCategories: Float) {

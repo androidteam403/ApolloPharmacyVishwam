@@ -24,7 +24,7 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/close_dialog"
+                android:id="@+id/close_dialog_save_"
                 android:layout_width="@dimen/value_40dp"
                 android:layout_height="@dimen/value_40dp"
                 android:layout_alignParentEnd="true"
@@ -59,17 +59,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="B V Nagar,Nellore"
+                android:id="@+id/address_save_"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_18sp" />
+                android:textSize="@dimen/text_16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="16520"
+                android:id="@+id/site_id_save_"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_20sp" />
+                android:textSize="@dimen/text_16sp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -90,24 +90,23 @@
                 android:textSize="@dimen/text_18sp" />
 
             <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/seekbar1"
+                android:layout_marginEnd="@dimen/text_dimen_20"
+                android:id="@+id/seekbar1_save_"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_40dp"
                 android:layout_below="@+id/total"
                 android:max="100"
                 android:min="0"
-                android:progress="80"
                 android:progressDrawable="@drawable/bordered_seekbar_progress_style"
                 android:thumb="@android:color/transparent" />
             <TextView
-                android:id="@+id/progress_percentage"
+                android:id="@+id/progress_percentage_display_save_"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/total"
                 android:layout_marginLeft="@dimen/value_20dp"
                 android:paddingLeft="@dimen/value_10dp"
                 android:textAlignment="center"
-                android:text="80%"
                 android:textColor="@color/white"
                 android:textSize="27sp"
                 android:textStyle="bold" />
@@ -143,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/value_8dp"
-                android:text="22 Dec,2022-10:45am"
+                android:id="@+id/started_survey_on_save_"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
@@ -158,7 +157,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/value_8dp"
-                android:text="22 Dec,2022-12:00am"
+               android:id="@+id/survey_ended_on_save_"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />
@@ -172,7 +171,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01:15min"
+                android:id="@+id/total_time_taken_save_"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_16sp"
                 android:textStyle="bold" />

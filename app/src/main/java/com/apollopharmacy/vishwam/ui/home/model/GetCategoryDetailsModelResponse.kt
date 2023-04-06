@@ -1,12 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.model
 
+import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.File
 import java.io.Serializable
 
-class GetCategoryDetailsModelResponse : Serializable {
+ class GetCategoryDetailsModelResponse : Serializable {
     @SerializedName("status")
     @Expose
     var status: Boolean? = null
@@ -53,7 +54,7 @@ class GetCategoryDetailsModelResponse : Serializable {
     var emailDetails: List<EmailDetail>? = null
 
 
-    inner class EmailDetail : Serializable {
+     class EmailDetail : Serializable {
         @SerializedName("id")
         @Expose
         var id: Int? = null
@@ -75,18 +76,19 @@ class GetCategoryDetailsModelResponse : Serializable {
 
         var sumOfSubCategoryRating: Float? = 0f
 
-        var imageDataDto:ArrayList<File>?=null
-        inner class ImgeDtcl(var file: File?)
+         var clickedSubmit: Boolean? = false
 
          var imageUrls: ArrayList<String>?=null
 
-//        inner class ImageUrl : Serializable {
-//
-//            @SerializedName("URL")
-//            @Expose
-//            var url: String? = null
-//
-//        }
+         var   imageDataLists: MutableList<ImagesDatas>?=null
+
+         class ImagesDatas  : Serializable{
+             var file: File?=null
+             var imageUrl: String?=""
+             var imageFilled: Boolean=false
+
+         }
+
 
         var subCategoryDetails: List<GetSubCategoryDetailsModelResponse.SubCategoryDetail>? = null
 
@@ -111,7 +113,7 @@ class GetCategoryDetailsModelResponse : Serializable {
             @Expose
             var createdDate: String? = null
 
-            var givenRating: Float = 0f
+            var givenRating: Float? = null
 
             }
 

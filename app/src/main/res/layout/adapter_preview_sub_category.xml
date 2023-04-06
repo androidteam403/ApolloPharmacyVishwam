@@ -8,6 +8,8 @@
         android:background="@color/white">
 
         <LinearLayout
+            android:layout_marginStart="@dimen/value_10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
             android:id="@+id/ratingBar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -17,29 +19,60 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_15dp"
-                android:layout_marginEnd="@dimen/value_15dp"
                 android:textStyle="bold"
                 android:id="@+id/sub_category_heading"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_14sp" />
 
-            <androidx.appcompat.widget.AppCompatSeekBar
-                android:id="@+id/seekbar1"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_50dp"
-                android:progress="0"
-                android:clickable="false"
-                android:contextClickable="false"
-                android:focusable="false"
-                android:progressDrawable="@drawable/seekbar_progress_style"
-                android:thumb="@android:color/transparent" />
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatSeekBar
+                        android:id="@+id/seekbar1"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:progress="0"
+                        android:progressDrawable="@drawable/seekbar_progress_style"
+                        android:thumb="@android:color/transparent" />
+
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/display_given_rating_layout"
+                    android:background="@drawable/round_background_ratingbar"
+                    android:layout_centerInParent="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/display_given_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </RelativeLayout>
 
             <LinearLayout
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/value_20dp"
                 android:weightSum="4">
 
                 <TextView
@@ -61,7 +94,7 @@
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
-                    android:text="2" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/third_range"
@@ -72,7 +105,7 @@
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
                     android:textColor="@color/black"
-                    android:text="3" />
+                    android:text="" />
 
                 <TextView
                     android:id="@+id/fourth_range"

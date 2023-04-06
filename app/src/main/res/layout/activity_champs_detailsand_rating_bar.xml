@@ -17,6 +17,7 @@
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="@dimen/value_5dp"
@@ -68,6 +69,8 @@
                         android:background="@color/white">
 
                         <LinearLayout
+                            android:layout_marginStart="@dimen/value_12dp"
+                            android:layout_marginEnd="@dimen/value_12dp"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical">
@@ -85,7 +88,6 @@
                                     android:id="@+id/back"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
-                                    android:layout_marginLeft="@dimen/value_8dp"
                                     android:onClick="@{()-> callback.onClickBack()}"
                                     android:src="@drawable/ic_baseline_keyboard_backspace_24"
                                     app:tint="#777777" />
@@ -95,12 +97,14 @@
                                     android:layout_height="@dimen/value_50dp">
 
                                     <ImageView
+                                        android:layout_gravity="center"
                                         android:layout_width="@dimen/value_40dp"
                                         android:layout_height="@dimen/value_40dp"
                                         android:src="@drawable/survey_icon_blue" />
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:layout_gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="vertical">
@@ -108,7 +112,7 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="16520"
+                                        android:id="@+id/store_id"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_18sp"
                                         android:textStyle="bold" />
@@ -117,8 +121,9 @@
 
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="B V Nagar, Nellore"
+                                        android:id="@+id/address"
                                         android:textColor="@color/black"
+                                        android:textStyle="bold"
                                         android:textSize="@dimen/text_15sp" />
                                 </LinearLayout>
 
@@ -143,8 +148,7 @@
                                 android:layout_below="@+id/layout1"
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:gravity="center_vertical"
-                                android:orientation="horizontal"
-                                android:paddingLeft="@dimen/value_20dp">
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:layout_width="@dimen/value_25dp"
@@ -169,8 +173,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:gravity="end"
-                                    android:paddingRight="@dimen/value_15dp">
+                                    android:gravity="end">
 
                                     <TextView
                                         android:layout_width="@dimen/value_40dp"
@@ -179,6 +182,7 @@
                                         android:gravity="center_vertical|center_horizontal"
                                         android:id="@+id/sumOfrating"
                                         android:text="0"
+                                        android:layout_marginRight="@dimen/value_2dp"
                                         android:textAlignment="center"
                                         android:textColor="#838383"
                                         android:textSize="@dimen/text_18sp"
@@ -197,6 +201,8 @@
                                     <TextView
                                         android:layout_width="@dimen/value_40dp"
                                         android:layout_height="@dimen/value_40dp"
+                                       android:layout_gravity="center"
+                                        android:textAlignment="center"
                                         android:gravity="center_vertical|center_horizontal"
                                         android:id="@+id/overallSum"
                                         android:textColor="@color/black"
@@ -506,9 +512,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/layout2"
-                                android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="@dimen/value_8dp"
-                                android:layout_marginEnd="@dimen/value_10dp" />
+                                android:layout_marginTop="@dimen/value_8dp" />
 
 
                             <LinearLayout
@@ -516,9 +520,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/category_recyclerView"
-                                android:layout_marginStart="@dimen/value_10dp"
                                 android:layout_marginTop="@dimen/value_15dp"
-                                android:layout_marginEnd="@dimen/value_10dp"
                                 android:layout_marginBottom="@dimen/value_4dp">
 
                                 <TextView
@@ -544,7 +546,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/upload_image_header"
-                                android:layout_marginHorizontal="@dimen/value_10dp"
                                 android:orientation="horizontal">
 
                                 <ProgressBar
@@ -561,7 +562,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/progress_bar"
-                                android:layout_marginHorizontal="@dimen/value_20dp"
+
                                 android:layout_marginBottom="@dimen/value_4dp">
 
                                 <TextView
@@ -577,8 +578,7 @@
                                 android:id="@+id/image_header"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/zero_mb_used_text"
-                                android:layout_marginHorizontal="@dimen/value_20dp">
+                                android:layout_below="@+id/zero_mb_used_text">
 
                                 <TextView
                                     android:layout_width="match_parent"
@@ -608,9 +608,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_below="@+id/layout2"
                                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:layout_marginEnd="@dimen/value_10dp" />
+                                    android:layout_marginTop="@dimen/value_8dp" />
 
 <!--                                <LinearLayout-->
 <!--                                    android:id="@+id/image_upload"-->
@@ -860,10 +858,8 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_alignParentBottom="true"
-                                    android:layout_marginHorizontal="@dimen/value_20dp"
                                     android:layout_marginTop="@dimen/value_10dp"
-                                    android:gravity="bottom"
-                                    android:paddingLeft="@dimen/value_10dp">
+                                    android:gravity="bottom">
 
                                     <ImageButton
                                         android:visibility="visible"
@@ -909,6 +905,9 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/green_rectangle"
                                             android:hint="Continue"
+                                            android:textAlignment="center"
+                                            android:layout_gravity="center_horizontal"
+                                            android:gravity="center"
                                             android:onClick="@{()-> callback.onClickSubmit()}"
                                             android:textColorHint="@color/white"
                                             android:textSize="@dimen/text_18sp" />

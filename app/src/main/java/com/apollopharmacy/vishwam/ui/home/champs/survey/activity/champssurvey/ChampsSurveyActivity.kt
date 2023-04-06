@@ -2,13 +2,17 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -26,9 +30,10 @@ import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
+import kotlinx.android.synthetic.main.layout_seekbar_thumb.view.*
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
 
@@ -52,6 +57,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     var siteName:String?=""
     var sumOfCategoriess:Float?=0f
     private var storeCity:String =""
+    private lateinit var dialog: Dialog
+    private lateinit var dialogSubmit: Dialog
+    private var overAllprogressBarCount =0.0f
+    private var countUp:Long?=null
+    private var asText:String?=null
+    private var issuedOn:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +74,17 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         champsSurveyViewModel = ViewModelProvider(this)[ChampsSurveyViewModel::class.java]
         setUp()
         checkListeners()
+        activityChampsSurveyBinding.chrono.setOnChronometerTickListener(Chronometer.OnChronometerTickListener { arg0 ->
+            countUp = (SystemClock.elapsedRealtime() - arg0.base) / 1000
+            asText = (countUp!! / 60).toString() + ":" + countUp!! % 60
+            //                pickupProcessBinding.timer.setText(asText);
+            //                 asText1 = stopWatch.getFormat();
+            //                int h = (int)(countUp /3600000);
+            //                int m = (int)(countUp - h*3600000)/60000;
+            //                int s= (int)(countUp - h*3600000- m*60000);
+        })
+
+        activityChampsSurveyBinding.chrono.start()
     }
 
     private fun setUp() {
@@ -170,6 +192,9 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //            )
 //                .show()
 //        }
+
+
+
 
     }
 
@@ -347,6 +372,11 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickCategory(categoryName: String, position: Int) {
+        getCategoryAndSubCategoryDetails?.storeIdP= activityChampsSurveyBinding.storeId.text.toString()
+        getCategoryAndSubCategoryDetails?.addressP=activityChampsSurveyBinding.address.text.toString()
+        getCategoryAndSubCategoryDetails?.issuedOnP=activityChampsSurveyBinding.issuedOn.text.toString()
+        getCategoryAndSubCategoryDetails?.storeNameP=activityChampsSurveyBinding.storeName.text.toString()
+        getCategoryAndSubCategoryDetails?.storeCityP=activityChampsSurveyBinding.storeCity.text.toString()
         val intent = Intent(context, ChampsDetailsandRatingBarActivity::class.java)
         intent.putExtra("categoryName", categoryName)
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
@@ -357,8 +387,101 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     override fun onClickSubmit() {
-//        ChampsSurveyDialog().show(supportFragmentManager, "")
-        saveApiRequest("submit")
+//     ChampsSurveyDialog().show(supportFragmentManager, "")
+
+        dialogSubmit = Dialog(this)
+        dialogSubmit.setContentView(R.layout.dialog_champs_survey)
+        val close = dialogSubmit.findViewById<ImageView>(R.id.close_dialog_save_)
+        val siteId = dialogSubmit.findViewById<TextView>(R.id.site_id_save_)
+        val address = dialogSubmit.findViewById<TextView>(R.id.address_save_)
+        val startTime = dialogSubmit.findViewById<TextView>(R.id.started_survey_on_save_)
+        val endTime = dialogSubmit.findViewById<TextView>(R.id.survey_ended_on_save_)
+        val progressBar= dialogSubmit.findViewById<ProgressBar>(R.id.seekbar1_save_)
+        val timeTaken = dialogSubmit.findViewById<TextView>(R.id.total_time_taken_save_)
+        val percentageSum = dialogSubmit.findViewById<TextView>(R.id.progress_percentage_display_save_)
+        siteId.setText(activityChampsSurveyBinding.siteId.text.toString())
+        address.setText(activityChampsSurveyBinding.address.text.toString())
+        startTime.setText(activityChampsSurveyBinding.issuedOn.text.toString())
+
+//        timeTaken.text = asText
+        progressBar.progress=overAllprogressBarCount.roundToInt()
+        if (overAllprogressBarCount <= 100 && overAllprogressBarCount >= 80) {
+            activityChampsSurveyBinding.progressBarTotalGreen.progress =
+                overAllprogressBarCount.roundToInt()
+            progressBar.progressDrawable=resources.getDrawable(R.drawable.bordered_seekbar_progress_style_green)
+            percentageSum.text = overAllprogressBarCount.toString() + "%"
+//                activityChampsSurveyBinding.progressBarTotal.background =
+//                    getResources().getDrawable(R.drawable.progress_bar_green)
+//            activityChampsSurveyBinding.progressBarTotalGreen.visibility = View.VISIBLE
+//            activityChampsSurveyBinding.progressBarTotalRed.visibility = View.GONE
+//            activityChampsSurveyBinding.progressBarTotalOrange.visibility = View.GONE
+
+        }
+        else if (overAllprogressBarCount <= 80 && overAllprogressBarCount >= 60) {
+            activityChampsSurveyBinding.progressBarTotalGreen.progress =
+                overAllprogressBarCount.roundToInt()
+            progressBar.progressDrawable=resources.getDrawable(R.drawable.bordered_seekbar_progress_style)
+            percentageSum.text = overAllprogressBarCount.toString() + "%"
+        }
+        else {
+            activityChampsSurveyBinding.progressBarTotalGreen.progress =
+                overAllprogressBarCount.roundToInt()
+            progressBar.progressDrawable=resources.getDrawable(R.drawable.bordered_seekbar_progress_style_red)
+            percentageSum.text = overAllprogressBarCount.toString() + "%"
+        }
+        val currentTime: Date = Calendar.getInstance().getTime()
+        val strDate = currentTime.toString()
+        val dateFormat = SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy");
+        val endDate = dateFormat.parse(strDate)
+        val dateNewFormat =
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(endDate)
+        endTime.setText(dateNewFormat)
+
+        val dtStart = activityChampsSurveyBinding.issuedOn.text.toString()
+        val format = SimpleDateFormat("dd MMM, yyyy - hh:mm a")
+//        try {
+            val startDate = format.parse(dtStart)
+//            System.out.println(date)
+//        } catch (e: ParseException) {
+//            e.printStackTrace()
+//        }
+
+//        val startDate = dateFormat.parse(activityChampsSurveyBinding.issuedOn.text.toString())
+        var different = endDate!!.time - startDate!!.time
+        println("startDate : $startDate")
+        println("endDate : $endDate")
+        println("different : $different")
+        val secondsInMilli: Long = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+        val elapsedDays = different / daysInMilli
+        different = different % daysInMilli
+        val elapsedHours = different / hoursInMilli
+        different = different % hoursInMilli
+        val elapsedMinutes = different / minutesInMilli
+        different = different % minutesInMilli
+        val elapsedSeconds = different / secondsInMilli
+        System.out.printf(
+            "%d days, %d hours, %d minutes, %d seconds%n",
+            elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
+        if(elapsedDays>0){
+            timeTaken.text = " %d $elapsedDays days, $elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
+        }else if(elapsedHours>0){
+            timeTaken.text = "$elapsedHours hours, $elapsedMinutes minutes, $elapsedSeconds seconds"
+
+        }else if(elapsedMinutes>0){
+            timeTaken.text = "$elapsedMinutes minutes, $elapsedSeconds seconds"
+        }else{
+            timeTaken.text = "$elapsedSeconds seconds"
+        }
+
+        close.setOnClickListener {
+            dialogSubmit.dismiss()
+        }
+        dialogSubmit.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogSubmit.show()
+//        saveApiRequest("submit")
     }
 
     private fun saveApiRequest(type: String) {
@@ -781,7 +904,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                         5
                     )?.subCategoryDetails!!.get(0).givenRating != null
                 ) {
-                    submit.categoryDetails.speedService5To10Minutes =
+                    submit.categoryDetails?.speedService5To10Minutes =
                         getCategoryAndSubCategoryDetails!!.emailDetails?.get(5)?.subCategoryDetails!!.get(
                             0
                         ).givenRating.toString()
@@ -827,6 +950,23 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //        val intent = Intent(context, SurveyListActivity::class.java)
 //        startActivity(intent)
 //        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        dialog = Dialog(this)
+        dialog.setContentView(R.layout.savedraft_dialogue)
+        val close = dialog.findViewById<TextView>(R.id.no_btnSiteChange)
+        close.setOnClickListener {
+            dialog.dismiss()
+        }
+        val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
+        ok.setOnClickListener {
+            dialog.dismiss()
+//            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            dialog.show()
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+        }
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 
     override fun onClickPreview() {
@@ -850,6 +990,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 
         val intent = Intent(context, PreviewActivity::class.java)
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
+        intent.putExtra("getSubCategoryResponses", getSubCategoryResponses)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -948,6 +1089,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     }
 
     private fun overallProgressBarCount(sumOfCategories: Float) {
+        overAllprogressBarCount=sumOfCategories
         if (sumOfCategories <= 100 && sumOfCategories >= 80) {
             activityChampsSurveyBinding.progressBarTotalGreen.progress =
                 sumOfCategories.roundToInt()
@@ -1029,6 +1171,7 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onSuccessGetSurveyDetailsByChampsId(getSurveyDetailsByChapmpsId: GetSurevyDetailsByChampsIdResponse) {
         if(getSurveyDetailsByChapmpsId!=null && getSurveyDetailsByChapmpsId.headerDetails!=null){
             activityChampsSurveyBinding.siteId.text=getSurveyDetailsByChapmpsId.headerDetails.storeId
@@ -1143,12 +1286,12 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
            Toast.makeText(applicationContext, ""+value.message, Toast.LENGTH_SHORT).show()
        }
     }
-
+    private var getSubCategoryResponses: GetSubCategoryDetailsModelResponse?=null
     override fun onSuccessgetSubCategoryDetails(
         getSubCategoryResponse: GetSubCategoryDetailsModelResponse,
         categoryName: String,
     ) {
-
+        getSubCategoryResponses=getSubCategoryResponse
 
         if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.emailDetails!=null){
             for(i in getCategoryAndSubCategoryDetails?.emailDetails?.indices!!){

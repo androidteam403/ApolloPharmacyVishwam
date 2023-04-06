@@ -35,10 +35,10 @@ class ChampsSurveyDialog : DialogFragment() {
         );
 
         viewBinding = DialogChampsSurveyBinding.inflate(inflater, container, false)
-        viewBinding.closeDialog.visibility = View.VISIBLE
-        viewBinding.closeDialog.setOnClickListener {
-            dismiss()
-        }
+//        viewBinding.closeDialog.visibility = View.VISIBLE
+//        viewBinding.closeDialog.setOnClickListener {
+//            dismiss()
+//        }
         return viewBinding.root
     }
 }

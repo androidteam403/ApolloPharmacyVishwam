@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.a
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,15 +18,15 @@ import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 class CategoryDetailsAdapter(
     private var categoryDetails: List<GetCategoryDetailsModelResponse.EmailDetail>?,
     private var applicationContext: Context,
-    private var champsSurveyCallBack: ChampsSurveyCallBack
-) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>()  {
+    private var champsSurveyCallBack: ChampsSurveyCallBack,
+) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): CategoryDetailsAdapter.ViewHolder {
-        val adapterCategoryDetailsBinding:AdapterCategoryDetailsBinding =
+        val adapterCategoryDetailsBinding: AdapterCategoryDetailsBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(applicationContext),
                 R.layout.adapter_category_details,
@@ -41,26 +42,44 @@ class CategoryDetailsAdapter(
         holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
         holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
 
-        if(categoryDetailss.sumOfSubCategoryRating!=null){
-            holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility=View.VISIBLE
-            holder.adapterCategoryDetailsBinding.progressBar.progress=(categoryDetailss.sumOfSubCategoryRating)!!.toInt()
-            holder.adapterCategoryDetailsBinding.progressBar.max=(categoryDetailss.rating)!!.toInt()
-            holder.adapterCategoryDetailsBinding.outOfRating.text= ((categoryDetailss.sumOfSubCategoryRating)).toString()+ "/" + categoryDetailss.rating
+        if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!!) {
+            holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility = View.VISIBLE
+            if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
+                holder.adapterCategoryDetailsBinding.progressBar.progress = 0
+                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progrss_drawable_skyblue))
+            } else {
+                holder.adapterCategoryDetailsBinding.progressBar.progress =
+                    (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
+                holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
+
+            }
+            holder.adapterCategoryDetailsBinding.progressBar.max =
+                (categoryDetailss.rating)!!.toInt()
+            holder.adapterCategoryDetailsBinding.outOfRating.text =
+                ((categoryDetailss.sumOfSubCategoryRating)).toString() + "/" + categoryDetailss.rating
             holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
-            holder.adapterCategoryDetailsBinding.rightArrow.visibility=View.GONE
-            holder.adapterCategoryDetailsBinding.categoryName.setTextColor(applicationContext.getColor(R.color.white))
-            holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility=View.VISIBLE
+            holder.adapterCategoryDetailsBinding.rightArrow.visibility = View.GONE
+            holder.adapterCategoryDetailsBinding.categoryName.setTextColor(
+                applicationContext.getColor(
+                    R.color.white
+                )
+            )
+            holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility = View.VISIBLE
             holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.background_green)
-        }else{
-            holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility=View.GONE
-            holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility=View.GONE
-            holder.adapterCategoryDetailsBinding.rightArrow.visibility=View.VISIBLE
-            holder.adapterCategoryDetailsBinding.categoryName.setTextColor(applicationContext.getColor(R.color.black))
+        } else {
+            holder.adapterCategoryDetailsBinding.tickMarkGreen.visibility = View.GONE
+            holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility = View.GONE
+            holder.adapterCategoryDetailsBinding.rightArrow.visibility = View.VISIBLE
+            holder.adapterCategoryDetailsBinding.categoryName.setTextColor(
+                applicationContext.getColor(
+                    R.color.black
+                )
+            )
             holder.adapterCategoryDetailsBinding.categoryIdBg.setBackgroundResource(R.drawable.grey_backgroundup)
             holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_names)
 
         }
-        holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener{
+        holder.adapterCategoryDetailsBinding.categoryLayout.setOnClickListener {
             champsSurveyCallBack.onClickCategory(categoryDetailss.categoryName!!, position)
         }
 
@@ -70,7 +89,7 @@ class CategoryDetailsAdapter(
         return categoryDetails!!.size
     }
 
-    class ViewHolder(val adapterCategoryDetailsBinding:AdapterCategoryDetailsBinding):
+    class ViewHolder(val adapterCategoryDetailsBinding: AdapterCategoryDetailsBinding) :
         RecyclerView.ViewHolder(adapterCategoryDetailsBinding.root)
 
 }

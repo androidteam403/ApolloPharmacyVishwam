@@ -95,7 +95,6 @@
                                     android:layout_height="5dp"
                                     android:layout_gravity="center"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:progressDrawable="@drawable/progress_drawable_green"
                                     android:theme="@style/progressBarGreen" />
 
 

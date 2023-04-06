@@ -1,26 +1,22 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.AdapterCaptureimagesChampsBinding
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarCallBack
+import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.bumptech.glide.Glide
-import com.squareup.picasso.Picasso
-import java.net.URL
 
 class ImagesDisplayChampsAdapter(
-    private val imageDataList: MutableList<ChampsDetailsandRatingBarActivity.ImagesData>?,
     private val context: Context,
     private val champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
+    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>?
 ) : RecyclerView.Adapter<ImagesDisplayChampsAdapter.ViewHolder>() {
 
 
@@ -38,20 +34,22 @@ class ImagesDisplayChampsAdapter(
         return ViewHolder(adapterCaptureImagesSwachBinding)
     }
 
+    @SuppressLint("SuspiciousIndentation")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val champsUploadedImages = imageDataList!!.get(position)
+            val champsUploadedImages = imageDataLists!!.get(position)
 
-            if (imageDataList!!.get(position).file != null) {
+//            if (imageDataList!!.get(position).file != null) {
+//                holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
+//                holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.VISIBLE
+//                Glide.with(context).load(imageDataList!!.get(position).file)
+//                    .placeholder(R.drawable.placeholder_image)
+//                    .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
+//
+//            } else
+                if(imageDataLists!!.get(position).imageUrl!=null && !imageDataLists.get(position).imageUrl!!.isEmpty()){
                 holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
                 holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.VISIBLE
-                Glide.with(ViswamApp.context).load(imageDataList!!.get(position).file)
-                    .placeholder(R.drawable.placeholder_image)
-                    .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
-
-            } else if(imageDataList.get(position).imageUrl!=null && !imageDataList.get(position).imageUrl.isEmpty()){
-                holder.adapterCaptureImagesSwachBinding.imagePlusIcon.visibility = View.GONE
-                holder.adapterCaptureImagesSwachBinding.uploadImageLayout1.visibility = View.VISIBLE
-                Glide.with(ViswamApp.context).load(imageDataList!!.get(position).imageUrl)
+                Glide.with(context).load(imageDataLists.get(position).imageUrl)
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.adapterCaptureImagesSwachBinding.uploadImageChamps)
             }
@@ -90,7 +88,7 @@ class ImagesDisplayChampsAdapter(
 
 
     override fun getItemCount(): Int {
-        return imageDataList!!.size
+        return imageDataLists!!.size
 //        if (!gettingImages) {
 //
 //        } else {

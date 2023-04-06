@@ -41,6 +41,6 @@ class GetSubCategoryDetailsModelResponse : Serializable {
         @Expose
         var createdDate: String? = null
 
-        var givenRating: Float = 0f
+        var givenRating: Float? = null
     }
 }

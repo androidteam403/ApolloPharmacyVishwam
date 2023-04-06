@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityChampsDetailsandRatingBarBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
@@ -36,7 +37,6 @@ import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.io.IOException
-import java.net.URL
 
 
 class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandRatingBarCallBack {
@@ -50,10 +50,12 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var getSubCategoryDetailss: GetSubCategoryDetailsModelResponse? = null
     private lateinit var dialog: Dialog
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
+    private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack? = null
     private var categoryPosition: Int = 0
     private var isPending: Boolean = false
-    var imageDataList: MutableList<ImagesData>? = null
-    var gettingImages = false
+    var thread: Thread?=null
+    var imageDataList: MutableList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>? = null
+    var dtcl_list = java.util.ArrayList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,6 +69,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         )
         champsDetailsAndRatingBarViewModel =
             ViewModelProvider(this)[ChampsDetailsAndRatingBarViewModel::class.java]
+//        champsDetailsandRatingBarCallBack = ChampsDetailsandRatingBarCallBack
         setUp()
     }
 
@@ -84,16 +87,15 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             isPending = intent.getBooleanExtra("isPending", isPending)
 
         }
-
+        activityChampsDetailsandRatingBarBinding.storeId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
+        activityChampsDetailsandRatingBarBinding.address.setText(getCategoryAndSubCategoryDetails?.addressP)
 //        Toast.makeText(applicationContext, "" + getCategoryName, Toast.LENGTH_SHORT).show()
         activityChampsDetailsandRatingBarBinding.categoryName.setText(getCategoryName)
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null) {
             activityChampsDetailsandRatingBarBinding.overallSum.text =
                 getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).rating
         }
-        activityChampsDetailsandRatingBarBinding.mbUsedText.text =
-            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).sumOfThreePicsinMb.toString() + " KB Used"
-        if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
+         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
                 categoryPosition
             ).sumOfSubCategoryRating != null
         ) {
@@ -131,8 +133,47 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         }
 
         LoadRecyclerView()
-        LoadImageRecyclerView()
+        if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.emailDetails!=null &&
+                getCategoryAndSubCategoryDetails!!.emailDetails?.get(categoryPosition)?.imageDataLists==null){
+            var image1=GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas()
+            image1.imageFilled=false
+            image1.file=null
+            image1.imageUrl=""
+            dtcl_list.add(image1)
+            var image2=GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas()
+            image2.imageFilled=false
+            image2.file=null
+            image2.imageUrl=""
+            dtcl_list.add(image2)
+            var image3=GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas()
+            image3.imageFilled=false
+            image3.file=null
+            image3.imageUrl=""
+            dtcl_list.add(image3)
+
+            imageDataList = dtcl_list
+
+            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists = imageDataList
+            imagesDisplayChampsAdapter =
+                ImagesDisplayChampsAdapter(
+                    this,
+                    this,
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+                LinearLayoutManager(
+                    this, LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+                imagesDisplayChampsAdapter
+            )
+        }
+
+
+
         retrievingImages()
+        disableUploadOption()
 
 
 //        if (NetworkUtil.isNetworkConnected(this)) {
@@ -159,11 +200,13 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
 
     override fun onClickSubmit() {
-//        if (imageDataList != null && imageDataList!!.size > 0) {
-//            for (i in imageDataList!!.indices) {
-//                }
-//        }
+        getCategoryAndSubCategoryDetails?.emailDetails?.get(categoryPosition)?.clickedSubmit = true
 
+        for(i in getCategoryAndSubCategoryDetails?.emailDetails?.get(categoryPosition)?.subCategoryDetails?.indices!!){
+            if(  getCategoryAndSubCategoryDetails?.emailDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating==null){
+                getCategoryAndSubCategoryDetails?.emailDetails?.get(categoryPosition)?.subCategoryDetails!!.get(i).givenRating=0.0f
+            }
+        }
         calucateSumOfSubCategory()
         val intent = Intent()
         intent.putExtra("getCategoryAndSubCategoryDetails", getCategoryAndSubCategoryDetails)
@@ -182,9 +225,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
         }
     }
-
-    @SuppressLint("SetTextI18n")
-    private fun onClickDelete(deletePosition: Int, gettingImages: Boolean) {
+    var imageUrlDeleted= false
+    @SuppressLint("SetTextI18n", "NotifyDataSetChanged")
+    private fun onClickDelete(deletePosition: Int) {
         dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_camera_delete)
         val close = dialog.findViewById<TextView>(R.id.no_btnN)
@@ -193,11 +236,27 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         }
         val ok = dialog.findViewById<TextView>(R.id.yes_btnN)
         ok.setOnClickListener {
-            if (imageDataList != null && imageDataList!!.size > 0) {
-                imageDataList!!.get(deletePosition).file = null
-                imageDataList!!.get(deletePosition).imageUrl=""
+            if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.size > 0) {
+                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).file = null
+                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageUrl = ""
+                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(deletePosition).imageFilled = false
             }
-            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
+            disableUploadOption()
+
+            imagesDisplayChampsAdapter =
+                ImagesDisplayChampsAdapter(
+                    this,
+                    this,
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+                LinearLayoutManager(
+                    this, LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+                imagesDisplayChampsAdapter
+            )
             disableUploadOption()
             dialog.dismiss()
         }
@@ -297,56 +356,36 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     }
 
-    class ImagesData(var file: File?, var imageUrl: String)
-
-    private fun LoadImageRecyclerView() {
-        gettingImages = false
-        var dtcl_list = java.util.ArrayList<ImagesData>()
-        dtcl_list.add(ImagesData(null, ""))
-        dtcl_list.add(ImagesData(null, ""))
-        dtcl_list.add(ImagesData(null, ""))
-
-        imageDataList = dtcl_list
+    class ImagesData(var file: File?, var imageUrl: String, var imageFilled: Boolean)
 
 
-        imagesDisplayChampsAdapter =
-            ImagesDisplayChampsAdapter(
-                imageDataList,
-                this,
-                this
-            )
-        activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
-            LinearLayoutManager(
-                this, LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
-            imagesDisplayChampsAdapter
-        )
-    }
     var imageUrl: Uri? = null
     private fun retrievingImages() {
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null) {
-            if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageUrls != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
+            if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists != null && getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
                     categoryPosition
-                ).imageUrls!!.size > 0
+                ).imageDataLists!!.size > 0
             ) {
-                for(i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageUrls!!.indices){
-
-                    for( j in imageDataList!!.indices){
-                        if(imageDataList!!.get(j).imageUrl.equals("")){
-                            imageDataList!!.get(j).imageUrl=getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageUrls!!.get(i)
-                            break
-                        }
-                    }
-
-                }
+//                for (i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageUrls!!.indices) {
+//
+//                    for (j in imageDataList!!.indices) {
+//                        if (!imageDataList!!.get(j).imageFilled!!) {
+//                            imageDataList!!.get(j).imageUrl =
+//                                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(
+//                                    categoryPosition
+//                                ).imageUrls!!.get(i)
+//                            imageDataList!!.get(j).imageFilled = true
+//                            break
+//                        }
+//                    }
+//
+//                }
 //                gettingImages = true
                 imagesDisplayChampsAdapter =
                     ImagesDisplayChampsAdapter(
-                        imageDataList,
                         this,
-                        this
+                        this,
+                        getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
                     )
                 activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
                     LinearLayoutManager(
@@ -359,6 +398,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
 
         }
+        disableUploadOption()
     }
 
     private fun calucateSumOfSubCategory() {
@@ -384,7 +424,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
             activityChampsDetailsandRatingBarBinding.sumOfrating.text =
                 getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).sumOfSubCategoryRating.toString()
-            subCategoryAdapter!!.notifyDataSetChanged()
+//            subCategoryAdapter!!.notifyDataSetChanged()
 
         }
 
@@ -430,15 +470,31 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                     .setSourceImage(imageFromCameraFile).resizedFile
 
-            for (i in imageDataList!!.indices) {
-                if (imageDataList!!.get(i).file == null) {
-                    imageDataList!!.get(i).file = resizedImage
+            for (i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                if (!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                     break
                 }
             }
-            gettingImages = false
-            imagesDisplayChampsAdapter!!.notifyDataSetChanged()
-            disableUploadOption()
+//            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
+//            imagesDisplayChampsAdapter =
+//                ImagesDisplayChampsAdapter(
+//                    imageDataList,
+//                    this,
+//                    this,
+//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+//                )
+//            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+//                LinearLayoutManager(
+//                    this, LinearLayoutManager.HORIZONTAL,
+//                    false
+//                )
+//            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+//                imagesDisplayChampsAdapter
+//            )
+//
+            Utlis.showLoading(this)
             champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
 
 
@@ -460,17 +516,31 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
                             .setSourceImage(files).resizedFile
 
-                    for (i in imageDataList!!.indices) {
-                        if (imageDataList!!.get(i).file == null) {
-                            imageDataList!!.get(i).file = resizedImage
+                    for (i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                        if (!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
+                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
+//                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                             break
                         }
                     }
-                    gettingImages = false
-                    imagesDisplayChampsAdapter!!.notifyDataSetChanged()
-                    disableUploadOption()
+//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
+//                    imagesDisplayChampsAdapter =
+//                        ImagesDisplayChampsAdapter(
+//                            imageDataList,
+//                            this,
+//                            this,
+//                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+//                        )
+//                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+//                        LinearLayoutManager(
+//                            this, LinearLayoutManager.HORIZONTAL,
+//                            false
+//                        )
+//                    activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+//                        imagesDisplayChampsAdapter
+//                    )
+                    Utlis.showLoading(this)
                     champsDetailsAndRatingBarViewModel.connectToAzure(resizedImage, this)
-
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -483,12 +553,14 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 
     }
 
+
+
     fun disableUploadOption() {
-        var imageFiles = ArrayList<File>()
-        if (imageDataList != null) {
-            for (i in imageDataList!!.indices) {
-                if (imageDataList!!.get(i).file != null) {
-                    imageFiles.add(imageDataList!!.get(i).file!!)
+        var imageFiles = ArrayList<Boolean>()
+        if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists != null) {
+            for (i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.indices) {
+                if (getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled) {
+                    imageFiles.add(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled)
                 }
             }
         }
@@ -507,6 +579,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             }
         }
     }
+
 
     fun getRealPathFromURI(contentUri: Uri?): String? {
         val proj = arrayOf(MediaStore.Audio.Media.DATA)
@@ -566,32 +639,58 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         progress: Float,
         subCategoryPosition: Int,
     ) {
-        getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).subCategoryDetails!!.get(
-            subCategoryPosition
-        ).givenRating =
-            progress
+        for( i in getCategoryAndSubCategoryDetails!!.emailDetails!!.indices){
+            if(getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).categoryName!!.equals(getCategoryName)){
+                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails!!.get(
+                    subCategoryPosition
+                ).givenRating =
+                    progress
+            }
+        }
+
         calucateSumOfSubCategory()
 
     }
 
-    var submit = ArrayList<String>()
+    var submit = ArrayList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>()
     override fun onSuccessImageIsUploadedInAzur(response: String?) {
 
+
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.emailDetails != null
-            && getCategoryAndSubCategoryDetails!!.emailDetails?.get(categoryPosition)?.imageUrls != null
+            && getCategoryAndSubCategoryDetails!!.emailDetails?.get(categoryPosition)?.imageDataLists != null
         ) {
-            getCategoryAndSubCategoryDetails!!.emailDetails?.get(categoryPosition)?.imageUrls!!.add(
-                response!!
-            )
-        } else {
-            submit.add(response!!)
-            getCategoryAndSubCategoryDetails!!.emailDetails?.get(categoryPosition)?.imageUrls =
-                submit
+            for( i in getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists?.indices!!){
+                if(!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageFilled!!){
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageUrl=response
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists?.get(i)?.imageFilled=true
+                    break
+                }
+            }
+
         }
 
+        runOnUiThread(Runnable {
+            // Stuff that updates the UI
+            imagesDisplayChampsAdapter =
+                ImagesDisplayChampsAdapter(
+                    applicationContext,
+                   this,
+                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
+                LinearLayoutManager(
+                    applicationContext, LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.setAdapter(
+                imagesDisplayChampsAdapter
+            )
+
+        })
 
         Utlis.hideLoading()
     }
+
 
     override fun onClickOpenGallery() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
@@ -626,7 +725,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
     override fun onClickImageDelete(position: Int) {
-        onClickDelete(position, gettingImages)
+        onClickDelete(position)
 
     }
 
