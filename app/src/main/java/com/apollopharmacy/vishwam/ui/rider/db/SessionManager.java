@@ -39,6 +39,8 @@ public class SessionManager {
     private static final String PREF_KEY_GLOBAL_SETTING_SELECT = "PREF_KEY_GLOBAL_SETTING_SELECT";
     private static final String PREF_KEY_COMPLAINT_REASONS = "PREF_KEY_COMPLAINT_REASONS";
 
+    private static final String RECTRO_POSITION = "RECTRO_POSITION";
+
     public SessionManager(Context context) {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
@@ -116,6 +118,14 @@ public class SessionManager {
         return preferences.getString(PREF_KEY_RIDER_TRAVELLED_DISTANCE_IN_DAY, "0.0");
     }
 
+    public void setRectroPosition(String rectroPosition) {
+        preferences.edit().putString(RECTRO_POSITION, rectroPosition).apply();
+    }
+
+    public String getRectroPosition() {
+        return preferences.getString(RECTRO_POSITION, "1");
+    }
+
     public void setAsignedOrderUid(List<String> orderUids) {
         String orderUidListString = new Gson().toJson(orderUids);
         preferences.edit().putString(PREF_KEY_ASIGNED_ORDER_UID, orderUidListString).apply();
@@ -173,4 +183,6 @@ public class SessionManager {
         String complaintReasonsListResponseString = preferences.getString(PREF_KEY_COMPLAINT_REASONS, null);
         return new Gson().fromJson(complaintReasonsListResponseString, ComplaintReasonsListResponse.class);
     }
+
+
 }

@@ -65,6 +65,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
@@ -945,6 +946,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
 
+            case "Pre Rectro":
+                headerText.setText("Pre Rectro");
+                getSessionManager().setRectroPosition("1");
+                fragment = new PreRectroFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Post Rectro":
+                headerText.setText("Post Rectro");
+                getSessionManager().setRectroPosition("2");
+                fragment = new PreRectroFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "After Completion":
+                headerText.setText("After Completion");
+                getSessionManager().setRectroPosition("3");
+                fragment = new PreRectroFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
             case "Assets":
                 headerText.setText("Apollo Assets");
                 fragment = new AssetsFragment();
@@ -1384,6 +1415,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         );
 
+        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+        );
+
+
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
 //        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
@@ -1508,6 +1546,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Champs Admin")) {
                     displaySelectedScreen("Champs Admin");
                 }
+            }
+            else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Pre Rectro")) {
+                    displaySelectedScreen("Pre Rectro");
+                }else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
+                    displaySelectedScreen("Post Rectro");
+                } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
+                    displaySelectedScreen("After Completion");
+                }
+
             }
 
 

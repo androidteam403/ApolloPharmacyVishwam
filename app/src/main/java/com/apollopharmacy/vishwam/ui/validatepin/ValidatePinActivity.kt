@@ -247,7 +247,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
     }
 
     private fun handleNextIntent() {
-        viewModel.loginApiCall("emp-102", "R1D36#012022", Preferences.getFcmKey(), this, this)
+        viewModel.loginApiCall("emp-102", "R1De6#012022", Preferences.getFcmKey(), this, this)
 //        Preferences.setIsPinCreated(true)
 //        val homeIntent = Intent(this, MainActivity::class.java)
 //        startActivity(homeIntent)
@@ -350,6 +350,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
         if (deliveryFailreReasonsResponse != null) {
            SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
             //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
+            Preferences.setIsPinCreated(true)
             val i = Intent(this, MainActivity::class.java)
             val True = true
             i.putExtra("tag", true)
