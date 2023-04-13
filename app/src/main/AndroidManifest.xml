@@ -57,6 +57,12 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.apna.survey.ApnaSurveyActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true"
