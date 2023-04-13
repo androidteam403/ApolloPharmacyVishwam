@@ -1,0 +1,19 @@
+package com.apollopharmacy.vishwam.ui.rider.myorders;
+
+
+import com.apollopharmacy.vishwam.ui.rider.myorders.model.MyOrdersListResponse;
+
+public interface MyOrdersFragmentCallback {
+
+    void onFialureMessage(String message);
+
+    void onSuccessMyOrdersListApi(MyOrdersListResponse myOrdersListResponse);
+
+    void onFailureMyOrdersListApi();
+
+    void onStatusClick(MyOrdersListResponse.Row item);
+
+    void onClickNotificationIcon();
+
+    void onLogout();
+}

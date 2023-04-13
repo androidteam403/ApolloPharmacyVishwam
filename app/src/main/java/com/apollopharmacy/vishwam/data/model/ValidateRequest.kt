@@ -1,7 +1,11 @@
 package com.apollopharmacy.vishwam.data.model
 
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
+
 data class ValidateRequest(
-	val DEVICEID: String,
-	val KEY: String
+
+	@SerializedName("DEVICEID") @Expose val DEVICEID: String,
+	@SerializedName("KEY") @Expose val KEY: String
 )
 

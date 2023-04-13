@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/complaint_bg">
+
+        <LinearLayout
+            android:id="@+id/dateSelectionLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/apollo_img_color"
+            android:orientation="horizontal"
+            android:padding="@dimen/value_10dp"
+            android:visibility="visible"
+            android:weightSum="3">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/fromDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_weight="1.1"
+                android:textColorHint="@color/white">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/fromDateText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_55dp"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_baseline_date_range_complaints"
+                    android:focusable="false"
+                    android:hint="From Date"
+                    android:paddingStart="@dimen/value_7dp"
+                    android:paddingEnd="@dimen/value_7dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/text_14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/toDate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_weight="1.1"
+                android:textColorHint="@color/white">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/toDateText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_55dp"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/ic_baseline_date_range_complaints"
+                    android:focusable="false"
+                    android:hint="To Date"
+                    android:paddingStart="@dimen/value_7dp"
+                    android:paddingEnd="@dimen/value_7dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/text_14sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.8"
+                android:background="@drawable/yellow_drawable"
+                android:text="@string/label_submit"
+                android:textColor="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
+        </LinearLayout>
+
+
+        <!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+        <!--            android:id="@+id/pullToRefresh"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_below="@+id/tabs">-->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewApproved"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabs"
+            android:visibility="visible"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/swacchlist_recycleview" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_reject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tabs"
+            android:visibility="gone"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/rejectlist_swacch" />
+
+        <RelativeLayout
+            android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dateSelectionLayout"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@color/complaint_bg"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Items Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/emptyListreject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/dateSelectionLayout"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:background="@color/complaint_bg"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Items Found"
+                android:textColor="@color/red"
+                android:textSize="@dimen/text_18sp" />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="77dp">
+
+
+
+                   <Button
+                       android:layout_width="210dp"
+                       android:layout_height="48dp"
+                       android:textAlignment="center"
+                       android:id="@+id/accept"
+                       android:visibility="visible"
+                       android:textColor="@color/colorPrimary"
+                       android:background="@color/white"
+                       android:text="APPROVE"/>
+                    <Button
+                        android:layout_width="240dp"
+                        android:layout_height="48dp"
+                        android:layout_marginLeft="@dimen/value_175dp"
+                        android:id="@+id/reject"
+                        android:visibility="visible"
+                        android:textColor="@color/colorPrimary"
+                        android:background="@color/white"
+                        android:textAlignment="center"
+                        android:text="PENDING"/>
+
+
+
+
+
+
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

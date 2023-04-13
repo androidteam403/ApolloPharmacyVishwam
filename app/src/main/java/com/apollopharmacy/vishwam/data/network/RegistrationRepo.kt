@@ -6,6 +6,11 @@ import com.apollopharmacy.vishwam.data.model.CMSCommonRequest
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
+import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListRequest
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.ApproveRejectListResponse
 import com.apollopharmacy.vishwam.util.EncryptionManager
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
@@ -439,9 +444,86 @@ object RegistrationRepo {
     }
 
 
+    suspend fun cmsTicketStatusUpdate(
+        url: String,
+        token: String,
+        getDetailsRequest: GetDetailsRequest,
+    ): ApiResult<ResponseBody> {
+        return try {
+            val response = Api.getClient().getDetails(url,token, getDetailsRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+//    suspend fun cmsTicketStatusUpdate(
+//        url: String,
+//        token: String,
+//        cmsTicketRequest: CmsTicketRequest,
+//    ): ApiResult<CmsTicketResponse> {
+//        return try {
+//            val response = Api.getClient().cmsTicketStatusUpdate(url, token, cmsTicketRequest)
+//            ApiResult.Success(response)
+//        } catch (e: Exception) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            ApiResult.NetworkError
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: HttpException) {
+//            ApiUtils.parseHttpError(e)
+//        } catch (e: UnknownError) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketTimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: JsonSyntaxException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: ConnectException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: TimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownHostException(e.message)
+//        }
+//    }
+
+
+
+
     //New Complaint Sumbit functionality.............................
     suspend fun getticketresolvedstatus(
-        baseurl: String
+        baseurl: String,
     ): ApiResult<ResponseTicktResolvedapi> {
         return try {
             val response = Api.getClient()
@@ -685,7 +767,7 @@ object RegistrationRepo {
         url: String,
         siteid: String,
         fromdate: String,
-        todate: String
+        todate: String,
     ): ApiResult<ResponseNewTicketlist> {
         return try {
             val response = Api.getClient().getTicketlist(url, siteid, fromdate, todate)
@@ -729,7 +811,7 @@ object RegistrationRepo {
         url: String,
         page: Int,
         rows: Int,
-        dependents: String
+        dependents: String,
     ): ApiResult<ResponseNewTicketlist.NewTicketHistoryResponse> {
         return try {
             val response = Api.getClient().getTicketHistoryApi(url, page, rows, dependents)
@@ -1333,11 +1415,49 @@ object RegistrationRepo {
     }
 
     suspend fun getDetails(
+        url: String,
         token: String,
-        getDetailsRequest: GetDetailsRequest
+        getDetailsRequest: GetDetailsRequest,
     ): ApiResult<ResponseBody> {
         return try {
-            val response = Api.getClient().getDetails(token, getDetailsRequest)
+            val response = Api.getClient().getDetails(url,token, getDetailsRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getApplevelDesignation(
+        url: String,
+        empId: String,
+        appType: String,
+    ): ApiResult<AppLevelDesignationModelResponse> {
+        return try {
+            val response = Api.getClient().appLevelDesignation(url, empId, appType)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -1369,4 +1489,39 @@ object RegistrationRepo {
     }
 
 
+    suspend fun uploadImage(url: String,
+        imageName: String,
+        file: GetDetailsRequest,
+    ): ApiResult<ResponseBody> {
+        return try {
+            val response = Api.getClient().getUploadProxImage(url,imageName, file)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
 }
