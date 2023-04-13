@@ -1,12 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:windowBackground">@drawable/app_bg</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <declare-styleable name="ZoomageView">
+        <attr name="zoomage_zoomable" format="boolean" />
+        <attr name="zoomage_translatable" format="boolean" />
+        <attr name="zoomage_restrictBounds" format="boolean" />
+        <attr name="zoomage_animateOnReset" format="boolean" />
+        <attr name="zoomage_doubleTapToZoom" format="boolean" />
+        <attr name="zoomage_doubleTapToZoomScaleFactor" format="float" />
+        <attr name="zoomage_autoCenter" format="boolean" />
+        <attr name="zoomage_minScale" format="float" />
+        <attr name="zoomage_maxScale" format="float" />
+        <attr name="zoomage_autoResetMode" format="enum">
+            <enum name="UNDER" value="0" />
+            <enum name="OVER" value="1" />
+            <enum name="ALWAYS" value="2" />
+            <enum name="NEVER" value="3" />
+        </attr>
+    </declare-styleable>
+
+    <style name="ToolbarTextAppearance">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+        <item name="android:textSize">@dimen/text_dimen_18</item>
+    </style>
+    <style name="otp_editText_style">
+        <item name="android:gravity">center</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:minEms">1</item>
+        <item name="android:inputType">numberDecimal</item>
+        <item name="android:focusable">true</item>
+        <item name="android:textSize">@dimen/text_dimen_15</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/colorBlack</item>
+        <item name="android:focusableInTouchMode">true</item>
+    </style>
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="Theme.GuidelinesCompat.Light.DarkToolbar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="toolbarStyle">@style/Custom.Widget.Toolbar</item>
+    </style>
+    <style name="Custom.Widget.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="maxButtonHeight">48dp</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">@dimen/five_dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+    </style>
+    <style name="splash_theme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/bg_fullhd</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
+    </style>
     <style name="TextLabel" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/white</item>
         <item name="android:textSize">20sp</item>
@@ -17,7 +89,6 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="android:height">60dp</item>
     </style>
-
     <style name="TextVerifyLabel" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/black</item>
         <item name="android:textSize">20sp</item>
@@ -29,6 +100,10 @@
         <item name="android:height">60dp</item>
     </style>
 
+    <style name="NavigationStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
@@ -36,5 +111,92 @@
     <style name="MyDialogTheme" parent="@android:style/Theme.Panel">
         <item name="android:backgroundDimEnabled">true</item>
         <item name="android:backgroundDimAmount">0.7</item>
+    </style>
+
+    <style name="RatingBar" parent="Widget.AppCompat.RatingBar.Small">
+        <item name="colorControlNormal">@color/grey</item>
+        <item name="colorControlActivated">@color/material_amber_accent_700</item>
+    </style>
+
+
+
+    <declare-styleable name="FloatSeekBar">
+        <attr name="floatMax" format="float" />
+        <attr name="floatMin" format="float" />
+
+    </declare-styleable>
+    <style name="EditTextInputLayout" parent="@style/TextAppearance.AppCompat">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/edit_text_textcolor</item>
+        <item name="android:colorActivatedHighlight">@color/colorWhite</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="hintTextAppearance">@font/roboto_regular</item>
+        <item name="android:cacheColorHint">@color/colorWhite</item>
+    </style>
+    <style name="EditTextTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="editTextColor">@color/colorWhite</item>
+        <item name="android:textColorHint">@color/edit_text_textcolor</item>
+        <item name="colorControlNormal">@color/colorWhite</item>
+        <item name="colorControlActivated">@color/colorWhite</item>
+        <item name="colorControlHighlight">@color/colorWhite</item>
+        <item name="fontFamily">@font/roboto_regular</item>
+        <item name="hintTextAppearance">@font/roboto_regular</item>
+        <item name="android:cacheColorHint">@color/colorWhite</item>
+        <item name="android:colorActivatedHighlight">@color/colorWhite</item>
+    </style>
+    <style name="SeekBar">
+        <item name="android:paddingLeft">30dp</item>
+        <item name="android:paddingRight">30dp</item>
+        <item name="colorControlNormal">@color/green</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+        <item name="android:max">10</item>
+        <item name="android:progress">1</item>
+
+
+    </style>
+
+    <style name="progressBarGreen" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="progressBarStyle">
+        <item name="android:indeterminateDrawable">@drawable/progress_drawable_green</item>
+    </style>
+
+    <style name="determinentProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_drawable_green</item>
+    </style>
+
+
+    <style name="Custom" parent="android:Theme.DeviceDefault.Dialog">
+        <item name="DialogTitleAppearance">@android:style/TextAppearance.Medium</item>
+        <item name="DialogSpotColor">@android:color/holo_orange_dark</item>
+        <item name="DialogSpotCount">5</item>
+    </style>
+    <style name="CustomAppTheme" parent="Theme.AppCompat">
+        <item name="android:textColorPrimaryDisableOnly">#00838f</item>
+        <item name="colorAccent">#5ec639</item>
+    </style>
+    <style name="fadeinandoutcustomDialog" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@null</item>
+        <item name="android:windowAnimationStyle">@style/fadeinandoutDialogAnimation</item>
+    </style>
+
+    <style name="fadeinandoutDialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/anim_frag_fade_in_p</item>
+        <item name="android:windowExitAnimation">@anim/anim_frag_fade_out_p</item>
     </style>
 </resources>

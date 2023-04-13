@@ -10,11 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.apollopharmacy.vishwam.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.github.chrisbanes.photoview.PhotoView;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 
@@ -23,6 +27,7 @@ public class PhotoPopupWindow extends PopupWindow {
     Context mContext;
     PhotoView photoView;
     ProgressBar loading;
+    TextView textView;
     ViewGroup parent;
     private static PhotoPopupWindow instance = null;
 
@@ -44,6 +49,12 @@ public class PhotoPopupWindow extends PopupWindow {
 
         photoView = view.findViewById(R.id.image);
         loading = view.findViewById(R.id.loading);
+//        textView=view.findViewById(R.id.category_naePop);
+//        imagePositionTextView = view.findViewById(R.id.count_category);
+//        imagePositionTextView.setText(imagePosition);
+
+
+
         photoView.setMaximumScale(6);
         parent = (ViewGroup) photoView.getParent();
 
@@ -60,4 +71,10 @@ public class PhotoPopupWindow extends PopupWindow {
             showAtLocation(v, Gravity.CENTER, 0, 0);
         }
     }
+
+
+
+//    public PhotoPopupWindow(@NotNull Context context, int layoutImageFullview, @NotNull View view, @NotNull String toString, @Nullable Void nothing, @Nullable String categoryname) {
+//        textView.setText(categoryname);
+//    }
 }

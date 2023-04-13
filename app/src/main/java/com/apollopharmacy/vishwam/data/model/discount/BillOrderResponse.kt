@@ -23,7 +23,7 @@ data class ITEMSItem(
 	val rEQUESTEDQTY: Int,
 
 	@field:SerializedName("BILLEDDISCPERCENTAGE")
-	val bILLEDDISCPERCENTAGE: Int? = null,
+	val bILLEDDISCPERCENTAGE: Double? = null,
 
 	@field:SerializedName("ITEMCODE")
 	val iTEMCODE: String? = null,
@@ -35,7 +35,7 @@ data class ITEMSItem(
 	val iTEMNAME: String? = null,
 
 	@field:SerializedName("APPROVEDDSICPERCENTAGE")
-	val aPPROVEDDSICPERCENTAGE: Int? = null
+	val aPPROVEDDSICPERCENTAGE: Double? = null
 )
 
 data class BILLDEATILSItem(
