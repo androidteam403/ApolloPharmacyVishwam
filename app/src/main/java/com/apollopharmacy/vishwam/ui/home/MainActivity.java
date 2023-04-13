@@ -65,6 +65,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
@@ -762,12 +763,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+            case "Apna Form":
+                headerText.setText("Apna Form");
+                fragment = new ApnaFormFragment();
+                filterIcon.setVisibility(View.GONE);
+                qcfilterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
 
             case "New Drug List":  //"Drug List":
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
                 qcfilterIcon.setVisibility(View.GONE);
-
                 filterIcon.setVisibility(View.GONE);
                 Bundle bundle = new Bundle();
                 bundle.putBoolean("isFromDrugList", true);
@@ -1384,6 +1392,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
         );
 
+        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ))
+        );
+
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
 //        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
@@ -1507,6 +1519,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Champs Reports");
                 } else if (childModelList.get(childPosition).getTitle().equals("Champs Admin")) {
                     displaySelectedScreen("Champs Admin");
+                }
+            } else if (listHeader.get(groupPosition).getTitle().equals("APNA")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Apna Form")) {
+                    displaySelectedScreen("Apna Form");
                 }
             }
 
