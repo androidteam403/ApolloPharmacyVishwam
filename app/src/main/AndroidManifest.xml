@@ -67,7 +67,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageActivity"
+            android:name=".ui.home.apnarectro.approval.activity.PreRetroPreviewActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apnarectro.approval.activity.PreRetroReviewActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apnarectro.approval.RetroPreviewImageActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />

@@ -65,6 +65,8 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.activity.PreRetroPreviewActivity;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
@@ -955,7 +957,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-
+            case "Pre Rectro Approval":
+//                Intent intent1= new Intent(this, PreRetroPreviewActivity.class);
+//                overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
+//
+//                startActivity(intent1);
+                headerText.setText("Pre Rectro Approval");
+                fragment = new PreRectroApprovalFragment();
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
             case "Post Rectro":
                 headerText.setText("Post Rectro");
                 getSessionManager().setRectroPosition("2");
@@ -1419,6 +1432,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_))
                 .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
                 .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+                .addChildModel(new ChildModel("Pre Rectro Approval",R.drawable.ic_apollo_list2))
         );
 
 
@@ -1555,6 +1569,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Post Rectro");
                 } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
                     displaySelectedScreen("After Completion");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
+                    displaySelectedScreen("Pre Rectro Approval");
                 }
 
             }
