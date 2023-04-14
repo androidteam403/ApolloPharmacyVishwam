@@ -1,21 +1,16 @@
 package com.apollopharmacy.vishwam.ui.home.apna.survey
 
 import android.content.Intent
-import android.view.LayoutInflater
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
-import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
-import com.apollopharmacy.vishwam.databinding.DialogQuickGoBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
 
 
-class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),ApnaSurveyCallback,
-    MainActivityCallback {
+class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),ApnaSurveyCallback{
     var adapter: ApnaSurveyAdapter? = null
 
     override val layoutRes: Int
@@ -26,8 +21,6 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     override fun setup() {
-        MainActivity.mInstance.mainActivityCallback = this
-
         var approvelist= java.util.ArrayList<String>()
         approvelist!!.add("APPROVED")
         approvelist!!.add("PENDING")
@@ -39,30 +32,14 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         adapter= context?.let { ApnaSurveyAdapter(it, approvelist!!,this) }
         viewBinding.recyclerViewapproval.adapter=adapter
 
+        MainActivity.mInstance.plusIconApna.setOnClickListener {
+            val intent = Intent(activity, ApnaNewSurveyActivity::class.java)
+            requireActivity().startActivity(intent)
+        }
+
     }
 
     override fun onClick(position: Int, status: String) {
-
-    }
-
-    override fun onClickFilterIcon() {
-    }
-
-    override fun onClickSiteIdIcon() {
-        val dialogBinding: DialogQuickGoBinding? =
-            DataBindingUtil.inflate(LayoutInflater.from(requireContext()),
-                R.layout.dialog_quick_go,
-                null,
-                false)
-        val customDialog = android.app.AlertDialog.Builder(requireContext(), 0).create()
-        customDialog.apply {
-
-            setView(dialogBinding?.root)
-            setCancelable(false)
-        }.show()
-    }
-
-    override fun onClickQcFilterIcon() {
 
     }
 
