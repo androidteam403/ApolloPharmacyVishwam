@@ -31,7 +31,9 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.home.apna.activity.ApnaNewSurveyActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
             android:exported="false"

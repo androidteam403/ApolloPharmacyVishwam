@@ -1,36 +1,17 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApnaNewSurveyBinding
 
 class ApnaNewSurveyActivity : AppCompatActivity() {
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
-    var isLocationDetailsVisible = true
-    var isShopDetailsVisible = false
-    var isRentalDetailsVisible = false
-    var isExistingBusinessDetailsVisible = false
-    var isChemistDetailsVisible = false
-    var isApartmentsDetailsVisible = false
-    var isHospitalDetailsVisible = false
-    var isSitePhotoDetailsVisible = false
-    var isVideoDetailsVisible = false
-    var isMapLocationDetailsVisible = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +27,9 @@ class ApnaNewSurveyActivity : AppCompatActivity() {
     }
 
     private fun setUp() {
+        activityApnaNewSurveyBinding.backButton.setOnClickListener {
+            finish()
+        }
 
         // Location Details Layout
         activityApnaNewSurveyBinding.locationDetailsExpand.setOnClickListener {
