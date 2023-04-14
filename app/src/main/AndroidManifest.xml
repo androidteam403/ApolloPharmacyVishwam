@@ -31,15 +31,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.home.apna.activity.ApnaNewSurveyActivity"
-            android:exported="true"
-            android:theme="@style/AppTheme">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
             android:exported="false"
@@ -152,11 +144,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustPan">
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.rider.activity.SplashScreen"
