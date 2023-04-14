@@ -1243,7 +1243,7 @@
                         android:layout_marginHorizontal="@dimen/value_8dp"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <LinearLayout
                             android:layout_width="match_parent"
