@@ -419,6 +419,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mainActivityCallback.onClickQcFilterIcon();
             }
         });
+
+
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override

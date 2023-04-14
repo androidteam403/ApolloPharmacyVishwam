@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/value_10dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:padding="@dimen/value_20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:fontFamily="@font/poppin_bold"
+                android:gravity="center"
+                android:text="QUICK GO"
+                android:textColor="@color/colorBlack"
+                android:textSize="17sp" />
+            <ImageButton
+                android:id="@+id/close"
+                android:layout_width="@dimen/value_40dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/closee_black"
+                android:contentDescription="@string/app_name"
+                android:tint="@color/black"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/pickup_text"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/poppin_bold"
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="5dp"
+                        android:id="@+id/pickupsymbol"
+                        android:paddingBottom="5dp"
+                        android:tint="@color/white"
+                        android:layout_height="20dp"
+                        tools:ignore="UseAppTint" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/pickup_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location Details"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/greenn"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/pickup_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/pickup_land_mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".1"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/order_txt"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/poppin_bold"
+                        android:gravity="center"
+                        android:text="2"
+                        android:textColor="@color/white"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/delivery_account_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="Shop Details"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:id="@+id/delivery_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="11dp" />
+
+                    <TextView
+                        android:id="@+id/delivery_land_mark"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</layout>
