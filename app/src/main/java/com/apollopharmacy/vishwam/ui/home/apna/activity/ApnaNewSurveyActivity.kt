@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -8,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityApnaNewSurveyBinding
+import com.apollopharmacy.vishwam.databinding.DialogAcceptQcBinding
+import com.apollopharmacy.vishwam.databinding.DialogQuickGoBinding
 
 class ApnaNewSurveyActivity : AppCompatActivity() {
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
@@ -75,6 +78,19 @@ class ApnaNewSurveyActivity : AppCompatActivity() {
             }
         }
 
+        activityApnaNewSurveyBinding.filterIcon.setOnClickListener {
+            val dialogBinding: DialogQuickGoBinding? =
+                DataBindingUtil.inflate(LayoutInflater.from(this),
+                    R.layout.dialog_quick_go,
+                    null,
+                    false)
+            val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.apply {
+
+                setView(dialogBinding?.root)
+                setCancelable(false)
+            }.show()
+        }
 
 
         activityApnaNewSurveyBinding.next.setOnClickListener {

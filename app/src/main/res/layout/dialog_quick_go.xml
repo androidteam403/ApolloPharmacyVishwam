@@ -25,12 +25,12 @@
                 android:textSize="17sp" />
             <ImageButton
                 android:id="@+id/close"
-                android:layout_width="@dimen/value_40dp"
-                android:layout_height="@dimen/value_40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_alignParentEnd="true"
-                android:background="@drawable/closee_black"
+                android:background="@drawable/closee_whitee"
+                android:backgroundTint="@color/black"
                 android:contentDescription="@string/app_name"
-                android:tint="@color/black"
                 android:visibility="visible" />
         </RelativeLayout>
 
@@ -50,34 +50,34 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight=".1"
+                    android:layout_weight=".12"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/pickup_text"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:visibility="gone"
                         android:text="1"
                         android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
                     <ImageView
-                        android:layout_width="20dp"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
                         android:src="@drawable/tick_icon_green"
-                        android:paddingTop="5dp"
+                        android:paddingTop="7dp"
                         android:id="@+id/pickupsymbol"
-                        android:paddingBottom="5dp"
+                        android:paddingBottom="7dp"
                         android:tint="@color/white"
-                        android:layout_height="20dp"
                         tools:ignore="UseAppTint" />
 
                     <View
-                        android:layout_width="1dp"
+                        android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/dashline"
@@ -88,7 +88,7 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="45dp"
                     android:layout_weight=".9"
                     android:orientation="vertical">
 
@@ -97,28 +97,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Location Details"
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
                         android:fontFamily="@font/roboto_medium"
                         android:textColor="@color/greenn"
-                        android:textSize="13sp" />
+                         />
 
-                    <TextView
-                        android:id="@+id/pickup_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="11sp" />
 
-                    <TextView
-                        android:id="@+id/pickup_land_mark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:layout_marginBottom="5dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="11sp" />
                 </LinearLayout>
 
 
@@ -133,21 +118,41 @@
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".1"
+                    android:layout_height="45dp"
+                    android:layout_weight=".12"
                     android:gravity="center_horizontal"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/order_txt"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
+                        android:id="@+id/site_border"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:fontFamily="@font/poppin_bold"
+                        android:fontFamily="@font/roboto_medium"
+                        android:backgroundTint="@color/orange"
                         android:gravity="center"
                         android:text="2"
                         android:textColor="@color/white"
-                        android:textSize="12sp" />
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/sitesymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
 
                 </LinearLayout>
 
@@ -158,35 +163,445 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/delivery_account_name"
+                        android:id="@+id/site_specifiaction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/roboto_regular"
-                        android:text="Shop Details"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="13sp" />
+                        android:fontFamily="@font/roboto_medium"
+                        android:text="Site Specifications"
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/orange"
+                         />
 
-                    <TextView
-                        android:id="@+id/delivery_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="11dp" />
 
-                    <TextView
-                        android:id="@+id/delivery_land_mark"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
-                        android:fontFamily="@font/roboto_regular"
-                        android:textColor="@color/colorBlack"
-                        android:textSize="11sp" />
                 </LinearLayout>
 
 
             </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/positionmarket"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:backgroundTint="@color/grey"
+                        android:visibility="visible"
+                        android:text="3"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/marketsymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/marketinformation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Market information"
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack"
+                         />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/positionneigbour"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:text="4"
+                        android:backgroundTint="@color/grey"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/neigboursymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/positionneigbourstore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Neighboring Store"
+                        android:textSize="16sp"
+
+
+                        android:paddingStart="5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack"
+                         />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/positioncompetitor"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:backgroundTint="@color/grey"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:text="5"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/competitorsymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/competitordetails"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Competitors Details"
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
+
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack"
+                         />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/positionpopulatoin"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:backgroundTint="@color/grey"
+                        android:text="6"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/populationsymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/population_and_houses"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Population and Houses"
+                        android:paddingStart="5dp"
+
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack" />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/hospital"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:text="7"
+                        android:backgroundTint="@color/grey"
+                        android:textColor="@color/white"
+                        android:textSize="13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/hospitalsymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+
+                    <View
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/hospitals"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Hospitals"
+
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack"
+                         />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_weight=".12"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/site"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:fontFamily="@font/roboto_medium"
+                        android:gravity="center"
+                        android:visibility="visible"
+                        android:text="8"
+                        android:backgroundTint="@color/grey"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_13sp" />
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:src="@drawable/tick_icon_green"
+                        android:paddingTop="7dp"
+                        android:id="@+id/site_idsymbol"
+                        android:visibility="gone"
+                        android:paddingBottom="7dp"
+                        android:tint="@color/white"
+                        tools:ignore="UseAppTint" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/site_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Photos and Media"
+                        android:paddingStart="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:textColor="@color/colorBlack"
+                        />
+
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
         </LinearLayout>
 
     </LinearLayout>
