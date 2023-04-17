@@ -68,6 +68,7 @@ import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyActivity;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
+import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreviewActivity;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
@@ -782,6 +783,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
                 break;
 
+
             case "Cash Deposit":
                 headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
@@ -812,7 +814,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
-
+            case "Video View":
+                Intent video = new Intent(this, ApnaVideoPreviewActivity.class);
+                startActivity(video);
+                break;
             case "New Drug List":  //"Drug List":
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
@@ -1458,6 +1463,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ)
                 .addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ))
                 .addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Video View",R.drawable.ic_apollo_dashboard))
         );
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
@@ -1590,6 +1596,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Apna Form");
                 } else if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
                     displaySelectedScreen("Apna Survey");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Video View")){
+                    displaySelectedScreen("Video View");
                 }
             }
 
