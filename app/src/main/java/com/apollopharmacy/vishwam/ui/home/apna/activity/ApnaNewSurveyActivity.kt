@@ -282,7 +282,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, Traffi
         } else if (requestCode == REQUEST_CODE_VIDEO && resultCode == Activity.RESULT_OK && videoFile != null) {
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.GONE
             activityApnaNewSurveyBinding.afterCaptureLayout.visibility = View.VISIBLE
-            activityApnaNewSurveyBinding.afterCapturedVideo.setVideoPath(videoFile!!.absolutePath)
+            activityApnaNewSurveyBinding.afterCapturedVideo.setVideoURI(Uri.parse(videoFile!!.absolutePath))
 
             activityApnaNewSurveyBinding.afterCapturedVideo.start()
 
