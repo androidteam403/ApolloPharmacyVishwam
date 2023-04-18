@@ -66,7 +66,6 @@ import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
-import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyActivity;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreviewActivity;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;

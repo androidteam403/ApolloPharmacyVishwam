@@ -7,6 +7,7 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
 
 
@@ -21,16 +22,20 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     override fun setup() {
-        var approvelist= java.util.ArrayList<String>()
-        approvelist!!.add("APPROVED")
-        approvelist!!.add("PENDING")
+        var approvelist= java.util.ArrayList<SurveyListResponse>()
+
+        viewModel.getApnaSurveyList()
+        viewModel.getSurveyListResponse.observe(viewLifecycleOwner,{
+            approvelist.add(it)
+
+            adapter= ApnaSurveyAdapter(requireContext(),approvelist,this)
+            viewBinding.recyclerViewapproval.adapter=adapter
+        })
 
 
 
 
 
-        adapter= context?.let { ApnaSurveyAdapter(it, approvelist!!,this) }
-        viewBinding.recyclerViewapproval.adapter=adapter
 
         MainActivity.mInstance.plusIconApna.setOnClickListener {
             val intent = Intent(activity, ApnaNewSurveyActivity::class.java)

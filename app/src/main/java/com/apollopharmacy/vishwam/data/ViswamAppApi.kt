@@ -7,6 +7,7 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -560,6 +561,10 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Query("Type") id: String,
     ): GetSubCategoryDetailsModelResponse
+
+    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin")
+    suspend fun GET_SURVEY_LIST(): SurveyListResponse
+
 
     @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
     suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
