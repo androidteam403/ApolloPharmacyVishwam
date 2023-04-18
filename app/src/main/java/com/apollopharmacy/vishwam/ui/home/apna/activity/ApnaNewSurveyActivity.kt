@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.widget.MediaController
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -28,6 +29,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApnaNewSurveyBinding
 import com.apollopharmacy.vishwam.databinding.DialogQuickGoBinding
+import com.apollopharmacy.vishwam.databinding.DialogVideoPreviewBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.dialog.TrafficStreetDialog
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.ImageAdapter
@@ -206,13 +208,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, Traffi
         activityApnaNewSurveyBinding.sitePhotosRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
 
-        // Set control in vdo
-        val mediaController = android.widget.MediaController(context)
-        mediaController.setAnchorView(activityApnaNewSurveyBinding.afterCapturedVideo)
-        mediaController.setPadding(0, 20, 0, 0)
-        mediaController.minimumHeight = 5
-        activityApnaNewSurveyBinding.afterCapturedVideo.setMediaController(mediaController)
-
         // Record Video
         activityApnaNewSurveyBinding.videoIcon.setOnClickListener {
             if (!checkPermission()) {
@@ -226,6 +221,34 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, Traffi
             videoFile = null
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.afterCaptureLayout.visibility = View.GONE
+            activityApnaNewSurveyBinding.playVideo.visibility = View.GONE
+            activityApnaNewSurveyBinding.deleteVideo.visibility = View.GONE
+        }
+
+        // Video preview
+        activityApnaNewSurveyBinding.playVideo.setOnClickListener {
+            val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogVideoPreviewBinding: DialogVideoPreviewBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(this),
+                R.layout.dialog_video_preview,
+                null,
+                false
+            )
+            dialog.setContentView(dialogVideoPreviewBinding.root)
+            val videoUri = Uri.parse(videoFile!!.absolutePath)
+            dialogVideoPreviewBinding.previewVideo.setVideoPath(videoUri.toString())
+
+            val mediaController = MediaController(this)
+            mediaController.setAnchorView(dialogVideoPreviewBinding.previewVideo)
+            dialogVideoPreviewBinding.previewVideo.setMediaController(mediaController)
+            dialogVideoPreviewBinding.previewVideo.requestFocus()
+            dialogVideoPreviewBinding.previewVideo.start()
+
+            dialogVideoPreviewBinding.close.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.show()
         }
 
         // Traffic street spinner
@@ -282,9 +305,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, Traffi
         } else if (requestCode == REQUEST_CODE_VIDEO && resultCode == Activity.RESULT_OK && videoFile != null) {
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.GONE
             activityApnaNewSurveyBinding.afterCaptureLayout.visibility = View.VISIBLE
+            activityApnaNewSurveyBinding.deleteVideo.visibility = View.VISIBLE
+            activityApnaNewSurveyBinding.playVideo.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.afterCapturedVideo.setVideoURI(Uri.parse(videoFile!!.absolutePath))
 
-            activityApnaNewSurveyBinding.afterCapturedVideo.start()
+//            activityApnaNewSurveyBinding.afterCapturedVideo.start()
 
         }
     }

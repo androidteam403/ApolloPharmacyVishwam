@@ -2735,19 +2735,19 @@
                                                 android:alpha="0.5"
                                                 android:scaleType="fitXY" />
 
-                                            <!--<LinearLayout
-                                                android:id="@+id/eyeImage"
+                                            <LinearLayout
+                                                android:id="@+id/playVideo"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_centerInParent="true"
-                                                android:visibility="visible">
+                                                android:visibility="gone">
 
                                                 <ImageView
                                                     android:layout_width="@dimen/value_20dp"
                                                     android:layout_height="@dimen/value_20dp"
                                                     android:layout_marginTop="4dp"
-                                                    android:src="@drawable/eye2withbackground" />
-                                            </LinearLayout>-->
+                                                    android:src="@drawable/ic_baseline_play_arrow_24" />
+                                            </LinearLayout>
 
 
                                             <LinearLayout
@@ -2759,7 +2759,7 @@
                                                 android:layout_marginEnd="@dimen/value_2dp"
                                                 android:background="@drawable/white_rounded_bg"
                                                 android:gravity="center"
-                                                android:visibility="visible">
+                                                android:visibility="gone">
 
                                                 <ImageView
                                                     android:id="@+id/deleteVdoBtn"
