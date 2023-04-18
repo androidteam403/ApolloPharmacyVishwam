@@ -12,8 +12,8 @@
             android:layout_marginStart="@dimen/value_5dp"
             android:background="@drawable/gray_rounded_corner"
             android:orientation="horizontal"
-            android:paddingHorizontal="@dimen/value_10dp"
-            android:paddingVertical="@dimen/value_15dp">
+            android:paddingHorizontal="8dp"
+            android:paddingVertical="10dp">
 
 
             <TextView

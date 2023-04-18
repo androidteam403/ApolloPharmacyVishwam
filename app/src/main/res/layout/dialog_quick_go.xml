@@ -23,6 +23,7 @@
                 android:text="QUICK GO"
                 android:textColor="@color/colorBlack"
                 android:textSize="17sp" />
+
             <ImageButton
                 android:id="@+id/close"
                 android:layout_width="35dp"
@@ -248,79 +249,7 @@
 
 
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:baselineAligned="false"
-                android:orientation="horizontal"
-                android:weightSum="1">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight=".12"
-                    android:gravity="center_horizontal"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/positionneigbour"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/green_backgroundplus"
-                        android:fontFamily="@font/roboto_medium"
-                        android:gravity="center"
-                        android:visibility="visible"
-                        android:text="4"
-                        android:backgroundTint="@color/grey"
-                        android:textColor="@color/white"
-                        android:textSize="13sp" />
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:background="@drawable/green_backgroundplus"
-                        android:src="@drawable/tick_icon_green"
-                        android:paddingTop="7dp"
-                        android:id="@+id/neigboursymbol"
-                        android:visibility="gone"
-                        android:paddingBottom="7dp"
-                        android:tint="@color/white"
-                        tools:ignore="UseAppTint" />
-
-                    <View
-                        android:layout_width="1.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal"
-                        android:background="@drawable/dashline"
-
-                        android:backgroundTint="@color/grey"
-                        android:contentDescription="Vivekagam"
-                        android:layerType="software" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="45dp"
-                    android:layout_weight=".9"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/positionneigbourstore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Neighboring Store"
-                        android:textSize="16sp"
-
-
-                        android:paddingStart="5dp"
-                        android:fontFamily="@font/roboto_medium"
-                        android:textColor="@color/colorBlack"
-                         />
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -344,7 +273,7 @@
                         android:backgroundTint="@color/grey"
                         android:gravity="center"
                         android:visibility="visible"
-                        android:text="5"
+                        android:text="4"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
                     <ImageView
@@ -416,7 +345,7 @@
                         android:gravity="center"
                         android:visibility="visible"
                         android:backgroundTint="@color/grey"
-                        android:text="6"
+                        android:text="5"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
                     <ImageView
@@ -486,7 +415,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:visibility="visible"
-                        android:text="7"
+                        android:text="6"
                         android:backgroundTint="@color/grey"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
@@ -558,7 +487,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:visibility="visible"
-                        android:text="8"
+                        android:text="7"
                         android:backgroundTint="@color/grey"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_13sp" />

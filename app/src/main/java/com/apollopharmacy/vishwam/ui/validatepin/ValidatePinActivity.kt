@@ -8,7 +8,6 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.media.MediaSessionManager.getSessionManager
 import com.apollopharmacy.vishwam.BuildConfig
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
@@ -31,7 +30,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.google.gson.Gson
 
 @Suppress("DEPRECATION")
-class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
+class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     lateinit var viewModel: ValidatePinViewModel
     lateinit var validatePinCallBack: ValidatePinCallBack
@@ -59,7 +58,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
 
         onCheckBuildDetails()
         handleMPinService()
-        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(), "SWACHH", applicationContext)
+        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+            "SWACHH",
+            applicationContext)
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
@@ -137,19 +138,19 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
 
                 viewModel.appLevelDesignationRespSwach.observeForever {
 
-                    if(it.message!=null && it.status.equals(true)){
+                    if (it.message != null && it.status.equals(true)) {
 
-                    }else{
+                    } else {
 //                        Preferences.setAppLevelDesignationSwach("")
                     }
 
                 }
 
                 viewModel.appLevelDesignationRespQCFail.observeForever {
-                    if(it.message!=null && it.status.equals(true)){
+                    if (it.message != null && it.status.equals(true)) {
                         Preferences.setAppLevelDesignationQCFail(it.message)
 //                        Toast.makeText(applicationContext, "QcFail: "+Preferences.getAppLevelDesignationQCFail(), Toast.LENGTH_SHORT).show();
-                    }else{
+                    } else {
                         Preferences.setAppLevelDesignationQCFail("")
                     }
                 }
@@ -176,8 +177,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
                         } else {
                             Preferences.setEmployeeRoleUid("")
                         }
-                    }
-                    else {
+                    } else {
                         Preferences.setEmployeeRoleUid("")
                     }
 
@@ -192,16 +192,15 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
                             if (it.data?.newDrugRequest?.uid!!.equals("Yes",
                                     true)
                             ) {
-                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
-                            }else{
+                                Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
+                            } else {
                                 Preferences.setEmployeeRoleUidNewDrugRequest("")
                             }
 
                         } else {
                             Preferences.setEmployeeRoleUidNewDrugRequest("")
                         }
-                    }
-                    else {
+                    } else {
                         Preferences.setEmployeeRoleUidNewDrugRequest("")
                     }
 
@@ -217,9 +216,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
                     }
 
                 }
-
-
-
 
 
 //                if (dialogStatus) {
@@ -317,7 +313,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-               viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(), applicationContext, this)
+                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
+                    applicationContext,
+                    this)
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()
@@ -337,19 +335,20 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack{
     override fun onSuccessGetProfileDetailsApi(riderProfileResponse: GetRiderProfileResponse?) {
         if (riderProfileResponse != null) {
             SessionManager(this).setRiderProfileDetails(riderProfileResponse)
-         viewModel.deliveryFailureReasonApiCall(applicationContext, this)
+            viewModel.deliveryFailureReasonApiCall(applicationContext, this)
             viewModel.getComplaintReasonsListApiCall(applicationContext, this)
         }
     }
 
     override fun onFailureGetProfileDetailsApi(s: String) {
-        Toast.makeText(applicationContext, ""+ s, Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "" + s, Toast.LENGTH_SHORT).show()
     }
 
     override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
         if (deliveryFailreReasonsResponse != null) {
-           SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
+            SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
             //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
+            Preferences.setIsPinCreated(true)
             val i = Intent(this, MainActivity::class.java)
             val True = true
             i.putExtra("tag", true)
