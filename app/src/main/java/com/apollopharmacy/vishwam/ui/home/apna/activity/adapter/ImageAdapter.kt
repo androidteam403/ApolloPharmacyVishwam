@@ -34,6 +34,10 @@ class ImageAdapter(
         holder.adapterSitePhotoBinding.deleteImage.setOnClickListener {
             mCallback.deleteSiteImage(position, images[position].file)
         }
+
+        holder.adapterSitePhotoBinding.eyeImage.setOnClickListener {
+            mCallback.previewImage(images[position].file)
+        }
     }
 
     override fun getItemCount(): Int {

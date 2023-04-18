@@ -343,7 +343,7 @@
                                             android:id="@+id/latitude"
                                             android:layout_width="match_parent"
                                             android:layout_height="35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -368,7 +368,7 @@
                                             android:id="@+id/longitude"
                                             android:layout_width="match_parent"
                                             android:layout_height="35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -653,7 +653,7 @@
                                         android:id="@+id/expectedRentValue"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textSize="@dimen/text_15sp" />
@@ -694,7 +694,7 @@
                                     <EditText
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textSize="@dimen/text_15sp" />
@@ -752,7 +752,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_35dp"
                                     android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
+                                    android:background="@drawable/light_gray_border"
                                     android:inputType="number"
                                     android:paddingStart="@dimen/value_10dp"
                                     android:textSize="@dimen/text_15sp" />
@@ -822,35 +822,29 @@
                                     android:layout_height="@dimen/value_35dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/trafficStreet"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/typeOfTrafficStreetSpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/trafficStreetSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -896,35 +890,29 @@
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/morning"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/morningSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/morningSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -947,35 +935,29 @@
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/evening"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/eveningSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/eveningSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1003,36 +985,29 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/trafficPatterns"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/trafficPatternsSpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/trafficPatternsSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -1117,7 +1092,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_35dp"
                                     android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
+                                    android:background="@drawable/light_gray_border"
                                     android:paddingStart="@dimen/value_10dp"
                                     android:textSize="@dimen/text_15sp" />
                             </LinearLayout>
@@ -1184,7 +1159,7 @@
                                         android:id="@+id/existingOutletText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textColor="@color/black"
@@ -1234,7 +1209,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textSize="@dimen/text_15sp" />
@@ -1258,7 +1233,7 @@
                                             android:id="@+id/fmcgText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textSize="@dimen/text_15sp" />
@@ -1284,7 +1259,7 @@
                                         android:id="@+id/surgicalsText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textSize="@dimen/text_15sp" />
@@ -1315,7 +1290,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
                                         android:layout_marginTop="@dimen/value_8dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textSize="@dimen/text_15sp" />
@@ -1395,7 +1370,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -1421,7 +1396,7 @@
                                             android:id="@+id/leftSalesText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -1447,7 +1422,7 @@
                                         android:id="@+id/leftSqFtText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textColor="@color/black"
@@ -1528,7 +1503,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -1554,7 +1529,7 @@
                                             android:id="@+id/rightSalesText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -1580,7 +1555,7 @@
                                         android:id="@+id/rightSqFtText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/gray_border"
+                                        android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textColor="@color/black"
@@ -1618,7 +1593,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_100dp"
                                     android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
+                                    android:background="@drawable/light_gray_border"
                                     android:gravity="left|top"
                                     android:inputType="textMultiLine"
                                     android:maxLength="100"
@@ -1652,36 +1627,29 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/catchmentArea"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/catchmentAreaSpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/catchmentAreaSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1710,36 +1678,29 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/serviceClass"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginTop="8dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/serviceClassSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/serviceClassSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1762,36 +1723,29 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/businessClass"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginTop="8dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/businessClassSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/businessClassSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1819,36 +1773,29 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/trafficGenerator"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/trafficGeneratorsSpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/trafficGeneratorSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/trafficGeneratorsRcv"
@@ -2016,36 +1963,29 @@
                                         android:layout_marginTop="@dimen/value_8dp"
                                         android:background="@drawable/spinner_bg" />-->
 
-                                    <RelativeLayout
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        android:id="@+id/chemistType"
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
-                                        android:layout_height="35dp"
-                                        android:layout_marginTop="8dp"
-                                        android:layout_marginRight="3dp"
-                                        android:background="@drawable/apna_spinner_border"
-                                        android:orientation="horizontal"
-                                        android:paddingEnd="10dp">
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        app:layout_constraintTop_toTopOf="parent">
 
-                                        <Spinner
-                                            android:id="@+id/chemistTypeSpinner"
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/chemistTypeSelect"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_centerVertical="true"
-                                            android:layout_gravity="center"
-                                            android:layout_marginLeft="5dp"
-                                            android:background="@android:color/transparent"
-                                            android:gravity="center"
-                                            android:spinnerMode="dropdown" />
-
-                                        <ImageView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_alignParentRight="true"
-                                            android:layout_centerVertical="true"
-                                            android:layout_gravity="center"
-                                            android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:tint="@color/black"
-                                            tools:ignore="UseAppTint" />
-                                    </RelativeLayout>
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:clickable="true"
+                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                            android:drawableTint="@color/black"
+                                            android:focusable="false"
+                                            android:hint="Select Traffic Street"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -2075,35 +2015,29 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/organised"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/organisedSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/organisedSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2124,7 +2058,7 @@
                                             android:id="@+id/organisedAvgSaleText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2159,35 +2093,29 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <RelativeLayout
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/unorganised"
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
-                                            android:layout_height="35dp"
-                                            android:layout_marginRight="3dp"
-                                            android:background="@drawable/apna_spinner_border"
-                                            android:orientation="horizontal"
-                                            android:paddingEnd="10dp">
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            app:layout_constraintTop_toTopOf="parent">
 
-                                            <Spinner
-                                                android:id="@+id/unorganisedSpinner"
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/unorganisedSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:layout_marginLeft="5dp"
-                                                android:background="@android:color/transparent"
-                                                android:gravity="center"
-                                                android:spinnerMode="dropdown" />
-
-                                            <ImageView
-                                                android:layout_width="wrap_content"
-                                                android:layout_height="wrap_content"
-                                                android:layout_alignParentRight="true"
-                                                android:layout_centerVertical="true"
-                                                android:layout_gravity="center"
-                                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:tint="@color/black"
-                                                tools:ignore="UseAppTint" />
-                                        </RelativeLayout>
+                                                android:layout_height="@dimen/value_35dp"
+                                                android:clickable="true"
+                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                android:drawableTint="@color/black"
+                                                android:focusable="false"
+                                                android:hint="Select Traffic Street"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="@dimen/text_12sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2209,7 +2137,7 @@
                                             android:id="@+id/unorganisedAvgSaleText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2317,36 +2245,30 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/apartmentsType"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/apartmentsTypeSpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/apartmentsTypeSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -2374,7 +2296,7 @@
                                             android:id="@+id/noOfHouses"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2400,7 +2322,7 @@
                                             android:id="@+id/distanceText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2506,36 +2428,30 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <RelativeLayout
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/hospitalSpeciality"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:layout_marginRight="3dp"
-                                    android:background="@drawable/apna_spinner_border"
-                                    android:orientation="horizontal"
-                                    android:paddingEnd="10dp">
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:textColorHint="@color/black"
+                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <Spinner
-                                        android:id="@+id/hospitalSpecialitySpinner"
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/hospitalSpecialitySelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:layout_marginLeft="5dp"
-                                        android:background="@android:color/transparent"
-                                        android:gravity="center"
-                                        android:spinnerMode="dropdown" />
-
-                                    <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_alignParentRight="true"
-                                        android:layout_centerVertical="true"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:tint="@color/black"
-                                        tools:ignore="UseAppTint" />
-                                </RelativeLayout>
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                        android:drawableTint="@color/black"
+                                        android:focusable="false"
+                                        android:hint="Select Traffic Street"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -2563,7 +2479,7 @@
                                             android:id="@+id/beds"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2588,7 +2504,7 @@
                                             android:id="@+id/noOfOpd"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2622,7 +2538,7 @@
                                             android:id="@+id/occupancy"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/gray_border"
+                                            android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -2819,19 +2735,19 @@
                                                 android:alpha="0.5"
                                                 android:scaleType="fitXY" />
 
-                                            <!--<LinearLayout
-                                                android:id="@+id/eyeImage"
+                                            <LinearLayout
+                                                android:id="@+id/playVideo"
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:layout_centerInParent="true"
-                                                android:visibility="visible">
+                                                android:visibility="gone">
 
                                                 <ImageView
                                                     android:layout_width="@dimen/value_20dp"
                                                     android:layout_height="@dimen/value_20dp"
                                                     android:layout_marginTop="4dp"
-                                                    android:src="@drawable/eye2withbackground" />
-                                            </LinearLayout>-->
+                                                    android:src="@drawable/ic_baseline_play_arrow_24" />
+                                            </LinearLayout>
 
 
                                             <LinearLayout
@@ -2843,7 +2759,7 @@
                                                 android:layout_marginEnd="@dimen/value_2dp"
                                                 android:background="@drawable/white_rounded_bg"
                                                 android:gravity="center"
-                                                android:visibility="visible">
+                                                android:visibility="gone">
 
                                                 <ImageView
                                                     android:id="@+id/deleteVdoBtn"
