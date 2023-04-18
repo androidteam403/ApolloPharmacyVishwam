@@ -2,11 +2,15 @@ package com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview
 
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
 import android.widget.MediaController
+import android.widget.VideoView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -30,7 +34,10 @@ class ApnaVideoPreviewActivity : AppCompatActivity() {
         setUp()
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun setUp() {
+
+
        val mediaController=MediaController(this)
         val videoUrl =
           "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1"
