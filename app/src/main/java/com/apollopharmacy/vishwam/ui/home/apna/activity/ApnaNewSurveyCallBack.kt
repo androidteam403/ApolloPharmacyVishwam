@@ -4,4 +4,6 @@ import java.io.File
 
 interface ApnaNewSurveyCallBack {
     fun deleteSiteImage(position: Int, file: File)
+
+    fun previewImage(imageFile: File)
 }

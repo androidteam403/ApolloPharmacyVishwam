@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import android.Manifest
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -11,6 +12,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -26,12 +28,15 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityApnaNewSurveyBinding
 import com.apollopharmacy.vishwam.databinding.DialogQuickGoBinding
+import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
+import com.apollopharmacy.vishwam.dialog.TrafficStreetDialog
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.ImageAdapter
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.Image
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_champs_survey_reports.*
 import java.io.File
 
-class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
+class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, TrafficStreetDialog.AbstractDialogClickListener {
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
     var currentPosition: Int = 0
@@ -222,6 +227,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.VISIBLE
             activityApnaNewSurveyBinding.afterCaptureLayout.visibility = View.GONE
         }
+
+        // Traffic street spinner
+        activityApnaNewSurveyBinding.trafficStreetSelect.setOnClickListener {
+            TrafficStreetDialog().apply {
+
+            }.show(supportFragmentManager, "")
+        }
     }
 
     private fun recordVideo() {
@@ -397,5 +409,30 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     override fun deleteSiteImage(position: Int, file: File) {
         imageList.removeAt(position)
         imageAdapter.notifyDataSetChanged()
+    }
+
+    override fun previewImage(imageFile: File) {
+        val dialog = Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        val previewImageDialogBinding: PreviewImageDialogBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(context),
+            R.layout.preview_image_dialog,
+            null,
+            false
+        )
+        dialog.setContentView(previewImageDialogBinding.root)
+        Glide
+            .with(context)
+            .load(imageFile)
+            .placeholder(R.drawable.placeholder_image)
+            .into(previewImageDialogBinding.previewImage)
+        previewImageDialogBinding.close.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialog.show()
+    }
+
+    override fun selectTrafficStreet(trafficStreetData: String) {
+        activityApnaNewSurveyBinding.trafficStreetSelect.setText(trafficStreetData)
     }
 }
