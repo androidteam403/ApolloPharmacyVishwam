@@ -29,8 +29,40 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".UploadImagesActivity"
-            android:exported="false" />
+            android:name=".ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.approval.RetroPreviewImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
             android:exported="false"

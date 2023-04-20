@@ -65,6 +65,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
@@ -948,8 +949,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case "Pre Rectro":
                 headerText.setText("Pre Rectro");
-                getSessionManager().setRectroPosition("1");
-                fragment = new PreRectroFragment();
+                Bundle bundlePreRectro = new Bundle();
+                bundlePreRectro.putBoolean("fromPreRectro", true);
+                PreRectroFragment fragPreRectro = new PreRectroFragment();
+                fragPreRectro.setArguments(bundlePreRectro);
+                fragment = fragPreRectro;
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -958,8 +962,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case "Post Rectro":
                 headerText.setText("Post Rectro");
-                getSessionManager().setRectroPosition("2");
-                fragment = new PreRectroFragment();
+                Bundle bundlePostRectro = new Bundle();
+                bundlePostRectro.putBoolean("fromPostRectro", true);
+                PreRectroFragment fragPostRectro = new PreRectroFragment();
+                fragPostRectro.setArguments(bundlePostRectro);
+                fragment = fragPostRectro;
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
@@ -968,13 +975,56 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case "After Completion":
                 headerText.setText("After Completion");
-                getSessionManager().setRectroPosition("3");
-                fragment = new PreRectroFragment();
+                Bundle bundleAfterCompletion = new Bundle();
+                bundleAfterCompletion.putBoolean("fromAfterCompletion", true);
+                PreRectroFragment fragAfterCompletion = new PreRectroFragment();
+                fragAfterCompletion.setArguments(bundleAfterCompletion);
+                fragment = fragAfterCompletion;
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
+
+            case "Pre Rectro Approval":
+                headerText.setText("Pre Rectro Approval");
+                Bundle preRetroApprovalbundle = new Bundle();
+                preRetroApprovalbundle.putBoolean("fromPreRectroApproval", true);
+                PreRectroApprovalFragment fragPreRectroApproval = new PreRectroApprovalFragment();
+                fragPreRectroApproval.setArguments(preRetroApprovalbundle);
+                fragment = fragPreRectroApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Post Rectro Approval":
+                headerText.setText("Post Rectro Approval");
+                Bundle postRetroApprovalbundle = new Bundle();
+                postRetroApprovalbundle.putBoolean("fromPostRectroApproval", true);
+                PreRectroApprovalFragment fragPostRectroApproval = new PreRectroApprovalFragment();
+                fragPostRectroApproval.setArguments(postRetroApprovalbundle);
+                fragment = fragPostRectroApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "After Completion Approval":
+                headerText.setText("After Completion Approval");
+                Bundle afterCompletionApprovalbundle = new Bundle();
+                afterCompletionApprovalbundle.putBoolean("fromAfterCompletionApproval", true);
+                PreRectroApprovalFragment fragAfterCompletionApproval = new PreRectroApprovalFragment();
+                fragAfterCompletionApproval.setArguments(afterCompletionApprovalbundle);
+                fragment = fragAfterCompletionApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
 
             case "Assets":
                 headerText.setText("Apollo Assets");
@@ -1419,7 +1469,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_))
                 .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
                 .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+                .addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
         );
+
 
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
@@ -1555,6 +1609,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Post Rectro");
                 } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
                     displaySelectedScreen("After Completion");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
+                    displaySelectedScreen("Pre Rectro Approval");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
+                    displaySelectedScreen("Post Rectro Approval");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
+                    displaySelectedScreen("After Completion Approval");
                 }
 
             }

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/value_10dp"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="@dimen/value_20dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_gravity="center"
+        android:layout_width="280dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/close_apna"
+            android:layout_width="@dimen/value_30dp"
+            android:layout_height="@dimen/value_30dp"
+            android:layout_gravity="end">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/black_ash"/>
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_gravity="center"
+            android:layout_width="@dimen/value_40dp"
+            android:layout_height="@dimen/value_40dp"
+            android:src="@drawable/white_tick_1"
+            android:background="@drawable/background_darkgreen_circle"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/value_15dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:gravity="center_horizontal"
+            android:textStyle="bold"
+            android:text="Pre Retro is Submitted for Review\nTransaction id is: 16003_APNA_435894"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_15sp" />
+
+        <RelativeLayout
+
+            android:id="@+id/ok_apna"
+            android:layout_width="@dimen/value_150dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+            android:layout_marginBottom="@dimen/value_10dp"
+            android:background="@drawable/lightgreen_background"
+            android:gravity="center"
+        android:padding="@dimen/value_12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="OK"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_17sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

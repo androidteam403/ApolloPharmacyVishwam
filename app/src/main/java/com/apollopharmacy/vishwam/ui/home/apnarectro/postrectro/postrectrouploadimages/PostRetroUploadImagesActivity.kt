@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity
+package com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages
 
 import android.Manifest
 import android.app.Activity
@@ -14,8 +14,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import android.widget.TextView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -23,30 +21,29 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
-import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesBinding
+import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesPostretroBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapter
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapterPostRetro
 import me.echodev.resizer.Resizer
 import java.io.File
 
-class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback{
-    lateinit var activityUploadImagesBinding: ActivityUploadImagesBinding
-    private var configApnaAdapter: ConfigApnaAdapter? = null
+class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImagesCallback{
+    lateinit var activityUploadImagesPostRetroBinding: ActivityUploadImagesPostretroBinding
+    private var configApnaAdapterPostRetro: ConfigApnaAdapterPostRetro? = null
     private lateinit var dialog: Dialog
     private var fragmentName:String =""
+    private var stage: String =""
     private var fileNameForCompressedImage: String? = null
-    private lateinit var cameraDialog: Dialog
-    var imageFromCameraFile: File? = null
-    var pos:Int=0
     var configLst = ArrayList<ImgeDtcl>()
+    var pos:Int=0
+    var imageFromCameraFile: File? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityUploadImagesBinding = DataBindingUtil.setContentView(
+        activityUploadImagesPostRetroBinding = DataBindingUtil.setContentView(
             this,
-            R.layout.activity_upload_images
+            R.layout.activity_upload_images_postretro
         )
 
         setUp()
@@ -55,30 +52,36 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback{
     }
 
     private fun setUp() {
-        activityUploadImagesBinding.callback=this
+        activityUploadImagesPostRetroBinding.callback=this
         fragmentName = intent.getStringExtra("fragmentName")!!
-        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
+        stage = intent.getStringExtra("stage")!!
+        if(stage.equals("isPostRetroStage")){
+            activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
+        }else{
+            activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+        }
+//        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 
-        configLst!!.add(ImgeDtcl(null, "Signage"))
-        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right"))
-        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right"))
-        configLst!!.add(ImgeDtcl(null, "Service desk covering system"))
-        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right"))
+        configLst!!.add(ImgeDtcl(null, "Signage", false))
+        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right", false))
+        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right", false))
+        configLst!!.add(ImgeDtcl(null, "Service desk covering system", false))
+        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right", false))
 
 
 
 
-        configApnaAdapter =
-            ConfigApnaAdapter(configLst, this, this)
+        configApnaAdapterPostRetro =
+            ConfigApnaAdapterPostRetro(configLst, this, this)
         val layoutManager = LinearLayoutManager(ViswamApp.context)
-        activityUploadImagesBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
-        activityUploadImagesBinding.categoryNameApnaRecyclerView.itemAnimator =
+        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
+        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
             DefaultItemAnimator()
-        activityUploadImagesBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapter
+        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapterPostRetro
     }
 
 
-    class ImgeDtcl(var file: File?,  var categoryName: String)
+    class ImgeDtcl(var file: File?,  var categoryName: String, var postRetroUploaded: Boolean)
 
     override fun onClickUpload() {
         dialog = Dialog(this)
@@ -109,25 +112,15 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback{
 
     }
 
-    override fun onClickDeleteImage(deletPos: Int) {
-        cameraDialog = Dialog(this)
-        cameraDialog.setContentView(R.layout.dialog_camera_delete)
-        val close = cameraDialog.findViewById<TextView>(R.id.no_btnN)
-        close.setOnClickListener {
-            cameraDialog.dismiss()
-        }
-        val ok = cameraDialog.findViewById<TextView>(R.id.yes_btnN)
-        ok.setOnClickListener {
-            configLst.get(deletPos).file=null
-            configApnaAdapter!!.notifyDataSetChanged()
-            cameraDialog.dismiss()
-        }
-
-        cameraDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        cameraDialog.show()
-
+    override fun onClickImageView() {
+        val intent = Intent(applicationContext, PostRectroReviewScreen::class.java)
+        intent.putExtra("fragmentName", fragmentName)
+        intent.putExtra("stage", "isPostRetroStage")
+        startActivity(intent)
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
-    override fun onClickPlusIcon(position: Int) {
+
+    override fun onClickCameraIcon(position: Int) {
         pos=position
         if (!checkPermission()) {
             askPermissions(Config.REQUEST_CODE_CAMERA)
@@ -138,6 +131,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback{
 
         }
     }
+
+
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
@@ -277,13 +272,14 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback{
 //            val fileSizeInMB = fileSizeInKB / 1024
 
             if (resizedImage != null) {
-              configLst.get(pos).file  = resizedImage// resizedImage
+                configLst.get(pos).file  = resizedImage// resizedImage
+                configLst.get(pos).postRetroUploaded=true
             }
 
 //
 
 
-            configApnaAdapter?.notifyDataSetChanged()
+            configApnaAdapterPostRetro?.notifyDataSetChanged()
 
 //            Utlis.showLoading(this)
 //            viewModel.connectToAzure(

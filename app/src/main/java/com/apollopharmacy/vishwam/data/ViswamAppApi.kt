@@ -644,6 +644,9 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): CashDepositDetailsResponse
+
+    @GET("http://jsonblob.com/api/jsonBlob/1098192334667137024")
+    suspend fun GET_APNA_RECTRO_LIST(): GetSubCategoryDetailsModelResponse
 }
 
 
