@@ -7,8 +7,10 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.databinding.FragmentApnaSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
+import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 
 
 class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),ApnaSurveyCallback{
@@ -22,21 +24,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     override fun setup() {
-        var approvelist= java.util.ArrayList<SurveyListResponse>()
 
-        viewModel.getApnaSurveyList()
-        viewModel.getSurveyListResponse.observe(viewLifecycleOwner,{
-            approvelist.add(it)
-
-            adapter= ApnaSurveyAdapter(requireContext(),approvelist,this)
-            viewBinding.recyclerViewapproval.adapter=adapter
-        })
-
-
-
-
-
-
+        viewModel.getApnaSurveyList(this)
         MainActivity.mInstance.plusIconApna.setOnClickListener {
             val intent = Intent(activity, ApnaNewSurveyActivity::class.java)
             requireActivity().startActivity(intent)
@@ -44,9 +33,20 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     }
 
-    override fun onClick(position: Int, status: String) {
+    override fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row) {
+
+        val i = Intent(activity, ApnaPreviewActivity::class.java)
+        i.putExtra("regionList", surveyListResponse)
+        startActivityForResult(i, 210)
+        startActivity(i)
 
     }
+
+    override fun onSuccessgetSurveyDetails(value: SurveyListResponse) {
+
+        adapter= ApnaSurveyAdapter(requireContext(),
+            value.data!!.listData!!.rows as ArrayList<SurveyListResponse.Row>,this)
+        viewBinding.recyclerViewapproval.adapter=adapter    }
 
 
 }

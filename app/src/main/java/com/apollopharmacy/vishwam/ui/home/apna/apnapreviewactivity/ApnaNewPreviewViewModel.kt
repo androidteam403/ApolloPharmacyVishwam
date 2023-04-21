@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.apna.survey
+package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,15 +7,11 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.model.cms.RequestTicketHistory
-import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApnaSurveyRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaNewPreviewCallBack
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -23,12 +19,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ApnaSurveylViewModel : ViewModel() {
+class ApnaNewPreviewViewModel: ViewModel() {
     val command = LiveEvent<Command>()
     val state = MutableLiveData<State>()
-    var getSurveyListResponse = MutableLiveData<SurveyListResponse>()
+    var getSurveyListResponse = MutableLiveData<SurveyDetailsList>()
 
-    fun getApnaSurveyList(apnaSurveyCallback: ApnaSurveyCallback) {
+    fun getApnaDetailsList(apnaNewPreviewCallBack: ApnaNewPreviewCallBack,uid:String) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -42,7 +38,7 @@ class ApnaSurveylViewModel : ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin"
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/select/?uid=EA4EED0B2C4D12CE92047C715E78DCB6"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
                 baseUrl =
@@ -74,16 +70,20 @@ class ApnaSurveylViewModel : ViewModel() {
                         val resp: String = response.value.string()
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
-                            val surveyListResponse = Gson().fromJson(
+                            val surveyDetailsList = Gson().fromJson(
                                 BackShlash.removeSubString(res),
-                                SurveyListResponse::class.java)
-                            if (surveyListResponse.success == true) {
-                                apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
+                                SurveyDetailsList::class.java)
+                            if (surveyDetailsList.success) {
+                                apnaNewPreviewCallBack.onSuccessgetSurveyDetails(
+                                    surveyDetailsList)
                                 getSurveyListResponse.value =
-                                    surveyListResponse
+                                    surveyDetailsList
 
 
                             } else {
+                                state.value = State.ERROR
+                                apnaNewPreviewCallBack.onFailuregetSurveyWiseDetails(
+                                    getSurveyListResponse.value!!)
 
                             }
 
@@ -108,6 +108,4 @@ class ApnaSurveylViewModel : ViewModel() {
         }
 
     }
-
-
 }

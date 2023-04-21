@@ -1,9 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.apna.survey.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,10 +11,13 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ApnaSurveyLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class ApnaSurveyAdapter(
     val mContext: Context,
-    var approveList: ArrayList<SurveyListResponse>,
+    var approveList: ArrayList<SurveyListResponse.Row>,
     val mClicklistner: ApnaSurveyCallback,
 
     ) :
@@ -35,9 +38,63 @@ class ApnaSurveyAdapter(
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
-        holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.data!!.listData!!.rows!!.get(0).status!!.name)
+        if (approvedOrders.status!=null) {
+            if (approvedOrders.status!!.name.equals("null") && approvedOrders.status!!.name.isNullOrEmpty()) {
+                holder.apnaSurveyLayoutBinding.status.setText("-")
+
+            } else {
+                holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name)
+
+            }
+        }
+        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
+        holder.apnaSurveyLayoutBinding.surveyby.setText(approvedOrders.createdId!!.firstName+" "+approvedOrders.createdId!!.lastName)
+        holder.apnaSurveyLayoutBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
+        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
+        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+
+        try {
+            val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
+            val date2 = simpleDateFormat.parse(approvedOrders.modifiedTime)
+            printDifference(date1, date2)
+            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1, date2))
+
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        if (approvedOrders.status!=null) {
+            if (approvedOrders.status!!.other!=null) {
+
+                if (approvedOrders.status!!.other!!.color.toString()
+                        .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString().equals(
+                        "null")
+                ) {
+
+                } else {
+                    holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(
+                        approvedOrders.status!!.other!!.color))
+
+                }
+            }
+        }
+
+        if (approvedOrders.status!=null) {
+            if (approvedOrders.status!!.icon!=null) {
+
+            if (approvedOrders.status!!.icon.equals("null") || approvedOrders.status!!.icon.isNullOrEmpty()) {
+
+            } else {
+                holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+                    approvedOrders.status!!.icon))
+            }
+            }
+        }
+//        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+//            approvedOrders.status!!.icon))
 //        if(approvedOrders.equals("APPROVED")){
 //            holder.apnaSurveyLayoutBinding.status.setText("Completed")
 //            holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor("#39B54A"))
@@ -53,13 +110,35 @@ class ApnaSurveyAdapter(
 //
 //        }
 
-
-
-
-
-
-
+        holder.itemView.setOnClickListener {
+            mClicklistner.onClick(position, approvedOrders)
         }
+
+
+    }
+
+    private fun printDifference(startDate: Date, endDate: Date): String {
+
+        //milliseconds
+        var different = endDate.time - startDate.time
+        println("startDate : $startDate")
+        println("endDate : $endDate")
+        println("different : $different")
+        val secondsInMilli: Long = 1000
+        val minutesInMilli = secondsInMilli * 60
+        val hoursInMilli = minutesInMilli * 60
+        val daysInMilli = hoursInMilli * 24
+
+        //long elapsedDays = different / daysInMilli;
+        //different = different % daysInMilli;
+        val elapsedHours = different / hoursInMilli
+        different = different % hoursInMilli
+        val elapsedMinutes = different / minutesInMilli
+        different = different % minutesInMilli
+        val elapsedSeconds = different / secondsInMilli
+        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
+
+    }
 
     override fun getItemCount(): Int {
 

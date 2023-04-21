@@ -36,33 +36,44 @@ class ApnaVideoPreviewActivity : AppCompatActivity() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun setUp() {
+        if (intent!=null) {
+            val mediaController=MediaController(this)
 
-
-       val mediaController=MediaController(this)
-        val videoUrl =
-          "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1"
-
-        val uri = Uri.parse(videoUrl)
-//        activityVideopreviewBinding.videoView.setVideoURI(uri)    online
-        if (checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE,1001)){
-            var videoPath: String =
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
-            var file: File = File(videoPath, "jurassicpark" + ".mp4")
-            Log.e("directory",file.absolutePath)
-
-            activityVideopreviewBinding.videoView.setVideoPath(file.absolutePath)
+            val videoUrl =intent.getStringExtra("activity")
+            val uri = Uri.parse(videoUrl)
+            activityVideopreviewBinding.videoView.setVideoURI(uri)
             mediaController.setAnchorView(activityVideopreviewBinding.videoView)
 
             activityVideopreviewBinding.videoView.setMediaController(mediaController)
             activityVideopreviewBinding.videoView.requestFocus()
             activityVideopreviewBinding.videoView.start()
-
-        }else{
-
         }
 
-    }
+//        val videoUrl =
+//          "https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1"
 
+//        activityVideopreviewBinding.videoView.setVideoURI(uri)    online
+//        if (checkPermission(android.Manifest.permission.READ_EXTERNAL_STORAGE,1001)){
+//            var videoPath: String =
+//                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString()
+//            var file: File = File(videoPath, "jurassicpark" + ".mp4")
+//            Log.e("directory",file.absolutePath)
+//
+//            activityVideopreviewBinding.videoView.setVideoPath(file.absolutePath)
+//            mediaController.setAnchorView(activityVideopreviewBinding.videoView)
+//
+//            activityVideopreviewBinding.videoView.setMediaController(mediaController)
+//            activityVideopreviewBinding.videoView.requestFocus()
+//            activityVideopreviewBinding.videoView.start()
+//
+//        }else{
+//
+//        }
+//
+    }
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
 
 
     private  fun checkPermission(permission: String,requestCode:Int):Boolean{

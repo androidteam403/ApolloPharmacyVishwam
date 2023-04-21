@@ -27,10 +27,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.databinding.ActivityApnaNewSurveyBinding
-import com.apollopharmacy.vishwam.databinding.DialogQuickGoBinding
-import com.apollopharmacy.vishwam.databinding.DialogVideoPreviewBinding
-import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
+import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.TrafficStreetDialog
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.ImageAdapter
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.Image
@@ -227,28 +224,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack, Traffi
 
         // Video preview
         activityApnaNewSurveyBinding.playVideo.setOnClickListener {
-            val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-            val dialogVideoPreviewBinding: DialogVideoPreviewBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(this),
-                R.layout.dialog_video_preview,
-                null,
-                false
-            )
-            dialog.setContentView(dialogVideoPreviewBinding.root)
+
+            val dialogBinding: DialogVideoPreviewBinding? =
+                DataBindingUtil.inflate(LayoutInflater.from(this),
+                    R.layout.dialog_video_preview,
+                    null,
+                    false)
+            val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.apply {
+
+                setView(dialogBinding?.root)
+                setCancelable(false)
+            }.show()
+
+
             val videoUri = Uri.parse(videoFile!!.absolutePath)
-            dialogVideoPreviewBinding.previewVideo.setVideoPath(videoUri.toString())
+            dialogBinding!!.previewVideo.setVideoPath(videoUri.toString())
 
-            val mediaController = MediaController(this)
-            mediaController.setAnchorView(dialogVideoPreviewBinding.previewVideo)
-            dialogVideoPreviewBinding.previewVideo.setMediaController(mediaController)
-            dialogVideoPreviewBinding.previewVideo.requestFocus()
-            dialogVideoPreviewBinding.previewVideo.start()
+            val mediaController = MediaController(applicationContext)
+            mediaController.setAnchorView( dialogBinding!!.previewVideo)
+            dialogBinding!!.previewVideo.setMediaController(mediaController)
+            dialogBinding!!.previewVideo.requestFocus()
+            dialogBinding!!.previewVideo.start()
 
-            dialogVideoPreviewBinding.close.setOnClickListener {
-                dialog.dismiss()
-            }
-            dialog.show()
+           dialogBinding.close.setOnClickListener {
+               customDialog.dismiss()
+           }
         }
 
         // Traffic street spinner

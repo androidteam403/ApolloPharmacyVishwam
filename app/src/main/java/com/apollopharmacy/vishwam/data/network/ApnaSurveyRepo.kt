@@ -22,9 +22,10 @@ object ApnaSurveyRepo {
 
 
 
-    suspend fun getSurveyListDetails(): ApiResult<SurveyListResponse> {
+    suspend fun getSurveyListDetails( url: String,
+                                      token: String,query:String): ApiResult<SurveyListResponse> {
         return try {
-            val response = Api.getClient().GET_SURVEY_LIST()
+            val response = Api.getClient().GET_SURVEY_LIST(url,token,query)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

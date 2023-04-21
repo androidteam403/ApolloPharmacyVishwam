@@ -106,6 +106,17 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ArrayList<ApproveRequest>,
     ): ApproveResponse
+    //apna new survey
+
+    //    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin")
+//    suspend fun GET_SURVEY_LIST(): SurveyListResponse
+    @GET
+    suspend fun GET_SURVEY_LIST(
+        @Url url: String,
+
+        @Header("token") token: String,
+        @Query("employee_id") id: String,
+    ): SurveyListResponse
 
     @POST
     suspend fun loginUser(@Url url: String, @Body data: CommonRequest): String
@@ -562,8 +573,6 @@ interface ViswamAppApi {
         @Query("Type") id: String,
     ): GetSubCategoryDetailsModelResponse
 
-    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin")
-    suspend fun GET_SURVEY_LIST(): SurveyListResponse
 
 
     @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
