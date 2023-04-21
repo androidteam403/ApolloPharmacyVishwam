@@ -17,12 +17,12 @@ android {
             keyPassword '123456'
         }
     }
-    compileSdkVersion 33
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
         minSdkVersion 24
-        targetSdkVersion 33
+        targetSdkVersion 32
         versionCode 15 //14
         versionName "2.1.1" //"2.1.0"
 

@@ -23,8 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_15dp"
                 android:layout_marginEnd="@dimen/value_20dp"
-                android:src="@drawable/icon_back_arrow"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/icon_back_arrow" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -110,6 +110,7 @@
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
                                     android:text="1"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -118,7 +119,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Location Details"
-                                    android:textColor="#4f99b1"
+                                    android:textColor="#2582a1"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -195,6 +196,8 @@
                                         android:id="@+id/cityText"
                                         android:layout_width="match_parent"
                                         android:layout_height="35dp"
+                                        android:editable="false"
+                                        android:enabled="false"
                                         android:hint="City *"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -219,6 +222,8 @@
                                         android:id="@+id/stateText"
                                         android:layout_width="match_parent"
                                         android:layout_height="35dp"
+                                        android:editable="false"
+                                        android:enabled="false"
                                         android:hint="State *"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -416,9 +421,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
-                                    android:background="@drawable/rounded_background"
+                                    android:background="@drawable/green_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="2"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -514,7 +520,7 @@
                                             android:id="@+id/widthText"
                                             android:layout_width="match_parent"
                                             android:layout_height="35dp"
-                                            android:hint="Length *"
+                                            android:hint="Width *"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
@@ -545,7 +551,7 @@
                                         app:boxStrokeColor="#f3f3f3">
 
                                         <androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/Text"
+                                            android:id="@+id/ceilingHeightText"
                                             android:layout_width="match_parent"
                                             android:layout_height="35dp"
                                             android:hint="Ceiling Height *"
@@ -601,13 +607,13 @@
                                     android:layout_marginTop="@dimen/value_5dp">
 
                                     <RadioGroup
-                                        android:id="@+id/expectedRentRadio"
+                                        android:id="@+id/expectedRentRadioGroup"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
                                         <RadioButton
-                                            android:id="@+id/perSqFt"
+                                            android:id="@+id/perSqFtRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/price_bold"
@@ -625,7 +631,7 @@
                                             android:textSize="@dimen/text_14sp" />
 
                                         <RadioButton
-                                            android:id="@+id/lumpsum"
+                                            android:id="@+id/lumpsumRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/poppin_bold"
@@ -775,12 +781,14 @@
                                     android:textSize="@dimen/text_14sp" />
 
                                 <RadioGroup
+                                    android:id="@+id/parkingRadioGroup"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal">
 
                                     <RadioButton
+                                        android:id="@+id/yesRadioButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
@@ -790,6 +798,7 @@
                                         android:textStyle="bold" />
 
                                     <RadioButton
+                                        android:id="@+id/noRadioButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:text="No"
@@ -822,29 +831,49 @@
                                     android:layout_height="@dimen/value_35dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/trafficStreet"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
-                                    app:layout_constraintTop_toTopOf="parent">
+                                <!--                                <com.google.android.material.textfield.TextInputLayout
+                                                                    android:id="@+id/trafficStreet"
+                                                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                                    android:layout_width="match_parent"
+                                                                    android:layout_height="wrap_content"
+                                                                    android:textColorHint="@color/black"
+                                                                    android:theme="@style/ApnaTextLabel"
+                                                                    app:boxStrokeColor="#f3f3f3"
+                                                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/trafficStreetSelect"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:clickable="true"
-                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:drawableTint="@color/black"
-                                        android:focusable="false"
-                                        android:hint="Select Traffic Street"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                                                    <androidx.appcompat.widget.AppCompatEditText
+                                                                        android:id="@+id/trafficStreetSelect"
+                                                                        android:layout_width="match_parent"
+                                                                        android:layout_height="@dimen/value_35dp"
+                                                                        android:clickable="true"
+                                                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                                        android:drawableTint="@color/black"
+                                                                        android:focusable="false"
+                                                                        android:hint="Select Traffic Street"
+                                                                        android:paddingStart="@dimen/value_10dp"
+                                                                        android:paddingEnd="@dimen/value_10dp"
+                                                                        android:textColor="@color/black"
+                                                                        android:textStyle="bold"
+                                                                        android:textColorHint="@color/black"
+                                                                        android:textSize="@dimen/text_12sp" />
+                                                                </com.google.android.material.textfield.TextInputLayout>-->
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/trafficStreetSelect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:clickable="true"
+                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                    android:drawableTint="@color/black"
+                                    android:focusable="false"
+                                    android:hint="Select traffic street"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/value_12dp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -879,7 +908,6 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="@dimen/value_5dp"
                                             android:text="Morning"
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
@@ -890,7 +918,7 @@
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
+                                        <!--<com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/morning"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
@@ -912,7 +940,25 @@
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
                                                 android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/morningTimeSelect"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:layout_marginTop="3dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:clickable="true"
+                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                            android:drawableTint="@color/black"
+                                            android:focusable="false"
+                                            android:hint="HH:MM"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/value_12dp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -924,7 +970,6 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="@dimen/value_5dp"
                                             android:text="Evening"
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
@@ -935,7 +980,7 @@
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
+                                        <!--<com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/evening"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
@@ -957,7 +1002,25 @@
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
                                                 android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/eveningTimeSelect"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:layout_marginTop="3dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:clickable="true"
+                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                            android:drawableTint="@color/black"
+                                            android:focusable="false"
+                                            android:hint="HH:MM"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/value_12dp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -985,29 +1048,15 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/trafficPatterns"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                <EditText
+                                    android:id="@+id/presentTrafficPatterns"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/trafficPatternsSelect"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:clickable="true"
-                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:drawableTint="@color/black"
-                                        android:focusable="false"
-                                        android:hint="Select Traffic Street"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:layout_marginTop="4dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:inputType="number"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:textSize="@dimen/text_15sp" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -1037,9 +1086,10 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
-                                    android:background="@drawable/rounded_background"
+                                    android:background="@drawable/dark_gray_rounded_bg"
                                     android:paddingHorizontal="7dp"
                                     android:text="3"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1048,7 +1098,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Market Information"
-                                    android:textColor="#4f99b1"
+                                    android:textColor="#808080"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -1773,29 +1823,47 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/trafficGenerator"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
-                                    app:layout_constraintTop_toTopOf="parent">
+                                <!--                                <com.google.android.material.textfield.TextInputLayout
+                                                                    android:id="@+id/trafficGenerator"
+                                                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                                                    android:layout_width="match_parent"
+                                                                    android:layout_height="wrap_content"
+                                                                    android:textColorHint="@color/black"
+                                                                    app:layout_constraintTop_toTopOf="parent">
 
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/trafficGeneratorSelect"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:clickable="true"
-                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:drawableTint="@color/black"
-                                        android:focusable="false"
-                                        android:hint="Select Traffic Street"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                                                    <androidx.appcompat.widget.AppCompatEditText
+                                                                        android:id="@+id/trafficGeneratorSelect"
+                                                                        android:layout_width="match_parent"
+                                                                        android:layout_height="@dimen/value_35dp"
+                                                                        android:clickable="true"
+                                                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                                                        android:drawableTint="@color/black"
+                                                                        android:focusable="false"
+                                                                        android:hint="Select Traffic Street"
+                                                                        android:paddingStart="@dimen/value_10dp"
+                                                                        android:paddingEnd="@dimen/value_10dp"
+                                                                        android:textColor="@color/black"
+                                                                        android:textColorHint="@color/black"
+                                                                        android:textSize="@dimen/text_12sp" />
+                                                                </com.google.android.material.textfield.TextInputLayout>-->
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/trafficGeneratorSelect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:layout_marginTop="3dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:clickable="true"
+                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                    android:drawableTint="@color/black"
+                                    android:focusable="false"
+                                    android:hint="Select from the list"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/value_12dp"
+                                    android:textStyle="bold" />
 
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/trafficGeneratorsRcv"
@@ -1838,6 +1906,7 @@
                                     android:background="@drawable/rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="4"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1963,7 +2032,7 @@
                                         android:layout_marginTop="@dimen/value_8dp"
                                         android:background="@drawable/spinner_bg" />-->
 
-                                    <com.google.android.material.textfield.TextInputLayout
+                                    <!--<com.google.android.material.textfield.TextInputLayout
                                         android:id="@+id/chemistType"
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
@@ -1979,13 +2048,27 @@
                                             android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
                                             android:drawableTint="@color/black"
                                             android:focusable="false"
-                                            android:hint="Select Traffic Street"
+                                            android:hint="Select type"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
                                             android:textSize="@dimen/text_12sp" />
-                                    </com.google.android.material.textfield.TextInputLayout>
+                                    </com.google.android.material.textfield.TextInputLayout>-->
+
+                                    <EditText
+                                        android:id="@+id/chemistText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:background="@drawable/light_gray_border"
+                                        android:inputType="text"
+                                        android:hint="Chemist"
+                                        android:textColorHint="@color/black"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textStyle="bold"
+                                        android:textSize="@dimen/text_12sp" />
+
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -2015,7 +2098,7 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
+                                        <!--<com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/organised"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
@@ -2037,7 +2120,25 @@
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
                                                 android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/organisedSelect"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:layout_marginTop="3dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:clickable="true"
+                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                            android:drawableTint="@color/black"
+                                            android:focusable="false"
+                                            android:hint="Select"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/value_12dp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2093,7 +2194,7 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
+                                        <!--<com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/unorganised"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
@@ -2115,7 +2216,25 @@
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
                                                 android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                        </com.google.android.material.textfield.TextInputLayout>-->
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/unorganisedSelect"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:layout_marginTop="3dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:clickable="true"
+                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                            android:drawableTint="@color/black"
+                                            android:focusable="false"
+                                            android:hint="Select"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/value_12dp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2192,6 +2311,7 @@
                                     android:background="@drawable/rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="5"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2245,7 +2365,7 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
+                                <!--<com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/apartmentsType"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
@@ -2268,7 +2388,25 @@
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
                                         android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>-->
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/apartmentTypeSelect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:layout_marginTop="3dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:clickable="true"
+                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                    android:drawableTint="@color/black"
+                                    android:focusable="false"
+                                    android:hint="Select Type"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/value_12dp"
+                                    android:textStyle="bold" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -2293,14 +2431,15 @@
                                             android:textSize="@dimen/text_12sp" />
 
                                         <EditText
-                                            android:id="@+id/noOfHouses"
+                                            android:id="@+id/noOfHousesText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
+                                            android:textStyle="bold"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2325,8 +2464,9 @@
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
+                                            android:textStyle="bold"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2375,6 +2515,7 @@
                                     android:background="@drawable/rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="6"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2428,7 +2569,7 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
+                                <!--<com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/hospitalSpeciality"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
@@ -2451,20 +2592,38 @@
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
                                         android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                </com.google.android.material.textfield.TextInputLayout>-->
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                    android:id="@+id/hospitalSpecialitySelect"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:layout_marginTop="3dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:clickable="true"
+                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                    android:drawableTint="@color/black"
+                                    android:focusable="false"
+                                    android:hint="Select Speciality"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:paddingEnd="@dimen/value_10dp"
+                                    android:textColor="@color/black"
+                                    android:textColorHint="@color/black"
+                                    android:textSize="@dimen/value_12dp"
+                                    android:textStyle="bold" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal"
-                                    android:weightSum="2">
+                                    android:weightSum="1">
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="1"
+                                        android:layout_weight=".3"
                                         android:orientation="vertical">
 
                                         <TextView
@@ -2476,39 +2635,41 @@
                                             android:textSize="@dimen/text_12sp" />
 
                                         <EditText
-                                            android:id="@+id/beds"
+                                            android:id="@+id/bedsText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_12sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
+                                        android:layout_weight=".7"
                                         android:orientation="vertical">
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
-                                            android:text="No of OPD"
+                                            android:text="Name"
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <EditText
-                                            android:id="@+id/noOfOpd"
+                                            android:id="@+id/hospitalNameText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
+                                            android:inputType="text"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_12sp" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2522,8 +2683,8 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight="1"
+                                        android:layout_marginEnd="@dimen/value_12dp"
+                                        android:layout_weight=".6"
                                         android:orientation="vertical">
 
                                         <TextView
@@ -2535,23 +2696,52 @@
                                             android:textSize="@dimen/text_12sp" />
 
                                         <EditText
-                                            android:id="@+id/occupancy"
+                                            android:id="@+id/occupancyText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_12sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:layout_weight=".9"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="No of OPD"
+                                            android:textColor="@color/gray"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <EditText
+                                            android:id="@+id/noOfOpdText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_12sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_35dp"
                                         android:layout_gravity="bottom"
-                                        android:layout_weight=".3">
+                                        android:layout_weight=".4">
 
                                         <Button
+                                            android:id="@+id/hospitalAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/blue_rounded_corner_bg"
@@ -2591,6 +2781,7 @@
                                     android:background="@drawable/rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="7"
+                                    android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2641,32 +2832,32 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:weightSum="1"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:gravity="center_vertical"
-                                    android:orientation="horizontal">
+                                    android:orientation="horizontal"
+                                    android:weightSum="1">
 
-                                        <androidx.recyclerview.widget.RecyclerView
-                                            android:id="@+id/sitePhotosRecyclerView"
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:layout_weight=".8"
-                                            android:orientation="horizontal"
-                                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                            tools:itemCount="3"
-                                            tools:listitem="@layout/adapter_site_photo" />
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/sitePhotosRecyclerView"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:layout_weight=".8"
+                                        android:orientation="horizontal"
+                                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                        tools:itemCount="3"
+                                        tools:listitem="@layout/adapter_site_photo" />
 
-                                        <Button
-                                            android:id="@+id/addSitePhoto"
-                                            android:layout_width="0dp"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:layout_weight=".2"
-                                            android:background="@drawable/blue_rounded_corner_bg"
-                                            android:fontFamily="@font/price_bold"
-                                            android:hint="Add"
-                                            android:textColorHint="@color/white"
-                                            android:textSize="@dimen/text_14sp" />
+                                    <Button
+                                        android:id="@+id/addSitePhoto"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/value_40dp"
+                                        android:layout_weight=".2"
+                                        android:background="@drawable/blue_rounded_corner_bg"
+                                        android:fontFamily="@font/price_bold"
+                                        android:hint="Add"
+                                        android:textColorHint="@color/white"
+                                        android:textSize="@dimen/text_14sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
