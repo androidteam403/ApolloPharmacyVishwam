@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:timePickerMode="spinner"
+
+            app:layout_constraintLeft_toRightOf="parent"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/ok"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_margin="@dimen/value_20dp"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:gravity="center"
+            android:padding="@dimen/value_10dp"
+            android:text="@string/label_select"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20sp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_margin="@dimen/value_20dp"
+            android:layout_marginEnd="@dimen/value_15dp"
+            android:gravity="center"
+            android:padding="@dimen/value_10dp"
+            android:text="@string/label_cancel"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_20sp"
+            app:layout_constraintRight_toLeftOf="@+id/ok"
+            app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

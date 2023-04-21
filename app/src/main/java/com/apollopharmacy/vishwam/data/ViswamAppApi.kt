@@ -7,7 +7,7 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -106,17 +106,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: ArrayList<ApproveRequest>,
     ): ApproveResponse
-    //apna new survey
-
-    //    @GET("https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin")
-//    suspend fun GET_SURVEY_LIST(): SurveyListResponse
-    @GET
-    suspend fun GET_SURVEY_LIST(
-        @Url url: String,
-
-        @Header("token") token: String,
-        @Query("employee_id") id: String,
-    ): SurveyListResponse
 
     @POST
     suspend fun loginUser(@Url url: String, @Body data: CommonRequest): String
@@ -573,8 +562,6 @@ interface ViswamAppApi {
         @Query("Type") id: String,
     ): GetSubCategoryDetailsModelResponse
 
-
-
     @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
     suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
 
@@ -658,6 +645,36 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): CashDepositDetailsResponse
+
+    @GET //https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/location/list/location-list-for-survey
+    suspend fun getLocationList(
+        @Url url: String,
+    ): LocationListResponse
+
+    @GET
+    suspend fun getTrafficStreetType(
+        @Url url: String,
+    ): TrafficStreetTypeResponse
+
+    @GET
+    suspend fun getTrafficGenerators(
+        @Url url: String,
+    ): TrafficGeneratorsResponse
+
+    @GET
+    suspend fun getApartmentType(
+        @Url url: String,
+    ): ApartmentTypeResponse
+
+    @GET
+    suspend fun getApnaSpeciality(
+        @Url url: String,
+    ): ApnaSpecialityResponse
+
+    @GET
+    suspend fun getParkingType(
+        @Url url: String
+    ): ParkingTypeResponse
 }
 
 
