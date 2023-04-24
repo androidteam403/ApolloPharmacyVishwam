@@ -7,8 +7,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ChemistAdapterLayoutBinding
-import com.apollopharmacy.vishwam.databinding.ChemistTableLayoutBinding
-import com.apollopharmacy.vishwam.ui.home.apna.model.ChemistData
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 
 class PreviewChemistAdapter(
