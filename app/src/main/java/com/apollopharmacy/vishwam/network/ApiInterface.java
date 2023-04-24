@@ -162,4 +162,5 @@ Call<PhonePeQrCodeResponse> PHONEPE_QRCODE_API_CALL(@Body PhonePeQrCodeRequest p
 
     @GET("https://online.apollopharmacy.org/PHONEPELINK/apollophonepe.aspx")
     Call<ResponseBody> PHONEPE_LINK_CANCELLED_REQUEST_API_CALL(@Query("Siteid") String siteId, @Query("docnum") String docnum, @Query("referenceid") String referenceId, @Query("mobnum") String mobileNumber, @Query("transactionid") String transactionId, @Query("Action") String action);
+
 }

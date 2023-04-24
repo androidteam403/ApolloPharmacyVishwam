@@ -16,6 +16,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
+
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
@@ -31,10 +33,44 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.approval.RetroPreviewImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen"
+
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
+        <activity
             android:name=".ui.home.apna.activity.VideoPreviewActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".ui.home.apna.activity.ApnaNewSurveyActivity"
             android:exported="true"
@@ -56,6 +92,13 @@
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" /> <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
+
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+      <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
         <activity
             android:name=".ui.home.greeting.GreetingActivity"
             android:exported="true"
@@ -66,6 +109,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity"
             android:exported="true"
@@ -117,41 +161,50 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.reports.activity.champssurveyreports.ChampsSurveyReportsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.reports.activity.champssummaryreports.ChampsSummaryReportsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.survey.activity.surveylist.SurveyListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
             android:exported="true"
@@ -179,11 +232,10 @@
             android:label="New Order"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="apollo:orders:create-orders-form" /> -->
-            <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-            <!-- </intent-filter> -->
+            <!--            <intent-filter>-->
+            <!--                <action android:name="apollo:orders:create-orders-form" />-->
+            <!--                <category android:name="android.intent.category.DEFAULT" />-->
+            <!--            </intent-filter>-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.rider.activity.NewOrderActivity" />
@@ -229,21 +281,25 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.rider.onlinepayment.OnlinePaymentActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.rider.activity.ScannerActivity"
             android:exported="true"
@@ -263,6 +319,7 @@
         <service
             android:name=".ui.rider.service.BatteryLevelLocationService"
             android:enabled="true" />
+
 
         <activity
             android:name=".ui.rider.activity.SearchProductActivity"
@@ -300,13 +357,11 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+            <!--            <intent-filter>-->
+            <!--                <action android:name="android.intent.action.MAIN" />-->
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
+            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
+            <!--            </intent-filter>-->
 
         </activity>
         <activity
@@ -319,6 +374,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.home.MainActivity" />
         </activity>
+
+
         <activity
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:exported="true"
@@ -333,7 +390,7 @@
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true" >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_path" />
@@ -347,17 +404,20 @@
             android:resource="@color/colorPrimary" />
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" /> <!-- <service -->
-        <!-- android:name=".ui.rider.service.MyFirebaseMessagingService" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.MESSAGING_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
+            android:value="@string/default_notification_channel_id" />
+
+        <!--        <service-->
+        <!--            android:name=".ui.rider.service.MyFirebaseMessagingService"-->
+        <!--            android:exported="true">-->
+
+        <!--            <intent-filter>-->
+        <!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+        <!--            </intent-filter>-->
+        <!--        </service>-->
         <service
             android:name=".util.firebase.MyFirebaseMessagingService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

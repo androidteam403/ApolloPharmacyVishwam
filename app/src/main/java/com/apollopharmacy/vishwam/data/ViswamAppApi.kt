@@ -9,6 +9,8 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteList
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -693,6 +695,20 @@ interface ViswamAppApi {
     suspend fun getNeighbouringLocation(
         @Url url: String
     ): NeighbouringLocationResponse
+
+
+    @GET//https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001
+    suspend fun getStoreWiseCatDetailsApna(
+        @Url url: String,
+        @Header("token") token: String, @Query("StoreId") storeId: String,
+    ): GetStoreWiseCatDetailsApnaResponse
+
+    @POST  //https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls
+    suspend fun saveImageUrlsApna(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: SaveImagesUrlsRequest,
+    ): SaveImageUrlsResponse
 }
 
 

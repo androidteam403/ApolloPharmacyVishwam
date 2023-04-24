@@ -532,7 +532,7 @@ class ValidatePinViewModel : ViewModel() {
             val firebaseTokenRequest = FirebaseTokenRequest()
             firebaseTokenRequest.firebaseToken = firebaseToken
             val gson = Gson()
-            val jsonfirebaseTokenRequest = gson.toJson(firebaseToken)
+            val jsonfirebaseTokenRequest = gson.toJson(firebaseTokenRequest)
             val getDetailsRequest =
                 com.apollopharmacy.vishwam.ui.rider.login.model.GetDetailsRequest()
             getDetailsRequest.requesturl = AppConstants.BASE_URL + "updateFirebaseToken"

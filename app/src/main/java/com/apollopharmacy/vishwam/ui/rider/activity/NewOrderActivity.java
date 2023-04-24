@@ -575,6 +575,7 @@ public class NewOrderActivity extends BaseActivity implements DirectionApiCallba
                 if (data != null) {
                     boolean isOrderCompleted = Boolean.parseBoolean(data.getStringExtra("OrderCompleted"));
                     if (isOrderCompleted) {
+
                         Intent intent = getIntent();
                         intent.putExtra("OrderCompleted", "true");
                         setResult(RESULT_OK, intent);
