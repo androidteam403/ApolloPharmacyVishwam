@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginBottom="10dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
+
+
 
 
             <LinearLayout
@@ -25,12 +33,12 @@
                 android:visibility="visible">
 
                 <ImageView
+                    android:id="@+id/arrow"
                     android:layout_width="@dimen/value_32dp"
                     android:layout_height="32dp"
                     android:layout_marginTop="4dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="-90"
-                    android:id="@+id/arrow"
 
                     android:src="@drawable/ic_baseline_north_24"
                     android:tint="@color/white"
@@ -599,17 +607,19 @@
                             android:text="Expected Rent :"
                             android:textSize="12sp" />
 
+
                         <TextView
                             android:id="@+id/expectedrentsrft"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/text_dimen_10"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="Per.sq.ft:580"
+                            android:drawableLeft="@drawable/rupee_apna"
+                            android:text="100"
                             android:textColor="@color/black"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp"
+
+                            app:fontFamily="@font/roboto_medium" />
                     </LinearLayout>
 
                     <LinearLayout
@@ -632,11 +642,13 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/text_dimen_10"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="10,50,000"
+                            android:drawableLeft="@drawable/rupee_apna"
+                            android:text="100"
                             android:textColor="@color/black"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp"
+
+                            app:fontFamily="@font/roboto_medium" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -713,11 +725,12 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/text_dimen_10"
                             android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:fontFamily="@font/roboto_medium"
-                            android:text="80,000"
+                            android:drawableLeft="@drawable/rupee_apna"
+                            android:text="100"
                             android:textColor="@color/black"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp"
+                            app:fontFamily="@font/roboto_medium" />
+
                     </LinearLayout>
                 </LinearLayout>
 
@@ -909,20 +922,20 @@
                     </LinearLayout>
 
 
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewneighbour"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="@dimen/value_40dp"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="2"
-                        android:layout_marginEnd="@dimen/value_40dp"
-                        android:layout_marginTop="5dp"
                         tools:listitem="@layout/neighbour_store_adapter_layout" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_dimen_10"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Local Distributors Comments :"
@@ -932,7 +945,7 @@
                         android:id="@+id/localdistubutorcomment"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_dimen_10"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Perfect for place for the business"
@@ -942,7 +955,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_dimen_10"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Occupation:"
@@ -952,7 +965,7 @@
                         android:id="@+id/occupation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/text_dimen_10"
+                        android:layout_marginStart="5dp"
                         android:layout_marginTop="5dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Catchment area"
@@ -962,7 +975,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
+                        android:layout_marginStart="5dp"
                         android:layout_marginEnd="@dimen/value_40dp"
                         android:orientation="horizontal"
                         android:weightSum="3">
@@ -986,11 +999,14 @@
                                 android:id="@+id/serviceClass"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="30,000"
+                                android:drawableLeft="@drawable/rupee_apna"
+                                android:text="100"
                                 android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp"
+                                app:fontFamily="@font/roboto_medium" />
+
                         </LinearLayout>
 
                         <LinearLayout
@@ -1012,11 +1028,14 @@
                                 android:id="@+id/businessClass"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="6000 "
+                                android:drawableLeft="@drawable/rupee_apna"
+                                android:text="100"
                                 android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp"
+                                app:fontFamily="@font/roboto_medium" />
+
 
                         </LinearLayout>
 
@@ -1036,10 +1055,10 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewTraffic"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
                     android:orientation="horizontal"
-                    android:layout_height="wrap_content"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="1"
                     tools:listitem="@layout/traffic_adapter_layout" />
@@ -1188,6 +1207,74 @@
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                             tools:itemCount="2"
                             tools:listitem="@layout/chemist_adapter_layout" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Total"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".7"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Organized"
+                                    android:textColor="@color/black"
+
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/organized"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:text="10.2Lac"
+
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Un Organized"
+                                    android:textColor="@color/black"
+
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/unorganized"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:text="10.2Lac"
+                                    android:textColor="@color/black"
+
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+                        </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -1333,17 +1420,18 @@
                             android:textColor="@color/app_center_color" />
 
                     </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/imageRecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="@dimen/text_dimen_10"
+                        android:layout_marginTop="10dp"
 
-                        tools:itemCount="2"
-                        tools:listitem="@layout/image_adapter_layout"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/image_adapter_layout" />
 
                 </LinearLayout>
 
@@ -1377,16 +1465,17 @@
                             android:text="360 Degree Video"
                             android:textColor="@color/app_center_color" />
                     </LinearLayout>
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/videoRecyclerView"
                         android:layout_width="wrap_content"
                         android:layout_height="80dp"
-                        android:layout_marginTop="10dp"
                         android:layout_marginStart="@dimen/text_dimen_10"
-                        tools:itemCount="2"
-                        tools:listitem="@layout/video_adapter_layout"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/video_adapter_layout" />
 
 
                 </LinearLayout>
@@ -1483,7 +1572,7 @@
 
                     </LinearLayout>
 
-                    <fragment
+                    <androidx.fragment.app.FragmentContainerView
                         android:id="@+id/map"
                         android:name="com.google.android.gms.maps.SupportMapFragment"
                         android:layout_width="match_parent"
@@ -1496,7 +1585,6 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-
     </ScrollView>
+    </LinearLayout>
 </layout>

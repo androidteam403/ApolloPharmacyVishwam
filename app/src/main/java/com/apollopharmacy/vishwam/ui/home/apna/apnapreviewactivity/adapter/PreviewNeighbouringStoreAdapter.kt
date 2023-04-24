@@ -32,7 +32,7 @@ class PreviewNeighbouringStoreAdapter(
         val items=listData.get(position)
         holder.neighbourStoreAdapterLayoutBinding.rent.setText(items.rent.toString())
 
-        holder.neighbourStoreAdapterLayoutBinding.name.setText("Neighbouring Store"+ items.uid )
+        holder.neighbourStoreAdapterLayoutBinding.name.setText("Neighbouring Store"+" ( "+ items.location!!.name +" )")
 
         holder.neighbourStoreAdapterLayoutBinding.sqft.setText(items.sqft!!.toString())
 

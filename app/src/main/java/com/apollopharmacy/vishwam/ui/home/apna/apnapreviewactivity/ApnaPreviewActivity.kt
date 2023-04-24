@@ -1,29 +1,24 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.location.Geocoder
 import android.location.LocationManager
-import android.media.MediaPlayer
-import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.WindowManager
-import android.widget.MediaController
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityApnaPreviewBinding
-import com.apollopharmacy.vishwam.databinding.DialogVideoPreviewBinding
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreviewActivity
-import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment
+import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreview
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -56,8 +51,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     var videoList = ArrayList<String>()
     var videoMbList = ArrayList<SurveyDetailsList.VideoMb>()
     lateinit var approvedOrders: SurveyListResponse.Row
+    private var instance: ApnaSurveyFragment? = null
 
     var mapUserLangs: String? = null
+
     @RequiresApi(33)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,8 +65,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         )
 
         apnaNewPreviewViewModel = ViewModelProvider(this)[ApnaNewPreviewViewModel::class.java]
-        if (intent != null) {
-            approvedOrders= (intent.getSerializableExtra("regionList") as SurveyListResponse.Row?)!!
+
+        apnaPreviewActivityBinding.arrow.setOnClickListener {
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
+            onBackPressed()
         }
         setUp()
     }
@@ -77,16 +78,18 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     @RequiresApi(33)
     private fun setUp() {
 
-        apnaNewPreviewViewModel.getApnaDetailsList(this, approvedOrders.uid!!)
 
 
 
+        if (intent != null) {
+            approvedOrders =
+                (intent.getSerializableExtra("regionList") as SurveyListResponse.Row?)!!
+            apnaNewPreviewViewModel.getApnaDetailsList(this, approvedOrders.uid!!)
 
-        apnaPreviewActivityBinding.arrow.setOnClickListener {
-            onBackPressed()
         }
-        if (approvedOrders!=null){
-            if (approvedOrders.status!=null) {
+
+        if (approvedOrders != null) {
+            if (approvedOrders.status != null) {
                 if (approvedOrders.status!!.name.equals("null") && approvedOrders.status!!.name.isNullOrEmpty()) {
                     apnaPreviewActivityBinding.status.setText("-")
 
@@ -96,7 +99,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 }
             }
             apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
-            apnaPreviewActivityBinding.surveyby.setText("-")
+            apnaPreviewActivityBinding.surveyby.setText(approvedOrders.createdId!!.firstName + " " + approvedOrders.createdId!!.lastName)
             apnaPreviewActivityBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
             apnaPreviewActivityBinding.surveystart.setText(approvedOrders.createdTime)
             apnaPreviewActivityBinding.surveyended.setText(approvedOrders.modifiedTime)
@@ -111,12 +114,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
-            if (approvedOrders.status!=null) {
-                if (approvedOrders.status!!.other!=null) {
+            if (approvedOrders.status != null) {
+                if (approvedOrders.status!!.other != null) {
 
                     if (approvedOrders.status!!.other!!.color.toString()
-                            .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString().equals(
-                            "null")
+                            .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString()
+                            .equals(
+                                "null")
                     ) {
 
                     } else {
@@ -127,8 +131,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 }
             }
 
-            if (approvedOrders.status!=null) {
-                if (approvedOrders.status!!.icon!=null) {
+            if (approvedOrders.status != null) {
+                if (approvedOrders.status!!.icon != null) {
 
                     if (approvedOrders.status!!.icon.equals("null") || approvedOrders.status!!.icon.isNullOrEmpty()) {
 
@@ -137,12 +141,37 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                             approvedOrders.status!!.icon))
                     }
                 }
-            }        }
-
+            }
         }
 
-    override fun onSuccessgetSurveyDetails(value: SurveyDetailsList) {
+    }
 
+
+    override fun onSuccessgetSurveyDetails(value: SurveyDetailsList) {
+        apartmentAdapter = PreviewApartmentAdapter(this,
+            value.data!!.apartments as ArrayList<SurveyDetailsList.Apartment>)
+        apnaPreviewActivityBinding.recyclerViewapartmnet.adapter = apartmentAdapter
+        adapter = PreviewChemistAdapter(this,
+            value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>)
+        apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
+        hospitalAdapter = PreviewHospitalAdapter(this,
+            value.data!!.hospitals as ArrayList<SurveyDetailsList.Hospital>)
+        apnaPreviewActivityBinding.recyclerViewhospital.adapter = hospitalAdapter
+        imageAdapter = PreviewImageAdapter(this,
+            value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this)
+        apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
+        videoMbList.add(value.data!!.videoMb!!)
+        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
+        videoAdapter = PreviewVideoAdapter(this, videoMbList, videoList, this)
+        apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
+        neighbourAdapter = PreviewNeighbouringStoreAdapter(this,
+            value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>)
+        apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
+        apnaPreviewActivityBinding.locationdetails.setText(value.data!!.state!!.name + ", " + value.data!!.city!!.name)
+
+        trafficAdapter = PreviewTrafficAdapter(this,
+            value.data!!.trafficGenerator as ArrayList<SurveyDetailsList.TrafficGenerator>)
+        apnaPreviewActivityBinding.recyclerViewTraffic.adapter = trafficAdapter
         mapUserLats = value.data!!.lat
         mapUserLangs = value.data!!.long
 
@@ -178,53 +207,34 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         apnaPreviewActivityBinding.fmcg.setText(value.data!!.csFmcg.toString())
         apnaPreviewActivityBinding.surgicals.setText(value.data!!.csSurgicals.toString())
         apnaPreviewActivityBinding.areadiscount.setText(value.data!!.areaDiscount.toString())
-
-
         apnaPreviewActivityBinding.serviceClass.setText(value.data!!.serviceClass.toString())
         apnaPreviewActivityBinding.businessClass.setText(value.data!!.businessClass.toString())
         apnaPreviewActivityBinding.morning.setText(value.data!!.morningFrom.toString())
         apnaPreviewActivityBinding.evening.setText(value.data!!.eveningTo.toString())
         apnaPreviewActivityBinding.localdistubutorcomment.setText(value.data!!.localDisbtsComments.toString())
 
-        neighbourAdapter = PreviewNeighbouringStoreAdapter(this,
-            value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>)
-        apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
-
-        apartmentAdapter = PreviewApartmentAdapter(this,
-            value.data!!.apartments as ArrayList<SurveyDetailsList.Apartment>)
-        apnaPreviewActivityBinding.recyclerViewapartmnet.adapter = apartmentAdapter
-        adapter = PreviewChemistAdapter(this,
-            value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>)
-        apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
-
-        apnaPreviewActivityBinding.locationdetails.setText(value.data!!.state!!.name + ", " + value.data!!.city!!.name)
-
-        trafficAdapter = PreviewTrafficAdapter(this,
-            value.data!!.trafficGenerator as ArrayList<SurveyDetailsList.TrafficGenerator>)
-        apnaPreviewActivityBinding.recyclerViewTraffic.adapter = trafficAdapter
-
-        hospitalAdapter = PreviewHospitalAdapter(this,
-            value.data!!.hospitals as ArrayList<SurveyDetailsList.Hospital>)
-        apnaPreviewActivityBinding.recyclerViewhospital.adapter = hospitalAdapter
-        imageAdapter = PreviewImageAdapter(this,
-            value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>)
-        apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
-        videoMbList.add(value.data!!.videoMb!!)
-        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
-        videoAdapter = PreviewVideoAdapter(this, videoMbList, videoList, this)
-        apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
-
 
     }
 
     override fun onClick(value: Int, url: String) {
-        val i = Intent(this, ApnaVideoPreviewActivity::class.java)
+        val i = Intent(this, ApnaVideoPreview::class.java)
         i.putExtra("activity", url)
         startActivityForResult(i, 210)
 
 
+    }
+
+    override fun onItemClick(position: Int, imagePath: String, name: String) {
+        PopUpWIndow(this,
+            R.layout.layout_image_fullview,
+            View(this),
+            imagePath,
+            null,
+            name,
+            position)
 
     }
+
     private fun printDifference(startDate: Date, endDate: Date): String {
 
         //milliseconds
@@ -249,7 +259,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     }
 
     override fun onBackPressed() {
-        super.onBackPressed()
+super.onBackPressed()
+
     }
 
     override fun onFailuregetSurveyWiseDetails(value: SurveyDetailsList) {

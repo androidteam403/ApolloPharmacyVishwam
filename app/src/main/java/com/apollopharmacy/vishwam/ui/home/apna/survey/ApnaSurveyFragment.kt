@@ -37,7 +37,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
         val i = Intent(activity, ApnaPreviewActivity::class.java)
         i.putExtra("regionList", surveyListResponse)
-        startActivityForResult(i, 210)
+//        startActivityForResult(i, 210)
         startActivity(i)
 
     }

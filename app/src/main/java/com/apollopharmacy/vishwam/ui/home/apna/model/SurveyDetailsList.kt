@@ -688,6 +688,13 @@ class SurveyDetailsList : Serializable {
             this.uid = uid
             return this
         }
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        fun withName(name: String?): Location {
+            this.name = name
+            return this
+        }
     }
 
     inner class Location__1 : Serializable {
@@ -696,6 +703,13 @@ class SurveyDetailsList : Serializable {
         var uid: String? = null
         fun withUid(uid: String?): Location__1 {
             this.uid = uid
+            return this
+        }
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+        fun withName(name: String?): Location__1 {
+            this.name = name
             return this
         }
     }
@@ -728,61 +742,25 @@ class SurveyDetailsList : Serializable {
         }
     }
 
-    inner class NeighboringStore : Serializable {
+    class NeighboringStore: Serializable{
         @SerializedName("uid")
-        @Expose
         var uid: String? = null
 
         @SerializedName("location")
-        @Expose
-        var location: Location__1? = null
+        var location: Location? = null
 
         @SerializedName("store")
-        @Expose
         var store: String? = null
 
         @SerializedName("rent")
-        @Expose
-        var rent: Int? = null
+        var rent = 0
 
         @SerializedName("sales")
-        @Expose
-        var sales: Double? = null
+        var sales = 0.0
 
         @SerializedName("sqft")
-        @Expose
-        var sqft: Double? = null
-        fun withUid(uid: String?): NeighboringStore {
-            this.uid = uid
-            return this
-        }
-
-        fun withLocation(location: Location__1?): NeighboringStore {
-            this.location = location
-            return this
-        }
-
-        fun withStore(store: String?): NeighboringStore {
-            this.store = store
-            return this
-        }
-
-        fun withRent(rent: Int?): NeighboringStore {
-            this.rent = rent
-            return this
-        }
-
-        fun withSales(sales: Double?): NeighboringStore {
-            this.sales = sales
-            return this
-        }
-
-        fun withSqft(sqft: Double?): NeighboringStore {
-            this.sqft = sqft
-            return this
-        }
+        var sqft = 0.0
     }
-
     inner class Organised : Serializable {
         @SerializedName("uid")
         @Expose

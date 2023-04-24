@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.apollopharmacy.vishwam">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -39,6 +40,17 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".ui.home.apna.survey.videopreview.ApnaVideoPreview"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apna.apnapreviewactivity.ApnaPreviewActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.champs.survey.activity.preview.PreviewActivity"
             android:exported="false"
@@ -68,7 +80,8 @@
             android:name=".ui.home.apna.survey.ApnaSurveyActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            tools:ignore="MissingClass" />
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reviewratingactivity.RatingReviewActivity"
             android:exported="true"

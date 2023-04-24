@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ImageAdapterLayoutBinding
+import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaNewPreviewCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.Target
@@ -20,6 +21,7 @@ import java.lang.String
 class PreviewImageAdapter(
     val mContext: Context,
     private val imagetData: ArrayList<SurveyDetailsList.Image>,
+    val imageClicklistner: ApnaNewPreviewCallBack,
 
     ) : RecyclerView.Adapter<PreviewImageAdapter.ViewHolder>() {
 
@@ -36,9 +38,12 @@ class PreviewImageAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items=imagetData.get(position)
-        Glide.with(ViswamApp.context).load(items.url!!.split("&").get(0))
+        Glide.with(ViswamApp.context).load("https://askapollopr.blob.core.windows.net/sampleimage/ReturnImage_3857525_20230403_154034.jpg")
             .placeholder(R.drawable.thumbnail_image)
             .into(holder.imageAdapterLayoutBinding.image)
+        holder.imageAdapterLayoutBinding.eyeImageRes.setOnClickListener {
+            imageClicklistner.onItemClick(position,"https://askapollopr.blob.core.windows.net/sampleimage/ReturnImage_3857525_20230403_154034.jpg","")
+        }
     }
 
     override fun getItemCount(): Int {
