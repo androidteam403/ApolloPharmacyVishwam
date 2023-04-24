@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.data.network.discount
 import com.apollopharmacy.vishwam.data.network.Api
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApiUtils
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
@@ -183,4 +184,19 @@ object ChampsApiRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

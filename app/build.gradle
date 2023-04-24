@@ -87,7 +87,7 @@ dependencies {
     implementation project(path: ':drawroutemap')
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 
-
+    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
 
     androidTestImplementation "androidx.test.ext:junit:$test_version"
     implementation "android.arch.lifecycle:runtime:$life_cycle"
@@ -197,3 +197,4 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
     implementation 'com.budiyev.android:code-scanner:2.1.0'
 }
+//https://stackoverflow.com/questions/38251169/how-to-zoom-simultaneously-on-two-imageviews

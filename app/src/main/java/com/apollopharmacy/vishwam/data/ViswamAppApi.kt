@@ -7,6 +7,8 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -423,6 +425,12 @@ interface ViswamAppApi {
     ): OnSubmitSwachModelResponse
 
 
+    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
+    suspend fun checkDayWiseAccess(
+        @Url url: String,
+        @Header("token") token: String, @Query("StoreId") storeId: String,
+    ): CheckDayWiseAccessResponse
+
     @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onUploadSwacch(
         @Url url: String,
@@ -495,6 +503,13 @@ interface ViswamAppApi {
         @Part image: MultipartBody.Part,
     ): FileResposne
 
+    @GET
+    suspend fun GET_SURVEY_LIST(
+        @Url url: String,
+
+        @Header("token") token: String,
+        @Query("employee_id") id: String,
+    ): SurveyListResponse
 
     @POST//("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
     suspend fun getUploadProxImage(
@@ -640,6 +655,46 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): CashDepositDetailsResponse
+
+    @GET //https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/location/list/location-list-for-survey
+    suspend fun getLocationList(
+        @Url url: String,
+    ): LocationListResponse
+
+    @GET
+    suspend fun getTrafficStreetType(
+        @Url url: String,
+    ): TrafficStreetTypeResponse
+
+    @GET
+    suspend fun getTrafficGenerators(
+        @Url url: String,
+    ): TrafficGeneratorsResponse
+
+    @GET
+    suspend fun getApartmentType(
+        @Url url: String,
+    ): ApartmentTypeResponse
+
+    @GET
+    suspend fun getApnaSpeciality(
+        @Url url: String,
+    ): ApnaSpecialityResponse
+
+    @GET
+    suspend fun getParkingType(
+        @Url url: String
+    ): ParkingTypeResponse
+
+    @GET
+    suspend fun getDimensionType(
+        @Url url:String
+    ): DimensionTypeResponse
+
+    @GET
+    suspend fun getNeighbouringLocation(
+        @Url url: String
+    ): NeighbouringLocationResponse
 
     @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
     suspend fun checkDayWiseAccess(
