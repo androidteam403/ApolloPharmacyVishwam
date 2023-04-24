@@ -267,7 +267,7 @@ public class DashboardFragmentController {
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
             getDetailsRequest.setRequesturl(AppConstants.BASE_URL+"api/user/save-update/update-rider-available-status");
             getDetailsRequest.setRequestjson(jsonLoginRequest);
-            getDetailsRequest.setHeadertokenkey("");
+            getDetailsRequest.setHeadertokenkey("authorization");
             getDetailsRequest.setHeadertokenvalue("Bearer " + token);
             getDetailsRequest.setRequesttype("POST");
             Call<ResponseBody> calls = apiInterface.getDetails(AppConstants.PROXY_URL, AppConstants.PROXY_TOKEN, getDetailsRequest);

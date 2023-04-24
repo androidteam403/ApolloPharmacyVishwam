@@ -65,6 +65,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
@@ -112,7 +113,6 @@ import com.apollopharmacy.vishwam.ui.rider.summary.SummaryFragment;
 import com.apollopharmacy.vishwam.util.FragmentUtils;
 import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
-import com.dvinfosys.adapter.NavigationListAdapter;
 import com.dvinfosys.model.ChildModel;
 import com.dvinfosys.model.HeaderModel;
 import com.dvinfosys.ui.NavigationListView;
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isQcFailRequired = false;
     public static boolean isSwachhRequired = false;
     public static boolean isDrugRequired = false;
-    private String mCurrentFrag;
+    //    private String mCurrentFrag;
     private int selectedItemPos = -1;
 
     private static TextView cartCount, notificationText;
@@ -218,9 +218,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final static int GPS_REQUEST_CODE = 2;
     private boolean isHomeScreen = true;
 
-    private NavigationListAdapter adapter;
+//    private NavigationListAdapter adapter;
 
     private boolean isStoreSuperVisour;
+
+    private RelativeLayout riderNotificationLayout;
+    private ImageView notifyImage;
+    private static TextView notificationTextCustom;
+
 
     public static Intent getStartIntent(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -232,54 +237,51 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (intent != null)
-            if (intent.getBooleanExtra("ORDER_ASSIGNED", false)) {
-                Dialog alertDialog = new Dialog(this);
-                DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
-                alertDialog.setContentView(alertMessageBinding.getRoot());
-                alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
-                alertDialog.setCancelable(false);
-                alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
-                    alertDialog.dismiss();
-                    if (getSessionManager().getNotificationStatus())
-                        displaySelectedScreen("Dashboard");
-                    else
-                        Toast.makeText(this, "No Notification.", Toast.LENGTH_SHORT).show();
-                });
-                alertDialog.show();
-            } else if (intent.getBooleanExtra("order_cancelled", false)) {
-                Dialog alertDialog = new Dialog(this);
-                DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
-                alertDialog.setContentView(alertMessageBinding.getRoot());
-                alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
-                alertDialog.setCancelable(false);
-                alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
-                    alertDialog.dismiss();
-                });
-                alertDialog.show();
-            } else if (intent.getBooleanExtra("order_shifted", false)) {
-                Dialog alertDialog = new Dialog(this);
-                DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
-                alertDialog.setContentView(alertMessageBinding.getRoot());
-                alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
-                alertDialog.setCancelable(false);
-                alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
-                    alertDialog.dismiss();
-                });
-                alertDialog.show();
-            } else if (intent.getBooleanExtra("COMPLAINT_RESOLVED", false)) {
-                Dialog alertDialog = new Dialog(this);
-                DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
-                alertDialog.setContentView(alertMessageBinding.getRoot());
-                alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
-                alertDialog.setCancelable(false);
-                alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
-                    alertDialog.dismiss();
-                    if (mCurrentFrag.equals(getString(R.string.menu_complaints)))
-                        complaintsFragmentCallback.complaintResolvedCallback();
-                });
-                alertDialog.show();
-            }
+        if (intent != null) if (intent.getBooleanExtra("ORDER_ASSIGNED", false)) {
+            Dialog alertDialog = new Dialog(this);
+            DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
+            alertDialog.setContentView(alertMessageBinding.getRoot());
+            alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
+            alertDialog.setCancelable(false);
+            alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
+                alertDialog.dismiss();
+                if (getSessionManager().getNotificationStatus()) displaySelectedScreen("Dashboard");
+                else Toast.makeText(this, "No Notification.", Toast.LENGTH_SHORT).show();
+            });
+            alertDialog.show();
+        } else if (intent.getBooleanExtra("order_cancelled", false)) {
+            Dialog alertDialog = new Dialog(this);
+            DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
+            alertDialog.setContentView(alertMessageBinding.getRoot());
+            alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
+            alertDialog.setCancelable(false);
+            alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
+                alertDialog.dismiss();
+            });
+            alertDialog.show();
+        } else if (intent.getBooleanExtra("order_shifted", false)) {
+            Dialog alertDialog = new Dialog(this);
+            DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
+            alertDialog.setContentView(alertMessageBinding.getRoot());
+            alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
+            alertDialog.setCancelable(false);
+            alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
+                alertDialog.dismiss();
+            });
+            alertDialog.show();
+        } else if (intent.getBooleanExtra("COMPLAINT_RESOLVED", false)) {
+            Dialog alertDialog = new Dialog(this);
+            DialogAlertMessageBinding alertMessageBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_message, null, false);
+            alertDialog.setContentView(alertMessageBinding.getRoot());
+            alertMessageBinding.message.setText(intent.getStringExtra("NOTIFICATION"));
+            alertDialog.setCancelable(false);
+            alertMessageBinding.dialogButtonOk.setOnClickListener(v -> {
+                alertDialog.dismiss();
+                if (currentItem.equals(getString(R.string.menu_complaints)))
+                    complaintsFragmentCallback.complaintResolvedCallback();
+            });
+            alertDialog.show();
+        }
     }
 
     @Override
@@ -327,7 +329,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
-
+        onClickRiderNotification();
 
         if (getIntent() != null) {
             IS_COMPLAINT_RESOLVED = getIntent().getBooleanExtra("COMPLAINT_RESOLVED", false);
@@ -339,11 +341,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
-//        if (isGpsEnambled()) {
-//            checkLocationPermission();
-//        } else {
-//            buildAlertMessageNoGps();
-//        }
+        if (isGpsEnambled()) {
+            checkLocationPermission();
+        } else {
+            buildAlertMessageNoGps();
+        }
         setUp();
 
 
@@ -393,11 +395,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-        if (empDetailsResponses != null
-                && empDetailsResponses.getData() != null
-                && empDetailsResponses.getData().getRole() != null
-                && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor")
-        ) isStoreSuperVisour = true;
+        if (empDetailsResponses != null && empDetailsResponses.getData() != null && empDetailsResponses.getData().getRole() != null && empDetailsResponses.getData().getRole().getCode().equals("store_supervisor"))
+            isStoreSuperVisour = true;
         else isStoreSuperVisour = false;
         qcfilterIcon = findViewById(R.id.qc_filter_icon);
 
@@ -423,22 +422,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
 
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Utils.printMessage(TAG, "Fetching FCM registration token failed" + task.getException());
-                            return;
-                        }
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    Utils.printMessage(TAG, "Fetching FCM registration token failed" + task.getException());
+                    return;
+                }
 
-                        // Get new FCM registration token
-                        String token = task.getResult();
-                        // Log and toast
-                        Utils.printMessage(TAG, "Firebase Token" + token);
+                // Get new FCM registration token
+                String token = task.getResult();
+                // Log and toast
+                Utils.printMessage(TAG, "Firebase Token" + token);
 //                        Toast.makeText(MainActivity.this, "Firebase Token : " + token, Toast.LENGTH_SHORT).show();
-                    }
-                });
+            }
+        });
 
         listView = findViewById(R.id.expandable_navigation);
 
@@ -545,8 +543,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void checkLocationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 10);
             return;
         }
@@ -626,6 +623,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = true;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
@@ -637,6 +635,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
@@ -647,6 +646,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Approval List":
                 headerText.setText("Approval List");
@@ -662,6 +662,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = fragInfo1;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
@@ -672,6 +673,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "History":
                 headerText.setText("History");
@@ -682,6 +684,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Pending":
                 headerText.setText("Pending List");
@@ -692,6 +695,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Approved":
                 headerText.setText("Approved List");
@@ -703,6 +707,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
@@ -713,6 +718,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Bill":
                 headerText.setText("Bill List");
@@ -723,6 +729,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
@@ -733,6 +740,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIconApna.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Swachh List":
@@ -744,6 +752,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Upload":
@@ -756,6 +765,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isUploadScreen = true;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
@@ -767,6 +777,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 isListScreen = true;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "New Drug Request":  //"Drug Request":
                 headerText.setText("New Drug Request");
@@ -778,6 +789,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isAllowFragmentChange = true;
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
@@ -794,6 +806,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Apna Form":
 //                headerText.setText("Apna Form");
@@ -804,6 +817,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                qcfilterIcon.setVisibility(View.GONE);
 //                siteIdIcon.setVisibility(View.GONE);
 //                isHomeScreen = false;
+//                riderNotificationLayout.setVisibility(View.GONE);
 //                break;
             case "Apna Survey":
                 headerText.setText("Apna Survey");
@@ -814,6 +828,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -831,6 +846,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.VISIBLE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
@@ -841,6 +857,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "OutStanding":
                 headerText.setText("Pending List");
@@ -851,13 +868,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
                 startActivity(j);
                 break;
             case "Dashboard":
-                mCurrentFrag = "Dashboard";
                 headerText.setText("Dashboard");
                 fragment = new DashboardFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -866,10 +883,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Profile":
-                mCurrentFrag = "Profile";
-
                 headerText.setText("Profile");
                 fragment = new ProfileFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -878,9 +894,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "My Orders":
-                mCurrentFrag = "My Orders";
                 headerText.setText("My Orders");
                 fragment = new MyOrdersFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -889,10 +905,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Cash Deposits":
-                mCurrentFrag = "Cash Deposits";
-
                 headerText.setText("Cash Deposits");
                 fragment = new ReportsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -901,10 +916,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Summary":
-                mCurrentFrag = "Summary";
-
                 headerText.setText("Summary");
                 fragment = new SummaryFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -913,10 +927,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Complaints":
-                mCurrentFrag = "Complaints";
-
                 headerText.setText("Complaints");
                 fragment = new ComplaintsFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -925,10 +938,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Change Password":
-                mCurrentFrag = "Change Password";
-
                 headerText.setText("Dashboard");
                 fragment = new ChangePasswordFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -937,10 +949,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "Help":
-                mCurrentFrag = "Help";
-
                 headerText.setText("Help");
                 fragment = new HelpFragment();
                 qcfilterIcon.setVisibility(View.GONE);
@@ -949,13 +960,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.VISIBLE);
                 break;
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
-
                 Intent intent = new Intent(this, LoginActivity.class);
                 overridePendingTransition(R.anim.slide_from_left, R.anim.slide_to_right);
-
                 startActivity(intent);
                 break;
             case "QcApproved":
@@ -967,6 +977,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "QcRejected":
@@ -978,6 +989,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
 //            case "Select Site":
@@ -994,6 +1006,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
@@ -1004,6 +1017,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Champs Admin":
@@ -1015,6 +1029,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Pre Rectro":
@@ -1105,6 +1120,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Logout":
                 dialogExit();
@@ -1287,7 +1303,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         final MenuItem menuCartItem = menu.findItem(R.id.action_cart_icon);
-        if (getString(R.string.menu_take_order).equals(mCurrentFrag)) {
+        if (getString(R.string.menu_take_order).equals(currentItem)) {
             menuCartItem.setVisible(true);
         } else {
             menuCartItem.setVisible(false);
@@ -1309,13 +1325,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static void notificationDotVisibility(boolean show) {
         if (show) {
             try {
-                notificationText.setVisibility(View.VISIBLE);
+                notificationTextCustom.setVisibility(View.VISIBLE);
                 anim = new AlphaAnimation(0.0f, 1.0f);
                 anim.setDuration(350); //You can manage the blinking time with this parameter
                 anim.setStartOffset(20);
                 anim.setRepeatMode(Animation.REVERSE);
                 anim.setRepeatCount(Animation.INFINITE);
-                notificationText.startAnimation(anim);
+                notificationTextCustom.startAnimation(anim);
 
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
                 String orderDate = Utlis.INSTANCE.getCurrentTimeDate();
@@ -1327,8 +1343,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
 
         } else {
-            notificationText.setVisibility(View.GONE);
-            notificationText.clearAnimation();
+            notificationTextCustom.setVisibility(View.GONE);
+            notificationTextCustom.clearAnimation();
 
         }
     }
@@ -1342,8 +1358,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             mRequestingLocationUpdates = true;
             Utils.printMessage(TAG, "All location settings are satisfied.");
             //Toast.makeText(applicationContext, "Started location updates!", Toast.LENGTH_SHORT).show()
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // TODO: Consider calling
                 //    ActivityCompat#requestPermissions
                 // here to request the missing permissions, and then overriding
@@ -1353,10 +1368,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 // for ActivityCompat#requestPermissions for more details.
                 return;
             }
-            mFusedLocationClient.requestLocationUpdates(
-                    mLocationRequest,
-                    mLocationCallback, Looper.myLooper()
-            );
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
             updateLocationUI();
         });
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest).addOnFailureListener(e -> {
@@ -1369,10 +1381,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         locationLatitude = "";
                         locationLongitude = "";
                         ResolvableApiException rae = (ResolvableApiException) e;
-                        rae.startResolutionForResult(
-                                this,
-                                REQUEST_CHECK_SETTINGS
-                        );
+                        rae.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
                     } catch (IntentSender.SendIntentException var4) {
                         Utils.printMessage(TAG, "PendingIntent unable to execute request.");
                     }
@@ -1433,8 +1442,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
-        listView.init(this)
-                .addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
+        listView.init(this).addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
 //        listView = findViewById(R.id.expandable_navigation);
 //        LinearLayout.LayoutParams params=(LinearLayout.LayoutParams)listView.getLayoutParams();
@@ -1446,83 +1454,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
         if (isAttendanceRequired) {
-            listView.addHeaderModel(
-                    new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms)
-                            .addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports))
-                            .addChildModel(new ChildModel("History", R.drawable.ic_menu_survey))
-            );
+            listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
         if (isCMSRequired) {
-            listView.addHeaderModel(
-                    new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms)
-                            .addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register))
-                            .addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
+            listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
 //                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
-            listView.addHeaderModel(
-                    new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_menu_discount)
-                            .addChildModel(new ChildModel("Pending", R.drawable.ic_apollo_pending))
-                            .addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_))
-                            .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
-                            .addChildModel(new ChildModel("Bill", R.drawable.ic_apollo_bill))
-            );
+            listView.addHeaderModel(new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_menu_discount).addChildModel(new ChildModel("Pending", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject)).addChildModel(new ChildModel("Bill", R.drawable.ic_apollo_bill)));
         }
         if (isDrugRequired) {
             if (employeeRoleNewDrugRequest.equalsIgnoreCase("Yes")) {
-                listView.addHeaderModel(
-                        new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_menu_drug_request)
-                                .addChildModel(new ChildModel("New Drug Request", R.drawable.ic_apollo_new_drug_request__1_))
-                                .addChildModel(new ChildModel("New Drug List", R.drawable.ic_apollo_new_drug_list)));
+                listView.addHeaderModel(new HeaderModel("Raise New Drug request", Color.WHITE, true, R.drawable.ic_menu_drug_request).addChildModel(new ChildModel("New Drug Request", R.drawable.ic_apollo_new_drug_request__1_)).addChildModel(new ChildModel("New Drug List", R.drawable.ic_apollo_new_drug_list)));
 
             }
         }
 
 
         if (isQcFailRequired) {
-            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall)
-                    .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
-                    .addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending))
-                    .addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_))
-                    .addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
+            listView.addHeaderModel(new HeaderModel("OMS QC", Color.WHITE, true, R.drawable.ic_menu_qc_fall).addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard)).addChildModel(new ChildModel("OutStanding", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject))
 
 
             );
         }
         if (isSwachhRequired) {
             if ((employeeRole.equalsIgnoreCase("Yes")) && userDesignation != null && (userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO"))) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
-                        .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload))
-                        .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh).addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)).addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             } else if (employeeRole.equalsIgnoreCase("Yes")) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
-                        .addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh).addChildModel(new ChildModel("Upload", R.drawable.ic_apollo_upload)));
             } else if (userDesignation != null && userDesignation.equalsIgnoreCase("MANAGER") || userDesignation.equalsIgnoreCase("GENERAL MANAGER") || userDesignation.equalsIgnoreCase("EXECUTIVE") || userDesignation.equalsIgnoreCase("CEO")) {
-                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh)
-                        .addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
+                listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh).addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
         if (true) {
 
             if (getSessionManager().getLoginToken().isEmpty()) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
-                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
+                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1).addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
             } else if (getSessionManager().getLoginToken().length() > 1) {
                 listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
-
-                        .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
-
-                        .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
-                        .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
-                        .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
-                        .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
-
-                        .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
-
-                        .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
-                        .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
-                        .addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
+                                .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
+                                .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
+                                .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
+                                .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
+                                .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
+                                .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
+                                .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
+                                .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
+                        //.addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
 
 
                 );
@@ -1642,7 +1621,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("List");
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("Vivekagam")) {
-                adapter = new NavigationListAdapter(context, listView.getListHeader());
+//                adapter = new NavigationListAdapter(context, listView.getListHeader());
 
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Login")) {
@@ -1667,7 +1646,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("LogOut");
                 }
 
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
             } else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
@@ -2218,38 +2197,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void updateSelection(int pos) {
         selectedItemPos = pos;
         if (pos == 0) {
-            mCurrentFrag = "Dashboard";
             displaySelectedScreen("Dashboard");
         } else if (pos == 1) {
-            mCurrentFrag = "My Orders";
-
             displaySelectedScreen("My Orders");
         } else if (pos == 2) {
-            mCurrentFrag = "Cash Deposits";
-
             displaySelectedScreen("Cash Deposits");
         } else if (pos == 3) {
-            mCurrentFrag = "Summary";
-
             displaySelectedScreen("Summary");
         } else if (pos == 4) {
-            mCurrentFrag = "Complaints";
-
             displaySelectedScreen("Complaints");
         } else if (pos == 5) {
-            mCurrentFrag = "Profile";
-
             displaySelectedScreen("Profile");
         } else if (pos == 6) {
-            mCurrentFrag = "Change Password";
-
             displaySelectedScreen("Change Password");
         } else if (pos == 7) {
-            mCurrentFrag = "Help";
-
             displaySelectedScreen("Help");
         }
-        adapter.onSelection(pos);
+//        adapter.onSelection(pos);
     }
 
     @SuppressLint("WrongConstant")
@@ -2271,12 +2235,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void startService() {
-        startService(new Intent(getBaseContext(), BatteryLevelLocationService.class));
+        startService(new Intent(this, BatteryLevelLocationService.class));
     }
 
     // Method to stop the BatteryLevelLocationService
     public void stopBatteryLevelLocationService() {
-        stopService(new Intent(getBaseContext(), BatteryLevelLocationService.class));
+        stopService(new Intent(this, BatteryLevelLocationService.class));
     }
 
     private boolean isGpsEnambled() {
@@ -2349,33 +2313,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void buildAlertMessageNoGps() {
 
-        new AlertDialog.Builder(this)
-                .setMessage("Your GPS seems to be disabled, do you want to enable it?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", (dialog, id) -> startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), GPS_REQUEST_CODE))
-                .setNegativeButton("No", (dialog, id) -> {
-                    dialog.dismiss();
-                    dialog.cancel();
-                    Dialog dialog1 = new Dialog(this, R.style.fadeinandoutcustomDialog);
-                    DialogAlertPermissionBinding permissionDeniedBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_permission, null, false);
-                    dialog1.setContentView(permissionDeniedBinding.getRoot());
-                    dialog1.setCancelable(false);
-                    permissionDeniedBinding.locationPermissionDeniedText.setText("GPS enable to access application");
-                    permissionDeniedBinding.locationPermissionBtn.setText("GPS permission");
-                    permissionDeniedBinding.locationPermissionBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (isGpsEnambled()) {
-                                checkLocationPermission();
-                            } else {
-                                buildAlertMessageNoGps();
-                            }
-                            dialog1.dismiss();
-                        }
-                    });
-                    dialog1.show();
+        new AlertDialog.Builder(this).setMessage("Your GPS seems to be disabled, do you want to enable it?").setCancelable(false).setPositiveButton("Yes", (dialog, id) -> startActivityForResult(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS), GPS_REQUEST_CODE)).setNegativeButton("No", (dialog, id) -> {
+            dialog.dismiss();
+            dialog.cancel();
+            Dialog dialog1 = new Dialog(this, R.style.fadeinandoutcustomDialog);
+            DialogAlertPermissionBinding permissionDeniedBinding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_alert_permission, null, false);
+            dialog1.setContentView(permissionDeniedBinding.getRoot());
+            dialog1.setCancelable(false);
+            permissionDeniedBinding.locationPermissionDeniedText.setText("GPS enable to access application");
+            permissionDeniedBinding.locationPermissionBtn.setText("GPS permission");
+            permissionDeniedBinding.locationPermissionBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (isGpsEnambled()) {
+                        checkLocationPermission();
+                    } else {
+                        buildAlertMessageNoGps();
+                    }
+                    dialog1.dismiss();
+                }
+            });
+            dialog1.show();
 
-                }).create().show();
+        }).create().show();
+    }
+
+    private void onClickRiderNotification() {
+        riderNotificationLayout = (RelativeLayout) findViewById(R.id.rider_notification_layout);
+        notifyImage = (ImageView) findViewById(R.id.notify_image);
+        notificationTextCustom = (TextView) findViewById(R.id.notification_text);
+
+        notifyImage.setOnClickListener(v -> {
+            notificationTextCustom.setVisibility(View.GONE);
+            notificationTextCustom.clearAnimation();
+            if (getSessionManager().getNotificationStatus()) updateSelection(1);
+            else Toast.makeText(this, "No Notification.", Toast.LENGTH_SHORT).show();
+        });
+        notificationTextCustom.setOnClickListener(v -> {
+            notificationTextCustom.setVisibility(View.GONE);
+            notificationTextCustom.clearAnimation();
+            if (getSessionManager().getNotificationStatus()) updateSelection(1);
+            else Toast.makeText(this, "No Notification.", Toast.LENGTH_SHORT).show();
+        });
     }
 }
 

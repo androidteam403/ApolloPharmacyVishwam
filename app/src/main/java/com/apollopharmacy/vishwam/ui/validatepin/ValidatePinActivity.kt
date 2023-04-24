@@ -246,9 +246,14 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    private fun handleNextIntent() {
-        viewModel.loginApiCall("emp-102", "R1De6#012022", Preferences.getFcmKey(), this, this)
-//        Preferences.setIsPinCreated(true)
+    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()
+        viewModel.loginApiCall(Preferences.getValidatedEmpId(),
+            "R1De6#012022",
+            Preferences.getFcmKey(),
+            this,
+            this)
+//emp-102//Nagapavan
+        //        Preferences.setIsPinCreated(true)
 //        val homeIntent = Intent(this, MainActivity::class.java)
 //        startActivity(homeIntent)
 //        finish()
