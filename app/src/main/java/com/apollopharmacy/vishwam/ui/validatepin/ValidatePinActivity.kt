@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -133,6 +134,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                 viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
                     "SWACHH",
                     applicationContext)
+                viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
+                    "RETRO",
+                    applicationContext, this)
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
@@ -356,6 +360,19 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
             finish()
         }
+    }
+
+    override fun onSuccessAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
+        if (value.message != null && value.status.equals(true)) {
+            Preferences.setAppLevelDesignationApnaRetro(value.message)
+//                        Toast.makeText(applicationContext, "QcFail: "+Preferences.getAppLevelDesignationQCFail(), Toast.LENGTH_SHORT).show();
+        } else {
+            Preferences.setAppLevelDesignationApnaRetro("")
+        }
+    }
+
+    override fun onFailureAppLevelDesignationApnaRetro(value: AppLevelDesignationModelResponse) {
+
     }
 
 }

@@ -44,6 +44,8 @@ object Preferences {
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
 
+    private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
+
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -400,6 +402,14 @@ object Preferences {
 
     fun getAppLevelDesignationSwach(): String {
         return sharedPreferences.getString(APP_LEVEL_DESIGNATION_SWACH, "")!!
+    }
+
+    fun setAppLevelDesignationApnaRetro(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_RETRO, role).apply()
+    }
+
+    fun getAppLevelDesignationApnaRetro(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_RETRO, "")!!
     }
 
     fun setAppLevelDesignationQCFail(role: String) {

@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 
 import android.content.Intent
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     override fun setup() {
         viewBinding.callback=this
+        Toast.makeText(context, ""+Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
         if(this.arguments?.getBoolean("fromPreRectro") == true){
             fragmentName= "fromPreRectro"
         }else if(this.arguments?.getBoolean("fromPostRectro") == true){
