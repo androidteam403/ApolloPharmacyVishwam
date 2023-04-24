@@ -38,6 +38,7 @@
             android:background="@drawable/background_darkgreen_circle"/>
 
         <TextView
+            android:id="@+id/transaction_id_apna"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
@@ -45,7 +46,6 @@
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
             android:textStyle="bold"
-            android:text="Pre Retro is Submitted for Review\nTransaction id is: 16003_APNA_435894"
             android:textColor="@color/black"
             android:textSize="@dimen/text_15sp" />
 

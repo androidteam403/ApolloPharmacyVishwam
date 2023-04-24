@@ -7,6 +7,8 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -421,12 +423,6 @@ interface ViswamAppApi {
     ): OnSubmitSwachModelResponse
 
 
-    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
-    suspend fun checkDayWiseAccess(
-        @Url url: String,
-        @Header("token") token: String, @Query("StoreId") storeId: String,
-    ): CheckDayWiseAccessResponse
-
     @POST //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/SaveImageUrls")
     suspend fun onUploadSwacch(
         @Url url: String,
@@ -645,8 +641,24 @@ interface ViswamAppApi {
         @Body cashDepositDetailsRequest: CashDepositDetailsRequest,
     ): CashDepositDetailsResponse
 
-    @GET("http://jsonblob.com/api/jsonBlob/1098192334667137024")
-    suspend fun GET_APNA_RECTRO_LIST(): GetSubCategoryDetailsModelResponse
+    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
+    suspend fun checkDayWiseAccess(
+        @Url url: String,
+        @Header("token") token: String, @Query("StoreId") storeId: String,
+    ): CheckDayWiseAccessResponse
+
+    @GET//https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001
+    suspend fun getStoreWiseCatDetailsApna(
+        @Url url: String,
+        @Header("token") token: String, @Query("StoreId") storeId: String,
+    ): GetStoreWiseCatDetailsApnaResponse
+
+    @POST  //https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls
+    suspend fun saveImageUrlsApna(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: SaveImagesUrlsRequest,
+    ): SaveImageUrlsResponse
 }
 
 

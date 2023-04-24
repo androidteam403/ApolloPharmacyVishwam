@@ -38,15 +38,13 @@
                 android:text="Store ID "/>
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/fromDateEdittext"
+                android:id="@+id/storeId"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_40dp"
                 android:background="@drawable/grey_border_bg"
                 android:drawableEnd="@drawable/ic_search_24"
-                android:editable="false"
                 android:gravity="center"
-
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textColorHint="@color/black"
@@ -90,7 +88,7 @@
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
-                                android:text="Ameerpet, Hyderabad"
+                                android:id="@+id/store_name"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"
@@ -140,7 +138,7 @@
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
-                                android:text="APL48627"
+                                android:id="@+id/incharge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="@color/black"

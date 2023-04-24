@@ -7,13 +7,17 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
@@ -44,6 +48,9 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             viewBinding.createNewRectroLayout.visibility= View.GONE
             viewBinding.recordsUploaded.visibility=View.GONE
         }
+//        viewBinding.storeId.text= Preferences.getSwachhSiteId()
+        viewBinding.incharge.text= Preferences.getValidatedEmpId()
+        viewBinding.storeName.text= Preferences.getSwachSiteName()
 //        viewBinding.secondReshoot.setOnClickListener {
 //            val intent = Intent(context, PostRectroReviewScreen::class.java)
 //            startActivity(intent)
@@ -104,4 +111,5 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     }
 
     class AdapterList(var transactionId: String, var storeId: String,var storeName: String, var uploadedOn: String, var uploadedBy: String, var approvedOn:String, var approvedBy:String,var preRetostatus:String, var postRetostatus:String,  var afterCompletionstatus:String , var overAlStatus:String)
+
 }

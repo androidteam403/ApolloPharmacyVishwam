@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,23 +8,36 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.AdapterImagesuploadApnaBinding
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesCallback
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
 import com.bumptech.glide.Glide
+import java.io.File
 
 class ImagesUploadAdapter(
-    private var configList: ArrayList<UploadImagesActivity.ImgeDtcl>,
-    private var pos: Int,
-    private var context: Context,
-    private var uploadImagesCallback: UploadImagesCallback
+    private var configPosition: Int,
+    private var imageDataDto: MutableList<GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl>?,
+    private var callbackInterface: CallbackInterface,
+    private var categoryName: String?
 ) : RecyclerView.Adapter<ImagesUploadAdapter.ViewHolder>() {
+
+    interface CallbackInterface {
+        fun plusIconAddImage(configPosition: Int, uploadButtonPosition: Int)
+        fun deleteImageCallBack(deleteImagePos: Int, position: Int)
+        fun capturedImageReview(
+            capturedImagepos: Int,
+            capturedImage: File?,
+            view: View,
+            position: Int,
+            categoryName: String?
+        )
+    }
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
     ): ImagesUploadAdapter.ViewHolder {
         val adapterImagesuploadApnaBinding: AdapterImagesuploadApnaBinding =
             DataBindingUtil.inflate(
-                LayoutInflater.from(context),
+                LayoutInflater.from(parent.context),
                 R.layout.adapter_imagesupload_apna,
                 parent,
                 false
@@ -34,14 +46,14 @@ class ImagesUploadAdapter(
     }
 
     override fun onBindViewHolder(holder: ImagesUploadAdapter.ViewHolder, position: Int) {
-        val category  = configList.get(pos).file
+        val category  =  imageDataDto?.get(position)
         var myInt: Int = 1
 
         holder.adapterImagesuploadApnaBinding.imageTextandNumber.text = "Image" +position.plus(myInt).toString()
-        if(configList.get(pos)?.file!=null){
+        if(category!!.file!=null){
             holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
             holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-            Glide.with(ViswamApp.context).load(configList.get(pos).file)
+            Glide.with(ViswamApp.context).load(category.file)
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
 
@@ -70,15 +82,15 @@ class ImagesUploadAdapter(
 //            uploadImagesCallback.onClickEyeImage()
 //        }
         holder.adapterImagesuploadApnaBinding.plusSysmbol.setOnClickListener {
-            uploadImagesCallback.onClickPlusIcon(pos)
+            callbackInterface.plusIconAddImage(configPosition,position)
         }
         holder.adapterImagesuploadApnaBinding.redTrash.setOnClickListener {
-            uploadImagesCallback.onClickDeleteImage(pos)
+            callbackInterface.deleteImageCallBack(configPosition, position)
         }
     }
 
     override fun getItemCount(): Int {
-        return configList.size-4
+        return imageDataDto?.size!!
     }
     class ViewHolder(val adapterImagesuploadApnaBinding: AdapterImagesuploadApnaBinding) :
         RecyclerView.ViewHolder(adapterImagesuploadApnaBinding.root)

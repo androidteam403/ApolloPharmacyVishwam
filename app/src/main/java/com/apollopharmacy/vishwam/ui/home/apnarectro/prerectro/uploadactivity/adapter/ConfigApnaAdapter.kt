@@ -9,13 +9,16 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.AdapterConfigApnaBinding
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesCallback
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.adapter.ImagesCardViewAdapter
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
+import java.util.ArrayList
 
 class ConfigApnaAdapter(
-    private var configList: ArrayList<UploadImagesActivity.ImgeDtcl>,
-    private var context: Context,
-    private var uploadImagesCallback: UploadImagesCallback
+    private var configList: GetStoreWiseCatDetailsApnaResponse,
+    private var configListDup: ArrayList<GetStoreWiseCatDetailsApnaResponse>,
+    private val callbackInterface: ImagesUploadAdapter.CallbackInterface,
+    private var context: Context
 ) :
     RecyclerView.Adapter<ConfigApnaAdapter.ViewHolder>()  {
     private lateinit var imagesUploadAdapter: ImagesUploadAdapter
@@ -35,12 +38,12 @@ class ConfigApnaAdapter(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val category  = configList.get(position)
-        holder.adapterConfigApnaBinding.categoryNumber.text = (position+1).toString()
-        holder.adapterConfigApnaBinding.categoryName.text=configList.get(position).categoryName
+        val category  = configList.configlist?.get(position)
+        holder.adapterConfigApnaBinding.categoryNumber.text = category!!.categoryId
+        holder.adapterConfigApnaBinding.categoryName.text=category.categoryName
 
         imagesUploadAdapter =
-            ImagesUploadAdapter(configList, position, context, uploadImagesCallback)
+            ImagesUploadAdapter(position, category.imageDataDto, callbackInterface, category.categoryName)
         holder.adapterConfigApnaBinding.uploadlayoutrecyclerview.layoutManager = LinearLayoutManager(
             ViswamApp.context,
             LinearLayoutManager.HORIZONTAL, false)
@@ -49,7 +52,7 @@ class ConfigApnaAdapter(
 
 
     override fun getItemCount(): Int {
-       return configList.size
+        return configList.configlist!!.size
     }
 
     class ViewHolder(val adapterConfigApnaBinding: AdapterConfigApnaBinding) :
