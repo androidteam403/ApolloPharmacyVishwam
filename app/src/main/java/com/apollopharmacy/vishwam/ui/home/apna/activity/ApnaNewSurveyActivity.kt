@@ -1095,10 +1095,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.previousNextBtn.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.next.visibility = View.GONE
                 this.currentPosition = 1
-
-                if (validateLocationDetails()) {
-                    isLocationDetailsCompleted = true
-                }
             }
             2 -> {
                 if (neighbouringLocationList.size == 0) {
