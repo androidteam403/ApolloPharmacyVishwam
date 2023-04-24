@@ -19,6 +19,11 @@ public class NavigationListView extends ExpandableListView {
     private int currentChildSelection = -1;
 
     private List<HeaderModel> listHeader;
+
+    public List<HeaderModel> getListHeader() {
+        return listHeader;
+    }
+
     private OnGroupClickListener onGroupClickListener;
     private OnChildClickListener onChildClickListener;
     private NavigationListAdapter adapter;
@@ -42,6 +47,9 @@ public class NavigationListView extends ExpandableListView {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec_custom);
         ViewGroup.LayoutParams params = getLayoutParams();
         params.height = getMeasuredHeight();
+//        if (listHeader.get(1).getTitle().equals("Greetings to Chairman")){
+//            params.height=70;
+//        }
     }
 
     public NavigationListView init(Context context) {
@@ -55,6 +63,10 @@ public class NavigationListView extends ExpandableListView {
             this.listHeader.addAll(list);
         }
         return this;
+    }
+
+    public void refresh(){
+        adapter.notifyDataSetChanged();
     }
 
     public NavigationListView addOnGroupClickListener(OnGroupClickListener onGroupClickListener) {

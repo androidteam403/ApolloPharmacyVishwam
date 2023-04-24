@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_60dp"
+                android:background="#173b5e"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="ADD APARTMENTS/COLONY"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginStart="@dimen/value_8dp"
+                android:layout_marginEnd="@dimen/value_8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/apartments"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_8dp"
+                    android:layout_weight=".5"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/apartmentsText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="Apartments/Colony"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/noOfHouse"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/noOfHouseText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="No Of Houses"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_marginStart="@dimen/value_8dp"
+                android:layout_marginEnd="@dimen/value_8dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/distance"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/value_8dp"
+                    android:layout_weight=".5"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/distanceText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="Distance"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:inputType="number"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/types"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".5"
+                    android:textColorHint="@color/black">
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/typesText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:hint="Types"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:gravity="center">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancelBtn"
+                    android:layout_width="@dimen/value_100dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/value_8dp"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:background="@drawable/cancel_button"
+                    android:hint="CANCEL"
+                    android:textAlignment="center"
+                    android:textSize="@dimen/text_16sp"
+                    android:textColorHint="@color/white"
+                    android:textStyle="bold"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addBtn"
+                    android:layout_width="@dimen/value_100dp"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/value_8dp"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/text_16sp"
+                    android:textColorHint="@color/white"
+                    android:background="@drawable/add_btn"
+                    android:hint="ADD"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
