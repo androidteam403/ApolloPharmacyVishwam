@@ -696,11 +696,6 @@ interface ViswamAppApi {
         @Url url: String
     ): NeighbouringLocationResponse
 
-    @GET //("https://online.apollopharmacy.org/SWACHHUAT/APOLLO/SWCH/GetStoreWiseACCessDetails")
-    suspend fun checkDayWiseAccess(
-        @Url url: String,
-        @Header("token") token: String, @Query("StoreId") storeId: String,
-    ): CheckDayWiseAccessResponse
 
     @GET//https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001
     suspend fun getStoreWiseCatDetailsApna(
