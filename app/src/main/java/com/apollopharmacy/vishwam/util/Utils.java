@@ -460,7 +460,7 @@ public class Utils {
     public static String dateCoversiontoTime(String twelveHoursTime) throws ParseException {
 
         //Date/time pattern of input date (12 Hours format - hh used for 12 hours)
-        DateFormat df = new SimpleDateFormat("dd/MMM/yyyy, hh:mm:ssaa");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd, HH:mm:ss");
 
         //Date/time pattern of desired output date (24 Hours format HH - Used for 24 hours)
         DateFormat outputformat = new SimpleDateFormat("HH:mm:ss");

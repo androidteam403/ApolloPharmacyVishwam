@@ -8,6 +8,7 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorLi
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -500,6 +501,13 @@ interface ViswamAppApi {
         @Part image: MultipartBody.Part,
     ): FileResposne
 
+    @GET
+    suspend fun GET_SURVEY_LIST(
+        @Url url: String,
+
+        @Header("token") token: String,
+        @Query("employee_id") id: String,
+    ): SurveyListResponse
 
     @POST//("https://viswam.apollopharmacy.org/LIGHTPOSPROXY/Apollo/UTIES/GETDetails")
     suspend fun getUploadProxImage(

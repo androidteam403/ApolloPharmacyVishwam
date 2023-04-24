@@ -50,7 +50,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         super.onCreate(savedInstanceState)
         activityQcFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_qc_filter)
         viewModel = ViewModelProvider(this)[QcSiteActivityViewModel::class.java]
-        if (intent!=null){
+        if (intent != null) {
           storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
 

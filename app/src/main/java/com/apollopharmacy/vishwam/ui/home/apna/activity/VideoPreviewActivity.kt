@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.widget.MediaController
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.databinding.ActivityVideoPreviewBinding
+import com.apollopharmacy.vishwam.databinding.ActivityVideoPreviewsBinding
 
 class VideoPreviewActivity : AppCompatActivity() {
-    lateinit var activityVideoPreviewBinding: ActivityVideoPreviewBinding
+   public lateinit var activityVideoPreviewBinding: ActivityVideoPreviewsBinding
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityVideoPreviewBinding = DataBindingUtil.setContentView(this@VideoPreviewActivity, R.layout.activity_video_preview)
+        activityVideoPreviewBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_video_previews)
 
 
         val intent = intent

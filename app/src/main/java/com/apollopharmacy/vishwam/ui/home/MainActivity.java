@@ -65,6 +65,7 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
@@ -780,6 +781,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
                 break;
 
+
             case "Cash Deposit":
                 headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
@@ -792,7 +794,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Apna Form":
                 headerText.setText("Apna Form");
-//                fragment = new ApnaFormFragment();
+                fragment = new ApnaFormFragment();
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1588,6 +1590,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displaySelectedScreen("Apna Form");
                 } else if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
                     displaySelectedScreen("Apna Survey");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Video View")){
+                    displaySelectedScreen("Video View");
                 }
             }
 
