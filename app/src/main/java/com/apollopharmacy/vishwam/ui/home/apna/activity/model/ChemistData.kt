@@ -1,9 +1,9 @@
-package com.apollopharmacy.vishwam.ui.home.apna.model
+package com.apollopharmacy.vishwam.ui.home.apna.activity.model
 
 class ChemistData(
     var chemist: String,
     var organised: String,
     var organisedAvgSale: String,
     var unorganised: String,
-    var unorganisedAvgSale: String
+    var unorganisedAvgSale: String,
 )

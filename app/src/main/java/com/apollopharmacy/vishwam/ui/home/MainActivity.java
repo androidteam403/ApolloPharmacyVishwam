@@ -65,14 +65,12 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
-import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
-import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyActivity;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -794,7 +792,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case "Apna Form":
                 headerText.setText("Apna Form");
-                fragment = new ApnaFormFragment();
+//                fragment = new ApnaFormFragment();
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);

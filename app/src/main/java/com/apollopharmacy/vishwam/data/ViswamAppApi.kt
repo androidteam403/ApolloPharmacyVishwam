@@ -675,6 +675,16 @@ interface ViswamAppApi {
     suspend fun getParkingType(
         @Url url: String
     ): ParkingTypeResponse
+
+    @GET
+    suspend fun getDimensionType(
+        @Url url:String
+    ): DimensionTypeResponse
+
+    @GET
+    suspend fun getNeighbouringLocation(
+        @Url url: String
+    ): NeighbouringLocationResponse
 }
 
 

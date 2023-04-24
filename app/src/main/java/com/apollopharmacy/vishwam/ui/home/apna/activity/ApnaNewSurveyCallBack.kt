@@ -4,6 +4,12 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
+    fun onOrganisedItemSelect(position: Int, item: String)
+
+    fun onUnorganisedItemSelect(position: Int, item: String)
+
+    fun onClickDeleteChemist(position: Int)
+
     fun onClickApartmentDelete(position: Int)
 
     fun onClickDeleteHospital(position: Int)
@@ -45,4 +51,12 @@ interface ApnaNewSurveyCallBack {
     fun onSuccessGetParkingTypeApiCall(parkingTypeResponse: ParkingTypeResponse)
 
     fun onFailureGetParkingTypeApiCall(message: String)
+
+    fun onSuccessGetDimensionTypeApiCall(dimensionTypeResponse: DimensionTypeResponse)
+
+    fun onFailureGetDimensionTypeApiCall(message: String)
+
+    fun onSuccessGetNeighbouringLocationApiCall(neighbouringLocationResponse: NeighbouringLocationResponse)
+
+    fun onFailureGetNeighbouringLocationApiCall(message: String)
 }

@@ -77,11 +77,6 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <!--                    <ViewFlipper-->
-                    <!--                        android:id="@+id/viewFlipper"-->
-                    <!--                        android:layout_width="match_parent"-->
-                    <!--                        android:layout_height="wrap_content">-->
-
                     <!-- Location Details Layout -->
                     <LinearLayout
                         android:id="@+id/locationDetailsLayout"
@@ -170,7 +165,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
@@ -204,7 +199,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -230,7 +225,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -254,7 +249,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
@@ -286,7 +281,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/gray"
-                                        android:textSize="14sp"
+                                        android:textSize="12sp"
                                         android:textStyle="bold" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
@@ -352,7 +347,8 @@
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -377,7 +373,8 @@
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -501,7 +498,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/gray"
-                                            android:textSize="14sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -510,7 +507,7 @@
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_8dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".5"
                                         android:textColorHint="@color/gray"
                                         android:theme="@style/ApnaTextLabel"
@@ -526,7 +523,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/gray"
-                                            android:textSize="14sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
@@ -535,6 +532,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
+                                    android:baselineAligned="false"
                                     android:gravity="bottom"
                                     android:orientation="horizontal"
                                     android:weightSum="1">
@@ -560,11 +558,11 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/gray"
-                                            android:textSize="14sp"
+                                            android:textSize="@dimen/text_12sp"
                                             android:textStyle="bold" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
-                                    <TextView
+                                    <!--<TextView
                                         android:id="@+id/totalAreaText"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_35dp"
@@ -579,8 +577,40 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_15sp"
-                                        android:textStyle="bold" />
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />-->
+
+                                    <RelativeLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/value_35dp"
+                                        android:layout_weight=".5">
+
+                                        <TextView
+                                            android:id="@+id/totalAreaText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:background="@drawable/gray_rounded_bg"
+                                            android:editable="false"
+                                            android:gravity="center_vertical"
+                                            android:hint="0.0"
+                                            android:inputType="text"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
+
+                                        <ImageView
+                                            android:id="@+id/clear"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_centerVertical="true"
+                                            android:layout_marginEnd="@dimen/value_10dp"
+                                            android:src="@drawable/closee_black" />
+                                    </RelativeLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -618,7 +648,7 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/price_bold"
                                             android:text="Per sq.ft"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:layout_width="wrap_content"
@@ -631,12 +661,12 @@
                                             android:textSize="@dimen/text_14sp" />
 
                                         <RadioButton
-                                            android:id="@+id/lumpsumRadioButton"
+                                            android:id="@+id/inchRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/poppin_bold"
-                                            android:text="Lumpsum"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:text="Per inch"
+                                            android:textSize="@dimen/text_12sp" />
                                     </RadioGroup>
                                 </LinearLayout>
 
@@ -647,8 +677,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
                                         android:layout_marginStart="@dimen/value_8dp"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
@@ -662,7 +692,9 @@
                                         android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
-                                        android:textSize="@dimen/text_15sp" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -689,8 +721,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
@@ -703,7 +735,9 @@
                                         android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
-                                        android:textSize="@dimen/text_15sp" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -761,7 +795,9 @@
                                     android:background="@drawable/light_gray_border"
                                     android:inputType="number"
                                     android:paddingStart="@dimen/value_10dp"
-                                    android:textSize="@dimen/text_15sp" />
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1054,9 +1090,11 @@
                                     android:layout_height="@dimen/value_35dp"
                                     android:layout_marginTop="4dp"
                                     android:background="@drawable/light_gray_border"
-                                    android:inputType="number"
+                                    android:inputType="text"
                                     android:paddingStart="@dimen/value_10dp"
-                                    android:textSize="@dimen/text_15sp" />
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                         </LinearLayout>
@@ -1144,7 +1182,9 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/light_gray_border"
                                     android:paddingStart="@dimen/value_10dp"
-                                    android:textSize="@dimen/text_15sp" />
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1197,8 +1237,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
+                                        android:layout_width="20dp"
+                                        android:layout_height="20dp"
                                         android:layout_marginStart="@dimen/value_20dp"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
@@ -1213,7 +1253,8 @@
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_15sp" />
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1262,7 +1303,9 @@
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1286,7 +1329,9 @@
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -1312,7 +1357,9 @@
                                         android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
-                                        android:textSize="@dimen/text_15sp" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1343,11 +1390,20 @@
                                         android:background="@drawable/light_gray_border"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
-                                        android:textSize="@dimen/text_15sp" />
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
                                 </LinearLayout>
                             </LinearLayout>
 
-                            <LinearLayout
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/neighbouringStoreRcv"
+                                android:layout_width="match_parent"
+                                android:layout_height="265dp"
+                                tools:itemCount="3"
+                                tools:listitem="@layout/layout_neighbouring_store" />
+
+                            <!--<LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_8dp"
@@ -1611,7 +1667,7 @@
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_15sp" />
                                 </LinearLayout>
-                            </LinearLayout>
+                            </LinearLayout>-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1651,7 +1707,8 @@
                                     android:paddingTop="@dimen/value_12dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_15sp" />
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1677,29 +1734,18 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <com.google.android.material.textfield.TextInputLayout
-                                    android:id="@+id/catchmentArea"
-                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                <EditText
+                                    android:id="@+id/catchmentAreaText"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="@dimen/value_35dp"
+                                    android:background="@drawable/light_gray_border"
+                                    android:hint="Catchment area"
+                                    android:inputType="text"
+                                    android:paddingStart="@dimen/value_10dp"
+                                    android:textColor="@color/black"
                                     android:textColorHint="@color/black"
-                                    app:layout_constraintTop_toTopOf="parent">
-
-                                    <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/catchmentAreaSelect"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:clickable="true"
-                                        android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                        android:drawableTint="@color/black"
-                                        android:focusable="false"
-                                        android:hint="Select Traffic Street"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
-                                </com.google.android.material.textfield.TextInputLayout>
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1717,7 +1763,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="@dimen/value_5dp"
+                                            android:layout_marginBottom="3dp"
                                             android:text="Service Class"
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
@@ -1728,29 +1774,18 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
-                                            android:id="@+id/serviceClass"
-                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        <EditText
+                                            android:id="@+id/serviceClassText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:hint="Income"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            app:layout_constraintTop_toTopOf="parent">
-
-                                            <androidx.appcompat.widget.AppCompatEditText
-                                                android:id="@+id/serviceClassSelect"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="@dimen/value_35dp"
-                                                android:clickable="true"
-                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:drawableTint="@color/black"
-                                                android:focusable="false"
-                                                android:hint="Select Traffic Street"
-                                                android:paddingStart="@dimen/value_10dp"
-                                                android:paddingEnd="@dimen/value_10dp"
-                                                android:textColor="@color/black"
-                                                android:textColorHint="@color/black"
-                                                android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1762,7 +1797,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="@dimen/value_5dp"
+                                            android:layout_marginBottom="3dp"
                                             android:text="Business Class"
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
@@ -1773,29 +1808,18 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <com.google.android.material.textfield.TextInputLayout
-                                            android:id="@+id/businessClass"
-                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        <EditText
+                                            android:id="@+id/businessClassText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="@dimen/value_35dp"
+                                            android:background="@drawable/light_gray_border"
+                                            android:hint="Income"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            app:layout_constraintTop_toTopOf="parent">
-
-                                            <androidx.appcompat.widget.AppCompatEditText
-                                                android:id="@+id/businessClassSelect"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="@dimen/value_35dp"
-                                                android:clickable="true"
-                                                android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                                android:drawableTint="@color/black"
-                                                android:focusable="false"
-                                                android:hint="Select Traffic Street"
-                                                android:paddingStart="@dimen/value_10dp"
-                                                android:paddingEnd="@dimen/value_10dp"
-                                                android:textColor="@color/black"
-                                                android:textColorHint="@color/black"
-                                                android:textSize="@dimen/text_12sp" />
-                                        </com.google.android.material.textfield.TextInputLayout>
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1954,8 +1978,10 @@
                                     tools:listitem="@layout/adapter_chemist_list" />
 
                                 <LinearLayout
+                                    android:id="@+id/chemistTotalLayout"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:visibility="gone"
                                     android:weightSum="3">
 
                                     <LinearLayout
@@ -1988,7 +2014,7 @@
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
-                                            android:id="@+id/totalOrganised"
+                                            android:id="@+id/totalOrganisedText"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
@@ -2011,7 +2037,7 @@
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
-                                            android:id="@+id/totalUnorganised"
+                                            android:id="@+id/totalUnorganisedText"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
@@ -2061,13 +2087,13 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_35dp"
                                         android:background="@drawable/light_gray_border"
-                                        android:inputType="text"
                                         android:hint="Chemist"
-                                        android:textColorHint="@color/black"
+                                        android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
 
                                 </LinearLayout>
 
@@ -2160,10 +2186,11 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
+                                            android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2257,10 +2284,11 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
+                                            android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2436,10 +2464,10 @@
                                             android:layout_height="@dimen/value_35dp"
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
-                                            android:textStyle="bold"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2464,9 +2492,9 @@
                                             android:background="@drawable/light_gray_border"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
-                                            android:textStyle="bold"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2642,8 +2670,8 @@
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textStyle="bold"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2668,8 +2696,8 @@
                                             android:inputType="text"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textStyle="bold"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2703,8 +2731,8 @@
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textStyle="bold"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2730,8 +2758,8 @@
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textStyle="bold"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp"
+                                            android:textStyle="bold" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2838,7 +2866,7 @@
                                     android:weightSum="1">
 
                                     <androidx.recyclerview.widget.RecyclerView
-                                        android:id="@+id/sitePhotosRecyclerView"
+                                        android:id="@+id/siteImagesRecyclerView"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
@@ -2849,7 +2877,7 @@
                                         tools:listitem="@layout/adapter_site_photo" />
 
                                     <Button
-                                        android:id="@+id/addSitePhoto"
+                                        android:id="@+id/addSiteImage"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
                                         android:layout_weight=".2"
@@ -2966,7 +2994,6 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!--                    </ViewFlipper>-->
                 </LinearLayout>
 
             </FrameLayout>
