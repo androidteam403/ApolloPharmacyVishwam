@@ -188,5 +188,12 @@
     <color name="light_yellow_color">#fff6e4</color>
     <color name="lightt_green">#009245</color>
     <color name="color_wish_chairmain_dialog_bg">#E6000000</color>
+    <color name="baby_pink">#fde8e9</color>
+    <color name="very_light_green">#e3f2e1</color>
+    <color name="green_bg_for_approved">#ebf7ed</color>
+    <color name="light_pink_for_reshoot_pending">#feeedb</color>
+    <color name="grey_bg_for_no_status">#f4f4f4</color>
+    <color name="pending_reshoot_color">#f26522</color>
+    <color name="blue">#0054a6</color>
 
 </resources>

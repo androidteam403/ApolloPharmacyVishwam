@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/apartmentType"
+                    android:id="@+id/apartmentTypeText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_bold"
@@ -28,6 +28,7 @@
                     android:textSize="@dimen/text_14sp" />
 
                 <ImageView
+                    android:id="@+id/deleteApartment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -56,7 +57,7 @@
                         android:fontFamily="@font/roboto_bold"/>
 
                     <TextView
-                        android:id="@+id/noOfHouses"
+                        android:id="@+id/noOfHousesText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="54"
@@ -80,6 +81,7 @@
                         android:fontFamily="@font/roboto_bold"/>
 
                     <TextView
+                        android:id="@+id/distanceText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="100 meters"

@@ -67,6 +67,11 @@ import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
 import com.apollopharmacy.vishwam.ui.home.apna.ApnaFormFragment;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
+import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
+import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
+import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
@@ -792,6 +797,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(i);
                 break;
 
+
             case "Cash Deposit":
                 headerText.setText("Cash Deposit");
                 fragment = new CashCloserFragment();
@@ -804,16 +810,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 riderNotificationLayout.setVisibility(View.GONE);
                 break;
             case "Apna Form":
-                headerText.setText("Apna Form");
-                fragment = new ApnaFormFragment();
-                filterIcon.setVisibility(View.GONE);
-                plusIconApna.setVisibility(View.GONE);
-                filterIconApna.setVisibility(View.GONE);
-                qcfilterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.GONE);
-                isHomeScreen = false;
-                riderNotificationLayout.setVisibility(View.GONE);
-                break;
+//                headerText.setText("Apna Form");
+//                fragment = new ApnaFormFragment();
+//                filterIcon.setVisibility(View.GONE);
+//                plusIconApna.setVisibility(View.GONE);
+//                filterIconApna.setVisibility(View.GONE);
+//                qcfilterIcon.setVisibility(View.GONE);
+//                siteIdIcon.setVisibility(View.GONE);
+//                isHomeScreen = false;
+//                riderNotificationLayout.setVisibility(View.GONE);
+//                break;
             case "Apna Survey":
                 headerText.setText("Apna Survey");
                 fragment = new ApnaSurveyFragment();
@@ -1026,6 +1032,85 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 break;
+
+            case "Pre Rectro":
+                headerText.setText("Pre Rectro");
+                Bundle bundlePreRectro = new Bundle();
+                bundlePreRectro.putBoolean("fromPreRectro", true);
+                PreRectroFragment fragPreRectro = new PreRectroFragment();
+                fragPreRectro.setArguments(bundlePreRectro);
+                fragment = fragPreRectro;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Post Rectro":
+                headerText.setText("Post Rectro");
+                Bundle bundlePostRectro = new Bundle();
+                bundlePostRectro.putBoolean("fromPostRectro", true);
+                PreRectroFragment fragPostRectro = new PreRectroFragment();
+                fragPostRectro.setArguments(bundlePostRectro);
+                fragment = fragPostRectro;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "After Completion":
+                headerText.setText("After Completion");
+                Bundle bundleAfterCompletion = new Bundle();
+                bundleAfterCompletion.putBoolean("fromAfterCompletion", true);
+                PreRectroFragment fragAfterCompletion = new PreRectroFragment();
+                fragAfterCompletion.setArguments(bundleAfterCompletion);
+                fragment = fragAfterCompletion;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Pre Rectro Approval":
+                headerText.setText("Pre Rectro Approval");
+                Bundle preRetroApprovalbundle = new Bundle();
+                preRetroApprovalbundle.putBoolean("fromPreRectroApproval", true);
+                PreRectroApprovalFragment fragPreRectroApproval = new PreRectroApprovalFragment();
+                fragPreRectroApproval.setArguments(preRetroApprovalbundle);
+                fragment = fragPreRectroApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "Post Rectro Approval":
+                headerText.setText("Post Rectro Approval");
+                Bundle postRetroApprovalbundle = new Bundle();
+                postRetroApprovalbundle.putBoolean("fromPostRectroApproval", true);
+                PreRectroApprovalFragment fragPostRectroApproval = new PreRectroApprovalFragment();
+                fragPostRectroApproval.setArguments(postRetroApprovalbundle);
+                fragment = fragPostRectroApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
+            case "After Completion Approval":
+                headerText.setText("After Completion Approval");
+                Bundle afterCompletionApprovalbundle = new Bundle();
+                afterCompletionApprovalbundle.putBoolean("fromAfterCompletionApproval", true);
+                PreRectroApprovalFragment fragAfterCompletionApproval = new PreRectroApprovalFragment();
+                fragAfterCompletionApproval.setArguments(afterCompletionApprovalbundle);
+                fragment = fragAfterCompletionApproval;
+                qcfilterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                break;
+
 
             case "Assets":
                 headerText.setText("Apollo Assets");
@@ -1426,9 +1511,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
 
-//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
-//
-//        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ)).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
+        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
+        );
+
+        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+                .addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_))
+                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
+                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
+        );
+
+
+
+        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ)
+                .addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ))
+                .addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_))
+        );
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
@@ -1561,6 +1664,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
                     displaySelectedScreen("Apna Survey");
                 }
+                else if (childModelList.get(childPosition).getTitle().equals("Video View")){
+                    displaySelectedScreen("Video View");
+                }
+            }
+            else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Pre Rectro")) {
+                    displaySelectedScreen("Pre Rectro");
+                }else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
+                    displaySelectedScreen("Post Rectro");
+                } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
+                    displaySelectedScreen("After Completion");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
+                    displaySelectedScreen("Pre Rectro Approval");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
+                    displaySelectedScreen("Post Rectro Approval");
+                }
+                else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
+                    displaySelectedScreen("After Completion Approval");
+                }
+
             }
 
 

@@ -22,13 +22,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_5dp"
                 android:layout_marginEnd="@dimen/value_5dp"
-                android:text="1110088"
+                android:text="Mall"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_15sp"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/crossButton"
+                android:id="@+id/delete_item"
                 android:layout_width="@dimen/value_20dp"
                 android:layout_height="@dimen/value_20dp"
                 android:layout_gravity="center"

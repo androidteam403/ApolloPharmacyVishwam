@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/value_15dp"
+            android:paddingBottom="@dimen/value_15dp"
+            android:background="@color/splash_color">
+
+            <TextView
+                android:id="@+id/headerText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Select UnOrganised"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/close_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:src="@drawable/close_icon"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/header_layout">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/searchUnOrganised"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:textColorHint="@color/black">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/searchUnOrganisedText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:singleLine="true"
+                    android:hint="Search unorganised"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/unorganisedAvailable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/value_40dp"
+                android:layout_marginBottom="@dimen/value_40dp"
+                android:text="Data Not Available"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_18sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/unorganisedRcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/value_5dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/view_item_row" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
