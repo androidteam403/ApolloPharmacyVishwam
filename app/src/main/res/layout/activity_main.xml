@@ -50,19 +50,20 @@
                 android:orientation="horizontal"
                 android:visibility="visible">
                 <ImageView
+                    android:id="@+id/plusIconapna"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:background="@drawable/green_backgroundplus"
-                    android:layout_marginEnd="10dp"
-                    android:paddingTop="5dp"
-                    android:id="@+id/plusIconapna"
-                    android:paddingBottom="5dp"
                     android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/green_backgroundplus"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
                     android:src="@drawable/plus" />
+
                 <ImageView
+                    android:id="@+id/filtericonapna"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:id="@+id/filtericonapna"
 
                     android:layout_gravity="center"
                     android:src="@drawable/filtersnew" />
@@ -79,9 +80,9 @@
             <RelativeLayout
                 android:id="@+id/filterIcon"
                 android:layout_width="@dimen/value_20dp"
-                android:visibility="gone"
                 android:layout_height="@dimen/value_20dp"
-                android:layout_marginStart="@dimen/value_10dp">
+                android:layout_marginStart="@dimen/value_10dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/value_20dp"
@@ -122,6 +123,32 @@
                     android:visibility="gone" />
             </RelativeLayout>
 
+            <RelativeLayout
+                android:id="@+id/rider_notification_layout"
+                android:layout_width="@dimen/value_25dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:clickable="true">
+
+                <ImageView
+                    android:id="@+id/notify_image"
+                    android:layout_width="@dimen/twenty_five_dp"
+                    android:layout_height="@dimen/twenty_five_dp"
+                    android:contentDescription="@string/app_name"
+                    android:gravity="center"
+                    android:src="@drawable/icon_notification" />
+
+                <TextView
+                    android:id="@+id/notification_text"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:layout_alignParentEnd="true"
+                    android:background="@drawable/notification_dot"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/text_dimen_12"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </LinearLayout>
 
 
@@ -193,8 +220,6 @@
     </RelativeLayout>
 
 
-
-
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"
@@ -208,21 +233,20 @@
         app:itemTextColor="@color/white">
 
         <LinearLayout
-            android:weightSum="1"
-            android:orientation="vertical"
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:weightSum="1">
 
             <LinearLayout
-                android:layout_marginTop="@dimen/value_175dp"
-                android:layout_weight="0.8"
-
-                android:orientation="vertical"
                 android:id="@+id/linear"
                 android:layout_width="match_parent"
+
                 android:layout_height="0dp"
-               >
+                android:layout_marginTop="@dimen/value_175dp"
+                android:layout_weight="0.8"
+                android:orientation="vertical">
 
                 <ScrollView
 
@@ -238,17 +262,17 @@
                         android:orientation="vertical">
 
                         <com.dvinfosys.ui.NavigationListView
-                            app:itemTextColor="@color/white"
-                            android:theme="@style/AppTheme"
                             android:id="@+id/expandable_navigation"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="left"
-                            app:itemIconTint="@color/white"
                             android:background="@color/splash_start_color"
                             android:groupIndicator="@null"
                             android:scrollbars="vertical"
-                            android:textColor="#ffffff" />
+                            android:textColor="#ffffff"
+                            android:theme="@style/AppTheme"
+                            app:itemIconTint="@color/white"
+                            app:itemTextColor="@color/white" />
 
 
                     </LinearLayout>
@@ -260,12 +284,12 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_below="@id/linear"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.2"
+                android:layout_below="@id/linear"
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="@dimen/value_40dp"
+                android:layout_weight="0.2"
                 android:gravity="bottom"
                 android:orientation="vertical">
 
@@ -302,12 +326,11 @@
             </LinearLayout>
 
 
-
-
         </LinearLayout>
 
 
     </com.google.android.material.navigation.NavigationView>
+
     <LinearLayout
         android:id="@+id/location_denied"
         android:layout_width="match_parent"

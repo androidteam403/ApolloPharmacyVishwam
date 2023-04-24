@@ -362,7 +362,7 @@ public class OrderDeliveryActivity extends BaseActivity implements AdapterView.O
     private Runnable liveDistanceCalculateRunnable = new Runnable() {
         @Override
         public void run() {
-            Toast.makeText(OrderDeliveryActivity.this, getSessionManager().getRiderTravelledDistanceinDay() + "m", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(OrderDeliveryActivity.this, getSessionManager().getRiderTravelledDistanceinDay() + "m", Toast.LENGTH_SHORT).show();
             liveDistanceCalculateHandler.removeCallbacks(liveDistanceCalculateRunnable);
             liveDistanceCalculateHandler.postDelayed(liveDistanceCalculateRunnable, 3000);
         }
