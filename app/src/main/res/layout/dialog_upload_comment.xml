@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/value_20dp"
+            android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/comment"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_10dp"
+                android:layout_marginRight="@dimen/value_10dp"
+                android:textColorHint="@color/black"
+                app:counterMaxLength="500">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/commentText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_100dp"
+                    android:gravity="top|start"
+                    android:hint="Add Comments *"
+                    android:inputType="textMultiLine"
+                    android:maxLength="400"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black"
+                    android:textSize="@dimen/text_15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:layout_marginTop="@dimen/value_20dp"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/cancel_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginEnd="@dimen/value_5dp"
+                    android:background="@drawable/cancel_button"
+                    android:hint="CANCEL"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="@dimen/text_16sp"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/submit_button"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".5"
+                    android:layout_marginStart="@dimen/value_5dp"
+                    android:background="@drawable/submit_button"
+                    android:hint="SUBMIT"
+                    android:textColorHint="@color/white"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textSize="@dimen/text_16sp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

@@ -1,6 +1,10 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.model.attendance.*
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
 import java.io.IOException
@@ -8,6 +12,7 @@ import java.net.ConnectException
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
+import java.util.*
 import java.util.concurrent.TimeoutException
 
 object AttendanceRepo {
@@ -49,6 +54,79 @@ object AttendanceRepo {
         }
     }
 
+    suspend fun getSiteList(
+        token: String,
+        baseUrl: String,
+        siteListRequest: SiteListRequest,
+    ): ApiResult<SiteListResponse> {
+        return try {
+            val response = Api.getClient().getSiteList(token, baseUrl, siteListRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getDoctorList(
+        token: String,
+        baseUrl: String,
+        doctorListRequest: DoctorListRequest,
+    ): ApiResult<DoctorListResponse> {
+        return try {
+            val response = Api.getClient().getDoctorList(token, baseUrl, doctorListRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
     suspend fun getListOfTasks(
         token: String,
         baseUrl: String,
@@ -122,6 +200,10 @@ object AttendanceRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+
+
+
+
 
     suspend fun getAttendanceHistory(
         token: String,

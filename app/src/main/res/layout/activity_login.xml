@@ -20,121 +20,168 @@
         android:background="@drawable/app_bg"
         tools:context=".ui.MainActivity">
 
-        <RelativeLayout
-            android:id="@+id/parentLayout"
+        <LinearLayout
+            android:id="@+id/content_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/value_130dp"
+                android:layout_height="@dimen/value_130dp"
+                android:layout_gravity="center"
+                android:contentDescription="@string/app_name"
+                android:src="@drawable/apollo_vishwam_logo" />
+
+            <RelativeLayout
+                android:id="@+id/entitiy_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="@dimen/value_130dp"
-                    android:layout_height="@dimen/value_130dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/app_name"
-                    android:src="@drawable/logo_vishwam" />
+                android:layout_marginLeft="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_40dp"
+                android:layout_marginRight="@dimen/value_20dp">
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/name_text_input"
+                    android:id="@+id/entity_text_input"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/value_20dp"
-                    android:layout_marginTop="@dimen/value_90dp"
-                    android:layout_marginRight="@dimen/value_20dp"
                     android:textColorHint="@color/white"
-                    android:theme="@style/TextLabel"
-                    app:layout_constraintTop_toBottomOf="@+id/image">
+                    android:theme="@style/TextLabel">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name_edit_text"
+                        android:id="@+id/entity_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
-                        android:hint="@string/label_user_name"
+                        android:hint="@string/label_entity"
                         android:imeOptions="actionNext"
-                        android:inputType="text"
+                        android:inputType="none"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
-                        android:textSize="@dimen/text_17sp" />
+                        android:textSize="@dimen/text_17sp"
+                        android:enabled="false"/>
                 </com.google.android.material.textfield.TextInputLayout>
+<!--                <Spinner-->
+<!--                    android:id="@+id/company_spinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@null"-->
+<!--                    android:minHeight="0dp"-->
+<!--                    android:textSize="16sp"-->
+<!--                    android:clickable="false"/>-->
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/password"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/value_20dp"
-                    android:layout_marginTop="@dimen/value_20dp"
-                    android:layout_marginRight="@dimen/value_20dp"
-                    android:textColorHint="@color/white"
-                    android:theme="@style/TextLabel"
-                    app:passwordToggleEnabled="true"
-                    app:passwordToggleTint="@color/white"
-                    app:boxStrokeColor="@color/white"
-                    app:layout_constraintTop_toBottomOf="@+id/name_text_input">
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bottomarrow" />
+            </RelativeLayout>
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/passwordEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_50dp"
-                        android:hint="@string/label_password"
-                        android:inputType="textPassword"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:paddingEnd="@dimen/value_10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="@color/white"
-                        android:textSize="@dimen/text_17sp" />
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/name_text_input"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_marginRight="@dimen/value_20dp"
+                android:textColorHint="@color/white"
+                android:theme="@style/TextLabel"
+                app:layout_constraintTop_toBottomOf="@+id/entitiy_layout">
 
-                <Button
-                    android:id="@+id/loginButton"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/name_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
-                    android:layout_marginLeft="@dimen/value_20dp"
-                    android:layout_marginTop="@dimen/value_70dp"
-                    android:layout_marginRight="@dimen/value_20dp"
-                    android:background="@drawable/yellow_drawable"
-                    android:enabled="@{loginViewModel.state == State.LOADING ? false :true}"
-                    android:text="@string/label_login"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/password" />
-            </LinearLayout>
+                    android:hint="@string/label_user_name"
+                    android:textAllCaps="true"
+                    android:imeOptions="actionNext"
+                    android:inputType="text"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/text_17sp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/end_to_end"
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/password"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/value_5dp"
-                android:gravity="center"
-                android:layout_above="@id/powered_by"
-                android:text="@string/label_end_to_end"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16sp" />
+                android:layout_marginLeft="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_marginRight="@dimen/value_20dp"
+                android:textColorHint="@color/white"
+                android:theme="@style/TextLabel"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white"
+                app:boxStrokeColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/name_text_input">
 
-            <TextView
-                android:id="@+id/powered_by"
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/passwordEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_50dp"
+                    android:hint="@string/label_password"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()-_+="
+                    android:inputType="textPassword"
+                    android:paddingStart="@dimen/value_10dp"
+                    android:paddingEnd="@dimen/value_10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    android:textSize="@dimen/text_17sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/loginButton"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/value_15dp"
-                android:gravity="center"
-                android:text="@string/label_powered_by"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent" />
-        </RelativeLayout>
+                android:layout_height="@dimen/value_50dp"
+                android:layout_marginLeft="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_70dp"
+                android:layout_marginRight="@dimen/value_20dp"
+                android:background="@drawable/yellow_drawable"
+                android:enabled="@{loginViewModel.state == State.LOADING ? false :true}"
+                android:text="@string/label_login"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toBottomOf="@+id/password" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/end_to_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:gravity="center"
+            android:text="@string/label_end_to_end"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toTopOf="@+id/powered_by"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+        <TextView
+            android:id="@+id/powered_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/value_15dp"
+            android:gravity="center"
+            android:text="@string/label_powered_by"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

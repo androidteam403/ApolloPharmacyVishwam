@@ -12,4 +12,6 @@ object NetworkUtil {
             networkInfo?.isConnected ?: false
         } else false
     }
+
+
 }
