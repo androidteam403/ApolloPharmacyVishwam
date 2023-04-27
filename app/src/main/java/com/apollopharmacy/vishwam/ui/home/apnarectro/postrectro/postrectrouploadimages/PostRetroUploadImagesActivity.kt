@@ -12,33 +12,54 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
+import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesPostretroBinding
+import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapterPostRetro
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ImagesUploadAdapterPostRetro
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import me.echodev.resizer.Resizer
 import java.io.File
+import java.util.stream.Collectors
 
-class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImagesCallback{
+class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImagesCallback, ImagesUploadAdapterPostRetro.CallbackInterface{
     lateinit var activityUploadImagesPostRetroBinding: ActivityUploadImagesPostretroBinding
     private var configApnaAdapterPostRetro: ConfigApnaAdapterPostRetro? = null
+    private var postRetroUploadImagesViewModel: PostRetroUploadImagesViewModel?=null
     private lateinit var dialog: Dialog
     private var fragmentName:String =""
+    private var retroid:String =""
     private var stage: String =""
     private var fileNameForCompressedImage: String? = null
-    var configLst = ArrayList<ImgeDtcl>()
+//    var configLst = ArrayList<ImgeDtcl>()
     var pos:Int=0
     var imageFromCameraFile: File? = null
+    private var uploadedImageCount: Int = 0
+    private var overallImageCount: Int = 0
+    private var apnaConfigList = ArrayList<GetStoreWiseCatDetailsApnaResponse>()
+    private lateinit var cameraDialog: Dialog
+    private var getImageUrlsLists: GetImageUrlsModelApnaResponse?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityUploadImagesPostRetroBinding = DataBindingUtil.setContentView(
@@ -53,49 +74,173 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
     private fun setUp() {
         activityUploadImagesPostRetroBinding.callback=this
+        postRetroUploadImagesViewModel = ViewModelProvider(this)[PostRetroUploadImagesViewModel::class.java]
         fragmentName = intent.getStringExtra("fragmentName")!!
+        retroid = intent.getStringExtra("retroid")!!
         stage = intent.getStringExtra("stage")!!
         if(stage.equals("isPostRetroStage")){
             activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
         }else{
             activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
         }
-//        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 
-        configLst!!.add(ImgeDtcl(null, "Signage", false))
-        configLst!!.add(ImgeDtcl(null, "Front glass facade left and right", false))
-        configLst!!.add(ImgeDtcl(null, "Merchadising of rack FMCG rack left and right", false))
-        configLst!!.add(ImgeDtcl(null, "Service desk covering system", false))
-        configLst!!.add(ImgeDtcl(null, "Pharma rack left and right", false))
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            postRetroUploadImagesViewModel!!.getStoreWiseDetailsApna(this)
+
+        } else {
+            Toast.makeText(
+                ViswamApp.context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
 
 
 
-
-        configApnaAdapterPostRetro =
-            ConfigApnaAdapterPostRetro(configLst, this, this)
-        val layoutManager = LinearLayoutManager(ViswamApp.context)
-        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
-        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
-            DefaultItemAnimator()
-        activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapterPostRetro
     }
 
 
     class ImgeDtcl(var file: File?,  var categoryName: String, var postRetroUploaded: Boolean)
 
     override fun onClickUpload() {
-        dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
-        val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
+
+        Utlis.showLoading(this)
+        updateButtonValidation()
+    }
+
+    override fun onClickCancel() {
+        onClickBack()
+    }
+    override fun onBackPressed() {
+        onClickBack()
+    }
+    fun onClickBack() {
+        if (uploadedImageCount > 0) {
+            val imagesStatusAlertDialog = Dialog(this)
+            val dialogBackPressedAllert: DialogForImageUploadBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_for_image_upload, null, false
+                )
+            imagesStatusAlertDialog.setContentView(dialogBackPressedAllert.root)
+//        dialogBackPressedAllert.alertTitle.visibility = View.GONE
+//        dialogBackPressedAllert.messege.text = "Do you want to exit?"
+//       imagesStatusAlertDialog.setCancelable(false)
+            imagesStatusAlertDialog.getWindow()
+                ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogBackPressedAllert.yesBtn.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+
+            dialogBackPressedAllert.cancelButton.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+            }
+            dialogBackPressedAllert.close.setOnClickListener {
+                imagesStatusAlertDialog.dismiss()
+            }
+            imagesStatusAlertDialog.show()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun updateButtonValidation() {
+        if (uploadedImageCount == overallImageCount) {
+            activityUploadImagesPostRetroBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+
+
+//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
+            postRetroUploadImagesViewModel!!.connectToAzure(
+                apnaConfigList, this
+            )
+
+//            }
+
+
+        } else {
+            Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
+                .show()
+            Utlis.hideLoading()
+        }
+    }
+    var configPositionDel: Int = 0
+    var uploadPositionDel: Int = 0
+    override fun deleteImageCallBack(configPosDelete: Int, deleteImagePosDelete: Int) {
+        this.configPositionDel = configPosDelete
+        this.uploadPositionDel = deleteImagePosDelete
+        cameraDialog = Dialog(this)
+        cameraDialog.setContentView(R.layout.dialog_camera_delete)
+        val close = cameraDialog.findViewById<TextView>(R.id.no_btnN)
         close.setOnClickListener {
-            dialog.dismiss()
+            cameraDialog.dismiss()
         }
-        val ok = dialog.findViewById<RelativeLayout>(R.id.ok_apna)
+        val ok = cameraDialog.findViewById<TextView>(R.id.yes_btnN)
         ok.setOnClickListener {
-            dialog.dismiss()
+            apnaConfigList.get(0).configlist?.get(configPosDelete)?.imageDataDto?.get(
+                deleteImagePosDelete
+            )?.file =
+                null
+            apnaConfigList.get(0).configlist!!.get(configPosDelete).imageUploaded = false
+            uploadedImageCount--
+            configApnaAdapterPostRetro?.notifyDataSetChanged()
+            checkAllImagesUploaded()
+            cameraDialog.dismiss()
         }
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.show()
+
+        cameraDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        cameraDialog.show()
+    }
+
+    override fun capturedImageReview(
+        capturedImagepos: Int,
+        capturedImage: File?,
+        view: View,
+        position: Int,
+        categoryName: String?,
+    ) {
+        TODO("Not yet implemented")
+    }
+
+    private fun checkAllImagesUploaded() {
+        activityUploadImagesPostRetroBinding.uploadedCount.text= uploadedImageCount.toString()
+        activityUploadImagesPostRetroBinding.overAllCount.text = "/" +overallImageCount.toString()
+        if (apnaConfigList.get(0).configlist != null) {
+            for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
+                for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
+                    if (apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null) {
+                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = true
+                    } else {
+                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = false
+                    }
+                }
+
+            }
+        }
+
+
+        var allImagesUploaded: Boolean = true
+        for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
+            if (apnaConfigList.get(0).configlist!!.get(index).imageUploaded == false) {
+                allImagesUploaded = false
+            }
+
+            if (uploadedImageCount == overallImageCount) {
+                activityUploadImagesPostRetroBinding.warningLayout.visibility= View.GONE
+                activityUploadImagesPostRetroBinding.completedMessage.visibility= View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))
+                activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.dark_green))
+            } else {
+                activityUploadImagesPostRetroBinding.warningLayout.visibility= View.VISIBLE
+                activityUploadImagesPostRetroBinding.completedMessage.visibility= View.GONE
+                activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.red))
+                activityUploadImagesPostRetroBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
+            }
+
+        }
     }
 
     override fun onClickEyeImage() {
@@ -120,8 +265,195 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
-    override fun onClickCameraIcon(position: Int) {
-        pos=position
+    override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
+        apnaConfigList=response
+
+        uploadApi()
+    }
+
+    override fun onSuccessSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
+        if(saveImageUrlsResponse!=null && saveImageUrlsResponse.status==true){
+            Utlis.hideLoading()
+            dialog = Dialog(this)
+            dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
+            val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
+            val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
+            textMessage.text = "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
+            close.setOnClickListener {
+                dialog.dismiss()
+                super.onBackPressed()
+            }
+            val ok = dialog.findViewById<RelativeLayout>(R.id.ok_apna)
+            ok.setOnClickListener {
+                dialog.dismiss()
+                super.onBackPressed()
+            }
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+        }else{
+            Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
+            Utlis.hideLoading()
+        }
+    }
+
+    override fun onFailureSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
+        Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
+        Utlis.hideLoading()
+    }
+
+    override fun onSuccessGetStoreWiseDetails(getStoreWiseResponse: GetStoreWiseCatDetailsApnaResponse) {
+        if(getStoreWiseResponse!=null && getStoreWiseResponse.message=="success"){
+            activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.GONE
+            apnaConfigList.add(getStoreWiseResponse)
+            for ((index, value) in getStoreWiseResponse.configlist!!.withIndex()) {
+                val countUpload = value.categoryImageUploadCount?.toInt()
+                var dtcl_list = ArrayList<GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl>()
+                for (count in 1..countUpload!!) {
+                    overallImageCount++
+                    dtcl_list.add(GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl(null, count, "", 0))
+
+                }
+                apnaConfigList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
+
+            }
+
+            activityUploadImagesPostRetroBinding.uploadedCount.text= uploadedImageCount.toString()
+            activityUploadImagesPostRetroBinding.overAllCount.text = "/" +overallImageCount.toString()
+            if (NetworkUtil.isNetworkConnected(this)) {
+                Utlis.showLoading(this)
+                var submit = GetImageUrlsModelApnaRequest()
+                submit.storeid = "16001"
+                submit.retroId = "APRET1600120230427121554"
+
+                postRetroUploadImagesViewModel!!.getImageUrl(submit, this)
+
+            } else {
+                Toast.makeText(
+                    ViswamApp.context,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+//            configApnaAdapterPostRetro =
+//                ConfigApnaAdapterPostRetro(getImageUrlsLists!!.categoryList, apnaConfigList.get(0), this, this, stage)
+//            val layoutManager = LinearLayoutManager(ViswamApp.context)
+//            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
+//            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
+//                DefaultItemAnimator()
+//            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapterPostRetro
+//
+//            Utlis.hideLoading()
+        }
+        else{
+            activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.VISIBLE
+            Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT)
+                .show()
+            super.onBackPressed()
+            Utlis.hideLoading()
+        }
+
+
+    }
+
+    override fun onFailureStoreWiseDetails(value: GetStoreWiseCatDetailsApnaResponse) {
+        activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.VISIBLE
+        Toast.makeText(applicationContext, ""+value.message, Toast.LENGTH_SHORT).show()
+
+        Utlis.hideLoading()
+    }
+
+    override fun onSuccessImageUrlsList(getImageUrlsList: GetImageUrlsModelApnaResponse, retroId: String) {
+        if(getImageUrlsList!=null && getImageUrlsList.status.equals(true)){
+            getImageUrlsLists=getImageUrlsList
+            Utlis.hideLoading()
+            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.visibility=View.VISIBLE
+            activityUploadImagesPostRetroBinding.noOrdersFound.visibility=View.GONE
+
+
+
+
+
+
+            for(i in getImageUrlsList.categoryList.indices){
+                val retroIdsGroupedList: Map<Int, List<GetImageUrlsModelApnaResponse.Category.ImageUrl>> =
+                    getImageUrlsList.categoryList.get(i).imageUrls.stream().collect(Collectors.groupingBy { w -> w.position })
+//           getStorePendingApprovedList.getList.clear()
+                Toast.makeText(applicationContext, ""+retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
+
+                var getImageUrlListDummys =
+                    java.util.ArrayList<java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>()
+                for (entry in retroIdsGroupedList.entries) {
+                    getImageUrlListDummys.addAll(listOf(entry.value as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>))
+                }
+                getImageUrlsLists!!.categoryList.get(i).groupingImageUrlList= getImageUrlListDummys as List<MutableList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>?
+
+            }
+
+            configApnaAdapterPostRetro =
+                ConfigApnaAdapterPostRetro(
+                    getImageUrlsLists!!.categoryList,
+                    apnaConfigList.get(0),
+                    this,
+                    this,
+                    stage
+                )
+            val layoutManager = LinearLayoutManager(ViswamApp.context)
+            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager = layoutManager
+            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
+                DefaultItemAnimator()
+            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.adapter = configApnaAdapterPostRetro
+
+        }
+        else{
+            hideLoading()
+            activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.visibility=View.GONE
+            activityUploadImagesPostRetroBinding.noOrdersFound.visibility=View.VISIBLE
+        }
+       }
+
+    override fun onFailureImageUrlsList(value: GetImageUrlsModelApnaResponse) {
+
+    }
+
+    private fun uploadApi() {
+//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//            Utlis.showLoading(this)
+        var submit = SaveImagesUrlsRequest()
+        submit.actionEvent = "SUBMIT"
+        submit.storeid = Preferences.getSwachhSiteId()
+        submit.userid = Preferences.getValidatedEmpId()
+        if(stage.equals("isPostRetroStage")){
+            submit.stage="2"
+        }else{
+            submit.stage="3"
+        }
+
+        var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
+
+        for (i in apnaConfigList.get(0).configlist!!.indices) {
+            for (j in apnaConfigList.get(0).configlist!!.get(i).imageDataDto!!.indices) {
+                var imageUrl = submit.ImageUrl()
+                imageUrl.url =
+                    apnaConfigList.get(0).configlist!!.get(i).imageDataDto?.get(j)?.base64Images
+                imageUrl.categoryid = apnaConfigList.get(0).configlist!!.get(i).categoryId
+                imageUrl.position=j
+                imageUrlsList.add(imageUrl)
+            }
+
+        }
+        submit.imageUrls = imageUrlsList
+        postRetroUploadImagesViewModel!!.onUploadImagesApna(submit, this)
+
+//        }
+    }
+
+    var configPosition: Int = 0
+    var uploadPosition: Int = 0
+    override fun onClickCameraIcon(configPosition: Int, uploadButtonPosition: Int) {
+        this.configPosition = configPosition
+        this.uploadPosition = uploadButtonPosition
+
         if (!checkPermission()) {
             askPermissions(Config.REQUEST_CODE_CAMERA)
             return
@@ -131,6 +463,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
         }
     }
+
 
 
     private fun openCamera() {
@@ -214,72 +547,23 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
                 .setSourceImage(imageFromCameraFile)
                 .resizedFile
-
-//            val fileSizeInBytesC: Long = imageFromCameraFile!!.length()
-
-//          val fileSizeInKBC = fileSizeInBytesC / 1024
-//
-//           val fileSizeInMBC = fileSizeInKBC / 1024
-//            val path: String =
-//                Environment.getExternalStorageDirectory().toString() + "/CameraImages/exampleswach.jpg"
-//            val file = File(path)
-//            val outputFileUri = Uri.fromFile(file)
-//            val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri)
-//
-//            startActivityForResult(intent, imageFromCameraFile)
-
-//            createImageFile()
-
-//          saveToInternalStorage(imageFromCameraFile)
-
-
-//        val compressedImageFile =  Compressor(this).compressToFile(imageFromCameraFile);
-//
-//           val  compressedImageBitmap =  Compressor(this).compressToBitmap(imageFromCameraFile);
-
-//          val compressedImage =  Compressor(this)
-//                .setMaxWidth(640)
-//                .setMaxHeight(480)
-//                .setQuality(100)
-//                .setCompressFormat(Bitmap.CompressFormat.WEBP)
-//                .setDestinationDirectoryPath(Environment.getExternalStoragePublicDirectory(
-//                    Environment.DIRECTORY_PICTURES).getAbsolutePath())
-//                .compressToFile(imageFromCameraFile);
-
-
-//            val resizedImage = Resizer(this)
-//                .setTargetLength(1080)
-//                .setQuality(100)
-//                .setOutputFormat("JPG")
-////                .setOutputFilename(fileNameForCompressedImage)
-//                .setOutputDirPath(
-//                    ViswamApp.Companion.context.cacheDir.toString()
-//                )
-//
-//                .setSourceImage(imageFromCameraFile)
-//                .resizedFile
-            // Environment.getExternalStoragePublicDirectory(
-            //                        Environment.DIRECTORY_PICTURES
-            //                    ).getAbsolutePath()
-// Environment.getExternalStoragePublicDirectory(
-//                        Environment.DIRECTORY_PICTURES
-//            val fileSizeInBytes: Long = resizedImage.length()
-//
-
-//            val fileSizeInKB = fileSizeInBytes / 1024
-//
-//            val fileSizeInMB = fileSizeInKB / 1024
-
             if (resizedImage != null) {
-                configLst.get(pos).file  = resizedImage// resizedImage
-                configLst.get(pos).postRetroUploaded=true
+                apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+                    uploadPosition
+                )?.file = resizedImage// resizedImage
             }
 
 //
 
 
             configApnaAdapterPostRetro?.notifyDataSetChanged()
+            apnaConfigList.get(0).configlist!!.get(configPosition).imageUploaded = true
+            apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
+                uploadPosition
+            )?.positionLoop = uploadPosition
+            uploadedImageCount++
+
+            checkAllImagesUploaded()
 
 //            Utlis.showLoading(this)
 //            viewModel.connectToAzure(
