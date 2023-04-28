@@ -17,4 +17,6 @@ interface PostRetroUploadImagesCallback {
      fun onSuccessImageUrlsList(value: GetImageUrlsModelApnaResponse, retroId: String)
      fun onFailureImageUrlsList(value: GetImageUrlsModelApnaResponse)
 
+     fun onClickReshoot()
+
 }

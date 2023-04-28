@@ -28,6 +28,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesPostretroBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
@@ -50,12 +51,16 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private lateinit var dialog: Dialog
     private var fragmentName:String =""
     private var retroid:String =""
+    private var uploadedOn:String =""
+    private var uploadedBy:String =""
+    private var storeId:String=""
     private var stage: String =""
     private var fileNameForCompressedImage: String? = null
 //    var configLst = ArrayList<ImgeDtcl>()
     var pos:Int=0
     var imageFromCameraFile: File? = null
     private var uploadedImageCount: Int = 0
+    private var uploadStage: String?=null
     private var overallImageCount: Int = 0
     private var apnaConfigList = ArrayList<GetStoreWiseCatDetailsApnaResponse>()
     private lateinit var cameraDialog: Dialog
@@ -78,10 +83,139 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         fragmentName = intent.getStringExtra("fragmentName")!!
         retroid = intent.getStringExtra("retroid")!!
         stage = intent.getStringExtra("stage")!!
-        if(stage.equals("isPostRetroStage")){
-            activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
+        uploadedOn = intent.getStringExtra("uploadedOn")!!
+        uploadedBy = intent.getStringExtra("uploadedBy")!!
+        storeId=intent.getStringExtra("storeId")!!
+        uploadStage=intent.getStringExtra("uploadStage")!!
+
+
+        if(stage.equals("isPreRetroStage")){
+            if(uploadStage.equals("newUploadStage")){
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+            }else if(uploadStage.equals("approvedStage")){
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+
+            }else if(uploadStage.equals("reshootStage")){
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reshootButton.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+
+            }
+
+        }
+        else if(stage.equals("isPostRetroStage")){
+            if(uploadStage.equals("newUploadStage")){
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+            }else if(uploadStage.equals("approvedStage")){
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+            }else if(uploadStage.equals("reshootStage")){
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reshootButton.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+
+            }
+
         }else{
-            activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+            if(uploadStage.equals("newUploadStage")){
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+            }else if(uploadStage.equals("approvedStage")){
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+            }else if(uploadStage.equals("reshootStage")){
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reshootButton.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility=View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadby.text=uploadedBy
+                activityUploadImagesPostRetroBinding.uploadon.text=uploadedOn
+                activityUploadImagesPostRetroBinding.storeId.text=storeId
+
+            }
+
         }
 
         if (NetworkUtil.isNetworkConnected(this)) {
@@ -258,11 +392,24 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     }
 
     override fun onClickImageView() {
-        val intent = Intent(applicationContext, PostRectroReviewScreen::class.java)
-        intent.putExtra("fragmentName", fragmentName)
-        intent.putExtra("stage", "isPostRetroStage")
-        startActivity(intent)
-        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickImageView(stage: String) {
+        if(stage.equals("isPreRetroStage")){
+            val intent = Intent(applicationContext, PreRectroReviewActivity::class.java)
+            intent.putExtra("fragmentName", fragmentName)
+            intent.putExtra("stage", stage)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }else{
+            val intent = Intent(applicationContext, PostRectroReviewScreen::class.java)
+            intent.putExtra("fragmentName", fragmentName)
+            intent.putExtra("stage", stage)
+            startActivity(intent)
+            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        }
+
     }
 
     override fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>) {
@@ -291,13 +438,13 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
         }else{
-            Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
             Utlis.hideLoading()
         }
     }
 
     override fun onFailureSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
-        Toast.makeText(applicationContext, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, ""+saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
     }
 
@@ -323,7 +470,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 Utlis.showLoading(this)
                 var submit = GetImageUrlsModelApnaRequest()
                 submit.storeid = "16001"
-                submit.retroId = "APRET1600120230427121554"
+                submit.retroId = "APRET1600120230428081840"
 
                 postRetroUploadImagesViewModel!!.getImageUrl(submit, this)
 
@@ -347,7 +494,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         }
         else{
             activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.VISIBLE
-            Toast.makeText(applicationContext, "Store ID not Available", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "Store ID not Available", Toast.LENGTH_SHORT)
                 .show()
             super.onBackPressed()
             Utlis.hideLoading()
@@ -358,7 +505,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
     override fun onFailureStoreWiseDetails(value: GetStoreWiseCatDetailsApnaResponse) {
         activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.VISIBLE
-        Toast.makeText(applicationContext, ""+value.message, Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, ""+value.message, Toast.LENGTH_SHORT).show()
 
         Utlis.hideLoading()
     }
@@ -379,7 +526,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 val retroIdsGroupedList: Map<Int, List<GetImageUrlsModelApnaResponse.Category.ImageUrl>> =
                     getImageUrlsList.categoryList.get(i).imageUrls.stream().collect(Collectors.groupingBy { w -> w.position })
 //           getStorePendingApprovedList.getList.clear()
-                Toast.makeText(applicationContext, ""+retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, ""+retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
                 var getImageUrlListDummys =
                     java.util.ArrayList<java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>>()
@@ -413,6 +560,10 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
        }
 
     override fun onFailureImageUrlsList(value: GetImageUrlsModelApnaResponse) {
+
+    }
+
+    override fun onClickReshoot() {
 
     }
 

@@ -45,7 +45,7 @@ class UploadImagesViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, "16001")
+                ApnaRectroApiRepo.getStoreWiseCatDetailsApna("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001", "h72genrSSNFivOi/cfiX3A==", "16001")
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -109,7 +109,7 @@ class UploadImagesViewModel : ViewModel() {
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveImageUrlsApna(baseUrl, token, saveImageUrlsRequest)
+                ApnaRectroApiRepo.saveImageUrlsApna(" https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls", "h72genrSSNFivOi/cfiX3A==", saveImageUrlsRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,

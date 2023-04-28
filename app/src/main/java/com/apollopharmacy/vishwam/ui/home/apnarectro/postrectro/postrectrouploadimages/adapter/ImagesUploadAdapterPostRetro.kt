@@ -24,7 +24,7 @@ class ImagesUploadAdapterPostRetro(
 
     interface CallbackInterface {
 
-        fun onClickImageView()
+        fun onClickImageView(s: String)
         fun onClickCameraIcon(configPosition: Int, uploadButtonPosition: Int)
         fun deleteImageCallBack(deleteImagePos: Int, position: Int)
         fun capturedImageReview(
@@ -60,31 +60,107 @@ class ImagesUploadAdapterPostRetro(
             Glide.with(ViswamApp.context).load(category!!.file)
                 .placeholder(R.drawable.placeholder_image)
                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-//            if(category.postRetroUploaded){
-//                holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=1.0f
-//            }else{
-//                holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
-//            }
-
+            holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=1.0f
 //            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
             holder.adapterImagesuploadApnaBinding.eyeImage.visibility = View.GONE
             holder.adapterImagesuploadApnaBinding.redTrash.visibility = View.VISIBLE
             holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility = View.VISIBLE
         }else{
-            if(stage.equals("isPostRetroStage")){
-                Glide.with(ViswamApp.context).load(groupingImageUrlList.get(0).get(position).url)
+            if(stage.equals("isPreRetroStage")){
+                Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
                     .placeholder(R.drawable.placeholder_image)
                     .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
                 holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                 holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+                holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+                holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility=View.GONE
+            }
+            else if(stage.equals("isPostRetroStage") ){
+                if(groupingImageUrlList.get(position).get(0).status.equals("0")){
+                    Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                    holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                    holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                    holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                    holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+                }
+                else if(groupingImageUrlList.get(position).get(0).status.equals("1")){
+//                    if(uploadStage){
+                        Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                        holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                        holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                        holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+//                    }else{
+//                        Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+//                            .placeholder(R.drawable.placeholder_image)
+//                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+//                        holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+//                        holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+//                        holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+//                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+//                    }
+
+                }
+                else if(groupingImageUrlList.get(position).get(0).status.equals("2")){
+                    Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                    holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                    holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                    holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                    holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+                }
+//
+
             }else if(stage.equals("isAfterCompletionStage")){
-                Glide.with(ViswamApp.context).load(groupingImageUrlList.get(1).get(position).url)
-                    .placeholder(R.drawable.placeholder_image)
-                    .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
-                holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
-                holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+
+                if(groupingImageUrlList.get(position).get(0).status.equals("0")){
+                    Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                    holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                    holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                    holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                    holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+                }
+                else if(groupingImageUrlList.get(position).get(0).status.equals("1")){
+//                    if(uploadStage){
+                        Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                            .placeholder(R.drawable.placeholder_image)
+                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                        holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                        holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                        holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+//                    }else{
+//                        Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+//                            .placeholder(R.drawable.placeholder_image)
+//                            .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+//                        holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+//                        holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+//                        holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+//                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+//                    }
+
+                }
+                else if(groupingImageUrlList.get(position).get(0).status.equals("2")){
+                    Glide.with(ViswamApp.context).load(groupingImageUrlList.get(position).get(0).url)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
+                    holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha=0.5f
+                    holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
+                    holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
+                    holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
+                }
+//                if(groupingImageUrlList.get(position).get(0).stage.equals("3")){
+
+//                }
+
             }
 
 
@@ -101,7 +177,14 @@ class ImagesUploadAdapterPostRetro(
 //            uploadImagesCallback.onClickEyeImage()
 //        }
         holder.adapterImagesuploadApnaBinding.aftercapturedimage.setOnClickListener {
-            callbackInterface.onClickImageView()
+            if(stage.equals("isPreRetroStage")){
+                callbackInterface.onClickImageView("isPreRetroStage")
+            }else if(stage.equals("isPostRetroStage")){
+                callbackInterface.onClickImageView("isPostRetroStage")
+            }else if(stage.equals("isAfterCompletionStage")){
+                callbackInterface.onClickImageView("isAfterCompletionStage")
+            }
+
         }
 
         holder.adapterImagesuploadApnaBinding.cameraIcon.setOnClickListener {
