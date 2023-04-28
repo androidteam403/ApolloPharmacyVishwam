@@ -75,7 +75,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         uploadImagesViewModel = ViewModelProvider(this)[UploadImagesViewModel::class.java]
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
-        activityUploadImagesBinding.storeId.text=Preferences.getSwachhSiteId()
+//        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.incharge.text=Preferences.getValidatedEmpId()
       activityUploadImagesBinding.storeName.text=Preferences.getSwachSiteName()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
@@ -207,7 +207,10 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             val ok = dialog.findViewById<RelativeLayout>(R.id.ok_apna)
             ok.setOnClickListener {
                 dialog.dismiss()
-                super.onBackPressed()
+//                super.onBackPressed()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
@@ -228,8 +231,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //            Utlis.showLoading(this)
             var submit = SaveImagesUrlsRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid = Preferences.getSwachhSiteId()
-            submit.userid = Preferences.getValidatedEmpId()
+            submit.storeid = "16001"
+            submit.userid = "APL0001"
             submit.stage="1"
             var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 

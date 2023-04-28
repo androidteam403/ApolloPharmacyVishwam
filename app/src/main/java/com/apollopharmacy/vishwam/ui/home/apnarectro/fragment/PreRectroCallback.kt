@@ -6,9 +6,25 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApp
 interface PreRectroCallback {
 
     fun onClickContinue()
-    fun onClickCardView()
+    fun onClickPreRetrPending(
+        stage: String,
+        status: String,
+        retroid: String,
+        uploadedOn: String,
+        uploadedBy: String,
+        toString: String,
+        s: String
+    )
     fun onClickPreRetroPending(s: String)
-    fun onClickPostRetroPending(s: String, postRetostatus: String, toString: String)
+    fun onClickPostRetroPending(
+        stage: String,
+        status: String,
+        retroid: String,
+        uploadedOn: String,
+        uploadedBy: String,
+        toString: String,
+        s: String
+    )
      fun onSuccessgetStorePendingApprovedApiCall(value: GetStorePendingAndApprovedListRes)
 
 }

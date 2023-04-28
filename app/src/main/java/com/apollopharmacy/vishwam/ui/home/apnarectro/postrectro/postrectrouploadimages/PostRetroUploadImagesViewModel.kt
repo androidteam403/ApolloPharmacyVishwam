@@ -47,7 +47,7 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("RT STORE WISE CATEGORY DETAILS")) {
-                baseUrl = data.APIS[i].URL
+                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001"
                 token = data.APIS[i].TOKEN
                 break
             }
@@ -109,7 +109,7 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveImageUrlsApna(baseUrl, token, saveImageUrlsRequest)
+                ApnaRectroApiRepo.saveImageUrlsApna("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls", "h72genrSSNFivOi/cfiX3A==", saveImageUrlsRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,

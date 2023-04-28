@@ -156,20 +156,62 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
 //            }
 //        }
         holder.adapterListApnaBinding.preRetroStageLayout.setOnClickListener {
-            preRectroCallback.onClickCardView()
-//            preRectroCallback.onClickPreRetroPending("isPreRetroStage")
+            if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Pending")||holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("---")){
+                preRectroCallback.onClickPreRetrPending("isPreRetroStage", holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(), holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(), "newUploadStage")
+            }else if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Approved")){
+                preRectroCallback.onClickPreRetrPending("isPreRetroStage", holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(), holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(), "approvedStage")
+            } else if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Reshoot")){
+               preRectroCallback.onClickPreRetrPending("isPreRetroStage", holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(), holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(), "reshootStage")
+            }
+
         }
 
         holder.adapterListApnaBinding.postRetroStageLayout.setOnClickListener {
-          if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Approved")){
-                preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString())
-          }
+            if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Pending")||holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("---"))//doubt about status name
+            {
+                preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(),holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(),"newUploadStage")
+            } else if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")){
+                preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(),holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(),"approvedStage")
+          } else if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Reshoot")){
+                preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(),holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(),"reshootStage")
+            }
         }
 
         holder.adapterListApnaBinding.afterCompletionStageLayout.setOnClickListener {
-           if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")){
-            preRectroCallback.onClickPostRetroPending("isAfterCompletionStage", holder.adapterListApnaBinding.afterCompleteionStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString())
-          }
+            if(holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("Pending")||holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("---"))//doubt about status name
+            {
+                preRectroCallback.onClickPostRetroPending(
+                    "isAfterCompletionStage",
+                    holder.adapterListApnaBinding.afterCompleteionStatus.text.toString(),
+                    holder.adapterListApnaBinding.transactionId.text.toString(),
+                    holder.adapterListApnaBinding.uploadedOn.text.toString(),
+                    holder.adapterListApnaBinding.uploadedBy.text.toString(),
+                    holder.adapterListApnaBinding.storeId.text.toString(),
+                    "newUploadStage"
+                )    }
+            else if(holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("Approved")){
+                preRectroCallback.onClickPostRetroPending(
+                    "isAfterCompletionStage",
+                    holder.adapterListApnaBinding.afterCompleteionStatus.text.toString(),
+                    holder.adapterListApnaBinding.transactionId.text.toString(),
+                    holder.adapterListApnaBinding.uploadedOn.text.toString(),
+                    holder.adapterListApnaBinding.uploadedBy.text.toString(),
+                    holder.adapterListApnaBinding.storeId.text.toString(),
+                "approvedStage"
+                )}
+            else if(holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("Reshoot")){
+                preRectroCallback.onClickPostRetroPending(
+                    "isAfterCompletionStage",
+                    holder.adapterListApnaBinding.afterCompleteionStatus.text.toString(),
+                    holder.adapterListApnaBinding.transactionId.text.toString(),
+                    holder.adapterListApnaBinding.uploadedOn.text.toString(),
+                    holder.adapterListApnaBinding.uploadedBy.text.toString(),
+                    holder.adapterListApnaBinding.storeId.text.toString(),
+                    "reshootStage"
+                ) }
+//           if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")){
+
+//          }
         }
 
 

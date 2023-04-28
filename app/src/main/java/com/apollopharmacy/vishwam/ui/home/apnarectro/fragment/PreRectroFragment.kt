@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.widget.Toast
@@ -16,7 +17,6 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapte
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -112,12 +112,27 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onClickContinue() {
         val intent = Intent(context, UploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
-        startActivity(intent)
+        startActivityForResult(intent, 779)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
-    override fun onClickCardView() {
-        val intent = Intent(context, PreRetroPendingReviewActivity::class.java)
+    override fun onClickPreRetrPending(
+        stage: String,
+        status: String,
+        retroid: String,
+        uploadedOn: String,
+        uploadedBy: String,
+        storeId: String,
+        uploadStage: String
+    ) {
+        val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
+        intent.putExtra("fragmentName", fragmentName)
+        intent.putExtra("stage", stage)
+        intent.putExtra("retroid", retroid)
+        intent.putExtra("uploadedOn", uploadedOn)
+        intent.putExtra("uploadedBy", uploadedBy)
+        intent.putExtra("storeId", storeId)
+        intent.putExtra("uploadStage", uploadStage)
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
@@ -130,24 +145,79 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
-    override fun onClickPostRetroPending(stage: String, postRetostatus: String, retroid: String) {
-        if(postRetostatus.equals("Pending") || postRetostatus.equals("---")){
+    override fun onClickPostRetroPending(
+        stage: String,
+        postRetostatus: String,
+        retroid: String,
+        uploadedOn: String,
+        uploadedBy: String,
+        storeId: String,
+        uploadStage: String
+    ) {
+        if(!uploadStage.equals("reshootStage")){
             val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
             intent.putExtra("fragmentName", fragmentName)
             intent.putExtra("stage", stage)
             intent.putExtra("retroid", retroid)
+            intent.putExtra("uploadedOn", uploadedOn)
+            intent.putExtra("uploadedBy", uploadedBy)
+            intent.putExtra("storeId", storeId)
+            intent.putExtra("uploadStage", uploadStage)
             startActivity(intent)
             activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }else{
             val intent = Intent(context, PreRetroPreviewActivity::class.java)
             intent.putExtra("fragmentName", "nonApprovalFragment")
             intent.putExtra("stage", stage)
+            intent.putExtra("uploadedOn", uploadedOn)
+            intent.putExtra("uploadedBy", uploadedBy)
+            intent.putExtra("storeId", storeId)
             startActivity(intent)
             activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
         }
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+//            isFirstTime = false
+
+                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DATE, -14)
+                val currentDate: String = simpleDateFormat.format(Date())
+
+                var fromdate = simpleDateFormat.format(cal.time)
+                var toDate = currentDate
+//            getStorePersonHistoryList.clear()
+//            if (!isLoading)
+                showLoading()
+                // Utlis.showLoading(requireContext())
+
+                var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
+                getStorePendingApprovedRequest.storeid = "16001"
+                getStorePendingApprovedRequest.empid = "APL0001"
+                getStorePendingApprovedRequest.fromdate = fromdate
+                getStorePendingApprovedRequest.todate = toDate
+//            getStoreHistoryRequest.startpageno = startPageNo
+//            getStoreHistoryRequest.endpageno = endpageno
+//            getStoreHistoryRequest.status = updatedComplaintListStatus
+                viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
+
+            }
+            else {
+                Toast.makeText(
+                    requireContext(),
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
+
+    }
 
 
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {

@@ -28,11 +28,11 @@ class PreRetroPreviewActivity : AppCompatActivity(), PreRetroReviewingCallback {
         activityPreviewBinding.callback=this
         stage= intent.getStringExtra("stage")!!
         fragmentName=intent.getStringExtra("fragmentName")!!
-        if(fragmentName.equals("nonApprovalFragment")){
-            activityPreviewBinding.review.visibility=View.GONE
-        }else{
-            activityPreviewBinding.review.visibility=View.VISIBLE
-        }
+//        if(fragmentName.equals("nonApprovalFragment")){
+//            activityPreviewBinding.review.visibility=View.GONE
+//        }else{
+//            activityPreviewBinding.review.visibility=View.VISIBLE
+//        }
         var approvelist= java.util.ArrayList<String>()
         approvelist!!.add("Service Desk Covering System")
         approvelist!!.add("Signage")

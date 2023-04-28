@@ -149,6 +149,8 @@ object Preferences {
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
 
+    private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
     private const val KEY_REGISTRATION_SITE_ID = "KEY_REGISTRATION_SITE_ID"
@@ -427,6 +429,14 @@ object Preferences {
 
     fun getSwachhSiteId(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITEID, "")!!
+    }
+
+    fun setApnaSite(apnaSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITEID, apnaSiteId).apply()
+    }
+
+    fun getApnaSiteId(): String {
+        return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
     }
 
     fun setSwachSiteName(swachhSiteId: String) {
