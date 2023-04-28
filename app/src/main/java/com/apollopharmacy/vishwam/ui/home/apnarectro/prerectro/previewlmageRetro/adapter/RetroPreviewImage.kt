@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.databinding.DialogResetBinding
 import com.apollopharmacy.vishwam.databinding.DialogResetQcBinding
 import com.apollopharmacy.vishwam.databinding.QcViewpagerPreviewAdapterBinding
 import com.apollopharmacy.vishwam.databinding.RetroPreviewImageBinding
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcItemListResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.qcpreviewImage.QcPreviewCallbacks
 import com.bumptech.glide.Glide
@@ -39,7 +40,7 @@ class RetroPreviewImage(
     val context: Context,
 
     val activity: Activity,
-    val imageUrlList: List<String>,
+    val imageUrlList: List<GetImageUrlResponse.ImageUrl>,
 ) : PagerAdapter() {
 
     var list = ArrayList<String>()
@@ -57,7 +58,7 @@ class RetroPreviewImage(
 
 
 
-            Glide.with(context).load(imageUrlList.get(position)).error(R.drawable.placeholder_image)
+            Glide.with(context).load(imageUrlList.get(position).url).error(R.drawable.placeholder_image)
                 .into(viewpagerPreviewAdapterBinding.viewpagerImage)
 
 

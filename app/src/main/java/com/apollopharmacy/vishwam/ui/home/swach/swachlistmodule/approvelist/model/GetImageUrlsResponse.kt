@@ -53,6 +53,8 @@ class GetImageUrlsResponse : Serializable {
         var imageid: String? = null
 
         var mainCategoryId: String? = null
+        var statusId: String? = null
+
         var categoryname: String? = null
         var isVerified: Boolean? = false
     }

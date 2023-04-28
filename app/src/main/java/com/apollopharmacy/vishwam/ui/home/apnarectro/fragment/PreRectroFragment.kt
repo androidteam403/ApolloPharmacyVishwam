@@ -2,9 +2,13 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Activity
 import android.content.Intent
+import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +21,21 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapte
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.filter.SelectPreRectroSiteActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
+import com.apollopharmacy.vishwam.util.Utlis
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
-    PreRectroCallback {
+    PreRectroCallback,  MainActivityCallback {
     private var fragmentName:String=""
     private var listAdapter: ListAdapter? = null
     var hashMap: HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>> = HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>>()
@@ -40,10 +49,26 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     @SuppressLint("SuspiciousIndentation")
     override fun setup() {
+        MainActivity.mInstance.mainActivityCallback = this
+
         viewBinding.callback=this
         Toast.makeText(context, ""+Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
 
         if(this.arguments?.getBoolean("fromPreRectro") == true){
+
+        if (Preferences.getRectroSiteId().isEmpty()) {
+            showLoading()
+            val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+            startActivityForResult(i, 781)
+        }
+        else {
+            viewBinding.storeId.setText(Preferences.getRectroSiteId())
+//
+//            viewBinding.storeId.text = Preferences.getSwachhSiteId()
+//            viewBinding.userId.text = Preferences.getToken()
+        }
+
+            if(this.arguments?.getBoolean("fromPreRectro") == true){
             fragmentName= "fromPreRectro"
         }else if(this.arguments?.getBoolean("fromPostRectro") == true){
             fragmentName= "fromPostRectro"
@@ -177,6 +202,20 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         }
 
     }
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 781) {
+                viewBinding.storeId.setText(Preferences.getRectroSiteId())
+                viewBinding.storeName.setText(Preferences.getRectroSiteId()+" - "+Preferences.getRectroSiteName())
+
+                Log.e("vase",Preferences.getRectroSiteId())
+                hideLoading()
+
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -254,5 +293,18 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     }
 
     class AdapterList(var transactionId: String, var storeId: String,var storeName: String, var uploadedOn: String, var uploadedBy: String, var approvedOn:String, var approvedBy:String,var preRetostatus:String, var postRetostatus:String,  var afterCompletionstatus:String , var overAlStatus:String)
+
+    override fun onClickFilterIcon() {
+
+    }
+
+    override fun onClickSiteIdIcon() {
+        showLoading()
+        val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+        startActivityForResult(i, 781)
+    }
+
+    override fun onClickQcFilterIcon() {
+    }
 
 }

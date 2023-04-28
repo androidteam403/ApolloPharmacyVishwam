@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApp
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
@@ -727,6 +728,27 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetImageUrlsModelApnaRequest,
     ): GetImageUrlsModelApnaResponse
+
+    @POST
+    suspend fun getRetroApprovalList(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetRetroPendindAndApproverequest,
+    ): GetRetroPendingAndApproveResponse
+    @POST
+    suspend fun getRetroSaveAcceptRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: SaveAcceptRequest,
+    ): SaveAcceptResponse
+
+    @POST
+    suspend fun getRetroImageUrlList(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetImageUrlRequest,
+    ): GetImageUrlResponse
+
 }
 
 
