@@ -51,6 +51,8 @@
                 android:layout_below="@id/image_layout"
                 android:paddingBottom="3dp"
                 android:layout_marginLeft="64dp"
+                android:id="@+id/imagetick"
+
                 android:layout_height="13dp"
                 android:src="@drawable/greenright"/>
         </LinearLayout>

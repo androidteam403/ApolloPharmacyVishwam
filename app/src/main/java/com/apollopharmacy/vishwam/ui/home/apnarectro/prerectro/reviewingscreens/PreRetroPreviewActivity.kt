@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityPreviewPreretroBinding
-import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.RetroPreviewImageActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro.RetroPreviewImageActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.adapter.RectroCategoryListAdapter
 
 class PreRetroPreviewActivity : AppCompatActivity(), PreRetroReviewingCallback {
@@ -56,6 +57,14 @@ class PreRetroPreviewActivity : AppCompatActivity(), PreRetroReviewingCallback {
             startActivity(intent)
         }
         }
+
+    override fun onSuccessImageUrlList(value: GetImageUrlResponse) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onFailureImageUrlList(value: GetImageUrlResponse) {
+        TODO("Not yet implemented")
+    }
 
     override fun onClickReview() {
         val intent=Intent(this, RetroPreviewImageActivity::class.java)

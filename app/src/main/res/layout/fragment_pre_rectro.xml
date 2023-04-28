@@ -45,10 +45,13 @@
                 android:background="@drawable/grey_border_bg"
                 android:drawableEnd="@drawable/ic_search_24"
                 android:gravity="center"
+                android:paddingStart="@dimen/text_dimen_12"
+                android:textAlignment="textStart"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textColorHint="@color/black"
-                android:textSize="@dimen/text_15sp" />
+                android:textSize="@dimen/text_15sp"
+                tools:ignore="RtlCompat" />
 
             <androidx.cardview.widget.CardView
                 android:layout_marginTop="@dimen/value_6dp"

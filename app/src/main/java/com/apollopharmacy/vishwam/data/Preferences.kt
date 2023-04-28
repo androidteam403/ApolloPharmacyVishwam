@@ -43,6 +43,7 @@ object Preferences {
     private const val APP_LEVEL_DESIGNATION_QC_FAIL = "APP_LEVEL_DESIGNATION_QC_FAIL"
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
+    private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
 
 
     fun savingToken(userId: String) {
@@ -146,6 +147,8 @@ object Preferences {
     private const val EMPLOYEE_ROLE = ""
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
+    private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
+    private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -260,7 +263,13 @@ object Preferences {
     fun isSiteIdListFetched(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
+    fun setSiteRetroListFetched(isSiteIdListFetched: Boolean) {
+        sharedPreferences.edit().putBoolean(PREF_SITE_RETRO_FETCHED, isSiteIdListFetched).apply()
+    }
 
+    fun isSiteRetroListFetched(): Boolean {
+        return sharedPreferences.getBoolean(PREF_SITE_RETRO_FETCHED, false)
+    }
 
     fun setItemTypeListFetched(isItemTypeListFetched: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_ITEMTYPE_FETCHED, isItemTypeListFetched).apply()
@@ -409,8 +418,20 @@ object Preferences {
     fun getAppLevelDesignationQCFail(): String {
         return sharedPreferences.getString(APP_LEVEL_DESIGNATION_QC_FAIL, "")!!
     }
+    fun setRectroSiteId(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_RECTRO_SITEID, swachhSiteId).apply()
+    }
 
+    fun getRectroSiteId(): String {
+        return sharedPreferences.getString(KEY_RECTRO_SITEID, "")!!
+    }
+    fun setRectroSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_RECTRO_SITENAME, swachhSiteId).apply()
+    }
 
+    fun getRectroSiteName(): String {
+        return sharedPreferences.getString(KEY_RECTRO_SITENAME, "")!!
+    }
     fun setSwachhSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
     }
