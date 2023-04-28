@@ -259,7 +259,7 @@ public class ActivityUtils {
     }
 
     public static boolean isLoadingShowing() {
-        return spotsDialog.isShowing();
+        return spotsDialog != null && spotsDialog.isShowing();
     }
 
     public static String getCurrentTime() {

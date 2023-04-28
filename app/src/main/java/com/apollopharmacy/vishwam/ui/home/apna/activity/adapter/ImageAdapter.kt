@@ -9,11 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterSitePhotoBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.Image
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
 
 class ImageAdapter(
     val mContext: Context,
-    private val images: ArrayList<Image>,
+    private val images: ArrayList<ImageDto>,
     val mCallback: ApnaNewSurveyCallBack,
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 

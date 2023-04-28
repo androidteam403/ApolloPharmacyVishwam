@@ -91,13 +91,13 @@
     </style>
 
     <style name="ApnaTextLabel" parent="TextAppearance.AppCompat">
-        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textColorHint">@color/black</item>
         <item name="android:textSize">20sp</item>
-        <item name="colorAccent">@color/gray</item>
-        <item name="boxStrokeColor">#f3f3f3</item>
+<!--        <item name="colorAccent">@color/gray</item>-->
+<!--        <item name="boxStrokeColor">#f3f3f3</item>-->
         <item name="boxStrokeWidth">0.2dp</item>
-        <item name="colorControlNormal">@color/gray</item>
-        <item name="colorControlActivated">@color/gray</item>
+        <item name="colorControlNormal">@color/black</item>
+<!--        <item name="colorControlActivated">@color/black</item>-->
         <item name="android:height">40dp</item>
     </style>
 

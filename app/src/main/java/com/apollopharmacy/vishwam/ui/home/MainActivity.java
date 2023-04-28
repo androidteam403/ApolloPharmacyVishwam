@@ -1526,9 +1526,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
 
 
-
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ))
                 .addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_))
         );
 
@@ -1658,31 +1656,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("APNA")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                if (childModelList.get(childPosition).getTitle().equals("Apna Form")) {
-                    displaySelectedScreen("Apna Form");
-                } else if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
+                if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
                     displaySelectedScreen("Apna Survey");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("Video View")){
+                } else if (childModelList.get(childPosition).getTitle().equals("Video View")) {
                     displaySelectedScreen("Video View");
                 }
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Pre Rectro")) {
                     displaySelectedScreen("Pre Rectro");
-                }else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
                     displaySelectedScreen("Post Rectro");
                 } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
                     displaySelectedScreen("After Completion");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
                     displaySelectedScreen("Pre Rectro Approval");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
                     displaySelectedScreen("Post Rectro Approval");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
+                } else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
                     displaySelectedScreen("After Completion Approval");
                 }
 

@@ -3,21 +3,27 @@ package com.apollopharmacy.vishwam.ui.home.apna.activity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
+import com.apollopharmacy.vishwam.data.azure.ConnectionAzureApnaSurvey
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
+import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaSurveyApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.net.URLEncoder
 
 class ApnaNewSurveyViewModel : ViewModel() {
 
@@ -232,12 +238,15 @@ class ApnaNewSurveyViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
                     val res = BackShlash.removeBackSlashes(resp)
-                    val neighbouringLocationResponse = Gson().fromJson(BackShlash.removeSubString(res),
-                        NeighbouringLocationResponse::class.java)
+                    val neighbouringLocationResponse =
+                        Gson().fromJson(BackShlash.removeSubString(res),
+                            NeighbouringLocationResponse::class.java)
                     if (neighbouringLocationResponse.success!!) {
-                        mCallBack.onSuccessGetNeighbouringLocationApiCall(neighbouringLocationResponse)
+                        mCallBack.onSuccessGetNeighbouringLocationApiCall(
+                            neighbouringLocationResponse)
                     } else {
-                        mCallBack.onFailureGetNeighbouringLocationApiCall(neighbouringLocationResponse.success.toString())
+                        mCallBack.onFailureGetNeighbouringLocationApiCall(
+                            neighbouringLocationResponse.success.toString())
                     }
 
 //                    if (response.value.success ?: null == true) {
@@ -346,6 +355,46 @@ class ApnaNewSurveyViewModel : ViewModel() {
         }
     }
 
+    fun createSurvey(surveyCreateRequest: SurveyCreateRequest, mCallBack: ApnaNewSurveyCallBack) {
+        val surveyCreateRequestJson = Gson().toJson(surveyCreateRequest)
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val apnaSurveyUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/save-update"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL,
+                    token,
+                    GetDetailsRequest(apnaSurveyUrl, "POST", surveyCreateRequestJson, "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val surveyCreateResponse = Gson().fromJson(BackShlash.removeSubString(res),
+                        SurveyCreateResponse::class.java)
+                    if (surveyCreateResponse.success!!) {
+                        mCallBack.onSuccessSurveyCreateApiCall(surveyCreateResponse)
+                    } else {
+                        mCallBack.onFailureSurveyCreateApiCall(surveyCreateResponse.message.toString())
+                    }
+                }
+            }
+        }
+
+    }
+
     fun getApnaSpeciality(mCallBack: ApnaNewSurveyCallBack) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -389,6 +438,100 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetApnaSpecialityApiCall(response.value.success.toString())
 //                    }
                 }
+            }
+        }
+    }
+
+    fun getStateList(mCallBack: ApnaNewSurveyCallBack) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        val apnaSurveyUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/state/list/state-list"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL,
+                    token,
+                    GetDetailsRequest(apnaSurveyUrl, "GET", "The", "", "")
+                )
+
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val stateListResponse = Gson().fromJson(BackShlash.removeSubString(res),
+                        StateListResponse::class.java)
+                    if (stateListResponse.success!!) {
+                        mCallBack.onSuccessGetStateListApiCall(stateListResponse)
+                    } else {
+                        mCallBack.onFailureGetStateListApiCall(stateListResponse.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+    fun getCityList(mCallBack: ApnaNewSurveyCallBack, queryString: String) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrL = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        var uid = "dependents%5Bstate%5D%5Buid%5D=11FFD5814054DD13E06634029136E461"
+        var state_uid = URLEncoder.encode("dependents[state][uid]", "utf-8")
+        val apnaSurveyUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/city/list/city-list-for-survey?"
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    baseUrL,
+                    token,
+                    GetDetailsRequest("$apnaSurveyUrl$state_uid=$queryString", "GET", "The", "", "")
+                )
+            }
+            when(response) {
+                is ApiResult.Success -> {
+                    val resp: String = response.value.string()
+                    val res = BackShlash.removeBackSlashes(resp)
+                    val cityListResponse = Gson().fromJson(BackShlash.removeSubString(res),
+                        CityListResponse::class.java)
+                    if (cityListResponse.success!!) {
+                        mCallBack.onSuccessGetCityListApiCall(cityListResponse)
+                    } else {
+                        mCallBack.onFailureGetCityListApiCall(cityListResponse.message.toString())
+                    }
+                }
+            }
+        }
+    }
+
+
+    fun connectToAzure(image: ArrayList<ImageDto>, tag: String, mCallBack: ApnaNewSurveyCallBack) {
+        state.value = State.SUCCESS
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = ConnectionAzureApnaSurvey.connectToAzur(image,
+                Config.CONTAINER_NAME,
+                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+            if (response != null) {
+                mCallBack.onSuccessConnectToAzure(response)
+            } else {
+                mCallBack.onFailureConnectToAzure("Failed to connect")
             }
         }
     }
