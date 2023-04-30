@@ -135,6 +135,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             dialog.dismiss()
             Preferences.setSwachhSiteId(storeListItem.siteid!!)
             Preferences.setSwachSiteName(storeListItem.sitename!!)
+            Preferences.setApnaSite(storeListItem.siteid!!)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
             val intent = Intent()

@@ -195,5 +195,7 @@
     <color name="grey_bg_for_no_status">#f4f4f4</color>
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
+    <color name="ash_color_for_apna">#A8A4A4</color>
+    <color name="lightt_blue">#ecf6f8</color>
 
 </resources>

@@ -45,6 +45,8 @@ object Preferences {
     private const val FCM_KEY = "FCM_KEY"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
 
+    private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
+
 
     fun savingToken(userId: String) {
         sharedPreferences.edit().putString(KEY_SAVING_TOKEN, userId).apply()
@@ -149,6 +151,8 @@ object Preferences {
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
     private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
+
+    private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -411,6 +415,14 @@ object Preferences {
         return sharedPreferences.getString(APP_LEVEL_DESIGNATION_SWACH, "")!!
     }
 
+    fun setAppLevelDesignationApnaRetro(role: String) {
+        sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_RETRO, role).apply()
+    }
+
+    fun getAppLevelDesignationApnaRetro(): String {
+        return sharedPreferences.getString(APP_LEVEL_DESIGNATION_RETRO, "")!!
+    }
+
     fun setAppLevelDesignationQCFail(role: String) {
         sharedPreferences.edit().putString(APP_LEVEL_DESIGNATION_QC_FAIL, role).apply()
     }
@@ -438,6 +450,14 @@ object Preferences {
 
     fun getSwachhSiteId(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITEID, "")!!
+    }
+
+    fun setApnaSite(apnaSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITEID, apnaSiteId).apply()
+    }
+
+    fun getApnaSiteId(): String {
+        return sharedPreferences.getString(KEY_APNA_SITEID, "")!!
     }
 
     fun setSwachSiteName(swachhSiteId: String) {

@@ -9,15 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.AdapterConfigApnaBinding
-import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesCallback
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesCallback
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
 
 class ConfigApnaAdapterPostRetro(
-    private var configList: ArrayList<PostRetroUploadImagesActivity.ImgeDtcl>,
+    private var apnaConfigList: MutableList<GetImageUrlsModelApnaResponse.Category>,
+    private var configList: GetStoreWiseCatDetailsApnaResponse,
     private var context: Context,
-    private var uploadImagesCallback: PostRetroUploadImagesCallback
+    private val callbackInterface: ImagesUploadAdapterPostRetro.CallbackInterface,
+    private var  stage: String
 ) :
     RecyclerView.Adapter<ConfigApnaAdapterPostRetro.ViewHolder>()  {
     private lateinit var imagesUploadAdapter: ImagesUploadAdapterPostRetro
@@ -37,12 +37,12 @@ class ConfigApnaAdapterPostRetro(
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val category  = configList.get(position)
-        holder.adapterConfigApnaBinding.categoryNumber.text = (position+1).toString()
-        holder.adapterConfigApnaBinding.categoryName.text=configList.get(position).categoryName
+        val category  =  configList.configlist?.get(position)
+        holder.adapterConfigApnaBinding.categoryNumber.text = category!!.categoryId
+        holder.adapterConfigApnaBinding.categoryName.text=category.categoryName
 
         imagesUploadAdapter =
-            ImagesUploadAdapterPostRetro(configList, position, context, uploadImagesCallback)
+            ImagesUploadAdapterPostRetro(position, category.imageDataDto, callbackInterface, category.categoryName, apnaConfigList.get(position).groupingImageUrlList, stage)
         holder.adapterConfigApnaBinding.uploadlayoutrecyclerview.layoutManager = LinearLayoutManager(
             ViswamApp.context,
             LinearLayoutManager.HORIZONTAL, false)
@@ -51,7 +51,7 @@ class ConfigApnaAdapterPostRetro(
 
 
     override fun getItemCount(): Int {
-       return configList.size
+       return configList.configlist!!.size
     }
 
     class ViewHolder(val adapterConfigApnaBinding: AdapterConfigApnaBinding) :

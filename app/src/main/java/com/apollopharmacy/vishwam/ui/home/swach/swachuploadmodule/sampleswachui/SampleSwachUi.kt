@@ -35,6 +35,7 @@ import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.reviewratingac
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.model.LastUploadedDateResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.UploadNowButtonActivity
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.SwachModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.*
@@ -109,7 +110,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
         if (Preferences.getSwachhSiteId().isEmpty()) {
             showLoading()
-            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
             startActivityForResult(i, 781)
         }
         else {
@@ -622,7 +623,8 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
             getStoreHistoryRequest.status = updatedComplaintListStatus
             viewModel.getStorePersonHistory(getStoreHistoryRequest, this)
 
-        } else {
+        }
+        else {
             Toast.makeText(
                 requireContext(),
                 resources.getString(R.string.label_network_error),

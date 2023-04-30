@@ -1032,7 +1032,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
-            case "Pre Rectro":
+            case "Creation":
                 headerText.setText("Pre Rectro");
                 Bundle bundlePreRectro = new Bundle();
                 bundlePreRectro.putBoolean("fromPreRectro", true);
@@ -1071,7 +1071,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 break;
 
-            case "Pre Rectro Approval":
+            case "Approval":
                 headerText.setText("Pre Rectro Approval");
                 Bundle preRetroApprovalbundle = new Bundle();
                 preRetroApprovalbundle.putBoolean("fromPreRectroApproval", true);
@@ -1517,12 +1517,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         );
 
         listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_))
-                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
-                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
-                .addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_))
-                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
-                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
+                .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+//                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+                .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
+//                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
         );
 
 
@@ -1669,22 +1669,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
             else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                if (childModelList.get(childPosition).getTitle().equals("Pre Rectro")) {
-                    displaySelectedScreen("Pre Rectro");
-                }else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
-                    displaySelectedScreen("Post Rectro");
-                } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
-                    displaySelectedScreen("After Completion");
+                if (childModelList.get(childPosition).getTitle().equals("Creation")) {
+                    displaySelectedScreen("Creation");
                 }
-                else if (childModelList.get(childPosition).getTitle().equals("Pre Rectro Approval")) {
-                    displaySelectedScreen("Pre Rectro Approval");
+//                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro")) {
+//                    displaySelectedScreen("Post Rectro");
+//                } else if (childModelList.get(childPosition).getTitle().equals("After Completion")) {
+//                    displaySelectedScreen("After Completion");
+//                }
+                else if (childModelList.get(childPosition).getTitle().equals("Approval")) {
+                    displaySelectedScreen("Approval");
                 }
-                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
-                    displaySelectedScreen("Post Rectro Approval");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
-                    displaySelectedScreen("After Completion Approval");
-                }
+//                else if (childModelList.get(childPosition).getTitle().equals("Post Rectro Approval")) {
+//                    displaySelectedScreen("Post Rectro Approval");
+//                }
+//                else if (childModelList.get(childPosition).getTitle().equals("After Completion Approval")) {
+//                    displaySelectedScreen("After Completion Approval");
+//                }
 
             }
 
