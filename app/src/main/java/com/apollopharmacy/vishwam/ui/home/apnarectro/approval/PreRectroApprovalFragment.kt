@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 
 import android.content.Intent
+import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -116,6 +117,24 @@ class PreRectroApprovalFragment() :
         adapter = context?.let { RectroApproveListAdapter(it,list1,retroIdsGroupedList,this) }
         viewBinding.recyclerViewapproval.adapter = adapter
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showLoading()
+        var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
+        getRetroPendindAndApproverequest.empid = "APL48627"
+        getRetroPendindAndApproverequest.storeid = "16001"
+        getRetroPendindAndApproverequest.fromdate = fromDate
+        getRetroPendindAndApproverequest.todate = currentDate
+
+        viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
     }
 
     override fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse) {

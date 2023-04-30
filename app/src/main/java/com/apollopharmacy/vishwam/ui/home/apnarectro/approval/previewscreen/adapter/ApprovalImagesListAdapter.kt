@@ -51,15 +51,40 @@ class ApprovalImagesListAdapter(
                             mContext,
                             R.color.material_amber_accent_700)
                 }
-            } else if (stage.toLowerCase().contains("aft") && approvedOrders[i].stage.equals("3")) {
-                Glide.with(mContext).load(approvedOrders.get(i).url)
-                    .placeholder(R.drawable.thumbnail_image)
-                    .into(holder.preRetroImagesLayoutBinding.image)
-                if (approvedOrders.get(i).status!!.toLowerCase().contains("1")) {
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("1")) {
                     holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
                         ContextCompat.getColorStateList(
                             mContext,
                             R.color.greenn)
+                }
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("2")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.color_red)
+                }
+
+            } else if (stage.toLowerCase().contains("aft") && approvedOrders[i].stage.equals("3")) {
+                Glide.with(mContext).load(approvedOrders.get(i).url)
+                    .placeholder(R.drawable.thumbnail_image)
+                    .into(holder.preRetroImagesLayoutBinding.image)
+                if (approvedOrders.get(i).status!!.toLowerCase().contains("0")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.material_amber_accent_700)
+                }
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("1")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.greenn)
+                }
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("2")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.color_red)
                 }
             } else if (stage.toLowerCase()
                     .contains("post") && approvedOrders[i].stage.equals("2")
@@ -72,6 +97,18 @@ class ApprovalImagesListAdapter(
                         ContextCompat.getColorStateList(
                             mContext,
                             R.color.material_amber_accent_700)
+                }
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("1")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.greenn)
+                }
+                else if (approvedOrders.get(i).status!!.toLowerCase().contains("2")) {
+                    holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
+                        ContextCompat.getColorStateList(
+                            mContext,
+                            R.color.color_red)
                 }
             }
 

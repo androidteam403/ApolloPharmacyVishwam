@@ -30,7 +30,6 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     private var previewImageAdapter: RetroPreviewImage? = null
     var list = ArrayList<String>()
     var categoryAndImageslist = ArrayList<String>()
-    var saveRequestImageslist = ArrayList<SaveAcceptRequest.Imageurl>()
     private lateinit var previewLastImageViewModel: ApnaPreviewLastImageViewModel
     private var currentPosition: Int = 0
 
@@ -89,6 +88,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
                 imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
                 imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
+                imageUrl.isVerified= imageUrlList[i].imageUrls!!.get(j).isVerified
 
                 imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
                 imageUrlsList.add(imageUrl)
@@ -98,11 +98,22 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         activityPreviewImageBinding.imagename.setText(imageUrlsList[position].imageid)
         activityPreviewImageBinding.categorycount.setText((position + 1).toString())
 
-//        activityPreviewImageBinding.categorycount.setText((position + 1 / categorysList.size + 1).toString())
-//        activityPreviewImageBinding.imagename.setText(categorysList.get(position).imageUrls!![position].url!!.split(
-//            "/").last())
+        if (imageUrlsList.get(position).isVerified == true) {
+            if (imageUrlsList.get(position).status.equals("1")){
+                activityPreviewImageBinding.accept.alpha = 0.5f
 
-//        activityPreviewImageBinding.imageUrlModel = categorysList.get(0)
+            }else{
+                activityPreviewImageBinding.accept.alpha = 1f
+
+            }
+            if (imageUrlsList.get(position).status.equals("2")){
+                activityPreviewImageBinding.reshoot.alpha = 0.5f
+
+            }else{
+                activityPreviewImageBinding.reshoot.alpha = 1f
+
+            }
+        }
         previewImageAdapter = RetroPreviewImage(this, this, imageUrlsList)
 
         activityPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
@@ -134,11 +145,31 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
 
-         if (currentPosition == imageUrlsList.size - 1) {
-           if (imageUrlsList[imageUrlsList.size - 1].isVerified == true){
-               activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
-           }
+        if (currentPosition == imageUrlsList.size - 1) {
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+            }
 
+        } else {
+            activityPreviewImageBinding.isLastPos = false
+        }
+
+
+        if (imageUrlsList.get(currentPosition).isVerified == true) {
+            if (imageUrlsList.get(currentPosition).status.equals("1")){
+                activityPreviewImageBinding.accept.alpha = 0.5f
+
+            }else{
+                activityPreviewImageBinding.accept.alpha = 1f
+
+            }
+            if (imageUrlsList.get(currentPosition).status.equals("2")){
+                activityPreviewImageBinding.reshoot.alpha = 0.5f
+
+            }else{
+                activityPreviewImageBinding.reshoot.alpha = 1f
+
+            }
         }
 
 
@@ -154,13 +185,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onClickReShoot() {
-    }
-
-    override fun onClickAccept() {
 
         when (imageUrlsList.size > currentPosition) {
             true -> {
-                imageUrlsList.get(currentPosition).status = "1"
+
+                imageUrlsList.get(currentPosition).status = "2"
                 imageUrlsList.get(currentPosition).isVerified = true
                 var isAllVerified = true
                 for (i in imageUrlsList) {
@@ -203,13 +232,72 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
         if (currentPosition == imageUrlsList.size - 1) {
-            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true){
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
                 activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
             }
 
+        } else {
+            activityPreviewImageBinding.isLastPos = false
         }
 
 
+    }
+
+    override fun onClickAccept() {
+
+        when (imageUrlsList.size > currentPosition) {
+            true -> {
+                imageUrlsList.get(currentPosition).status = "1"
+
+                imageUrlsList.get(currentPosition).isVerified = true
+                var isAllVerified = true
+                for (i in imageUrlsList) {
+                    if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                        if (i.isVerified == false) {
+                            isAllVerified = false
+                        }
+                    }
+                }
+
+                activityPreviewImageBinding.isAllComplete = isAllVerified
+
+
+                if (currentPosition == imageUrlsList.size - 2) {
+                    for (i in imageUrlsList) {
+                        if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                            if (i.isVerified == false) {
+                                activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                                    imageUrlsList.indexOf(i), true
+                                )
+                                break
+                            }
+                        }
+                    }
+                    if (isAllVerified) {
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+                    }
+                } else {
+                    activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                        currentPosition + 1, true
+                    )
+                }
+            }
+            else -> {
+            }
+        }
+
+
+
+        if (currentPosition == imageUrlsList.size - 1) {
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+            }
+
+        } else {
+            activityPreviewImageBinding.isLastPos = false
+        }
 
 
     }
@@ -243,16 +331,62 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
     }
 
-    override fun onSuccessSaveAcceptReshoot(value: SaveAcceptResponse) {
-        hideLoading()
+    override fun onClickDelete() {
+        when (imageUrlsList.size > currentPosition) {
+            true -> {
+                imageUrlsList.get(currentPosition).status = "0"
+                imageUrlsList.get(currentPosition).isVerified = false
+
+                var isAllVerified = false
+                for (i in imageUrlsList) {
+                    if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                        if (i.isVerified == true) {
+                            isAllVerified = true
+                        }
+                    }
+                }
+
+                activityPreviewImageBinding.isAllComplete = isAllVerified
+
+
+                if (currentPosition == imageUrlsList.size - 2) {
+                    for (i in imageUrlsList) {
+                        if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
+                            if (i.isVerified == true) {
+                                activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                                    imageUrlsList.indexOf(i), true
+                                )
+                                break
+                            }
+                        }
+                    }
+                    if (isAllVerified == false) {
+                        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                            currentPosition + 1, true
+                        )
+                    }
+                } else {
+                    activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
+                        currentPosition + 1, true
+                    )
+                }
+            }
+            else -> {
+            }
+        }
+
+
+
+        if (currentPosition == imageUrlsList.size - 1) {
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == false) {
+                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+            }
+
+        } else {
+            activityPreviewImageBinding.isLastPos = false
+        }
     }
 
-    override fun onFailureSaveAcceptReshoot(value: SaveAcceptResponse) {
-        hideLoading()
-        Toast.makeText(getApplicationContext(),
-            value.message,
-            Toast.LENGTH_LONG).show();
-    }
 
     override fun onBackPressed() {
         onClickBack()

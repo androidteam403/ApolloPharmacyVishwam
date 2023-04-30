@@ -509,7 +509,7 @@
                 android:paddingTop="15dp"
                 android:id="@+id/submitButton"
                 android:textSize="@dimen/text_18sp"
-                android:backgroundTint="@color/greenn"
+                android:backgroundTint="@color/grey"
                 android:paddingBottom="15dp"
                 android:text="SUBMIT"
                 android:textColor="@color/white" />

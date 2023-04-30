@@ -404,6 +404,8 @@
             android:id="@+id/deleteImage"
             android:gravity="center"
             android:layout_width="40dp"
+            android:onClick="@{()-> callback.onClickDelete()}"
+
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/value_80dp"
             android:layout_marginStart="@dimen/twenty20_dp"
