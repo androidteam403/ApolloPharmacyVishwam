@@ -88,6 +88,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/add_apartment_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/add_chemist_dialog.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/add_hospital_dialog.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/apartment_adapter_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/apartments_table_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/apna_survey_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/app_update_dialog.xml" value="0.25" />
@@ -127,6 +128,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/fragment_registration.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/fragment_swachh_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/hospitals_table_layout.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/image_delete_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/imageview_drug.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/layout_neighbouring_store.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/preview_image_dialog.xml" value="0.25" />
@@ -138,6 +140,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/survey_saved_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/swacch_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/traffic_generators_layout.xml" value="0.24895833333333334" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/video_delete_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/view_item_row.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/view_list_item.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/view_spinner_item.xml" value="0.25" />

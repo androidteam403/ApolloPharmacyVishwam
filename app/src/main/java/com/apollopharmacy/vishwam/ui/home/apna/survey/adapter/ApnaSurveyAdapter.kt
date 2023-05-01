@@ -38,7 +38,7 @@ class ApnaSurveyAdapter(
 
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
         if (approvedOrders.status!=null) {
@@ -53,8 +53,16 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
         holder.apnaSurveyLayoutBinding.surveyby.setText(approvedOrders.createdId!!.firstName+" "+approvedOrders.createdId!!.lastName)
         holder.apnaSurveyLayoutBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
-        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
-        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
+
+        val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm:ss a")
+        holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.createdTime!!)!!))
+        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+
+//        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
+//        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
+
+
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
         try {

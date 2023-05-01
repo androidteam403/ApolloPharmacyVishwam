@@ -119,10 +119,10 @@
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
                                     android:text="1"
-                                    android:visibility="gone"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/locationDetailsText"
@@ -140,10 +140,10 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Location Details"
-                                    android:visibility="gone"
                                     android:textColor="#00a651"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -464,13 +464,13 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
-                                    android:visibility="gone"
                                     android:background="@drawable/green_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="2"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/site_specifications_text"
@@ -488,10 +488,10 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Site Specifications"
-                                    android:visibility="gone"
                                     android:textColor="#00a651"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -614,11 +614,11 @@
 
                                     <RelativeLayout
                                         android:layout_width="0dp"
-                                        android:layout_height="@dimen/value_40dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_marginEnd="10dp"
                                         android:layout_weight=".5">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:id="@+id/totalAreaText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -631,7 +631,29 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/totalAreaText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:editable="false"
+                                                android:enabled="false"
+                                                android:focusable="false"
+                                                android:hint="Total Area Sq.ft."
+                                                android:paddingStart="10dp"
+                                                android:paddingEnd="10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
 
                                         <ImageView
                                             android:id="@+id/clear"
@@ -639,7 +661,7 @@
                                             android:layout_height="wrap_content"
                                             android:layout_alignParentEnd="true"
                                             android:layout_centerVertical="true"
-                                            android:layout_marginEnd="@dimen/value_20dp"
+                                            android:layout_marginEnd="@dimen/value_10dp"
                                             android:src="@drawable/closee_black" />
                                     </RelativeLayout>
                                 </LinearLayout>
@@ -1319,12 +1341,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:visibility="gone"
                                     android:paddingHorizontal="7dp"
                                     android:text="3"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/market_information_text"
@@ -1341,11 +1363,11 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
-                                    android:visibility="gone"
                                     android:text="Market Information"
                                     android:textColor="#00a651"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -2138,11 +2160,11 @@
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="7dp"
-                                    android:visibility="gone"
                                     android:text="4"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/competitors_details_text"
@@ -2161,9 +2183,9 @@
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Competitors Details"
                                     android:textColor="#00a651"
-                                    android:visibility="gone"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -2192,123 +2214,26 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/chemistRecyclerView"
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/chemist"
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    tools:itemCount="2"
-                                    tools:listitem="@layout/adapter_chemist_list" />
+                                    android:theme="@style/ApnaTextLabel">
 
-                                <LinearLayout
-                                    android:id="@+id/chemistTotalLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:visibility="gone"
-                                    android:weightSum="3">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
-                                        android:layout_weight="1">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Total"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Organised"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/totalOrganisedText"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="10.2 Lac"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Un organised"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/totalUnorganisedText"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="10.2 Lac"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
-
-                                    <!--<EditText
+                                    <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/chemistText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/gray_border"
+                                        android:layout_height="40dp"
                                         android:hint="Chemist"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="@dimen/text_14sp" />-->
-
-                                    <com.google.android.material.textfield.TextInputLayout
-                                        android:id="@+id/chemist"
-                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:textColorHint="@color/black"
-                                        android:theme="@style/ApnaTextLabel">
-
-                                        <androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/chemistText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:hint="Chemist"
-                                            android:inputType="text"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </com.google.android.material.textfield.TextInputLayout>
-
-                                </LinearLayout>
+                                        android:textSize="@dimen/text_14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -2517,6 +2442,85 @@
                                     </LinearLayout>
                                 </LinearLayout>
 
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/chemistRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    tools:itemCount="2"
+                                    tools:listitem="@layout/adapter_chemist_list" />
+
+                                <LinearLayout
+                                    android:id="@+id/chemistTotalLayout"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:visibility="gone"
+                                    android:weightSum="3">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_10dp"
+                                        android:layout_weight="1">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="Total"
+                                            android:textColor="@color/gray"
+                                            android:textSize="@dimen/text_12sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="Organised"
+                                            android:textColor="@color/gray"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/totalOrganisedText"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="10.2 Lac"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="Un organised"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/totalUnorganisedText"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="10.2 Lac"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+                                    </LinearLayout>
+                                </LinearLayout>
+
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -2558,12 +2562,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:visibility="gone"
                                     android:paddingHorizontal="7dp"
                                     android:text="5"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/population_and_houses_text"
@@ -2581,10 +2585,10 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Population and Houses"
-                                    android:visibility="gone"
                                     android:textColor="#00a651"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -2613,31 +2617,6 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/apartmentsRecyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    tools:itemCount="2"
-                                    tools:listitem="@layout/adapter_apartments_list" />
-
-                                <!--<androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/apartmentTypeSelect"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:layout_marginTop="3dp"
-                                    android:background="@drawable/light_gray_border"
-                                    android:clickable="true"
-                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                    android:drawableTint="@color/black"
-                                    android:focusable="false"
-                                    android:hint="Select Type"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/value_12dp"
-                                    android:textStyle="bold" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/apartmentType"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -2650,7 +2629,6 @@
                                         android:id="@+id/apartmentTypeSelect"
                                         android:layout_width="match_parent"
                                         android:layout_height="40dp"
-                                        android:layout_marginTop="@dimen/value_3dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -2663,20 +2641,6 @@
                                         android:textColorHint="@color/black"
                                         android:textSize="14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
-
-                                <!--<EditText
-                                    android:id="@+id/apartmentsOrColony"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:layout_marginTop="@dimen/value_5dp"
-                                    android:background="@drawable/light_gray_border"
-                                    android:hint="Apartments/Colony"
-                                    android:inputType="text"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/text_12sp"
-                                    android:textStyle="bold" />-->
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/apartments"
@@ -2691,7 +2655,6 @@
                                         android:id="@+id/apartmentsOrColony"
                                         android:layout_width="match_parent"
                                         android:layout_height="40dp"
-                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:hint="Apartments/Colony"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -2779,6 +2742,14 @@
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/apartmentsRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    tools:itemCount="2"
+                                    tools:listitem="@layout/adapter_apartments_list" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -2821,11 +2792,11 @@
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="7dp"
-                                    android:visibility="gone"
                                     android:text="6"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
 
                                 <TextView
                                     android:id="@+id/hospitals_text"
@@ -2844,9 +2815,9 @@
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Hospitals"
                                     android:textColor="#00a651"
-                                    android:visibility="gone"
                                     android:textSize="@dimen/text_18sp"
-                                    android:textStyle="bold" />
+                                    android:textStyle="bold"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
                             <ImageView
@@ -2875,31 +2846,6 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <androidx.recyclerview.widget.RecyclerView
-                                    android:id="@+id/hospitalsRecyclerView"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    tools:itemCount="1"
-                                    tools:listitem="@layout/adapter_hospitals_list" />
-
-                                <!--<androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/hospitalSpecialitySelect"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:layout_marginTop="3dp"
-                                    android:background="@drawable/light_gray_border"
-                                    android:clickable="true"
-                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                    android:drawableTint="@color/black"
-                                    android:focusable="false"
-                                    android:hint="Select Speciality"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/value_12dp"
-                                    android:textStyle="bold" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/hospitalSpeciality"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -2912,7 +2858,6 @@
                                         android:id="@+id/hospitalSpecialitySelect"
                                         android:layout_width="match_parent"
                                         android:layout_height="40dp"
-                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -2985,82 +2930,6 @@
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
-
-                                <!--<LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:gravity="bottom"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_12dp"
-                                        android:layout_weight=".6"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Occupancy"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <EditText
-                                            android:id="@+id/occupancyText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_10dp"
-                                        android:layout_weight=".9"
-                                        android:orientation="vertical">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="No of OPD"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <EditText
-                                            android:id="@+id/noOfOpdText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:layout_weight=".4">
-
-                                        <Button
-                                            android:id="@+id/hospitalAddBtn"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/blue_rounded_corner_bg"
-                                            android:hint="Add"
-                                            android:textColorHint="@color/white"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
-                                </LinearLayout>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -3140,6 +3009,14 @@
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/hospitalsRecyclerView"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    tools:itemCount="1"
+                                    tools:listitem="@layout/adapter_hospitals_list" />
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
