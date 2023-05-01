@@ -30,6 +30,7 @@ class ApartmentTypeItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.adapterApartmentsListBinding.apartmentsText.text = data[position].apartments
         holder.adapterApartmentsListBinding.apartmentTypeText.text = data[position].apartmentType
         holder.adapterApartmentsListBinding.noOfHousesText.text = data[position].noOfHouses.toString()
         holder.adapterApartmentsListBinding.distanceText.text = data[position].distance.toString()

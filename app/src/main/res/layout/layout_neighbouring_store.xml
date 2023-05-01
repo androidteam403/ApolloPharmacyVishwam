@@ -35,7 +35,7 @@
                     android:textSize="@dimen/text_14sp" />
 
                 <TextView
-                    android:id="@+id/sideText"
+                    android:id="@+id/locationText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppin_bold"
@@ -78,14 +78,14 @@
                     <EditText
                         android:id="@+id/storeText"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_40dp"
                         android:layout_marginRight="8dp"
-                        android:background="@drawable/light_gray_border"
-                        android:inputType="number"
+                        android:background="@drawable/gray_border"
+                        android:inputType="text"
                         android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
                 <!-- Rent -->
@@ -98,23 +98,23 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_15dp"
                         android:text="Rent"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_12sp"
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/leftRentText"
+                        android:id="@+id/rentText"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_40dp"
                         android:layout_marginEnd="@dimen/value_10dp"
-                        android:background="@drawable/light_gray_border"
+                        android:background="@drawable/gray_border"
                         android:inputType="number"
                         android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
 
@@ -143,16 +143,15 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/leftSalesText"
+                        android:id="@+id/salesText"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_40dp"
                         android:layout_marginRight="8dp"
-                        android:background="@drawable/light_gray_border"
-                        android:inputType="number"
+                        android:background="@drawable/gray_border"
+                        android:inputType="numberDecimal"
                         android:paddingStart="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -173,14 +172,13 @@
                     <EditText
                         android:id="@+id/sqFtText"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_35dp"
+                        android:layout_height="@dimen/value_40dp"
                         android:layout_marginEnd="@dimen/value_10dp"
-                        android:background="@drawable/light_gray_border"
-                        android:inputType="number"
+                        android:background="@drawable/gray_border"
+                        android:inputType="numberDecimal"
                         android:paddingStart="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
