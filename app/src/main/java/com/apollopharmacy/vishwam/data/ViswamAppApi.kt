@@ -11,11 +11,11 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -57,6 +57,9 @@ interface ViswamAppApi {
 
     @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
+    suspend fun getValidateTest(): ValidateResponse
 
     @POST //("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/IUVVISWAMMPINDETAILS")
     suspend fun handleMPinService(
@@ -224,12 +227,14 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("EMPID") id: String,
     ): ArrayList<GetTaskListResponse>
+
     @POST
     suspend fun getSiteList(
         @Header("token") token: String,
         @Url url: String,
         @Body siteId: SiteListRequest,
     ): SiteListResponse
+
     @POST
     suspend fun getDoctorList(
         @Header("token") token: String,
@@ -607,7 +612,6 @@ interface ViswamAppApi {
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
 
 
-
     //champs admin
     @GET
     suspend fun GET_CATEGORY_DETAILS_API_CALL(
@@ -683,17 +687,17 @@ interface ViswamAppApi {
 
     @GET
     suspend fun getParkingType(
-        @Url url: String
+        @Url url: String,
     ): ParkingTypeResponse
 
     @GET
     suspend fun getDimensionType(
-        @Url url:String
+        @Url url: String,
     ): DimensionTypeResponse
 
     @GET
     suspend fun getNeighbouringLocation(
-        @Url url: String
+        @Url url: String,
     ): NeighbouringLocationResponse
 
 

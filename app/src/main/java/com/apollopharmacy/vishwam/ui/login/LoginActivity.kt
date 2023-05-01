@@ -152,7 +152,7 @@ class LoginActivity : AppCompatActivity() {
 //            }
 //
 //        }
-        onCheckBuildDetails()
+//        onCheckBuildDetails()
 
     }
 
@@ -207,13 +207,13 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                displayAppInfoDialog(
-                    "Info",
-                    buildDetailsEntity.AVABILITYMESSAGE,
-                    "",
-                    "",
-                    ""
-                )
+//                displayAppInfoDialog(
+//                    "Info",
+//                    buildDetailsEntity.AVABILITYMESSAGE,
+//                    "",
+//                    "",
+//                    ""
+//                )
             }
         }
     }

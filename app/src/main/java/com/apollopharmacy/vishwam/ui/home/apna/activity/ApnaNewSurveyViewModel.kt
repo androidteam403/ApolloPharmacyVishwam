@@ -60,6 +60,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
                         mCallBack.onFailureGetLocationListApiCall(locationResponse.message.toString())
                     }
                 }
+                else -> {}
             }
         }
     }
@@ -106,6 +107,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetDimensionTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -153,6 +155,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetParkingTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -200,6 +203,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetTrafficStreetTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -248,6 +252,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetParkingTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -295,6 +300,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetTrafficGeneratorsTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -342,6 +348,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetApartmentTypeApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
@@ -389,6 +396,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
 //                        mCallBack.onFailureGetApnaSpecialityApiCall(response.value.success.toString())
 //                    }
                 }
+                else -> {}
             }
         }
     }
