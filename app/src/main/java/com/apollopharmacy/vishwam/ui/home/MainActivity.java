@@ -1041,7 +1041,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = fragPreRectro;
                 qcfilterIcon.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.VISIBLE);
+                siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 break;
 

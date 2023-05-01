@@ -3,8 +3,11 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Build
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,10 +16,13 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.filter.SelectPreRectroSiteActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -41,6 +47,30 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     @SuppressLint("SuspiciousIndentation")
     override fun setup() {
         viewBinding.callback=this
+
+
+
+        viewBinding.callback=this
+
+        if (Preferences.getRectroSiteId().isEmpty()) {
+            showLoading()
+            val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+            startActivityForResult(i, 781)
+        }
+        else {
+            viewBinding.storeId.setText(Preferences.getRectroSiteId())
+//
+//            viewBinding.storeId.text = Preferences.getSwachhSiteId()
+//            viewBinding.userId.text = Preferences.getToken()
+        }
+
+        viewBinding.search.setOnClickListener {
+            showLoading()
+            val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+            startActivityForResult(i, 781)
+        }
+
+
         Toast.makeText(context, ""+Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
 
         if(this.arguments?.getBoolean("fromPreRectro") == true){
@@ -181,6 +211,18 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
+            if (resultCode == Activity.RESULT_OK) {
+                if (requestCode == 781) {
+                    viewBinding.storeId.setText(Preferences.getRectroSiteId())
+                    viewBinding.storeName.setText(Preferences.getRectroSiteId()+" - "+Preferences.getRectroSiteName())
+
+                    Log.e("vase",Preferences.getRectroSiteId())
+                    hideLoading()
+
+                }
+            }
+
+
             if (NetworkUtil.isNetworkConnected(requireContext())) {
 //            isFirstTime = false
 
@@ -252,6 +294,12 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         }
 
     }
+
+
+
+
+
+
 
     class AdapterList(var transactionId: String, var storeId: String,var storeName: String, var uploadedOn: String, var uploadedBy: String, var approvedOn:String, var approvedBy:String,var preRetostatus:String, var postRetostatus:String,  var afterCompletionstatus:String , var overAlStatus:String)
 

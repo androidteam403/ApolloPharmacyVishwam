@@ -37,21 +37,56 @@
                 android:layout_marginTop="@dimen/text_dimen_10"
                 android:text="Store ID "/>
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/storeId"
-                android:layout_marginTop="@dimen/value_5dp"
+            <LinearLayout
+
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/value_40dp"
-                android:background="@drawable/grey_border_bg"
-                android:drawableEnd="@drawable/ic_search_24"
-                android:gravity="center"
-                android:paddingStart="@dimen/text_dimen_12"
-                android:textAlignment="textStart"
-                android:layout_gravity="center"
-                android:textStyle="bold"
-                android:textColorHint="@color/black"
-                android:textSize="@dimen/text_15sp"
-                tools:ignore="RtlCompat" />
+                android:layout_height="40dp"
+                android:background="@drawable/search_view_pendency"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/storeId"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/value_60dp"
+                    android:layout_weight="1.8"
+                    android:background="@color/transparent"
+                    android:gravity="left|center"
+                    android:hint="Search by Site ID "
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:paddingStart="@dimen/text_15sp"
+
+                    android:textColor="@color/black"
+                    android:textColorHint="@android:color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <ImageView
+                    android:id="@+id/search"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_marginEnd="@dimen/text_10sp"
+                    android:layout_weight=".2"
+
+
+                    android:src="@drawable/ic_search_24" />
+
+
+                <ImageView
+                    android:id="@+id/close_arrow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="@dimen/text_10sp"
+                    android:layout_weight=".2"
+                    android:src="@drawable/closee_black"
+
+
+                    android:visibility="gone" />
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_marginTop="@dimen/value_6dp"
