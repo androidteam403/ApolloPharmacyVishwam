@@ -83,4 +83,19 @@ interface ApnaNewSurveyCallBack {
     fun onSuccessSurveyCreateApiCall(surveyCreateResponse: SurveyCreateResponse)
 
     fun onFailureSurveyCreateApiCall(message: String)
+
+    fun onSuccessImagesConnectAzure(
+        imageUrlList: List<SurveyCreateRequest.SiteImageMb.Image>,
+        surveyCreateRequest: SurveyCreateRequest,
+    )
+
+    fun onFailureImageConnectAzure(message: String)
+
+    fun onSuccessVideoConnectAzure(
+        videoUrlList: List<SurveyCreateRequest.VideoMb.Video>,
+        surveyCreateRequest: SurveyCreateRequest,
+    )
+
+    fun onFailureVideoConnectAzure(message: String)
+
 }

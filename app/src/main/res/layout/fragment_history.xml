@@ -9,7 +9,7 @@
 
         <variable
             name="historyModel"
-            type="com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryViewModel" />
+            type="com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryViewModel" />
     </data>
 
 

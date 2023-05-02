@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history
+package com.apollopharmacy.vishwam.ui.home.adrenalin.history
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

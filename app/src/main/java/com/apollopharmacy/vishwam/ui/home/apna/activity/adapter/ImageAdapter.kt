@@ -14,12 +14,11 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterSitePhotoBinding
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
 import java.io.File
 
 class ImageAdapter(
     val mContext: Context,
-    private val images: ArrayList<ImageDto>,
+    private val imageFileList: ArrayList<File>,
     val mCallback: ApnaNewSurveyCallBack,
 ) : RecyclerView.Adapter<ImageAdapter.ViewHolder>() {
 
@@ -35,14 +34,14 @@ class ImageAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.adapterSitePhotoBinding.afterCapturedImage.setImageBitmap(BitmapFactory.decodeFile(
-            images[position].file.absolutePath))
+            imageFileList[position].absolutePath))
 
         holder.adapterSitePhotoBinding.deleteImage.setOnClickListener {
-            openConfirmDialog(position, images[position].file)
+            openConfirmDialog(position, imageFileList[position])
         }
 
         holder.adapterSitePhotoBinding.eyeImage.setOnClickListener {
-            mCallback.previewImage(images[position].file)
+            mCallback.previewImage(imageFileList[position])
         }
     }
 
@@ -50,12 +49,13 @@ class ImageAdapter(
         val dialog = Dialog(mContext)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val imageDeleteConfirmDialogBinding = DataBindingUtil.inflate<ImageDeleteConfirmDialogBinding>(
-            LayoutInflater.from(mContext),
-            R.layout.image_delete_confirm_dialog,
-            null,
-            false
-        )
+        val imageDeleteConfirmDialogBinding =
+            DataBindingUtil.inflate<ImageDeleteConfirmDialogBinding>(
+                LayoutInflater.from(mContext),
+                R.layout.image_delete_confirm_dialog,
+                null,
+                false
+            )
         dialog.setContentView(imageDeleteConfirmDialogBinding.root)
         imageDeleteConfirmDialogBinding.noButton.setOnClickListener {
             dialog.dismiss()
@@ -70,7 +70,7 @@ class ImageAdapter(
     }
 
     override fun getItemCount(): Int {
-        return images.size
+        return imageFileList.size
     }
 
     class ViewHolder(val adapterSitePhotoBinding: AdapterSitePhotoBinding) :

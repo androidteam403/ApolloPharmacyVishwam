@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity
 
-import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.location.Geocoder
@@ -79,8 +78,6 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     private fun setUp() {
 
 
-
-
         if (intent != null) {
             approvedOrders =
                 (intent.getSerializableExtra("regionList") as SurveyListResponse.Row?)!!
@@ -98,11 +95,37 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
                 }
             }
+            apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor!!))
+            apnaPreviewActivityBinding.statusLayout.setBackgroundColor(Color.parseColor(
+                approvedOrders.status!!.backgroundColor!!))
+
             apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
-            apnaPreviewActivityBinding.surveyby.setText(approvedOrders.createdId!!.firstName + " " + approvedOrders.createdId!!.lastName)
-            apnaPreviewActivityBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
-            apnaPreviewActivityBinding.surveystart.setText(approvedOrders.createdTime)
-            apnaPreviewActivityBinding.surveyended.setText(approvedOrders.modifiedTime)
+            var fName = ""
+            var lName = ""
+            if (approvedOrders.createdId!!.firstName != null) {
+                fName = approvedOrders.createdId!!.firstName!!
+            }
+
+            if (approvedOrders.createdId!!.lastName != null) {
+                lName = ", ${approvedOrders.createdId!!.lastName!!}"
+            }
+            apnaPreviewActivityBinding.surveyby.setText("$fName$lName")
+
+            var locationName = ""
+            var cityName = ""
+            if (approvedOrders.location!!.name != null) locationName =
+                approvedOrders.location!!.name!!
+            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
+
+            apnaPreviewActivityBinding.storeName.setText("$locationName$cityName")
+
+            val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
+            apnaPreviewActivityBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(
+                approvedOrders.createdTime!!)!!))
+            apnaPreviewActivityBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(
+                approvedOrders.modifiedTime!!)!!))
+
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
             try {
@@ -157,16 +180,31 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         hospitalAdapter = PreviewHospitalAdapter(this,
             value.data!!.hospitals as ArrayList<SurveyDetailsList.Hospital>)
         apnaPreviewActivityBinding.recyclerViewhospital.adapter = hospitalAdapter
-        imageAdapter = PreviewImageAdapter(this,
-            value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this)
-        apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
-        videoMbList.add(value.data!!.videoMb!!)
-        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
-        videoAdapter = PreviewVideoAdapter(this, videoMbList, videoList, this)
-        apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
-        neighbourAdapter = PreviewNeighbouringStoreAdapter(this,
-            value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>)
-        apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
+        if (value.data!!.siteImageMb != null && value.data!!.siteImageMb!!.images != null && value.data!!.siteImageMb!!.images!!.size > 0) {
+            apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
+            imageAdapter = PreviewImageAdapter(this,
+                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this)
+            apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
+        } else {
+            apnaPreviewActivityBinding.imageRecyclerView.visibility = View.GONE
+            apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.VISIBLE
+        }
+//        videoMbList.add(value.data!!.videoMb!!)
+//        videoList.add("https://media.geeksforgeeks.org/wp-content/uploads/20201217192146/Screenrecorder-2020-12-17-19-17-36-828.mp4?_=1")
+        if (value.data!!.videoMb!! != null && value.data!!.videoMb!!.video != null && value.data!!.videoMb!!.video!!.size > 0) {
+
+            apnaPreviewActivityBinding.noVideoAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
+            videoAdapter = PreviewVideoAdapter(this, value.data!!.videoMb!!.video!!, this)
+            apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
+            neighbourAdapter = PreviewNeighbouringStoreAdapter(this,
+                value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>)
+            apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
+        } else {
+            apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
+            apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
+        }
         apnaPreviewActivityBinding.locationdetails.setText(value.data!!.state!!.name + ", " + value.data!!.city!!.name)
 
         trafficAdapter = PreviewTrafficAdapter(this,
@@ -254,12 +292,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         val elapsedMinutes = different / minutesInMilli
         different = different % minutesInMilli
         val elapsedSeconds = different / secondsInMilli
-        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
-
+        return String.format(
+            "%02d:%02d:%02d",
+            elapsedHours, elapsedMinutes, elapsedSeconds)
     }
 
     override fun onBackPressed() {
-super.onBackPressed()
+        super.onBackPressed()
 
     }
 

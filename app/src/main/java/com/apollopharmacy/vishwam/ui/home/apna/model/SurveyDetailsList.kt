@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
+import android.provider.MediaStore.Video
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -688,6 +689,7 @@ class SurveyDetailsList : Serializable {
             this.uid = uid
             return this
         }
+
         @SerializedName("name")
         @Expose
         var name: String? = null
@@ -705,6 +707,7 @@ class SurveyDetailsList : Serializable {
             this.uid = uid
             return this
         }
+
         @SerializedName("name")
         @Expose
         var name: String? = null
@@ -742,7 +745,7 @@ class SurveyDetailsList : Serializable {
         }
     }
 
-    class NeighboringStore: Serializable{
+    class NeighboringStore : Serializable {
         @SerializedName("uid")
         var uid: String? = null
 
@@ -761,6 +764,7 @@ class SurveyDetailsList : Serializable {
         @SerializedName("sqft")
         var sqft = 0.0
     }
+
     inner class Organised : Serializable {
         @SerializedName("uid")
         @Expose
@@ -908,12 +912,15 @@ class SurveyDetailsList : Serializable {
     }
 
     inner class VideoMb : Serializable {
-        @SerializedName("images")
+        @SerializedName("video")
         @Expose
-        var images: List<Image__1>? = null
-        fun withImages(images: List<Image__1>?): VideoMb {
-            this.images = images
-            return this
-        }
+        var video: List<Video>? = null
+
+    }
+
+    class Video : Serializable {
+        @SerializedName("url")
+        @Expose
+        var url: String? = null
     }
 }

@@ -41,68 +41,83 @@ class ApnaSurveyAdapter(
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
-        if (approvedOrders.status!=null) {
+        if (approvedOrders.status != null) {
             if (approvedOrders.status!!.name.equals("null") && approvedOrders.status!!.name.isNullOrEmpty()) {
                 holder.apnaSurveyLayoutBinding.status.setText("-")
-
             } else {
                 holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name)
-
             }
         }
         holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
-        holder.apnaSurveyLayoutBinding.surveyby.setText(approvedOrders.createdId!!.firstName+" "+approvedOrders.createdId!!.lastName)
-        holder.apnaSurveyLayoutBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
+        var fName = ""
+        var lName = ""
+        if (approvedOrders.createdId!!.firstName != null) fName =
+            approvedOrders.createdId!!.firstName!!
+
+        if (approvedOrders.createdId!!.lastName != null) lName =
+            approvedOrders.createdId!!.lastName!!
+        holder.apnaSurveyLayoutBinding.surveyby.setText("$fName $lName")
+        var locationName = ""
+        var cityName = ""
+        if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
+        if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
+
+
+        holder.apnaSurveyLayoutBinding.storeName.setText("$locationName$cityName")
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
-        holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.createdTime!!)!!))
-        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+        holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(
+            approvedOrders.createdTime!!)!!))
+        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(
+            approvedOrders.modifiedTime!!)!!))
 
 //        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
 //        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
 
 
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val timeTakenInputFormat = SimpleDateFormat("HH:mm:ss")
-        val timeTakenOutputFormat = SimpleDateFormat("HH:mm:ss")
 
         try {
             val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
             val date2 = simpleDateFormat.parse(approvedOrders.modifiedTime)
             printDifference(date1, date2)
-            holder.apnaSurveyLayoutBinding.timeTaken.setText(timeTakenOutputFormat.format(timeTakenInputFormat.parse(printDifference(date1, date2))))
+            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1, date2))
 
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        if (approvedOrders.status!=null) {
-            if (approvedOrders.status!!.other!=null) {
+        holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor))//approvedOrders.status!!.textColor
+        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+            approvedOrders.status!!.backgroundColor))
 
-                if (approvedOrders.status!!.other!!.color.toString()
-                        .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString().equals(
-                        "null")
-                ) {
+//        if (approvedOrders.status!=null) {
+//            if (approvedOrders.status!!.other!=null) {
+//
+//                if (approvedOrders.status!!.other!!.color.toString()
+//                        .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString().equals(
+//                        "null")
+//                ) {
+//
+//                } else {
+//                    holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(
+//                        approvedOrders.status!!.other!!.color))
+//
+//                }
+//            }
+//        }
 
-                } else {
-                    holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(
-                        approvedOrders.status!!.other!!.color))
-
-                }
-            }
-        }
-
-        if (approvedOrders.status!=null) {
-            if (approvedOrders.status!!.icon!=null) {
-
-            if (approvedOrders.status!!.icon.equals("null") || approvedOrders.status!!.icon.isNullOrEmpty()) {
-
-            } else {
-                holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
-                    approvedOrders.status!!.icon))
-            }
-            }
-        }
+//        if (approvedOrders.status!=null) {
+//            if (approvedOrders.status!!.icon!=null) {
+//
+//            if (approvedOrders.status!!.icon.equals("null") || approvedOrders.status!!.icon.isNullOrEmpty()) {
+//
+//            } else {
+//                holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+//                    approvedOrders.status!!.icon))
+//            }
+//            }
+//        }
 //        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
 //            approvedOrders.status!!.icon))
 //        if(approvedOrders.equals("APPROVED")){
@@ -146,8 +161,9 @@ class ApnaSurveyAdapter(
         val elapsedMinutes = different / minutesInMilli
         different = different % minutesInMilli
         val elapsedSeconds = different / secondsInMilli
-        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
-
+        return String.format(
+            "%02d:%02d:%02d",
+            elapsedHours, elapsedMinutes, elapsedSeconds)
     }
 
     override fun getItemCount(): Int {

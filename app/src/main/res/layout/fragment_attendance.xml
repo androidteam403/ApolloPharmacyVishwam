@@ -27,7 +27,7 @@
 
         <variable
             name="attendanceViewModel"
-            type="com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceViewModel" />
+            type="com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance.AttendanceViewModel" />
     </data>
 
     <RelativeLayout

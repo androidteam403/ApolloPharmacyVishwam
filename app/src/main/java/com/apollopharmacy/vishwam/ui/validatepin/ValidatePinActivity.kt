@@ -56,7 +56,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         userData = LoginRepo.getProfile()!!
 
 
-        onCheckBuildDetails()
+//        onCheckBuildDetails()
         handleMPinService()
         viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
             "SWACHH",
@@ -243,7 +243,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()
-        viewModel.loginApiCall(Preferences.getValidatedEmpId(),
+        viewModel.loginApiCall("emp-102",
             "R1De6#012022",
             Preferences.getFcmKey(),
             this,

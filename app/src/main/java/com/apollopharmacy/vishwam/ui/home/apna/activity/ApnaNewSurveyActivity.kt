@@ -32,6 +32,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
@@ -130,7 +131,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
     var currentPosition: Int = 0
-    var imageList = ArrayList<ImageDto>()
+    var imageFileList = ArrayList<File>()
 
     var imageFile: File? = null
     var videoFile: File? = null
@@ -161,10 +162,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activityApnaNewSurveyBinding = DataBindingUtil.setContentView(
-            this,
-            R.layout.activity_apna_new_survey
-        )
+        activityApnaNewSurveyBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_apna_new_survey)
 
         apnaNewSurveyViewModel = ViewModelProvider(this)[ApnaNewSurveyViewModel::class.java]
 
@@ -186,7 +185,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         activityApnaNewSurveyBinding.backButton.setOnClickListener {
             finish()
         }
-
         supportMapFragment =
             supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
         client = LocationServices.getFusedLocationProviderClient(this@ApnaNewSurveyActivity)
@@ -643,7 +641,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             if (!checkPermission()) {
                 askPermissions(100)
             } else {
-                if (imageList.size == 5) {
+                if (imageFileList.size == 5) {
                     Toast.makeText(this@ApnaNewSurveyActivity,
                         "You are allowed to upload only five images",
                         Toast.LENGTH_SHORT).show()
@@ -653,7 +651,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
         }
 
-        imageAdapter = ImageAdapter(this@ApnaNewSurveyActivity, imageList, this)
+        imageAdapter = ImageAdapter(this@ApnaNewSurveyActivity, imageFileList, this)
         activityApnaNewSurveyBinding.siteImagesRecyclerView.adapter = imageAdapter
         activityApnaNewSurveyBinding.siteImagesRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -672,12 +670,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val videoDeleteConfirmDialogBinding =
-                DataBindingUtil.inflate<VideoDeleteConfirmDialogBinding>(
-                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                DataBindingUtil.inflate<VideoDeleteConfirmDialogBinding>(LayoutInflater.from(this@ApnaNewSurveyActivity),
                     R.layout.video_delete_confirm_dialog,
                     null,
-                    false
-                )
+                    false)
             dialog.setContentView(videoDeleteConfirmDialogBinding.root)
 
             videoDeleteConfirmDialogBinding.noButton.setOnClickListener {
@@ -732,19 +728,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 LayoutInflater.from(this@ApnaNewSurveyActivity),
                 R.layout.dialog_location_list,
                 null,
-                false
-            )
+                false)
             locationListDialog.setContentView(dialogLocationListBinding.root)
             locationListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             locationListDialog.setCancelable(false)
             dialogLocationListBinding.closeDialog.setOnClickListener {
                 locationListDialog.dismiss()
             }
-            locationListItemAdapter = LocationListItemAdapter(
+            locationListItemAdapter = LocationListItemAdapter(this@ApnaNewSurveyActivity,
                 this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                locationList
-            )
+                locationList)
             dialogLocationListBinding.locationRcv.adapter = locationListItemAdapter
             dialogLocationListBinding.locationRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -777,19 +770,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 LayoutInflater.from(this@ApnaNewSurveyActivity),
                 R.layout.dialog_state_list,
                 null,
-                false
-            )
+                false)
             stateListDialog.setContentView(dialogStateListBinding.root)
             stateListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             stateListDialog.setCancelable(false)
             dialogStateListBinding.closeDialog.setOnClickListener {
                 stateListDialog.dismiss()
             }
-            stateItemAdapter = StateItemAdapter(
-                this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                stateList
-            )
+            stateItemAdapter =
+                StateItemAdapter(this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, stateList)
             dialogStateListBinding.stateRcv.adapter = stateItemAdapter
             dialogStateListBinding.stateRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -822,19 +811,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     LayoutInflater.from(this@ApnaNewSurveyActivity),
                     R.layout.dialog_city_list,
                     null,
-                    false
-                )
+                    false)
                 cityListDialog.setContentView(dialogCityListBinding.root)
                 cityListDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 cityListDialog.setCancelable(false)
                 dialogCityListBinding.closeDialog.setOnClickListener {
                     cityListDialog.dismiss()
                 }
-                cityItemAdapter = CityItemAdapter(
+                cityItemAdapter = CityItemAdapter(this@ApnaNewSurveyActivity,
                     this@ApnaNewSurveyActivity,
-                    this@ApnaNewSurveyActivity,
-                    cityList
-                )
+                    cityList)
                 dialogCityListBinding.cityRcv.adapter = cityItemAdapter
                 dialogCityListBinding.cityRcv.layoutManager =
                     LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -918,12 +904,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         activityApnaNewSurveyBinding.trafficGeneratorSelect.setOnClickListener {
             trafficGeneratorDialog = Dialog(this@ApnaNewSurveyActivity)
             val dialogTrafficGeneratorBinding =
-                DataBindingUtil.inflate<DialogTrafficGeneratorBinding>(
-                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                DataBindingUtil.inflate<DialogTrafficGeneratorBinding>(LayoutInflater.from(this@ApnaNewSurveyActivity),
                     R.layout.dialog_traffic_generator,
                     null,
-                    false
-                )
+                    false)
             trafficGeneratorDialog.setContentView(dialogTrafficGeneratorBinding.root)
             trafficGeneratorDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             trafficGeneratorDialog.setCancelable(false)
@@ -931,10 +915,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 trafficGeneratorDialog.dismiss()
             }
 
-            trafficGeneratorAdapter =
-                TrafficGeneratorAdapter(this@ApnaNewSurveyActivity,
-                    this@ApnaNewSurveyActivity,
-                    trafficGeneratorData)
+            trafficGeneratorAdapter = TrafficGeneratorAdapter(this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                trafficGeneratorData)
             dialogTrafficGeneratorBinding.trafficGeneratorRcv.adapter = trafficGeneratorAdapter
             dialogTrafficGeneratorBinding.trafficGeneratorRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -966,8 +949,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 LayoutInflater.from(this@ApnaNewSurveyActivity),
                 R.layout.dialog_apartment_type,
                 null,
-                false
-            )
+                false)
 
             apartmentTypeDialog.setContentView(dialogApartmentTypeBinding.root)
             apartmentTypeDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1006,13 +988,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         // Hospital speciality dropdown
         activityApnaNewSurveyBinding.hospitalSpecialitySelect.setOnClickListener {
             apnaSpecialityDialog = Dialog(this@ApnaNewSurveyActivity)
-            val dialogApnaSpecialityBinding =
-                DataBindingUtil.inflate<DialogApnaSpecialityBinding>(
-                    LayoutInflater.from(this@ApnaNewSurveyActivity),
-                    R.layout.dialog_apna_speciality,
-                    null,
-                    false
-                )
+            val dialogApnaSpecialityBinding = DataBindingUtil.inflate<DialogApnaSpecialityBinding>(
+                LayoutInflater.from(this@ApnaNewSurveyActivity),
+                R.layout.dialog_apna_speciality,
+                null,
+                false)
             apnaSpecialityDialog.setContentView(dialogApnaSpecialityBinding.root)
             apnaSpecialityDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             apnaSpecialityDialog.setCancelable(false)
@@ -1020,11 +1000,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 apnaSpecialityDialog.dismiss()
             }
 
-            apnaSpecialityAdapter = ApnaSpecialityAdapter(
+            apnaSpecialityAdapter = ApnaSpecialityAdapter(this@ApnaNewSurveyActivity,
                 this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                apnaSpecialityData
-            )
+                apnaSpecialityData)
             dialogApnaSpecialityBinding.specialityRcv.adapter = apnaSpecialityAdapter
             dialogApnaSpecialityBinding.specialityRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -1057,18 +1035,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
             val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
             if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
-                apartmentsList.add(ApartmentData(
-                    apartments,
+                apartmentsList.add(ApartmentData(apartments,
                     apartmentType,
                     noOfHouses.toInt(),
-                    distance.toInt()
-                ))
+                    distance.toInt()))
             }
-            apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
+            apartmentTypeItemAdapter = ApartmentTypeItemAdapter(this@ApnaNewSurveyActivity,
                 this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                apartmentsList
-            )
+                apartmentsList)
             activityApnaNewSurveyBinding.apartmentsRecyclerView.adapter = apartmentTypeItemAdapter
             activityApnaNewSurveyBinding.apartmentsRecyclerView.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -1089,20 +1063,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val occupancy = activityApnaNewSurveyBinding.occupancyText.text.toString()
 
             if (name.isNotEmpty() && speciality.isNotEmpty() && beds.isNotEmpty() && noOfOpd.isNotEmpty() && occupancy.isNotEmpty()) {
-                hospitalsList.add(HospitalData(
-                    name,
+                hospitalsList.add(HospitalData(name,
                     beds.toInt(),
                     speciality,
                     noOfOpd.toInt(),
-                    occupancy.toInt()
-                ))
+                    occupancy.toInt()))
             }
 
-            hospitalsAdapter = HospitalsAdapter(
+            hospitalsAdapter = HospitalsAdapter(this@ApnaNewSurveyActivity,
                 this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                hospitalsList
-            )
+                hospitalsList)
             activityApnaNewSurveyBinding.hospitalsRecyclerView.adapter = hospitalsAdapter
             activityApnaNewSurveyBinding.hospitalsRecyclerView.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -1126,13 +1096,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
 
             if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
-                chemistList.add(ChemistData(
-                    chemist,
+                chemistList.add(ChemistData(chemist,
                     organised,
                     organisedAvgSale,
                     unorganised,
-                    unorganisedAvgSale
-                ))
+                    unorganisedAvgSale))
             }
             chemistAdapter =
                 ChemistAdapter(this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, chemistList)
@@ -1172,8 +1140,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 LayoutInflater.from(this@ApnaNewSurveyActivity),
                 R.layout.dialog_organised,
                 null,
-                false
-            )
+                false)
             organisedDialog.setContentView(dialogOrganisedBinding.root)
 
             organisedDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1216,8 +1183,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 LayoutInflater.from(this@ApnaNewSurveyActivity),
                 R.layout.dialog_unorganised,
                 null,
-                false
-            )
+                false)
             unorganisedDialog.setContentView(dialogUnorganisedBinding.root)
 
             unorganisedDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -1259,8 +1225,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-            val timePickerDialog = TimePickerDialog(
-                this@ApnaNewSurveyActivity,
+            val timePickerDialog = TimePickerDialog(this@ApnaNewSurveyActivity,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 object : TimePickerDialog.OnTimeSetListener {
                     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -1270,8 +1235,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         val formattedTime = simpleDateFormat.format(calendar.time)
                         activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
                     }
-                }, hour, minute, false
-            )
+                },
+                hour,
+                minute,
+                false)
             timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
@@ -1281,8 +1248,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-            val timePickerDialog = TimePickerDialog(
-                this@ApnaNewSurveyActivity,
+            val timePickerDialog = TimePickerDialog(this@ApnaNewSurveyActivity,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 object : TimePickerDialog.OnTimeSetListener {
                     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -1293,8 +1259,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
                     }
 
-                }, hour, minute, false
-            )
+                },
+                hour,
+                minute,
+                false)
             timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
@@ -1304,8 +1272,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-            val timePickerDialog = TimePickerDialog(
-                this@ApnaNewSurveyActivity,
+            val timePickerDialog = TimePickerDialog(this@ApnaNewSurveyActivity,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 object : TimePickerDialog.OnTimeSetListener {
                     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -1316,8 +1283,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
                     }
 
-                }, hour, minute, false
-            )
+                },
+                hour,
+                minute,
+                false)
             timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
@@ -1327,8 +1296,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             val calendar = Calendar.getInstance()
             val hour = calendar.get(Calendar.HOUR_OF_DAY)
             val minute = calendar.get(Calendar.MINUTE)
-            val timePickerDialog = TimePickerDialog(
-                this@ApnaNewSurveyActivity,
+            val timePickerDialog = TimePickerDialog(this@ApnaNewSurveyActivity,
                 android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                 object : TimePickerDialog.OnTimeSetListener {
                     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
@@ -1339,8 +1307,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
                     }
 
-                }, hour, minute, false
-            )
+                },
+                hour,
+                minute,
+                false)
             timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
             timePickerDialog.show()
         }
@@ -1427,15 +1397,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.areaDiscountText.setSelection(
-                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1)
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.setText(enteredText)
                     activityApnaNewSurveyBinding.areaDiscountText.setSelection(
-                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1)
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.areaDiscountText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
@@ -1459,15 +1427,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.pharmaText.setSelection(
-                        activityApnaNewSurveyBinding.pharmaText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.pharmaText.text.length - 1)
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.setText(enteredText)
                     activityApnaNewSurveyBinding.pharmaText.setSelection(
-                        activityApnaNewSurveyBinding.pharmaText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.pharmaText.text.length - 1)
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.pharmaText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
@@ -1490,16 +1456,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.setText("$enteredText%")
-                    activityApnaNewSurveyBinding.fmcgText.setSelection(
-                        activityApnaNewSurveyBinding.fmcgText.text.length - 1
-                    )
+                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text.length - 1)
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.setText(enteredText)
-                    activityApnaNewSurveyBinding.fmcgText.setSelection(
-                        activityApnaNewSurveyBinding.fmcgText.text.length - 1
-                    )
+                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text.length - 1)
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.fmcgText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
@@ -1523,15 +1485,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.surgicalsText.setSelection(
-                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1)
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.setText(enteredText)
                     activityApnaNewSurveyBinding.surgicalsText.setSelection(
-                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1
-                    )
+                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1)
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.surgicalsText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
@@ -1553,7 +1513,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 surveyCreateRequest.employeeId = "admin"
 
 
-                apnaNewSurveyViewModel.connectToAzure(imageList, "SITE IMAGES", this)
+//                apnaNewSurveyViewModel.connectToAzure(imageList, "SITE IMAGES", this)
 
                 val siteImageMb = SurveyCreateRequest.SiteImageMb()
                 val siteImages = ArrayList<SurveyCreateRequest.SiteImageMb.Image>()
@@ -1816,12 +1776,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 val createSurveyConfirmDialogBinding =
-                    DataBindingUtil.inflate<CreateSurveyConfirmDialogBinding>(
-                        LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    DataBindingUtil.inflate<CreateSurveyConfirmDialogBinding>(LayoutInflater.from(
+                        this@ApnaNewSurveyActivity),
                         R.layout.create_survey_confirm_dialog,
                         null,
-                        false
-                    )
+                        false)
                 dialog.setContentView(createSurveyConfirmDialogBinding.root)
                 createSurveyConfirmDialogBinding.cancelButton.setOnClickListener {
                     dialog.dismiss()
@@ -1829,8 +1788,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 createSurveyConfirmDialogBinding.saveButton.setOnClickListener {
                     dialog.dismiss()
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
-                    apnaNewSurveyViewModel.createSurvey(surveyCreateRequest,
-                        this@ApnaNewSurveyActivity)
+                    if (imageFileList != null && imageFileList.size > 0) {
+                        apnaNewSurveyViewModel.imagesListConnectToAzure(imageFileList,
+                            this@ApnaNewSurveyActivity,
+                            surveyCreateRequest)
+                    } else if (videoFile != null) {
+                        var videoFileList = ArrayList<File>()
+                        videoFileList.add(videoFile!!)
+                        apnaNewSurveyViewModel.videoListConnectToAzure(videoFileList,
+                            this@ApnaNewSurveyActivity,
+                            surveyCreateRequest)
+                    } else {
+                        apnaNewSurveyViewModel.createSurvey(surveyCreateRequest,
+                            this@ApnaNewSurveyActivity)
+                    }
                 }
                 dialog.setCancelable(false)
                 dialog.show()
@@ -2104,11 +2075,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile))
         } else {
-            val videoUri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                videoFile!!
-            )
+            val videoUri =
+                FileProvider.getUriForFile(context, context.packageName + ".provider", videoFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, videoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
@@ -2123,11 +2091,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
         } else {
-            val photoUri = FileProvider.getUriForFile(
-                context,
-                context.packageName + ".provider",
-                imageFile!!
-            )
+            val photoUri =
+                FileProvider.getUriForFile(context, context.packageName + ".provider", imageFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -2137,7 +2102,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
-            imageList.add(ImageDto(imageFile!!, ""))
+            imageFileList.add(imageFile!!)
+            //  imageList.add(ImageDto(imageFile!!, ""))
             imageAdapter.notifyDataSetChanged()
         } else if (requestCode == REQUEST_CODE_VIDEO && resultCode == Activity.RESULT_OK && videoFile != null) {
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.GONE
@@ -2642,44 +2608,34 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
     private fun checkPermission(): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            ContextCompat.checkSelfPermission(
-                context, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context, Manifest.permission.READ_MEDIA_IMAGES
-            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context, Manifest.permission.READ_MEDIA_AUDIO
-            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context, Manifest.permission.READ_MEDIA_VIDEO
-            ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_IMAGES) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_AUDIO) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_MEDIA_VIDEO) == PackageManager.PERMISSION_GRANTED
         } else {
-            ContextCompat.checkSelfPermission(
-                context, Manifest.permission.READ_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-                context, Manifest.permission.CAMERA
-            ) == PackageManager.PERMISSION_GRANTED
+            ContextCompat.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
         }
     }
 
     private fun askPermissions(PermissonCode: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.READ_MEDIA_AUDIO,
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.READ_MEDIA_VIDEO,
-                    Manifest.permission.CAMERA
-                ), PermissonCode
-            )
+            requestPermissions(arrayOf(Manifest.permission.READ_MEDIA_AUDIO,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO,
+                Manifest.permission.CAMERA), PermissonCode)
         } else {
-            requestPermissions(
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    Manifest.permission.CAMERA
-                ), PermissonCode
-            )
+            requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA), PermissonCode)
         }
     }
 
@@ -2771,10 +2727,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         trafficGeneratorDialog.dismiss()
         selectedTrafficGeneratorItem.add(item)
 
-        trafficGeneratorsItemAdapter =
-            TrafficGeneratorsItemAdapter(this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                selectedTrafficGeneratorItem)
+        trafficGeneratorsItemAdapter = TrafficGeneratorsItemAdapter(this@ApnaNewSurveyActivity,
+            this@ApnaNewSurveyActivity,
+            selectedTrafficGeneratorItem)
         activityApnaNewSurveyBinding.trafficGeneratorsRcv.adapter = trafficGeneratorsItemAdapter
         activityApnaNewSurveyBinding.trafficGeneratorsRcv.layoutManager =
             LinearLayoutManager(this@ApnaNewSurveyActivity, LinearLayoutManager.HORIZONTAL, false)
@@ -2782,7 +2737,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     }
 
     override fun deleteSiteImage(position: Int, file: File) {
-        imageList.removeAt(position)
+        imageFileList.removeAt(position)
         imageAdapter.notifyDataSetChanged()
     }
 
@@ -2794,14 +2749,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             LayoutInflater.from(this@ApnaNewSurveyActivity),
             R.layout.preview_image_dialog,
             null,
-            false
-        )
+            false)
         dialog.setContentView(previewImageDialogBinding.root)
-        Glide
-            .with(this@ApnaNewSurveyActivity)
-            .load(imageFile)
-            .placeholder(R.drawable.placeholder_image)
-            .into(previewImageDialogBinding.previewImage)
+        Glide.with(this@ApnaNewSurveyActivity).load(imageFile)
+            .placeholder(R.drawable.placeholder_image).into(previewImageDialogBinding.previewImage)
         previewImageDialogBinding.close.setOnClickListener {
             dialog.dismiss()
         }
@@ -2900,11 +2851,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             neighbouringLocationList =
                 neighbouringLocationResponse.data!!.listData!!.rows as ArrayList<NeighbouringLocationResponse.Data.ListData.Row>
 
-            val neighbouringStoreAdapter = NeighbouringStoreAdapter(
+            val neighbouringStoreAdapter = NeighbouringStoreAdapter(this@ApnaNewSurveyActivity,
                 this@ApnaNewSurveyActivity,
-                this@ApnaNewSurveyActivity,
-                neighbouringLocationList
-            )
+                neighbouringLocationList)
             activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter = neighbouringStoreAdapter
             activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
@@ -2959,17 +2908,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
             val surveySavedConfirmDialogBinding =
-                DataBindingUtil.inflate<SurveySavedConfirmDialogBinding>(
-                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                DataBindingUtil.inflate<SurveySavedConfirmDialogBinding>(LayoutInflater.from(this@ApnaNewSurveyActivity),
                     R.layout.survey_saved_confirm_dialog,
                     null,
-                    false
-                )
+                    false)
             dialog.setContentView(surveySavedConfirmDialogBinding.root)
             surveySavedConfirmDialogBinding.uid.text = surveyCreateResponse.data!!.uid
             surveySavedConfirmDialogBinding.message.text = surveyCreateResponse.message
             surveySavedConfirmDialogBinding.okButton.setOnClickListener {
                 dialog.dismiss()
+                finish()
             }
             dialog.setCancelable(false)
             dialog.show()
@@ -2985,11 +2933,48 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             LayoutInflater.from(this@ApnaNewSurveyActivity),
             R.layout.survey_failed_dialog,
             null,
-            false
-        )
+            false)
         surveyFailedDialogBinding.errorMessage.text = message
         surveyFailedDialogBinding.okButton.setOnClickListener {
             dialog.dismiss()
         }
+    }
+
+    override fun onSuccessImagesConnectAzure(
+        imageUrlList: List<SurveyCreateRequest.SiteImageMb.Image>,
+        surveyCreateRequest: SurveyCreateRequest,
+    ) {
+        var siteImageMb = SurveyCreateRequest.SiteImageMb()
+        siteImageMb.images = imageUrlList
+        surveyCreateRequest.siteImageMb = siteImageMb
+        if (videoFile != null) {
+            var videoFileList = ArrayList<File>()
+            videoFileList.add(videoFile!!)
+            apnaNewSurveyViewModel.videoListConnectToAzure(videoFileList,
+                this@ApnaNewSurveyActivity,
+                surveyCreateRequest)
+        } else {
+            apnaNewSurveyViewModel.createSurvey(surveyCreateRequest,
+                this@ApnaNewSurveyActivity)
+        }
+    }
+
+    override fun onFailureImageConnectAzure(message: String) {
+        Toast.makeText(this@ApnaNewSurveyActivity, "$message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessVideoConnectAzure(
+        videoUrlList: List<SurveyCreateRequest.VideoMb.Video>,
+        surveyCreateRequest: SurveyCreateRequest,
+    ) {
+        var videoMb = SurveyCreateRequest.VideoMb()
+        videoMb.video = videoUrlList
+        surveyCreateRequest.videoMb = videoMb
+        apnaNewSurveyViewModel.createSurvey(surveyCreateRequest,
+            this@ApnaNewSurveyActivity)
+    }
+
+    override fun onFailureVideoConnectAzure(message: String) {
+        Toast.makeText(this@ApnaNewSurveyActivity, "$message", Toast.LENGTH_SHORT).show()
     }
 }

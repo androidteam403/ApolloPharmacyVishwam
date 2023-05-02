@@ -1,9 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
-import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse.City
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 class SurveyListResponse : Serializable {
@@ -327,6 +325,15 @@ class SurveyListResponse : Serializable {
         @SerializedName("icon")
         @Expose
         var icon: String? = null
+
+        @SerializedName("background_color")
+        @Expose
+        var backgroundColor: String? = null
+
+        @SerializedName("text_color")
+        @Expose
+        var textColor: String? = null
+
         fun withUid(uid: String?): Status {
             this.uid = uid
             return this

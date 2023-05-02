@@ -71,6 +71,8 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".ui.home.apna.activity.ApnaNewSurveyActivity"
             android:exported="true"
@@ -95,7 +97,8 @@
             android:name=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" /> <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
+            android:theme="@style/AppTheme" />
+        <!-- <activity android:name=".ui.home.greeting.GreetingActivity" /> -->
         <activity
             android:name=".ui.home.greeting.GreetingActivity"
             android:exported="true"
@@ -106,6 +109,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.qcfail.qcpreviewImage.QcPreviewImageActivity"
             android:exported="true"
@@ -187,11 +191,14 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.champs.survey.activity.surveylist.SurveyListActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
+
         <activity
             android:name=".ui.home.swach.swachuploadmodule.reshootactivity.ReShootActivity"
             android:exported="true"
@@ -269,21 +276,25 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.rider.trackmap.TrackMapActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.rider.onlinepayment.OnlinePaymentActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.rider.activity.ScannerActivity"
             android:exported="true"
@@ -303,6 +314,7 @@
         <service
             android:name=".ui.rider.service.BatteryLevelLocationService"
             android:enabled="true" />
+
 
         <activity
             android:name=".ui.rider.activity.SearchProductActivity"
@@ -359,6 +371,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.home.MainActivity" />
         </activity>
+
+
         <activity
             android:name=".ui.home.menu.notificationwebview.NotificationWebViewActivity"
             android:exported="true"
