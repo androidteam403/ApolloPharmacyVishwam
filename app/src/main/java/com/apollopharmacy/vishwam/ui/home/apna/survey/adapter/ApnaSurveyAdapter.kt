@@ -55,7 +55,7 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.storeName.setText(approvedOrders.location!!.name + " , " + approvedOrders.city!!.name)
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm:ss a")
+        val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
         holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.createdTime!!)!!))
         holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
 
@@ -64,12 +64,14 @@ class ApnaSurveyAdapter(
 
 
         val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        val timeTakenInputFormat = SimpleDateFormat("HH:mm:ss")
+        val timeTakenOutputFormat = SimpleDateFormat("HH:mm:ss")
 
         try {
             val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
             val date2 = simpleDateFormat.parse(approvedOrders.modifiedTime)
             printDifference(date1, date2)
-            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1, date2))
+            holder.apnaSurveyLayoutBinding.timeTaken.setText(timeTakenOutputFormat.format(timeTakenInputFormat.parse(printDifference(date1, date2))))
 
         } catch (e: ParseException) {
             e.printStackTrace()

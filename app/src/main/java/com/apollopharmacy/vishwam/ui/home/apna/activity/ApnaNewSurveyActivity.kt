@@ -68,6 +68,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     var length = 0.0
     var width = 0.0
 
+    var surveyCreateRequest = SurveyCreateRequest()
+
     var location_uid: String = ""
     var state_uid: String = ""
     var city_uid: String = ""
@@ -556,8 +558,31 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }.show()
         }
 
+        // preview
         activityApnaNewSurveyBinding.previewIcon.setOnClickListener {
-            val intent = Intent(this@ApnaNewSurveyActivity, ApnaPreviewActivity::class.java)
+
+            val siteImageMb = SurveyCreateRequest.SiteImageMb()
+            val siteImages = ArrayList<SurveyCreateRequest.SiteImageMb.Image>()
+            for (i in imageList.indices) {
+                val image = SurveyCreateRequest.SiteImageMb.Image()
+                image.url = imageList[i].file.absolutePath
+                siteImages.add(image)
+            }
+            siteImageMb.images = siteImages
+            surveyCreateRequest.siteImageMb = siteImageMb
+
+            if (videoFile != null) {
+                val videoMb = SurveyCreateRequest.VideoMb()
+                val videos = ArrayList<SurveyCreateRequest.VideoMb.Video>()
+                val video = SurveyCreateRequest.VideoMb.Video()
+                video.url = videoFile!!.absolutePath
+                videos.add(video)
+                videoMb.video = videos
+                surveyCreateRequest.videoMb = videoMb
+            }
+
+            val intent = Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
+            intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
             startActivity(intent)
         }
 
@@ -1523,48 +1548,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         // on click submit
         activityApnaNewSurveyBinding.submitBtn.setOnClickListener {
             if (validateLocationDetails() && validateSiteSpecification()) {
-                val surveyCreateRequest = SurveyCreateRequest()
+//                val surveyCreateRequest = SurveyCreateRequest()
 
-                val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
-                trafficStreetType.uid =
-                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
-                surveyCreateRequest.trafficStreetType = trafficStreetType
+                surveyCreateRequest.employeeId = "admin"
 
-                if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
-                    val morningFrom = LocalTime.parse(
-                        activityApnaNewSurveyBinding.morningFromSelect.text.toString(),
-                        DateTimeFormatter.ofPattern("HH:mm")
-                    )
-                    surveyCreateRequest.morningFrom =
-                        morningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
-                }
-
-                if (activityApnaNewSurveyBinding.morningToSelect.text.toString().isNotEmpty()) {
-                    val morningTo = LocalTime.parse(
-                        activityApnaNewSurveyBinding.morningToSelect.text.toString(),
-                        DateTimeFormatter.ofPattern("HH:mm")
-                    )
-                    surveyCreateRequest.morningTo =
-                        morningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
-                }
-
-                if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isNotEmpty()) {
-                    val eveningFrom = LocalTime.parse(
-                        activityApnaNewSurveyBinding.eveningFromSelect.text.toString(),
-                        DateTimeFormatter.ofPattern("HH:mm")
-                    )
-                    surveyCreateRequest.eveningFrom =
-                        eveningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
-                }
-
-                if (activityApnaNewSurveyBinding.eveningToSelect.text.toString().isNotEmpty()) {
-                    val eveningTo = LocalTime.parse(
-                        activityApnaNewSurveyBinding.eveningToSelect.text.toString(),
-                        DateTimeFormatter.ofPattern("HH:mm")
-                    )
-                    surveyCreateRequest.eveningTo =
-                        eveningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
-                }
 
                 apnaNewSurveyViewModel.connectToAzure(imageList, "SITE IMAGES", this)
 
@@ -1578,6 +1565,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 siteImageMb.images = siteImages
                 surveyCreateRequest.siteImageMb = siteImageMb
 
+
                 val videoMb = SurveyCreateRequest.VideoMb()
                 val videos = ArrayList<SurveyCreateRequest.VideoMb.Video>()
                 val video = SurveyCreateRequest.VideoMb.Video()
@@ -1586,203 +1574,243 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 videoMb.video = videos
                 surveyCreateRequest.videoMb = videoMb
 
-                val expectedRentRadioGroupId =
-                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
-                val dimensionType = SurveyCreateRequest.DimensionType()
-                dimensionType.uid =
-                    findViewById<RadioButton>(expectedRentRadioGroupId).text.toString().trim()
-                surveyCreateRequest.dimensionType = dimensionType
+//                val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
+//                trafficStreetType.uid =
+//                    activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
+//                surveyCreateRequest.trafficStreetType = trafficStreetType
 
-                val parkingRadioGroupId =
-                    activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId
-                val parking = SurveyCreateRequest.Parking()
-                parking.uid = findViewById<RadioButton>(parkingRadioGroupId).text.toString().trim()
-                surveyCreateRequest.parking = parking
+//                if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
+//                    val morningFrom = LocalTime.parse(
+//                        activityApnaNewSurveyBinding.morningFromSelect.text.toString(),
+//                        DateTimeFormatter.ofPattern("HH:mm")
+//                    )
+//                    surveyCreateRequest.morningFrom =
+//                        morningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+//                }
+//
+//                if (activityApnaNewSurveyBinding.morningToSelect.text.toString().isNotEmpty()) {
+//                    val morningTo = LocalTime.parse(
+//                        activityApnaNewSurveyBinding.morningToSelect.text.toString(),
+//                        DateTimeFormatter.ofPattern("HH:mm")
+//                    )
+//                    surveyCreateRequest.morningTo =
+//                        morningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+//                }
+//
+//                if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isNotEmpty()) {
+//                    val eveningFrom = LocalTime.parse(
+//                        activityApnaNewSurveyBinding.eveningFromSelect.text.toString(),
+//                        DateTimeFormatter.ofPattern("HH:mm")
+//                    )
+//                    surveyCreateRequest.eveningFrom =
+//                        eveningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+//                }
+//
+//                if (activityApnaNewSurveyBinding.eveningToSelect.text.toString().isNotEmpty()) {
+//                    val eveningTo = LocalTime.parse(
+//                        activityApnaNewSurveyBinding.eveningToSelect.text.toString(),
+//                        DateTimeFormatter.ofPattern("HH:mm")
+//                    )
+//                    surveyCreateRequest.eveningTo =
+//                        eveningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+//                }
 
-                if (activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId != -1) {
-                    val toiletsAvailabilityRadioGroupId =
-                        activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId
-                    val toiletsAvailability = SurveyCreateRequest.ToiletsAvailability()
-                    toiletsAvailability.uid =
-                        findViewById<RadioButton>(toiletsAvailabilityRadioGroupId).text.toString()
-                            .trim()
-                    surveyCreateRequest.toiletsAvailability = toiletsAvailability
-                }
+//                val expectedRentRadioGroupId =
+//                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
+//                val dimensionType = SurveyCreateRequest.DimensionType()
+//                dimensionType.uid =
+//                    findViewById<RadioButton>(expectedRentRadioGroupId).text.toString().trim()
+//                surveyCreateRequest.dimensionType = dimensionType
 
-                surveyCreateRequest.employeeId = "admin"
+//                val parkingRadioGroupId =
+//                    activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId
+//                val parking = SurveyCreateRequest.Parking()
+//                parking.uid = findViewById<RadioButton>(parkingRadioGroupId).text.toString().trim()
+//                surveyCreateRequest.parking = parking
 
-                val neighbouringStores = ArrayList<SurveyCreateRequest.NeighboringStore>()
-                for (i in neighbouringStoreList.indices) {
-                    val neighboringStore = SurveyCreateRequest.NeighboringStore()
-                    val location = SurveyCreateRequest.NeighboringStore.Location()
-                    location.uid = neighbouringStoreList[i].name
-                    neighboringStore.location = location
-                    neighboringStore.store = neighbouringStoreList[i].store
-                    if (neighbouringStoreList[i].rent != null && neighbouringStoreList[i].sales != null && neighbouringStoreList[i].sqFt != null) {
-                        neighboringStore.sales = neighbouringStoreList[i].sales!!.toFloat()
-                        neighboringStore.sqft = neighbouringStoreList[i].sqFt!!.toFloat()
-                        neighboringStore.rent = neighbouringStoreList[i].rent!!.toInt()
-                    }
-                    neighbouringStores.add(neighboringStore)
-                }
-                surveyCreateRequest.neighboringStore = neighbouringStores
+//                if (activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId != -1) {
+//                    val toiletsAvailabilityRadioGroupId =
+//                        activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId
+//                    val toiletsAvailability = SurveyCreateRequest.ToiletsAvailability()
+//                    toiletsAvailability.uid =
+//                        findViewById<RadioButton>(toiletsAvailabilityRadioGroupId).text.toString()
+//                            .trim()
+//                    surveyCreateRequest.toiletsAvailability = toiletsAvailability
+//                }
 
-                val chemist = ArrayList<SurveyCreateRequest.Chemist>()
-                for (i in chemistList.indices) {
-                    val chemistData = SurveyCreateRequest.Chemist()
-                    val organised = SurveyCreateRequest.Chemist.Organised()
-                    val unorganised = SurveyCreateRequest.Chemist.Unorganised()
-                    chemistData.chemist = chemistList[i].chemist
-                    organised.uid = chemistList[i].organised
-                    chemistData.organised = organised
-                    unorganised.uid = chemistList[i].unorganised
-                    chemistData.unorganised = unorganised
-                    chemistData.orgAvgSale = chemistList[i].organisedAvgSale.toInt()
-                    chemistData.unorgAvgSale = chemistList[i].unorganisedAvgSale.toInt()
-                    chemist.add(chemistData)
-                }
-                surveyCreateRequest.chemist = chemist
+//                val neighbouringStores = ArrayList<SurveyCreateRequest.NeighboringStore>()
+//                for (i in neighbouringStoreList.indices) {
+//                    val neighboringStore = SurveyCreateRequest.NeighboringStore()
+//                    val location = SurveyCreateRequest.NeighboringStore.Location()
+//                    location.uid = neighbouringStoreList[i].name
+//                    neighboringStore.location = location
+//                    neighboringStore.store = neighbouringStoreList[i].store
+//                    if (neighbouringStoreList[i].rent != null && neighbouringStoreList[i].sales != null && neighbouringStoreList[i].sqFt != null) {
+//                        neighboringStore.sales = neighbouringStoreList[i].sales!!.toFloat()
+//                        neighboringStore.sqft = neighbouringStoreList[i].sqFt!!.toFloat()
+//                        neighboringStore.rent = neighbouringStoreList[i].rent!!.toInt()
+//                    }
+//                    neighbouringStores.add(neighboringStore)
+//                }
+//                surveyCreateRequest.neighboringStore = neighbouringStores
 
-                val apartments = ArrayList<SurveyCreateRequest.Apartment>()
-                for (i in apartmentsList.indices) {
-                    val apartment = SurveyCreateRequest.Apartment()
-                    val type = SurveyCreateRequest.Apartment.Type()
-                    type.uid = apartmentsList[i].apartmentType
-                    apartment.type = type
-                    apartment.apartments = apartmentsList[i].apartments
-                    apartment.noHouses = apartmentsList[i].noOfHouses.toString()
-                    apartment.distance = apartmentsList[i].distance
-                    apartments.add(apartment)
-                }
-                surveyCreateRequest.apartments = apartments
+//                val chemist = ArrayList<SurveyCreateRequest.Chemist>()
+//                for (i in chemistList.indices) {
+//                    val chemistData = SurveyCreateRequest.Chemist()
+//                    val organised = SurveyCreateRequest.Chemist.Organised()
+//                    val unorganised = SurveyCreateRequest.Chemist.Unorganised()
+//                    chemistData.chemist = chemistList[i].chemist
+//                    organised.uid = chemistList[i].organised
+//                    chemistData.organised = organised
+//                    unorganised.uid = chemistList[i].unorganised
+//                    chemistData.unorganised = unorganised
+//                    chemistData.orgAvgSale = chemistList[i].organisedAvgSale.toInt()
+//                    chemistData.unorgAvgSale = chemistList[i].unorganisedAvgSale.toInt()
+//                    chemist.add(chemistData)
+//                }
+//                surveyCreateRequest.chemist = chemist
 
-                val hospitals = ArrayList<SurveyCreateRequest.Hospital>()
-                for (i in hospitalsList.indices) {
-                    val hospital = SurveyCreateRequest.Hospital()
-                    val speciality = SurveyCreateRequest.Hospital.Speciality()
-                    speciality.uid = hospitalsList[i].speciality
-                    hospital.speciality = speciality
-                    hospital.hospitals = hospitalsList[i].hospitalName
-                    hospital.beds = hospitalsList[i].beds.toString()
-                    hospital.noOpd = hospitalsList[i].noOfOpd.toString()
-                    hospital.occupancy = hospitalsList[i].occupancy.toString()
-                        .substring(0, hospitalsList[i].occupancy.toString().length)
-                    hospitals.add(hospital)
-                }
-                surveyCreateRequest.hospitals = hospitals
+//                val apartments = ArrayList<SurveyCreateRequest.Apartment>()
+//                for (i in apartmentsList.indices) {
+//                    val apartment = SurveyCreateRequest.Apartment()
+//                    val type = SurveyCreateRequest.Apartment.Type()
+//                    type.uid = apartmentsList[i].apartmentType
+//                    apartment.type = type
+//                    apartment.apartments = apartmentsList[i].apartments
+//                    apartment.noHouses = apartmentsList[i].noOfHouses.toString()
+//                    apartment.distance = apartmentsList[i].distance
+//                    apartments.add(apartment)
+//                }
+//                surveyCreateRequest.apartments = apartments
 
-                val trafficGenerators = ArrayList<SurveyCreateRequest.TrafficGenerator>()
-                for (i in selectedTrafficGeneratorItem.indices) {
-                    val trafficGenerator = SurveyCreateRequest.TrafficGenerator()
-                    trafficGenerator.uid = selectedTrafficGeneratorItem[i]
-                    trafficGenerators.add(trafficGenerator)
-                }
-                surveyCreateRequest.trafficGenerator = trafficGenerators
+//                val hospitals = ArrayList<SurveyCreateRequest.Hospital>()
+//                for (i in hospitalsList.indices) {
+//                    val hospital = SurveyCreateRequest.Hospital()
+//                    val speciality = SurveyCreateRequest.Hospital.Speciality()
+//                    speciality.uid = hospitalsList[i].speciality
+//                    hospital.speciality = speciality
+//                    hospital.hospitals = hospitalsList[i].hospitalName
+//                    hospital.beds = hospitalsList[i].beds.toString()
+//                    hospital.noOpd = hospitalsList[i].noOfOpd.toString()
+//                    hospital.occupancy = hospitalsList[i].occupancy.toString()
+//                        .substring(0, hospitalsList[i].occupancy.toString().length)
+//                    hospitals.add(hospital)
+//                }
+//                surveyCreateRequest.hospitals = hospitals
 
-                val location = SurveyCreateRequest.Location__1()
-                location.uid = location_uid
-                surveyCreateRequest.location = location
+//                val trafficGenerators = ArrayList<SurveyCreateRequest.TrafficGenerator>()
+//                for (i in selectedTrafficGeneratorItem.indices) {
+//                    val trafficGenerator = SurveyCreateRequest.TrafficGenerator()
+//                    trafficGenerator.uid = selectedTrafficGeneratorItem[i]
+//                    trafficGenerators.add(trafficGenerator)
+//                }
+//                surveyCreateRequest.trafficGenerator = trafficGenerators
 
-                val state = SurveyCreateRequest.State()
-                state.uid = state_uid
-                surveyCreateRequest.state = state
+//                val location = SurveyCreateRequest.Location__1()
+//                location.uid = location_uid
+//                surveyCreateRequest.location = location
 
-                val city = SurveyCreateRequest.City()
-                city.uid = city_uid
-                surveyCreateRequest.city = city
+//                val state = SurveyCreateRequest.State()
+//                state.uid = state_uid
+//                surveyCreateRequest.state = state
+//
+//                val city = SurveyCreateRequest.City()
+//                city.uid = city_uid
+//                surveyCreateRequest.city = city
 
-                surveyCreateRequest.pincode =
-                    activityApnaNewSurveyBinding.pinText.text.toString().trim()
-                surveyCreateRequest.landmarks =
-                    activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
-                surveyCreateRequest.lat =
-                    activityApnaNewSurveyBinding.latitude.text.toString().trim()
-                surveyCreateRequest.long =
-                    activityApnaNewSurveyBinding.longitude.text.toString().trim()
-                surveyCreateRequest.address =
-                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
-                surveyCreateRequest.length =
-                    activityApnaNewSurveyBinding.lengthText.text.toString().trim()
-                surveyCreateRequest.width =
-                    activityApnaNewSurveyBinding.widthText.text.toString().trim()
-                surveyCreateRequest.ceilingHeight =
-                    activityApnaNewSurveyBinding.ceilingHeightText.text.toString().trim()
+//                surveyCreateRequest.pincode =
+//                    activityApnaNewSurveyBinding.pinText.text.toString().trim()
+//                surveyCreateRequest.landmarks =
+//                    activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
+//                surveyCreateRequest.lat =
+//                    activityApnaNewSurveyBinding.latitude.text.toString().trim()
+//                surveyCreateRequest.long =
+//                    activityApnaNewSurveyBinding.longitude.text.toString().trim()
 
-                if (activityApnaNewSurveyBinding.totalAreaText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.totalArea =
-                        activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toFloat()
-                }
+//                surveyCreateRequest.address =
+//                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
 
-                surveyCreateRequest.buildingAge =
-                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+//                surveyCreateRequest.length =
+//                    activityApnaNewSurveyBinding.lengthText.text.toString().trim()
+//                surveyCreateRequest.width =
+//                    activityApnaNewSurveyBinding.widthText.text.toString().trim()
+//                surveyCreateRequest.ceilingHeight =
+//                    activityApnaNewSurveyBinding.ceilingHeightText.text.toString().trim()
+//
+//                if (activityApnaNewSurveyBinding.totalAreaText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.totalArea =
+//                        activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toFloat()
+//                }
 
-                if (activityApnaNewSurveyBinding.expectedRentText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.expectedRent =
-                        activityApnaNewSurveyBinding.expectedRentText.text.toString().trim().toInt()
-                }
+//                surveyCreateRequest.buildingAge =
+//                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
 
-                if (activityApnaNewSurveyBinding.securityDepositText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.securityDeposit =
-                        activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
-                            .toInt()
-                }
+//                if (activityApnaNewSurveyBinding.expectedRentText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.expectedRent =
+//                        activityApnaNewSurveyBinding.expectedRentText.text.toString().trim().toInt()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.securityDepositText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.securityDeposit =
+//                        activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
+//                            .toInt()
+//                }
 
 
+//                surveyCreateRequest.trafficPatterns =
+//                    activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
+//                surveyCreateRequest.extngOutletName =
+//                    activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
+//
+//                if (activityApnaNewSurveyBinding.ageOrSaleText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.extngOutletAge =
+//                        activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim().toFloat()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.pharmaText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.csPharma =
+//                        activityApnaNewSurveyBinding.pharmaText.text.toString().substring(0,
+//                            activityApnaNewSurveyBinding.pharmaText.text.toString().length - 1)
+//                            .trim()
+//                            .toFloat()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.fmcgText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.csFmcg =
+//                        activityApnaNewSurveyBinding.fmcgText.text.toString().substring(0,
+//                            activityApnaNewSurveyBinding.fmcgText.text.toString().length - 1).trim()
+//                            .toFloat()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.surgicalsText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.csSurgicals =
+//                        activityApnaNewSurveyBinding.surgicalsText.text.toString().substring(0,
+//                            activityApnaNewSurveyBinding.surgicalsText.text.toString().length - 1)
+//                            .trim().toFloat()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.areaDiscountText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.areaDiscount =
+//                        activityApnaNewSurveyBinding.areaDiscountText.text.toString().substring(0,
+//                            activityApnaNewSurveyBinding.areaDiscountText.text.toString().length - 1)
+//                            .trim()
+//                            .toFloat()
+//                }
 
-                surveyCreateRequest.trafficPatterns =
-                    activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
-                surveyCreateRequest.extngOutletName =
-                    activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
+//                surveyCreateRequest.localDisbtsComments =
+//                    activityApnaNewSurveyBinding.distributorsComments.text.toString().trim()
 
-                if (activityApnaNewSurveyBinding.ageOrSaleText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.extngOutletAge =
-                        activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim().toFloat()
-                }
-
-                if (activityApnaNewSurveyBinding.pharmaText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.csPharma =
-                        activityApnaNewSurveyBinding.pharmaText.text.toString().substring(0,
-                            activityApnaNewSurveyBinding.pharmaText.text.toString().length - 1)
-                            .trim()
-                            .toFloat()
-                }
-
-                if (activityApnaNewSurveyBinding.fmcgText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.csFmcg =
-                        activityApnaNewSurveyBinding.fmcgText.text.toString().substring(0,
-                            activityApnaNewSurveyBinding.fmcgText.text.toString().length - 1).trim()
-                            .toFloat()
-                }
-
-                if (activityApnaNewSurveyBinding.surgicalsText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.csSurgicals =
-                        activityApnaNewSurveyBinding.surgicalsText.text.toString().substring(0,
-                            activityApnaNewSurveyBinding.surgicalsText.text.toString().length - 1)
-                            .trim().toFloat()
-                }
-
-                if (activityApnaNewSurveyBinding.areaDiscountText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.areaDiscount =
-                        activityApnaNewSurveyBinding.areaDiscountText.text.toString().substring(0,
-                            activityApnaNewSurveyBinding.areaDiscountText.text.toString().length - 1)
-                            .trim()
-                            .toFloat()
-                }
-
-                surveyCreateRequest.localDisbtsComments =
-                    activityApnaNewSurveyBinding.distributorsComments.text.toString().trim()
-
-                if (activityApnaNewSurveyBinding.serviceClassText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.serviceClass =
-                        activityApnaNewSurveyBinding.serviceClassText.text.toString().trim()
-                            .toFloat()
-                }
-
-                if (activityApnaNewSurveyBinding.businessClassText.text.toString().isNotEmpty()) {
-                    surveyCreateRequest.businessClass =
-                        activityApnaNewSurveyBinding.businessClassText.text.toString().trim()
-                            .toFloat()
-                }
+//                if (activityApnaNewSurveyBinding.serviceClassText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.serviceClass =
+//                        activityApnaNewSurveyBinding.serviceClassText.text.toString().trim()
+//                            .toFloat()
+//                }
+//
+//                if (activityApnaNewSurveyBinding.businessClassText.text.toString().isNotEmpty()) {
+//                    surveyCreateRequest.businessClass =
+//                        activityApnaNewSurveyBinding.businessClassText.text.toString().trim()
+//                            .toFloat()
+//                }
 
                 val dialog = Dialog(this@ApnaNewSurveyActivity)
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -2120,6 +2148,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun showNext(currentPosition: Int) {
         when (currentPosition) {
             0 -> {
@@ -2175,22 +2204,35 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.locationDetailsNumCompleted.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsTextCompleted.visibility = View.VISIBLE
 
-                val location = activityApnaNewSurveyBinding.locationText.text.toString().trim()
-                val state = activityApnaNewSurveyBinding.stateText.text.toString().trim()
-                val city = activityApnaNewSurveyBinding.cityText.text.toString()
-                val pin = activityApnaNewSurveyBinding.pinText.text.toString().trim()
-                val landMarks =
-                    activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
-                val latitude = activityApnaNewSurveyBinding.latitude.text.toString().trim()
-                val longitude = activityApnaNewSurveyBinding.longitude.text.toString().trim()
+                surveyCreateRequest.location2 =
+                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
+                surveyCreateRequest.state2 =
+                    activityApnaNewSurveyBinding.stateText.text.toString().trim()
+                surveyCreateRequest.city2 =
+                    activityApnaNewSurveyBinding.cityText.text.toString().trim()
 
-                locationDetailsData.location = location
-                locationDetailsData.state = state
-                locationDetailsData.city = city
-                locationDetailsData.pin = pin
-                locationDetailsData.nearByLandmarks = landMarks
-                locationDetailsData.latitude = latitude
-                locationDetailsData.longitude = longitude
+                surveyCreateRequest.address =
+                    activityApnaNewSurveyBinding.locationText.text.toString().trim()
+                val location = SurveyCreateRequest.Location__1()
+                location.uid = location_uid
+                surveyCreateRequest.location = location
+
+                val state = SurveyCreateRequest.State()
+                state.uid = state_uid
+                surveyCreateRequest.state = state
+
+                val city = SurveyCreateRequest.City()
+                city.uid = city_uid
+                surveyCreateRequest.city = city
+
+                surveyCreateRequest.pincode =
+                    activityApnaNewSurveyBinding.pinText.text.toString().trim()
+                surveyCreateRequest.landmarks =
+                    activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
+                surveyCreateRequest.lat =
+                    activityApnaNewSurveyBinding.latitude.text.toString().trim()
+                surveyCreateRequest.long =
+                    activityApnaNewSurveyBinding.longitude.text.toString().trim()
 
                 this.currentPosition = 1
             }
@@ -2226,51 +2268,95 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.siteSpecificationsTextCompleted.visibility =
                     View.VISIBLE
 
-                val length = activityApnaNewSurveyBinding.lengthText.text.toString().trim()
-                val width = activityApnaNewSurveyBinding.widthText.text.toString().trim()
-                val celilingHeight =
+                surveyCreateRequest.length =
+                    activityApnaNewSurveyBinding.lengthText.text.toString().trim()
+                surveyCreateRequest.width =
+                    activityApnaNewSurveyBinding.widthText.text.toString().trim()
+                surveyCreateRequest.ceilingHeight =
                     activityApnaNewSurveyBinding.ceilingHeightText.text.toString().trim()
-                val totalArea = activityApnaNewSurveyBinding.totalAreaText.text.toString().trim()
-                val expectedRent =
-                    activityApnaNewSurveyBinding.expectedRentText.text.toString().trim()
-                val securityDeposit =
-                    activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
-                var toiletsAvailability: String = ""
-                if (activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId != -1) {
-                    toiletsAvailability = findViewById<RadioButton>(
-                        activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId
-                    ).text.toString().trim()
+
+                if (activityApnaNewSurveyBinding.totalAreaText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.totalArea =
+                        activityApnaNewSurveyBinding.totalAreaText.text.toString().trim().toFloat()
                 }
-                val ageOfBuilding =
+                val expectedRentRadioGroupId =
+                    activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
+                val dimensionType = SurveyCreateRequest.DimensionType()
+                dimensionType.uid =
+                    findViewById<RadioButton>(expectedRentRadioGroupId).text.toString().trim()
+                surveyCreateRequest.dimensionType = dimensionType
+                if (activityApnaNewSurveyBinding.expectedRentText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.expectedRent =
+                        activityApnaNewSurveyBinding.expectedRentText.text.toString().trim().toInt()
+                }
+
+                if (activityApnaNewSurveyBinding.securityDepositText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.securityDeposit =
+                        activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
+                            .toInt()
+                }
+                if (activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId != -1) {
+                    val toiletsAvailabilityRadioGroupId =
+                        activityApnaNewSurveyBinding.toiletsAvailabilityRadioGroup.checkedRadioButtonId
+                    val toiletsAvailability = SurveyCreateRequest.ToiletsAvailability()
+                    toiletsAvailability.uid =
+                        findViewById<RadioButton>(toiletsAvailabilityRadioGroupId).text.toString()
+                            .trim()
+                    surveyCreateRequest.toiletsAvailability = toiletsAvailability
+                }
+                surveyCreateRequest.buildingAge =
                     activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
-                val parking = findViewById<RadioButton>(
+
+                val parkingRadioGroupId =
                     activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId
-                ).text.toString().trim()
-                val trafficStreet =
+                val parking = SurveyCreateRequest.Parking()
+                parking.uid = findViewById<RadioButton>(parkingRadioGroupId).text.toString().trim()
+                surveyCreateRequest.parking = parking
+
+                val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
+                trafficStreetType.uid =
                     activityApnaNewSurveyBinding.trafficStreetSelect.text.toString().trim()
-                val morningFrom =
-                    activityApnaNewSurveyBinding.morningFromSelect.text.toString().trim()
-                val morningTo = activityApnaNewSurveyBinding.morningToSelect.text.toString().trim()
-                val eveningFrom = activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
-                val eveningTo = activityApnaNewSurveyBinding.eveningToSelect.text.toString().trim()
-                val trafficPatterns =
+                surveyCreateRequest.trafficStreetType = trafficStreetType
+
+                if (activityApnaNewSurveyBinding.morningFromSelect.text.toString().isNotEmpty()) {
+                    val morningFrom = LocalTime.parse(
+                        activityApnaNewSurveyBinding.morningFromSelect.text.toString(),
+                        DateTimeFormatter.ofPattern("HH:mm")
+                    )
+                    surveyCreateRequest.morningFrom =
+                        morningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+                }
+
+                if (activityApnaNewSurveyBinding.morningToSelect.text.toString().isNotEmpty()) {
+                    val morningTo = LocalTime.parse(
+                        activityApnaNewSurveyBinding.morningToSelect.text.toString(),
+                        DateTimeFormatter.ofPattern("HH:mm")
+                    )
+                    surveyCreateRequest.morningTo =
+                        morningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+                }
+
+                if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isNotEmpty()) {
+                    val eveningFrom = LocalTime.parse(
+                        activityApnaNewSurveyBinding.eveningFromSelect.text.toString(),
+                        DateTimeFormatter.ofPattern("HH:mm")
+                    )
+                    surveyCreateRequest.eveningFrom =
+                        eveningFrom.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+                }
+
+                if (activityApnaNewSurveyBinding.eveningToSelect.text.toString().isNotEmpty()) {
+                    val eveningTo = LocalTime.parse(
+                        activityApnaNewSurveyBinding.eveningToSelect.text.toString(),
+                        DateTimeFormatter.ofPattern("HH:mm")
+                    )
+                    surveyCreateRequest.eveningTo =
+                        eveningTo.format(DateTimeFormatter.ofPattern("HH:m:ss"))
+                }
+
+                surveyCreateRequest.trafficPatterns =
                     activityApnaNewSurveyBinding.presentTrafficPatterns.text.toString().trim()
 
-                siteSpecifications.length = length
-                siteSpecifications.width = width
-                siteSpecifications.ceilingHeight = celilingHeight
-                siteSpecifications.totalArea = totalArea
-                siteSpecifications.expectedRent = expectedRent
-                siteSpecifications.securityDeposit = securityDeposit
-                siteSpecifications.toiletsAvailability = toiletsAvailability
-                siteSpecifications.ageOfBuilding = ageOfBuilding
-                siteSpecifications.parking = parking
-                siteSpecifications.typeOfTrafficStreet = trafficStreet
-                siteSpecifications.morningFrom = morningFrom
-                siteSpecifications.morningTo = morningTo
-                siteSpecifications.eveningFrom = eveningFrom
-                siteSpecifications.eveningTo = eveningTo
-                siteSpecifications.presentTrafficPattern = trafficPatterns
 
                 this.currentPosition = 2
             }
@@ -2297,49 +2383,83 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.marketInformationTextCompleted.visibility =
                     View.VISIBLE
 
-                val outlateName =
+                surveyCreateRequest.extngOutletName =
                     activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
-                val outletAge = activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim()
-                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
-                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString()
-                val surgical = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
-                val areaDiscount =
-                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
-                val comments =
-                    activityApnaNewSurveyBinding.distributorsComments.text.toString().trim()
-                val occupation = activityApnaNewSurveyBinding.occupationText.text.toString().trim()
-                val serviceClass =
-                    activityApnaNewSurveyBinding.serviceClassText.text.toString().trim()
-                val businessClass =
-                    activityApnaNewSurveyBinding.businessClassText.text.toString().trim()
 
-                marketInformation.existingOutletName = outlateName
-                marketInformation.existingOutletAge = outletAge
-                marketInformation.pharma = pharma
-                marketInformation.fmcg = fmcg
-                marketInformation.surgicals = surgical
-                marketInformation.areaDiscount = areaDiscount
-                marketInformation.comments = comments
-                marketInformation.occupation = occupation
-                marketInformation.serviceClass = serviceClass
-                marketInformation.businessClass = businessClass
-                var trafficGenerators = ArrayList<String>()
-                for (i in selectedTrafficGeneratorItem.indices) {
-                    trafficGenerators.add(selectedTrafficGeneratorItem[i])
+                if (activityApnaNewSurveyBinding.ageOrSaleText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.extngOutletAge =
+                        activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim().toFloat()
                 }
-                marketInformation.trafficGenerators = trafficGenerators
 
-                var neighbouringStores = ArrayList<MarketInformationData.NeighboringStore>()
+                if (activityApnaNewSurveyBinding.pharmaText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.csPharma =
+                        activityApnaNewSurveyBinding.pharmaText.text.toString().substring(0,
+                            activityApnaNewSurveyBinding.pharmaText.text.toString().length - 1)
+                            .trim()
+                            .toFloat()
+                }
+
+                if (activityApnaNewSurveyBinding.fmcgText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.csFmcg =
+                        activityApnaNewSurveyBinding.fmcgText.text.toString().substring(0,
+                            activityApnaNewSurveyBinding.fmcgText.text.toString().length - 1).trim()
+                            .toFloat()
+                }
+
+                if (activityApnaNewSurveyBinding.surgicalsText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.csSurgicals =
+                        activityApnaNewSurveyBinding.surgicalsText.text.toString().substring(0,
+                            activityApnaNewSurveyBinding.surgicalsText.text.toString().length - 1)
+                            .trim().toFloat()
+                }
+
+                if (activityApnaNewSurveyBinding.areaDiscountText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.areaDiscount =
+                        activityApnaNewSurveyBinding.areaDiscountText.text.toString().substring(0,
+                            activityApnaNewSurveyBinding.areaDiscountText.text.toString().length - 1)
+                            .trim()
+                            .toFloat()
+                }
+
+                val neighbouringStores = ArrayList<SurveyCreateRequest.NeighboringStore>()
                 for (i in neighbouringStoreList.indices) {
-                    var neighbouringStore = MarketInformationData.NeighboringStore()
-                    neighbouringStore.location = neighbouringStoreList[i].name
-                    neighbouringStore.store = neighbouringStoreList[i].store
-                    neighbouringStore.rent = neighbouringStoreList[i].rent
-                    neighbouringStore.sale = neighbouringStoreList[i].sales
-                    neighbouringStore.sqFt = neighbouringStoreList[i].sqFt
-                    neighbouringStores.add(neighbouringStore)
+                    val neighboringStore = SurveyCreateRequest.NeighboringStore()
+                    val location = SurveyCreateRequest.NeighboringStore.Location()
+                    location.uid = neighbouringStoreList[i].name
+                    neighboringStore.location = location
+                    neighboringStore.store = neighbouringStoreList[i].store
+                    if (neighbouringStoreList[i].rent != null && neighbouringStoreList[i].sales != null && neighbouringStoreList[i].sqFt != null) {
+                        neighboringStore.sales = neighbouringStoreList[i].sales!!.toFloat()
+                        neighboringStore.sqft = neighbouringStoreList[i].sqFt!!.toFloat()
+                        neighboringStore.rent = neighbouringStoreList[i].rent!!.toInt()
+                    }
+                    neighbouringStores.add(neighboringStore)
                 }
-                marketInformation.neighboringStoreList = neighbouringStores
+                surveyCreateRequest.neighboringStore = neighbouringStores
+
+                surveyCreateRequest.localDisbtsComments =
+                    activityApnaNewSurveyBinding.distributorsComments.text.toString().trim()
+                // occupation missing
+                if (activityApnaNewSurveyBinding.serviceClassText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.serviceClass =
+                        activityApnaNewSurveyBinding.serviceClassText.text.toString().trim()
+                            .toFloat()
+                }
+
+                if (activityApnaNewSurveyBinding.businessClassText.text.toString().isNotEmpty()) {
+                    surveyCreateRequest.businessClass =
+                        activityApnaNewSurveyBinding.businessClassText.text.toString().trim()
+                            .toFloat()
+                }
+
+                val trafficGenerators = ArrayList<SurveyCreateRequest.TrafficGenerator>()
+                for (i in selectedTrafficGeneratorItem.indices) {
+                    val trafficGenerator = SurveyCreateRequest.TrafficGenerator()
+                    trafficGenerator.uid = selectedTrafficGeneratorItem[i]
+                    trafficGenerators.add(trafficGenerator)
+                }
+                surveyCreateRequest.trafficGenerator = trafficGenerators
+
 
                 this.currentPosition = 3
             }
@@ -2371,17 +2491,21 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.competitorsDetailsTextCompleted.visibility =
                     View.VISIBLE
 
-                var chemists = ArrayList<CompetitorsDetailsData.Chemist>()
+                val chemist = ArrayList<SurveyCreateRequest.Chemist>()
                 for (i in chemistList.indices) {
-                    var chemist = CompetitorsDetailsData.Chemist()
-                    chemist.chemist = chemistList[i].chemist
-                    chemist.organised = chemistList[i].organised
-                    chemist.organisedAvgSale = chemistList[i].organisedAvgSale
-                    chemist.unorganised = chemistList[i].unorganised
-                    chemist.unOrganisedAvgSale = chemistList[i].unorganisedAvgSale
-                    chemists.add(chemist)
+                    val chemistData = SurveyCreateRequest.Chemist()
+                    val organised = SurveyCreateRequest.Chemist.Organised()
+                    val unorganised = SurveyCreateRequest.Chemist.Unorganised()
+                    chemistData.chemist = chemistList[i].chemist
+                    organised.uid = chemistList[i].organised
+                    chemistData.organised = organised
+                    unorganised.uid = chemistList[i].unorganised
+                    chemistData.unorganised = unorganised
+                    chemistData.orgAvgSale = chemistList[i].organisedAvgSale.toInt()
+                    chemistData.unorgAvgSale = chemistList[i].unorganisedAvgSale.toInt()
+                    chemist.add(chemistData)
                 }
-                competitorsDetails.chemists = chemists
+                surveyCreateRequest.chemist = chemist
 
                 this.currentPosition = 4
             }
@@ -2413,17 +2537,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.populationAndHousesTextCompleted.visibility =
                     View.VISIBLE
 
-                var apartments = ArrayList<PopulationData.Apartment>()
+                val apartments = ArrayList<SurveyCreateRequest.Apartment>()
                 for (i in apartmentsList.indices) {
-                    var apartment = PopulationData.Apartment()
-                    apartment.type = apartmentsList[i].apartmentType
-                    apartment.apartmentName = apartmentsList[i].apartments
-                    apartment.noOfHouses = apartmentsList[i].noOfHouses.toString()
-                    apartment.distance = apartmentsList[i].distance.toString()
+                    val apartment = SurveyCreateRequest.Apartment()
+                    val type = SurveyCreateRequest.Apartment.Type()
+                    type.uid = apartmentsList[i].apartmentType
+                    apartment.type = type
+                    apartment.apartments = apartmentsList[i].apartments
+                    apartment.noHouses = apartmentsList[i].noOfHouses.toString()
+                    apartment.distance = apartmentsList[i].distance
                     apartments.add(apartment)
                 }
-                population.apartments = apartments
-
+                surveyCreateRequest.apartments = apartments
 
                 this.currentPosition = 5
             }
@@ -2450,16 +2575,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.hospitalsNumCompleted.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.hospitalsTextCompleted.visibility = View.VISIBLE
 
-                val hospitalList = ArrayList<HospitalsData.Hospital>()
+                val hospitals = ArrayList<SurveyCreateRequest.Hospital>()
                 for (i in hospitalsList.indices) {
-                    val hospital = HospitalsData.Hospital()
-                    hospital.speciality = hospitalsList[i].speciality
+                    val hospital = SurveyCreateRequest.Hospital()
+                    val speciality = SurveyCreateRequest.Hospital.Speciality()
+                    speciality.uid = hospitalsList[i].speciality
+                    hospital.speciality = speciality
+                    hospital.hospitals = hospitalsList[i].hospitalName
                     hospital.beds = hospitalsList[i].beds.toString()
-                    hospital.name = hospitalsList[i].hospitalName
-                    hospital.noOfOpd = hospitalsList[i].noOfOpd.toString()
-                    hospitalList.add(hospital)
+                    hospital.noOpd = hospitalsList[i].noOfOpd.toString()
+                    hospital.occupancy = hospitalsList[i].occupancy.toString()
+                        .substring(0, hospitalsList[i].occupancy.toString().length)
+                    hospitals.add(hospital)
                 }
-                hospitals.hospitals = hospitalList
+                surveyCreateRequest.hospitals = hospitals
 
                 this.currentPosition = 6
             }
