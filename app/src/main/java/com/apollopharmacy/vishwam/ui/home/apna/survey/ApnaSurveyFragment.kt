@@ -10,13 +10,10 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
-import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
-import com.apollopharmacy.vishwam.util.Utils
-import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
 
 
-class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),ApnaSurveyCallback{
+class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),
+    ApnaSurveyCallback {
     var adapter: ApnaSurveyAdapter? = null
 
     override val layoutRes: Int
@@ -47,9 +44,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     override fun onSuccessgetSurveyDetails(value: SurveyListResponse) {
         hideLoading()
-        adapter= ApnaSurveyAdapter(requireContext(),
-            value.data!!.listData!!.rows as ArrayList<SurveyListResponse.Row>,this)
-        viewBinding.recyclerViewapproval.adapter=adapter    }
+        adapter = ApnaSurveyAdapter(requireContext(),
+            value.data!!.listData!!.rows as ArrayList<SurveyListResponse.Row>, this)
+        viewBinding.recyclerViewapproval.adapter = adapter
+    }
 
 
 }

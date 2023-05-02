@@ -1,4 +1,4 @@
-package com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance
+package com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -948,39 +948,75 @@ class AttendanceFragment() : BaseFragment<AttendanceViewModel, FragmentAttendanc
         }
         declineButton.setOnClickListener { v12: View? -> dialog.dismiss() }
     }
-
     fun printDifferenceNav(endDate: String, startDate: String): String {
-        val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
-        val date1 = format.parse(startDate)
-        val date2 = format.parse(endDate)
+        if (startDate != null && !startDate.isEmpty() && endDate != null && !endDate.isEmpty()) {
+            val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
+            val date1 = format.parse(startDate)
+            val date2 = format.parse(endDate)
 
-        var startDate: Date = date1
-        var endDate: Date = date2
-        //milliseconds
-        var different = endDate.time - startDate.time
-        println("startDate : $startDate")
-        println("endDate : $endDate")
-        println("different : $different")
-        val secondsInMilli: Long = 1000
-        val minutesInMilli = secondsInMilli * 60
-        val hoursInMilli = minutesInMilli * 60
-        val daysInMilli = hoursInMilli * 24
+            var startDate: Date = date1
+            var endDate: Date = date2
+            //milliseconds
+            var different = endDate.time - startDate.time
+            println("startDate : $startDate")
+            println("endDate : $endDate")
+            println("different : $different")
+            val secondsInMilli: Long = 1000
+            val minutesInMilli = secondsInMilli * 60
+            val hoursInMilli = minutesInMilli * 60
+            val daysInMilli = hoursInMilli * 24
 
-        //long elapsedDays = different / daysInMilli;
-        //different = different % daysInMilli;
-        val elapsedHours = different / hoursInMilli
-        different = different % hoursInMilli
-        val elapsedMinutes = different / minutesInMilli
-        different = different % minutesInMilli
-        val elapsedSeconds = different / secondsInMilli
+            //long elapsedDays = different / daysInMilli;
+            //different = different % daysInMilli;
+            val elapsedHours = different / hoursInMilli
+            different = different % hoursInMilli
+            val elapsedMinutes = different / minutesInMilli
+            different = different % minutesInMilli
+            val elapsedSeconds = different / secondsInMilli
 //        System.out.printf(
 //            "%d hours, %d minutes, %d seconds%n",
 //            elapsedHours, elapsedMinutes, elapsedSeconds)
 //        return String.format(
 //            "%d hours, %d minutes, %d seconds%n",
 //            elapsedHours, elapsedMinutes, elapsedSeconds)
-        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
+            return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
+        } else {
+            return "00:00:00"
+        }
     }
+
+//    fun printDifferenceNav(endDate: String, startDate: String): String {
+//        val format = SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa")
+//        val date1 = format.parse(startDate)
+//        val date2 = format.parse(endDate)
+//
+//        var startDate: Date = date1
+//        var endDate: Date = date2
+//        //milliseconds
+//        var different = endDate.time - startDate.time
+//        println("startDate : $startDate")
+//        println("endDate : $endDate")
+//        println("different : $different")
+//        val secondsInMilli: Long = 1000
+//        val minutesInMilli = secondsInMilli * 60
+//        val hoursInMilli = minutesInMilli * 60
+//        val daysInMilli = hoursInMilli * 24
+//
+//        //long elapsedDays = different / daysInMilli;
+//        //different = different % daysInMilli;
+//        val elapsedHours = different / hoursInMilli
+//        different = different % hoursInMilli
+//        val elapsedMinutes = different / minutesInMilli
+//        different = different % minutesInMilli
+//        val elapsedSeconds = different / secondsInMilli
+////        System.out.printf(
+////            "%d hours, %d minutes, %d seconds%n",
+////            elapsedHours, elapsedMinutes, elapsedSeconds)
+////        return String.format(
+////            "%d hours, %d minutes, %d seconds%n",
+////            elapsedHours, elapsedMinutes, elapsedSeconds)
+//        return "$elapsedHours:$elapsedMinutes:$elapsedSeconds"
+//    }
 
     private fun durationBetweenTwoDates(start: String, endDate: String) {
         try {

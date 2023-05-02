@@ -10,7 +10,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
-import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
@@ -19,12 +18,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class ApnaNewPreviewViewModel: ViewModel() {
+class ApnaNewPreviewViewModel : ViewModel() {
     val command = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     var getSurveyListResponse = MutableLiveData<SurveyDetailsList>()
 
-    fun getApnaDetailsList(apnaNewPreviewCallBack: ApnaNewPreviewCallBack,uid:String) {
+    fun getApnaDetailsList(apnaNewPreviewCallBack: ApnaNewPreviewCallBack, uid: String) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -38,7 +37,7 @@ class ApnaNewPreviewViewModel: ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/select/?uid=EA4EED0B2C4D12CE92047C715E78DCB6"
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/select/?uid=$uid"//EA4EED0B2C4D12CE92047C715E78DCB6
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
                 baseUrl =

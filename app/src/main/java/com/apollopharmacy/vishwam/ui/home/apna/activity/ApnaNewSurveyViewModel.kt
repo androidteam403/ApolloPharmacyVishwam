@@ -1,35 +1,33 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
+import android.os.AsyncTask
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzure
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzureApnaSurvey
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
-import com.apollopharmacy.vishwam.data.model.ImageDataDto
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApnaSurveyApiRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.ui.home.apna.utils.ConnectApnaAzure
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
-import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 import java.net.URLEncoder
+
 
 class ApnaNewSurveyViewModel : ViewModel() {
 
     val locationList = MutableLiveData<LocationListResponse>()
     val state = MutableLiveData<State>()
-    val command = LiveEvent<Command>()
+    val command = LiveEvent<CommandsNew>()
 
     fun getLocationList(mCallBack: ApnaNewSurveyCallBack) {
         val url = Preferences.getApi()
@@ -397,6 +395,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
                         mCallBack.onFailureSurveyCreateApiCall(surveyCreateResponse.message.toString())
                     }
                 }
+                else -> {}
             }
         }
 
@@ -485,6 +484,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
                         mCallBack.onFailureGetStateListApiCall(stateListResponse.message.toString())
                     }
                 }
+                else -> {}
             }
         }
     }
@@ -513,7 +513,7 @@ class ApnaNewSurveyViewModel : ViewModel() {
                     GetDetailsRequest("$apnaSurveyUrl$state_uid=$queryString", "GET", "The", "", "")
                 )
             }
-            when(response) {
+            when (response) {
                 is ApiResult.Success -> {
                     val resp: String = response.value.string()
                     val res = BackShlash.removeBackSlashes(resp)
@@ -525,22 +525,73 @@ class ApnaNewSurveyViewModel : ViewModel() {
                         mCallBack.onFailureGetCityListApiCall(cityListResponse.message.toString())
                     }
                 }
+                else -> {}
             }
         }
     }
 
-
-    fun connectToAzure(image: ArrayList<ImageDto>, tag: String, mCallBack: ApnaNewSurveyCallBack) {
+    fun imagesListConnectToAzure(
+        imageFileList: List<File>,
+        mCallBack: ApnaNewSurveyCallBack,
+        surveyCreateRequest: SurveyCreateRequest,
+    ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionAzureApnaSurvey.connectToAzur(image,
+            var imageUrlList = ConnectApnaAzure().connectToAzurListForApna(imageFileList!!,
                 Config.CONTAINER_NAME,
                 Config.STORAGE_CONNECTION_FOR_CCR_APP)
-            if (response != null) {
-                mCallBack.onSuccessConnectToAzure(response)
+            if (imageUrlList != null) {
+                mCallBack.onSuccessImagesConnectAzure(imageUrlList, surveyCreateRequest)
             } else {
-                mCallBack.onFailureConnectToAzure("Failed to connect")
+                mCallBack.onFailureImageConnectAzure("Image blob Failed to connect")
             }
         }
+    }
+
+    fun videoListConnectToAzure(
+        videoFileList: List<File>,
+        mCallBack: ApnaNewSurveyCallBack,
+        surveyCreateRequest: SurveyCreateRequest,
+    ) {
+        UploadVideoFileTask(mCallBack, surveyCreateRequest).execute(videoFileList)
+    }
+
+    sealed class CommandsNew {
+        data class ShowToast(val message: String?) : CommandsNew()
+        data class VideoIsUploadedInAzur(
+            val videoUrlList: List<SurveyCreateRequest.VideoMb.Video>,
+            var surveyCreateRequest: SurveyCreateRequest,
+        ) :
+            CommandsNew()
+    }
+
+    public class UploadVideoFileTask(
+        mCallBack: ApnaNewSurveyCallBack,
+        surveyCreateRequest: SurveyCreateRequest,
+    ) : AsyncTask<List<File>?, List<SurveyCreateRequest.VideoMb.Video>?, List<SurveyCreateRequest.VideoMb.Video>?>() {
+        var mCallback: ApnaNewSurveyCallBack? = mCallBack
+        var surveyCreateRequest: SurveyCreateRequest = surveyCreateRequest
+
+        override fun doInBackground(vararg videoFileList: List<File>?): List<SurveyCreateRequest.VideoMb.Video> {
+            var videoUrlList =
+                ConnectApnaAzure().videoConnectToAzurListForApna(videoFileList.get(0)!!,
+                    Config.CONTAINER_NAME,
+                    Config.STORAGE_CONNECTION_FOR_CCR_APP)
+            return videoUrlList
+        }
+
+        override fun onProgressUpdate(vararg videoUrlList: List<SurveyCreateRequest.VideoMb.Video>?) {
+
+        }
+
+        override fun onPostExecute(result: List<SurveyCreateRequest.VideoMb.Video>?) {
+            if (result != null) {
+                mCallback!!.onSuccessVideoConnectAzure(result, surveyCreateRequest)
+            } else {
+                mCallback!!.onFailureVideoConnectAzure("Video blob failed to connect")
+            }
+            super.onPostExecute(result)
+        }
+
     }
 }
