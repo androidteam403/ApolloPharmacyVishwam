@@ -20,13 +20,9 @@ class ApnaSurveyAdapter(
     var approveList: ArrayList<SurveyListResponse.Row>,
     val mClicklistner: ApnaSurveyCallback,
 
-    ) :
-
-    RecyclerView.Adapter<ApnaSurveyAdapter.ViewHolder>() {
-
+    ) : RecyclerView.Adapter<ApnaSurveyAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(mContext),

@@ -54,7 +54,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
                     android:background="@drawable/green_backgroundplus"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
