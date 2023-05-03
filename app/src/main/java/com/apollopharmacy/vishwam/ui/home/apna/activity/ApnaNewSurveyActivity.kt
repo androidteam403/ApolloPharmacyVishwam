@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Dialog
 import android.app.TimePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -152,6 +153,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
+    public fun getStartIntent(context: Context): Intent {
+        val intent = Intent(context, ApnaNewSurveyActivity::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)
+        return intent
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -2838,5 +2844,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
     override fun onFailureVideoConnectAzure(message: String) {
         Toast.makeText(this@ApnaNewSurveyActivity, "$message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onBackPressed() {
+        RESULT_OK
+        val intent = Intent()
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }

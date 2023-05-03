@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.survey
 
+import android.app.Activity
 import android.content.Intent
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -15,7 +16,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.survey.adapter.ApnaSurveyAdapter
 class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurveyBinding>(),
     ApnaSurveyCallback {
     var adapter: ApnaSurveyAdapter? = null
-
+    val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
     override val layoutRes: Int
         get() = R.layout.fragment_apna_survey
 
@@ -27,14 +28,13 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         showLoading()
         viewModel.getApnaSurveyList(this)
         MainActivity.mInstance.plusIconApna.setOnClickListener {
-            val intent = Intent(activity, ApnaNewSurveyActivity::class.java)
-            requireActivity().startActivity(intent)
+            requireActivity().startActivityForResult(ApnaNewSurveyActivity().getStartIntent(
+                requireContext()), APNA_NEW_SURVEY_ACTIVITY_VALUE!!)
         }
 
     }
 
     override fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row) {
-
         val i = Intent(activity, ApnaPreviewActivity::class.java)
         i.putExtra("regionList", surveyListResponse)
 //        startActivityForResult(i, 210)
@@ -49,5 +49,13 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         viewBinding.recyclerViewapproval.adapter = adapter
     }
 
-
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == APNA_NEW_SURVEY_ACTIVITY_VALUE) {
+            if (resultCode == Activity.RESULT_OK) {
+                showLoading()
+                viewModel.getApnaSurveyList(this)
+            }
+        }
+    }
 }
