@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -33,16 +34,28 @@ class TrafficGeneratorAdapter(
         holder.viewItemRowBinding.itemName.text = trafficGenerators[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onTrafficGeneratorItemSelect(position, trafficGenerators[position].name.toString())
+            if (trafficGenerators[position].isSelected == true) {
+                holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#000000"))
+                trafficGenerators[position].isSelected = false
+            } else {
+                holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
+                trafficGenerators[position].isSelected = true
+            }
+            mCallback.onTrafficGeneratorItemSelect(position, trafficGenerators[position].name.toString(), trafficGenerators[position].isSelected)
+        }
+        if (trafficGenerators[position].isSelected == true) {
+            holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
+        } else if (trafficGenerators[position].isSelected == false) {
+            holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#000000"))
         }
     }
+        override fun getItemCount(): Int {
+            return trafficGenerators.size
+        }
 
-    override fun getItemCount(): Int {
-        return trafficGenerators.size
-    }
+        fun filter(filteredList: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>) {
+            this.trafficGenerators = filteredList
+            notifyDataSetChanged()
+        }
 
-    fun filter(filteredList: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>) {
-        this.trafficGenerators = filteredList
-        notifyDataSetChanged()
-    }
 }

@@ -233,25 +233,105 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         apnaPreviewActivityBinding.longitude.setText(value.data!!.long)
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
         apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
-        apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
-        apnaPreviewActivityBinding.totalareasqft.setText(value.data!!.totalArea.toString())
-        apnaPreviewActivityBinding.expectedrent.setText(value.data!!.expectedRent.toString())
-        apnaPreviewActivityBinding.securitydeposit.setText(value.data!!.securityDeposit.toString())
-        apnaPreviewActivityBinding.ageOfTheBuilding.setText(value.data!!.buildingAge.toString())
-        apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.uid)
-        apnaPreviewActivityBinding.expectedrentsrft.setText(value.data!!.expectedRent.toString())
-        apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)
-        apnaPreviewActivityBinding.pharma.setText(value.data!!.csPharma.toString())
-        apnaPreviewActivityBinding.fmcg.setText(value.data!!.csFmcg.toString())
-        apnaPreviewActivityBinding.surgicals.setText(value.data!!.csSurgicals.toString())
-        apnaPreviewActivityBinding.areadiscount.setText(value.data!!.areaDiscount.toString())
-        apnaPreviewActivityBinding.serviceClass.setText(value.data!!.serviceClass.toString())
-        apnaPreviewActivityBinding.businessClass.setText(value.data!!.businessClass.toString())
-        apnaPreviewActivityBinding.morning.setText(value.data!!.morningFrom.toString())
-        apnaPreviewActivityBinding.evening.setText(value.data!!.eveningTo.toString())
-        apnaPreviewActivityBinding.localdistubutorcomment.setText(value.data!!.localDisbtsComments.toString())
 
+        if (value.data!!.ceilingHeight != null) {
+            apnaPreviewActivityBinding.ceilingHeight.setText(value.data!!.ceilingHeight.toString())
+        } else {
+            apnaPreviewActivityBinding.ceilingHeight.setText("-")
+        }
 
+        if (value.data!!.totalArea != null) {
+            apnaPreviewActivityBinding.totalareasqft.setText(value.data!!.totalArea.toString())
+        } else {
+            apnaPreviewActivityBinding.totalareasqft.setText("-")
+        }
+
+        if (value.data!!.expectedRent != null) {
+            apnaPreviewActivityBinding.expectedrent.setText(value.data!!.expectedRent.toString())
+        } else {
+            apnaPreviewActivityBinding.expectedrent.setText("-")
+        }
+
+        if (value.data!!.securityDeposit != null) {
+            apnaPreviewActivityBinding.securitydeposit.setText(value.data!!.securityDeposit.toString())
+        } else {
+            apnaPreviewActivityBinding.securitydeposit.setText("-")
+        }
+
+        if (value.data!!.buildingAge != null) {
+            apnaPreviewActivityBinding.ageOfTheBuilding.setText(value.data!!.buildingAge.toString())
+        } else {
+            apnaPreviewActivityBinding.ageOfTheBuilding.setText("")
+        }
+
+        if (value.data!!.parking != null) {
+            apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.uid)
+        } else {
+            apnaPreviewActivityBinding.parking.setText("-")
+        }
+
+        if (value.data!!.expectedRent != null) {
+            apnaPreviewActivityBinding.expectedrentsrft.setText(value.data!!.expectedRent.toString())
+        } else {
+            apnaPreviewActivityBinding.expectedrentsrft.setText("-")
+        }
+
+        if (value.data!!.extngOutletName != null) {
+            apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)
+        } else {
+            apnaPreviewActivityBinding.existingOutletName.setText("-")
+        }
+
+        if (value.data!!.csPharma != null) {
+            apnaPreviewActivityBinding.pharma.setText(value.data!!.csPharma.toString())
+        } else {
+            apnaPreviewActivityBinding.pharma.setText("-")
+        }
+
+        if (value.data!!.csFmcg != null) {
+            apnaPreviewActivityBinding.fmcg.setText(value.data!!.csFmcg.toString())
+        } else {
+            apnaPreviewActivityBinding.fmcg.setText("-")
+        }
+
+        if (value.data!!.csSurgicals != null) {
+            apnaPreviewActivityBinding.surgicals.setText(value.data!!.csSurgicals.toString())
+        } else {
+            apnaPreviewActivityBinding.surgicals.setText("-")
+        }
+
+        if (value.data!!.areaDiscount != null) {
+            apnaPreviewActivityBinding.areadiscount.setText(value.data!!.areaDiscount.toString())
+        } else {
+            apnaPreviewActivityBinding.areadiscount.setText("-")
+        }
+
+        if(value.data!!.serviceClass != null) {
+            apnaPreviewActivityBinding.serviceClass.setText(value.data!!.serviceClass.toString())
+        } else {
+            apnaPreviewActivityBinding.serviceClass.setText("-")
+        }
+        if (value.data!!.businessClass != null) {
+            apnaPreviewActivityBinding.businessClass.setText(value.data!!.businessClass.toString())
+        } else {
+            apnaPreviewActivityBinding.businessClass.setText("-")
+        }
+
+        if (value.data!!.morningFrom != null) {
+            apnaPreviewActivityBinding.morning.setText(value.data!!.morningFrom.toString())
+        } else {
+            apnaPreviewActivityBinding.morning.setText("-")
+        }
+        if (value.data!!.eveningTo != null) {
+            apnaPreviewActivityBinding.evening.setText(value.data!!.eveningTo.toString())
+        } else {
+            apnaPreviewActivityBinding.evening.setText("-")
+        }
+        if (value.data!!.localDisbtsComments != null) {
+            apnaPreviewActivityBinding.localdistubutorcomment.setText(value.data!!.localDisbtsComments.toString())
+        } else {
+            apnaPreviewActivityBinding.localdistubutorcomment.setText("-")
+        }
     }
 
     override fun onClick(value: Int, url: String) {
