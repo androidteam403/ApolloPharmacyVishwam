@@ -561,9 +561,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
             val siteImageMb = SurveyCreateRequest.SiteImageMb()
             val siteImages = ArrayList<SurveyCreateRequest.SiteImageMb.Image>()
-            for (i in imageList.indices) {
+            for (i in imageFileList.indices) {
                 val image = SurveyCreateRequest.SiteImageMb.Image()
-                image.url = imageList[i].file.absolutePath
+                image.url = imageFileList[i].absolutePath
                 siteImages.add(image)
             }
             siteImageMb.images = siteImages
@@ -1335,15 +1335,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         .isNotEmpty() && activityApnaNewSurveyBinding.widthText.text.toString()
                         .isEmpty()
                 ) {
-                    activityApnaNewSurveyBinding.totalAreaText.setText(s.toString())
+//                    activityApnaNewSurveyBinding.totalAreaText.setText(s.toString())
                 } else if (s.toString()
                         .isEmpty() && activityApnaNewSurveyBinding.widthText.text.toString()
                         .isNotEmpty()
                 ) {
-                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
-
+//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
                 } else {
-                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
+//                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
                 }
             }
         })
@@ -1364,14 +1363,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
                         .isEmpty()
                 ) {
-                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
+//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
                 } else if (s.toString()
                         .isEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
                         .isNotEmpty()
                 ) {
-                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.lengthText.text.toString())
+//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.lengthText.text.toString())
                 } else {
-                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
+//                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
                 }
             }
 
@@ -1381,7 +1380,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         })
 
         activityApnaNewSurveyBinding.clear.setOnClickListener {
-            activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
+            activityApnaNewSurveyBinding.totalAreaText.setText("")
             activityApnaNewSurveyBinding.lengthText.text!!.clear()
             activityApnaNewSurveyBinding.widthText.text!!.clear()
         }
@@ -1397,17 +1396,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.areaDiscountText.setSelection(
-                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1)
+                        activityApnaNewSurveyBinding.areaDiscountText.text!!.length - 1)
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.setText(enteredText)
                     activityApnaNewSurveyBinding.areaDiscountText.setSelection(
-                        activityApnaNewSurveyBinding.areaDiscountText.text.length - 1)
+                        activityApnaNewSurveyBinding.areaDiscountText.text!!.length - 1)
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.areaDiscountText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
-                    activityApnaNewSurveyBinding.areaDiscountText.text.clear()
+                    activityApnaNewSurveyBinding.areaDiscountText.text!!.clear()
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 }
             }
@@ -1427,17 +1426,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.pharmaText.setSelection(
-                        activityApnaNewSurveyBinding.pharmaText.text.length - 1)
+                        activityApnaNewSurveyBinding.pharmaText.text!!.length - 1)
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.setText(enteredText)
                     activityApnaNewSurveyBinding.pharmaText.setSelection(
-                        activityApnaNewSurveyBinding.pharmaText.text.length - 1)
+                        activityApnaNewSurveyBinding.pharmaText.text!!.length - 1)
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.pharmaText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
-                    activityApnaNewSurveyBinding.pharmaText.text.clear()
+                    activityApnaNewSurveyBinding.pharmaText.text!!.clear()
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 }
             }
@@ -1456,16 +1455,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.setText("$enteredText%")
-                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text.length - 1)
+                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text!!.length - 1)
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.setText(enteredText)
-                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text.length - 1)
+                    activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text!!.length - 1)
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.fmcgText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
-                    activityApnaNewSurveyBinding.fmcgText.text.clear()
+                    activityApnaNewSurveyBinding.fmcgText.text!!.clear()
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 }
             }
@@ -1485,17 +1484,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.surgicalsText.setSelection(
-                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1)
+                        activityApnaNewSurveyBinding.surgicalsText.text!!.length - 1)
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 } else if (enteredText.endsWith("%") && enteredText.length > 1) {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.setText(enteredText)
                     activityApnaNewSurveyBinding.surgicalsText.setSelection(
-                        activityApnaNewSurveyBinding.surgicalsText.text.length - 1)
+                        activityApnaNewSurveyBinding.surgicalsText.text!!.length - 1)
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 } else if (enteredText.isEmpty() || activityApnaNewSurveyBinding.surgicalsText.text.toString() == "%") {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
-                    activityApnaNewSurveyBinding.surgicalsText.text.clear()
+                    activityApnaNewSurveyBinding.surgicalsText.text!!.clear()
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 }
             }
@@ -1510,12 +1509,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             if (validateLocationDetails() && validateSiteSpecification()) {
 //                val surveyCreateRequest = SurveyCreateRequest()
 
-                surveyCreateRequest.employeeId = "admin"
+                surveyCreateRequest.employeeId = Preferences.getValidatedEmpId()
 
 
 //                apnaNewSurveyViewModel.connectToAzure(imageList, "SITE IMAGES", this)
 
-                val siteImageMb = SurveyCreateRequest.SiteImageMb()
+                /*val siteImageMb = SurveyCreateRequest.SiteImageMb()
                 val siteImages = ArrayList<SurveyCreateRequest.SiteImageMb.Image>()
                 for (i in imageUrls.indices) {
                     val image = SurveyCreateRequest.SiteImageMb.Image()
@@ -1532,7 +1531,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 video.url = ""
                 videos.add(video)
                 videoMb.video = videos
-                surveyCreateRequest.videoMb = videoMb
+                surveyCreateRequest.videoMb = videoMb*/
 
 //                val trafficStreetType = SurveyCreateRequest.TrafficStreetType()
 //                trafficStreetType.uid =
@@ -1914,7 +1913,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     }
 
     private fun updateTotalArea(length: Double, width: Double) {
-        activityApnaNewSurveyBinding.totalAreaText.setText(String.format("%.1f", (length * width)))
+        activityApnaNewSurveyBinding.totalAreaText.setText(String.format("%.2f", (length * width)))
     }
 
     private fun unorganisedFilter(

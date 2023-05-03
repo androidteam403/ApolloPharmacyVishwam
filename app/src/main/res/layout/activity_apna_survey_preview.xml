@@ -63,12 +63,12 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_below="@+id/header_view">
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -102,7 +102,7 @@
                                     android:id="@+id/locationDetailsNum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
@@ -488,7 +488,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -504,7 +504,7 @@
                                     android:id="@+id/site_specifications_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="2"
@@ -1408,7 +1408,7 @@
                                     android:id="@+id/market_information_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="3"
@@ -1647,7 +1647,8 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1.1">
+                                        android:layout_marginEnd="@dimen/value_5dp"
+                                        android:layout_weight="1">
 
                                         <!--<TextView
                                             android:layout_width="wrap_content"
@@ -1699,7 +1700,7 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".9">
+                                        android:layout_weight="1">
 
                                         <!--<TextView
                                             android:layout_width="wrap_content"
@@ -1754,16 +1755,16 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal">
 
-                                    <TextView
+                                    <!--<TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:text="Surgicals"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />
+                                        android:textStyle="bold" />-->
 
-                                    <EditText
+                                    <!--<EditText
                                         android:id="@+id/surgicalsText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_40dp"
@@ -1774,7 +1775,29 @@
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
+                                        android:textSize="@dimen/text_14sp" />-->
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/ApnaTextLabel">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/surgicalsText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:editable="false"
+                                            android:enabled="true"
+                                            android:focusable="false"
+                                            android:hint="Surgicals"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1786,15 +1809,15 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Area Discount"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/areaDiscountText"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1806,7 +1829,29 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/areaDiscountText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
+                                        android:hint="Area discount"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -1815,7 +1860,7 @@
                                 android:layout_height="285dp"
                                 android:visibility="visible"
                                 tools:itemCount="2"
-                                tools:listitem="@layout/layout_neighbouring_store" />
+                                tools:listitem="@layout/layout_neighbouring_store_preview" />
 
                             <TextView
                                 android:id="@+id/neighbouring_store_list_not_found"
@@ -1824,9 +1869,7 @@
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:text="Neighbouring store not found"
                                 android:visibility="gone"
-                                android:textSize="@dimen/text_14sp"
-                                android:textColor="@color/red"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/red" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1888,7 +1931,7 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/occupationText"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1902,7 +1945,30 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:layout_marginTop="@dimen/value_4dp"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/occupationText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
+                                        android:hint="Catchment area"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1925,7 +1991,7 @@
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/serviceClassText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -1939,7 +2005,29 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/serviceClassText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:editable="false"
+                                                android:enabled="true"
+                                                android:focusable="false"
+                                                android:hint="Income"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1956,7 +2044,7 @@
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/businessClassText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -1969,7 +2057,29 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/businessClassText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:editable="false"
+                                                android:enabled="true"
+                                                android:focusable="false"
+                                                android:hint="Income"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -2049,11 +2159,10 @@
                                     android:id="@+id/traffic_generators_not_found"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
                                     android:text="Traffic generators not found"
                                     android:visibility="gone"
-                                    android:textSize="@dimen/text_14sp"
-                                    android:textColor="@color/red"
-                                    android:textStyle="bold"/>
+                                    android:textColor="@color/red" />
                             </LinearLayout>
 
 
@@ -2067,7 +2176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2083,7 +2192,7 @@
                                     android:id="@+id/competitors_details_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="4"
@@ -2146,6 +2255,7 @@
                             android:visibility="visible">
 
                             <LinearLayout
+                                android:id="@+id/competitors_details_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/white_rounded_bg"
@@ -2388,16 +2498,6 @@
                                     tools:itemCount="2"
                                     tools:listitem="@layout/adapter_chemist_list_preview" />
 
-                                <TextView
-                                    android:id="@+id/chemist_list_not_found"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Competitors details not found"
-                                    android:visibility="gone"
-                                    android:textSize="@dimen/text_14sp"
-                                    android:textColor="@color/red"
-                                    android:textStyle="bold"/>
-
                                 <LinearLayout
                                     android:id="@+id/chemistTotalLayout"
                                     android:layout_width="match_parent"
@@ -2470,6 +2570,15 @@
                                 </LinearLayout>
 
                             </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/chemist_list_not_found"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:text="Competitors details not found"
+                                android:visibility="gone"
+                                android:textColor="@color/red" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -2480,7 +2589,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2496,7 +2605,7 @@
                                     android:id="@+id/population_and_houses_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="5"
@@ -2559,8 +2668,10 @@
                             android:visibility="visible">
 
                             <LinearLayout
+                                android:id="@+id/population_and_houses_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="visible"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
@@ -2698,17 +2809,16 @@
                                     android:visibility="visible"
                                     tools:itemCount="2"
                                     tools:listitem="@layout/adapter_apartments_list_preview" />
-
-                                <TextView
-                                    android:id="@+id/apartment_list_not_found"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Population and Houses not found"
-                                    android:visibility="gone"
-                                    android:textSize="@dimen/text_14sp"
-                                    android:textColor="@color/red"
-                                    android:textStyle="bold"/>
                             </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/apartment_list_not_found"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:text="Population and Houses not found"
+                                android:textColor="@color/red"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -2719,7 +2829,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2735,7 +2845,7 @@
                                     android:id="@+id/hospitals_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="6"
@@ -2798,8 +2908,10 @@
                             android:visibility="visible">
 
                             <LinearLayout
+                                android:id="@+id/hospitals_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:visibility="visible"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
@@ -2974,17 +3086,16 @@
                                     android:visibility="visible"
                                     tools:itemCount="1"
                                     tools:listitem="@layout/adapter_hospitals_list_preview" />
-
-                                <TextView
-                                    android:id="@+id/hospitals_list_not_found"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Hospitals list not found"
-                                    android:textColor="@color/red"
-                                    android:textSize="@dimen/text_14sp"
-                                    android:textStyle="bold"
-                                    android:visibility="gone" />
                             </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/hospitals_list_not_found"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:text="Hospitals list not found"
+                                android:textColor="@color/red"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -2995,7 +3106,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -3011,8 +3122,8 @@
                                     android:id="@+id/photos_and_media_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
-                                    android:background="@drawable/green_rounded_background"
+                                    android:layout_marginEnd="@dimen/value_10dp"
+                                    android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="7"
                                     android:textColor="@color/white"
@@ -3025,7 +3136,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Photos and Media"
-                                    android:textColor="#00a651"
+                                    android:textColor="#f7931e"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -3089,8 +3200,6 @@
                                         android:layout_height="wrap_content"
                                         android:text="No site photos found"
                                         android:textColor="@color/red"
-                                        android:textSize="@dimen/text_14sp"
-                                        android:textStyle="bold"
                                         android:visibility="gone" />
 
                                     <!--<Button
@@ -3215,8 +3324,6 @@
                                         android:layout_height="wrap_content"
                                         android:text="No video found"
                                         android:textColor="@color/red"
-                                        android:textSize="@dimen/text_14sp"
-                                        android:textStyle="bold"
                                         android:visibility="gone" />
                                 </LinearLayout>
                             </LinearLayout>

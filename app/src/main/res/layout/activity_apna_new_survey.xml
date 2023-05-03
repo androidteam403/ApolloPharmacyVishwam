@@ -101,7 +101,7 @@
                                     android:id="@+id/locationDetailsNum"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
@@ -358,15 +358,15 @@
                                         android:layout_weight="1.3"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Latitude"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/latitude"
                                             android:layout_width="match_parent"
                                             android:layout_height="40dp"
@@ -378,7 +378,30 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/latitude"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:editable="false"
+                                                android:enabled="true"
+                                                android:focusable="false"
+                                                android:hint="Latitude"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -387,15 +410,15 @@
                                         android:layout_weight="1.3"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Longitude"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/longitude"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -407,7 +430,30 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/longitude"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:editable="false"
+                                                android:enabled="true"
+                                                android:focusable="false"
+                                                android:hint="Longitude"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -451,7 +497,7 @@
                                     android:id="@+id/site_specifications_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="2"
@@ -522,6 +568,7 @@
                                 android:padding="@dimen/value_12dp">
 
                                 <TextView
+                                    android:id="@+id/dimension_of_premises_unit"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
@@ -679,7 +726,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
-                                    android:text="Expected Rent *"
+                                    android:text="Expected Rent"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
@@ -737,7 +784,7 @@
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <EditText
+                                    <!--<EditText
                                         android:id="@+id/expectedRentText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_40dp"
@@ -746,7 +793,27 @@
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
+                                        android:textSize="@dimen/text_14sp" />-->
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/ApnaTextLabel">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/expectedRentText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:hint="Expected Rent *"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -758,30 +825,29 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Security Deposit *"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp"
                                     android:gravity="center_vertical">
 
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
                                         android:layout_marginStart="@dimen/value_10dp"
-                                        android:layout_marginEnd="@dimen/value_10dp"
+                                        android:layout_marginEnd="@dimen/value_8dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <EditText
+                                    <!--<EditText
                                         android:id="@+id/securityDepositText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_40dp"
@@ -790,7 +856,27 @@
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
+                                        android:textSize="@dimen/text_14sp" />-->
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/ApnaTextLabel">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/securityDepositText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:hint="Security Deposit *"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -846,7 +932,7 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <LinearLayout
+                                <!--<LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
@@ -882,9 +968,9 @@
                                         android:text=" )"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_16sp" />
-                                </LinearLayout>
+                                </LinearLayout>-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/ageOfTheBuildingText"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -894,7 +980,27 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/ageOfTheBuildingText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Age of the Building"
+                                        android:inputType="number"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -1272,13 +1378,13 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Present Traffic Patterns"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
                                 <!--<Spinner
                                     android:id="@+id/trafficPatternsSpinner"
@@ -1287,7 +1393,7 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/presentTrafficPatterns"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1297,7 +1403,27 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/presentTrafficPatterns"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Present traffic patterns"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                         </LinearLayout>
@@ -1327,7 +1453,7 @@
                                     android:id="@+id/market_information_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="3"
@@ -1396,15 +1522,15 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Existing Outlet Name"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/existingOutletName"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1413,7 +1539,27 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/existingOutletName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Existing outlet name"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -1474,7 +1620,7 @@
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <EditText
+                                    <!--<EditText
                                         android:id="@+id/ageOrSaleText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_40dp"
@@ -1483,7 +1629,27 @@
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
+                                        android:textSize="@dimen/text_14sp" />-->
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/ApnaTextLabel">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/ageOrSaleText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:hint="Existing outlet age/sale"
+                                            android:inputType="numberDecimal"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1513,18 +1679,19 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1.1">
+                                        android:layout_marginEnd="@dimen/value_5dp"
+                                        android:layout_weight="1">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="@dimen/value_20dp"
                                             android:text="Pharma"
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/pharmaText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -1534,24 +1701,44 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/pharmaText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Pharma"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".9">
+                                        android:layout_weight="1">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginEnd="@dimen/value_8dp"
                                             android:text="FMCG"
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
+                                            android:textStyle="bold" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/fmcgText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -1560,7 +1747,27 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/fmcgText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="FMCG"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -1570,16 +1777,16 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal">
 
-                                    <TextView
+                                    <!--<TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:text="Surgicals"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />
+                                        android:textStyle="bold" />-->
 
-                                    <EditText
+                                    <!--<EditText
                                         android:id="@+id/surgicalsText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_40dp"
@@ -1588,7 +1795,27 @@
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
+                                        android:textSize="@dimen/text_14sp" />-->
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/ApnaTextLabel">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/surgicalsText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:hint="Surgicals"
+                                            android:inputType="numberDecimal"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1600,15 +1827,15 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Area Discount"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/areaDiscountText"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1618,7 +1845,27 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/areaDiscountText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Area discount"
+                                        android:inputType="numberDecimal"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <androidx.recyclerview.widget.RecyclerView
@@ -1958,7 +2205,7 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:background="@drawable/spinner_bg" />-->
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/occupationText"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_40dp"
@@ -1969,7 +2216,28 @@
                                     android:paddingStart="@dimen/value_10dp"
                                     android:textColor="@color/black"
                                     android:textColorHint="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColorHint="@color/black"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/occupationText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+                                        android:hint="Catchment area"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1998,7 +2266,7 @@
                                             android:layout_height="@dimen/value_40dp"
                                             android:background="@drawable/spinner_bg" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/serviceClassText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2009,7 +2277,27 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/serviceClassText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Income"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2026,13 +2314,7 @@
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
-                                        <!--<Spinner
-                                            android:id="@+id/businessClassSpinner"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/spinner_bg" />-->
-
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/businessClassText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2042,7 +2324,27 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/businessClassText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Income"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -2145,7 +2447,7 @@
                                     android:id="@+id/competitors_details_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="4"
@@ -2316,7 +2618,7 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/organisedAvgSaleText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2326,7 +2628,28 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:layout_marginTop="@dimen/value_3dp"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/organisedAvgSaleText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Avg sale"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2411,7 +2734,7 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/unorganisedAvgSaleText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2421,7 +2744,28 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:layout_marginTop="@dimen/value_3dp"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/unorganisedAvgSaleText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Avg sale"
+                                                android:inputType="numberDecimal"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2548,7 +2892,7 @@
                                     android:id="@+id/population_and_houses_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="5"
@@ -2679,15 +3023,15 @@
                                         android:layout_weight="1.5"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="No of Houses"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/noOfHousesText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2696,7 +3040,27 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/noOfHousesText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="No of houses"
+                                                android:inputType="number"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2706,15 +3070,15 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Distance"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/distanceText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2723,7 +3087,27 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/distanceText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Distance"
+                                                android:inputType="number"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2777,7 +3161,7 @@
                                     android:id="@+id/hospitals_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="6"
@@ -2886,15 +3270,15 @@
                                         android:layout_weight=".3"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="BEDS"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/bedsText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2902,7 +3286,27 @@
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/bedsText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Beds"
+                                                android:inputType="number"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2911,15 +3315,15 @@
                                         android:layout_weight=".7"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Name"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/hospitalNameText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2927,7 +3331,28 @@
                                             android:inputType="text"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/hospitalNameText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Name"
+                                                android:inputType="text"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
+
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2942,19 +3367,19 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_8dp"
-                                        android:layout_weight="1"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_weight=".9"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Occupancy"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/occupancyText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2963,25 +3388,45 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/occupancyText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="Occupancy"
+                                                android:inputType="number"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
-                                        android:layout_weight="1.5"
+                                        android:layout_weight="1.6"
                                         android:orientation="vertical">
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="No of OPD"
                                             android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_12sp" />-->
 
-                                        <EditText
+                                        <!--<EditText
                                             android:id="@+id/noOfOpdText"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2990,7 +3435,27 @@
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:textColorHint="@color/black"
+                                            android:theme="@style/ApnaTextLabel">
+
+                                            <androidx.appcompat.widget.AppCompatEditText
+                                                android:id="@+id/noOfOpdText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:hint="No of OPD"
+                                                android:inputType="number"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
+                                                android:textColor="@color/black"
+                                                android:textColorHint="@color/black"
+                                                android:textSize="14sp" />
+                                        </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -3044,7 +3509,7 @@
                                     android:id="@+id/photos_and_media_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_15dp"
+                                    android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/green_rounded_background"
                                     android:paddingHorizontal="7dp"
                                     android:text="7"
