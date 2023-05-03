@@ -35,12 +35,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
-import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaPreviewActivity
-import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -111,6 +108,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     lateinit var apnaSpecialityDialog: Dialog
     lateinit var organisedDialog: Dialog
     lateinit var unorganisedDialog: Dialog
+    lateinit var dimensionTypeDialog: Dialog
 
 
     var cityList = ArrayList<CityListResponse.Data.ListData.Row>()
@@ -152,6 +150,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     lateinit var organisedAdapter: OrganisedAdapter
     lateinit var unOrganisedAdapter: UnOrganisedAdapter
     lateinit var chemistAdapter: ChemistAdapter
+    lateinit var dimensionTypeAdapter: DimensionTypeAdapter
 
     val REQUEST_CODE_CAMERA = 2235211
     val REQUEST_CODE_VIDEO = 2156
@@ -189,7 +188,26 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
 
         activityApnaNewSurveyBinding.backButton.setOnClickListener {
-            finish()
+            val dialog = Dialog(this@ApnaNewSurveyActivity)
+            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val apnaSurveyAlertDialogBinding =
+                DataBindingUtil.inflate<ApnaSurveyAlertDialogBinding>(
+                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    R.layout.apna_survey_alert_dialog,
+                    null,
+                    false
+                )
+            dialog.setContentView(apnaSurveyAlertDialogBinding.root)
+            apnaSurveyAlertDialogBinding.yesButton.setOnClickListener {
+                dialog.dismiss()
+                finish()
+            }
+            apnaSurveyAlertDialogBinding.noButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialog.setCancelable(false)
+            dialog.show()
         }
         supportMapFragment =
             supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
@@ -945,7 +963,69 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     trafficGeneratorFilter(s.toString(), dialogTrafficGeneratorBinding)
                 }
             })
+
+            dialogTrafficGeneratorBinding.submit.setOnClickListener {
+                trafficGeneratorDialog.dismiss()
+                trafficGeneratorsItemAdapter =
+                    TrafficGeneratorsItemAdapter(this@ApnaNewSurveyActivity,
+                        this@ApnaNewSurveyActivity,
+                        selectedTrafficGeneratorItem)
+                activityApnaNewSurveyBinding.trafficGeneratorsRcv.adapter =
+                    trafficGeneratorsItemAdapter
+                activityApnaNewSurveyBinding.trafficGeneratorsRcv.layoutManager =
+                    LinearLayoutManager(this@ApnaNewSurveyActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false)
+                trafficGeneratorsItemAdapter.notifyDataSetChanged()
+            }
             trafficGeneratorDialog.show()
+        }
+
+        // Dimension Type Dropdown
+        activityApnaNewSurveyBinding.dimensionTypeSelect.setOnClickListener {
+            dimensionTypeDialog = Dialog(this@ApnaNewSurveyActivity)
+            dimensionTypeDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dimensionTypeDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogDimensionTypeBinding = DataBindingUtil.inflate<DialogDimensionTypeBinding>(
+                LayoutInflater.from(this@ApnaNewSurveyActivity),
+                R.layout.dialog_dimension_type,
+                null,
+                false
+            )
+            dimensionTypeDialog.setContentView(dialogDimensionTypeBinding.root)
+            dialogDimensionTypeBinding.closeDialog.setOnClickListener {
+                dimensionTypeDialog.dismiss()
+            }
+            dimensionTypeAdapter = DimensionTypeAdapter(
+                this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                dimensionTypeList
+            )
+            dialogDimensionTypeBinding.dimensionTypeRcv.adapter = dimensionTypeAdapter
+            dialogDimensionTypeBinding.dimensionTypeRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+
+            dialogDimensionTypeBinding.searchDimensionTypeText.addTextChangedListener(object :
+                TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int,
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    dimensionTypeFilter(s.toString(), dialogDimensionTypeBinding)
+                }
+
+            })
+
+            dimensionTypeDialog.setCancelable(false)
+            dimensionTypeDialog.show()
         }
 
         // Apartment type dropdown
@@ -1341,14 +1421,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         .isNotEmpty() && activityApnaNewSurveyBinding.widthText.text.toString()
                         .isEmpty()
                 ) {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText(s.toString())
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 } else if (s.toString()
                         .isEmpty() && activityApnaNewSurveyBinding.widthText.text.toString()
                         .isNotEmpty()
                 ) {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 } else {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 }
             }
         })
@@ -1369,14 +1449,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         .isNotEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
                         .isEmpty()
                 ) {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.widthText.text.toString())
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 } else if (s.toString()
                         .isEmpty() && activityApnaNewSurveyBinding.lengthText.text.toString()
                         .isNotEmpty()
                 ) {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText(activityApnaNewSurveyBinding.lengthText.text.toString())
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 } else {
-//                    activityApnaNewSurveyBinding.totalAreaText.setText("0.0")
+                    activityApnaNewSurveyBinding.totalAreaText.getText()!!.clear()
                 }
             }
 
@@ -1820,6 +1900,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
     }
 
+    private fun dimensionTypeFilter(
+        searchText: String,
+        dialogDimensionTypeBinding: DialogDimensionTypeBinding?,
+    ) {
+        val filteredList = ArrayList<DimensionTypeResponse.Data.ListData.Row>()
+        for (i in dimensionTypeList.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(dimensionTypeList)
+            } else if (dimensionTypeList[i].name!!.contains(searchText, true)) {
+                filteredList.add(dimensionTypeList[i])
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogDimensionTypeBinding!!.dimensionTypeRcv.visibility = View.GONE
+            dialogDimensionTypeBinding.dimensionTypeAvailable.visibility = View.VISIBLE
+        } else {
+            dialogDimensionTypeBinding!!.dimensionTypeRcv.visibility = View.VISIBLE
+            dialogDimensionTypeBinding.dimensionTypeAvailable.visibility = View.GONE
+        }
+        dimensionTypeAdapter.filter(filteredList)
+    }
+
     // Current Location
     private fun getCurrentLocation() {
         if (ActivityCompat.checkSelfPermission(this,
@@ -2109,6 +2212,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK && imageFile != null) {
             imageFileList.add(imageFile!!)
             //  imageList.add(ImageDto(imageFile!!, ""))
+            activityApnaNewSurveyBinding.totalSitePhoto.setText(imageFileList.size.toString())
             imageAdapter.notifyDataSetChanged()
         } else if (requestCode == REQUEST_CODE_VIDEO && resultCode == Activity.RESULT_OK && videoFile != null) {
             activityApnaNewSurveyBinding.beforeCaptureLayout.visibility = View.GONE
@@ -2239,6 +2343,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.siteSpecificationsTextCompleted.visibility =
                     View.VISIBLE
 
+                
+                surveyCreateRequest.dimensionType1 =
+                    activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
                 surveyCreateRequest.length =
                     activityApnaNewSurveyBinding.lengthText.text.toString().trim()
                 surveyCreateRequest.width =
@@ -2569,6 +2676,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     }
 
     private fun validateSiteSpecification(): Boolean {
+        val dimensionType = activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
         val length = activityApnaNewSurveyBinding.lengthText.text.toString().trim()
         val width = activityApnaNewSurveyBinding.widthText.text.toString().trim()
         val ceilingHeight = activityApnaNewSurveyBinding.ceilingHeightText.text.toString().trim()
@@ -2585,6 +2693,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         } else if (expectedRent.isEmpty()) {
             return false
         } else if (securityDeposit.isEmpty()) {
+            return false
+        } else if (dimensionType.isEmpty()) {
             return false
         }
         return true
@@ -2665,8 +2775,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         activityApnaNewSurveyBinding.stateText.setText(item)
         stateListDialog.dismiss()
 
-        Utlis.showLoading(this@ApnaNewSurveyActivity)
-        apnaNewSurveyViewModel.getCityList(this@ApnaNewSurveyActivity, uid)
+        val selectedState = item
+        if (selectedState != item) {
+            Utlis.showLoading(this@ApnaNewSurveyActivity)
+            apnaNewSurveyViewModel.getCityList(this@ApnaNewSurveyActivity, uid)
+        }
     }
 
     override fun onLocationListItemSelect(position: Int, item: String, uid: String) {
@@ -2723,26 +2836,41 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         apnaSpecialityDialog.dismiss()
     }
 
-    override fun onClickTrafficGeneratorItemDelete(position: Int) {
+    override fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String) {
+        for (i in trafficGeneratorData.indices) {
+            if (trafficGeneratorData[i].name.equals(deletedItem, true)) {
+                trafficGeneratorData[i].isSelected = false
+            }
+        }
         selectedTrafficGeneratorItem.removeAt(position)
         trafficGeneratorsItemAdapter.notifyDataSetChanged()
+        trafficGeneratorAdapter.notifyDataSetChanged()
     }
 
-    override fun onTrafficGeneratorItemSelect(position: Int, item: String) {
-        trafficGeneratorDialog.dismiss()
-        selectedTrafficGeneratorItem.add(item)
+    override fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?) {
 
-        trafficGeneratorsItemAdapter = TrafficGeneratorsItemAdapter(this@ApnaNewSurveyActivity,
-            this@ApnaNewSurveyActivity,
-            selectedTrafficGeneratorItem)
-        activityApnaNewSurveyBinding.trafficGeneratorsRcv.adapter = trafficGeneratorsItemAdapter
-        activityApnaNewSurveyBinding.trafficGeneratorsRcv.layoutManager =
-            LinearLayoutManager(this@ApnaNewSurveyActivity, LinearLayoutManager.HORIZONTAL, false)
-        trafficGeneratorsItemAdapter.notifyDataSetChanged()
+        if (selected == true) {
+            selectedTrafficGeneratorItem.add(item)
+        } else if (selected == false) {
+            selectedTrafficGeneratorItem.remove(item)
+        }
+
+
+//        trafficGeneratorDialog.dismiss()
+//        selectedTrafficGeneratorItem.add(item)
+
+//        trafficGeneratorsItemAdapter = TrafficGeneratorsItemAdapter(this@ApnaNewSurveyActivity,
+//            this@ApnaNewSurveyActivity,
+//            selectedTrafficGeneratorItem)
+//        activityApnaNewSurveyBinding.trafficGeneratorsRcv.adapter = trafficGeneratorsItemAdapter
+//        activityApnaNewSurveyBinding.trafficGeneratorsRcv.layoutManager =
+//            LinearLayoutManager(this@ApnaNewSurveyActivity, LinearLayoutManager.HORIZONTAL, false)
+//        trafficGeneratorsItemAdapter.notifyDataSetChanged()
     }
 
     override fun deleteSiteImage(position: Int, file: File) {
         imageFileList.removeAt(position)
+        activityApnaNewSurveyBinding.totalSitePhoto.setText(imageFileList.size.toString())
         imageAdapter.notifyDataSetChanged()
     }
 
@@ -2918,7 +3046,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     null,
                     false)
             dialog.setContentView(surveySavedConfirmDialogBinding.root)
-            surveySavedConfirmDialogBinding.uid.text = surveyCreateResponse.data!!.uid
+            surveySavedConfirmDialogBinding.uid.text =
+                "Transaction Id Is: " + surveyCreateResponse.data!!.uid
             surveySavedConfirmDialogBinding.message.text = surveyCreateResponse.message
             surveySavedConfirmDialogBinding.okButton.setOnClickListener {
                 dialog.dismiss()
@@ -2981,6 +3110,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
     override fun onFailureVideoConnectAzure(message: String) {
         Toast.makeText(this@ApnaNewSurveyActivity, "$message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSelectDimensionTypeItem(position: Int, item: String) {
+        activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
+        dimensionTypeDialog.dismiss()
     }
 
     override fun onBackPressed() {

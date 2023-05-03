@@ -26,9 +26,9 @@ interface ApnaNewSurveyCallBack {
 
     fun onApnaSpecialityItemSelect(position: Int, item: String)
 
-    fun onClickTrafficGeneratorItemDelete(position: Int)
+    fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
 
-    fun onTrafficGeneratorItemSelect(position: Int, item: String)
+    fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?)
 
     fun deleteSiteImage(position: Int, file: File)
 
@@ -98,4 +98,5 @@ interface ApnaNewSurveyCallBack {
 
     fun onFailureVideoConnectAzure(message: String)
 
+    fun onSelectDimensionTypeItem(position: Int, item: String)
 }

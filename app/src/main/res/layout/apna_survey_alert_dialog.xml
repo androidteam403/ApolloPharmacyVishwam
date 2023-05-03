@@ -29,23 +29,23 @@
             android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cancelButton"
+                android:id="@+id/no_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/value_10dp"
                 android:background="@drawable/cancel_button"
-                android:hint="Cancel"
+                android:hint="No"
                 android:textColorHint="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_14sp"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/saveButton"
+                android:id="@+id/yes_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:background="@drawable/submit_button"
-                android:hint="Save"
+                android:hint="Yes"
                 android:textColorHint="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_14sp"/>

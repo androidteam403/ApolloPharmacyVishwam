@@ -78,6 +78,8 @@ class SurveyCreateRequest: Serializable {
     @Expose
     var address: String? = null
 
+    var dimensionType1: String? = null
+
     @SerializedName("length")
     @Expose
     var length: String? = null

@@ -572,9 +572,31 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
-                                    android:text="Dimension of the Premises (in ft.)"
+                                    android:text="Dimension of the Premises"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/dimensionTypeSelect"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_40dp"
+                                        android:clickable="true"
+                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                                        android:focusable="false"
+                                        android:hint="Select dimension type*"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1871,7 +1893,8 @@
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/neighbouringStoreRcv"
                                 android:layout_width="match_parent"
-                                android:layout_height="285dp"
+                                android:layout_height="wrap_content"
+                                android:scrollbars="none"
                                 tools:itemCount="3"
                                 tools:listitem="@layout/layout_neighbouring_store" />
 
@@ -2222,8 +2245,8 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
                                     android:layout_marginTop="@dimen/value_5dp"
+                                    android:textColorHint="@color/black"
                                     android:theme="@style/ApnaTextLabel">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -2634,8 +2657,8 @@
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:textColorHint="@color/black"
                                             android:layout_marginTop="@dimen/value_3dp"
+                                            android:textColorHint="@color/black"
                                             android:theme="@style/ApnaTextLabel">
 
                                             <androidx.appcompat.widget.AppCompatEditText
@@ -2750,8 +2773,8 @@
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:textColorHint="@color/black"
                                             android:layout_marginTop="@dimen/value_3dp"
+                                            android:textColorHint="@color/black"
                                             android:theme="@style/ApnaTextLabel">
 
                                             <androidx.appcompat.widget.AppCompatEditText
@@ -3554,13 +3577,66 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppin_bold"
-                                    android:text="Site Photo (5 Photos)"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppin_bold"
+                                        android:text="Site Photo (5 Photos)"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_14sp" />
+
+                                    <LinearLayout
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_alignParentEnd="true">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="("
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+
+                                        <TextView
+                                            android:id="@+id/total_site_photo"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="0"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="/"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="5"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text=")"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
+                                    </LinearLayout>
+                                </RelativeLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"

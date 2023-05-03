@@ -103,6 +103,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity() {
 
             }).check()
         // Site Specifications
+        activityApnaSurveyPreviewBinding.dimensionTypeSelect.setText(surveyCreateRequest.dimensionType1)
         activityApnaSurveyPreviewBinding.lengthText.setText(surveyCreateRequest.length)
         activityApnaSurveyPreviewBinding.widthText.setText(surveyCreateRequest.width)
         activityApnaSurveyPreviewBinding.ceilingHeightText.setText(surveyCreateRequest.ceilingHeight)
@@ -372,6 +373,43 @@ class ApnaSurveyPreviewActivity : AppCompatActivity() {
         } else {
             activityApnaSurveyPreviewBinding.video.visibility = View.GONE
             activityApnaSurveyPreviewBinding.videoNotFound.visibility = View.VISIBLE
+        }
+
+
+        val location = activityApnaSurveyPreviewBinding.locationText.text.toString()
+        val state = activityApnaSurveyPreviewBinding.stateText.text.toString()
+        val city = activityApnaSurveyPreviewBinding.cityText.text.toString()
+        val pin = activityApnaSurveyPreviewBinding.pinText.text.toString()
+        val landMarks = activityApnaSurveyPreviewBinding.nearByLandmarksText.text.toString()
+        if (location.isNotEmpty() && state.isNotEmpty() && city.isNotEmpty() && pin.isNotEmpty() && landMarks.isNotEmpty()) {
+            activityApnaSurveyPreviewBinding.locationDetailsNum.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.locationDetailsText.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.locationDetailsNumCompleted.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.locationDetailsTextCompleted.visibility = View.VISIBLE
+        } else {
+            activityApnaSurveyPreviewBinding.locationDetailsNum.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.locationDetailsText.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.locationDetailsNumCompleted.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.locationDetailsTextCompleted.visibility = View.GONE
+        }
+
+        val dimensionType = activityApnaSurveyPreviewBinding.dimensionTypeSelect.text.toString().trim()
+        val length = activityApnaSurveyPreviewBinding.lengthText.text.toString().trim()
+        val width = activityApnaSurveyPreviewBinding.widthText.text.toString().trim()
+        val ceilingHeight = activityApnaSurveyPreviewBinding.ceilingHeightText.text.toString().trim()
+        val expectedRent = activityApnaSurveyPreviewBinding.expectedRentText.text.toString().trim()
+        val securityDeposit =
+            activityApnaSurveyPreviewBinding.securityDepositText.text.toString().trim()
+        if (dimensionType.isNotEmpty() && length.isNotEmpty() && width.isNotEmpty() && ceilingHeight.isNotEmpty() && expectedRent.isNotEmpty() && securityDeposit.isNotEmpty()) {
+            activityApnaSurveyPreviewBinding.siteSpecificationsNum.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.siteSpecificationsText.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.siteSpecificationsNumCompleted.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.siteSpecificationsTextCompleted.visibility = View.VISIBLE
+        } else {
+            activityApnaSurveyPreviewBinding.siteSpecificationsNum.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.siteSpecificationsText.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.siteSpecificationsNumCompleted.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.siteSpecificationsTextCompleted.visibility = View.GONE
         }
     }
 

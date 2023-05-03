@@ -32,7 +32,7 @@ class TrafficGeneratorsItemAdapter(
         holder.trafficGeneratorsLayoutBinding.trafficGeneratorsItem.text = items[position]
 
         holder.trafficGeneratorsLayoutBinding.deleteItem.setOnClickListener {
-            mCallback.onClickTrafficGeneratorItemDelete(position)
+            mCallback.onClickTrafficGeneratorItemDelete(position, items[position])
         }
     }
 

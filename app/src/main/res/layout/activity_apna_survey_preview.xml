@@ -578,9 +578,33 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
-                                    android:text="Dimension of the Premises (in ft.)"
+                                    android:text="Dimension of the Premises"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:theme="@style/ApnaTextLabel">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/dimensionTypeSelect"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_40dp"
+                                        android:clickable="false"
+                                        android:editable="false"
+                                        android:enabled="false"
+                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                                        android:focusable="false"
+                                        android:hint="Select dimension type*"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="@dimen/text_14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1859,6 +1883,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="285dp"
                                 android:visibility="visible"
+                                android:scrollbars="none"
                                 tools:itemCount="2"
                                 tools:listitem="@layout/layout_neighbouring_store_preview" />
 
@@ -1868,8 +1893,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:text="Neighbouring store not found"
-                                android:visibility="gone"
-                                android:textColor="@color/red" />
+                                android:textColor="@color/red"
+                                android:visibility="gone" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1951,8 +1976,8 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColorHint="@color/black"
                                     android:layout_marginTop="@dimen/value_4dp"
+                                    android:textColorHint="@color/black"
                                     android:theme="@style/ApnaTextLabel">
 
                                     <androidx.appcompat.widget.AppCompatEditText
@@ -2148,9 +2173,9 @@
                                     android:id="@+id/trafficGeneratorsRcv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:visibility="visible"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal"
+                                    android:visibility="visible"
                                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                     tools:itemCount="3"
                                     tools:listitem="@layout/traffic_generators_layout" />
@@ -2161,8 +2186,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:text="Traffic generators not found"
-                                    android:visibility="gone"
-                                    android:textColor="@color/red" />
+                                    android:textColor="@color/red"
+                                    android:visibility="gone" />
                             </LinearLayout>
 
 
@@ -2577,8 +2602,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
                                 android:text="Competitors details not found"
-                                android:visibility="gone"
-                                android:textColor="@color/red" />
+                                android:textColor="@color/red"
+                                android:visibility="gone" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -2671,10 +2696,10 @@
                                 android:id="@+id/population_and_houses_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:visibility="visible"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="@dimen/value_10dp">
+                                android:padding="@dimen/value_10dp"
+                                android:visibility="visible">
 
                                 <!--<com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/apartmentType"
@@ -2911,10 +2936,10 @@
                                 android:id="@+id/hospitals_list"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:visibility="visible"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="@dimen/value_10dp">
+                                android:padding="@dimen/value_10dp"
+                                android:visibility="visible">
 
                                 <!--<com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/hospitalSpeciality"

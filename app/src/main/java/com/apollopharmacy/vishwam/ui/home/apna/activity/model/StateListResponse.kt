@@ -76,6 +76,8 @@ class StateListResponse : Serializable {
                 @Expose
                 var status: Status? = null
 
+                var isSelected: Boolean? = false
+
                 class Status : Serializable {
                     @SerializedName("uid")
                     @Expose
