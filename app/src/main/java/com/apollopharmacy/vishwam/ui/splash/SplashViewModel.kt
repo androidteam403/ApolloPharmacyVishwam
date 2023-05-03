@@ -20,57 +20,21 @@ class SplashViewModel : ViewModel() {
     val command = LiveEvent<Command>()
     val validateResponseMutableList = MutableLiveData<ValidateResponse>()
 
-//    fun getSplashScreenData(validateResponse: ValidateRequest) {
-//        viewModelScope.launch {
-//            val response = withContext(Dispatchers.IO) {
-//                SplashRepo.getUserValidate(validateResponse)
-//            }
-//            when (response) {
-//                is ApiResult.Success -> {
-//                    if (response.value.status) {
-//                        println(33)
-//                        validateResponseMutableList.value = response.value
-//                        Preferences.saveApi(Gson().toJson(response.value))
-//                        Preferences.saveGlobalResponse(Gson().toJson(response.value))
-//                        Utils.printMessage("SplashScreen", response.value.toString())
-//                        command.value = Command.NavigateTo(response.value)
-//                        println(39)
-//                    } else {
-//                        command.value = Command.ShowToast(response.value.message)
-//                    }
-//                }
-//                is ApiResult.GenericError -> {
-//                    command.postValue(Command.ShowToast(response.error ?: "Something went wrong"))
-//                }
-//                is ApiResult.NetworkError -> {
-//                    command.postValue(Command.ShowToast("Network Error"))
-//                }
-//                is ApiResult.UnknownError -> {
-//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
-//                }
-//                is ApiResult.UnknownHostException -> {
-//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
-//                }
-//                else -> {
-//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
-//                }
-//            }
-//        }
-//    }
-
     fun getSplashScreenData(validateResponse: ValidateRequest) {
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                SplashRepo.getUserValidateTest()
+                SplashRepo.getUserValidate(validateResponse)
             }
             when (response) {
                 is ApiResult.Success -> {
                     if (response.value.status) {
+                        println(33)
                         validateResponseMutableList.value = response.value
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
                         Utils.printMessage("SplashScreen", response.value.toString())
                         command.value = Command.NavigateTo(response.value)
+                        println(39)
                     } else {
                         command.value = Command.ShowToast(response.value.message)
                     }
@@ -93,6 +57,42 @@ class SplashViewModel : ViewModel() {
             }
         }
     }
+
+//    fun getSplashScreenData(validateResponse: ValidateRequest) {
+//        viewModelScope.launch {
+//            val response = withContext(Dispatchers.IO) {
+//                SplashRepo.getUserValidateTest()
+//            }
+//            when (response) {
+//                is ApiResult.Success -> {
+//                    if (response.value.status) {
+//                        validateResponseMutableList.value = response.value
+//                        Preferences.saveApi(Gson().toJson(response.value))
+//                        Preferences.saveGlobalResponse(Gson().toJson(response.value))
+//                        Utils.printMessage("SplashScreen", response.value.toString())
+//                        command.value = Command.NavigateTo(response.value)
+//                    } else {
+//                        command.value = Command.ShowToast(response.value.message)
+//                    }
+//                }
+//                is ApiResult.GenericError -> {
+//                    command.postValue(Command.ShowToast(response.error ?: "Something went wrong"))
+//                }
+//                is ApiResult.NetworkError -> {
+//                    command.postValue(Command.ShowToast("Network Error"))
+//                }
+//                is ApiResult.UnknownError -> {
+//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                }
+//                is ApiResult.UnknownHostException -> {
+//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                }
+//                else -> {
+//                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+//                }
+//            }
+//        }
+//    }
 }
 
 sealed class Command {
