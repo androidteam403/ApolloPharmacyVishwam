@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.PreRetroImagesLayoutBinding
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalReviewCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.bumptech.glide.Glide
 
@@ -16,6 +17,9 @@ class ApprovalImagesListAdapter(
     val mContext: Context,
     var stage: String,
     var approveList: List<List<GetImageUrlResponse.ImageUrl>>,
+    val mclickistener: ApprovalReviewCallback,
+    var categoryPos: Int,
+    var categoryName: String,
 
 
     ) :
@@ -38,7 +42,31 @@ class ApprovalImagesListAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
+        if (stage.toLowerCase().contains("pre")) {
+        for (j in approvedOrders.indices) {
+            if (approvedOrders.get(j).stage.equals("1")){
+                holder.itemView.setOnClickListener {
+                    mclickistener.onClickItemView(position,
+                        approveList as ArrayList<List<GetImageUrlResponse.ImageUrl>>,
+                        categoryPos,
+                        categoryName,
+                        approvedOrders.get(j).url!!)
 
+                }
+            }
+
+
+        }
+        }else{
+            holder.itemView.setOnClickListener {
+                mclickistener.onClickItemView(position,
+                    approveList as ArrayList<List<GetImageUrlResponse.ImageUrl>>,
+                    categoryPos,
+                    categoryName,
+                    "")
+
+            }
+        }
 
         for (i in approvedOrders.indices) {
             if (stage.toLowerCase().contains("pre") && approvedOrders[i].stage.equals("1")) {

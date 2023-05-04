@@ -6,23 +6,32 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ActivityPreviewRetroImageBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
+import com.apollopharmacy.vishwam.databinding.DialogOkAlertBinding
+import com.apollopharmacy.vishwam.databinding.RatingReviewDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.RetroPreviewImage
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageViewModel
+import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.text.WordUtils
+import java.util.stream.Collectors
 
 class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     ViewPager.OnPageChangeListener {
@@ -32,18 +41,28 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     var categoryAndImageslist = ArrayList<String>()
     private lateinit var previewLastImageViewModel: ApnaPreviewLastImageViewModel
     private var currentPosition: Int = 0
-
+    private var apiStatus: String = ""
+    private var stage: String = ""
+    private var apiStage: String = ""
+    private var isApiHit: Boolean = false
+    private var isRatingApiHit: Boolean = false
+    var applist = ArrayList<GetImageUrlResponse.ImageUrl>()
+    var reshootList = ArrayList<GetImageUrlResponse.ImageUrl>()
+    var pendingList = ArrayList<GetImageUrlResponse.ImageUrl>()
+    private var overallStatus: String? = null
+    var isAllapproved: Boolean? = false
     public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
-    var position: Int = 0
     private var store: String = ""
     private var retroId: String = ""
     private var uploaddate: String = ""
-
+    private var uploadBy: String = ""
+    private lateinit var dialog: Dialog
+    var ratingbar: RatingBar? = null
+    var ratingforsubmit: String? = null
     private var getImageUrlsResponse: GetImageUrlResponse? = null
     var imageUrlsList = ArrayList<GetImageUrlResponse.ImageUrl>()
     var categorysList = ArrayList<GetImageUrlResponse.Category>()
-    var acceptRejectData = SaveAcceptRequest()
-    var imageUrlResponse = SaveAcceptRequest.Imageurl()
+    var saveRequestImageslist = java.util.ArrayList<SaveAcceptRequest.Imageurl>()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +83,10 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 getIntent().getExtras()?.getStringArrayList("imageList")!!
             store = intent.getStringExtra("store")!!
             retroId = intent.getStringExtra("retroId")!!
+            stage = intent.getStringExtra("stage")!!
+
             uploaddate = intent.getStringExtra("uploaddate")!!
+            uploadBy = intent.getStringExtra("uploadby")!!
             imageUrlList =
                 intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
         }
@@ -72,53 +94,95 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     private fun setUp() {
-//        list.add("https://askapollopr.blob.core.windows.net/sampleimage/ReturnImage_3857527_20230403_154049.jpg")
 
-        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / list.size + 1).toString() + "/" + list.size.toString() + " )")
+        activityPreviewImageBinding.stageName.setText(WordUtils.capitalizeFully(stage.replace("-",
+            " ")) + " Review")
+
         activityPreviewImageBinding.storeId.setText(store)
-        activityPreviewImageBinding.categoty.setText(imageUrlList.get(position).categoryname)
+        activityPreviewImageBinding.categoty.setText(imageUrlList.get(currentPosition).categoryname)
         activityPreviewImageBinding.uploadedDate.setText(uploaddate)
+        if (stage.toLowerCase().contains("pre")) {
+            apiStage = "1"
 
+        } else if (stage.toLowerCase().contains("post")) {
+            apiStage = "2"
+
+        } else if (stage.toLowerCase().contains("aft")) {
+            apiStage = "3"
+
+        }
 
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 val imageUrl = GetImageUrlResponse.ImageUrl()
-                imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
-                imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
-                imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
-                imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
-                imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
-                imageUrl.isVerified= imageUrlList[i].imageUrls!!.get(j).isVerified
 
-                imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
-                imageUrlsList.add(imageUrl)
+                if (stage.toLowerCase().contains("pre")&&imageUrlList[i].imageUrls!!.get(j).stage.equals("1")){
+                    imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
+                    imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
+                    imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
+                    imageUrl.stage= imageUrlList[i].imageUrls!!.get(j).stage
+                    imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
+                    imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
+                    imageUrl.isVerified = imageUrlList[i].imageUrls!!.get(j).isVerified
+
+                    imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
+                    imageUrlsList.add(imageUrl)
+                }else if (stage.toLowerCase().contains("pos")&&imageUrlList[i].imageUrls!!.get(j).stage.equals("2")){
+                    imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
+                    imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
+                    imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
+                    imageUrl.stage= imageUrlList[i].imageUrls!!.get(j).stage
+                    imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
+                    imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
+                    imageUrl.isVerified = imageUrlList[i].imageUrls!!.get(j).isVerified
+
+                    imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
+                    imageUrlsList.add(imageUrl)
+                }
+                else if (stage.toLowerCase().contains("aft")&&imageUrlList[i].imageUrls!!.get(j).stage.equals("3")){
+                    imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
+                    imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
+                    imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
+                    imageUrl.stage= imageUrlList[i].imageUrls!!.get(j).stage
+                    imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
+                    imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
+                    imageUrl.isVerified = imageUrlList[i].imageUrls!!.get(j).isVerified
+
+                    imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
+                    imageUrlsList.add(imageUrl)
+                }
+
             }
         }
 //
-        activityPreviewImageBinding.imagename.setText(imageUrlsList[position].imageid)
-        activityPreviewImageBinding.categorycount.setText((position + 1).toString())
 
-        if (imageUrlsList.get(position).isVerified == true) {
-            if (imageUrlsList.get(position).status.equals("1")){
+
+        if (imageUrlsList.get(currentPosition).isVerified == true) {
+            if (imageUrlsList.get(currentPosition).status.equals("1")) {
                 activityPreviewImageBinding.accept.alpha = 0.5f
 
-            }else{
+            } else {
                 activityPreviewImageBinding.accept.alpha = 1f
 
             }
-            if (imageUrlsList.get(position).status.equals("2")){
+            if (imageUrlsList.get(currentPosition).status.equals("2")) {
                 activityPreviewImageBinding.reshoot.alpha = 0.5f
 
-            }else{
+            } else {
                 activityPreviewImageBinding.reshoot.alpha = 1f
 
             }
         }
-        previewImageAdapter = RetroPreviewImage(this, this, imageUrlsList)
+
+        if (imageUrlsList.isNotEmpty()){
+            activityPreviewImageBinding.totalimages.setText("( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+
+        }
+        previewImageAdapter = RetroPreviewImage(this, imageUrlsList, retroId, stage)
 
         activityPreviewImageBinding.previewImageViewpager.addOnPageChangeListener(this)
         activityPreviewImageBinding.previewImageViewpager.adapter = previewImageAdapter
-
+        activityPreviewImageBinding.previewImageViewpager.setCurrentItem(0, true)
 
     }
 
@@ -126,28 +190,44 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     }
 
     override fun onPageSelected(position: Int) {
-        currentPosition = position
-
-
-        activityPreviewImageBinding.imagename.setText(imageUrlsList[position].imageid)
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(position).imageid)) {
                     activityPreviewImageBinding.categoty.setText(imageUrlList.get(i).categoryname)
-                    activityPreviewImageBinding.categorycount.setText((i + 1).toString())
-                    imageUrlResponse.imageid = imageUrlsList.get(i).imageid
-                    imageUrlResponse.statusid = imageUrlsList.get(i).status
+
                 }
 
             }
         }
 
 
+                currentPosition = position
+
+                previewImageAdapter?.notifyDataSetChanged()
+
+
+        applist = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("1") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
+        reshootList = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("2") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
+        pendingList = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("0") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
         if (currentPosition == imageUrlsList.size - 1) {
             if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
-                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+
+                if (applist.size==imageUrlsList.size||reshootList.size==imageUrlsList.size||applist.size+reshootList.size==imageUrlsList.size) {
+                    activityPreviewImageBinding.isLastPos =
+                        currentPosition == imageUrlsList.size - 1
+                }
+                else {
+                    activityPreviewImageBinding.isLastPos = false
+                }
+
             }
 
         } else {
@@ -156,17 +236,17 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
         if (imageUrlsList.get(currentPosition).isVerified == true) {
-            if (imageUrlsList.get(currentPosition).status.equals("1")){
+            if (imageUrlsList.get(currentPosition).status.equals("1")) {
                 activityPreviewImageBinding.accept.alpha = 0.5f
 
-            }else{
+            } else {
                 activityPreviewImageBinding.accept.alpha = 1f
 
             }
-            if (imageUrlsList.get(currentPosition).status.equals("2")){
+            if (imageUrlsList.get(currentPosition).status.equals("2")) {
                 activityPreviewImageBinding.reshoot.alpha = 0.5f
 
-            }else{
+            } else {
                 activityPreviewImageBinding.reshoot.alpha = 1f
 
             }
@@ -174,7 +254,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
 
-        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / list.size + 1).toString() + "/" + list.size.toString() + " )")
+        activityPreviewImageBinding.totalimages.setText("( " + (position + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -183,6 +263,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     override fun onClick(position: Int, status: String) {
 
     }
+
 
     override fun onClickReShoot() {
 
@@ -239,6 +320,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else {
             activityPreviewImageBinding.isLastPos = false
         }
+        previewImageAdapter!!.notifyDataSetChanged()
 
 
     }
@@ -298,11 +380,80 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else {
             activityPreviewImageBinding.isLastPos = false
         }
-
+        previewImageAdapter!!.notifyDataSetChanged()
 
     }
 
     override fun onClickCompleted() {
+
+        for (i in imageUrlsList.indices) {
+            var imageRequest = SaveAcceptRequest.Imageurl()
+            imageRequest.statusid = imageUrlsList.get(i).status
+            imageRequest.imageid = imageUrlsList.get(i).imageid
+            saveRequestImageslist.add(imageRequest)
+
+        }
+        for (i in imageUrlList.indices) {
+            for (j in imageUrlList[i].imageUrls!!.indices) {
+                for (k in imageUrlsList.indices) {
+                    if (imageUrlList[i].imageUrls!![j].imageid.equals(imageUrlsList.get(k).imageid)) {
+                        if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(k).status.equals(
+                                "1")
+                        ) {
+
+                            imageUrlList.get(i).imageUrls!!.get(j).status = "1"
+
+                            imageUrlList.get(i).imageUrls!!.get(j).setisVerified(true)
+                        } else if (imageUrlsList.get(k).isVerified == true && imageUrlsList.get(
+                                k).status.equals("2")
+                        ) {
+
+
+                            imageUrlList.get(i).imageUrls!!.get(j).status = "2"
+                            imageUrlList.get(i).imageUrls!!.get(j)
+                                .setisVerified(true)
+                        }
+                    }
+
+                }
+
+            }
+        }
+
+
+
+        applist = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("1") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
+        reshootList = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("2") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
+        pendingList = imageUrlsList.stream()
+            .filter { imageUrlsList: GetImageUrlResponse.ImageUrl -> imageUrlsList.status.equals("0") }
+            .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
+
+
+        if (pendingList.size == 0 && imageUrlsList.size == applist.size) {
+            apiStatus = "1"
+        } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size) {
+            apiStatus = "2"
+        } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size + applist.size) {
+            apiStatus = "2"
+        }
+
+
+        var imageRequest = SaveAcceptRequest()
+        imageRequest.retroautoid = retroId
+        imageRequest.type = ""
+        imageRequest.stageid = apiStage
+        imageRequest.reamrks = ""
+        imageRequest.statusid = apiStatus
+        imageRequest.storeid = store
+        imageRequest.userid = uploadBy
+        imageRequest.rating = ""
+        imageRequest.imageurls = saveRequestImageslist
+
+        previewLastImageViewModel.saveAccepetAndReshoot(imageRequest, this)
 
     }
 
@@ -316,18 +467,188 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 //        imagesStatusAlertDialog.setCancelable(false)
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+            finish()
+            imagesStatusAlertDialog.dismiss()
+        }
+        dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
 
             val intent = Intent()
             intent.putExtra("mainImagesList", imageUrlsList)
             setResult(Activity.RESULT_OK, intent)
             finish()
             imagesStatusAlertDialog.dismiss()
-            finish()
-        }
-        dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
-            imagesStatusAlertDialog.dismiss()
+
         }
         imagesStatusAlertDialog.show()
+
+    }
+
+    override fun onSuccessRatingResponse(value: SaveAcceptResponse) {
+        val imagesStatusAlertDialog = Dialog(this)
+        val dialogLastimagePreviewAlertBinding: DialogOkAlertBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_ok_alert, null, false
+            )
+        imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+//        imagesStatusAlertDialog.setCancelable(false)
+        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogLastimagePreviewAlertBinding.messege.setText(retroId+"\n"+"Reviewed Sucessfully")
+
+        dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna "+WordUtils.capitalizeFully(stage.replace("-",
+            " ")) + " Review")
+
+        dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+
+            isRatingApiHit = true
+
+            val intent = Intent()
+            intent.putExtra("mainImagesList", imageUrlsList)
+            intent.putExtra("ratingApi", isRatingApiHit)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            imagesStatusAlertDialog.dismiss()
+        }
+
+        imagesStatusAlertDialog.show()
+
+
+    }
+
+    override fun onFailureRatingResponse(value: SaveAcceptResponse) {
+        Utlis.hideLoading()
+        Toast.makeText(applicationContext, value.message, Toast.LENGTH_SHORT).show()
+        val imagesStatusAlertDialog = Dialog(this)
+        val dialogLastimagePreviewAlertBinding: DialogOkAlertBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(this), R.layout.dialog_ok_alert, null, false
+            )
+        imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+//        imagesStatusAlertDialog.setCancelable(false)
+        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogLastimagePreviewAlertBinding.messege.setText(retroId+"\n"+"Reviewed Sucessfully")
+
+        dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna "+WordUtils.capitalizeFully(stage.replace("-",
+            " ")) + " Review")
+
+        dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+
+            isRatingApiHit = true
+
+            val intent = Intent()
+            intent.putExtra("mainImagesList", imageUrlsList)
+            intent.putExtra("isApiHit", isApiHit)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            imagesStatusAlertDialog.dismiss()
+        }
+
+        imagesStatusAlertDialog.show()
+    }
+
+    override fun onSuccessSaveAcceptReshoot(value: SaveAcceptResponse) {
+        isApiHit = true
+        if (applist.size == imageUrlsList.size) {
+
+
+            dialog = Dialog(this)
+            dialog.setContentView(R.layout.rating_review_dialog)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.show()
+            val comments = dialog.findViewById<EditText>(R.id.comment)
+            val submitButton =
+                dialog.findViewById<LinearLayout>(R.id.submitforreview)
+            val closeButton =
+                dialog.findViewById<ImageView>(R.id.close_dialogRating)
+            ratingbar = dialog.findViewById<RatingBar>(R.id.ratingBarDialog)
+
+
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+            ratingforsubmit = "4"
+            ratingbar?.setOnRatingBarChangeListener { ratingBar, rating, fromUser ->
+
+                ratingforsubmit = rating.toString().substring(0, 1)
+
+//          Toast.makeText(applicationContext, "Rating: $rating + Remarks: ${submitRating.reamrks} ", Toast.LENGTH_SHORT).show()
+            }
+
+
+
+
+
+
+
+
+            submitButton.setOnClickListener {
+                if (comments.getText().toString() != null && comments.getText()
+                        .toString().trim() != ""
+                ) {
+                    var imageRequest = SaveAcceptRequest()
+                    imageRequest.retroautoid = retroId
+                    imageRequest.type = "REMARKS"
+                    imageRequest.stageid = apiStage
+                    imageRequest.reamrks = comments.text.toString()
+                    imageRequest.statusid = apiStatus
+                    imageRequest.storeid = store
+                    imageRequest.userid = uploadBy
+                    imageRequest.rating = ratingforsubmit.toString()
+
+                    Utlis.showLoading(this)
+                    previewLastImageViewModel.getRatingResponse(imageRequest,
+                        this
+                    )
+                    dialog.dismiss()
+
+                } else {
+                    Toast.makeText(applicationContext,
+                        "Please enter comments",
+                        Toast.LENGTH_SHORT).show()
+                }
+
+
+            }
+        } else {
+
+            val imagesStatusAlertDialog = Dialog(this)
+            val dialogLastimagePreviewAlertBinding: DialogOkAlertBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_ok_alert, null, false
+                )
+            imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+//        imagesStatusAlertDialog.setCancelable(false)
+            imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogLastimagePreviewAlertBinding.messege.setText(retroId+"\n"+"Reviewed Sucessfully")
+
+            dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna "+WordUtils.capitalizeFully(stage.replace("-",
+                " ")) + " Review")
+
+            dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+
+                isRatingApiHit = true
+
+                val intent = Intent()
+                intent.putExtra("mainImagesList", imageUrlsList)
+                intent.putExtra("isApiHit", isApiHit)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+                imagesStatusAlertDialog.dismiss()
+            }
+
+            imagesStatusAlertDialog.show()
+
+
+
+
+        }
+    }
+
+
+    override fun onFailureSaveAcceptReshoot(value: SaveAcceptResponse) {
+
+
+        Toast.makeText(this, value.message, Toast.LENGTH_LONG).show()
+
 
     }
 
@@ -335,13 +656,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         when (imageUrlsList.size > currentPosition) {
             true -> {
                 imageUrlsList.get(currentPosition).status = "0"
-                imageUrlsList.get(currentPosition).isVerified = false
 
-                var isAllVerified = false
+                imageUrlsList.get(currentPosition).isVerified = true
+                var isAllVerified = true
                 for (i in imageUrlsList) {
                     if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
-                        if (i.isVerified == true) {
-                            isAllVerified = true
+                        if (i.isVerified == false) {
+                            isAllVerified = false
                         }
                     }
                 }
@@ -352,7 +673,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 if (currentPosition == imageUrlsList.size - 2) {
                     for (i in imageUrlsList) {
                         if (imageUrlsList.indexOf(i) != imageUrlsList.size - 1) {
-                            if (i.isVerified == true) {
+                            if (i.isVerified == false) {
                                 activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
                                     imageUrlsList.indexOf(i), true
                                 )
@@ -360,7 +681,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                             }
                         }
                     }
-                    if (isAllVerified == false) {
+                    if (isAllVerified) {
                         activityPreviewImageBinding.previewImageViewpager.setCurrentItem(
                             currentPosition + 1, true
                         )
@@ -378,13 +699,16 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
 
         if (currentPosition == imageUrlsList.size - 1) {
-            if (imageUrlsList[imageUrlsList.size - 1].isVerified == false) {
-                activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
+            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+                activityPreviewImageBinding.isLastPos = false
+
             }
 
         } else {
-            activityPreviewImageBinding.isLastPos = false
+//            activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
         }
+        previewImageAdapter!!.notifyDataSetChanged()
+
     }
 
 

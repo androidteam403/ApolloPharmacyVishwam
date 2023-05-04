@@ -13,7 +13,9 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalC
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.text.WordUtils
 import java.text.SimpleDateFormat
+import java.util.stream.Collectors
 
 class RectroApproveListAdapter(
     val mContext: Context,
@@ -61,17 +63,26 @@ class RectroApproveListAdapter(
 
 
             for (i in subList.getValue("" + approvedOrders.retroid).indices) {
-                if (subList.getValue("" + approvedOrders.retroid).get(i).stage!!.toLowerCase().contains("pre")) {
+                if (subList.getValue("" + approvedOrders.retroid).get(i).stage!!.equals("PRE-RETRO")
+                ) {
+
+                    holder.adapterApproveListBinding.preRectroStage.setText(WordUtils.capitalizeFully(
+                        subList.getValue("" + approvedOrders.retroid).get(i).stage!!.replace("-", " ")))
+                    holder.adapterApproveListBinding.preRectroStatus.setText(StringUtils.capitalize(
+                        subList.getValue("" + approvedOrders.retroid)
+                            .get(i).status))
                     if (subList.getValue("" + approvedOrders.retroid).get(i).status!!.toLowerCase()
-                            .contains("pen")) {
+                            .contains("pen")
+                    ) {
                         holder.adapterApproveListBinding.preRectroLayout.setBackgroundColor(Color.parseColor(
                             "#feeedb"))
                         holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor(
                             "#f26522"))
-                        holder.adapterApproveListBinding.preRectroClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.preRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility =
+                            View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.preRectroGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
                         holder.adapterApproveListBinding.preRectroStage.setTextColor(Color.parseColor(
                             "#FF000000"))
 
@@ -82,10 +93,11 @@ class RectroApproveListAdapter(
                             "#EBF7ED"))
                         holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor(
                             "#39B54A"))
-                        holder.adapterApproveListBinding.preRectroClockImage.visibility=View.GONE
-                        holder.adapterApproveListBinding.preRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.preRectroGreenImage.visibility=View.VISIBLE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility =
+                            View.VISIBLE
                         holder.adapterApproveListBinding.preRectroStage.setTextColor(Color.parseColor(
                             "#FF000000"))
 
@@ -97,21 +109,32 @@ class RectroApproveListAdapter(
                             "#feeedb"))
                         holder.adapterApproveListBinding.preRectroStatus.setTextColor(Color.parseColor(
                             "#f26522"))
-                        holder.adapterApproveListBinding.preRectroClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.preRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.preRectroClockImage.visibility =
+                            View.VISIBLE
+                        holder.adapterApproveListBinding.preRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.preRectroGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.preRectroGreenImage.visibility = View.GONE
                     }
-                    holder.adapterApproveListBinding.preRectroStage.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).stage))
-                    holder.adapterApproveListBinding.preRectroStatus.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).status))
 
-                } else if (subList.getValue("" + approvedOrders.retroid)
-                        .get(i).stage!!.toLowerCase()
+                    holder.adapterApproveListBinding.preRectroLayout.setOnClickListener {
+                        mClicklistner.onClick(i, subList.getValue(""+approvedOrders.retroid))
+
+
+
+                    }
+
+
+                }
+            }
+
+
+            for (j in subList.getValue("" + approvedOrders.retroid).indices) {
+
+                if (subList.getValue("" + approvedOrders.retroid)
+                        .get(j).stage!!.toLowerCase()
                         .contains("post")
                 ) {
-                    if (subList.getValue("" + approvedOrders.retroid).get(i).status!!.toLowerCase()
+                    if (subList.getValue("" + approvedOrders.retroid).get(j).status!!.toLowerCase()
                             .contains("pen")
                     ) {
                         holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
@@ -120,13 +143,14 @@ class RectroApproveListAdapter(
                             "#f26522"))
                         holder.adapterApproveListBinding.postRectroStage.setTextColor(Color.parseColor(
                             "#FF000000"))
-                        holder.adapterApproveListBinding.postRectroClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.postRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility =
+                            View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.postRectroGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
 
                     } else if (subList.getValue("" + approvedOrders.retroid)
-                            .get(i).status!!.toLowerCase().contains("app")
+                            .get(j).status!!.toLowerCase().contains("app")
                     ) {
                         holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
                             "#EBF7ED"))
@@ -134,48 +158,65 @@ class RectroApproveListAdapter(
                             "#39B54A"))
                         holder.adapterApproveListBinding.postRectroStage.setTextColor(Color.parseColor(
                             "#FF000000"))
-                        holder.adapterApproveListBinding.postRectroClockImage.visibility=View.GONE
-                        holder.adapterApproveListBinding.postRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.postRectroGreenImage.visibility=View.VISIBLE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility =
+                            View.VISIBLE
                     } else if (subList.getValue("" + approvedOrders.retroid)
-                            .get(i).status!!.toLowerCase().contains("res")
+                            .get(j).status!!.toLowerCase().contains("res")
                     ) {
                         holder.adapterApproveListBinding.postRectroLayout.setBackgroundColor(Color.parseColor(
                             "#feeedb"))
                         holder.adapterApproveListBinding.postRectrostatus.setTextColor(Color.parseColor(
                             "#f26522"))
-                        holder.adapterApproveListBinding.postRectroClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.postRetroGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.postRectroClockImage.visibility =
+                            View.VISIBLE
+                        holder.adapterApproveListBinding.postRetroGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.postRectroGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.postRectroGreenImage.visibility = View.GONE
                     }
-                    holder.adapterApproveListBinding.postRectroStage.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).stage))
-                    holder.adapterApproveListBinding.postRectrostatus.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).status))
 
-                } else if (subList.getValue("" + approvedOrders.retroid)
-                        .get(i).stage!!.toLowerCase()
+                    holder.adapterApproveListBinding.postRectroLayout.setOnClickListener {
+                        mClicklistner.onClick(j, subList.getValue(""+approvedOrders.retroid))
+
+                    }
+
+
+
+                    holder.adapterApproveListBinding.postRectroStage.setText(WordUtils.capitalizeFully(
+                        subList.getValue("" + approvedOrders.retroid)
+                            .get(j).stage!!.replace("-", " ")))
+
+                    holder.adapterApproveListBinding.postRectrostatus.setText(StringUtils.capitalize(
+                        subList.getValue("" + approvedOrders.retroid)
+                            .get(j).status))
+
+                }
+            }
+            for (k in subList.getValue("" + approvedOrders.retroid).indices) {
+
+                if (subList.getValue("" + approvedOrders.retroid)
+                        .get(k).stage!!.toLowerCase()
                         .contains("aft")
                 ) {
-                    if (subList.getValue("" + approvedOrders.retroid).get(i).status!!.toLowerCase()
+                    if (subList.getValue("" + approvedOrders.retroid).get(k).status!!.toLowerCase()
                             .contains("pen")
                     ) {
                         holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
                             Color.parseColor("#feeedb"))
                         holder.adapterApproveListBinding.approveStatus.setTextColor(Color.parseColor(
                             "#f26522"))
-                        holder.adapterApproveListBinding.approveClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.approveGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.approveGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
 
                         holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor(
                             "#FF000000"))
 
                     } else if (subList.getValue("" + approvedOrders.retroid)
-                            .get(i).status!!.toLowerCase().contains("app")
+                            .get(k).status!!.toLowerCase().contains("app")
                     ) {
                         holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
                             Color.parseColor("#EBF7ED"))
@@ -183,40 +224,40 @@ class RectroApproveListAdapter(
                             "#39B54A"))
                         holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor(
                             "#FF000000"))
-                        holder.adapterApproveListBinding.approveClockImage.visibility=View.GONE
-                        holder.adapterApproveListBinding.approveGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.GONE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.approveGreenImage.visibility=View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.VISIBLE
                     } else if (subList.getValue("" + approvedOrders.retroid)
-                            .get(i).status!!.toLowerCase().contains("res")
+                            .get(k).status!!.toLowerCase().contains("res")
                     ) {
                         holder.adapterApproveListBinding.approveStatusLayout.setBackgroundColor(
                             Color.parseColor("#feeedb"))
                         holder.adapterApproveListBinding.approveStage.setTextColor(Color.parseColor(
                             "#f26522"))
-                        holder.adapterApproveListBinding.approveClockImage.visibility=View.VISIBLE
-                        holder.adapterApproveListBinding.approveGreyTick.visibility=View.GONE
+                        holder.adapterApproveListBinding.approveClockImage.visibility = View.VISIBLE
+                        holder.adapterApproveListBinding.approveGreyTick.visibility = View.GONE
 
-                        holder.adapterApproveListBinding.approveGreenImage.visibility=View.GONE
+                        holder.adapterApproveListBinding.approveGreenImage.visibility = View.GONE
                     }
-                    holder.adapterApproveListBinding.approveStage.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).stage))
-                    holder.adapterApproveListBinding.approveStatus.setText(StringUtils.capitalize(subList.getValue("" + approvedOrders.retroid)
-                        .get(i).status))
+
+                    holder.adapterApproveListBinding.approveStatusLayout.setOnClickListener {
+                        mClicklistner.onClick(k, subList.getValue(""+approvedOrders.retroid))
+
+                    }
+
+                    holder.adapterApproveListBinding.approveStage.setText(WordUtils.capitalizeFully(
+                        subList.getValue("" + approvedOrders.retroid)
+                            .get(k).stage!!.replace("-", " ")))
+
+                    holder.adapterApproveListBinding.approveStatus.setText(StringUtils.capitalize(
+                        subList.getValue("" + approvedOrders.retroid)
+                            .get(k).status))
 
 
                 }
             }
-
         }
-
-
-
-
-        holder.itemView.setOnClickListener {
-            mClicklistner.onClick(position, approvedOrders)
-        }
-
 
     }
 

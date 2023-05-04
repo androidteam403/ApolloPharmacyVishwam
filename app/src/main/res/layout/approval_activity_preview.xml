@@ -39,10 +39,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pre Retro Preview"
+                        android:id="@+id/stage"
+
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/three3_sp"
+                        android:textColor="@color/white"
+                        android:id="@+id/retro_Id"
 
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -479,42 +489,7 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_alignParentBottom="true"
 
-            android:layout_marginTop="@dimen/value_15dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_cancel_btn_rectro"
-                android:paddingTop="15dp"
-                android:id="@+id/cancel"
-                android:textSize="@dimen/text_18sp"
-                android:paddingBottom="15dp"
-                android:text="CANCEL"
-                android:textColor="@color/white" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_reshoot_button_rectro"
-                android:paddingTop="15dp"
-                android:id="@+id/submitButton"
-                android:textSize="@dimen/text_18sp"
-                android:backgroundTint="@color/grey"
-                android:paddingBottom="15dp"
-                android:text="SUBMIT"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
     </RelativeLayout>
 
     <data>

@@ -4,7 +4,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApp
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 
 interface PreRectroApprovalCallback {
-    fun onClick(position: Int, status: GetRetroPendingAndApproveResponse.Retro)
+    fun onClick(position: Int, status: List<GetRetroPendingAndApproveResponse.Retro>)
     fun onSuccessRetroApprovalList(value: GetRetroPendingAndApproveResponse)
     fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse)
 }

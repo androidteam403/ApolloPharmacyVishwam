@@ -51,14 +51,12 @@ class ApprovalCategoryListAdapter(
 //
 //        }
 
-        adapter = ApprovalImagesListAdapter(mContext,stage,
-            approvedOrders.groupByImageUrlList!!)
+        adapter = ApprovalImagesListAdapter(mContext, stage,
+            approvedOrders.groupByImageUrlList!!,mclickistener,position,
+            approvedOrders.categoryname!!)
         holder.preRetroPreviewLayoutBinding.recyclerViewimages.adapter = adapter
 
-//        holder.itemView.setOnClickListener {
-//            mclickistener.onClickItemView(position,approvedOrders)
-//
-//        }
+
 
 
     }

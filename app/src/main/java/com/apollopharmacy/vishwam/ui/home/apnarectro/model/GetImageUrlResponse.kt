@@ -82,6 +82,13 @@ class GetImageUrlResponse : Serializable {
         @Expose
         var url: String? = null
 
+
+        var isChecked: Boolean = true
+
+        fun setisChecked(pos: Boolean) {
+            isChecked = pos
+        }
+
         @SerializedName("STATUS")
         @Expose
         var status: String? = null

@@ -61,13 +61,13 @@ class PreRectroApprovalFragment() :
 
     }
 
-    override fun onClick(position: Int, status: GetRetroPendingAndApproveResponse.Retro) {
+    override fun onClick(position: Int, status: List<GetRetroPendingAndApproveResponse.Retro>) {
         val intent = Intent(context, ApprovalPreviewActivity::class.java)
-        intent.putExtra("stage", status.stage)
-        intent.putExtra("status", status.status)
-        intent.putExtra("site", status.store)
+        intent.putExtra("stage", status.get(position).stage)
+        intent.putExtra("status", status.get(position).status)
+        intent.putExtra("site", status.get(position).store)
 
-        intent.putExtra("retroId", status.retroid)
+        intent.putExtra("retroId", status.get(position).retroid)
         startActivity(intent)
 
     }
