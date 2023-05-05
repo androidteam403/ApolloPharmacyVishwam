@@ -179,12 +179,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/locationText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -214,12 +214,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/stateText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -240,12 +240,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/cityText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -266,12 +266,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
-                                    <!--                                    app:boxStrokeColor="#f3f3f3"-->
+                                    android:theme="@style/TextLabelEditText">
+
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/pinText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="PIN *"
                                         android:inputType="number"
                                         android:maxLength="6"
@@ -297,12 +297,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/nearByLandmarksText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Near by Landmarks *"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -358,39 +358,17 @@
                                         android:layout_weight="1.3"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Latitude"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/latitude"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:editable="false"
-                                            android:enabled="true"
-                                            android:focusable="false"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/latitude"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:editable="false"
                                                 android:enabled="true"
                                                 android:focusable="false"
@@ -410,39 +388,17 @@
                                         android:layout_weight="1.3"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Longitude"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/longitude"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:editable="false"
-                                            android:enabled="true"
-                                            android:focusable="false"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/longitude"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:editable="false"
                                                 android:enabled="true"
                                                 android:focusable="false"
@@ -581,12 +537,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/dimensionTypeSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:clickable="true"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:focusable="false"
@@ -612,12 +568,12 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/lengthText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Length *"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
@@ -634,12 +590,12 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/widthText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Width *"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
@@ -666,12 +622,12 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/ceilingHeightText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Ceiling Height *"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
@@ -687,32 +643,17 @@
                                         android:layout_marginEnd="10dp"
                                         android:layout_weight=".5">
 
-                                        <!--<TextView
-                                            android:id="@+id/totalAreaText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_rounded_bg"
-                                            android:editable="false"
-                                            android:gravity="center_vertical"
-                                            android:hint="0.0"
-                                            android:inputType="text"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/totalAreaText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:editable="false"
                                                 android:enabled="false"
                                                 android:focusable="false"
@@ -806,28 +747,17 @@
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <!--<EditText
-                                        android:id="@+id/expectedRentText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/gray_border"
-                                        android:inputType="number"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />-->
-
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/expectedRentText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Expected Rent *"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
@@ -847,14 +777,6 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <!--<TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppin_bold"
-                                    android:text="Security Deposit *"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -869,28 +791,17 @@
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <!--<EditText
-                                        android:id="@+id/securityDepositText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/gray_border"
-                                        android:inputType="number"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />-->
-
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/securityDepositText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Security Deposit *"
                                             android:inputType="number"
                                             android:paddingStart="@dimen/value_10dp"
@@ -954,67 +865,17 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <!--<LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Age of the Building"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=" ("
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_16sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Years/Months"
-                                        android:textColor="@color/gray"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=" )"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_16sp" />
-                                </LinearLayout>-->
-
-                                <!--<EditText
-                                    android:id="@+id/ageOfTheBuildingText"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
-                                    android:inputType="number"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/ageOfTheBuildingText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Age of the Building"
                                         android:inputType="number"
                                         android:paddingStart="@dimen/value_10dp"
@@ -1092,12 +953,12 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/trafficStreetSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:clickable="true"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:focusable="false"
@@ -1109,22 +970,6 @@
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
-                                <!--<androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/trafficStreetSelect"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:background="@drawable/light_gray_border"
-                                    android:clickable="true"
-                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                    android:drawableTint="@color/black"
-                                    android:focusable="false"
-                                    android:hint="Select traffic street"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/value_12dp"
-                                    android:textStyle="bold" />-->
                             </LinearLayout>
 
                             <LinearLayout
@@ -1169,12 +1014,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/morningFromSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:layout_marginTop="@dimen/value_5dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
@@ -1189,23 +1034,6 @@
                                                 android:textSize="14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/morningFrom"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="HH:MM"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1227,12 +1055,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/morningToSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:layout_marginTop="@dimen/value_5dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
@@ -1247,23 +1075,6 @@
                                                 android:textSize="14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/morningTo"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="HH:MM"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -1293,12 +1104,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/eveningFromSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:layout_marginTop="@dimen/value_5dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
@@ -1313,23 +1124,6 @@
                                                 android:textSize="14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/eveningFrom"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="HH:MM"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1351,12 +1145,12 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/eveningToSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:layout_marginTop="@dimen/value_5dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
@@ -1371,23 +1165,6 @@
                                                 android:textSize="14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/eveningTo"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="HH:MM"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1400,44 +1177,17 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <!--<TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppin_bold"
-                                    android:text="Present Traffic Patterns"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
-                                <!--<Spinner
-                                    android:id="@+id/trafficPatternsSpinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/spinner_bg" />-->
-
-                                <!--<EditText
-                                    android:id="@+id/presentTrafficPatterns"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="4dp"
-                                    android:background="@drawable/gray_border"
-                                    android:inputType="text"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/presentTrafficPatterns"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Present traffic patterns"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -1544,36 +1294,17 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <!--<TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppin_bold"
-                                    android:text="Existing Outlet Name"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
-                                <!--<EditText
-                                    android:id="@+id/existingOutletName"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/existingOutletName"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Existing outlet name"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -1642,28 +1373,17 @@
                                         android:tint="#818181"
                                         tools:ignore="UseAppTint" />
 
-                                    <!--<EditText
-                                        android:id="@+id/ageOrSaleText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/gray_border"
-                                        android:inputType="numberDecimal"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />-->
-
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/ageOrSaleText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Existing outlet age/sale"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
@@ -1704,38 +1424,17 @@
                                         android:layout_marginEnd="@dimen/value_5dp"
                                         android:layout_weight="1">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_20dp"
-                                            android:text="Pharma"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/pharmaText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/pharmaText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Pharma"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -1751,37 +1450,17 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_8dp"
-                                            android:text="FMCG"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/fmcgText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/fmcgText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="FMCG"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -1799,37 +1478,17 @@
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:orientation="horizontal">
 
-                                    <!--<TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_10dp"
-                                        android:text="Surgicals"
-                                        android:textColor="@color/gray"
-                                        android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />-->
-
-                                    <!--<EditText
-                                        android:id="@+id/surgicalsText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/gray_border"
-                                        android:inputType="numberDecimal"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />-->
-
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/ApnaTextLabel">
+                                        android:theme="@style/TextLabelEditText">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/surgicalsText"
                                             android:layout_width="match_parent"
-                                            android:layout_height="40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:hint="Surgicals"
                                             android:inputType="numberDecimal"
                                             android:paddingStart="@dimen/value_10dp"
@@ -1849,37 +1508,17 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <!--<TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppin_bold"
-                                    android:text="Area Discount"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
-                                <!--<EditText
-                                    android:id="@+id/areaDiscountText"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/gray_border"
-                                    android:inputType="numberDecimal"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/areaDiscountText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Area discount"
                                         android:inputType="numberDecimal"
                                         android:paddingStart="@dimen/value_10dp"
@@ -1897,272 +1536,6 @@
                                 android:scrollbars="none"
                                 tools:itemCount="3"
                                 tools:listitem="@layout/layout_neighbouring_store" />
-
-                            <!--<LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_8dp"
-                                android:background="@drawable/white_rounded_bg"
-                                android:orientation="vertical"
-                                android:padding="@dimen/value_10dp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Neighbouring Store"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=" ("
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Left"
-                                        android:textColor="#68c3ea"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=")"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:text="Rent"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
-
-                                        <EditText
-                                            android:id="@+id/leftRentText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:text="Sales"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
-
-                                        <EditText
-                                            android:id="@+id/leftSalesText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_7dp"
-                                        android:text="Sq.ft."
-                                        android:textColor="@color/gray"
-                                        android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />
-
-                                    <EditText
-                                        android:id="@+id/leftSqFtText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/light_gray_border"
-                                        android:inputType="number"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_15sp" />
-                                </LinearLayout>
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_8dp"
-                                android:background="@drawable/white_rounded_bg"
-                                android:orientation="vertical"
-                                android:padding="@dimen/value_10dp">
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Neighbouring Store"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=" ("
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text="Right"
-                                        android:textColor="#68c3ea"
-                                        android:textSize="@dimen/text_14sp" />
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:fontFamily="@font/poppin_bold"
-                                        android:text=")"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_14sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:orientation="horizontal"
-                                    android:weightSum="2">
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:text="Rent"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
-
-                                        <EditText
-                                            android:id="@+id/rightRentText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
-                                    </LinearLayout>
-
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginEnd="@dimen/value_10dp"
-                                            android:text="Sales"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp"
-                                            android:textStyle="bold" />
-
-                                        <EditText
-                                            android:id="@+id/rightSalesText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_15sp" />
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/value_8dp">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_7dp"
-                                        android:text="Sq.ft."
-                                        android:textColor="@color/gray"
-                                        android:textSize="@dimen/text_12sp"
-                                        android:textStyle="bold" />
-
-                                    <EditText
-                                        android:id="@+id/rightSqFtText"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="@dimen/value_35dp"
-                                        android:background="@drawable/light_gray_border"
-                                        android:inputType="number"
-                                        android:paddingStart="@dimen/value_10dp"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_15sp" />
-                                </LinearLayout>
-                            </LinearLayout>-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -2221,38 +1594,18 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
-                                <!--<Spinner
-                                    android:id="@+id/catchmentAreaSpinner"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="@dimen/value_8dp"
-                                    android:background="@drawable/spinner_bg" />-->
-
-                                <!--<EditText
-                                    android:id="@+id/occupationText"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_40dp"
-                                    android:layout_marginTop="@dimen/value_4dp"
-                                    android:background="@drawable/gray_border"
-                                    android:hint="Catchment area"
-                                    android:inputType="text"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/text_14sp" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/occupationText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Catchment area"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -2283,36 +1636,17 @@
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
-                                        <!--<Spinner
-                                            android:id="@+id/serviceClassSpinner"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/spinner_bg" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/serviceClassText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:hint="Income"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/serviceClassText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Income"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -2337,29 +1671,17 @@
                                             android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
-                                        <!--<EditText
-                                            android:id="@+id/businessClassText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:hint="Income"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/businessClassText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Income"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -2388,36 +1710,18 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
-                                <!--<androidx.appcompat.widget.AppCompatEditText
-                                    android:id="@+id/trafficGeneratorSelect"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="@dimen/value_35dp"
-                                    android:layout_marginTop="3dp"
-                                    android:background="@drawable/light_gray_border"
-                                    android:clickable="true"
-                                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                    android:drawableTint="@color/black"
-                                    android:focusable="false"
-                                    android:hint="Select from the list"
-                                    android:paddingStart="@dimen/value_10dp"
-                                    android:paddingEnd="@dimen/value_10dp"
-                                    android:textColor="@color/black"
-                                    android:textColorHint="@color/black"
-                                    android:textSize="@dimen/value_12dp"
-                                    android:textStyle="bold" />-->
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/trafficGenerator"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/trafficGeneratorSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:layout_marginTop="@dimen/value_3dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
@@ -2545,12 +1849,12 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/chemistText"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Chemist"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -2582,36 +1886,18 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/organisedSelect"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="Select"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/organised"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/organisedSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
                                                 android:enabled="true"
@@ -2641,30 +1927,18 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <!--<EditText
-                                            android:id="@+id/organisedAvgSaleText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_3dp"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/organisedAvgSaleText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Avg sale"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -2698,36 +1972,18 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <!--<androidx.appcompat.widget.AppCompatEditText
-                                            android:id="@+id/unorganisedSelect"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_35dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/light_gray_border"
-                                            android:clickable="true"
-                                            android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                            android:drawableTint="@color/black"
-                                            android:focusable="false"
-                                            android:hint="Select"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textColorHint="@color/black"
-                                            android:textSize="@dimen/value_12dp"
-                                            android:textStyle="bold" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             android:id="@+id/unorganised"
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/unorganisedSelect"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                                 android:editable="false"
                                                 android:enabled="true"
@@ -2757,30 +2013,18 @@
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
-                                        <!--<EditText
-                                            android:id="@+id/unorganisedAvgSaleText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:layout_marginTop="3dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="numberDecimal"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_3dp"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/unorganisedAvgSaleText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Avg sale"
                                                 android:inputType="numberDecimal"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -2800,7 +2044,7 @@
                                         <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/chemistAddBtn"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:background="@drawable/blue_rounded_corner_bg"
                                             android:fontFamily="@font/price_bold"
                                             android:hint="Add"
@@ -2990,12 +2234,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/apartmentTypeSelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -3016,12 +2260,12 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/apartmentsOrColony"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:hint="Apartments/Colony"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
@@ -3046,36 +2290,17 @@
                                         android:layout_weight="1.5"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="No of Houses"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/noOfHousesText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/noOfHousesText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="No of houses"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3093,36 +2318,17 @@
                                         android:layout_weight="1"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Distance"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/distanceText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/distanceText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Distance"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3142,7 +2348,7 @@
                                         <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/apartmentsAddBtn"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:background="@drawable/blue_rounded_corner_bg"
                                             android:hint="Add"
                                             android:textColorHint="@color/white"
@@ -3259,12 +2465,12 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/ApnaTextLabel">
+                                    android:theme="@style/TextLabelEditText">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/hospitalSpecialitySelect"
                                         android:layout_width="match_parent"
-                                        android:layout_height="40dp"
+                                        android:layout_height="@dimen/value_50dp"
                                         android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
@@ -3293,35 +2499,17 @@
                                         android:layout_weight=".3"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="BEDS"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/bedsText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/bedsText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Beds"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3338,35 +2526,17 @@
                                         android:layout_weight=".7"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Name"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/hospitalNameText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="text"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/hospitalNameText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Name"
                                                 android:inputType="text"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3394,36 +2564,17 @@
                                         android:layout_weight=".9"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="Occupancy"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/occupancyText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/occupancyText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="Occupancy"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3441,36 +2592,17 @@
                                         android:layout_weight="1.6"
                                         android:orientation="vertical">
 
-                                        <!--<TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:fontFamily="@font/roboto_bold"
-                                            android:text="No of OPD"
-                                            android:textColor="@color/gray"
-                                            android:textSize="@dimen/text_12sp" />-->
-
-                                        <!--<EditText
-                                            android:id="@+id/noOfOpdText"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
-                                            android:background="@drawable/gray_border"
-                                            android:inputType="number"
-                                            android:paddingStart="@dimen/value_10dp"
-                                            android:paddingEnd="@dimen/value_10dp"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />-->
-
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/ApnaTextLabel">
+                                            android:theme="@style/TextLabelEditText">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/noOfOpdText"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
+                                                android:layout_height="@dimen/value_50dp"
                                                 android:hint="No of OPD"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
@@ -3490,7 +2622,7 @@
                                         <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/hospitalAddBtn"
                                             android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_50dp"
                                             android:background="@drawable/blue_rounded_corner_bg"
                                             android:hint="Add"
                                             android:textColorHint="@color/white"
