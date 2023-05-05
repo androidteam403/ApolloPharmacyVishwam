@@ -8,11 +8,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterSitePhotoPreviewBinding
+import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaSurveyPreviewCallback
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.bumptech.glide.Glide
 
 class ImagePreviewAdapter(
     val mContext: Context,
+    val imageClickListener: ApnaSurveyPreviewCallback,
     var data: ArrayList<SurveyCreateRequest.SiteImageMb.Image>,
 ) : RecyclerView.Adapter<ImagePreviewAdapter.ViewHolder>() {
 
@@ -27,8 +28,12 @@ class ImagePreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adapterSitePhotoPreviewBinding.afterCapturedImage.setImageBitmap(BitmapFactory.decodeFile(
+        holder.adapterSitePhotoPreviewBinding.image.setImageBitmap(BitmapFactory.decodeFile(
             data[position].url))
+
+        holder.adapterSitePhotoPreviewBinding.eyeImageRes.setOnClickListener {
+            imageClickListener.onClick(data[position].url.toString())
+        }
     }
 
     override fun getItemCount(): Int {

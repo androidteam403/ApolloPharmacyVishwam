@@ -28,11 +28,11 @@ class CompetitorsDetailsPreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adapterChemistListPreviewBinding.chemistType.setText(data[position].chemist)
-        holder.adapterChemistListPreviewBinding.organisedText.setText(data[position].organised!!.uid)
-        holder.adapterChemistListPreviewBinding.organisedAvgSaleText.setText(data[position].orgAvgSale.toString())
-        holder.adapterChemistListPreviewBinding.unorganisedText.setText(data[position].unorganised!!.uid)
-        holder.adapterChemistListPreviewBinding.unorganisedAvgSaleText.setText(data[position].unorgAvgSale.toString())
+        holder.adapterChemistListPreviewBinding.name.setText(data[position].chemist)
+        holder.adapterChemistListPreviewBinding.organised.setText(data[position].organised!!.uid)
+        holder.adapterChemistListPreviewBinding.organisedAvgsale.setText(data[position].orgAvgSale.toString())
+        holder.adapterChemistListPreviewBinding.unorganised.setText(data[position].unorganised!!.uid)
+        holder.adapterChemistListPreviewBinding.unorganisedAvgSale.setText(data[position].unorgAvgSale.toString())
     }
 
     override fun getItemCount(): Int {

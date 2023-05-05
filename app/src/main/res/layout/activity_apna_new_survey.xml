@@ -716,7 +716,7 @@
                                                 android:editable="false"
                                                 android:enabled="false"
                                                 android:focusable="false"
-                                                android:hint="Total Area Sq.ft."
+                                                android:hint="Total Area"
                                                 android:paddingStart="10dp"
                                                 android:paddingEnd="10dp"
                                                 android:textColor="@color/black"

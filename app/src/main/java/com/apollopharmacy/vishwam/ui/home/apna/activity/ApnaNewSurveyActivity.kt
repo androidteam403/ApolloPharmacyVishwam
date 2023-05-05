@@ -73,12 +73,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     var state_uid: String = ""
     var city_uid: String = ""
 
-    var locationDetailsData = LocationDetailsData()
-    var siteSpecifications = SiteSpecificationsData()
-    var marketInformation = MarketInformationData()
-    var competitorsDetails = CompetitorsDetailsData()
-    var population = PopulationData()
-    var hospitals = HospitalsData()
+//    var locationDetailsData = LocationDetailsData()
+//    var siteSpecifications = SiteSpecificationsData()
+//    var marketInformation = MarketInformationData()
+//    var competitorsDetails = CompetitorsDetailsData()
+//    var population = PopulationData()
+//    var hospitals = HospitalsData()
 
     var imageUrls = ArrayList<ImageDto>()
 
@@ -605,6 +605,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
             val intent = Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
             intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
+            intent.putExtra("CURRENT_POSITION", currentPosition)
+            intent.putExtra("MARKET_INFORMATION_COMPLETED", isMarketInformationCompleted)
+            intent.putExtra("MARKET_INFORMATION_PROGRESS", isMarketInformationInProgress)
+            intent.putExtra("COMPETITORS_DETAILS_COMPLETED", isCompetitorsDetailsCompleted)
+            intent.putExtra("COMPETITORS_DETAILS_PROGRESS", isCompetitorsDetailsInProgress)
+            intent.putExtra("POPULATION_HOUSES_COMPLETED", isPopulationAndHousesCompleted)
+            intent.putExtra("POPULATION_HOUSES_PROGRESS", isPopulationAndHousesInProgress)
+            intent.putExtra("HOSPITALS_COMPLETED", isHospitalsCompleted)
+            intent.putExtra("HOSPITALS_PROGRESS", isHospitalsInProgress)
+            intent.putExtra("PHOTOS_MEDIA_COMPLETED", isPhotosAndMediaCompleted)
+            intent.putExtra("PHOTOS_MEDIA_PROGRESS", isPhotosAndMediaInProgress)
             startActivity(intent)
         }
 
@@ -2452,6 +2463,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.next.visibility = View.GONE
 
                 isMarketInformationCompleted = true
+                isMarketInformationInProgress = false
                 isCompetitorsDetailsInProgress = true
 
                 activityApnaNewSurveyBinding.marketInformationNum.visibility = View.GONE
@@ -2559,6 +2571,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.next.visibility = View.GONE
 
                 isCompetitorsDetailsCompleted = true
+                isCompetitorsDetailsInProgress = false
                 isPopulationAndHousesInProgress = true
 
                 activityApnaNewSurveyBinding.competitorsDetailsText.visibility = View.GONE
@@ -2605,6 +2618,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.next.visibility = View.GONE
 
                 isPopulationAndHousesCompleted = true
+                isPopulationAndHousesInProgress = false
                 isHospitalsInProgress = true
 
                 activityApnaNewSurveyBinding.populationAndHousesNum.visibility = View.GONE
@@ -2644,6 +2658,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 activityApnaNewSurveyBinding.next.visibility = View.GONE
 
                 isHospitalsCompleted = true
+                isHospitalsInProgress = false
                 isPhotosAndMediaCompleted = true
 //                isPhotosAndMediaInProgress = true
 
@@ -2770,16 +2785,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         unorganisedDialog.dismiss()
     }
 
+    var selectedState = ""
     override fun onSelectState(position: Int, item: String, uid: String) {
         state_uid = uid
         activityApnaNewSurveyBinding.stateText.setText(item)
         stateListDialog.dismiss()
 
-        val selectedState = item
         if (selectedState != item) {
+            selectedState = item
+            activityApnaNewSurveyBinding.cityText.getText()!!.clear()
             Utlis.showLoading(this@ApnaNewSurveyActivity)
             apnaNewSurveyViewModel.getCityList(this@ApnaNewSurveyActivity, uid)
         }
+//        Utlis.showLoading(this@ApnaNewSurveyActivity)
+//        apnaNewSurveyViewModel.getCityList(this@ApnaNewSurveyActivity, uid)
     }
 
     override fun onLocationListItemSelect(position: Int, item: String, uid: String) {
