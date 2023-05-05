@@ -241,7 +241,7 @@
                     android:orientation="horizontal"
                     android:visibility="gone">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/accept"
                         android:layout_width="@dimen/value_100dp"
                         android:layout_height="@dimen/value_40dp"
@@ -251,7 +251,7 @@
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/reject"
                         android:layout_width="@dimen/value_100dp"
                         android:layout_height="@dimen/value_40dp"

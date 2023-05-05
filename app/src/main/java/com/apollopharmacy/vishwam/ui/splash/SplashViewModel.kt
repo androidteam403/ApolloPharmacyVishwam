@@ -75,18 +75,23 @@ class SplashViewModel : ViewModel() {
                         command.value = Command.ShowToast(response.value.message)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     command.postValue(Command.ShowToast(response.error ?: "Something went wrong"))
                 }
+
                 is ApiResult.NetworkError -> {
                     command.postValue(Command.ShowToast("Network Error"))
                 }
+
                 is ApiResult.UnknownError -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }
+
                 is ApiResult.UnknownHostException -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }
+
                 else -> {
                     command.postValue(Command.ShowToast("Something went wrong, please try again later"))
                 }

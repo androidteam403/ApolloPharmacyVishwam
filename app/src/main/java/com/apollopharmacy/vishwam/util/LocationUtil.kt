@@ -46,7 +46,7 @@ class LocationUtil(private val context: Context) {
             OnGpsListener?.locationStatus(true)
         } else {
             settingsClient
-                .checkLocationSettings(locationSettingsRequest)
+                .checkLocationSettings(locationSettingsRequest!!)
                 .addOnSuccessListener(context as Activity) {
                     // GPS enabled already
                     OnGpsListener?.locationStatus(true)
