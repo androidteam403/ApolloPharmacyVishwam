@@ -29,7 +29,7 @@ class HospitalsPreviewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.adapterHospitalsListPreviewBinding.speciality.setText(data[position].speciality!!.uid)
-        holder.adapterHospitalsListPreviewBinding.hospitalName.setText(data[position].hospitals)
+        holder.adapterHospitalsListPreviewBinding.name.setText(data[position].hospitals)
         holder.adapterHospitalsListPreviewBinding.beds.setText(data[position].beds)
         holder.adapterHospitalsListPreviewBinding.occupancy.setText(data[position].occupancy)
         holder.adapterHospitalsListPreviewBinding.noOfOpd.setText(data[position].noOpd)

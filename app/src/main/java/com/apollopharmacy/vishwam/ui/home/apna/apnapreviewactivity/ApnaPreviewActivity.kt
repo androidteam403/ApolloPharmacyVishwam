@@ -247,9 +247,9 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.expectedRent != null) {
-            apnaPreviewActivityBinding.expectedrent.setText(value.data!!.expectedRent.toString())
+            apnaPreviewActivityBinding.expectedrentsrft.setText(value.data!!.expectedRent.toString())
         } else {
-            apnaPreviewActivityBinding.expectedrent.setText("-")
+            apnaPreviewActivityBinding.expectedrentsrft.setText("-")
         }
 
         if (value.data!!.securityDeposit != null) {
@@ -337,7 +337,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     override fun onClick(value: Int, url: String) {
         val i = Intent(this, ApnaVideoPreview::class.java)
         i.putExtra("activity", url)
-        startActivityForResult(i, 210)
+//        startActivityForResult(i, 210)
+        startActivity(i)
 
 
     }

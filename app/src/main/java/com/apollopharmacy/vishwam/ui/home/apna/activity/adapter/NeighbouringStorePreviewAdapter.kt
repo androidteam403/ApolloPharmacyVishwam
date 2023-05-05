@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -26,31 +27,32 @@ class NeighbouringStorePreviewAdapter(
         return ViewHolder(layoutNeighbouringStorePreviewBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data[position].location!!.uid != null) {
-            holder.layoutNeighbouringStorePreviewBinding.locationText.setText(data[position].location!!.uid)
+            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + data[position].location!!.uid + ")" + " :")
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.locationText.setText("")
+            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + "-" + ")" + " :")
         }
         if (data[position].store != null) {
-            holder.layoutNeighbouringStorePreviewBinding.storeText.setText(data[position].store)
+            holder.layoutNeighbouringStorePreviewBinding.store.setText(data[position].store)
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.storeText.setText("")
+            holder.layoutNeighbouringStorePreviewBinding.store.setText("-")
         }
         if (data[position].rent != null) {
-            holder.layoutNeighbouringStorePreviewBinding.rentText.setText(data[position].rent.toString())
+            holder.layoutNeighbouringStorePreviewBinding.rent.setText(data[position].rent.toString())
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.rentText.setText("")
+            holder.layoutNeighbouringStorePreviewBinding.rent.setText("-")
         }
         if (data[position].sales != null) {
-            holder.layoutNeighbouringStorePreviewBinding.salesText.setText(data[position].sales.toString())
+            holder.layoutNeighbouringStorePreviewBinding.sales.setText(data[position].sales.toString())
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.salesText.setText("")
+            holder.layoutNeighbouringStorePreviewBinding.sales.setText("-")
         }
         if (data[position].sqft != null) {
-            holder.layoutNeighbouringStorePreviewBinding.sqFtText.setText(data[position].sqft.toString())
+            holder.layoutNeighbouringStorePreviewBinding.sqft.setText(data[position].sqft.toString())
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.sqFtText.setText("")
+            holder.layoutNeighbouringStorePreviewBinding.sqft.setText("-")
         }
     }
 

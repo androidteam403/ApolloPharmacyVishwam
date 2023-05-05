@@ -28,10 +28,10 @@ class ApartmentsPreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adapterApartmentsListPreviewBinding.apartmentTypeText.setText(data[position].type!!.uid)
-        holder.adapterApartmentsListPreviewBinding.apartmentsText.setText(data[position].apartments)
-        holder.adapterApartmentsListPreviewBinding.noOfHousesText.setText(data[position].noHouses)
-        holder.adapterApartmentsListPreviewBinding.distanceText.setText(data[position].distance.toString())
+        holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
+        holder.adapterApartmentsListPreviewBinding.name.setText(data[position].apartments)
+        holder.adapterApartmentsListPreviewBinding.noOfHouses.setText(data[position].noHouses)
+        holder.adapterApartmentsListPreviewBinding.distance.setText(data[position].distance.toString())
     }
 
     override fun getItemCount(): Int {
