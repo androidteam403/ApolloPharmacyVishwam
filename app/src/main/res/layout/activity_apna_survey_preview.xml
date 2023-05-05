@@ -2503,7 +2503,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/chemistAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -2816,7 +2816,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/apartmentsAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -3093,7 +3093,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/hospitalAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -3227,7 +3227,7 @@
                                         android:textColor="@color/red"
                                         android:visibility="gone" />
 
-                                    <!--<Button
+                                    <!--<androidx.appcompat.widget.AppCompatButton
                                         android:id="@+id/addSiteImage"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"

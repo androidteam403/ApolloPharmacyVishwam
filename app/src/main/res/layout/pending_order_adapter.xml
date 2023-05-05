@@ -854,7 +854,7 @@
                             android:visibility="gone"
                             android:weightSum="0.5">
 
-                            <Button
+                            <androidx.appcompat.widget.AppCompatButton
                                 android:id="@+id/updateAvgBtn"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/value_35dp"
@@ -879,7 +879,7 @@
                     android:layout_weight="2"
                     android:orientation="horizontal">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/rejectClick"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -891,7 +891,7 @@
                         android:text="Reject"
                         android:textColor="@color/white" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/acceptClick"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -944,7 +944,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="vertical">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/track_status_btn"
                         android:layout_width="@dimen/value_200dp"
                         android:layout_height="@dimen/value_40dp"

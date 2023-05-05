@@ -25,10 +25,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
                 android:id="@+id/image"
@@ -52,12 +52,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColorHint="@color/white"
-                    android:theme="@style/TextLabel">
+                    android:theme="@style/TextLabel"
+                    app:boxStrokeColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/entity_edit_text"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_50dp"
+                        android:layout_height="@dimen/value_55dp"
+                        android:enabled="false"
                         android:hint="@string/label_entity"
                         android:imeOptions="actionNext"
                         android:inputType="none"
@@ -66,24 +68,23 @@
                         android:singleLine="true"
                         android:textColor="@color/white"
                         android:textColorHint="@color/white"
-                        android:textSize="@dimen/text_17sp"
-                        android:enabled="false"/>
+                        android:textSize="@dimen/text_17sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-<!--                <Spinner-->
-<!--                    android:id="@+id/company_spinner"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@null"-->
-<!--                    android:minHeight="0dp"-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:clickable="false"/>-->
+                <!--                <Spinner-->
+                <!--                    android:id="@+id/company_spinner"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:background="@null"-->
+                <!--                    android:minHeight="0dp"-->
+                <!--                    android:textSize="16sp"-->
+                <!--                    android:clickable="false"/>-->
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/value_10dp"
                     android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/value_10dp"
                     android:src="@drawable/bottomarrow" />
             </RelativeLayout>
 
@@ -97,19 +98,20 @@
                 android:layout_marginRight="@dimen/value_20dp"
                 android:textColorHint="@color/white"
                 android:theme="@style/TextLabel"
+                app:boxStrokeColor="@color/white"
                 app:layout_constraintTop_toBottomOf="@+id/entitiy_layout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/name_edit_text"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_50dp"
+                    android:layout_height="@dimen/value_55dp"
                     android:hint="@string/label_user_name"
-                    android:textAllCaps="true"
                     android:imeOptions="actionNext"
                     android:inputType="text"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
+                    android:textAllCaps="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/white"
                     android:textSize="@dimen/text_17sp" />
@@ -125,17 +127,17 @@
                 android:layout_marginRight="@dimen/value_20dp"
                 android:textColorHint="@color/white"
                 android:theme="@style/TextLabel"
-                app:passwordToggleEnabled="true"
-                app:passwordToggleTint="@color/white"
                 app:boxStrokeColor="@color/white"
-                app:layout_constraintTop_toBottomOf="@+id/name_text_input">
+                app:layout_constraintTop_toBottomOf="@+id/name_text_input"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleTint="@color/white">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/passwordEditText"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_50dp"
-                    android:hint="@string/label_password"
+                    android:layout_height="@dimen/value_55dp"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890!@#$%^&amp;*()-_+="
+                    android:hint="@string/label_password"
                     android:inputType="textPassword"
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
@@ -144,7 +146,7 @@
                     android:textSize="@dimen/text_17sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/loginButton"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_50dp"
@@ -169,8 +171,9 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_16sp"
             app:layout_constraintBottom_toTopOf="@+id/powered_by"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <TextView
             android:id="@+id/powered_by"
             android:layout_width="match_parent"

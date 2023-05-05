@@ -51,7 +51,7 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_complaint_box"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"

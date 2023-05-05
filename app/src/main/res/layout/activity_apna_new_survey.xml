@@ -2797,7 +2797,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/chemistAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -3139,7 +3139,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/apartmentsAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -3487,7 +3487,7 @@
                                         android:layout_gravity="bottom"
                                         android:layout_weight=".5">
 
-                                        <Button
+                                        <androidx.appcompat.widget.AppCompatButton
                                             android:id="@+id/hospitalAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_40dp"
@@ -3657,7 +3657,7 @@
                                         tools:itemCount="3"
                                         tools:listitem="@layout/adapter_site_photo" />
 
-                                    <Button
+                                    <androidx.appcompat.widget.AppCompatButton
                                         android:id="@+id/addSiteImage"
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
@@ -3810,7 +3810,7 @@
             android:gravity="center_horizontal"
             android:visibility="gone">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/previous"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -3821,12 +3821,13 @@
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/submitBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:background="#29abe2"
+                android:backgroundTint="#29abe2"
                 android:hint="Submit"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />
@@ -3842,7 +3843,7 @@
             android:visibility="gone"
             android:weightSum="1">
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/previousBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -3853,7 +3854,7 @@
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/nextBtn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

@@ -2,7 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
+//    id 'kotlin-android-extensions'
     id 'com.google.firebase.crashlytics'
 
 
@@ -18,6 +19,7 @@ android {
         }
     }
     compileSdkVersion 33
+    buildToolsVersion '33.0.0'
 
     defaultConfig {
         applicationId "com.apollopharmacy.vishwam" // "com.apollopharmacy.vishwamuat" //
@@ -68,7 +70,9 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
+        //noinspection DataBindingWithoutKapt
         dataBinding = true
+        viewBinding = true
     }
 }
 
@@ -78,7 +82,9 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.5.0'
 
     implementation "androidx.core:core-ktx:$core_version"
-    implementation "androidx.appcompat:appcompat:$app_compact_version"
+//    implementation "androidx.appcompat:appcompat:$app_compact_version"
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    
     implementation "androidx.constraintlayout:constraintlayout:$constratint_version"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -87,7 +93,8 @@ dependencies {
     implementation project(path: ':drawroutemap')
     implementation 'androidmads.library.qrgenearator:QRGenearator:1.0.3'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.15.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.6'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
     androidTestImplementation "androidx.test.ext:junit:$test_version"
     implementation "android.arch.lifecycle:runtime:$life_cycle"
@@ -107,7 +114,7 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
-    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+//    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
 
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -121,11 +128,11 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "com.github.sujithkanna:smileyrating:2.0.0"
-    implementation 'androidx.fragment:fragment:1.3.0'
+    implementation 'androidx.fragment:fragment:1.5.7'
     implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
-    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.google.android.material:material:1.6.0'
     //noinspection GradleCompatible
-    implementation 'com.android.support:cardview-v7:25.0.1'
+    implementation 'com.android.support:cardview-v7:28.0.0'
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
     //noinspection GradleCompatible
@@ -135,28 +142,28 @@ dependencies {
     // Image Zoom in lib
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
     // location play services
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     // dexter runtime permissions
     implementation 'com.karumi:dexter:4.2.0'
 
     implementation 'com.github.aabhasr1:OtpView:v1.1.2-ktx'
 
     // Import the Firebase BoM
-    implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics'
     implementation 'com.google.firebase:firebase-core:21.1.1'
-    implementation 'com.google.firebase:firebase-crashlytics:18.3.2'
-    implementation 'com.google.firebase:firebase-messaging:23.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.7'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
 
     implementation 'com.androidisland.ezpermission:ezpermission:0.1.4'
 
-    implementation 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
+//    implementation 'uk.me.lewisdeane.ldialogs:ldialogs:1.2.0@aar'
 
     //Google Maps
-    implementation 'com.google.android.gms:play-services-maps:18.0.0'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.maps.android:android-maps-utils:0.6.2'
 
-    implementation 'com.google.android.gms:play-services-location:18.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     //noinspection GradleDependency
 //    implementation 'com.google.maps.android:android-maps-utils:0.5+'
     implementation project(path: ':core')
@@ -178,8 +185,8 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     implementation 'androidx.viewpager2:viewpager2:1.1.0-beta01'
 
-    implementation 'id.zelory:compressor:2.1.0'
-    compile 'com.github.hkk595:Resizer:v1.5'
+//    implementation 'id.zelory:compressor:2.1.0'
+    implementation 'com.github.hkk595:Resizer:v1.5'
 
     implementation 'com.github.lecho:hellocharts-library:1.5.8@aar'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
@@ -204,5 +211,10 @@ dependencies {
 
     // For Kotlin users also add the Kotlin extensions library for Play In-App Update:
     implementation 'com.google.android.play:app-update-ktx:2.0.1'
+
+}
+
+repositories {
+    google()
 }
 //https://stackoverflow.com/questions/38251169/how-to-zoom-simultaneously-on-two-imageviews

@@ -38,6 +38,7 @@
                     android:layout_marginRight="@dimen/value_15dp"
                     android:focusable="true"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
 
                     app:layout_constraintTop_toTopOf="parent">
 
@@ -65,10 +66,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_10dp"
-
                     android:layout_marginRight="@dimen/value_15dp"
                     android:hint="@string/label_distribution_center"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
                     android:visibility="gone">
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -105,6 +106,7 @@
                         android:layout_marginRight="@dimen/value_15dp"
                         android:focusable="true"
                         android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText"
 
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -116,7 +118,6 @@
                             android:clickable="true"
                             android:editable="false"
                             android:enabled="false"
-
                             android:focusable="false"
                             android:hint="Location *"
                             android:paddingStart="@dimen/value_10dp"
@@ -133,10 +134,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
-
                         android:layout_marginTop="@dimen/value_10dp"
+
                         android:layout_marginRight="@dimen/value_15dp"
                         android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText"
                         android:visibility="visible">
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -160,10 +162,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
-
                         android:layout_marginTop="@dimen/value_10dp"
+
                         android:layout_marginRight="@dimen/value_15dp"
                         android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText"
                         android:visibility="visible">
 
                         <androidx.appcompat.widget.AppCompatEditText
@@ -191,7 +194,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/selectCategory"
@@ -217,10 +221,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
-
                         android:layout_marginRight="@dimen/value_15dp"
+
                         android:hint="Item Name *"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <EditText
                             android:id="@+id/itemName"
@@ -242,7 +247,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/itemType"
@@ -267,10 +273,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
-
                         android:layout_marginRight="@dimen/value_15dp"
+
                         android:hint="Required Quantity *"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <EditText
                             android:id="@+id/requiredQuantity"
@@ -293,8 +300,9 @@
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
                         android:hint="Pack Size "
+                        android:textColorHint="@color/black"
 
-                        android:textColorHint="@color/black">
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/packsize"
@@ -319,7 +327,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/mrpp"
@@ -345,7 +354,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/purchasePrice"
@@ -373,7 +383,8 @@
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
                         android:focusable="true"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/selectRemarks"
@@ -399,7 +410,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/batchNo"
@@ -425,7 +437,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/fromDateText"
@@ -451,7 +464,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/toDateText"
@@ -479,7 +493,8 @@
 
                         android:layout_marginRight="@dimen/value_15dp"
                         android:hint="Doctor's Name *"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <EditText
                             android:id="@+id/doctorname"
@@ -505,6 +520,7 @@
                         android:layout_marginRight="@dimen/value_15dp"
                         android:focusable="true"
                         android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText"
 
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -534,7 +550,8 @@
                         android:layout_marginLeft="@dimen/value_15dp"
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/barCode"
@@ -561,7 +578,8 @@
 
                         android:layout_marginRight="@dimen/value_15dp"
                         android:hint="HSN Code "
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/hsnCode"
@@ -586,7 +604,8 @@
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
                         android:hint="GST % "
-                        android:textColorHint="@color/black">
+                        android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/selectDepartment"
@@ -610,6 +629,7 @@
                         android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginRight="@dimen/value_15dp"
                         android:textColorHint="@color/black"
+                        android:theme="@style/TextLabelEditText"
                         app:counterEnabled="true"
                         app:counterMaxLength="500"
                         app:layout_constraintTop_toBottomOf="@+id/extraLayout">
@@ -655,6 +675,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -678,6 +699,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/expire">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -712,6 +734,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -738,6 +761,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/expire">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -762,6 +786,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/expire">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -786,6 +811,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/expire">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -810,6 +836,7 @@
                                 android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_marginRight="@dimen/value_15dp"
                                 android:textColorHint="@color/black"
+                                android:theme="@style/TextLabelEditText"
                                 app:layout_constraintTop_toBottomOf="@+id/expire">
 
                                 <androidx.appcompat.widget.AppCompatEditText
@@ -846,6 +873,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="20dp"
@@ -854,197 +882,195 @@
 
                             <TextView
                                 android:layout_width="0dp"
+                                android:layout_height="20dp"
                                 android:layout_weight="1"
                                 android:height="@dimen/text_20sp"
-                                android:textAlignment="center"                                android:layout_height="20dp"
-
                                 android:paddingStart="5dp"
+
                                 android:text="Front Image "
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:layout_width="0dp"
+                                android:layout_height="20dp"
                                 android:layout_weight="1"
                                 android:height="@dimen/text_20sp"
-                                android:textAlignment="center"                                android:layout_height="20dp"
                                 android:paddingStart="@dimen/value_3dp"
                                 android:text="Back Image "
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:layout_width="0dp"
+                                android:layout_height="20dp"
                                 android:layout_weight="1"
                                 android:height="@dimen/text_20sp"
-                                android:textAlignment="center"                                android:layout_height="20dp"
                                 android:padding="@dimen/value_3dp"
                                 android:text="Side Image  "
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="11sp" />
 
                             <TextView
                                 android:layout_width="0dp"
+                                android:layout_height="20dp"
                                 android:layout_weight="1"
                                 android:height="@dimen/text_20sp"
-                                android:paddingStart="@dimen/value_3dp"
 
-                                android:textAlignment="center"
-                                android:layout_height="20dp"
+                                android:paddingStart="@dimen/value_3dp"
                                 android:text="Bill Image  "
+                                android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="11sp" />
 
                         </LinearLayout>
 
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="4.3">
-
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="horizontal"
+                            android:weightSum="4.3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
 
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/imageRecyclerView"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="80dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/imageRecyclerView"
-                                android:layout_width="wrap_content"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/value_5dp"
-                                android:orientation="horizontal"
-                                android:visibility="gone"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                                <ImageView
+                                    android:id="@+id/addImage"
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="@dimen/five5_sp"
+                                    android:contentDescription="@string/app_name"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/ic_capture_image"
+                                    android:visibility="visible" />
+                            </LinearLayout>
 
-                            <ImageView
-                                android:id="@+id/addImage"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/five5_sp"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-                                android:src="@drawable/ic_capture_image"
-                                android:visibility="visible" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/imageRecyclerView1"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="80dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+                                <ImageView
+                                    android:id="@+id/addImage1"
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="@dimen/five5_sp"
+                                    android:contentDescription="@string/app_name"
+                                    android:scaleType="fitCenter"
+
+                                    android:src="@drawable/ic_capture_image"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/imageRecyclerView2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="80dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:orientation="horizontal"
+                                    android:visibility="gone"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                                <ImageView
+                                    android:id="@+id/addImage2"
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="@dimen/five5_sp"
+                                    android:contentDescription="@string/app_name"
+                                    android:paddingStart="2sp"
+
+                                    android:scaleType="fitCenter"
+
+                                    android:src="@drawable/ic_capture_image" />
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+
+                                android:orientation="vertical">
+
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/imageRecyclerView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="80dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginBottom="@dimen/value_5dp"
+                                    android:orientation="horizontal"
+
+                                    android:visibility="gone"
+                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+
+                                <ImageView
+                                    android:id="@+id/addImage3"
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_marginTop="@dimen/five5_sp"
+
+                                    android:contentDescription="@string/app_name"
+                                    android:scaleType="fitCenter"
+
+                                    android:src="@drawable/ic_capture_image" />
+                            </LinearLayout>
+
+
                         </LinearLayout>
-
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/imageRecyclerView1"
-                                android:layout_width="wrap_content"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/value_5dp"
-                                android:orientation="horizontal"
-                                android:visibility="gone"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-                            <ImageView
-                                android:id="@+id/addImage1"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-                                android:layout_marginTop="@dimen/five5_sp"
-
-                                android:src="@drawable/ic_capture_image"
-                                android:visibility="visible" />
-
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/imageRecyclerView2"
-                                android:layout_width="wrap_content"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/value_5dp"
-                                android:orientation="horizontal"
-                                android:visibility="gone"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-
-                            <ImageView
-                                android:id="@+id/addImage2"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:contentDescription="@string/app_name"
-                                android:paddingStart="2sp"
-                                android:layout_marginTop="@dimen/five5_sp"
-
-                                android:scaleType="fitCenter"
-
-                                android:src="@drawable/ic_capture_image" />
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-
-                            android:orientation="vertical">
-
-
-
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/imageRecyclerView4"
-                                android:layout_width="wrap_content"
-                                android:layout_height="80dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/value_5dp"
-                                android:orientation="horizontal"
-
-                                android:visibility="gone"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-
-                            <ImageView
-                                android:id="@+id/addImage3"
-                                android:layout_width="@dimen/value_40dp"
-                                android:layout_height="@dimen/value_40dp"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/five5_sp"
-
-                                android:contentDescription="@string/app_name"
-                                android:scaleType="fitCenter"
-
-                                android:src="@drawable/ic_capture_image" />
-                        </LinearLayout>
-
-
-                    </LinearLayout>
                     </LinearLayout>
 
                 </LinearLayout>
 
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/submit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"
