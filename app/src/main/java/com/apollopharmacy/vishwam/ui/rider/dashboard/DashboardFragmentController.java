@@ -1,11 +1,9 @@
 package com.apollopharmacy.vishwam.ui.rider.dashboard;
+
 import android.content.Context;
 
-
-import com.apollopharmacy.vishwam.BuildConfig;
 import com.apollopharmacy.vishwam.network.ApiClient;
 import com.apollopharmacy.vishwam.network.ApiInterface;
-import com.apollopharmacy.vishwam.ui.rider.dashboard.DashboardFragmentCallback;
 import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusRequest;
 import com.apollopharmacy.vishwam.ui.rider.dashboard.model.RiderActiveStatusResponse;
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager;
@@ -254,7 +252,7 @@ public class DashboardFragmentController {
 
             ApiInterface apiInterface = ApiClient.getApiService();
             RiderActiveStatusRequest riderActiveStatusRequest = new RiderActiveStatusRequest();
-            if (new SessionManager(context).getRiderProfileResponse().getData().getUid()!=null) {
+            if (new SessionManager(context).getRiderProfileResponse().getData().getUid() != null) {
                 riderActiveStatusRequest.setUid(new SessionManager(context).getRiderProfileResponse().getData().getUid());
             }
             RiderActiveStatusRequest.UserAddInfo userAddInfo = new RiderActiveStatusRequest.UserAddInfo();
@@ -265,7 +263,7 @@ public class DashboardFragmentController {
             Gson gson = new Gson();
             String jsonLoginRequest = gson.toJson(riderActiveStatusRequest);
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
-            getDetailsRequest.setRequesturl(AppConstants.BASE_URL+"api/user/save-update/update-rider-available-status");
+            getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/save-update/update-rider-available-status");
             getDetailsRequest.setRequestjson(jsonLoginRequest);
             getDetailsRequest.setHeadertokenkey("authorization");
             getDetailsRequest.setHeadertokenvalue("Bearer " + token);
@@ -288,8 +286,7 @@ public class DashboardFragmentController {
                             RiderActiveStatusResponse riderActiveStatusResponse = gson.fromJson(BackSlash.removeSubString(res), RiderActiveStatusResponse.class);
                             if (riderActiveStatusResponse != null && riderActiveStatusResponse.getData() != null && riderActiveStatusResponse.getSuccess()) {
                                 new SessionManager(context).setRiderActiveStatus(activieStatus);
-                            }
-                            else if (response.code() == 401) {
+                            } else if (response.code() == 401) {
                                 ActivityUtils.showDialog(context, "Please wait.");
                                 HashMap<String, Object> refreshTokenRequest = new HashMap<>();
                                 refreshTokenRequest.put("token", new SessionManager(context).getLoginToken());
@@ -340,7 +337,7 @@ public class DashboardFragmentController {
             getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/select/rider-profile-select");
             getDetailsRequest.setHeadertokenkey("authorization");
             getDetailsRequest.setRequestjson("The");
-            getDetailsRequest.setHeadertokenvalue("Bearer "+ loginToken);
+            getDetailsRequest.setHeadertokenvalue("Bearer " + loginToken);
             getDetailsRequest.setRequesttype("GET");
             Call<ResponseBody> call = apiInterface.getDetails(AppConstants.PROXY_URL, AppConstants.PROXY_TOKEN, getDetailsRequest);
             call.enqueue(new Callback<ResponseBody>() {
@@ -357,7 +354,7 @@ public class DashboardFragmentController {
                         if (resp != null) {
                             String res = BackSlash.removeBackSlashes(resp);
                             Gson gson = new Gson();
-                            GetRiderProfileResponse riderProfileResponse = gson.fromJson(BackSlash.removeSubString(res),GetRiderProfileResponse.class);
+                            GetRiderProfileResponse riderProfileResponse = gson.fromJson(BackSlash.removeSubString(res), GetRiderProfileResponse.class);
                             if (riderProfileResponse != null && riderProfileResponse.getData() != null && riderProfileResponse.getSuccess()) {
                                 mListener.onSuccessGetProfileDetailsApi(riderProfileResponse);
 
@@ -456,7 +453,7 @@ public class DashboardFragmentController {
                             if (riderActiveStatusResponse != null && riderActiveStatusResponse.getData() != null && riderActiveStatusResponse.getSuccess()) {
                                 new SessionManager(context).setRiderActiveStatus("offline");
                                 mListener.onLogout();
-                            } else if (response.code()==401) {
+                            } else if (response.code() == 401) {
                                 ActivityUtils.hideDialog();
                                 mListener.onLogout();
 
@@ -470,7 +467,7 @@ public class DashboardFragmentController {
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     ActivityUtils.hideDialog();
-                    System.out.println("RIDER ACTIVE STATUS ==========="+t.getMessage());
+                    System.out.println("RIDER ACTIVE STATUS ===========" + t.getMessage());
                 }
             });
 
@@ -480,15 +477,13 @@ public class DashboardFragmentController {
     }
 
 
-
-
     //    https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_rider/api/user/select/rider-dashboard-counts?from_date=2022-12-09&to_date=2022-12-15
     public void getRiderDashboardCountsApiCall() {
         if (NetworkUtils.isNetworkConnected(context)) {
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
-            getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/select/rider-dashboard-counts"+"?"+"from_date="+ Utlis.INSTANCE.getBeforeSevenDaysDate()+"&"+"to_date="+Utlis.INSTANCE.getCurrentDate("yyyy-MM-dd"));
+            getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/select/rider-dashboard-counts" + "?" + "from_date=" + Utlis.INSTANCE.getBeforeSevenDaysDate() + "&" + "to_date=" + Utlis.INSTANCE.getCurrentDate("yyyy-MM-dd"));
             getDetailsRequest.setRequestjson("The");
             getDetailsRequest.setHeadertokenkey("authorization");
             getDetailsRequest.setHeadertokenvalue("Bearer " + new SessionManager(context).getLoginToken());
@@ -513,8 +508,7 @@ public class DashboardFragmentController {
                                 mListener.onSuccessGetRiderDashboardCountApiCall(riderDashboardCountResponse);
                                 getSessionManager().setCodReceived(String.valueOf(riderDashboardCountResponse.getData().getCount().getCodReceived()));
                                 getSessionManager().setCodPendingDeposited(String.valueOf(riderDashboardCountResponse.getData().getCount().getCodPending()));
-                            }
-                            else if (response.code() == 401) {
+                            } else if (response.code() == 401) {
                                 ActivityUtils.showDialog(context, "Please wait.");
                                 HashMap<String, Object> refreshTokenRequest = new HashMap<>();
                                 refreshTokenRequest.put("token", new SessionManager(context).getLoginToken());
@@ -539,8 +533,7 @@ public class DashboardFragmentController {
                                         System.out.println("REFRESH_TOKEN_DASHBOARD ==============" + t.getMessage());
                                     }
                                 });
-                            }
-                            else {
+                            } else {
                                 ActivityUtils.hideDialog();
                                 mListener.onFialureMessage("No Data Found");
                             }
@@ -555,7 +548,7 @@ public class DashboardFragmentController {
                     System.out.println("GET RIDER DASHBOARD COUNTS ==============" + t.getMessage());
                 }
             });
-        }else {
+        } else {
             mListener.onFialureMessage("Something went wrong.");
         }
 
