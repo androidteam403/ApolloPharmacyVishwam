@@ -55,7 +55,7 @@ interface ViswamAppApi {
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")//("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
