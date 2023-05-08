@@ -60,7 +60,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_view">
@@ -179,7 +179,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/locationText"
@@ -214,7 +214,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/stateText"
@@ -240,7 +240,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/cityText"
@@ -266,7 +266,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/pinText"
@@ -297,7 +297,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/nearByLandmarksText"
@@ -363,7 +363,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/latitude"
@@ -393,7 +393,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/longitude"
@@ -537,7 +537,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/dimensionTypeSelect"
@@ -568,7 +568,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/TextLabelEditText">
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/lengthText"
@@ -590,7 +590,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/TextLabelEditText">
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/widthText"
@@ -622,7 +622,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:layout_weight=".5"
-                                        android:theme="@style/TextLabelEditText">
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/ceilingHeightText"
@@ -648,7 +648,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/totalAreaText"
@@ -752,7 +752,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/TextLabelEditText">
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/expectedRentText"
@@ -796,7 +796,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textColorHint="@color/black"
-                                        android:theme="@style/TextLabelEditText">
+                                        android:theme="@style/TextLabelEditTextApnaProject">
 
                                         <androidx.appcompat.widget.AppCompatEditText
                                             android:id="@+id/securityDepositText"
@@ -870,7 +870,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/ageOfTheBuildingText"
@@ -953,7 +953,7 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/trafficStreetSelect"
@@ -1014,7 +1014,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/morningFromSelect"
@@ -1055,7 +1055,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/morningToSelect"
@@ -1104,7 +1104,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/eveningFromSelect"
@@ -1145,7 +1145,7 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
                                             android:textColorHint="@color/black"
-                                            android:theme="@style/TextLabelEditText">
+                                            android:theme="@style/TextLabelEditTextApnaProject">
 
                                             <androidx.appcompat.widget.AppCompatEditText
                                                 android:id="@+id/eveningToSelect"
@@ -1182,7 +1182,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:textColorHint="@color/black"
-                                    android:theme="@style/TextLabelEditText">
+                                    android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
                                         android:id="@+id/presentTrafficPatterns"
@@ -1533,9 +1533,7 @@
                                 android:id="@+id/neighbouringStoreRcv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:scrollbars="none"
-                                tools:itemCount="3"
-                                tools:listitem="@layout/layout_neighbouring_store" />
+                                android:nestedScrollingEnabled="false" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -2910,7 +2908,7 @@
                 </LinearLayout>
 
             </FrameLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
 
         <!-- Next Button Layout -->
