@@ -2236,7 +2236,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
                 surveyCreateRequest.localDisbtsComments =
                     activityApnaNewSurveyBinding.distributorsComments.text.toString().trim()
-                // occupation missing
+
+                surveyCreateRequest.occupation =
+                    activityApnaNewSurveyBinding.occupationText.text.toString().trim()
+
                 if (activityApnaNewSurveyBinding.serviceClassText.text.toString().isNotEmpty()) {
                     surveyCreateRequest.serviceClass =
                         activityApnaNewSurveyBinding.serviceClassText.text.toString().trim()

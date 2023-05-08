@@ -366,7 +366,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.localDistributorsComment.setText("-")
         }
 
-//        activityApnaSurveyPreviewBinding.occupation.setText("-")
+        if (surveyCreateRequest.occupation != null && surveyCreateRequest.occupation != "") {
+            activityApnaSurveyPreviewBinding.occupation.setText(surveyCreateRequest.occupation)
+        } else {
+            activityApnaSurveyPreviewBinding.occupation.setText("-")
+        }
 
         if (surveyCreateRequest.serviceClass != null) {
             activityApnaSurveyPreviewBinding.serviceClass.setText(surveyCreateRequest.serviceClass.toString())

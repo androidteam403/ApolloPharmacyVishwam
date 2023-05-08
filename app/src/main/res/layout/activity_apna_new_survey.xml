@@ -1562,7 +1562,7 @@
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
 
-                                <EditText
+                                <!--<EditText
                                     android:id="@+id/distributorsComments"
                                     android:layout_width="match_parent"
                                     android:layout_height="@dimen/value_100dp"
@@ -1575,7 +1575,31 @@
                                     android:paddingTop="@dimen/value_12dp"
                                     android:paddingEnd="@dimen/value_10dp"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/TextLabelEditText">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/distributorsComments"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_150dp"
+                                        android:hint="Comments"
+                                        android:gravity="left|top"
+                                        android:inputType="textMultiLine"
+                                        android:maxLength="100"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:paddingTop="@dimen/value_8dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <LinearLayout
@@ -1586,13 +1610,13 @@
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Occupation"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/text_14sp" />
+                                    android:textSize="@dimen/text_14sp" />-->
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1606,7 +1630,7 @@
                                         android:id="@+id/occupationText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
-                                        android:hint="Catchment area"
+                                        android:hint="occupation"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
@@ -1746,8 +1770,6 @@
                                     tools:itemCount="3"
                                     tools:listitem="@layout/traffic_generators_layout" />
                             </LinearLayout>
-
-
                         </LinearLayout>
                     </LinearLayout>
 
