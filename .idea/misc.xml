@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -35,6 +36,7 @@
         <entry key="..\:/AndroidWorkspace/ApolloPharmacyVishwamNew/app/src/main/res/layout/qc_fragment_pending.xml" value="0.21851851851851853" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/add_btn.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/add_button_bg.xml" value="0.1445" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/apna_project_actionbar_bg.xml" value="0.186" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/apna_spinner_border.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/black_border.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/blue_rounded_corner_bg.xml" value="0.1445" />
@@ -65,7 +67,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/spinner_border.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/white_rounded_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/yellow_drawable.xml" value="0.186" />
-        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_new_survey.xml" value="0.264" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_new_survey.xml" value="0.2" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_preview.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_survey_preview.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_approve_list.xml" value="0.25" />
@@ -106,6 +108,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dashboard_site.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/delete_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_apartment_type.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_apna_speciality.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_city_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_custom.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_date_picker.xml" value="0.25" />

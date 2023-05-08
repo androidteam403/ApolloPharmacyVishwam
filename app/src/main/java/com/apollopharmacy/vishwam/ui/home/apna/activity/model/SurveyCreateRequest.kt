@@ -160,6 +160,8 @@ class SurveyCreateRequest: Serializable {
     @Expose
     var localDisbtsComments: String? = null
 
+    var occupation: String? = null
+
     @SerializedName("service_class")
     @Expose
     var serviceClass: Float? = null
