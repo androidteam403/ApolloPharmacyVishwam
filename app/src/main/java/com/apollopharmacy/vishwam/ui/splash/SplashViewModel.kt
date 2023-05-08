@@ -29,7 +29,7 @@ class SplashViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (response.value.status) {
                         println(33)
-                        validateResponseMutableList.value = response.value
+                        validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
                         Utils.printMessage("SplashScreen", response.value.toString())

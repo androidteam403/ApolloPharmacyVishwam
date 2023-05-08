@@ -49,7 +49,7 @@
     <color name="status_acknowledge">#00CCCC</color>
     <color name="status_reopen_for_process">#CC0066</color>
     <color name="complaint_bg">#ecf5f8</color>
-<color name="newtask_bg">#dbf2f8</color>
+    <color name="newtask_bg">#dbf2f8</color>
     <color name="task_card_bg">#b2e2f2</color>
     <color name="dialog_corner_color">#d4d4d4</color>
     <color name="header_bg">#d5d6d8</color>
@@ -195,5 +195,6 @@
     <color name="grey_bg_for_no_status">#f4f4f4</color>
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
+    <color name="apna_project_actionbar_color">#5a345e</color>
 
 </resources>
