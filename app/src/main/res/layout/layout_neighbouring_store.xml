@@ -93,7 +93,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditText">
+                        android:theme="@style/TextLabelEditTextApnaProject">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/storeText"
@@ -142,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditText">
+                        android:theme="@style/TextLabelEditTextApnaProject">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/rentText"
@@ -200,7 +200,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditText">
+                        android:theme="@style/TextLabelEditTextApnaProject">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/salesText"
@@ -247,7 +247,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditText">
+                        android:theme="@style/TextLabelEditTextApnaProject">
 
                         <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/sqFtText"
