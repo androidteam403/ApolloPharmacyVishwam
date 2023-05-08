@@ -242,8 +242,8 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()
-        viewModel.loginApiCall("emp-102",
+    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
+        viewModel.loginApiCall("APL48627",
             "R1De6#012022",
             Preferences.getFcmKey(),
             this,

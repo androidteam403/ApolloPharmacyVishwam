@@ -480,13 +480,14 @@ public class DashboardFragmentController {
     //    https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollo_rider/api/user/select/rider-dashboard-counts?from_date=2022-12-09&to_date=2022-12-15
     public void getRiderDashboardCountsApiCall() {
         if (NetworkUtils.isNetworkConnected(context)) {
+            String token = new SessionManager(context).getLoginToken();
             ActivityUtils.showDialog(context, "Please wait.");
             ApiInterface apiInterface = ApiClient.getApiService();
             GetDetailsRequest getDetailsRequest = new GetDetailsRequest();
-            getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/select/rider-dashboard-counts" + "?" + "from_date=" + Utlis.INSTANCE.getBeforeSevenDaysDate() + "&" + "to_date=" + Utlis.INSTANCE.getCurrentDate("yyyy-MM-dd"));
+            getDetailsRequest.setRequesturl(AppConstants.BASE_URL + "api/user/select/rider-dashboard-counts?from_date=" + Utlis.INSTANCE.getBeforeSevenDaysDate() + "&to_date=" + Utlis.INSTANCE.getCurrentDate("yyyy-MM-dd"));
             getDetailsRequest.setRequestjson("The");
             getDetailsRequest.setHeadertokenkey("authorization");
-            getDetailsRequest.setHeadertokenvalue("Bearer " + new SessionManager(context).getLoginToken());
+            getDetailsRequest.setHeadertokenvalue("Bearer " + token);
             getDetailsRequest.setRequesttype("GET");
             Call<ResponseBody> calls = apiInterface.getDetails(AppConstants.PROXY_URL, AppConstants.PROXY_TOKEN, getDetailsRequest);
             calls.enqueue(new Callback<ResponseBody>() {
