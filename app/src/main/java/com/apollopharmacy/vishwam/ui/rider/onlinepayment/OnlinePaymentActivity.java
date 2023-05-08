@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import androidx.databinding.DataBindingUtil;
 
-
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.ActivityOnlinePaymentBinding;
 import com.apollopharmacy.vishwam.databinding.DialogGeneratePhonepeQrcodeBinding;
@@ -146,7 +145,7 @@ public class OnlinePaymentActivity extends BaseActivity implements OnlinePayment
 //        Toast.makeText(this, phonePeQrCodeResponse.getMessage(), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         intent.putExtra("PAYMENT_SUCCESSFULL", true);
-        intent.putExtra("TRANSACTION_ID", phonePeQrCodetransactionId);
+        intent.putExtra("TRANSACTION_ID", phonePeQrCodeResponse.getProviderReferenceId());//phonePeQrCodetransactionId
         setResult(Activity.RESULT_OK, intent);
         finish();
         ActivityUtils.hideDialog();

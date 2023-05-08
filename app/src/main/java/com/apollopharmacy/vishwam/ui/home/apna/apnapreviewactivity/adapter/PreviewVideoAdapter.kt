@@ -24,7 +24,8 @@ class PreviewVideoAdapter(
             LayoutInflater.from(mContext),
             R.layout.video_adapter_layout,
             parent,
-            false)
+            false
+        )
         return ViewHolder(videoAdapterLayoutBinding)
     }
 
