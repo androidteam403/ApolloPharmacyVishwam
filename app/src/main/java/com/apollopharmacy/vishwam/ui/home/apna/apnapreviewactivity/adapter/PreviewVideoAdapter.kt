@@ -30,6 +30,7 @@ class PreviewVideoAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val video = videoList.get(position)
+        holder.videoAdapterLayoutBinding.image.stopPlayback()
         holder.videoAdapterLayoutBinding.image.setVideoURI(Uri.parse(video.url))
         holder.videoAdapterLayoutBinding.eyeImageRes.setOnClickListener {
             videoClicklistner.onClick(position, video.url!!)

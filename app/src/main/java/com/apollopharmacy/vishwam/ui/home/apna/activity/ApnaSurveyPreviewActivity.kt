@@ -54,21 +54,6 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
 
-//    var currentPosition: Int = 0
-
-//    var isMarketInformationCompleted: Boolean = false
-//    var isCompetitorsDetailsCompleted: Boolean = false
-//    var isPopulationAndHousesCompleted: Boolean = false
-//    var isHospitalsCompleted: Boolean = false
-//    var isPhotosAndMediaCompleted: Boolean = false
-//
-//    var isMarketInformationInProgress: Boolean = false
-//    var isCompetitorsDetailsInProgress: Boolean = false
-//    var isPopulationAndHousesInProgress: Boolean = false
-//    var isHospitalsInProgress: Boolean = false
-//    var isPhotosAndMediaInProgress: Boolean = false
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -83,17 +68,6 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (intent != null) {
             surveyCreateRequest =
                 intent.getSerializableExtra("SURVEY_REQUEST") as SurveyCreateRequest
-//            currentPosition = intent.getIntExtra("CURRENT_POSITION", 0)
-//            isMarketInformationCompleted = intent.getBooleanExtra("MARKET_INFORMATION_COMPLETED", false)
-//            isMarketInformationInProgress = intent.getBooleanExtra("MARKET_INFORMATION_PROGRESS", false)
-//            isCompetitorsDetailsCompleted = intent.getBooleanExtra("COMPETITORS_DETAILS_COMPLETED", false)
-//            isCompetitorsDetailsInProgress = intent.getBooleanExtra("COMPETITORS_DETAILS_PROGRESS", false)
-//            isPopulationAndHousesCompleted = intent.getBooleanExtra("POPULATION_HOUSES_COMPLETED", false)
-//            isPopulationAndHousesInProgress = intent.getBooleanExtra("POPULATION_HOUSES_PROGRESS", false)
-//            isHospitalsCompleted = intent.getBooleanExtra("HOSPITALS_COMPLETED", false)
-//            isHospitalsInProgress = intent.getBooleanExtra("HOSPITALS_PROGRESS", false)
-//            isPhotosAndMediaCompleted = intent.getBooleanExtra("PHOTOS_MEDIA_COMPLETED", false)
-//            isPhotosAndMediaInProgress = intent.getBooleanExtra("PHOTOS_MEDIA_PROGRESS", false)
         }
 
         activityApnaSurveyPreviewBinding.backArrow.setOnClickListener {

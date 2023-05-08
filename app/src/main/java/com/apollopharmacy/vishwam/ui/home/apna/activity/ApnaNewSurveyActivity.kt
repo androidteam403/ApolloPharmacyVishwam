@@ -597,17 +597,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
 
             val intent = Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
             intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
-            intent.putExtra("CURRENT_POSITION", currentPosition)
-            intent.putExtra("MARKET_INFORMATION_COMPLETED", isMarketInformationCompleted)
-            intent.putExtra("MARKET_INFORMATION_PROGRESS", isMarketInformationInProgress)
-            intent.putExtra("COMPETITORS_DETAILS_COMPLETED", isCompetitorsDetailsCompleted)
-            intent.putExtra("COMPETITORS_DETAILS_PROGRESS", isCompetitorsDetailsInProgress)
-            intent.putExtra("POPULATION_HOUSES_COMPLETED", isPopulationAndHousesCompleted)
-            intent.putExtra("POPULATION_HOUSES_PROGRESS", isPopulationAndHousesInProgress)
-            intent.putExtra("HOSPITALS_COMPLETED", isHospitalsCompleted)
-            intent.putExtra("HOSPITALS_PROGRESS", isHospitalsInProgress)
-            intent.putExtra("PHOTOS_MEDIA_COMPLETED", isPhotosAndMediaCompleted)
-            intent.putExtra("PHOTOS_MEDIA_PROGRESS", isPhotosAndMediaInProgress)
             startActivity(intent)
         }
 
