@@ -104,6 +104,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     lateinit var dimensionTypeDialog: Dialog
     lateinit var neighbouringLocationDialog: Dialog
 
+    lateinit var morningFromTimePickerDialog: TimePickerDialog
+    lateinit var morningToTimePickerDialog: TimePickerDialog
+    lateinit var eveningFromTimePickerDialog: TimePickerDialog
+    lateinit var eveningToTimePickerDialog: TimePickerDialog
+
 
     var cityList = ArrayList<CityListResponse.Data.ListData.Row>()
     var stateList = ArrayList<StateListResponse.Data.ListData.Row>()
@@ -168,6 +173,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             DataBindingUtil.setContentView(this, R.layout.activity_apna_new_survey)
 
         apnaNewSurveyViewModel = ViewModelProvider(this)[ApnaNewSurveyViewModel::class.java]
+
+        activityApnaNewSurveyBinding.scrollView.post(Runnable {
+            activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+        })
+
+//        activityApnaNewSurveyBinding.scrollView.fullScroll(View.FOCUS_UP)
 
         setUp()
     }
@@ -1394,6 +1405,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             unorganisedDialog.show()
         }
 
+
+        var morningFromHour: Int = 0
+        var morningFromMinute: Int = 0
+        var morningToHour: Int = 0
+        var morningToMinute: Int = 0
+
+        var eveningFromHour: Int = 0
+        var eveningFromMinute: Int = 0
+        var eveningToHour: Int = 0
+        var eveningToMinute: Int = 0
+
         // Morning from dropdown
         activityApnaNewSurveyBinding.morningFromSelect.setOnClickListener {
             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
@@ -1403,46 +1425,71 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                morningFromTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            morningFromHour = hourOfDay
+                            morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+
+                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString().isEmpty()) {
+                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                            }
                         }
                     },
                     Integer.valueOf(existTime.substring(0, existTime.indexOf(":"))),
                     Integer.valueOf(existTime.substring(existTime.indexOf(":") + 1)),
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                morningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                morningFromTimePickerDialog.show()
             } else {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                morningFromTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            morningFromHour = hourOfDay
+                            morningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+
+                            if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString().isEmpty()) {
+                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                            }
+//                            activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
                         }
                     },
                     hour,
                     minute,
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                morningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                morningFromTimePickerDialog.show()
             }
         }
 
@@ -1455,38 +1502,61 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                morningToTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            morningToHour = hourOfDay
+                            morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString().isEmpty()) {
+                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                            }
+
                         }
                     },
                     Integer.valueOf(existTime.substring(0, existTime.indexOf(":"))),
                     Integer.valueOf(existTime.substring(existTime.indexOf(":") + 1)),
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                morningToTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                morningToTimePickerDialog.show()
             } else {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                morningToTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            morningToHour = hourOfDay
+                            morningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString().isEmpty()) {
+                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                            }
                         }
 
                     },
@@ -1494,8 +1564,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     minute,
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                morningToTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                morningToTimePickerDialog.show()
             }
         }
 
@@ -1508,38 +1578,61 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                eveningFromTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            eveningFromHour = hourOfDay
+                            eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString().isEmpty()) {
+                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                            }
+
                         }
                     },
                     Integer.valueOf(existTime.substring(0, existTime.indexOf(":"))),
                     Integer.valueOf(existTime.substring(existTime.indexOf(":") + 1)),
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                eveningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                eveningFromTimePickerDialog.show()
             } else {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                eveningFromTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            eveningFromHour = hourOfDay
+                            eveningFromMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString().isEmpty()) {
+                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                            }
                         }
 
                     },
@@ -1547,8 +1640,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     minute,
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                eveningFromTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                eveningFromTimePickerDialog.show()
             }
         }
 
@@ -1561,38 +1654,61 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                eveningToTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            eveningToHour = hourOfDay
+                            eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isEmpty()) {
+                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute ) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                            }
+
                         }
                     },
                     Integer.valueOf(existTime.substring(0, existTime.indexOf(":"))),
                     Integer.valueOf(existTime.substring(existTime.indexOf(":") + 1)),
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                eveningToTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                eveningToTimePickerDialog.show()
             } else {
                 val calendar = Calendar.getInstance()
                 val hour = calendar.get(Calendar.HOUR_OF_DAY)
                 val minute = calendar.get(Calendar.MINUTE)
-                val timePickerDialog = TimePickerDialog(
+                eveningToTimePickerDialog = TimePickerDialog(
                     this@ApnaNewSurveyActivity,
                     android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
                     object : TimePickerDialog.OnTimeSetListener {
                         override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                            eveningToHour = hourOfDay
+                            eveningToMinute = minute
                             calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
                             calendar.set(Calendar.MINUTE, minute)
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
-                            activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                            if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
+                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isEmpty()) {
+                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute ) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                                } else {
+                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                            }
                         }
 
                     },
@@ -1600,8 +1716,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     minute,
                     true
                 )
-                timePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
-                timePickerDialog.show()
+                eveningToTimePickerDialog.window!!.setBackgroundDrawableResource(android.R.color.transparent)
+                eveningToTimePickerDialog.show()
             }
         }
 
@@ -2390,6 +2506,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             1 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 if (dimensionTypeList.size == 0) {
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getDimensionType(this@ApnaNewSurveyActivity)
@@ -2457,6 +2578,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             2 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 if (neighbouringLocationList.size == 0) {
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getNeighbouringLocation(this@ApnaNewSurveyActivity)
@@ -2585,6 +2711,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             3 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 activityApnaNewSurveyBinding.competitorsLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE
@@ -2692,6 +2823,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             4 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 if (apartmentTypeData.size == 0) {
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getApartmentType(this@ApnaNewSurveyActivity)
@@ -2740,6 +2876,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             5 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 if (apnaSpecialityData.size == 0) {
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getApnaSpeciality(this@ApnaNewSurveyActivity)
@@ -2785,6 +2926,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             6 -> {
+
+                activityApnaNewSurveyBinding.scrollView.post(Runnable {
+                    activityApnaNewSurveyBinding.scrollView.scrollTo(0, 0)
+                })
+
                 activityApnaNewSurveyBinding.photosAndMediaLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE

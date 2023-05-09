@@ -61,8 +61,10 @@
         </LinearLayout>
 
         <androidx.core.widget.NestedScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fillViewport="true"
             android:layout_below="@+id/header_view">
 
             <FrameLayout
@@ -84,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -437,7 +439,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -1943,7 +1945,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2559,7 +2561,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2833,7 +2835,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
