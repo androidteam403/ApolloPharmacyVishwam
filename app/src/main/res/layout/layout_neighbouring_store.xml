@@ -1,7 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/value_4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/light_gray_rounded_corners"
+            android:padding="@dimen/value_10dp"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Left"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <ImageView
+                    android:id="@+id/close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/closee_black"
+                    android:tint="#939393"
+                    tools:ignore="UseAppTint" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_4dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Store"
+                        android:textSize="@dimen/text_12sp"
+                        android:textColor="@color/gray"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <TextView
+                        android:id="@+id/store"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rajeev Pharmacy"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:fontFamily="@font/roboto_bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rent"
+                        android:textSize="@dimen/text_12sp"
+                        android:textColor="@color/gray"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <TextView
+                        android:id="@+id/rent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:fontFamily="@font/roboto_bold"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_4dp"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sales"
+                        android:textSize="@dimen/text_12sp"
+                        android:textColor="@color/gray"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <TextView
+                        android:id="@+id/sales"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2000"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:fontFamily="@font/roboto_bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sq.ft."
+                        android:textSize="@dimen/text_12sp"
+                        android:textColor="@color/gray"
+                        android:fontFamily="@font/roboto_bold"/>
+
+                    <TextView
+                        android:id="@+id/sqFt"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp"
+                        android:fontFamily="@font/roboto_bold"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -59,7 +207,7 @@
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Store -->
+                &lt;!&ndash; Store &ndash;&gt;
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -67,16 +215,16 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <!--<TextView
+                    &lt;!&ndash;<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:text="Store"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />-->
+                        android:textStyle="bold" />&ndash;&gt;
 
-                    <!--<EditText
+                    &lt;!&ndash;<EditText
                         android:id="@+id/storeText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -86,7 +234,7 @@
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />-->
+                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -109,23 +257,23 @@
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
-                <!-- Rent -->
+                &lt;!&ndash; Rent &ndash;&gt;
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <!--<TextView
+                    &lt;!&ndash;<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/value_15dp"
                         android:text="Rent"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />-->
+                        android:textStyle="bold" />&ndash;&gt;
 
-                    <!--<EditText
+                    &lt;!&ndash;<EditText
                         android:id="@+id/rentText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -135,7 +283,7 @@
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />-->
+                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -175,16 +323,16 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <!--<TextView
+                    &lt;!&ndash;<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:text="Sales"
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />-->
+                        android:textStyle="bold" />&ndash;&gt;
 
-                    <!--<EditText
+                    &lt;!&ndash;<EditText
                         android:id="@+id/salesText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -193,7 +341,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />-->
+                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -222,16 +370,16 @@
                     android:layout_weight="1"
                     android:orientation="horizontal">
 
-                    <!--<TextView
+                    &lt;!&ndash;<TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:text="Sq.ft."
                         android:textColor="@color/gray"
                         android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />-->
+                        android:textStyle="bold" />&ndash;&gt;
 
-                    <!--<EditText
+                    &lt;!&ndash;<EditText
                         android:id="@+id/sqFtText"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_40dp"
@@ -240,7 +388,7 @@
                         android:inputType="numberDecimal"
                         android:paddingStart="@dimen/value_10dp"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />-->
+                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -264,5 +412,5 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </RelativeLayout>
+    </RelativeLayout>-->
 </layout>

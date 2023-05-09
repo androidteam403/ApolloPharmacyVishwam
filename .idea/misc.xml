@@ -66,7 +66,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/spinner_border.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/white_rounded_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/yellow_drawable.xml" value="0.186" />
-        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_new_survey.xml" value="0.2" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_new_survey.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_preview.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_survey_preview.xml" value="0.264" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_approve_list.xml" value="0.25" />
@@ -116,6 +116,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_hospital_speciality.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_location_list.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_message_popup.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_neighbour_location.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_organised.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_quick_go.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_site_attendence.xml" value="0.25" />

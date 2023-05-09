@@ -11,11 +11,12 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStoreBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringStoreData
 
 class NeighbouringStoreAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
-    var neighbouringList: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>,
+    var neighbouringList: ArrayList<NeighbouringStoreData>,
 ) : RecyclerView.Adapter<NeighbouringStoreAdapter.ViewHolder>() {
 
     class ViewHolder(val layoutNeighbouringStoreBinding: LayoutNeighbouringStoreBinding) :
@@ -34,62 +35,96 @@ class NeighbouringStoreAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        holder.layoutNeighbouringStoreBinding.locationText.text = neighbouringList[position].name
+        if (neighbouringList.get(position).location.isNotEmpty()) {
+            holder.layoutNeighbouringStoreBinding.location.setText(neighbouringList.get(position).location)
+        } else {
+            holder.layoutNeighbouringStoreBinding.location.setText("-")
+        }
 
-        holder.layoutNeighbouringStoreBinding.storeText.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        if (neighbouringList.get(position).store.isNotEmpty()) {
+            holder.layoutNeighbouringStoreBinding.store.setText(neighbouringList.get(position).store)
+        } else {
+            holder.layoutNeighbouringStoreBinding.store.setText("-")
+        }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
+        if (neighbouringList.get(position).rent.isNotEmpty()) {
+            holder.layoutNeighbouringStoreBinding.rent.setText(neighbouringList.get(position).rent)
+        } else {
+            holder.layoutNeighbouringStoreBinding.rent.setText("-")
+        }
 
-            override fun afterTextChanged(s: Editable?) {
-                neighbouringList.get(position).store = s.toString()
-            }
+        if (neighbouringList.get(position).sales.isNotEmpty()) {
+            holder.layoutNeighbouringStoreBinding.sales.setText(neighbouringList.get(position).sales)
+        } else {
+            holder.layoutNeighbouringStoreBinding.sales.setText("-")
+        }
 
-        })
+        if (neighbouringList.get(position).sqFt.isNotEmpty()) {
+            holder.layoutNeighbouringStoreBinding.sqFt.setText(neighbouringList.get(position).sqFt)
+        } else {
+            holder.layoutNeighbouringStoreBinding.sqFt.setText("-")
+        }
 
-        holder.layoutNeighbouringStoreBinding.rentText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
+        holder.layoutNeighbouringStoreBinding.close.setOnClickListener {
+            mCallback.onClickNeighbouringStoreDelete(position)
+        }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                neighbouringList.get(position).rent = s.toString()
-            }
-
-        })
-
-        holder.layoutNeighbouringStoreBinding.salesText.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                neighbouringList.get(position).sales = s.toString()
-            }
-
-        })
-
-        holder.layoutNeighbouringStoreBinding.sqFtText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                neighbouringList.get(position).sqFt = s.toString()
-                mCallback.onDataChanged(neighbouringList)
-            }
-
-        })
+//        holder.layoutNeighbouringStoreBinding.locationText.text = neighbouringList[position].name
+//
+//        holder.layoutNeighbouringStoreBinding.storeText.addTextChangedListener(object :
+//            TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                neighbouringList.get(position).store = s.toString()
+//            }
+//
+//        })
+//
+//        holder.layoutNeighbouringStoreBinding.rentText.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                neighbouringList.get(position).rent = s.toString()
+//            }
+//
+//        })
+//
+//        holder.layoutNeighbouringStoreBinding.salesText.addTextChangedListener(object :
+//            TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                neighbouringList.get(position).sales = s.toString()
+//            }
+//
+//        })
+//
+//        holder.layoutNeighbouringStoreBinding.sqFtText.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                neighbouringList.get(position).sqFt = s.toString()
+//                mCallback.onDataChanged(neighbouringList)
+//            }
+//
+//        })
     }
 
     override fun getItemCount(): Int {
