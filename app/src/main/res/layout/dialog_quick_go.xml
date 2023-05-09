@@ -72,7 +72,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="1"
@@ -110,8 +110,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -155,9 +155,9 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="2"
-                        android:visibility="visible"
                         android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/site_specification_completed"
@@ -176,7 +176,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="2"
@@ -192,8 +192,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/site_specifications_view"
@@ -257,7 +257,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="3"
@@ -285,8 +285,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/market_information_view"
@@ -353,7 +353,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="4"
@@ -381,8 +381,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/competitors_details_view"
@@ -449,7 +449,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="5"
@@ -477,8 +477,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/population_and_houses_view"
@@ -545,7 +545,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="6"
@@ -573,8 +573,8 @@
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:visibility="gone"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
                         android:id="@+id/hospitals_view"
@@ -641,7 +641,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="7"
