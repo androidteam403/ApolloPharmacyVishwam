@@ -131,7 +131,7 @@ public abstract class AppLockActivity extends PinActivity implements KeyboardBut
         }
         Log.e("AppLock", "Type : " + mType);
         if (isAppAvailability) {
-            onCheckBuildDetails();
+//            onCheckBuildDetails();
         }
 //        else {
 //            mType = AppLock.ENABLE_PINLOCK;

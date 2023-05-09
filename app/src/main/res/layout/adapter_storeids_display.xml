@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_marginStart="@dimen/value_5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/darkblue_roundedcorners"
+        android:orientation="horizontal"
+        android:padding="@dimen/value_4dp">
+
+
+        <TextView
+            android:text="1110088"
+            android:id="@+id/siteIdS"
+            android:layout_marginStart="@dimen/value_5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/crossButton"
+            android:layout_marginStart="@dimen/value_3dp"
+            android:layout_width="@dimen/text_15sp"
+            android:layout_height="@dimen/text_15sp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="@dimen/value_3dp"
+            android:src="@drawable/closee_whitee" />
+
+    </LinearLayout>
+
+</RelativeLayout>
+</layout>

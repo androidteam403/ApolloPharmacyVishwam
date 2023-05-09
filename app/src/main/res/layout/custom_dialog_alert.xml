@@ -1,103 +1,304 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/custom_dialog_background"
-    android:orientation="vertical">
+    android:layout_marginEnd="30dp"
+    android:layout_marginStart="30dp"
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@color/splash_start_color"
-        android:gravity="center"
-        android:paddingTop="@dimen/value_8dp"
-        android:paddingBottom="@dimen/value_8dp"
-        android:text="@string/label_logout"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/lastLoginTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingStart="@dimen/value_30dp"
-        android:paddingTop="@dimen/value_15dp"
-        android:paddingEnd="@dimen/value_30dp"
-        android:paddingBottom="@dimen/value_5dp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/currentTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="@dimen/value_30dp"
-        android:paddingTop="@dimen/value_5dp"
-        android:paddingEnd="@dimen/value_30dp"
-        android:paddingBottom="@dimen/value_5dp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/durationTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:paddingStart="@dimen/value_30dp"
-        android:paddingTop="@dimen/value_5dp"
-        android:paddingEnd="@dimen/value_30dp"
-        android:paddingBottom="@dimen/value_10dp"
-        android:textColor="@color/black" />
-
-    <TextView
-        android:id="@+id/dialog_info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/value_5dp"
-        android:gravity="center"
-        android:paddingStart="@dimen/value_30dp"
-        android:paddingTop="@dimen/value_5dp"
-        android:paddingEnd="@dimen/value_30dp"
-        android:paddingBottom="@dimen/value_10dp"
-        android:textColor="@color/black" />
+    android:background="@drawable/custom_dialog_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/value_10dp"
-        android:layout_marginBottom="@dimen/value_20dp"
-        android:gravity="center">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/dialog_cancel"
-            android:layout_width="@dimen/value_100dp"
-            android:layout_height="@dimen/value_35dp"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:paddingTop="@dimen/value_8dp"
+            android:text="@string/label_logout"
+            android:textColor="@color/black"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="@dimen/value_10dp"
-            android:background="@drawable/bg_button_disable"
-            android:gravity="center"
-            android:text="@string/label_no"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            tools:ignore="ButtonStyle" />
 
-        <Button
-            android:id="@+id/dialog_ok"
-            android:layout_width="@dimen/value_100dp"
-            android:layout_height="@dimen/value_35dp"
-            android:layout_gravity="center"
-            android:layout_marginStart="@dimen/value_10dp"
-            android:background="@drawable/bg_button"
-            android:gravity="center"
-            android:text="@string/label_yes"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            tools:ignore="ButtonStyle" />
+            android:fontFamily="@font/roboto_medium"
+            android:text="Last Attendance Sign-in"
+            android:textColor="#889a9c"
+
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/lastLoginTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_15dp"
+
+            android:fontFamily="@font/poppin_bold"
+                    android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+
+            android:fontFamily="@font/roboto_medium"
+            android:text="Current Time"
+            android:textColor="#889a9c"
+
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/currentTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:fontFamily="@font/poppin_bold"
+            android:textSize="12sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/value_15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="@dimen/value_10dp"
+
+            android:fontFamily="@font/roboto_medium"
+            android:text="Duration"
+            android:textColor="#889a9c"
+
+            android:textSize="13sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="150dp"
+            android:layout_marginStart="@dimen/value_15dp"
+
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="10sp"
+                    android:paddingTop="1dp"
+
+                    android:text="Hrs"
+                    android:textColor="#889a9c"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/durationhrs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="10sp"
+                    android:paddingBottom="5dp"
+                    android:text="22"
+                    android:textColor="#4f9b99"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="10sp"
+                    android:paddingTop="1dp"
+
+                    android:text="Min"
+                    android:textColor="#889a9c"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/durationminutes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="10sp"
+                    android:paddingBottom="5dp"
+                    android:text="05"
+                    android:textColor="#4f9b99"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:paddingStart="10sp"
+                    android:paddingTop="1dp"
+
+                    android:text="Sec"
+                    android:textColor="#889a9c"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/durationsecs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:paddingStart="10sp"
+                    android:paddingBottom="5dp"
+                    android:text="22"
+                    android:textColor="#4f9b99"
+                    android:textSize="10sp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/value_15dp"-->
+<!--            android:layout_marginEnd="@dimen/value_10dp"-->
+
+<!--            android:fontFamily="@font/roboto_medium"-->
+<!--            android:text="Hrs : Min : Sec"-->
+<!--            android:textColor="#889a9c"-->
+<!--            android:textSize="13sp" />-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/durationTime"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:fontFamily="@font/poppin_bold"-->
+<!--            android:textSize="12sp"-->
+<!--            android:layout_marginStart="@dimen/value_15dp"-->
+
+<!--            android:textColor="#04bebc"-->
+<!--           />-->
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/comment"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginLeft="@dimen/value_15dp"-->
+
+<!--            android:layout_marginTop="@dimen/value_10dp"-->
+<!--            android:layout_marginRight="@dimen/value_15dp"-->
+<!--            android:textColorHint="@color/black"-->
+<!--            app:counterEnabled="true"-->
+<!--            app:counterMaxLength="500"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/extraLayout">-->
+
+<!--            <androidx.appcompat.widget.AppCompatEditText-->
+<!--                android:id="@+id/commentsText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="70dp"-->
+<!--                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz"-->
+<!--                android:gravity="top|start"-->
+<!--                android:hint="Comments"-->
+<!--                android:maxLength="500"-->
+<!--                android:fontFamily="@font/roboto_medium"-->
+
+<!--                android:paddingStart="@dimen/value_10dp"-->
+<!--                android:paddingEnd="@dimen/value_10dp"-->
+<!--                android:scrollbars="vertical"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textColorHint="@color/black"-->
+<!--                android:textSize="12sp" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+
+        <TextView
+            android:id="@+id/dialog_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/value_5dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/value_10dp"
+
+            android:paddingStart="@dimen/value_30dp"
+            android:paddingTop="@dimen/value_5dp"
+            android:paddingEnd="@dimen/value_30dp"
+            android:paddingBottom="@dimen/value_10dp"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/value_20dp"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dialog_cancel"
+                android:layout_width="@dimen/value_100dp"
+                android:layout_height="@dimen/value_35dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@drawable/bg_button_disable"
+                android:gravity="center"
+                android:text="@string/label_no"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:visibility="gone"
+                tools:ignore="ButtonStyle" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/dialog_ok"
+                android:layout_width="65dp"
+                android:layout_height="@dimen/value_35dp"
+                android:layout_gravity="center"
+
+                android:background="@drawable/bg_button_green"
+                android:gravity="center"
+                android:text="OK"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                tools:ignore="ButtonStyle" />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_width="28dp"
+        android:id="@+id/closedialog"
+        android:layout_height="28dp"
+        android:layout_marginTop="5dp"
+
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/closee_black"
+/></RelativeLayout>

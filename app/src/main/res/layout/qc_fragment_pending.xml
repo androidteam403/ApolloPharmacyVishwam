@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+
+        tools:context=".ui.home.qcfail.pending">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/parentLayout"
+            android:layout_width="match_parent"
+            android:layout_marginBottom="50dp"
+            android:layout_height="match_parent">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refreshSwipe"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewPending"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/qc_pending_layout" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="30dp"
+                android:elevation="20dp"
+                android:backgroundTint="@color/backgroundColor"
+
+                android:visibility="gone"
+                android:src="@drawable/ic_filter"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
+
+            <RelativeLayout
+                android:id="@+id/emptyList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/emptyImage"
+                    android:layout_width="@dimen/value_120dp"
+                    android:layout_height="@dimen/value_120dp"
+                    android:layout_centerInParent="true"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/qca" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/emptyImage"
+                    android:text="No Pending Request Available"
+                    android:textColor="@color/backgroundColor"
+                    android:textSize="15dp" />
+
+            </RelativeLayout>
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/backgroundColor"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/continue_btn"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/splash_color"
+            android:gravity="center_vertical"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/prev_page"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+
+                android:padding="@dimen/text_10sp"
+                android:rotation="180"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/pgno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
+
+
+            <ImageView
+                android:id="@+id/next_page"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="5dp"
+
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+
+                android:padding="@dimen/text_10sp"
+                android:src="@drawable/ic_arrow__next_page"
+                android:textColor="@color/black"
+                android:textSize="9sp" />
+
+        </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/bulkAppRejLayout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/splash_color"
+            android:paddingTop="@dimen/value_10dp"
+            android:paddingBottom="@dimen/value_10dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/selectAllLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/bulkSelectCheck"
+                    android:layout_width="43dp"
+                    android:layout_height="43dp"
+                    android:contentDescription="@string/app_name"
+                    android:padding="@dimen/value_3dp"
+                    android:src="@drawable/qc_checkbox" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:text="Select All"
+                    android:textSize="@dimen/text_16sp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="@dimen/value_80dp"
+                android:id="@+id/acceptClick"
+
+                android:layout_height="@dimen/value_40dp"
+                android:layout_marginLeft="@dimen/dimen160dp"
+                android:background="@drawable/qc_bulk_accept_background"
+                android:text="Accept"
+                android:visibility="visible"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/rejectClick"
+                android:layout_width="@dimen/value_80dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/text_20sp"
+                android:background="@drawable/qc_accept_background"
+                android:text="Accept"
+                android:visibility="invisible"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_13sp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</layout>

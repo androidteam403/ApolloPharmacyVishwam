@@ -66,7 +66,7 @@
                     android:layout_width="@dimen/value_100dp"
                     android:layout_height="@dimen/value_40dp"
                     android:layout_gravity="center_horizontal"
-                    android:background="@drawable/grey_rectangle"
+                    android:background="@drawable/yellow_rectangle"
                     android:text="Update"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
@@ -104,32 +104,55 @@
                     android:layout_marginTop="@dimen/value_30dp"
                     android:textColorHint="@color/black"
                     android:theme="@style/TextVerifyLabel"
+                    app:boxStrokeColor="@color/black"
                     app:layout_constraintTop_toBottomOf="@+id/image">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/employee_id_ET"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_50dp"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890"
                         android:hint="Employee ID"
                         android:imeOptions="actionDone"
-                        android:inputType="text"
+                        android:inputType="textNoSuggestions|textVisiblePassword"
                         android:paddingStart="@dimen/value_10dp"
                         android:paddingEnd="@dimen/value_10dp"
                         android:singleLine="true"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/text_17sp" />
+                        android:textSize="@dimen/text_14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
-                    android:id="@+id/proceedButton"
-                    android:layout_width="@dimen/value_180dp"
-                    android:layout_height="@dimen/value_45dp"
-                    android:layout_marginTop="@dimen/value_20dp"
-                    android:background="@drawable/yellow_rectangle"
-                    android:text="Proceed"
-                    android:textColor="@color/black"
-                    app:layout_constraintTop_toBottomOf="@+id/password" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/proceedButton"
+                        android:layout_width="@dimen/value_100dp"
+                        android:layout_height="@dimen/value_45dp"
+                        android:layout_marginTop="@dimen/value_20dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:background="@drawable/yellow_rectangle"
+                        android:text="Proceed"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/cancelButton"
+                        android:layout_width="@dimen/value_100dp"
+                        android:layout_height="@dimen/value_45dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_20dp"
+                        android:background="@drawable/grey_rectangle"
+                        android:text="Cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_14sp" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -152,99 +175,49 @@
                 android:layout_marginTop="@dimen/value_30dp"
                 android:layout_marginBottom="@dimen/value_10dp"
                 android:gravity="center"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:padding="@dimen/value_10dp"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customerMobileNum">
 
-                <EditText
-                    android:id="@+id/txt_otp_1"
-                    android:layout_width="@dimen/value_40dp"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginLeft="@dimen/value_10dp"
-                    android:layout_marginRight="@dimen/value_10dp"
-                    android:background="@drawable/ic_otp_bg"
-                    android:digits="0123456789"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="1" />
+                <in.aabhasjindal.otptextview.OtpTextView
+                    android:id="@+id/otp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:visibility="visible"
+                    app:bar_active_color="@color/black"
+                    app:bar_enabled="false"
+                    app:bar_error_color="@color/red"
+                    app:bar_height="2dp"
+                    app:bar_inactive_color="@color/grey"
+                    app:bar_margin_bottom="0dp"
+                    app:bar_margin_left="@dimen/value_2dp"
+                    app:bar_margin_right="@dimen/value_2dp"
+                    app:bar_success_color="@color/green"
+                    app:box_margin="10dp"
+                    app:height="@dimen/value_40dp"
+                    app:hide_otp="true"
+                    app:hide_otp_drawable="@drawable/black_circle"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:length="4"
+                    app:otp=""
+                    app:otp_box_background="@drawable/ic_otp_bg"
+                    app:otp_text_size="@dimen/value_20dp"
+                    app:width="@dimen/value_40dp" />
 
-                <EditText
-                    android:id="@+id/txt_otp_2"
-                    android:layout_width="@dimen/value_40dp"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginLeft="@dimen/value_10dp"
-                    android:layout_marginRight="@dimen/value_10dp"
-                    android:background="@drawable/ic_otp_bg"
-                    android:digits="0123456789"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="1" />
-
-                <EditText
-                    android:id="@+id/txt_otp_3"
-                    android:layout_width="@dimen/value_40dp"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginLeft="@dimen/value_10dp"
-                    android:layout_marginRight="@dimen/value_10dp"
-                    android:background="@drawable/ic_otp_bg"
-                    android:digits="0123456789"
-                    android:gravity="center"
-                    android:imeOptions="actionNext"
-                    android:inputType="number"
-                    android:maxLength="1" />
-
-                <EditText
-                    android:id="@+id/txt_otp_4"
-                    android:layout_width="@dimen/value_40dp"
-                    android:layout_height="@dimen/value_40dp"
-                    android:layout_marginLeft="@dimen/value_10dp"
-                    android:layout_marginRight="@dimen/value_10dp"
-                    android:background="@drawable/ic_otp_bg"
-                    android:digits="0123456789"
-                    android:gravity="center"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:maxLength="1" />
             </LinearLayout>
-
-            <in.aabhasjindal.otptextview.OtpTextView
-                android:id="@+id/otp_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:visibility="gone"
-                app:bar_active_color="@color/black"
-                app:bar_enabled="true"
-                app:bar_error_color="@color/red"
-                app:bar_height="1.5dp"
-                app:bar_inactive_color="@color/grey"
-                app:bar_margin_bottom="0dp"
-                app:bar_margin_left="@dimen/value_2dp"
-                app:bar_margin_right="@dimen/value_2dp"
-                app:bar_success_color="@color/green"
-                app:box_margin="0dp"
-                app:height="@dimen/value_40dp"
-                app:hide_otp="true"
-                app:hide_otp_drawable="@drawable/black_circle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:length="4"
-                app:otp=""
-                app:otp_text_size="@dimen/value_20dp"
-                app:width="@dimen/value_40dp" />
 
             <TextView
                 android:id="@+id/timer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_20dp"
+                android:layout_marginTop="@dimen/value_10dp"
                 android:fontFamily="sans-serif"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_18sp"
@@ -258,7 +231,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/value_10dp"
                 android:layout_marginBottom="@dimen/value_10dp"
                 android:background="@drawable/yellow_rectangle"
                 android:orientation="horizontal"
@@ -284,21 +256,28 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/buttonLayout">
 
-        <Button
-            android:id="@+id/fab_next"
-            android:layout_width="@dimen/value_200dp"
-            android:layout_height="@dimen/value_45dp"
-            android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/value_20dp"
-            android:layout_marginBottom="@dimen/value_30dp"
-            android:background="@drawable/yellow_drawable"
-            android:text="Validate OTP"
-            android:textColor="@color/black"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@+id/password" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fab_next"
+                    android:layout_width="@dimen/value_200dp"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginTop="@dimen/value_20dp"
+                    android:layout_marginBottom="@dimen/value_30dp"
+                    android:background="@drawable/yellow_drawable"
+                    android:fitsSystemWindows="true"
+                    android:text="Validate OTP"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

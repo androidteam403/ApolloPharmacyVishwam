@@ -1,0 +1,2482 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/create_new_rectro_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c6eaf7"
+        android:layout_margin="@dimen/text_dimen_10">
+
+        <LinearLayout
+            android:layout_marginStart="@dimen/text_dimen_10"
+           android:layout_marginEnd="@dimen/text_dimen_10"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create New Rectro"
+                android:textSize="@dimen/text_17sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginTop="@dimen/text_dimen_10"
+                android:text="Store ID "/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/storeId"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_40dp"
+                android:background="@drawable/grey_border_bg"
+                android:drawableEnd="@drawable/ic_search_24"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textStyle="bold"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_15sp" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_marginTop="@dimen/value_6dp"
+                android:layout_marginBottom="@dimen/text_dimen_10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:cardCornerRadius="@dimen/value_6dp"
+                app:cardElevation="@dimen/value_5dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:orientation="vertical">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Store Name: "
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/store_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="end"
+                                android:gravity="end">
+
+                                <LinearLayout
+                                    android:layout_width="@dimen/twenty20_dp"
+                                    android:layout_height="@dimen/twenty20_dp"
+                                    android:layout_gravity="end">
+
+                                    <ImageView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/close_ashh"/>
+
+
+                                </LinearLayout>
+
+
+
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_5dp"
+                            android:layout_marginEnd="@dimen/value_5dp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Incharge: "
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/incharge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+
+
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_marginBottom="@dimen/value_7dp"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_width="@dimen/value_80dp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/green_rectangle"
+                            android:padding="2sp"
+                            android:onClick="@{()-> callback.onClickContinue()}"
+                            android:text="Continue"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_13sp"
+                            android:textStyle="bold"
+                            tools:ignore="RtlCompat" />
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/records_uploaded"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/value_10dp"
+                android:text="Records Uploaded"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_marginStart="@dimen/value_10dp"
+                android:id="@+id/listRecyclerView"
+                android:layout_width="match_parent"
+                android:visibility="visible"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/value_10dp" />
+
+
+
+            <!--            <androidx.cardview.widget.CardView-->
+<!--                android:id="@+id/cardview"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/text_dimen_10"-->
+<!--                android:layout_marginLeft="@dimen/value_5dp"-->
+<!--                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                android:layout_marginRight="@dimen/value_5dp"-->
+<!--                android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                android:visibility="visible"-->
+<!--                app:cardCornerRadius="@dimen/value_6dp"-->
+<!--                app:cardElevation="@dimen/value_5dp">-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/orderHead"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/overallLayout"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@color/colorWhite"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Transaction ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="14001_APNARECTRO_06042023"-->
+<!--                                android:id="@+id/date_details"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:id="@+id/three_dots"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="@dimen/value_15dp"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:visibility="gone"-->
+<!--                                tools:ignore="Orientation">-->
+
+
+<!--                                &lt;!&ndash;                            <ImageView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:src="@drawable/threedots"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"/>&ndash;&gt;-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="14001"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="@dimen/value_10dp"-->
+<!--                        android:layout_marginTop="@dimen/value_5dp"-->
+<!--                        android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                        android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store Name: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="Ameerpet, Hyderabad"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                   android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Uploaded On: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="07 Apr, 2023 - 12 :30PM"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Uploaded by: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="APL48627"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/four4_dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Total Ratings: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:id="@+id/total_ratings"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/green_approved_layot"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/greenright" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="APPROVED"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/greenn"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <RelativeLayout-->
+<!--                                android:id="@+id/reviewButtonApproved"-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textAlignment="viewEnd">-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                                <TextView-->
+
+<!--                                    android:layout_width="@dimen/value_80dp"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:background="@drawable/seablue_roundedcorners"-->
+<!--                                    android:padding="2sp"-->
+<!--                                    android:text="Review"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/white"-->
+<!--                                    android:textSize="@dimen/text_13sp"-->
+<!--                                    android:textStyle="bold"-->
+<!--                                    tools:ignore="RtlCompat" />-->
+<!--                            </RelativeLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:id="@+id/re_shoot_layout"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="RESHOOT"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/red"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonReshoot"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#feeedb"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Pre Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="end"-->
+<!--                                android:layout_gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="PENDING"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="#f26522"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#f4f4f4"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/ash_tick" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Post Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="end"-->
+<!--                                android:layout_gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="-&#45;&#45;"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#f4f4f4"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/ash_tick" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="After Completion"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="end"-->
+<!--                                android:layout_gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="-&#45;&#45;"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+
+<!--                    </LinearLayout>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/text_dimen_10"-->
+<!--                android:layout_marginLeft="@dimen/value_5dp"-->
+<!--                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                android:layout_marginRight="@dimen/value_5dp"-->
+<!--                android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                android:visibility="visible"-->
+<!--                app:cardCornerRadius="@dimen/value_6dp"-->
+<!--                app:cardElevation="@dimen/value_5dp">-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:id="@+id/second_reshoot"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@color/colorWhite"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Transaction ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="14001_APNARECTRO_06042023"-->
+<!--                               android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                 android:layout_width="match_parent"-->
+<!--                                android:layout_height="@dimen/value_15dp"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:visibility="gone"-->
+<!--                                tools:ignore="Orientation">-->
+
+
+<!--                                &lt;!&ndash;                            <ImageView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:src="@drawable/threedots"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"/>&ndash;&gt;-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="14001"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store Name: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="Ameerpet, Hyderabad"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                   android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Uploaded On: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="07 Apr, 2023 - 12 :30PM"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Uploaded by: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="APL48627"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:background="#ebf7ed"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/greenright" />-->
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Pre Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                >-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                tools:ignore="RtlCompat" />&ndash;&gt;-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="APPROVED"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/greenn"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#feeedb"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Pre Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="end"-->
+<!--                                android:layout_gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="RE-SHOOT"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="#f26522"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="#f4f4f4"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/ash_tick" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="After Completion"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:gravity="end"-->
+<!--                                android:layout_gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="-&#45;&#45;"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="RESHOOT"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/red"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonReshoot"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@color/baby_pink"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="PENDING"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="#f26522"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@color/light_pink"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/five5_sp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_6dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="NOT UPDATED"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/red"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:padding="@dimen/value_3dp"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="PARTIALLY APPROVED"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/color_red"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonpartial"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+
+<!--                    </LinearLayout>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+<!--            <androidx.cardview.widget.CardView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="@dimen/text_dimen_10"-->
+<!--                android:layout_marginLeft="@dimen/value_5dp"-->
+<!--                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                android:layout_marginRight="@dimen/value_5dp"-->
+<!--                android:layout_marginBottom="@dimen/value_5dp"-->
+<!--                android:visibility="visible"-->
+<!--                app:cardCornerRadius="@dimen/value_6dp"-->
+<!--                app:cardElevation="@dimen/value_5dp">-->
+
+
+<!--                <LinearLayout-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="vertical">-->
+
+<!--                    <LinearLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:background="@color/colorWhite"-->
+<!--                        android:orientation="vertical">-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Transaction ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="65021_APNARECTRO_06042023"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="@dimen/value_15dp"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:layout_marginTop="@dimen/value_3dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:visibility="gone"-->
+<!--                                tools:ignore="Orientation">-->
+
+
+<!--                                &lt;!&ndash;                            <ImageView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:src="@drawable/threedots"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"/>&ndash;&gt;-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_10dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store Name: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="Ameerpet, Hyderabad"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Store ID: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="14001"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_gravity="end"-->
+<!--                                android:gravity="end">-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_gravity="end"-->
+<!--                                    android:gravity="end"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+
+
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/four4_dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Uploaded On: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="05 Apr, 2023 - 01 :30PM"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/four4_dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Total Ratings: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="4.5"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_10dp"-->
+<!--                            android:layout_marginTop="@dimen/four4_dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal">-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="match_parent"-->
+<!--                                android:text="Approved On: "-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:text="09 Apr, 2023 - 04 :30PM"-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <TextView-->
+
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <View-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="@dimen/value_1dp"-->
+<!--                            android:layout_marginTop="@dimen/value_8dp"-->
+<!--                            android:background="@color/color_ash" />-->
+
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:background="#ebf7ed"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/greenright" />-->
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Pre Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                >-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                tools:ignore="RtlCompat" />&ndash;&gt;-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="APPROVED"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/greenn"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:background="#ebf7ed"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/greenright" />-->
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="Post Rectro"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                >-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                tools:ignore="RtlCompat" />&ndash;&gt;-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="APPROVED"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/greenn"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_gravity="center"-->
+<!--                            android:background="#ebf7ed"-->
+<!--                            android:gravity="center"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="visible">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_marginStart="@dimen/value_15dp"-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:src="@drawable/greenright" />-->
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Stage: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="After Completion"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            <LinearLayout-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:gravity="end"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                >-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="10/10"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                                &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;-->
+<!--                                &lt;!&ndash;                                tools:ignore="RtlCompat" />&ndash;&gt;-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                    android:text="Status: "-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/black"-->
+<!--                                    android:textSize="@dimen/text_12sp" />-->
+
+<!--                                <TextView-->
+<!--                                    android:layout_width="wrap_content"-->
+<!--                                    android:layout_height="wrap_content"-->
+<!--                                    android:text="COMPLETE"-->
+<!--                                    android:textAlignment="center"-->
+<!--                                    android:textColor="@color/greenn"-->
+<!--                                    android:textSize="@dimen/text_12sp"-->
+<!--                                    android:textStyle="bold" />-->
+<!--                            </LinearLayout>-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="RESHOOT"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/red"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonReshoot"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@color/baby_pink"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_7dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="PENDING"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="#f26522"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonPending"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:background="@color/light_pink"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/five5_sp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:layout_marginStart="@dimen/value_6dp"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="NOT UPDATED"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/red"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="match_parent"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginEnd="@dimen/value_7dp"-->
+<!--                                android:padding="@dimen/value_3dp"-->
+<!--                                android:textAlignment="viewEnd"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+
+<!--                                android:textStyle="bold" />-->
+
+
+<!--                        </LinearLayout>-->
+
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/value_7dp"-->
+<!--                            android:layout_marginTop="@dimen/value_5dp"-->
+<!--                            android:layout_marginEnd="@dimen/value_5dp"-->
+<!--                            android:orientation="horizontal"-->
+<!--                            android:padding="@dimen/value_3dp"-->
+<!--                            android:visibility="gone">-->
+
+<!--                            <ImageView-->
+<!--                                android:layout_width="@dimen/text_13sp"-->
+<!--                                android:layout_height="@dimen/text_13sp"-->
+<!--                                android:layout_gravity="center"-->
+<!--                                android:src="@drawable/clock_small" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:layout_marginStart="@dimen/five5_sp"-->
+<!--                                android:text="Status: "-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/black"-->
+<!--                                android:textSize="@dimen/text_12sp" />-->
+
+<!--                            <TextView-->
+<!--                                android:layout_width="wrap_content"-->
+<!--                                android:layout_height="wrap_content"-->
+<!--                                android:text="PARTIALLY APPROVED"-->
+<!--                                android:textAlignment="center"-->
+<!--                                android:textColor="@color/color_red"-->
+<!--                                android:textSize="@dimen/text_12sp"-->
+<!--                                android:textStyle="bold" />-->
+
+<!--                            &lt;!&ndash;                        <RelativeLayout&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:id="@+id/reviewButtonpartial"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_width="match_parent"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:layout_marginEnd="@dimen/value_7dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            android:textAlignment="viewEnd">&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                            <TextView&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:text="10/10"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textColor="@color/black"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textSize="@dimen/text_12sp"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:textStyle="bold"&ndash;&gt;&ndash;&gt;-->
+<!--                            &lt;!&ndash;                            &lt;!&ndash;                                android:visibility="@{model.isApproved() ? view.VISIBLE : view.GONE}" />&ndash;&gt;&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                            <TextView&ndash;&gt;-->
+
+<!--                            &lt;!&ndash;                                android:layout_width="@dimen/value_80dp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:layout_gravity="end"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:background="@drawable/seablue_roundedcorners"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:padding="2sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:text="Review"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textAlignment="center"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textColor="@color/white"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textSize="@dimen/text_13sp"&ndash;&gt;-->
+<!--                            &lt;!&ndash;                                android:textStyle="bold" />&ndash;&gt;-->
+<!--                            &lt;!&ndash;                        </RelativeLayout>&ndash;&gt;-->
+
+
+<!--                        </LinearLayout>-->
+
+
+<!--                    </LinearLayout>-->
+
+
+<!--                </LinearLayout>-->
+
+<!--            </androidx.cardview.widget.CardView>-->
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</LinearLayout>
+
+    <data>
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroCallback" />
+    </data>
+</layout>

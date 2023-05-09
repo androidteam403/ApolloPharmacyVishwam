@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/value_10dp"
+        android:background="@drawable/dialog_background"
+        android:orientation="vertical"
+        android:padding="@dimen/value_20dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageButton
+                android:id="@+id/close"
+                android:layout_width="@dimen/value_40dp"
+                android:layout_height="@dimen/value_40dp"
+                android:layout_alignParentEnd="true"
+                android:background="@drawable/close_icon"
+                android:visibility="gone"
+                android:contentDescription="@string/app_name" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/value_25dp"
+            android:layout_marginBottom="@dimen/value_25dp"
+            android:id="@+id/message"
+            android:gravity="center_horizontal"
+            android:text="Approval Qty should not exceed the \nRequested Qty
+
+"
+
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-medium"
+            android:textSize="@dimen/text_14sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginBottom="@dimen/value_5dp"
+           >
+
+<!--            <androidx.appcompat.widget.AppCompatButton-->
+<!--                android:id="@+id/cancel_button"-->
+<!--                android:layout_width="@dimen/value_200dp"-->
+<!--                android:layout_height="@dimen/value_45dp"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:layout_marginStart="@dimen/value_10dp"-->
+<!--                android:layout_marginEnd="@dimen/value_10dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:background="@drawable/qc_reject_button"-->
+<!--                android:gravity="center"-->
+<!--                android:text="No"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:textColor="@color/white"-->
+<!--                android:textSize="@dimen/text_16sp" />-->
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/yes_btn"
+                android:layout_width="@dimen/value_140dp"
+                android:layout_height="@dimen/value_45dp"
+                android:layout_marginEnd="@dimen/value_10dp"
+                android:background="@drawable/qc_reject_button"
+                android:text="OK"
+                android:textAlignment="center"
+                android:layout_marginStart="@dimen/dimen65dp"
+                android:layout_gravity="center_horizontal"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_16sp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
