@@ -88,10 +88,10 @@
         </LinearLayout>
 
         <LinearLayout
+            android:layout_alignParentBottom="true"
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
-            android:layout_alignParentBottom="true"
             android:background="@color/greenn"
             android:gravity="center"
             android:orientation="horizontal"
