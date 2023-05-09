@@ -711,6 +711,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/price_bold"
+                                            android:buttonTint="@color/apna_project_actionbar_color"
                                             android:text="Per sq.ft"
                                             android:textSize="@dimen/text_12sp" />
 
@@ -728,6 +729,7 @@
                                             android:id="@+id/inchRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:buttonTint="@color/apna_project_actionbar_color"
                                             android:fontFamily="@font/poppin_bold"
                                             android:text="Per inch"
                                             android:textSize="@dimen/text_12sp" />
@@ -843,6 +845,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
+                                        android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="Yes"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
@@ -852,6 +855,7 @@
                                         android:id="@+id/toiletsAvailabilityNo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="No"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
@@ -916,6 +920,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
+                                        android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="Yes"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
@@ -925,6 +930,7 @@
                                         android:id="@+id/noRadioButton"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
+                                        android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="No"
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"

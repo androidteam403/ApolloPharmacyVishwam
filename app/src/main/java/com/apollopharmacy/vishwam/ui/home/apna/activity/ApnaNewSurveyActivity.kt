@@ -18,6 +18,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -48,6 +49,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
@@ -65,6 +67,9 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
+    var selectedMarker: Marker? = null
+    var errorMessage: String = "Please fill all mandatory fields"
+
     var length = 0.0
     var width = 0.0
 
@@ -239,7 +244,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 }
 
             }).check()
-
 
 
         activityApnaNewSurveyBinding.locationDetailsExpand.setOnClickListener {
@@ -638,7 +642,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "Please fill all mandatory fields",
+                    errorMessage,
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1438,11 +1442,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString().isEmpty()) {
-                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if (morningFromHour > morningToHour && morningFromMinute > morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                } else if (morningFromHour == morningToHour && morningFromMinute > morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                } else if (morningFromHour > morningToHour && morningFromMinute == morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
@@ -1472,16 +1493,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val formattedTime = simpleDateFormat.format(calendar.time)
 
                             if (activityApnaNewSurveyBinding.morningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString().isEmpty()) {
-                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
-                                } else {
-                                    activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.morningToSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if (morningFromHour > morningToHour && morningFromMinute > morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                } else if (morningFromHour == morningToHour && morningFromMinute > morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                } else if (morningFromHour > morningToHour && morningFromMinute == morningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.morningFromSelect.getText()!!.clear()
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
                             }
-//                            activityApnaNewSurveyBinding.morningFromSelect.setText(formattedTime)
                         }
                     },
                     hour,
@@ -1514,11 +1551,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString().isEmpty()) {
-                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
-                                    activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
-                                } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if (morningToHour < morningFromHour && morningToMinute < morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+
+                                } else if (morningToHour == morningFromHour && morningToMinute < morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (morningToHour < morningFromHour && morningToMinute == morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
@@ -1548,11 +1603,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.morningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString().isEmpty()) {
-                                if (morningToHour > morningFromHour && morningToMinute > morningFromMinute) {
-                                    activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if ((morningToHour > morningFromHour && morningToMinute > morningFromMinute) ||
+                                    (morningToHour >= morningFromHour && morningToMinute > morningFromMinute)
+                                ) {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(
+                                        formattedTime)
                                 } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
@@ -1590,11 +1652,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString().isEmpty()) {
-                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
+                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)) {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                        formattedTime)
                                 } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
@@ -1624,11 +1693,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningToSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString().isEmpty()) {
-                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
+                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)) {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                        formattedTime)
                                 } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
@@ -1666,11 +1742,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isEmpty()) {
-                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute ) {
-                                    activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
+                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)
+                                ) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                        formattedTime)
                                 } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
@@ -1700,11 +1783,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                             val simpleDateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
                             val formattedTime = simpleDateFormat.format(calendar.time)
                             if (activityApnaNewSurveyBinding.eveningFromSelect.text.toString() != null
-                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString().isEmpty()) {
-                                if (eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute ) {
-                                    activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
+                                && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
+                                    .isEmpty()
+                            ) {
+                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
+                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)
+                                ) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                        formattedTime)
                                 } else {
-                                    Toast.makeText(this@ApnaNewSurveyActivity, "Invalid Time", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
@@ -1817,51 +1907,70 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.areaDiscountText.text!!.clear()
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 }
-            }
 
-            override fun afterTextChanged(s: Editable?) {
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
                 val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
                 val areaDiscount = s.toString().trim()
-                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
-                    var pharmaValue: Int = 0
-                    var fmcgValue: Int = 0
-                    var surgicalsValue: Int = 0
-                    var areaDiscountValue: Int = 0
+
+                var pharmaValue: Int = 0
+                var fmcgValue: Int = 0
+                var surgicalsValue: Int = 0
+                var areaDiscountValue: Int = 0
+
+                if (pharma.isEmpty()) {
+                    pharmaValue = 0
+                } else {
                     if (pharma.endsWith("%")) {
                         pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
                     } else {
                         pharmaValue = pharma.toInt()
                     }
+                }
 
+                if (fmcg.isEmpty()) {
+                    fmcgValue = 0
+                } else {
                     if (fmcg.endsWith("%")) {
                         fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
                     } else {
                         fmcgValue = fmcg.toInt()
                     }
+                }
 
+                if (surgicals.isEmpty()) {
+                    surgicalsValue = 0
+                } else {
                     if (surgicals.endsWith("%")) {
                         surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
                     } else {
                         surgicalsValue = surgicals.toInt()
                     }
+                }
 
+                if (areaDiscount.isEmpty()) {
+                    areaDiscountValue = 0
+                } else {
                     if (areaDiscount.endsWith("%")) {
-                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                        areaDiscountValue =
+                            areaDiscount.substring(0, areaDiscount.length - 1).toInt()
                     } else {
                         areaDiscountValue = areaDiscount.toInt()
                     }
-
-                    val sum =  pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
-                    if (sum > 100) {
-                        Toast.makeText(
-                            this@ApnaNewSurveyActivity,
-                            "Must be less than or equals to 100",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
+                val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                if (sum > 100) {
+                    activityApnaNewSurveyBinding.areaDiscountText.getText()!!.clear()
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Must be less than or equals to 100",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+
             }
         })
 
@@ -1890,51 +1999,71 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.pharmaText.text!!.clear()
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 }
-            }
 
-            override fun afterTextChanged(s: Editable?) {
                 val pharma = s.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
                 val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
-                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
-                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
-                    var pharmaValue: Int = 0
-                    var fmcgValue: Int = 0
-                    var surgicalsValue: Int = 0
-                    var areaDiscountValue: Int = 0
+                val areaDiscount =
+                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
 
+                var pharmaValue: Int = 0
+                var fmcgValue: Int = 0
+                var surgicalsValue: Int = 0
+                var areaDiscountValue: Int = 0
+
+                if (pharma.isEmpty()) {
+                    pharmaValue = 0
+                } else {
                     if (pharma.endsWith("%")) {
                         pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
                     } else {
                         pharmaValue = pharma.toInt()
                     }
+                }
 
+                if (fmcg.isEmpty()) {
+                    fmcgValue = 0
+                } else {
                     if (fmcg.endsWith("%")) {
                         fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
                     } else {
                         fmcgValue = fmcg.toInt()
                     }
+                }
 
+                if (surgicals.isEmpty()) {
+                    surgicalsValue = 0
+                } else {
                     if (surgicals.endsWith("%")) {
                         surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
                     } else {
                         surgicalsValue = surgicals.toInt()
                     }
+                }
 
+                if (areaDiscount.isEmpty()) {
+                    areaDiscountValue = 0
+                } else {
                     if (areaDiscount.endsWith("%")) {
-                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                        areaDiscountValue =
+                            areaDiscount.substring(0, areaDiscount.length - 1).toInt()
                     } else {
                         areaDiscountValue = areaDiscount.toInt()
                     }
-                    val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
-                    if (sum > 100) {
-                        Toast.makeText(
-                            this@ApnaNewSurveyActivity,
-                            "Must be less than or equals to 100",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
+
+                val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                if (sum > 100) {
+                    activityApnaNewSurveyBinding.pharmaText.getText()!!.clear()
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Must be less than or equals to 100",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
             }
 
         })
@@ -1960,51 +2089,71 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.fmcgText.text!!.clear()
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 }
-            }
 
-            override fun afterTextChanged(s: Editable?) {
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = s.toString().trim()
                 val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
-                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
-                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
-                    var pharmaValue: Int = 0
-                    var fmcgValue: Int = 0
-                    var surgicalsValue: Int = 0
-                    var areaDiscountValue: Int = 0
+                val areaDiscount =
+                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
 
+                var pharmaValue: Int = 0
+                var fmcgValue: Int = 0
+                var surgicalsValue: Int = 0
+                var areaDiscountValue: Int = 0
+
+                if (pharma.isEmpty()) {
+                    pharmaValue = 0
+                } else {
                     if (pharma.endsWith("%")) {
                         pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
                     } else {
                         pharmaValue = pharma.toInt()
                     }
+                }
 
+                if (fmcg.isEmpty()) {
+                    fmcgValue = 0
+                } else {
                     if (fmcg.endsWith("%")) {
                         fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
                     } else {
                         fmcgValue = fmcg.toInt()
                     }
+                }
 
+                if (surgicals.isEmpty()) {
+                    surgicalsValue = 0
+                } else {
                     if (surgicals.endsWith("%")) {
                         surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
                     } else {
                         surgicalsValue = surgicals.toInt()
                     }
+                }
 
+                if (areaDiscount.isEmpty()) {
+                    areaDiscountValue = 0
+                } else {
                     if (areaDiscount.endsWith("%")) {
-                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                        areaDiscountValue =
+                            areaDiscount.substring(0, areaDiscount.length - 1).toInt()
                     } else {
                         areaDiscountValue = areaDiscount.toInt()
                     }
-                    val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
-                    if (sum > 100) {
-                        Toast.makeText(
-                            this@ApnaNewSurveyActivity,
-                            "Must be less than or equals to 100",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
                 }
+                val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                if (sum > 100) {
+                    activityApnaNewSurveyBinding.fmcgText.getText()!!.clear()
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Must be less than or equals to 100",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
             }
         })
 
@@ -2033,52 +2182,71 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                     activityApnaNewSurveyBinding.surgicalsText.text!!.clear()
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 }
-            }
 
-            override fun afterTextChanged(s: Editable?) {
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
                 val surgicals = s.toString().trim()
-                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
-                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
-                    var pharmaValue: Int = 0
-                    var fmcgValue: Int = 0
-                    var surgicalsValue: Int = 0
-                    var areaDiscountValue: Int = 0
+                val areaDiscount =
+                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
+
+                var pharmaValue: Int = 0
+                var fmcgValue: Int = 0
+                var surgicalsValue: Int = 0
+                var areaDiscountValue: Int = 0
+
+                if (pharma.isEmpty()) {
+                    pharmaValue = 0
+                } else {
                     if (pharma.endsWith("%")) {
                         pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
                     } else {
                         pharmaValue = pharma.toInt()
                     }
+                }
 
+                if (fmcg.isEmpty()) {
+                    fmcgValue = 0
+                } else {
                     if (fmcg.endsWith("%")) {
                         fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
                     } else {
                         fmcgValue = fmcg.toInt()
                     }
+                }
 
+                if (surgicals.isEmpty()) {
+                    surgicalsValue = 0
+                } else {
                     if (surgicals.endsWith("%")) {
                         surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
                     } else {
                         surgicalsValue = surgicals.toInt()
                     }
+                }
 
+                if (areaDiscount.isEmpty()) {
+                    areaDiscountValue = 0
+                } else {
                     if (areaDiscount.endsWith("%")) {
-                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                        areaDiscountValue =
+                            areaDiscount.substring(0, areaDiscount.length - 1).toInt()
                     } else {
                         areaDiscountValue = areaDiscount.toInt()
                     }
-                    val sum =pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
-                    if (sum > 100) {
-                        Toast.makeText(
-                            this@ApnaNewSurveyActivity,
-                            "Must be less than or equals to 100",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
+                }
+                val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                if (sum > 100) {
+                    activityApnaNewSurveyBinding.surgicalsText.getText()!!.clear()
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Must be less than or equals to 100",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
+            override fun afterTextChanged(s: Editable?) {
+            }
         })
 
         // on click submit
@@ -2197,8 +2365,40 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
                         activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
                         val markerOption = MarkerOptions().position(latLang).title("")
-                        map.addMarker(markerOption)
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
+                        selectedMarker = map.addMarker(markerOption)
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 9F))
+
+                        map.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
+                            override fun onMarkerDrag(p0: Marker) {
+                            }
+
+                            override fun onMarkerDragEnd(p0: Marker) {
+                                activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f", p0.position.latitude))
+                                activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f", p0.position.longitude))
+                            }
+
+                            override fun onMarkerDragStart(p0: Marker) {
+                            }
+
+                        })
+
+//                        map.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+//                            override fun onMapClick(p0: LatLng) {
+//
+//                                if (selectedMarker != null) {
+//                                    selectedMarker!!.remove()
+//                                }
+//
+//                                selectedMarker = map.addMarker(MarkerOptions().position(p0))
+//                                map.moveCamera(CameraUpdateFactory.newLatLng(p0))
+//
+//                                activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f",
+//                                    p0.latitude))
+//                                activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f",
+//                                    p0.longitude))
+//                            }
+//
+//                        })
                     }
                 })
             }
@@ -3010,17 +3210,24 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         val landmarks = activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
 
         if (location.isEmpty()) {
+            errorMessage = "Please fill all mandatory fields"
             return false
         } else if (city.isEmpty()) {
+            errorMessage = "Please fill all mandatory fields"
             return false
         } else if (state.isEmpty()) {
+            errorMessage = "Please fill all mandatory fields"
             return false
         } else if (pin.isEmpty() || pin.length < 6) {
+            errorMessage = "Please enter valid pincode"
             return false
         } else if (landmarks.isEmpty()) {
+            errorMessage = "Please fill all mandatory fields"
             return false
+        } else {
+            errorMessage = "Please fill all mandatory fields"
+            return true
         }
-        return true
     }
 
     private fun checkPermission(): Boolean {
