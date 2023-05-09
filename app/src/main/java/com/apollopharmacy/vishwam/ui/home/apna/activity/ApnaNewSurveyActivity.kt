@@ -62,6 +62,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlin.collections.ArrayList
 
 class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     var length = 0.0
@@ -101,6 +102,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     lateinit var organisedDialog: Dialog
     lateinit var unorganisedDialog: Dialog
     lateinit var dimensionTypeDialog: Dialog
+    lateinit var neighbouringLocationDialog: Dialog
 
 
     var cityList = ArrayList<CityListResponse.Data.ListData.Row>()
@@ -108,6 +110,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     var chemistList = ArrayList<ChemistData>()
     var hospitalsList = ArrayList<HospitalData>()
     var apartmentsList = ArrayList<ApartmentData>()
+    var neighbouringStoreList = ArrayList<NeighbouringStoreData>()
     var locationList = ArrayList<LocationListResponse.Data.ListData.Row>()
     var trafficStreetData = ArrayList<TrafficStreetTypeResponse.Data.ListData.Row>()
     var trafficGeneratorData = ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>()
@@ -117,7 +120,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     var dimensionTypeList = ArrayList<DimensionTypeResponse.Data.ListData.Row>()
     var neighbouringLocationList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
     var selectedTrafficGeneratorItem = ArrayList<String>()
-    var neighbouringStoreList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
+//    var neighbouringStoreList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
 
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
@@ -143,6 +146,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     lateinit var unOrganisedAdapter: UnOrganisedAdapter
     lateinit var chemistAdapter: ChemistAdapter
     lateinit var dimensionTypeAdapter: DimensionTypeAdapter
+    lateinit var neighbouringLocationAdapter: NeighbouringLocationAdapter
+    lateinit var neighbouringStoreAdapter: NeighbouringStoreAdapter
 
     val REQUEST_CODE_CAMERA = 2235211
     val REQUEST_CODE_VIDEO = 2156
@@ -445,8 +450,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 // market information
                 val existingOutletName =
                     activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
-                val existingOutletAgeRadio =
-                    activityApnaNewSurveyBinding.ageOrSaleRadioGroup.checkedRadioButtonId
+//                val existingOutletAgeRadio =
+//                    activityApnaNewSurveyBinding.ageOrSaleRadioGroup.checkedRadioButtonId
                 val ageOrSale = activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim()
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
@@ -1108,6 +1113,40 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             apnaSpecialityDialog.show()
         }
 
+        // Adding Neighbouring Store
+        activityApnaNewSurveyBinding.neighbourAddBtn.setOnClickListener {
+            val location =
+                activityApnaNewSurveyBinding.neighbourLocationSelect.text.toString().trim()
+            val store = activityApnaNewSurveyBinding.storeText.text.toString().trim()
+            val rent = activityApnaNewSurveyBinding.rentText.text.toString().trim()
+            val sales = activityApnaNewSurveyBinding.salesText.text.toString().trim()
+            val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
+
+            neighbouringStoreList.add(
+                NeighbouringStoreData(
+                    location,
+                    store,
+                    rent,
+                    sales,
+                    sqFt
+                )
+            )
+            neighbouringStoreAdapter = NeighbouringStoreAdapter(
+                this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                neighbouringStoreList
+            )
+            activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter = neighbouringStoreAdapter
+            activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+
+            activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
+            activityApnaNewSurveyBinding.storeText.text!!.clear()
+            activityApnaNewSurveyBinding.rentText.text!!.clear()
+            activityApnaNewSurveyBinding.salesText.text!!.clear()
+            activityApnaNewSurveyBinding.sqFtText.text!!.clear()
+        }
+
         // Adding apartments data
         activityApnaNewSurveyBinding.apartmentsAddBtn.setOnClickListener {
             val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
@@ -1214,6 +1253,59 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
         }
 
+        // Neighbouring Location Dropdown
+        activityApnaNewSurveyBinding.neighbourLocationSelect.setOnClickListener {
+            neighbouringLocationDialog = Dialog(this@ApnaNewSurveyActivity)
+            neighbouringLocationDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            val dialogNeighbourLocationBinding =
+                DataBindingUtil.inflate<DialogNeighbourLocationBinding>(
+                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    R.layout.dialog_neighbour_location,
+                    null,
+                    false
+                )
+            neighbouringLocationDialog.setContentView(dialogNeighbourLocationBinding.root)
+            dialogNeighbourLocationBinding.closeDialog.setOnClickListener {
+                neighbouringLocationDialog.dismiss()
+            }
+
+            neighbouringLocationAdapter = NeighbouringLocationAdapter(
+                this@ApnaNewSurveyActivity,
+                this@ApnaNewSurveyActivity,
+                neighbouringLocationList
+            )
+            dialogNeighbourLocationBinding.neighbouringLocationRcv.adapter =
+                neighbouringLocationAdapter
+            dialogNeighbourLocationBinding.neighbouringLocationRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+            dialogNeighbourLocationBinding.searchNeighbouringLocationText.addTextChangedListener(
+                object :
+                    TextWatcher {
+                    override fun beforeTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        count: Int,
+                        after: Int,
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        s: CharSequence?,
+                        start: Int,
+                        before: Int,
+                        count: Int,
+                    ) {
+                    }
+
+                    override fun afterTextChanged(s: Editable?) {
+                        neighbouringLocationFilter(s.toString(), dialogNeighbourLocationBinding)
+                    }
+                })
+
+            neighbouringLocationDialog.setCancelable(false)
+            neighbouringLocationDialog.show()
+        }
+
         // Organised Dropdown
         activityApnaNewSurveyBinding.organisedSelect.setOnClickListener {
             organisedDialog = Dialog(this@ApnaNewSurveyActivity)
@@ -1224,7 +1316,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 false
             )
             organisedDialog.setContentView(dialogOrganisedBinding.root)
-
             organisedDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             organisedDialog.setCancelable(false)
             dialogOrganisedBinding.closeDialog.setOnClickListener {
@@ -1613,8 +1704,49 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             override fun afterTextChanged(s: Editable?) {
-            }
+                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
+                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
+                val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
+                val areaDiscount = s.toString().trim()
+                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
+                    var pharmaValue: Int = 0
+                    var fmcgValue: Int = 0
+                    var surgicalsValue: Int = 0
+                    var areaDiscountValue: Int = 0
+                    if (pharma.endsWith("%")) {
+                        pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
+                    } else {
+                        pharmaValue = pharma.toInt()
+                    }
 
+                    if (fmcg.endsWith("%")) {
+                        fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
+                    } else {
+                        fmcgValue = fmcg.toInt()
+                    }
+
+                    if (surgicals.endsWith("%")) {
+                        surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
+                    } else {
+                        surgicalsValue = surgicals.toInt()
+                    }
+
+                    if (areaDiscount.endsWith("%")) {
+                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                    } else {
+                        areaDiscountValue = areaDiscount.toInt()
+                    }
+
+                    val sum =  pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                    if (sum > 100) {
+                        Toast.makeText(
+                            this@ApnaNewSurveyActivity,
+                            "Must be less than or equals to 100",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         })
 
         activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(object : TextWatcher {
@@ -1645,6 +1777,48 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             override fun afterTextChanged(s: Editable?) {
+                val pharma = s.toString().trim()
+                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
+                val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
+                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
+                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
+                    var pharmaValue: Int = 0
+                    var fmcgValue: Int = 0
+                    var surgicalsValue: Int = 0
+                    var areaDiscountValue: Int = 0
+
+                    if (pharma.endsWith("%")) {
+                        pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
+                    } else {
+                        pharmaValue = pharma.toInt()
+                    }
+
+                    if (fmcg.endsWith("%")) {
+                        fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
+                    } else {
+                        fmcgValue = fmcg.toInt()
+                    }
+
+                    if (surgicals.endsWith("%")) {
+                        surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
+                    } else {
+                        surgicalsValue = surgicals.toInt()
+                    }
+
+                    if (areaDiscount.endsWith("%")) {
+                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                    } else {
+                        areaDiscountValue = areaDiscount.toInt()
+                    }
+                    val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                    if (sum > 100) {
+                        Toast.makeText(
+                            this@ApnaNewSurveyActivity,
+                            "Must be less than or equals to 100",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
 
         })
@@ -1673,8 +1847,49 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             override fun afterTextChanged(s: Editable?) {
-            }
+                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
+                val fmcg = s.toString().trim()
+                val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
+                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
+                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
+                    var pharmaValue: Int = 0
+                    var fmcgValue: Int = 0
+                    var surgicalsValue: Int = 0
+                    var areaDiscountValue: Int = 0
 
+                    if (pharma.endsWith("%")) {
+                        pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
+                    } else {
+                        pharmaValue = pharma.toInt()
+                    }
+
+                    if (fmcg.endsWith("%")) {
+                        fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
+                    } else {
+                        fmcgValue = fmcg.toInt()
+                    }
+
+                    if (surgicals.endsWith("%")) {
+                        surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
+                    } else {
+                        surgicalsValue = surgicals.toInt()
+                    }
+
+                    if (areaDiscount.endsWith("%")) {
+                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                    } else {
+                        areaDiscountValue = areaDiscount.toInt()
+                    }
+                    val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                    if (sum > 100) {
+                        Toast.makeText(
+                            this@ApnaNewSurveyActivity,
+                            "Must be less than or equals to 100",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+            }
         })
 
         activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(object : TextWatcher {
@@ -1705,6 +1920,47 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
 
             override fun afterTextChanged(s: Editable?) {
+                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
+                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
+                val surgicals = s.toString().trim()
+                val areaDiscount = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
+                if (pharma.isNotEmpty() && fmcg.isNotEmpty() && surgicals.isNotEmpty() && areaDiscount.isNotEmpty()) {
+                    var pharmaValue: Int = 0
+                    var fmcgValue: Int = 0
+                    var surgicalsValue: Int = 0
+                    var areaDiscountValue: Int = 0
+                    if (pharma.endsWith("%")) {
+                        pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
+                    } else {
+                        pharmaValue = pharma.toInt()
+                    }
+
+                    if (fmcg.endsWith("%")) {
+                        fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
+                    } else {
+                        fmcgValue = fmcg.toInt()
+                    }
+
+                    if (surgicals.endsWith("%")) {
+                        surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
+                    } else {
+                        surgicalsValue = surgicals.toInt()
+                    }
+
+                    if (areaDiscount.endsWith("%")) {
+                        areaDiscountValue = areaDiscount.substring(0, areaDiscount.length - 1).toInt()
+                    } else {
+                        areaDiscountValue = areaDiscount.toInt()
+                    }
+                    val sum =pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
+                    if (sum > 100) {
+                        Toast.makeText(
+                            this@ApnaNewSurveyActivity,
+                            "Must be less than or equals to 100",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
 
         })
@@ -1758,6 +2014,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             }
         }
 
+    }
+
+    private fun neighbouringLocationFilter(
+        searchText: String,
+        dialogNeighbourLocationBinding: DialogNeighbourLocationBinding?,
+    ) {
+        val filteredList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
+        for (i in neighbouringLocationList.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(neighbouringLocationList)
+            } else if (neighbouringLocationList[i].name!!.contains(searchText, true)) {
+                filteredList.add(neighbouringLocationList[i])
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogNeighbourLocationBinding!!.neighbouringLocationRcv.visibility = View.GONE
+            dialogNeighbourLocationBinding.neighbouringLocationAvailable.visibility = View.VISIBLE
+        } else {
+            dialogNeighbourLocationBinding!!.neighbouringLocationRcv.visibility = View.VISIBLE
+            dialogNeighbourLocationBinding.neighbouringLocationAvailable.visibility = View.GONE
+        }
+        neighbouringLocationAdapter.filter(filteredList)
     }
 
     private fun dimensionTypeFilter(
@@ -2040,7 +2319,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
         intent.putExtra(MediaStore.EXTRA_DURATION_LIMIT, 30)//context.cacheDir
 
-        videoFile = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), "${System.currentTimeMillis()}.mp4")
+        videoFile =
+            File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                .toString(), "${System.currentTimeMillis()}.mp4")
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(videoFile))
@@ -2368,13 +2649,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                 for (i in neighbouringStoreList.indices) {
                     val neighboringStore = SurveyCreateRequest.NeighboringStore()
                     val location = SurveyCreateRequest.NeighboringStore.Location()
-                    location.uid = neighbouringStoreList[i].name
+                    location.uid = neighbouringStoreList.get(i).location
                     neighboringStore.location = location
-                    neighboringStore.store = neighbouringStoreList[i].store
-                    if (neighbouringStoreList[i].rent != null && neighbouringStoreList[i].sales != null && neighbouringStoreList[i].sqFt != null) {
-                        neighboringStore.sales = neighbouringStoreList[i].sales!!.toFloat()
-                        neighboringStore.sqft = neighbouringStoreList[i].sqFt!!.toFloat()
-                        neighboringStore.rent = neighbouringStoreList[i].rent!!.toInt()
+                    neighboringStore.store = neighbouringStoreList.get(i).store
+                    if (neighbouringStoreList[i].rent.isNotEmpty() && neighbouringStoreList[i].sales.isNotEmpty() && neighbouringStoreList[i].sqFt.isNotEmpty()) {
+                        neighboringStore.sales = neighbouringStoreList[i].sales.toFloat()
+                        neighboringStore.sqft = neighbouringStoreList[i].sqFt.toFloat()
+                        neighboringStore.rent = neighbouringStoreList[i].rent.toInt()
                     }
                     neighbouringStores.add(neighboringStore)
                 }
@@ -2736,6 +3017,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
         trafficGeneratorAdapter.notifyDataSetChanged()
     }
 
+    override fun onClickNeighbouringStoreDelete(position: Int) {
+        neighbouringStoreList.removeAt(position)
+        neighbouringStoreAdapter.notifyDataSetChanged()
+    }
+
     override fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?) {
 
         if (selected == true) {
@@ -2862,12 +3148,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
             neighbouringLocationList =
                 neighbouringLocationResponse.data!!.listData!!.rows as ArrayList<NeighbouringLocationResponse.Data.ListData.Row>
 
-            val neighbouringStoreAdapter = NeighbouringStoreAdapter(
-                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, neighbouringLocationList
-            )
-            activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter = neighbouringStoreAdapter
-            activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
-                LinearLayoutManager(this@ApnaNewSurveyActivity)
+//            val neighbouringStoreAdapter = NeighbouringStoreAdapter(
+//                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, neighbouringLocationList
+//            )
+//            activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter = neighbouringStoreAdapter
+//            activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
+//                LinearLayoutManager(this@ApnaNewSurveyActivity)
         }
     }
 
@@ -2876,9 +3162,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     }
 
 
-    override fun onDataChanged(neighbouringList: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>) {
-        neighbouringStoreList = neighbouringList
-    }
+//    override fun onDataChanged(neighbouringList: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>) {
+//        neighbouringStoreList = neighbouringList
+//    }
 
     override fun onSuccessConnectToAzure(images: ArrayList<ImageDto>) {
         imageUrls = images
@@ -2998,6 +3284,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
     override fun onSelectDimensionTypeItem(position: Int, item: String) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
         dimensionTypeDialog.dismiss()
+    }
+
+    override fun onSelectNeighbourLocation(position: Int, item: String) {
+        activityApnaNewSurveyBinding.neighbourLocationSelect.setText(item)
+        neighbouringLocationDialog.dismiss()
     }
 
     override fun onBackPressed() {

@@ -84,7 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -437,7 +437,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -1331,7 +1331,7 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
-                                <RadioGroup
+                                <!--<RadioGroup
                                     android:id="@+id/ageOrSaleRadioGroup"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
@@ -1356,7 +1356,7 @@
                                         android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
-                                </RadioGroup>
+                                </RadioGroup>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1367,7 +1367,6 @@
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
-                                        android:layout_marginStart="@dimen/value_20dp"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
                                         android:tint="#818181"
@@ -1436,7 +1435,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
                                                 android:hint="Pharma"
-                                                android:inputType="numberDecimal"
+                                                android:inputType="number"
+                                                android:maxLength="3"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
@@ -1462,7 +1462,8 @@
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
                                                 android:hint="FMCG"
-                                                android:inputType="numberDecimal"
+                                                android:inputType="number"
+                                                android:maxLength="3"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
@@ -1490,7 +1491,8 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
                                             android:hint="Surgicals"
-                                            android:inputType="numberDecimal"
+                                            android:inputType="number"
+                                            android:maxLength="3"
                                             android:paddingStart="@dimen/value_10dp"
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
@@ -1520,7 +1522,8 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
                                         android:hint="Area discount"
-                                        android:inputType="numberDecimal"
+                                        android:inputType="number"
+                                        android:maxLength="3"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
@@ -1529,11 +1532,173 @@
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
-                            <androidx.recyclerview.widget.RecyclerView
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/value_8dp"
+                                android:background="@drawable/white_rounded_bg"
+                                android:orientation="vertical"
+                                android:padding="@dimen/value_10dp">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:text="Neighbouring Store"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/TextLabelEditTextApnaProject">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/neighbourLocationSelect"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_50dp"
+                                        android:layout_marginTop="@dimen/value_3dp"
+                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
+                                        android:hint="Select Location"
+                                        android:inputType="text"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:weightSum="1">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_5dp"
+                                        android:layout_weight=".3"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/TextLabelEditTextApnaProject">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/rentText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:hint="Rent"
+                                            android:inputType="number"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight=".7"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/TextLabelEditTextApnaProject">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/storeText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:hint="Store"
+                                            android:inputType="text"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:weightSum="3"
+                                    android:layout_marginTop="@dimen/value_5dp">
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_5dp"
+                                        android:layout_weight=".9"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/TextLabelEditTextApnaProject">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/salesText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:hint="Sales"
+                                            android:inputType="numberDecimal"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <com.google.android.material.textfield.TextInputLayout
+                                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:layout_weight="1.6"
+                                        android:textColorHint="@color/black"
+                                        android:theme="@style/TextLabelEditTextApnaProject">
+
+                                        <androidx.appcompat.widget.AppCompatEditText
+                                            android:id="@+id/sqFtText"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="@dimen/value_50dp"
+                                            android:hint="Sq.ft."
+                                            android:inputType="numberDecimal"
+                                            android:paddingStart="@dimen/value_10dp"
+                                            android:paddingEnd="@dimen/value_10dp"
+                                            android:textColor="@color/black"
+                                            android:textColorHint="@color/black"
+                                            android:textSize="14sp" />
+                                    </com.google.android.material.textfield.TextInputLayout>
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                        android:id="@+id/neighbourAddBtn"
+                                        android:layout_width="0dp"
+                                        android:layout_height="@dimen/value_50dp"
+                                        android:layout_weight=".5"
+                                        android:background="@drawable/apna_project_add_btn_bg"
+                                        android:hint="Add"
+                                        android:textColorHint="@color/white"
+                                        android:textSize="@dimen/text_14sp" />
+                                </LinearLayout>
+
+                                <androidx.recyclerview.widget.RecyclerView
+                                    android:id="@+id/neighbouringStoreRcv"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    tools:listitem="@layout/layout_neighbouring_store"
+                                    tools:itemCount="2"
+                                    android:layout_marginTop="@dimen/value_8dp"/>
+                            </LinearLayout>
+
+                            <!--<androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/neighbouringStoreRcv"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:nestedScrollingEnabled="false" />
+                                android:nestedScrollingEnabled="false" />-->
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -1778,7 +1943,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2065,7 +2230,7 @@
                                             android:id="@+id/chemistAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
-                                            android:background="@drawable/blue_rounded_corner_bg"
+                                            android:background="@drawable/apna_project_add_btn_bg"
                                             android:fontFamily="@font/price_bold"
                                             android:hint="Add"
                                             android:textColorHint="@color/white"
@@ -2163,7 +2328,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2369,7 +2534,7 @@
                                             android:id="@+id/apartmentsAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
-                                            android:background="@drawable/blue_rounded_corner_bg"
+                                            android:background="@drawable/apna_project_add_btn_bg"
                                             android:hint="Add"
                                             android:textColorHint="@color/white"
                                             android:textSize="@dimen/text_14sp" />
@@ -2394,7 +2559,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2643,7 +2808,7 @@
                                             android:id="@+id/hospitalAddBtn"
                                             android:layout_width="match_parent"
                                             android:layout_height="@dimen/value_50dp"
-                                            android:background="@drawable/blue_rounded_corner_bg"
+                                            android:background="@drawable/apna_project_add_btn_bg"
                                             android:hint="Add"
                                             android:textColorHint="@color/white"
                                             android:textSize="@dimen/text_14sp" />
@@ -2668,7 +2833,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -2814,7 +2979,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="@dimen/value_40dp"
                                         android:layout_weight=".2"
-                                        android:background="@drawable/blue_rounded_corner_bg"
+                                        android:background="@drawable/apna_project_add_btn_bg"
                                         android:fontFamily="@font/price_bold"
                                         android:hint="Add"
                                         android:textColorHint="@color/white"
@@ -2939,10 +3104,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#39b54a"
+            android:background="@color/apna_project_actionbar_color"
             android:gravity="center_horizontal"
             android:paddingVertical="@dimen/value_12dp"
             android:visibility="visible">
+            <!--#39b54a-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -2978,8 +3144,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:background="#29abe2"
-                android:backgroundTint="#29abe2"
+                android:background="@color/apna_project_actionbar_color"
+                android:backgroundTint="@color/apna_project_actionbar_color"
                 android:hint="Submit"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />
@@ -3011,7 +3177,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
-                android:background="#39b54a"
+                android:background="@color/apna_project_actionbar_color"
                 android:hint="Next"
                 android:textColorHint="@color/white"
                 android:textSize="@dimen/text_20sp" />

@@ -28,6 +28,8 @@ interface ApnaNewSurveyCallBack {
 
     fun onClickTrafficGeneratorItemDelete(position: Int, deletedItem: String)
 
+    fun onClickNeighbouringStoreDelete(position: Int)
+
     fun onTrafficGeneratorItemSelect(position: Int, item: String, selected: Boolean?)
 
     fun deleteSiteImage(position: Int, file: File)
@@ -66,7 +68,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onFailureGetNeighbouringLocationApiCall(message: String)
 
-    fun onDataChanged(neighbouringList: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>)
+//    fun onDataChanged(neighbouringList: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>)
 
     fun onSuccessConnectToAzure(images: ArrayList<ImageDto>)
 
@@ -99,4 +101,8 @@ interface ApnaNewSurveyCallBack {
     fun onFailureVideoConnectAzure(message: String)
 
     fun onSelectDimensionTypeItem(position: Int, item: String)
+
+    fun onSelectNeighbourLocation(position: Int, item: String)
+
+
 }
