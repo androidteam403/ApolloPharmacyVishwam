@@ -43,14 +43,26 @@ import java.util.*
 
 interface ViswamAppApi {
 
-    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+    //    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+//    suspend fun validateEmpWithOtp(
+//        @Header("token") token: String,
+//        @Body validateOtpRequest: ValidateOtpRequest,
+//    ): ValidateOtpResponse
+    @POST//("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
     suspend fun validateEmpWithOtp(
+        @Url url: String,
         @Header("token") token: String,
         @Body validateOtpRequest: ValidateOtpRequest,
     ): ValidateOtpResponse
 
-    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+    //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+//    suspend fun deRegisterDevice(
+//        @Header("token") token: String,
+//        @Query("EmpId") id: String,
+//    ): DeviceDeRegResponse
+    @GET//("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
     suspend fun deRegisterDevice(
+        @Url url: String,
         @Header("token") token: String,
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
@@ -83,7 +95,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
-
 
 
     @POST
