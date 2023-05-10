@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/value_8dp"
+            android:background="@drawable/white_rounded_bg"
+            android:orientation="vertical"
+            android:padding="@dimen/value_10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text="Neighbouring Store"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text=" ("
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:id="@+id/sideText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text="Left"
+                    android:textColor="#68c3ea"
+                    android:textSize="@dimen/text_14sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppin_bold"
+                    android:text=")"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_8dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <!-- Store -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:text="Store"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/storeText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/light_gray_border"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Rent -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:text="Rent"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/leftRentText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:background="@drawable/light_gray_border"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_8dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:text="Sales"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/leftSalesText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/light_gray_border"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:text="Sq.ft."
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/sqFtText"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:background="@drawable/light_gray_border"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

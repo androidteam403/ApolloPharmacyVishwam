@@ -1,3 +1,8 @@
+include ':cusotmloader'
+include ':easywaylocation'
+include ':core'
+include ':permissions'
+include ':drawroutemap'
 include ':digitlib'
 include ':navigationlistview'
 include ':app'

@@ -2,6 +2,7 @@ package com.dvinfosys.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +19,29 @@ import com.dvinfosys.model.HeaderModel;
 
 import java.util.List;
 
-public class NavigationListAdapter extends BaseExpandableListAdapter {
+public class NavigationListAdapter extends BaseExpandableListAdapter  {
 
     private Context context;
     private List<HeaderModel> listHeader;
+    private HeaderModel data[] = null;
+
 
     public NavigationListAdapter(Context context, List<HeaderModel> listHeader) {
         this.context = context;
         this.listHeader = listHeader;
     }
-
+    public void onSelection(int position) {
+        int pos = 0;
+        for (HeaderModel dataModel : data) {
+            if (position == pos) {
+                dataModel.setSelected(true);
+            } else {
+                dataModel.setSelected(false);
+            }
+            pos++;
+        }
+        notifyDataSetChanged();
+    }
     @Override
     public Object getChild(int groupPosition, int childPosititon) {
         return this.listHeader.get(groupPosition).getChildModelList().get(childPosititon);
@@ -54,6 +68,8 @@ public class NavigationListAdapter extends BaseExpandableListAdapter {
         TextView txtListChild = convertView.findViewById(R.id.lblListItem);
         LinearLayout childParentLayout = convertView.findViewById(R.id.child_parent_layout);
         txtListChild.setText(childText.getTitle());
+        ImageView iconMenuChild = convertView.findViewById(R.id.icon_menu_child);
+        iconMenuChild.setImageResource(childText.getIcon());
 
         if (childText.isSelected()) {
             childParentLayout.setVisibility(View.VISIBLE);
@@ -109,6 +125,10 @@ public class NavigationListAdapter extends BaseExpandableListAdapter {
         TextView isNew = convertView.findViewById(R.id.is_new);
         iconMenu.setImageResource(header.getIcon());
         lblListHeader.setText(header.getTitle());
+
+
+
+
 
 //        if (header.getResource() != -1) {
 //            iconMenu.setBackgroundResource(header.getResource());

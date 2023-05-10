@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_60dp"
+                    android:gravity="center_vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/value_60dp"
+                        android:background="@color/white"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/value_25dp"
+                            android:layout_height="@dimen/twenty20_dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:contentDescription="@string/app_name"
+                            android:src="@drawable/filter" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/value_10dp"
+                            android:text="FILTERS"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_18sp"
+                            android:textStyle="bold" />
+
+                        <!--                        <TextView-->
+
+                        <!--                            android:layout_width="@dimen/dimen80dp"-->
+                        <!--                            android:layout_height="21dp"-->
+                        <!--                            android:layout_marginLeft="@dimen/dimen10dp"-->
+                        <!--                            android:background="@drawable/rectangular_box_clear"-->
+                        <!--                            android:fontFamily="@font/roboto_regular"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:text="CLEAR ALL"-->
+                        <!--                            android:textAlignment="center"-->
+                        <!--                            android:textColor="@color/white"-->
+                        <!--                            android:textSize="@dimen/dimen12sp"-->
+                        <!--                            android:textStyle="normal" />-->
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/filter_close_icon"
+                        android:layout_width="@dimen/value_40dp"
+                        android:layout_height="@dimen/value_40dp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/value_5dp"
+                        android:contentDescription="@string/app_name"
+                        android:src="@drawable/closee_black" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_3dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/text_18sp"
+                    android:text="Site Id"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/value_10dp">
+
+                    <!--            <com.google.android.material.textfield.TextInputLayout-->
+                    <!--                android:id="@+id/siteId"-->
+                    <!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+                    <!--                android:layout_width="match_parent"-->
+                    <!--                android:layout_height="wrap_content"-->
+                    <!--                android:layout_marginLeft="@dimen/value_5dp"-->
+                    <!--                android:layout_marginTop="@dimen/value_10dp"-->
+                    <!--                android:layout_marginRight="@dimen/value_5dp"-->
+                    <!--                android:focusable="true"-->
+                    <!--                android:textColorHint="@color/black">-->
+
+                    <EditText
+                        android:background="@drawable/champs_site_bg"
+                        android:id="@+id/siteIdSelect"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_50dp"
+                        android:layout_marginLeft="@dimen/value_5dp"
+                        android:layout_marginTop="@dimen/value_10dp"
+                        android:layout_marginRight="@dimen/value_5dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                        android:editable="false"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:hint="@string/label_select_site_id"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/black"
+                        android:textSize="@dimen/text_15sp" />
+                    <!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+                </LinearLayout>
+
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/stock_available_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp" />-->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:text="Status"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <RelativeLayout
+
+                        android:id="@+id/pending_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:layout_weight="0.33"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="PENDING"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/completed_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:layout_weight="0.33"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="IN PROGRESS"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:layout_weight="0.33"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="COMPLETED"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/order_type_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp" />-->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:background="#A9A9A9" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+
+                    android:gravity="center"
+                    android:text="Order Category"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="PHARMA"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/order_category_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/five5_sp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp" />-->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:text="Place"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/payment_type_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp" />-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="NELLORE"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/value_35dp"
+                        android:layout_margin="@dimen/value_5dp"
+                        android:background="@drawable/background_filter">
+
+                        <TextView
+
+                            android:layout_width="@dimen/value_150dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/value_10dp"
+                            android:paddingRight="@dimen/value_10dp"
+                            android:text="GUNTUR"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_12sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:background="#A9A9A9" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:text="Order Source"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/value_35dp"
+                    android:layout_margin="@dimen/value_5dp"
+                    android:background="@drawable/background_filter">
+
+                    <TextView
+
+                        android:layout_width="@dimen/value_150dp"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/value_10dp"
+                        android:paddingRight="@dimen/value_10dp"
+                        android:text="APOLLO247"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_12sp" />
+
+                </RelativeLayout>
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/order_source_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp" />-->
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_1dp"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:background="#A9A9A9" />
+
+                <!--            <TextView-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp"-->
+                <!--                android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                android:text="Customer Type"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_14sp" />-->
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/customer_type_filter"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp"/>-->
+
+                <!--            &lt;!&ndash;                <View&ndash;&gt;-->
+                <!--            &lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+                <!--            &lt;!&ndash;                    android:layout_height="@dimen/dimen1dp"&ndash;&gt;-->
+                <!--            &lt;!&ndash;                    android:layout_marginTop="@dimen/dimen5dp"&ndash;&gt;-->
+                <!--            &lt;!&ndash;                    android:background="#A9A9A9" />&ndash;&gt;-->
+                <!--            <View-->
+                <!--                android:id="@+id/reverification_view"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="@dimen/value_1dp"-->
+                <!--                android:layout_marginTop="@dimen/value_5dp"-->
+                <!--                android:background="#A9A9A9" />-->
+
+                <!--            <TextView-->
+                <!--                android:id="@+id/reverification_text"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_10dp"-->
+                <!--                android:layout_marginTop="@dimen/value_10dp"-->
+                <!--                android:text="Reverification"-->
+                <!--                android:textColor="@color/black"-->
+                <!--                android:textSize="@dimen/text_14sp" />-->
+
+                <!--            <androidx.recyclerview.widget.RecyclerView-->
+                <!--                android:id="@+id/reverification_recycler"-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="wrap_content"-->
+                <!--                android:layout_marginStart="@dimen/value_5dp"-->
+                <!--                android:layout_marginEnd="@dimen/value_5dp"-->
+                <!--                android:layout_marginBottom="@dimen/value_60dp" />-->
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/value_5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1">
+
+                <Button
+                    android:id="@+id/clear"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/clearall_bg"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="Clear All"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/apply_filters"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginStart="@dimen/value_4dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_weight="0.5"
+                    android:background="@drawable/start_survey_background"
+                    android:fontFamily="@font/roboto_bold"
+                    android:text="APPLY FILTERS"
+                    android:textAlignment="center"
+                    android:textColor="@color/white" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</layout>
