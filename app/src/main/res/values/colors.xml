@@ -196,5 +196,9 @@
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
     <color name="apna_project_actionbar_color">#5a345e</color>
+    <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
+    <color name="apna_project_preview_section_bg">#0DFF69B4</color>
+    <color name="green_color_resource">#4f99b1</color>
+
 
 </resources>
