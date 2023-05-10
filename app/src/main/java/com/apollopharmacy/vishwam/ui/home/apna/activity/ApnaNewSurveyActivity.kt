@@ -2707,8 +2707,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             MarkerOptions().position(latLang).title("")
                         map.addMarker(markerOption)
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
-
-                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity)
                     }
                 })
             }
