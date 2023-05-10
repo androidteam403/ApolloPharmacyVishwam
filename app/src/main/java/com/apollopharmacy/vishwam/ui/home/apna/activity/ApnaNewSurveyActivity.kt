@@ -19,6 +19,7 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.widget.RadioButton
@@ -69,7 +70,6 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     GoogleMap.OnMarkerDragListener {
     var selectedMarker: Marker? = null
     var errorMessage: String = "Please fill all mandatory fields"
-    var siteSpecificationsErrorMessage: String = ""
     var length = 0.0
     var width = 0.0
 
@@ -702,7 +702,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 if (currentPosition == 1 && !validateSiteSpecification()) {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
-                        siteSpecificationsErrorMessage,
+                        "Please fill all mandatory fields",
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -2634,7 +2634,34 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 ).show()
             }
         }
+        mapMoveIssue()
+    }
 
+    fun mapMoveIssue() {
+        activityApnaNewSurveyBinding.transparentImage.setOnTouchListener(View.OnTouchListener { v, event ->
+            val action = event.action
+            when (action) {
+                MotionEvent.ACTION_DOWN -> {
+                    // Disallow ScrollView to intercept touch events.
+                    activityApnaNewSurveyBinding.scrollView.requestDisallowInterceptTouchEvent(true)
+                    // Disable touch on transparent view
+                    false
+                }
+
+                MotionEvent.ACTION_UP -> {
+                    // Allow ScrollView to intercept touch events.
+                    activityApnaNewSurveyBinding.scrollView.requestDisallowInterceptTouchEvent(false)
+                    true
+                }
+
+                MotionEvent.ACTION_MOVE -> {
+                    activityApnaNewSurveyBinding.scrollView.requestDisallowInterceptTouchEvent(true)
+                    false
+                }
+
+                else -> true
+            }
+        })
     }
 
     private fun neighbouringLocationFilter(
@@ -2698,13 +2725,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             override fun onSuccess(location: Location?) {
                 supportMapFragment.getMapAsync(object : OnMapReadyCallback {
                     override fun onMapReady(map: GoogleMap) {
-//                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity);
+                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity);
                         this@ApnaNewSurveyActivity.map = map
                         val latLang = LatLng(location!!.latitude, location.longitude)
                         activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
                         activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
                         val markerOption =
-                            MarkerOptions().position(latLang).title("")
+                            MarkerOptions().position(latLang).title("").draggable(true)
                         map.addMarker(markerOption)
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
                     }
@@ -4024,13 +4051,10 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     override fun onMarkerDragEnd(p0: Marker) {
         if (map != null) {
-            map!!.clear()
+            map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
             val latLang = LatLng(p0!!.position.latitude, p0!!.position.latitude)
             activityApnaNewSurveyBinding.latitude.setText(latLang.latitude.toString())
             activityApnaNewSurveyBinding.longitude.setText(latLang.longitude.toString())
-            val markerOption = MarkerOptions().position(latLang).title("").draggable(true).visible(true)
-            map!!.addMarker(markerOption)
-            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
         }
     }
 
