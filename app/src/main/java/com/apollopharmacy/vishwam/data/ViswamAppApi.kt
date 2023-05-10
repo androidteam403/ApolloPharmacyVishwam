@@ -43,20 +43,36 @@ import java.util.*
 
 interface ViswamAppApi {
 
-    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+//    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+//    suspend fun validateEmpWithOtp(
+//        @Header("token") token: String,
+//        @Body validateOtpRequest: ValidateOtpRequest,
+//    ): ValidateOtpResponse
+//
+//    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+//    suspend fun deRegisterDevice(
+//        @Header("token") token: String,
+//        @Query("EmpId") id: String,
+//    ): DeviceDeRegResponse
+//
+//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://172.16.103.116:8101/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")//"https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP"
     suspend fun validateEmpWithOtp(
         @Header("token") token: String,
         @Body validateOtpRequest: ValidateOtpRequest,
     ): ValidateOtpResponse
 
-    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+    @GET("https://172.16.103.116:8108/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")//https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?
     suspend fun deRegisterDevice(
         @Header("token") token: String,
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")//https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String//https://172.16.103.116:8109/APOLLO/Vendor/VALIDATEVENDOR
+
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse

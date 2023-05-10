@@ -241,7 +241,7 @@ class HomeViewModel : ViewModel() {
             if (!ActivityUtils.isLoadingShowing()) ActivityUtils.showDialog(context, "Please wait.")
             val apiInterface = ApiClient.getApiService()
             val riderActiveStatusRequest = RiderActiveStatusRequest()
-            if (SessionManager(context).riderProfileResponse.data.uid != null) {
+            if (SessionManager(context).riderProfileResponse != null && SessionManager(context).riderProfileResponse.data != null && SessionManager(context).riderProfileResponse.data.uid != null) {
                 riderActiveStatusRequest.uid = SessionManager(context).riderProfileResponse.data.uid
             }
             val userAddInfo = RiderActiveStatusRequest.UserAddInfo()
