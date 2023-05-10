@@ -9,8 +9,13 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteList
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -67,8 +72,12 @@ interface ViswamAppApi {
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")//("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
     suspend fun getValidateTest(): ValidateResponse
@@ -724,6 +733,54 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: SaveImagesUrlsRequest,
     ): SaveImageUrlsResponse
+
+//    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
+//    suspend fun getStorePendingAndApprovedListApnaRetro(
+//        @Url url: String,
+//        @Header("token") token: String,
+//        @Body data: GetStorePendingAndApprovedListReq?,
+//    ): GetStorePendingAndApprovedListRes
+
+//    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls")
+//    suspend fun getImageUrlApiApnaRetro(
+//        @Url url: String,
+//        @Header("token") token: String,
+//        @Body data: GetImageUrlsModelApnaRequest,
+//    ): GetImageUrlsModelApnaResponse
+
+    @POST
+    suspend fun getRetroApprovalList(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetRetroPendindAndApproverequest,
+    ): GetRetroPendingAndApproveResponse
+    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
+    suspend fun getStorePendingAndApprovedListApnaRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetStorePendingAndApprovedListReq?,
+    ): GetStorePendingAndApprovedListRes
+
+    @POST
+    suspend fun getRetroSaveAcceptRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: SaveAcceptRequest,
+    ): SaveAcceptResponse
+
+    @POST
+    suspend fun getRetroImageUrlList(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetImageUrlRequest,
+    ): GetImageUrlResponse
+
+    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls")
+    suspend fun getImageUrlApiApnaRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetImageUrlsModelApnaRequest,
+    ): GetImageUrlsModelApnaResponse
 }
 
 

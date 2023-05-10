@@ -41,7 +41,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         )
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
-        Utlis.showLoading(this)
+//        Utlis.showLoading(this)
         viewModel.getStoreDetailsChamps(this)
 //        if (NetworkUtil.isNetworkConnected(this)) {
 //            Utlis.showLoading(this)
@@ -135,6 +135,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             dialog.dismiss()
             Preferences.setSwachhSiteId(storeListItem.siteid!!)
             Preferences.setSwachSiteName(storeListItem.sitename!!)
+            Preferences.setApnaSite(storeListItem.siteid!!)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
             val intent = Intent()

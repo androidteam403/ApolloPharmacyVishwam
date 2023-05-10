@@ -1,5 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,15 +9,13 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzureApna
-import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwacch
+import com.apollopharmacy.vishwam.data.azure.ConnectionToAzurePreRetroUploadApna
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
-import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
-import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
@@ -45,7 +45,7 @@ class UploadImagesViewModel : ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, "16001")
+                ApnaRectroApiRepo.getStoreWiseCatDetailsApna("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001", "h72genrSSNFivOi/cfiX3A==", "16001")
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -83,12 +83,15 @@ class UploadImagesViewModel : ViewModel() {
 
     }
 
-    fun connectToAzure(apnaConfigList: ArrayList<GetStoreWiseCatDetailsApnaResponse>, uploadImagesCallback: UploadImagesCallback) {
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun connectToAzure(apnaConfigList: ArrayList<GetStoreWiseCatDetailsApnaResponse>, uploadImagesCallback: UploadImagesCallback, boolean: Boolean) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionAzureApna.connectToAzurList(apnaConfigList!!,
+            val response = ConnectionToAzurePreRetroUploadApna.connectToAzurList(
+                apnaConfigList!!,
                 Config.CONTAINER_NAME,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP
+            )
             uploadImagesCallback.onSuccessImageIsUploadedInAzur(response)
 
         }
@@ -109,7 +112,7 @@ class UploadImagesViewModel : ViewModel() {
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveImageUrlsApna(baseUrl, token, saveImageUrlsRequest)
+                ApnaRectroApiRepo.saveImageUrlsApna(" https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls", "h72genrSSNFivOi/cfiX3A==", saveImageUrlsRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
