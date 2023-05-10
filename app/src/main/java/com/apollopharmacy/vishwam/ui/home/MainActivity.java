@@ -1079,9 +1079,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragPreRectroApproval.setArguments(preRetroApprovalbundle);
                 fragment = fragPreRectroApproval;
                 qcfilterIcon.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro Approval":

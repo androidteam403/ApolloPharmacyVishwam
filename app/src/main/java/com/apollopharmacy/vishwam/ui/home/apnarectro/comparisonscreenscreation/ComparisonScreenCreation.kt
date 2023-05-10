@@ -26,6 +26,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
+import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
 import com.apollopharmacy.vishwam.databinding.ActivityPostRectroReviewScreenBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.bumptech.glide.Glide
@@ -53,12 +54,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     public var posImageUrlList = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
     var pos: Int = 0
 
-    lateinit var activityPostRectroReviewScreenBinding: ActivityPostRectroReviewScreenBinding
+    lateinit var activityPostRectroReviewScreenBinding: ActivityComparisonScreenBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityPostRectroReviewScreenBinding = DataBindingUtil.setContentView(
             this,
-            R.layout.activity_post_rectro_review_screen
+            R.layout.activity_comparison_screen
         )
         setUp()
         updateImages()

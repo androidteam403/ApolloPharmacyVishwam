@@ -16,10 +16,9 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.ui.HomeActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
+import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -337,8 +336,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onFailureLoginApi(message: String?) {
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -359,9 +356,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
-//        if (deliveryFailreReasonsResponse != null) {
         if (deliveryFailreReasonsResponse != null) {
-
             SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
             //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
             Preferences.setIsPinCreated(true)

@@ -715,19 +715,19 @@ interface ViswamAppApi {
         @Body data: SaveImagesUrlsRequest,
     ): SaveImageUrlsResponse
 
-    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
-    suspend fun getStorePendingAndApprovedListApnaRetro(
-        @Url url: String,
-        @Header("token") token: String,
-        @Body data: GetStorePendingAndApprovedListReq?,
-    ): GetStorePendingAndApprovedListRes
+//    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
+//    suspend fun getStorePendingAndApprovedListApnaRetro(
+//        @Url url: String,
+//        @Header("token") token: String,
+//        @Body data: GetStorePendingAndApprovedListReq?,
+//    ): GetStorePendingAndApprovedListRes
 
-    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls")
-    suspend fun getImageUrlApiApnaRetro(
-        @Url url: String,
-        @Header("token") token: String,
-        @Body data: GetImageUrlsModelApnaRequest,
-    ): GetImageUrlsModelApnaResponse
+//    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls")
+//    suspend fun getImageUrlApiApnaRetro(
+//        @Url url: String,
+//        @Header("token") token: String,
+//        @Body data: GetImageUrlsModelApnaRequest,
+//    ): GetImageUrlsModelApnaResponse
 
     @POST
     suspend fun getRetroApprovalList(
@@ -735,6 +735,13 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetRetroPendindAndApproverequest,
     ): GetRetroPendingAndApproveResponse
+    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
+    suspend fun getStorePendingAndApprovedListApnaRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetStorePendingAndApprovedListReq?,
+    ): GetStorePendingAndApprovedListRes
+
     @POST
     suspend fun getRetroSaveAcceptRetro(
         @Url url: String,
@@ -749,6 +756,12 @@ interface ViswamAppApi {
         @Body data: GetImageUrlRequest,
     ): GetImageUrlResponse
 
+    @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls")
+    suspend fun getImageUrlApiApnaRetro(
+        @Url url: String,
+        @Header("token") token: String,
+        @Body data: GetImageUrlsModelApnaRequest,
+    ): GetImageUrlsModelApnaResponse
 }
 
 

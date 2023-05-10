@@ -75,7 +75,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         uploadImagesViewModel = ViewModelProvider(this)[UploadImagesViewModel::class.java]
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
-        activityUploadImagesBinding.storeId.text=Preferences.getSwachhSiteId()
+//        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.incharge.text=Preferences.getValidatedEmpId()
       activityUploadImagesBinding.storeName.text=Preferences.getSwachSiteName()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
