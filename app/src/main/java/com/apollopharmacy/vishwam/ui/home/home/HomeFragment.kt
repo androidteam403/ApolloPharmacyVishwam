@@ -27,20 +27,20 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
             viewBinding.customerName.setText("Welcome, " + userData.EMPNAME)
             viewBinding.customerID.setText("Emp ID: " + userData.EMPID)
         }
-        Utlis.hideLoading()
-        hideLoading()
+//        Utlis.hideLoading()
+//        hideLoading()
 
-        if (getDataManager().getRiderActiveStatus() == "Offline") {
-            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
-                "Offline",
-                requireContext(),
-                this@HomeFragment)
-        } else {
-            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
-                "Online",
-                requireContext(),
-                this@HomeFragment)
-        }
+//        if (getDataManager().getRiderActiveStatus() == "Offline") {
+//            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
+//                "Offline",
+//                requireContext(),
+//                this@HomeFragment)
+//        } else {
+//            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
+//                "Online",
+//                requireContext(),
+//                this@HomeFragment)
+//        }
     }
 
     fun getDataManager(): SessionManager {

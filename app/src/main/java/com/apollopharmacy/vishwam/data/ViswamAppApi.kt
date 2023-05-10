@@ -16,11 +16,11 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApp
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
+import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
-import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.FileResposne
@@ -48,20 +48,35 @@ import java.util.*
 
 interface ViswamAppApi {
 
-    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+    //    @POST("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
+//    suspend fun validateEmpWithOtp(
+//        @Header("token") token: String,
+//        @Body validateOtpRequest: ValidateOtpRequest,
+//    ): ValidateOtpResponse
+    @POST//("https://viswam.apollopharmacy.org/mproddisc/Apollo/DiscountRequest/SaveDeviceDetailsForviswamAPP")
     suspend fun validateEmpWithOtp(
+        @Url url: String,
         @Header("token") token: String,
         @Body validateOtpRequest: ValidateOtpRequest,
     ): ValidateOtpResponse
 
-    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+    //    @GET("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
+//    suspend fun deRegisterDevice(
+//        @Header("token") token: String,
+//        @Query("EmpId") id: String,
+//    ): DeviceDeRegResponse
+    @GET//("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/ActivateAndDeActivateViswamRegistration?")
     suspend fun deRegisterDevice(
+        @Url url: String,
         @Header("token") token: String,
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")//("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
     suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
+    suspend fun getValidateTest(): ValidateResponse
 
     @POST //("https://viswam.apollopharmacy.org/mprodutil/Apollo/VISWAM/IUVVISWAMMPINDETAILS")
     suspend fun handleMPinService(
@@ -85,7 +100,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
-
 
 
     @POST
@@ -229,12 +243,14 @@ interface ViswamAppApi {
         @Url url: String,
         @Query("EMPID") id: String,
     ): ArrayList<GetTaskListResponse>
+
     @POST
     suspend fun getSiteList(
         @Header("token") token: String,
         @Url url: String,
         @Body siteId: SiteListRequest,
     ): SiteListResponse
+
     @POST
     suspend fun getDoctorList(
         @Header("token") token: String,
@@ -612,7 +628,6 @@ interface ViswamAppApi {
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
 
 
-
     //champs admin
     @GET
     suspend fun GET_CATEGORY_DETAILS_API_CALL(
@@ -688,17 +703,17 @@ interface ViswamAppApi {
 
     @GET
     suspend fun getParkingType(
-        @Url url: String
+        @Url url: String,
     ): ParkingTypeResponse
 
     @GET
     suspend fun getDimensionType(
-        @Url url:String
+        @Url url: String,
     ): DimensionTypeResponse
 
     @GET
     suspend fun getNeighbouringLocation(
-        @Url url: String
+        @Url url: String,
     ): NeighbouringLocationResponse
 
 

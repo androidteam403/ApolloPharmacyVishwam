@@ -440,7 +440,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:orientation="vertical">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/track_status_btn"
                         android:layout_width="@dimen/value_200dp"
                         android:layout_height="@dimen/value_40dp"

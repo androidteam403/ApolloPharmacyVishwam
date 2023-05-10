@@ -50,6 +50,14 @@ class NeighbouringLocationResponse {
                 @SerializedName("isDefault")
                 @Expose
                 var isDefault: Any? = null
+
+                var store: String? = null
+
+                var rent: String? = null
+
+                var sales: String? = null
+
+                var sqFt: String? = null
             }
         }
     }

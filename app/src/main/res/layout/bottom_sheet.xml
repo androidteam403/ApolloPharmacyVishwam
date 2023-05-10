@@ -86,7 +86,7 @@
             android:padding="@dimen/five_dp"
             android:textSize="@dimen/text_dimen_13" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_order_send_btn"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_dp"

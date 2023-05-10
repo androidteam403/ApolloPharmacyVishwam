@@ -3,24 +3,12 @@ manifest
 ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
 INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
 INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
 	package
 		ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:11-32
 		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
-	android:versionName
-		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
-		ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-	android:versionCode
-		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
-		ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:2:1-4:12
-		INJECTED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml
 application
 ADDED from C:\Users\pc\StudioProjects\ApolloPharmacyVishwam\cusotmloader\src\main\AndroidManifest.xml:3:5-19
 uses-sdk

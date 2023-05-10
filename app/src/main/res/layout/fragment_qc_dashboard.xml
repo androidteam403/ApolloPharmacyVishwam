@@ -25,7 +25,7 @@
                 android:weightSum="2">
                 <!--                android:background="#85B6B1"-->
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/vishwampendency"
                     android:layout_width="0dp"
                     android:layout_height="46dp"
@@ -42,7 +42,7 @@
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_14sp" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/rtopendency"
                     android:layout_width="0dp"
                     android:layout_height="46dp"

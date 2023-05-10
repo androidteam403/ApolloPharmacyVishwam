@@ -459,7 +459,7 @@
                 android:layout_height="wrap_content"
                 android:weightSum="1">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/clear"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/value_50dp"
@@ -471,7 +471,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/white" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/apply_filters"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/value_50dp"

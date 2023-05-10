@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.rider.dashboard;
 
 
+import com.apollopharmacy.vishwam.ui.rider.dummy.dashboard.model.RiderDashboardCountResponse;
 import com.apollopharmacy.vishwam.ui.rider.profile.model.GetRiderProfileResponse;
 
 public interface DashboardFragmentCallback {
@@ -8,7 +9,7 @@ public interface DashboardFragmentCallback {
 
     void onFialureMessage(String message);
 
-    void onSuccessGetRiderDashboardCountApiCall(com.apollopharmacy.vishwam.ui.rider.dummy.dashboard.model.RiderDashboardCountResponse riderDashboardCountResponse);
+    void onSuccessGetRiderDashboardCountApiCall(RiderDashboardCountResponse riderDashboardCountResponse);
 
     void onClickCodReciebedorPendingDeposits();
 

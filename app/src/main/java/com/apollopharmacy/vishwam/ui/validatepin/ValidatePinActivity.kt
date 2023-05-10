@@ -58,11 +58,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         userData = LoginRepo.getProfile()!!
 
 
-        onCheckBuildDetails()
+//        onCheckBuildDetails()
         handleMPinService()
-        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+        viewModel.getApplevelDesignation(
+            Preferences.getValidatedEmpId(),
             "SWACHH",
-            applicationContext)
+            applicationContext
+        )
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
@@ -89,11 +91,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     intent.putExtra("currentAppVer", currentAppVer)
                     startActivityForResult(intent, REQUEST_CODE_ENABLE)
                 }
+
                 is Command.ShowToast -> {
                     ViswamApp.context.let {
                         Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         }
@@ -133,9 +137,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignation(
+                    Preferences.getValidatedEmpId(),
                     "SWACHH",
-                    applicationContext)
+                    applicationContext
+                )
+
                 viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
                     "RETRO",
                     applicationContext, this)
@@ -170,8 +177,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                            if (it.data?.uploadSwach?.uid!!.equals("Yes",
-                                    true)
+                            if (it.data?.uploadSwach?.uid!!.equals(
+                                    "Yes",
+                                    true
+                                )
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
                                     Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
@@ -195,8 +204,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
-                            if (it.data?.newDrugRequest?.uid!!.equals("Yes",
-                                    true)
+                            if (it.data?.newDrugRequest?.uid!!.equals(
+                                    "Yes",
+                                    true
+                                )
                             ) {
                                 Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
                             } else {
@@ -248,18 +259,18 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()
-        viewModel.loginApiCall(Preferences.getValidatedEmpId(),
-            "R1De6#012022",
-            Preferences.getFcmKey(),
-            this,
-            this)
+    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
+//        viewModel.loginApiCall("APL48627",
+//            "R1De6#012022",
+//            Preferences.getFcmKey(),
+//            this,
+//            this)
 //emp-102//Nagapavan
-        //        Preferences.setIsPinCreated(true)
-//        val homeIntent = Intent(this, MainActivity::class.java)
-//        startActivity(homeIntent)
-//        finish()
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        Preferences.setIsPinCreated(true)
+        val homeIntent = Intent(this, MainActivity::class.java)
+        startActivity(homeIntent)
+        finish()
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     private fun handleCreatePinIntent() {
@@ -278,8 +289,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handlePlayStoreIntent() {
         Utils.printMessage("ValidatePin", "Download URL : " + downloadUrl)
-        val viewIntent = Intent("android.intent.action.VIEW",
-            Uri.parse(downloadUrl))
+        val viewIntent = Intent(
+            "android.intent.action.VIEW",
+            Uri.parse(downloadUrl)
+        )
         startActivity(viewIntent)
     }
 
@@ -324,9 +337,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
+                viewModel.getRiderProfileDetailsApi(
+                    SessionManager(applicationContext).getLoginToken(),
                     applicationContext,
-                    this)
+                    this
+                )
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()

@@ -23,7 +23,7 @@
     <color name="colorPrimaryDark">#007C9D</color>
     <color name="colorAccent">#007C9D</color>
     <color name="backgroundColor">#007C9D</color>
-    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#f3f3f3</color>
+    <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#b9c2c4</color>
     <color name="thick_blue">#6f2da8</color>
     <color name="spots_dialog_color">@android:color/holo_blue_dark</color>
     <color name="terniary">#808080</color>
@@ -49,7 +49,7 @@
     <color name="status_acknowledge">#00CCCC</color>
     <color name="status_reopen_for_process">#CC0066</color>
     <color name="complaint_bg">#ecf5f8</color>
-<color name="newtask_bg">#dbf2f8</color>
+    <color name="newtask_bg">#dbf2f8</color>
     <color name="task_card_bg">#b2e2f2</color>
     <color name="dialog_corner_color">#d4d4d4</color>
     <color name="header_bg">#d5d6d8</color>
@@ -195,6 +195,11 @@
     <color name="grey_bg_for_no_status">#f4f4f4</color>
     <color name="pending_reshoot_color">#f26522</color>
     <color name="blue">#0054a6</color>
+    <color name="apna_project_actionbar_color">#5a345e</color>
+    <!--    <color name="apna_project_preview_section_bg">#265a345e</color>-->
+    <color name="apna_project_preview_section_bg">#0DFF69B4</color>
+    <color name="green_color_resource">#4f99b1</color>
+
     <color name="ash_color_for_apna">#A8A4A4</color>
     <color name="lightt_blue">#ecf6f8</color>
     <color name="light_green">#d4f8d4</color>

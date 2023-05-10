@@ -125,7 +125,7 @@
             android:layout_below="@+id/map_view_child_layout"
             android:background="@color/colorBlack" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/follow_google_map"
             android:layout_width="match_parent"
             android:layout_height="@dimen/forty_five_dp"

@@ -7,15 +7,10 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
-import com.apollopharmacy.vishwam.data.model.cms.RequestTicketHistory
-import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.data.network.ApiResult
-import com.apollopharmacy.vishwam.data.network.ApnaSurveyRepo
 import com.apollopharmacy.vishwam.data.network.RegistrationRepo
-import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.ApnaNewPreviewCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
-import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -42,13 +37,12 @@ class ApnaSurveylViewModel : ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=admin"
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}"//admin
+
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
-                baseUrl =
-//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_touch_point/list/?"
-                    data.APIS[i].URL
-                //val token = data.APIS[i].TOKEN
+                baseUrl = data.APIS[i].URL
+                val token = data.APIS[i].TOKEN
                 break
             }
 
@@ -81,8 +75,6 @@ class ApnaSurveylViewModel : ViewModel() {
                                 apnaSurveyCallback.onSuccessgetSurveyDetails(surveyListResponse)
                                 getSurveyListResponse.value =
                                     surveyListResponse
-
-
                             } else {
 
                             }

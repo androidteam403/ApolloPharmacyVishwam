@@ -2,7 +2,6 @@ package com.apollopharmacy.vishwam.ui.rider.onlinepayment;
 
 import android.content.Context;
 
-
 import com.apollopharmacy.vishwam.network.ApiClient;
 import com.apollopharmacy.vishwam.network.ApiInterface;
 import com.apollopharmacy.vishwam.ui.rider.neworder.model.OrderDetailsResponse;
@@ -179,7 +178,7 @@ public class OnlinePaymentController {
             ActivityUtils.showDialog(mContext, "Please Wait...");
 
             ApiInterface apiInterface = ApiClient.getApiService();
-            Call<ResponseBody> call = apiInterface.PHONEPE_LINK_CHECK_STATUS_API_CALL("16001",Utils.getCurrentDateTimeMSUnique(), "VEG", transactionId, "CHECKSTATUS");
+            Call<ResponseBody> call = apiInterface.PHONEPE_LINK_CHECK_STATUS_API_CALL("16001", Utils.getCurrentDateTimeMSUnique(), "VEG", transactionId, "CHECKSTATUS");
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {
@@ -212,7 +211,7 @@ public class OnlinePaymentController {
             ActivityUtils.showDialog(mContext, "Please Wait...");
 
             ApiInterface apiInterface = ApiClient.getApiService();
-            Call<ResponseBody> call = apiInterface.PHONEPE_LINK_CANCELLED_REQUEST_API_CALL("16001",Utils.getCurrentDateTimeMSUnique(), refereneceId, mobileNumber, transactionId, "CANCELREQUEST");
+            Call<ResponseBody> call = apiInterface.PHONEPE_LINK_CANCELLED_REQUEST_API_CALL("16001", Utils.getCurrentDateTimeMSUnique(), refereneceId, mobileNumber, transactionId, "CANCELREQUEST");
             call.enqueue(new Callback<ResponseBody>() {
                 @Override
                 public void onResponse(@NotNull Call<ResponseBody> call, @NotNull Response<ResponseBody> response) {

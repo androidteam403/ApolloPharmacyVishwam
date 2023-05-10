@@ -11,9 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.andexert.library.RippleAnimationListener;
-import com.andexert.library.RippleView;
 import com.github.omadahealth.lollipin.lib.R;
+import com.github.omadahealth.lollipin.lib.custom.RippleAnimationListener;
+import com.github.omadahealth.lollipin.lib.custom.RippleView;
 import com.github.omadahealth.lollipin.lib.interfaces.KeyboardButtonClickedListener;
 
 /**

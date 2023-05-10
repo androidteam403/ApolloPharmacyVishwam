@@ -30,7 +30,6 @@ import com.apollopharmacy.vishwam.ui.home.model.*
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
-import kotlinx.android.synthetic.main.layout_seekbar_thumb.view.*
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*

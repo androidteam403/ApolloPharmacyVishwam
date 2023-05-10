@@ -29,10 +29,10 @@ class TrafficGeneratorsItemAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.trafficGeneratorsLayoutBinding.trafficGeneratorsItem.text = items[position]
+        holder.trafficGeneratorsLayoutBinding.name.text = items[position]
 
-        holder.trafficGeneratorsLayoutBinding.deleteItem.setOnClickListener {
-            mCallback.onClickTrafficGeneratorItemDelete(position)
+        holder.trafficGeneratorsLayoutBinding.delete.setOnClickListener {
+            mCallback.onClickTrafficGeneratorItemDelete(position, items[position])
         }
     }
 
