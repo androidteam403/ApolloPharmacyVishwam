@@ -1570,6 +1570,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+                                } else if (morningToHour < morningFromHour && morningToMinute > morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+
                                 }
                                 else {
                                     activityApnaNewSurveyBinding.morningToSelect.setText(
@@ -1606,15 +1612,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                 && !activityApnaNewSurveyBinding.morningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
-                                if ((morningToHour > morningFromHour && morningToMinute > morningFromMinute) ||
-                                    (morningToHour >= morningFromHour && morningToMinute > morningFromMinute)
-                                ) {
-                                    activityApnaNewSurveyBinding.morningToSelect.setText(
-                                        formattedTime)
-                                } else {
+                                if (morningToHour < morningFromHour && morningToMinute < morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+
+                                } else if (morningToHour == morningFromHour && morningToMinute < morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (morningToHour < morningFromHour && morningToMinute == morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (morningToHour < morningFromHour && morningToMinute > morningFromMinute) {
+                                    activityApnaNewSurveyBinding.morningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.morningToSelect.setText(formattedTime)
@@ -1655,20 +1678,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                 && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
                             ) {
-                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
-                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)) {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
-                                        formattedTime)
-                                } else {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                if (eveningFromHour > eveningToHour && eveningFromMinute > eveningToMinute) {
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                } else if (eveningFromHour == eveningToHour && eveningFromMinute > eveningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                } else if (eveningFromHour > eveningToHour && eveningFromMinute == eveningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
                             }
-
                         }
                     },
                     Integer.valueOf(existTime.substring(0, existTime.indexOf(":"))),
@@ -1696,15 +1728,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                 && !activityApnaNewSurveyBinding.eveningToSelect.text.toString()
                                     .isEmpty()
                             ) {
-                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
-                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)) {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
-                                        formattedTime)
-                                } else {
-                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                if (eveningFromHour > eveningToHour && eveningFromMinute > eveningToMinute) {
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                } else if (eveningFromHour == eveningToHour && eveningFromMinute > eveningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                } else if (eveningFromHour > eveningToHour && eveningFromMinute == eveningToMinute) {
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                    activityApnaNewSurveyBinding.eveningFromSelect.getText()!!.clear()
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningFromSelect.setText(formattedTime)
@@ -1745,15 +1787,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                 && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
-                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
-                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)
-                                ) {
-                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
-                                        formattedTime)
-                                } else {
+                                if (eveningToHour < eveningFromHour && eveningToMinute < eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+
+                                } else if (eveningToHour == eveningFromHour && eveningToMinute < eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (eveningToHour < eveningFromHour && eveningToMinute == eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                }else if (eveningToHour < eveningFromHour && eveningToMinute > eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
@@ -1786,15 +1845,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                                 && !activityApnaNewSurveyBinding.eveningFromSelect.text.toString()
                                     .isEmpty()
                             ) {
-                                if ((eveningToHour > eveningFromHour && eveningToMinute > eveningFromMinute) ||
-                                    (eveningToHour >= eveningFromHour && eveningToMinute > eveningFromMinute)
-                                ) {
-                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
-                                        formattedTime)
-                                } else {
+                                if (eveningToHour < eveningFromHour && eveningToMinute < eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
                                     Toast.makeText(this@ApnaNewSurveyActivity,
                                         "Invalid Time",
                                         Toast.LENGTH_SHORT).show()
+
+                                } else if (eveningToHour == eveningFromHour && eveningToMinute < eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (eveningToHour < eveningFromHour && eveningToMinute == eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+                                } else if (eveningToHour < eveningFromHour && eveningToMinute > eveningFromMinute) {
+                                    activityApnaNewSurveyBinding.eveningToSelect.getText()!!.clear()
+                                    Toast.makeText(this@ApnaNewSurveyActivity,
+                                        "Invalid Time",
+                                        Toast.LENGTH_SHORT).show()
+
+                                }
+                                else {
+                                    activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                        formattedTime)
                                 }
                             } else {
                                 activityApnaNewSurveyBinding.eveningToSelect.setText(formattedTime)
@@ -2369,15 +2445,18 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack {
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 9F))
 
                         map.setOnMarkerDragListener(object : GoogleMap.OnMarkerDragListener {
-                            override fun onMarkerDrag(p0: Marker) {
+                            override fun onMarkerDrag(marker: Marker) {
                             }
 
-                            override fun onMarkerDragEnd(p0: Marker) {
-                                activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f", p0.position.latitude))
-                                activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f", p0.position.longitude))
+                            override fun onMarkerDragEnd(marker: Marker) {
+                                marker.isVisible = true
+                                marker.isDraggable = true
+//                                selectedMarker!!.isDraggable = true
+                                activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f", marker.position.latitude))
+                                activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f", marker.position.longitude))
                             }
 
-                            override fun onMarkerDragStart(p0: Marker) {
+                            override fun onMarkerDragStart(marker: Marker) {
                             }
 
                         })
