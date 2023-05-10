@@ -69,6 +69,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     GoogleMap.OnMarkerDragListener {
     var selectedMarker: Marker? = null
     var errorMessage: String = "Please fill all mandatory fields"
+    var siteSpecificationsErrorMessage: String = ""
     var length = 0.0
     var width = 0.0
 
@@ -701,7 +702,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 if (currentPosition == 1 && !validateSiteSpecification()) {
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
-                        "Please fill all mandatory fields",
+                        siteSpecificationsErrorMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -2706,6 +2707,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             MarkerOptions().position(latLang).title("")
                         map.addMarker(markerOption)
                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
+
+                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity)
                     }
                 })
             }
@@ -3542,20 +3545,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val securityDeposit =
             activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
 
-        if (length.isEmpty()) {
+        if (dimensionType.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please select dimension type"
+            return false
+        } else if (length.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please enter length"
             return false
         } else if (width.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please enter width"
             return false
         } else if (ceilingHeight.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please enter ceiling height"
             return false
         } else if (expectedRent.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please enter expected rent"
             return false
         } else if (securityDeposit.isEmpty()) {
+            siteSpecificationsErrorMessage = "Please enter security deposit"
             return false
-        } else if (dimensionType.isEmpty()) {
-            return false
+        } else {
+            siteSpecificationsErrorMessage = ""
+            return true
         }
-        return true
     }
 
     private fun validateLocationDetails(): Boolean {
@@ -3566,19 +3577,22 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val landmarks = activityApnaNewSurveyBinding.nearByLandmarksText.text.toString().trim()
 
         if (location.isEmpty()) {
-            errorMessage = "Please fill all mandatory fields"
-            return false
-        } else if (city.isEmpty()) {
-            errorMessage = "Please fill all mandatory fields"
+            errorMessage = "Please select location"
             return false
         } else if (state.isEmpty()) {
-            errorMessage = "Please fill all mandatory fields"
+            errorMessage = "Please select state"
             return false
-        } else if (pin.isEmpty() || pin.length < 6) {
+        } else if (city.isEmpty()) {
+            errorMessage = "Please select city"
+            return false
+        } else if (pin.isEmpty()) {
+            errorMessage = "Please enter pincode"
+            return false
+        } else if (pin.length < 6) {
             errorMessage = "Please enter valid pincode"
             return false
         } else if (landmarks.isEmpty()) {
-            errorMessage = "Please fill all mandatory fields"
+            errorMessage = "Please enter landmarks"
             return false
         } else {
             errorMessage = "Please fill all mandatory fields"
@@ -4016,7 +4030,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             val latLang = LatLng(p0!!.position.latitude, p0!!.position.latitude)
             activityApnaNewSurveyBinding.latitude.setText(latLang.latitude.toString())
             activityApnaNewSurveyBinding.longitude.setText(latLang.longitude.toString())
-            val markerOption = MarkerOptions().position(latLang).title("").draggable(true)
+            val markerOption = MarkerOptions().position(latLang).title("").draggable(true).visible(true)
             map!!.addMarker(markerOption)
             map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
         }
