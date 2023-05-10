@@ -438,6 +438,12 @@
                                         android:name="com.google.android.gms.maps.SupportMapFragment"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent" />
+
+                                    <ImageView
+                                        android:id="@+id/transparent_image"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:src="@color/transparent" />
                                 </RelativeLayout>
 
                             </LinearLayout>
@@ -734,8 +740,8 @@
                                             android:id="@+id/perSqFtRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:fontFamily="@font/price_bold"
                                             android:buttonTint="@color/apna_project_actionbar_color"
+                                            android:fontFamily="@font/price_bold"
                                             android:text="Per sq.ft"
                                             android:textSize="@dimen/text_12sp" />
 
