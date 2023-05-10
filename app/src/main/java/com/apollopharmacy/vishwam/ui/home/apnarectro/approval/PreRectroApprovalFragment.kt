@@ -26,6 +26,8 @@ class PreRectroApprovalFragment() :
     private var fragmentName: String = ""
     var currentDate = String()
     var fromDate = String()
+    var isApiHit: Boolean = false
+    var isRatingApiHit: Boolean = false
 
     override val layoutRes: Int
         get() = R.layout.fragment_approval_prerectro
@@ -61,22 +63,48 @@ class PreRectroApprovalFragment() :
 
     }
 
-    override fun onClick(position: Int, status: List<GetRetroPendingAndApproveResponse.Retro>) {
+    override fun onClick(position: Int,  subPos:Int,status: List<List<GetRetroPendingAndApproveResponse.Retro>>?,approvePendingList:ArrayList<GetRetroPendingAndApproveResponse.Retro>) {
         val intent = Intent(context, ApprovalPreviewActivity::class.java)
-        intent.putExtra("stage", status.get(position).stage)
-        intent.putExtra("status", status.get(position).status)
-        intent.putExtra("site", status.get(position).store)
+        intent.putExtra("stage", status!!.get(position).get(subPos).stage)
+        intent.putExtra("status", status!!.get(position).get(subPos).status)
+        intent.putExtra("site", status!!.get(position).get(subPos).store)
+        intent.putExtra("approvePendingList",approvePendingList)
 
-        intent.putExtra("retroId", status.get(position).retroid)
-        startActivity(intent)
+        intent.putExtra("retroId", status!!.get(position).get(subPos).retroid)
+        startActivityForResult(intent, 221)
 
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 221) {
+            isApiHit = data?.getBooleanExtra("isApiHit", false) as Boolean
+            isRatingApiHit=data?.getBooleanExtra("isRatingApiHit", false) as Boolean
+            if (isApiHit||isRatingApiHit) {
+                showLoading()
+                var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                currentDate = simpleDateFormat.format(Date())
+
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DATE, -7)
+                fromDate = simpleDateFormat.format(cal.time)
+                getRetroPendindAndApproverequest.empid = "APL48627"
+                getRetroPendindAndApproverequest.storeid = "16001"
+                getRetroPendindAndApproverequest.fromdate = fromDate
+                getRetroPendindAndApproverequest.todate = currentDate
+
+                viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
+            }
+        }
     }
 
     override fun onSuccessRetroApprovalList(getStorePendingApprovedList: GetRetroPendingAndApproveResponse) {
         hideLoading()
         var list: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
-        var getPendingApproveList :java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
+        var getPendingApproveList: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
 
 
 //        list1 =
@@ -102,8 +130,7 @@ class PreRectroApprovalFragment() :
         list =
             getStorePendingApprovedList.retrolist as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>?
         list1 =
-            list!!.distinctBy { it.retroid} as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>
-
+            list!!.distinctBy { it.retroid } as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>
 
 
 //        adapter =
@@ -114,28 +141,11 @@ class PreRectroApprovalFragment() :
 //            DefaultItemAnimator()
 //        viewBinding.listRecyclerView.adapter = listAdapter
 
-        adapter = context?.let { RectroApproveListAdapter(it,list1,retroIdsGroupedList,this) }
+        adapter = context?.let { RectroApproveListAdapter(it, list, list1,retroIdsGroupedList, getStorePendingApprovedList.groupByRetrodList,this) }
         viewBinding.recyclerViewapproval.adapter = adapter
 
     }
 
-    override fun onStart() {
-        super.onStart()
-        showLoading()
-        var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
-        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
-        currentDate = simpleDateFormat.format(Date())
-
-        val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
-        fromDate = simpleDateFormat.format(cal.time)
-        getRetroPendindAndApproverequest.empid = "APL48627"
-        getRetroPendindAndApproverequest.storeid = "16001"
-        getRetroPendindAndApproverequest.fromdate = fromDate
-        getRetroPendindAndApproverequest.todate = currentDate
-
-        viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
-    }
 
     override fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse) {
     }

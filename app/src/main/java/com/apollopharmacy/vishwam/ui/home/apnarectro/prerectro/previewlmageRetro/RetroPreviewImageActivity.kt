@@ -87,8 +87,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
             uploaddate = intent.getStringExtra("uploaddate")!!
             uploadBy = intent.getStringExtra("uploadby")!!
-            imageUrlList =
-                intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
+            imageUrlList = intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
         }
         setUp()
     }
@@ -235,21 +234,19 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
 
 
-        if (imageUrlsList.get(currentPosition).isVerified == true) {
-            if (imageUrlsList.get(currentPosition).status.equals("1")) {
-                activityPreviewImageBinding.accept.alpha = 0.5f
+        if (imageUrlsList.get(position).status.equals("1")) {
+            activityPreviewImageBinding.accept.alpha = 0.5f
 
-            } else {
-                activityPreviewImageBinding.accept.alpha = 1f
+        } else {
+            activityPreviewImageBinding.accept.alpha = 1f
 
-            }
-            if (imageUrlsList.get(currentPosition).status.equals("2")) {
-                activityPreviewImageBinding.reshoot.alpha = 0.5f
+        }
+        if (imageUrlsList.get(position).status.equals("2")) {
+            activityPreviewImageBinding.reshoot.alpha = 0.5f
 
-            } else {
-                activityPreviewImageBinding.reshoot.alpha = 1f
+        } else {
+            activityPreviewImageBinding.reshoot.alpha = 1f
 
-            }
         }
 
 

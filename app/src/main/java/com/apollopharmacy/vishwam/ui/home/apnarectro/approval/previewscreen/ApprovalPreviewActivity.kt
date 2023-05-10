@@ -19,6 +19,7 @@ import com.apollopharmacy.vishwam.databinding.ApprovalActivityPreviewBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.databinding.DialogReviewAlertBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.adapter.ApprovalCategoryListAdapter
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.adapter.TimeLineListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
@@ -39,6 +40,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     private var apiStage: String = ""
     var isApiHit: Boolean = false
     var isRatingApiHit: Boolean = false
+    var stagePosition: String = ""
 
     public var imageList = ArrayList<String>()
     public var pendingList = ArrayList<String>()
@@ -46,10 +48,13 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     public var approveList = ArrayList<String>()
     public var imageUrlsList = ArrayList<GetImageUrlResponse.ImageUrl>()
     var saveRequestImageslist = ArrayList<SaveAcceptRequest.Imageurl>()
+    public var approveResponseList = ArrayList<GetRetroPendingAndApproveResponse.Retro>()
+    public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
+    public var imageUrlsListReview = ArrayList<GetImageUrlResponse.ImageUrl>()
 
-    public var imageUrlList = ArrayList<GetImageUrlResponse.Category>()
     private var getImageUrlsResponses = GetImageUrlResponse()
     private var uploadDate: String = ""
+    var timelineAdapter: TimeLineListAdapter? = null
 
     private var retroId: String = ""
     var adapter: ApprovalCategoryListAdapter? = null
@@ -72,6 +77,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         retroId = intent.getStringExtra("retroId")!!
         status = intent.getStringExtra("status")!!
         store = intent.getStringExtra("site")!!
+        approveResponseList =
+            intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
         var imageUrlRequest = GetImageUrlRequest()
         imageUrlRequest.retroId = retroId
         imageUrlRequest.storeid = store
@@ -98,43 +105,71 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
         }
 
+
+        activityPreviewBinding.arrow.setOnClickListener {
+            activityPreviewBinding.timeLineRecycleview.visibility = View.VISIBLE
+            activityPreviewBinding.downarrow.visibility = View.VISIBLE
+            activityPreviewBinding.arrow.visibility = View.GONE
+        }
+        activityPreviewBinding.downarrow.setOnClickListener {
+            activityPreviewBinding.timeLineRecycleview.visibility = View.GONE
+            activityPreviewBinding.downarrow.visibility = View.GONE
+            activityPreviewBinding.arrow.visibility = View.VISIBLE
+        }
+
+        if (approveResponseList != null) {
+            timelineAdapter =
+                TimeLineListAdapter(this, approveResponseList.filter { it.retroid.equals(retroId) })
+            activityPreviewBinding.timeLineRecycleview.adapter = timelineAdapter
+        }
+
+        activityPreviewBinding.backArrow.setOnClickListener {
+            onBackPressed()
+        }
+
+
     }
 
 
-
     override fun onClickItemView(
-        position: Int, approvedOrders:ArrayList<List<GetImageUrlResponse.ImageUrl>>?,categoryPosition: Int,categoryName:String,url:String
+        position: Int,
+        approvedOrders: ArrayList<List<GetImageUrlResponse.ImageUrl>>?,
+        categoryPosition: Int,
+        categoryName: String,
+        url: String,
     ) {
-
-
 
 
         if (stage.toLowerCase().contains("pre")) {
             val intent = Intent(this, PreRectroReviewActivity::class.java)
             intent.putExtra("stage", stage)
             intent.putExtra("retroId", retroId)
-            intent.putExtra("store",store)
+            intent.putExtra("store", store)
             intent.putExtra("url", url)
+            intent.putExtra("imageUrlList", imageUrlList)
+            intent.putExtra("uploadby", activityPreviewBinding.uploadby.text.toString())
 
-            intent.putExtra("categoryPos",categoryPosition)
-            intent.putExtra("categoryName",categoryName)
-            intent.putExtra("status",status)
-            intent.putExtra("position",position)
-            startActivity(intent)
-        } else if (stage.toLowerCase().contains("pos")||stage.toLowerCase().contains("aft")) {
+            intent.putExtra("categoryPos", categoryPosition)
+            intent.putExtra("categoryName", categoryName)
+            intent.putExtra("status", status)
+            intent.putExtra("position", position)
+            startActivityForResult(intent, 235)
+        } else if (stage.toLowerCase().contains("pos") || stage.toLowerCase().contains("aft")) {
 
             val intent = Intent(this, PostRectroReviewScreen::class.java)
             intent.putExtra("stage", stage)
             intent.putExtra("retroId", retroId)
-            intent.putExtra("store",store)
-            intent.putExtra("categoryPos",categoryPosition)
-            intent.putExtra("categoryName",categoryName)
-            intent.putExtra("status",status)
+            intent.putExtra("store", store)
+            intent.putExtra("categoryPos", categoryPosition)
+            intent.putExtra("categoryName", categoryName)
+            intent.putExtra("status", status)
+            intent.putExtra("imageUrlList", imageUrlList)
+            intent.putExtra("uploadby", activityPreviewBinding.uploadby.text.toString())
 
-            intent.putExtra("imageList",approvedOrders)
+            intent.putExtra("imageList", approvedOrders)
 
-            intent.putExtra("position",position)
-            startActivity(intent)
+            intent.putExtra("position", position)
+            startActivityForResult(intent, 241)
         }
     }
 
@@ -145,8 +180,6 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         getImageUrlsResponses = value
         value.setretroId(retroId)
         imageUrlList = categoryList as ArrayList<GetImageUrlResponse.Category>
-
-
 
 
         var retroIdsGroupedList: Map<Int, List<GetImageUrlResponse.ImageUrl>>? = null
@@ -173,31 +206,47 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         for (j in categoryList!!.indices) {
             for (k in categoryList[j].imageUrls!!.indices) {
                 if (retroId.equals(value.retroId)) {
-                    imageList.add(categoryList.get(j).imageUrls!!.get(k).url!!)
+                    imageList.add(categoryList.get(j).imageUrls!!.get(k).url.toString()!!)
                     if (categoryList.get(j).imageUrls!!.get(k).status.equals("0")) {
-                        if (stage.toLowerCase().contains("pre")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("1"))) {
+                        if (stage.toLowerCase()
+                                .contains("pre") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "1"))
+                        ) {
                             pendingList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        } else if (stage.toLowerCase().contains("pos")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("2"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("pos") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "2"))
+                        ) {
 
                             pendingList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        }
-                        else if (stage.toLowerCase().contains("aft")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("3"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("aft") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "3"))
+                        ) {
                             pendingList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
                         }
 
                     } else if (categoryList.get(j).imageUrls!!.get(k).status.equals("1")) {
 
-                        if(stage.toLowerCase().contains("pre")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("1"))) {
+                        if (stage.toLowerCase()
+                                .contains("pre") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "1"))
+                        ) {
                             approveList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        } else if (stage.toLowerCase().contains("pos")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("2"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("pos") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "2"))
+                        ) {
                             approveList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        }
-                        else  if (stage.toLowerCase().contains("aft")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("3"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("aft") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "3"))
+                        ) {
                             approveList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
                         }
@@ -206,14 +255,22 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                     } else if (categoryList.get(j).imageUrls!!.get(k).status.equals("2")) {
 
 
-                        if (stage.toLowerCase().contains("pre")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("1"))) {
+                        if (stage.toLowerCase()
+                                .contains("pre") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "1"))
+                        ) {
                             reshootList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        } else if (stage.toLowerCase().contains("pos")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("2"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("pos") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "2"))
+                        ) {
                             reshootList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
-                        }
-                        else if (stage.toLowerCase().contains("aft")&&(categoryList.get(j).imageUrls!!.get(k).stage!!.equals("3"))) {
+                        } else if (stage.toLowerCase()
+                                .contains("aft") && (categoryList.get(j).imageUrls!!.get(k).stage!!.equals(
+                                "3"))
+                        ) {
                             reshootList.add(categoryList.get(j).imageUrls!!.get(k).status!!)
 
                         }
@@ -227,7 +284,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         }
 
 
-        activityPreviewBinding.upload.setText((pendingList.size + reshootList.size +approveList.size).toString())
+        activityPreviewBinding.upload.setText((pendingList.size + reshootList.size + approveList.size).toString())
         activityPreviewBinding.pending.setText(pendingList.size.toString())
         activityPreviewBinding.reshoot.setText(reshootList.size.toString())
         activityPreviewBinding.accept.setText(approveList.size.toString())
@@ -245,9 +302,10 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
 
 
-
-        adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
-        activityPreviewBinding.recyclerViewcategories.adapter = adapter
+        if (imageUrlList != null) {
+            adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
+            activityPreviewBinding.recyclerViewcategories.adapter = adapter
+        }
     }
 
     override fun onFailureImageUrlList(value: GetImageUrlResponse) {
@@ -282,7 +340,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 //        imagesStatusAlertDialog.setCancelable(false)
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
-            onBackPressed()
+
+
+            val intent = Intent()
+            intent.putExtra("isApiHit", true)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
 
         }
 
@@ -302,6 +365,12 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     }
 
     override fun onBackPressed() {
+        val intent = Intent()
+        intent.putExtra("isApiHit", isApiHit)
+        intent.putExtra("isRatingApiHit", isRatingApiHit)
+
+        setResult(Activity.RESULT_OK, intent)
+        finish()
         super.onBackPressed()
     }
 
@@ -321,6 +390,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                     data?.getSerializableExtra("mainImagesList") as ArrayList<GetImageUrlResponse.ImageUrl>
                 if (isApiHit) {
                     val intent = Intent()
+                    intent.putExtra("isApiHit", isApiHit)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 }
@@ -396,7 +466,96 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                 adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
                 activityPreviewBinding.recyclerViewcategories.adapter = adapter
             }
+            if (requestCode == 241) {
+                isApiHit = data?.getBooleanExtra("isApiHit", false) as Boolean
+                stagePosition = data?.getStringExtra("stagePosition")!!
+                isRatingApiHit = data?.getBooleanExtra("ratingApi", false) as Boolean
 
+                imageUrlsListReview =
+                    data!!.getSerializableExtra("imagesList") as java.util.ArrayList<GetImageUrlResponse.ImageUrl>
+
+                imageUrlList =
+                    data!!.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
+
+
+
+
+                if (isRatingApiHit || isApiHit) {
+                    onBackPressed()
+                }
+
+                val retroIdsGroupedList: Map<String, List<GetImageUrlResponse.ImageUrl>> =
+                    imageUrlsListReview.filter { it.stage.equals(stagePosition) }.stream()
+                        .collect(Collectors.groupingBy { w -> w.status })
+
+                if (retroIdsGroupedList.containsKey("0")) {
+                    activityPreviewBinding.pending.setText(retroIdsGroupedList.get("0")!!.size.toString())
+                } else {
+                    activityPreviewBinding.pending.setText("0")
+
+                }
+                if (retroIdsGroupedList.containsKey("1")) {
+                    activityPreviewBinding.accept.setText(retroIdsGroupedList.get("1")!!.size.toString())
+                } else {
+                    activityPreviewBinding.accept.setText("0")
+
+                }
+                if (retroIdsGroupedList.containsKey("2")) {
+                    activityPreviewBinding.reshoot.setText(retroIdsGroupedList.get("2")!!.size.toString())
+                } else {
+                    activityPreviewBinding.reshoot.setText("0")
+
+                }
+
+                if (imageUrlList != null) {
+                    adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
+                    activityPreviewBinding.recyclerViewcategories.adapter = adapter
+                }
+            }
+
+            if (requestCode == 235) {
+                isApiHit = data?.getBooleanExtra("isApiHit", false) as Boolean
+
+                isRatingApiHit = data?.getBooleanExtra("ratingApi", false) as Boolean
+                imageUrlsListReview =
+                    data!!.getSerializableExtra("imagesList") as java.util.ArrayList<GetImageUrlResponse.ImageUrl>
+
+                imageUrlList = data!!.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
+
+                if (isRatingApiHit || isApiHit) {
+                    onBackPressed()
+                }
+
+
+                val retroIdsGroupedList: Map<String, List<GetImageUrlResponse.ImageUrl>> =
+                    imageUrlsListReview.stream().collect(Collectors.groupingBy { w -> w.status })
+
+                if (retroIdsGroupedList.containsKey("0")) {
+                    activityPreviewBinding.pending.setText(retroIdsGroupedList.get("0")!!.size.toString())
+                } else {
+                    activityPreviewBinding.pending.setText("0")
+
+                }
+                if (retroIdsGroupedList.containsKey("1")) {
+                    activityPreviewBinding.accept.setText(retroIdsGroupedList.get("1")!!.size.toString())
+                } else {
+                    activityPreviewBinding.accept.setText("0")
+
+                }
+                if (retroIdsGroupedList.containsKey("2")) {
+                    activityPreviewBinding.reshoot.setText(retroIdsGroupedList.get("2")!!.size.toString())
+                } else {
+                    activityPreviewBinding.reshoot.setText("0")
+
+                }
+
+                if (imageUrlList != null) {
+                    adapter = ApprovalCategoryListAdapter(this, imageUrlList, stage, this)
+                    activityPreviewBinding.recyclerViewcategories.adapter = adapter
+                }
+
+
+            }
 
         }
     }
