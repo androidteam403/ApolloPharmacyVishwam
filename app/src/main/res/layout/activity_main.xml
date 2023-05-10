@@ -54,7 +54,7 @@
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="@dimen/value_5dp"
                     android:background="@drawable/green_backgroundplus"
                     android:paddingTop="5dp"
                     android:paddingBottom="5dp"
@@ -349,7 +349,7 @@
             android:gravity="center"
             android:text="Location permission must be required to access application" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/location_permission_btn"
             android:layout_width="@dimen/one_hundred_fifty_dp"
             android:layout_height="@dimen/forty_five_dp"

@@ -97,7 +97,7 @@
                 android:textColor="@color/colorWhite"
                 android:visibility="gone" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_signin"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/forty_five_dp"

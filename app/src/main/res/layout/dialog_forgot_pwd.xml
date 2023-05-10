@@ -75,7 +75,7 @@
             android:textSize="@dimen/text_dimen_15"
             android:fontFamily="@font/roboto_regular"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/forgot_details_reset_button"
             android:layout_width="match_parent"
             android:layout_below="@+id/forgot_details_email"

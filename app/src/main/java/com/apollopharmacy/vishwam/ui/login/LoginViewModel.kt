@@ -1,15 +1,23 @@
 package com.apollopharmacy.vishwam.ui.login
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
-import com.apollopharmacy.vishwam.data.model.*
+import com.apollopharmacy.vishwam.data.model.LoginDetails
+import com.apollopharmacy.vishwam.data.model.LoginRequest
+import com.apollopharmacy.vishwam.data.model.MPinRequest
+import com.apollopharmacy.vishwam.data.model.MPinResponse
+import com.apollopharmacy.vishwam.data.model.ValidateRequest
+import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.data.repo.SplashRepo
 import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
@@ -23,6 +31,56 @@ class LoginViewModel : ViewModel() {
     val commands = LiveEvent<Command>()
     val state = MutableLiveData<State>()
     var command = LiveEvent<Command>()
+    val validateResponseMutableList = MutableLiveData<ValidateResponse>()
+
+    fun getSplashScreenData(validateResponse: ValidateRequest, context: Context) {
+        Utlis.showLoading(context)
+        viewModelScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                SplashRepo.getUserValidate(validateResponse)
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    Utlis.hideLoading()
+                    if (response.value.status) {
+                        validateResponseMutableList.value = response.value!!
+                        Preferences.saveApi(Gson().toJson(response.value))
+                        Preferences.saveGlobalResponse(Gson().toJson(response.value))
+                        Utils.printMessage("SplashScreen", response.value.toString())
+//                        command.value =
+//                            NavigateTo(response.value)
+                    } else {
+                        command.value =
+                            Command.ShowToast(response.value.message)
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    command.postValue(
+                        Command.ShowToast(
+                            response.error ?: "Something went wrong"
+                        )
+                    )
+                }
+
+                is ApiResult.NetworkError -> {
+                    command.postValue(Command.ShowToast("Network Error"))
+                }
+
+                is ApiResult.UnknownError -> {
+                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                }
+
+                else -> {
+                    command.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                }
+            }
+        }
+    }
 
 
     fun checkLogin(loginRequest: LoginRequest) {
@@ -69,20 +127,24 @@ class LoginViewModel : ViewModel() {
                                     commands.value = Command.ShowToast(result.value.MESSAGE)
                                 }
                             }
+
                             is ApiResult.GenericError -> {
                                 commands.postValue(result.error?.let {
                                     Command.ShowToast(it)
                                 })
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.NetworkError -> {
                                 commands.postValue(Command.ShowToast("Network Error"))
                                 state.value = State.ERROR
                             }
+
                             is ApiResult.UnknownError -> {
                                 commands.postValue(Command.ShowToast("An error has occurred"))
                                 state.value = State.ERROR
                             }
+
                             else -> {
                                 commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                                 state.value = State.ERROR
@@ -116,20 +178,24 @@ class LoginViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     commands.value = Command.MpinValidation(result.value)
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                         Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(Command.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(Command.ShowToast("An error has occurred"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -161,4 +227,7 @@ sealed class Command {
         val arguments: Bundle,
     ) : Command()
 
+//    data class NavigateTo(
+//        val value: ValidateResponse,
+//    ) : Command()
 }

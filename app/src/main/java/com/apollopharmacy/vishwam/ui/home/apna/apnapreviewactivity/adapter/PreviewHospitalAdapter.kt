@@ -28,11 +28,35 @@ class PreviewHospitalAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items=hospitalListData.get(position)
-        holder.hospitalAdapterLayoutBinding.name.setText(items.hospitals)
-        holder.hospitalAdapterLayoutBinding.beds.setText(items.beds.toString())
-        holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.uid.toString())
-        holder.hospitalAdapterLayoutBinding.noOfOpd.setText(items.noOpd.toString())
-        holder.hospitalAdapterLayoutBinding.occupancy.setText(items.occupancy.toString())
+        if (items.hospitals!!.isNotEmpty())  {
+            holder.hospitalAdapterLayoutBinding.name.setText(items.hospitals)
+        } else {
+            holder.hospitalAdapterLayoutBinding.name.setText("-")
+        }
+        if (items.beds.toString().isNotEmpty()) {
+            holder.hospitalAdapterLayoutBinding.beds.setText(items.beds.toString())
+        } else {
+            holder.hospitalAdapterLayoutBinding.beds.setText("-")
+        }
+        if (items.speciality != null) {
+            if (items.speciality!!.uid.toString().isNotEmpty() && items.speciality!!.uid != null) {
+                holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.uid.toString())
+            } else {
+                holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+            }
+        } else {
+            holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+        }
+        if (items.noOpd.toString().isNotEmpty()) {
+            holder.hospitalAdapterLayoutBinding.noOfOpd.setText(items.noOpd.toString())
+        } else {
+            holder.hospitalAdapterLayoutBinding.noOfOpd.setText("-")
+        }
+        if (items.occupancy.toString().isNotEmpty()) {
+            holder.hospitalAdapterLayoutBinding.occupancy.setText(items.occupancy.toString())
+        } else {
+            holder.hospitalAdapterLayoutBinding.occupancy.setText("-")
+        }
     }
 
     override fun getItemCount(): Int {

@@ -1161,7 +1161,7 @@
                         </RelativeLayout>
                     </LinearLayout>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_accept_order"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
@@ -1175,7 +1175,7 @@
                         android:textColor="@color/colorWhite"
                         android:textSize="16sp" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_reject_order"
 
                         android:layout_width="match_parent"

@@ -81,7 +81,7 @@
                         android:textSize="@dimen/text_14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/value_40dp"

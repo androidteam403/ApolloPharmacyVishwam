@@ -86,7 +86,7 @@
                 android:layout_margin="@dimen/value_5dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/qc_view_item_row" />
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/value_50dp"

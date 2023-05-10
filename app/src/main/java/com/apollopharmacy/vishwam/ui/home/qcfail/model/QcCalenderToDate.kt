@@ -11,7 +11,6 @@ import androidx.fragment.app.FragmentManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.DialogDatePickerBinding
 import com.apollopharmacy.vishwam.util.Utils
-import kotlinx.android.synthetic.main.order_adapter.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat

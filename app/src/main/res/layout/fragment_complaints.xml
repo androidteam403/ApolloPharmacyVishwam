@@ -132,7 +132,7 @@
                         android:textColorHint="@android:color/darker_gray"
                         android:textSize="@dimen/text_14sp" />
                 </RelativeLayout>
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/submit"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/value_40dp"

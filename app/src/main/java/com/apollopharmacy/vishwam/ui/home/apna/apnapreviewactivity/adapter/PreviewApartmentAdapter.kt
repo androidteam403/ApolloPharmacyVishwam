@@ -29,10 +29,21 @@ class PreviewApartmentAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items=hospitalListData.get(position)
-        holder.apartmentAdapterLayoutBinding.name.setText(items.apartments)
-        holder.apartmentAdapterLayoutBinding.noOfHouses.setText(items.noHouses.toString())
-        holder.apartmentAdapterLayoutBinding.distance.setText(items.distance!!.toString())
-
+        if (items.apartments!!.isNotEmpty()) {
+            holder.apartmentAdapterLayoutBinding.name.setText(items.apartments)
+        } else {
+            holder.apartmentAdapterLayoutBinding.name.setText("-")
+        }
+        if (items.noHouses.toString().isNotEmpty()) {
+            holder.apartmentAdapterLayoutBinding.noOfHouses.setText(items.noHouses.toString())
+        } else {
+            holder.apartmentAdapterLayoutBinding.noOfHouses.setText("-")
+        }
+        if (items.distance.toString().isNotEmpty()) {
+            holder.apartmentAdapterLayoutBinding.distance.setText(items.distance!!.toString())
+        } else {
+            holder.apartmentAdapterLayoutBinding.distance.setText("-")
+        }
     }
 
     override fun getItemCount(): Int {

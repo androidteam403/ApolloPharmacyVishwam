@@ -132,7 +132,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rejectClick"
                 android:layout_width="@dimen/value_80dp"
                 android:layout_height="@dimen/value_40dp"
@@ -143,7 +143,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/acceptClick"
                 android:layout_width="@dimen/value_80dp"
                 android:layout_height="@dimen/value_40dp"

@@ -34,6 +34,7 @@
                 android:layout_marginTop="@dimen/value_20dp"
                 android:layout_marginRight="@dimen/value_15dp"
                 android:textColorHint="@color/black"
+                android:theme="@style/TextLabelEditText"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatEditText
@@ -67,7 +68,8 @@
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
-                    android:textColorHint="@color/black">
+                    android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/branchName"
@@ -91,7 +93,8 @@
                     android:layout_marginLeft="@dimen/value_15dp"
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
-                    android:textColorHint="@color/black">
+                    android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/selectDepartment"
@@ -117,6 +120,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
                     android:visibility="@{registration.visibleState == State.SUCCESS ? View.VISIBLE : View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -143,6 +147,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
                     android:visibility="@{registration.visibleState == State.SUCCESS ? View.GONE : View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -169,6 +174,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
                     android:visibility="@{registration.visibleState == State.SUCCESS ? View.GONE : View.GONE}">
 
                     <androidx.appcompat.widget.AppCompatEditText
@@ -196,7 +202,8 @@
                     android:layout_marginRight="@dimen/value_15dp"
                     android:clickable="false"
                     android:editable="false"
-                    android:textColorHint="@color/black">
+                    android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/dateOfProblem"
@@ -301,6 +308,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -324,6 +332,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -352,8 +361,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/value_15dp"
                             android:layout_marginStart="@dimen/value_20dp"
+                            android:layout_marginTop="@dimen/value_15dp"
                             android:text="@string/label_Add_Inventory_Item"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_16sp"
@@ -369,6 +378,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -378,13 +388,13 @@
                                 android:clickable="true"
                                 android:focusable="false"
                                 android:hint="@string/label_item_code"
+                                android:maxLines="1"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:text=""
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_15sp"
-                                android:maxLines="1"/>
+                                android:textSize="@dimen/text_15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -396,6 +406,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -404,12 +415,12 @@
                                 android:layout_height="@dimen/value_50dp"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890./-"
                                 android:hint="@string/label_Batch_No"
+                                android:inputType="text"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_15sp"
-                                android:inputType="text"/>
+                                android:textSize="@dimen/text_15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -420,21 +431,22 @@
                             android:layout_marginLeft="@dimen/value_15dp"
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
-                            android:textColorHint="@color/black">
+                            android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText">
 
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/barcodeEdt"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_50dp"
+                                android:digits="0123456789"
                                 android:hint="@string/label_Barcode"
+                                android:inputType="number"
+                                android:maxLength="20"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_15sp"
-                                android:digits="0123456789"
-                                android:maxLength="20"
-                                android:inputType="number"/>
+                                android:textSize="@dimen/text_15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -446,6 +458,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -472,6 +485,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -496,6 +510,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -520,6 +535,7 @@
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
                             android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText"
                             app:layout_constraintTop_toBottomOf="@+id/expire">
 
                             <androidx.appcompat.widget.AppCompatEditText
@@ -543,37 +559,37 @@
                             android:layout_marginLeft="@dimen/value_15dp"
                             android:layout_marginTop="@dimen/value_10dp"
                             android:layout_marginRight="@dimen/value_15dp"
-                            android:textColorHint="@color/black">
+                            android:textColorHint="@color/black"
+                            android:theme="@style/TextLabelEditText">
 
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/newMrpEdit"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_50dp"
                                 android:hint="@string/label_New_MRP"
+                                android:inputType="numberDecimal"
                                 android:paddingStart="@dimen/value_10dp"
                                 android:paddingEnd="@dimen/value_10dp"
                                 android:textColor="@color/black"
                                 android:textColorHint="@color/black"
-                                android:textSize="@dimen/text_15sp"
-                                android:inputType="numberDecimal"/>
+                                android:textSize="@dimen/text_15sp" />
                         </com.google.android.material.textfield.TextInputLayout>
-
 
 
                         <include
                             android:id="@+id/product_image_view"
                             layout="@layout/layout_product_images"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="@dimen/value_10dp"
-                            android:layout_marginRight="@dimen/value_15dp"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_marginRight="@dimen/value_15dp" />
                     </LinearLayout>
                 </LinearLayout>
 
                 <include
                     android:id="@+id/transaction_details_layout"
-                    layout="@layout/view_transaction_details_for_cc"/>
+                    layout="@layout/view_transaction_details_for_cc" />
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/description"
@@ -584,6 +600,7 @@
                     android:layout_marginTop="@dimen/value_10dp"
                     android:layout_marginRight="@dimen/value_15dp"
                     android:textColorHint="@color/black"
+                    android:theme="@style/TextLabelEditText"
                     app:counterEnabled="true"
                     app:counterMaxLength="500"
                     app:layout_constraintTop_toBottomOf="@+id/extraLayout">
@@ -601,7 +618,7 @@
                         android:scrollbars="vertical"
                         android:textColor="@color/black"
                         android:textColorHint="@color/black"
-                        android:textSize="@dimen/text_15sp"/>
+                        android:textSize="@dimen/text_15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -610,60 +627,61 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/titleName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/value_20dp"
-                    android:layout_marginTop="@dimen/value_15dp"
-                    android:text="@string/label_upload_image"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_16sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/description" />
-
-                <LinearLayout
-                    android:id="@+id/attachImageLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/value_100dp"
-                    android:layout_margin="@dimen/value_10dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@+id/titleName">
-
-                    <ImageView
-                        android:id="@+id/addImage"
-                        android:layout_width="@dimen/value_40dp"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/value_15dp"
-                        android:contentDescription="@string/app_name"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_capture_image" />
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/imageRecyclerView"
+                    <TextView
+                        android:id="@+id/titleName"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginStart="@dimen/value_5dp"
-                        android:layout_marginBottom="@dimen/value_5dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_20dp"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:text="@string/label_upload_image"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_16sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/description" />
+
+                    <LinearLayout
+                        android:id="@+id/attachImageLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_100dp"
+                        android:layout_margin="@dimen/value_10dp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layout_constraintTop_toBottomOf="@+id/titleName">
+
+                        <ImageView
+                            android:id="@+id/addImage"
+                            android:layout_width="@dimen/value_40dp"
+                            android:layout_height="@dimen/value_40dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="@dimen/value_15dp"
+                            android:contentDescription="@string/app_name"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_capture_image" />
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/imageRecyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/value_5dp"
+                            android:layout_marginBottom="@dimen/value_5dp"
+                            android:orientation="horizontal"
+                            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/inventoryMessageForCamera"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/label_attach_images"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="@dimen/text_15sp"
+                        android:visibility="gone"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/attachImageLayout" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/inventoryMessageForCamera"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="@string/label_attach_images"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/text_15sp"
-                    android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/attachImageLayout" />
-                </LinearLayout>
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/submit"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/value_50dp"

@@ -71,7 +71,7 @@
             android:weightSum="2">
             <!--                android:background="#85B6B1"-->
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/preview"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_15sp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/send"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

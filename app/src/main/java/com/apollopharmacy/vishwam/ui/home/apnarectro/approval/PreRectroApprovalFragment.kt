@@ -11,8 +11,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.adapter.RectroAppr
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
-import kotlinx.android.synthetic.main.retro_approval_layout.view.*
+
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
