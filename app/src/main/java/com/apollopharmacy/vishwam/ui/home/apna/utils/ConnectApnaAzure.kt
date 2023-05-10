@@ -50,32 +50,39 @@ class ConnectApnaAzure {
         storageConnection: String,
     ): List<SurveyCreateRequest.VideoMb.Video> {
         var videoUrlList = ArrayList<SurveyCreateRequest.VideoMb.Video>()
-        if (videoPathList != null && videoPathList.size > 0) {
-            for (file in videoPathList) {
-                var videoBlob: CloudBlockBlob? = null
+        try {
+            if (videoPathList != null && videoPathList.size > 0) {
+                for (file in videoPathList) {
+                    var videoBlob: CloudBlockBlob? = null
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N && file != null) {
-                    ReduceSize.reduceImageSize(file!!)
-                }
-                val cloudStorageAccount = CloudStorageAccount.parse(storageConnection)
-                val blobClient = cloudStorageAccount.createCloudBlobClient()
-                val container: CloudBlobContainer = blobClient.getContainerReference(containerName)
-                container.createIfNotExists()
-                val containerPermissions = BlobContainerPermissions()
-                containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
-                container.uploadPermissions(containerPermissions);
-                videoBlob = container.getBlockBlobReference(file.toString())
-                if (file != null) {
-                    videoBlob.upload(FileInputStream(file), file?.length()!!)
-                }
-                val videoBlog = videoBlob!!.storageUri.primaryUri.toString()
-                var video = SurveyCreateRequest.VideoMb.Video()
-                video.url = videoBlog
-                videoUrlList.add(video)
-                return videoUrlList
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N && file != null) {
+                        ReduceSize.reduceImageSize(file!!)
+                    }
+                    val cloudStorageAccount = CloudStorageAccount.parse(storageConnection)
+                    val blobClient = cloudStorageAccount.createCloudBlobClient()
+                    val container: CloudBlobContainer =
+                        blobClient.getContainerReference(containerName)
+                    container.createIfNotExists()
+                    val containerPermissions = BlobContainerPermissions()
+                    containerPermissions.setPublicAccess(BlobContainerPublicAccessType.CONTAINER);
 
+                    container.uploadPermissions(containerPermissions);
+                    videoBlob = container.getBlockBlobReference(file.toString())
+                    if (file != null) {
+                        videoBlob.upload(FileInputStream(file), file?.length()!!)
+                    }
+                    val videoBlog = videoBlob!!.storageUri.primaryUri.toString()
+                    var video = SurveyCreateRequest.VideoMb.Video()
+                    video.url = videoBlog
+                    videoUrlList.add(video)
+                    return videoUrlList
+
+                }
             }
+        } catch (e: Exception) {
+            println("Jai naveen $e")
         }
+
         return videoUrlList
     }
 }

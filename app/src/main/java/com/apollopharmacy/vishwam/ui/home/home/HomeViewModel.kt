@@ -241,7 +241,10 @@ class HomeViewModel : ViewModel() {
             if (!ActivityUtils.isLoadingShowing()) ActivityUtils.showDialog(context, "Please wait.")
             val apiInterface = ApiClient.getApiService()
             val riderActiveStatusRequest = RiderActiveStatusRequest()
-            if (SessionManager(context).riderProfileResponse.data.uid != null) {
+            if (SessionManager(context).riderProfileResponse != null && SessionManager(context).riderProfileResponse.data != null && SessionManager(
+                    context
+                ).riderProfileResponse.data.uid != null
+            ) {
                 riderActiveStatusRequest.uid = SessionManager(context).riderProfileResponse.data.uid
             }
             val userAddInfo = RiderActiveStatusRequest.UserAddInfo()
@@ -258,9 +261,11 @@ class HomeViewModel : ViewModel() {
             getDetailsRequest.headertokenkey = "authorization"
             getDetailsRequest.headertokenvalue = "Bearer $token"
             getDetailsRequest.requesttype = "POST"
-            val calls = apiInterface.getDetails(AppConstants.PROXY_URL,
+            val calls = apiInterface.getDetails(
+                AppConstants.PROXY_URL,
                 AppConstants.PROXY_TOKEN,
-                getDetailsRequest)
+                getDetailsRequest
+            )
             calls.enqueue(object : Callback<ResponseBody?> {
                 override fun onResponse(
                     call: Call<ResponseBody?>,
@@ -278,8 +283,10 @@ class HomeViewModel : ViewModel() {
                             val res = BackSlash.removeBackSlashes(resp)
                             val gson = Gson()
                             val riderActiveStatusResponse =
-                                gson.fromJson(BackSlash.removeSubString(res),
-                                    RiderActiveStatusResponse::class.java)
+                                gson.fromJson(
+                                    BackSlash.removeSubString(res),
+                                    RiderActiveStatusResponse::class.java
+                                )
                             if (riderActiveStatusResponse != null && riderActiveStatusResponse.data != null && riderActiveStatusResponse.success) {
                                 SessionManager(context).riderActiveStatus =
                                     activieStatus
@@ -298,8 +305,10 @@ class HomeViewModel : ViewModel() {
                                         ) {
                                             SessionManager(context).loginToken =
                                                 response.body()!!.data.token
-                                            riderUpdateStauts(response.body()!!.data.token,
-                                                activieStatus, context, homeFragmentCallback)
+                                            riderUpdateStauts(
+                                                response.body()!!.data.token,
+                                                activieStatus, context, homeFragmentCallback
+                                            )
                                         } else if (response.code() == 401) {
 //                                            logout()
                                         } else {

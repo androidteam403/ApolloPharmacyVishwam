@@ -64,8 +64,8 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fillViewport="true"
-            android:layout_below="@+id/header_view">
+            android:layout_below="@+id/header_view"
+            android:fillViewport="true">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -105,6 +105,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:paddingHorizontal="7dp"
                                     android:text="1"
@@ -132,7 +133,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Location Details"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -154,9 +155,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/locationDetailsExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -457,6 +469,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="2"
                                     android:textColor="@color/white"
@@ -482,7 +495,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Site Specifications"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -504,9 +517,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/siteSpecificationsExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -1235,6 +1259,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="3"
                                     android:textColor="@color/white"
@@ -1260,7 +1285,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Market Information"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -1282,9 +1307,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/marketInformationExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -1635,8 +1671,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:weightSum="3"
-                                    android:layout_marginTop="@dimen/value_5dp">
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:weightSum="3">
 
                                     <com.google.android.material.textfield.TextInputLayout
                                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1697,9 +1733,9 @@
                                     android:id="@+id/neighbouringStoreRcv"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    tools:listitem="@layout/layout_neighbouring_store"
+                                    android:layout_marginTop="@dimen/value_8dp"
                                     tools:itemCount="2"
-                                    android:layout_marginTop="@dimen/value_8dp"/>
+                                    tools:listitem="@layout/layout_neighbouring_store" />
                             </LinearLayout>
 
                             <!--<androidx.recyclerview.widget.RecyclerView
@@ -1760,13 +1796,13 @@
                                         android:id="@+id/distributorsComments"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_150dp"
-                                        android:hint="Comments"
                                         android:gravity="left|top"
+                                        android:hint="Comments"
                                         android:inputType="textMultiLine"
                                         android:maxLength="100"
                                         android:paddingStart="@dimen/value_10dp"
-                                        android:paddingEnd="@dimen/value_10dp"
                                         android:paddingTop="@dimen/value_8dp"
+                                        android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
                                         android:textSize="14sp" />
@@ -1969,6 +2005,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="4"
                                     android:textColor="@color/white"
@@ -1994,7 +2031,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Competitors Details"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2016,9 +2053,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/green_color_resource"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/competitorsDetailsExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -2354,6 +2402,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="5"
                                     android:textColor="@color/white"
@@ -2379,7 +2428,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Population and Houses"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2401,9 +2450,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/populationAndHousesExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -2585,6 +2645,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="6"
                                     android:textColor="@color/white"
@@ -2610,7 +2671,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Hospitals"
-                                    android:textColor="#f7931e"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
@@ -2632,9 +2693,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/hospitalsExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
@@ -2859,6 +2931,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/green_rounded_background"
+                                    android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:paddingHorizontal="7dp"
                                     android:text="7"
                                     android:textColor="@color/white"
@@ -2871,7 +2944,7 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppin_bold"
                                     android:text="Photos and Media"
-                                    android:textColor="#00a651"
+                                    android:textColor="@color/apna_project_actionbar_color"
                                     android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
                             </LinearLayout>
@@ -2882,9 +2955,20 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="#4f99b1"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
+
+                            <ImageView
+                                android:id="@+id/photoMediaExpandCompleted"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentEnd="true"
+                                android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
+                                android:tint="@color/apna_project_actionbar_color"
+                                android:visibility="gone"
+                                tools:ignore="UseAppTint" />
+
                         </RelativeLayout>
 
                         <LinearLayout
