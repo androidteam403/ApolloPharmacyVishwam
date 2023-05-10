@@ -9,7 +9,7 @@ interface PostRetroUploadImagesCallback {
     fun onClickCancel()
     fun onClickEyeImage()
     fun onClickImageView()
-    fun onSuccessImageIsUploadedInAzur(response: ArrayList<GetStoreWiseCatDetailsApnaResponse>)
+    fun onSuccessImageIsUploadedInAzur(response: GetImageUrlsModelApnaResponse)
      fun onSuccessSaveImageUrlsApi(value: SaveImageUrlsResponse)
      fun onFailureSaveImageUrlsApi(value: SaveImageUrlsResponse)
      fun onSuccessGetStoreWiseDetails(value: GetStoreWiseCatDetailsApnaResponse)
@@ -18,5 +18,8 @@ interface PostRetroUploadImagesCallback {
      fun onFailureImageUrlsList(value: GetImageUrlsModelApnaResponse)
 
      fun onClickReshoot()
+     fun onSuccessImageIsUploadedInAzurReshoot(response: String?)
+
+     fun onCickDownArrow()
 
 }

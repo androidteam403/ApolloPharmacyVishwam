@@ -75,7 +75,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         uploadImagesViewModel = ViewModelProvider(this)[UploadImagesViewModel::class.java]
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
-//        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
+        activityUploadImagesBinding.storeId.text=Preferences.getSwachhSiteId()
         activityUploadImagesBinding.incharge.text=Preferences.getValidatedEmpId()
       activityUploadImagesBinding.storeName.text=Preferences.getSwachSiteName()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
@@ -145,7 +145,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
                 var dtcl_list = ArrayList<GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl>()
                 for (count in 1..countUpload!!) {
                     overallImageCount++
-                    dtcl_list.add(GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl(null, count, "", 0))
+                    dtcl_list.add(GetStoreWiseCatDetailsApnaResponse.Config.ImgeDtcl(null, count, "", 0, "",""))
 
                 }
                 apnaConfigList.get(0).configlist?.get(index)?.imageDataDto = dtcl_list
@@ -154,6 +154,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
             activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
             activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
+
+
 
             configApnaAdapter =
                 ConfigApnaAdapter(getStoreWiseResponse, apnaConfigList, this, this)
@@ -202,7 +204,9 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
             textMessage.text = "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
             close.setOnClickListener {
                 dialog.dismiss()
-                super.onBackPressed()
+                val intent = Intent()
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
             val ok = dialog.findViewById<RelativeLayout>(R.id.ok_apna)
             ok.setOnClickListener {
@@ -462,7 +466,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
 //            for (i in swacchApolloList.get(0).configlist?.indices!!) {
             uploadImagesViewModel.connectToAzure(
-                apnaConfigList, this
+                apnaConfigList, this, false
             )
 
 //            }

@@ -7,34 +7,51 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.azure.ConnectionAzureApna
+import com.apollopharmacy.vishwam.data.azure.ConnectionAzureSwachRes
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.CommandsNewSwachImp
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.reshootactivity.CommandsNeww
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.ArrayList
+import java.io.File
 
 class PostRetroUploadImagesViewModel: ViewModel() {
     val state = MutableLiveData<State>()
     val commands = LiveEvent<CommandsUploadImages>()
 
 
-    fun connectToAzure(apnaConfigList: ArrayList<GetStoreWiseCatDetailsApnaResponse>, postRetroUploadImagesCallback: PostRetroUploadImagesCallback) {
+    fun connectToAzure(
+        apnaConfigList: GetImageUrlsModelApnaResponse?,
+        postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
+        isReshoot: Boolean,
+        stage: String
+    ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
             val response = ConnectionAzureApna.connectToAzurList(apnaConfigList!!,
                 Config.CONTAINER_NAME,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP, isReshoot,stage)
             postRetroUploadImagesCallback.onSuccessImageIsUploadedInAzur(response)
 
+        }
+    }
+
+    fun connectToAzureReshoot(image: File?, postRetroUploadImagesCallback: PostRetroUploadImagesCallback) {
+        state.value = State.SUCCESS
+        viewModelScope.launch(Dispatchers.IO) {
+            val response = ConnectionAzureSwachRes.connectToAzur(image,
+                Config.CONTAINER_NAME,
+                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+
+            postRetroUploadImagesCallback.onSuccessImageIsUploadedInAzurReshoot(response)
         }
     }
 

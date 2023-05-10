@@ -38,12 +38,12 @@
                 android:text="Store ID "/>
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:onClick="@{()-> callback.onClickSearch()}"
                 android:id="@+id/storeId"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_40dp"
                 android:background="@drawable/grey_border_bg"
-                android:drawableEnd="@drawable/ic_search_24"
                 android:gravity="center"
                 android:paddingStart="@dimen/text_dimen_12"
                 android:textAlignment="textStart"
@@ -104,6 +104,7 @@
                                 android:gravity="end">
 
                                 <LinearLayout
+                                    android:visibility="gone"
                                     android:layout_width="@dimen/twenty20_dp"
                                     android:layout_height="@dimen/twenty20_dp"
                                     android:layout_gravity="end">
@@ -214,7 +215,7 @@
 
             <TextView
                 android:layout_centerInParent="true"
-                android:layout_marginTop="@dimen/value_100dp"
+                android:layout_marginTop="@dimen/value_150dp"
                 android:visibility="gone"
                 android:id="@+id/noOrdersFound"
                 android:textStyle="bold"

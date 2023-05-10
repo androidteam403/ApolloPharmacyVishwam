@@ -41,7 +41,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         )
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
-        Utlis.showLoading(this)
+//        Utlis.showLoading(this)
         viewModel.getStoreDetailsChamps(this)
 //        if (NetworkUtil.isNetworkConnected(this)) {
 //            Utlis.showLoading(this)

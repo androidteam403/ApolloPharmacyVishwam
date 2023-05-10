@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <RelativeLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -52,7 +51,7 @@
                         android:layout_marginTop="@dimen/three3_sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                       android:id="@+id/retro_id"
+                        android:text="56985_APNARECTRO_06042023"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_15sp"
                         android:textStyle="bold" />
@@ -61,7 +60,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/close_icon"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
@@ -157,10 +155,9 @@
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
-                                    android:id="@+id/store_id"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="16001"
+                                    android:text="Ameerpet, Hyderabad - 16015"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
@@ -201,6 +198,7 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:text="@{pendingAndApprovedModel.status.equals(`Pending`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Approved`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Reshoot`) ? pendingAndApprovedModel.uploadedDate : pendingAndApprovedModel.status.equals(`Partially Approved`) ?pendingAndApprovedModel.uploadedDate : `-`}"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp"
                                     android:textStyle="bold" />
@@ -293,196 +291,121 @@
                         android:layout_weight="1"
                         android:layout_height="@dimen/dimen400dp">
 
-                     <LinearLayout
-                         android:id="@+id/first_image_layout"
-                         android:orientation="vertical"
-                         android:layout_width="0dp"
-                         android:layout_height="match_parent"
-                         android:layout_weight="0.5">
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5">
 
-                         <TextView
-                             android:id="@+id/image_heading_1"
-                             android:layout_gravity="center"
-                             android:layout_width="wrap_content"
-                             android:layout_height="wrap_content"
-                             android:text="Post Rectro Image"
-                             android:textColor="@color/black"
-                             android:textStyle="bold"
-                             android:textAlignment="center"
-                             android:layout_marginTop="@dimen/value_5dp"/>
+                            <TextView
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Post Rectro Image"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:layout_marginTop="@dimen/value_5dp"/>
 
-                         <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                            android:layout_marginTop="@dimen/value_2dp"
-                             android:id="@+id/image_one"
-                             android:layout_marginEnd="@dimen/value_3dp"
-                             android:layout_width="match_parent"
-                             android:layout_height="match_parent"
-                             app:zoomage_animateOnReset="true"
-                             app:zoomage_autoCenter="true"
-                             app:zoomage_autoResetMode="UNDER"
-                             app:zoomage_maxScale="8"
-                             app:zoomage_minScale="0.6"
-                             app:zoomage_restrictBounds="false"
-                             app:zoomage_translatable="true"
-                             app:zoomage_zoomable="true"
-                             android:src="@drawable/capture1" />
-                     </LinearLayout>
+                            <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                android:id="@+id/image_one"
+                                android:layout_marginEnd="@dimen/value_3dp"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:zoomage_animateOnReset="true"
+                                app:zoomage_autoCenter="true"
+                                app:zoomage_autoResetMode="UNDER"
+                                app:zoomage_maxScale="8"
+                                app:zoomage_minScale="0.6"
+                                app:zoomage_restrictBounds="false"
+                                app:zoomage_translatable="true"
+                                app:zoomage_zoomable="true"
+                                android:src="@drawable/capture1" />
+                        </LinearLayout>
 
 
 
 
-                      <LinearLayout
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.5"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="After Completion Image"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:layout_marginTop="@dimen/value_5dp"/>
 
 
-                          android:layout_width="0dp"
-                          android:layout_weight="0.5"
-                          android:layout_height="match_parent"
-                          android:orientation="vertical">
+                            <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                android:layout_marginStart="@dimen/value_3dp"
+                                android:id="@+id/image_two"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                app:zoomage_animateOnReset="true"
+                                app:zoomage_autoCenter="true"
+                                app:zoomage_autoResetMode="UNDER"
+                                app:zoomage_maxScale="8"
+                                app:zoomage_minScale="0.6"
+                                app:zoomage_restrictBounds="false"
+                                app:zoomage_translatable="true"
+                                app:zoomage_zoomable="true"
+                                android:src="@drawable/capture1"/>
 
-                          <LinearLayout
-                              android:visibility="visible"
-                              android:id="@+id/second_image_layout"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:orientation="vertical">
-                              <TextView
-                                  android:id="@+id/image_heading2"
-                                  android:layout_gravity="center"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="wrap_content"
-                                  android:text="After Completion Image"
-                                  android:textColor="@color/black"
-                                  android:textStyle="bold"
-                                  android:textAlignment="center"
-                                  android:layout_marginTop="@dimen/value_5dp"/>
-
-                              <RelativeLayout
-                                  android:layout_width="match_parent"
-                                  android:layout_height="match_parent">
-                                  <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                                      android:layout_marginStart="@dimen/value_3dp"
-                                      android:layout_marginTop="@dimen/value_2dp"
-                                      android:id="@+id/image_two"
-                                      android:layout_width="match_parent"
-                                      android:layout_height="match_parent"
-                                      app:zoomage_animateOnReset="true"
-                                      app:zoomage_autoCenter="true"
-                                      app:zoomage_autoResetMode="UNDER"
-                                      app:zoomage_maxScale="8"
-                                      app:zoomage_minScale="0.6"
-                                      app:zoomage_restrictBounds="false"
-                                      app:zoomage_translatable="true"
-                                      app:zoomage_zoomable="true"
-                                      android:src="@drawable/capture1"/>
-                                  <LinearLayout
-                                      android:onClick="@{()-> callback.onClickDelete()}"
-                                      android:id="@+id/deleteIcon"
-                                      android:visibility="gone"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="@dimen/value_25dp"
-                                      android:layout_alignParentBottom="true"
-                                      android:layout_alignParentRight="true"
-                                      android:layout_margin="@dimen/six6_sp"
-                                      android:background="@drawable/red_rounded_corners"
-                                      android:padding="@dimen/value_3dp">
-
-                                      <ImageView
-                                          android:layout_width="@dimen/eighteen18_dp"
-                                          android:layout_height="@dimen/eighteen18_dp"
-                                          android:layout_gravity="center"
-                                          android:padding="@dimen/value_3dp"
-                                          android:src="@drawable/trash" />
-
-
-                                  </LinearLayout>
-
-
-                                  <LinearLayout
-                                      android:visibility="gone"
-                                      android:onClick="@{()-> callback.onClickCamera()}"
-                                      android:id="@+id/reshootCamera"
-                                      android:layout_width="wrap_content"
-                                      android:layout_height="@dimen/value_25dp"
-                                      android:layout_alignParentRight="true"
-                                      android:layout_alignParentBottom="true"
-                                      android:layout_margin="@dimen/six6_sp"
-                                      android:background="@drawable/red_rounded_corners"
-                                      android:padding="@dimen/value_3dp">
-
-                                      <ImageView
-                                          android:layout_width="@dimen/twenty20_dp"
-                                          android:layout_height="@dimen/twenty20_dp"
-                                          android:layout_gravity="center"
-                                          android:padding="@dimen/value_3dp"
-                                          android:src="@drawable/camerawhite" />
-
-
-                                  </LinearLayout>
-                              </RelativeLayout>
-
-
-
-
-
-
-                          </LinearLayout>
-
-
-
-
-                          <LinearLayout
-                              android:id="@+id/upload_camera_layout"
-                              android:visibility="gone"
-                              android:layout_gravity="center"
-                              android:gravity="center"
-                              android:orientation="vertical"
-                              android:layout_width="match_parent"
-                              android:layout_height="match_parent"
-                              android:background="@color/very_light_green">
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@color/very_light_green">
 
                                 <TextView
-                                    android:id="@+id/upload_postOrAfter_image_text"
                                     android:textColor="@color/black"
                                     android:textSize="14sp"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:text="Upload Post Rectro"
                                     android:layout_gravity="center"
                                     android:textStyle="bold"/>
 
-                              <LinearLayout
-                                  android:onClick="@{()-> callback.onClickCamera()}"
-                                  android:id="@+id/cameraIconImage"
-                                  android:layout_width="wrap_content"
-                                  android:layout_height="@dimen/value_25dp"
-                                  android:layout_alignParentRight="true"
-                                  android:layout_alignParentBottom="true"
-                                  android:layout_margin="@dimen/six6_sp"
-                                  android:background="@drawable/red_rounded_corners"
-                                  android:padding="@dimen/value_3dp">
+                                <LinearLayout
+                                    android:id="@+id/redTrash"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/value_25dp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_margin="@dimen/six6_sp"
+                                    android:background="@drawable/red_rounded_corners"
+                                    android:padding="@dimen/value_3dp">
 
-                                  <ImageView
-                                      android:id="@+id/showcapturedimage"
-                                      android:layout_width="@dimen/twenty20_dp"
-                                      android:layout_height="@dimen/twenty20_dp"
-                                      android:layout_gravity="center"
-                                      android:padding="@dimen/value_3dp"
-                                      android:src="@drawable/camerawhite" />
-
-
-                              </LinearLayout>
+                                    <ImageView
+                                        android:id="@+id/showcapturedimage"
+                                        android:layout_width="@dimen/twenty20_dp"
+                                        android:layout_height="@dimen/twenty20_dp"
+                                        android:layout_gravity="center"
+                                        android:padding="@dimen/value_3dp"
+                                        android:src="@drawable/camerawhite" />
 
 
+                                </LinearLayout>
 
 
-                          </LinearLayout>
+                            </LinearLayout>
 
-                      </LinearLayout>
+                        </LinearLayout>
 
 
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/comparison_text"
                         android:layout_marginTop="@dimen/value_5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -501,7 +424,7 @@
 
 
                     </LinearLayout>
-                    
+
                     <LinearLayout
                         android:layout_marginTop="@dimen/text_dimen_10"
                         android:layout_gravity="center"
@@ -518,12 +441,11 @@
                             android:orientation="vertical">
 
                             <ImageView
-                                android:id="@+id/pre_retro_cb_image"
                                 android:layout_margin="10dp"
                                 android:scaleType="fitXY"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_70dp"
-                                />
+                                android:src="@drawable/capture"/>
 
                             <TextView
                                 android:layout_gravity="center"
@@ -560,7 +482,7 @@
                                 android:scaleType="fitXY"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_70dp"
-                               android:id="@+id/post_retro_cb_image"/>
+                                android:src="@drawable/capture"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -597,7 +519,7 @@
                                 android:scaleType="fitXY"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_70dp"
-                               android:id="@+id/after_completion_cb_image"/>
+                                android:src="@drawable/capture"/>
 
                             <TextView
                                 android:layout_gravity="center"
@@ -620,8 +542,8 @@
 
 
                         </LinearLayout>
-                        
-                        
+
+
                     </LinearLayout>
 
 
@@ -629,7 +551,6 @@
 
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_marginTop="@dimen/text_dimen_10"
                         android:gravity="center"
                         android:layout_gravity="center"
@@ -673,33 +594,19 @@
                         android:background="@color/another_grey" />
 
                     <LinearLayout
-                        android:layout_marginBottom="@dimen/value_2dp"
-                        android:layout_gravity="center"
                         android:layout_marginStart="@dimen/text_dimen_10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="vertical">
 
                         <TextView
-                            android:layout_gravity="center"
-                            android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Status: "
+                            android:layout_marginTop="@dimen/text_10sp"
+                            android:text="Status Update"
                             android:textColor="@color/black" />
 
-                        <TextView
-                            android:layout_gravity="center"
-                            android:id="@+id/imageStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Pending"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_15sp"
-                            android:textStyle="bold" />
-
                         <LinearLayout
-                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -742,11 +649,11 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_1dp"
+                        android:layout_marginTop="@dimen/value_8dp"
                         android:background="@color/another_grey" />
 
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_marginStart="@dimen/text_dimen_10"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -847,7 +754,6 @@
 
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:layout_marginTop="@dimen/value_15dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -929,46 +835,102 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:visibility="gone"
-            android:layout_marginTop="@dimen/value_15dp"
-            android:id="@+id/uploadnowbutton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/ashcolor"
-            android:onClick="@{()-> callback.onClickUpload()}"
-            android:orientation="horizontal"
-            android:padding="@dimen/value_9dp">
+            android:orientation="vertical"
+            android:weightSum="1">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/text_15sp"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_20sp"
-                android:textStyle="bold" />
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/totalImagesandaction"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="UPLOAD"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_20sp"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content">
+
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_60dp"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight=".3"
+                        android:background="@color/header_blue"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Total Images"
+                            android:textColor="@color/white" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{totalImages}"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/text_18sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:layout_weight=".7"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/statusDisplay"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_18sp" />
+
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+
 
 
         </LinearLayout>
+
+
 
     </RelativeLayout>
 
     <data>
 
         <variable
+            name="pendingAndApprovedModel"
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved" />
+
+        <variable
+            name="imageUrlModel"
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.GetImageUrlsResponse.ImageUrl" />
+
+        <variable
+            name="totalImages"
+            type="String" />
+
+        <variable
             name="callback"
-            type="com.apollopharmacy.vishwam.ui.home.apnarectro.comparisonscreenscreation.ComparisonScreenCreationCallBack" />
+            type="com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewImage.PreviewImageCallback" />
 
 
     </data>

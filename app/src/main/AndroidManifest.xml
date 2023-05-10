@@ -58,6 +58,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
         <activity
+            android:name=".ui.home.apnarectro.comparisonscreenscreation.ComparisonScreenCreation"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"/>
+        <activity
             android:name=".ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"

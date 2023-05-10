@@ -13,7 +13,13 @@ interface PreRectroCallback {
         uploadedOn: String,
         uploadedBy: String,
         toString: String,
-        s: String
+        s: String,
+        approvedby: String?,
+        approvedDate: String?,
+        partiallyApprovedBy: String?,
+        partiallyApprovedDate: String?,
+        reshootDate: String?,
+        reshootBy: String?
     )
     fun onClickPreRetroPending(s: String)
     fun onClickPostRetroPending(
@@ -23,8 +29,16 @@ interface PreRectroCallback {
         uploadedOn: String,
         uploadedBy: String,
         toString: String,
-        s: String
+        s: String,
+        approvedby: String?,
+        approvedDate: String?,
+        partiallyApprovedBy: String?,
+        partiallyApprovedDate: String?,
+        reshootBy: String?,
+        reshootDate: String?
     )
      fun onSuccessgetStorePendingApprovedApiCall(value: GetStorePendingAndApprovedListRes)
+
+     fun onClickSearch()
 
 }

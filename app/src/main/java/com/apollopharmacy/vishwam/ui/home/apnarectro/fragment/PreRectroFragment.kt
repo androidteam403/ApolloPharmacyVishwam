@@ -2,13 +2,10 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,25 +14,24 @@ import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.filter.SelectPreRectroSiteActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.uploadnowactivity.model.UpdateSwachhDefaultSiteRequest
-import com.apollopharmacy.vishwam.util.Utlis
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
-    PreRectroCallback,  MainActivityCallback {
+    PreRectroCallback, MainActivityCallback {
     private var fragmentName:String=""
     private var listAdapter: ListAdapter? = null
     var hashMap: HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>> = HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>>()
@@ -56,13 +52,14 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
         if(this.arguments?.getBoolean("fromPreRectro") == true){
 
-        if (Preferences.getRectroSiteId().isEmpty()) {
+        if (Preferences.getApnaSiteId().isEmpty()) {
             showLoading()
-            val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+            val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
             startActivityForResult(i, 781)
         }
         else {
-            viewBinding.storeId.setText(Preferences.getRectroSiteId())
+            viewBinding.storeId.setText(Preferences.getApnaSiteId())
+            viewBinding.storeName.setText(Preferences.getApnaSiteId()+" - "+Preferences.getSwachSiteName())
 //
 //            viewBinding.storeId.text = Preferences.getSwachhSiteId()
 //            viewBinding.userId.text = Preferences.getToken()
@@ -96,7 +93,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, -14)
+            cal.add(Calendar.DATE, -0)
             val currentDate: String = simpleDateFormat.format(Date())
 
             var fromdate = simpleDateFormat.format(cal.time)
@@ -109,6 +106,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
             getStorePendingApprovedRequest.storeid = "16001"
             getStorePendingApprovedRequest.empid = "APL0001"
+//            getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
+//            getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
             getStorePendingApprovedRequest.fromdate = fromdate
             getStorePendingApprovedRequest.todate = toDate
 //            getStoreHistoryRequest.startpageno = startPageNo
@@ -134,6 +133,104 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     }
 
+
+
+
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)  {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            Toast.makeText(context, ""+Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
+            if (requestCode == 781) {
+                viewBinding.storeId.setText(Preferences.getApnaSiteId())
+                viewBinding.storeName.setText(Preferences.getApnaSiteId()+" - "+Preferences.getSwachSiteName())
+                Toast.makeText(context, ""+Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
+                Log.e("vase",Preferences.getRectroSiteId())
+                hideLoading()
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+//            isFirstTime = false
+
+                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val cal = Calendar.getInstance()
+                    cal.add(Calendar.DATE, -0)
+                    val currentDate: String = simpleDateFormat.format(Date())
+
+                    var fromdate = simpleDateFormat.format(cal.time)
+                    var toDate = currentDate
+//            getStorePersonHistoryList.clear()
+//            if (!isLoading)
+                    showLoading()
+                    // Utlis.showLoading(requireContext())
+
+                    var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
+                    getStorePendingApprovedRequest.storeid = "16001"
+                    getStorePendingApprovedRequest.empid = "APL0001"
+//                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
+//                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
+                    getStorePendingApprovedRequest.fromdate = fromdate
+                    getStorePendingApprovedRequest.todate = toDate
+//            getStoreHistoryRequest.startpageno = startPageNo
+//            getStoreHistoryRequest.endpageno = endpageno
+//            getStoreHistoryRequest.status = updatedComplaintListStatus
+                    viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
+
+                }
+                else {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+
+            }else if(requestCode == 779){
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+//            isFirstTime = false
+
+                    val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+                    val cal = Calendar.getInstance()
+                    cal.add(Calendar.DATE, -0)
+                    val currentDate: String = simpleDateFormat.format(Date())
+
+                    var fromdate = simpleDateFormat.format(cal.time)
+                    var toDate = currentDate
+//            getStorePersonHistoryList.clear()
+//            if (!isLoading)
+                    showLoading()
+                    // Utlis.showLoading(requireContext())
+
+                    var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
+                    getStorePendingApprovedRequest.storeid = "16001"
+                    getStorePendingApprovedRequest.empid = "APL0001"
+//                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
+//                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
+                    getStorePendingApprovedRequest.fromdate = fromdate
+                    getStorePendingApprovedRequest.todate = toDate
+//            getStoreHistoryRequest.startpageno = startPageNo
+//            getStoreHistoryRequest.endpageno = endpageno
+//            getStoreHistoryRequest.status = updatedComplaintListStatus
+                    viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
+
+                }
+                else {
+                    Toast.makeText(
+                        requireContext(),
+                        resources.getString(R.string.label_network_error),
+                        Toast.LENGTH_SHORT
+                    )
+                        .show()
+                }
+            }
+
+
+        }
+
+        }
+
+
     override fun onClickContinue() {
         val intent = Intent(context, UploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -148,7 +245,13 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         uploadedOn: String,
         uploadedBy: String,
         storeId: String,
-        uploadStage: String
+        uploadStage: String,
+        approvedby: String?,
+        approvedDate: String?,
+        partiallyApprovedBy: String?,
+        partiallyApprovedDate: String?,
+        reshootDate: String?,
+        reshootBy: String?,
     ) {
         val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -158,28 +261,41 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
         intent.putExtra("uploadStage", uploadStage)
-        startActivity(intent)
+        intent.putExtra("approvedby", approvedby)
+        intent.putExtra("approvedDate", approvedDate)
+        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
+        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
+        intent.putExtra("reshootDate", reshootDate)
+        intent.putExtra("reshootBy", reshootBy)
+
+        startActivityForResult(intent, 779)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     override fun onClickPreRetroPending(stage: String) {
-        val intent = Intent(context, PreRetroPreviewActivity::class.java)
-        intent.putExtra("fragmentName", "nonApprovalFragment")
-        intent.putExtra("stage", stage)
-        startActivity(intent)
-        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+//        val intent = Intent(context, PreRetroPreviewActivity::class.java)
+//        intent.putExtra("fragmentName", "nonApprovalFragment")
+//        intent.putExtra("stage", stage)
+//        startActivity(intent)
+//        activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     override fun onClickPostRetroPending(
         stage: String,
-        postRetostatus: String,
+        status: String,
         retroid: String,
         uploadedOn: String,
         uploadedBy: String,
         storeId: String,
-        uploadStage: String
+        uploadStage: String,
+        approvedby: String?,
+        approvedDate: String?,
+        partiallyApprovedBy: String?,
+        partiallyApprovedDate: String?,
+        reshootBy: String?,
+        reshootDate: String?,
     ) {
-        if(!uploadStage.equals("reshootStage")){
+//        if(!uploadStage.equals("reshootStage")){
             val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
             intent.putExtra("fragmentName", fragmentName)
             intent.putExtra("stage", stage)
@@ -188,82 +304,34 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             intent.putExtra("uploadedBy", uploadedBy)
             intent.putExtra("storeId", storeId)
             intent.putExtra("uploadStage", uploadStage)
+        intent.putExtra("approvedby", approvedby)
+        intent.putExtra("approvedDate", approvedDate)
+        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
+        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
+        intent.putExtra("reshootDate", reshootDate)
+        intent.putExtra("reshootBy", reshootBy)
             startActivity(intent)
             activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-        }else{
-            val intent = Intent(context, PreRetroPreviewActivity::class.java)
-            intent.putExtra("fragmentName", "nonApprovalFragment")
-            intent.putExtra("stage", stage)
-            intent.putExtra("uploadedOn", uploadedOn)
-            intent.putExtra("uploadedBy", uploadedBy)
-            intent.putExtra("storeId", storeId)
-            startActivity(intent)
-            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-        }
-
-    }
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 781) {
-                viewBinding.storeId.setText(Preferences.getRectroSiteId())
-                viewBinding.storeName.setText(Preferences.getRectroSiteId()+" - "+Preferences.getRectroSiteName())
-
-                Log.e("vase",Preferences.getRectroSiteId())
-                hideLoading()
-
-            }
-        }
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK) {
-            if (NetworkUtil.isNetworkConnected(requireContext())) {
-//            isFirstTime = false
-
-                val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
-                val cal = Calendar.getInstance()
-                cal.add(Calendar.DATE, -14)
-                val currentDate: String = simpleDateFormat.format(Date())
-
-                var fromdate = simpleDateFormat.format(cal.time)
-                var toDate = currentDate
-//            getStorePersonHistoryList.clear()
-//            if (!isLoading)
-                showLoading()
-                // Utlis.showLoading(requireContext())
-
-                var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                getStorePendingApprovedRequest.storeid = "16001"
-                getStorePendingApprovedRequest.empid = "APL0001"
-                getStorePendingApprovedRequest.fromdate = fromdate
-                getStorePendingApprovedRequest.todate = toDate
-//            getStoreHistoryRequest.startpageno = startPageNo
-//            getStoreHistoryRequest.endpageno = endpageno
-//            getStoreHistoryRequest.status = updatedComplaintListStatus
-                viewModel.getStorePendingApprovedListApiCallApnaRetro(getStorePendingApprovedRequest, this)
-
-            }
-            else {
-                Toast.makeText(
-                    requireContext(),
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
-        }
-
+//        }
+//        else{
+//            val intent = Intent(context, PreRetroPreviewActivity::class.java)
+//            intent.putExtra("fragmentName", "nonApprovalFragment")
+//            intent.putExtra("stage", stage)
+//            intent.putExtra("uploadedOn", uploadedOn)
+//            intent.putExtra("uploadedBy", uploadedBy)
+//            intent.putExtra("storeId", storeId)
+//            startActivity(intent)
+//            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+//        }
     }
 
 
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
-        if(getStorePendingApprovedList!=null && getStorePendingApprovedList.status.equals(true)){
+        if(getStorePendingApprovedList!=null && getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size>0){
             hideLoading()
             viewBinding.listRecyclerView.visibility=View.VISIBLE
             viewBinding.noOrdersFound.visibility=View.GONE
+            viewBinding.recordsUploaded.visibility=View.VISIBLE
 
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
                 getStorePendingApprovedList.getList.stream().collect(Collectors.groupingBy { w -> w.retroid })
@@ -286,9 +354,14 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         }
         else{
             hideLoading()
+            viewBinding.recordsUploaded.visibility=View.GONE
             viewBinding.listRecyclerView.visibility=View.GONE
             viewBinding.noOrdersFound.visibility=View.VISIBLE
         }
+
+    }
+
+    override fun onClickSearch() {
 
     }
 
@@ -300,7 +373,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     override fun onClickSiteIdIcon() {
         showLoading()
-        val i = Intent(context, SelectPreRectroSiteActivity::class.java)
+        val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
         startActivityForResult(i, 781)
     }
 
