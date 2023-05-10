@@ -674,6 +674,10 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         cameraDialog.show()
     }
 
+    override fun onClickDeleteforPreRetro() {
+        TODO("Not yet implemented")
+    }
+
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =

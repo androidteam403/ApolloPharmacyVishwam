@@ -9,4 +9,6 @@ interface ComparisonScreenCreationCallBack {
     fun onClickUpload()
 
     fun onClickDelete()
+
+    fun onClickDeleteforPreRetro()
 }
