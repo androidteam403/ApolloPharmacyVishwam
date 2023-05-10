@@ -1560,10 +1560,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
         listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+                        .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
 //                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
 //                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
-                .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
+                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
 //                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
 //                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
         );

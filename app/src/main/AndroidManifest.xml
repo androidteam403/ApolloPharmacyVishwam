@@ -45,7 +45,7 @@
             android:name=".ui.home.apnarectro.prerectro.previewlmageRetro.RetroPreviewImageActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity"
             android:exported="false"
@@ -65,7 +65,7 @@
             android:name=".ui.home.apnarectro.comparisonscreenscreation.ComparisonScreenCreation"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apnarectro.prerectro.prerectropending.PreRetroPendingReviewActivity"
             android:exported="false"
