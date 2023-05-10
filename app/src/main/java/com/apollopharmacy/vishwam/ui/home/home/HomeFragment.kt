@@ -31,15 +31,19 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         hideLoading()
 
         if (getDataManager().getRiderActiveStatus() == "Offline") {
-            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
+            viewModel.riderUpdateStauts(
+                getDataManager().getLoginToken(),
                 "Offline",
                 requireContext(),
-                this@HomeFragment)
+                this@HomeFragment
+            )
         } else {
-            viewModel.riderUpdateStauts(getDataManager().getLoginToken(),
+            viewModel.riderUpdateStauts(
+                getDataManager().getLoginToken(),
                 "Online",
                 requireContext(),
-                this@HomeFragment)
+                this@HomeFragment
+            )
         }
     }
 

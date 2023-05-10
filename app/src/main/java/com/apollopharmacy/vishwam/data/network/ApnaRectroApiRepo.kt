@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.data.network
 
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
@@ -140,6 +141,43 @@ object ApnaRectroApiRepo {
         }
     }
 
+    suspend fun retroApprovalList(
+        url: String,
+        token: String,
+        getRetroPendindAndApproverequest: GetRetroPendindAndApproverequest,
+    ): ApiResult<GetRetroPendingAndApproveResponse> {
+        return try {
+            val response = Api.getClient().getRetroApprovalList(url, token, getRetroPendindAndApproverequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
     suspend fun getImageUrlApnaRetro(
         url: String,
         token: String,
@@ -179,42 +217,42 @@ object ApnaRectroApiRepo {
     }
 
 
-    suspend fun retroApprovalList(
-        url: String,
-        token: String,
-        getRetroPendindAndApproverequest: GetRetroPendindAndApproverequest,
-    ): ApiResult<GetRetroPendingAndApproveResponse> {
-        return try {
-            val response = Api.getClient().getRetroApprovalList(url, token, getRetroPendindAndApproverequest)
-            ApiResult.Success(response)
-        } catch (e: Exception) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            ApiResult.NetworkError
-        } catch (e: Throwable) {
-            e.printStackTrace()
-            ApiResult.UnknownError(e.message)
-        } catch (e: HttpException) {
-            ApiUtils.parseHttpError(e)
-        } catch (e: UnknownError) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketTimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: JsonSyntaxException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: ConnectException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: SocketException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: TimeoutException) {
-            ApiResult.UnknownError(e.message)
-        } catch (e: UnknownHostException) {
-            ApiResult.UnknownHostException(e.message)
-        }
-    }
+//    suspend fun retroApprovalList(
+//        url: String,
+//        token: String,
+//        getRetroPendindAndApproverequest: GetRetroPendindAndApproverequest,
+//    ): ApiResult<GetRetroPendingAndApproveResponse> {
+//        return try {
+//            val response = Api.getClient().getRetroApprovalList(url, token, getRetroPendindAndApproverequest)
+//            ApiResult.Success(response)
+//        } catch (e: Exception) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            ApiResult.NetworkError
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: HttpException) {
+//            ApiUtils.parseHttpError(e)
+//        } catch (e: UnknownError) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketTimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: JsonSyntaxException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: ConnectException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: TimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownHostException(e.message)
+//        }
+//    }
 
 
 
@@ -254,10 +292,6 @@ object ApnaRectroApiRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
-
-
-
-
     suspend fun retroImageUrlList(
         url: String,
         token: String,
@@ -295,6 +329,44 @@ object ApnaRectroApiRepo {
         }
     }
 
+
+//    suspend fun getImageUrlApnaRetro(
+//        url: String,
+//        token: String,
+//        getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest,
+//    ): ApiResult<GetImageUrlsModelApnaResponse> {
+//        return try {
+//            val response = Api.getClient().getImageUrlApiApnaRetro(url, token, getImageUrlsModelApnaRequest)
+//            ApiResult.Success(response)
+//        }
+//        catch (e: Exception) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            ApiResult.NetworkError
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: HttpException) {
+//            ApiUtils.parseHttpError(e)
+//        } catch (e: UnknownError) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketTimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: JsonSyntaxException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: ConnectException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: TimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownHostException(e.message)
+//        }
+//    }
 
 
 }

@@ -72,7 +72,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="1"
@@ -93,13 +93,25 @@
                         tools:ignore="UseAppTint" />
 
                     <View
+                        android:id="@+id/location_details_view"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/grey"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software" />
+
+                    <View
+                        android:id="@+id/location_details_view_completed"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/dashline"
                         android:backgroundTint="@color/greenn"
                         android:contentDescription="Vivekagam"
-                        android:layerType="software" />
+                        android:layerType="software"
+                        android:visibility="gone" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -115,7 +127,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
                         android:text="Location Details"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -143,9 +155,9 @@
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="2"
-                        android:visibility="visible"
                         android:textColor="@color/white"
-                        android:textSize="13sp" />
+                        android:textSize="13sp"
+                        android:visibility="visible" />
 
                     <ImageView
                         android:id="@+id/site_specification_completed"
@@ -164,7 +176,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="2"
@@ -173,6 +185,18 @@
                         android:visibility="gone" />
 
                     <View
+                        android:id="@+id/site_specifications_view_completed"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@+id/site_specifications_view"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
@@ -196,7 +220,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
                         android:text="Site Specifications"
-                        android:textColor="@color/black"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -233,7 +257,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="3"
@@ -254,6 +278,18 @@
                         tools:ignore="UseAppTint" />
 
                     <View
+                        android:id="@+id/market_information_view_completed"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software"
+                        android:visibility="gone" />
+
+                    <View
+                        android:id="@+id/market_information_view"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
@@ -276,7 +312,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
                         android:text="Market information"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
 
 
@@ -317,7 +353,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="4"
@@ -337,8 +373,19 @@
                         android:visibility="gone"
                         tools:ignore="UseAppTint" />
 
+                    <View
+                        android:id="@+id/competitors_details_view_completed"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
+                        android:id="@+id/competitors_details_view"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
@@ -361,8 +408,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
                         android:text="Competitors Details"
-
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
 
 
@@ -403,7 +449,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="5"
@@ -423,8 +469,19 @@
                         android:visibility="gone"
                         tools:ignore="UseAppTint" />
 
+                    <View
+                        android:id="@+id/population_and_houses_view_completed"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
+                        android:id="@+id/population_and_houses_view"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
@@ -446,9 +503,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
-
                         android:text="Population and Houses"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
 
 
@@ -489,7 +545,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="6"
@@ -509,8 +565,19 @@
                         android:visibility="gone"
                         tools:ignore="UseAppTint" />
 
+                    <View
+                        android:id="@+id/hospitals_view_completed"
+                        android:layout_width="1.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/dashline"
+                        android:backgroundTint="@color/greenn"
+                        android:contentDescription="Vivekagam"
+                        android:layerType="software"
+                        android:visibility="gone" />
 
                     <View
+                        android:id="@+id/hospitals_view"
                         android:layout_width="1.5dp"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_horizontal"
@@ -531,10 +598,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
-
                         android:paddingStart="5dp"
                         android:text="Hospitals"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
 
 
@@ -575,7 +641,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:background="@drawable/green_backgroundplus"
-                        android:backgroundTint="@color/orange"
+                        android:backgroundTint="@color/apna_project_actionbar_color"
                         android:fontFamily="@font/roboto_medium"
                         android:gravity="center"
                         android:text="7"
@@ -611,7 +677,7 @@
                         android:fontFamily="@font/roboto_medium"
                         android:paddingStart="5dp"
                         android:text="Photos and Media"
-                        android:textColor="@color/colorBlack"
+                        android:textColor="@color/grey"
                         android:textSize="16sp" />
 
 

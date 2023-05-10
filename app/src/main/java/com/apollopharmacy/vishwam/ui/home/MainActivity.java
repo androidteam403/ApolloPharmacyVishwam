@@ -65,17 +65,14 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails;
 import com.apollopharmacy.vishwam.databinding.DialogAlertMessageBinding;
 import com.apollopharmacy.vishwam.databinding.DialogAlertPermissionBinding;
 import com.apollopharmacy.vishwam.dialog.SignOutDialog;
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance.AttendanceFragment;
+import com.apollopharmacy.vishwam.ui.home.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
-import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment;
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.history.HistoryFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.NewSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.ComplainListFragment;
@@ -329,6 +326,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mInstance = this;
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         onClickRiderNotification();
 
         if (getIntent() != null) {
@@ -598,6 +597,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private boolean isAllowFragmentChange = false;
 
+    @SuppressLint("ResourceAsColor")
     public void displaySelectedScreen(String itemName) {
 //        Fragment frg = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
 //        if(isAllowFragmentChange &&(frg instanceof RegistrationFragment || frg instanceof  Drug)){
@@ -624,6 +624,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Complaint Register":
                 headerText.setText("Complaint Registration");
@@ -636,6 +637,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+//                toolbar.setBackground(getResources().getDrawable(R.color.splash_start_color));
                 break;
             case "Complaint List":
                 headerText.setText("Complaint List");
@@ -647,6 +650,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Approval List":
                 headerText.setText("Approval List");
@@ -663,6 +667,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Attendance":
                 headerText.setText("Attendance");
@@ -674,6 +679,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "History":
                 headerText.setText("History");
@@ -685,6 +691,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Pending":
                 headerText.setText("Pending List");
@@ -696,6 +703,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Approved":
                 headerText.setText("Approved List");
@@ -708,6 +716,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Rejected":
                 headerText.setText("Rejected List");
@@ -719,6 +728,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Bill":
                 headerText.setText("Bill List");
@@ -730,6 +740,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Swachh Images Upload":
                 headerText.setText("Swachh Images");
@@ -741,6 +752,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Swachh List":
@@ -753,6 +765,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Upload":
@@ -766,6 +779,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 isUploadScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "List":
                 headerText.setText("SWACHH LIST");
@@ -778,6 +792,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 isListScreen = true;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "New Drug Request":  //"Drug Request":
                 headerText.setText("New Drug Request");
@@ -790,6 +805,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Greetings to Chairman":
                 Intent i = new Intent(this, GreetingActivity.class);
@@ -807,6 +823,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Apna Form":
 //                headerText.setText("Apna Form");
@@ -824,11 +841,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new ApnaSurveyFragment();
                 filterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.VISIBLE);
-                filterIconApna.setVisibility(View.VISIBLE);
+                filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -847,6 +865,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "QcDashboard":
                 headerText.setText("Dashboard");
@@ -858,6 +877,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "OutStanding":
                 headerText.setText("Pending List");
@@ -869,6 +889,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Login":
                 Intent j = new Intent(this, SplashScreen.class);
@@ -884,6 +905,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Profile":
                 headerText.setText("Profile");
@@ -895,6 +917,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "My Orders":
                 headerText.setText("My Orders");
@@ -906,6 +929,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Cash Deposits":
                 headerText.setText("Cash Deposits");
@@ -917,6 +941,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Summary":
                 headerText.setText("Summary");
@@ -928,6 +953,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Complaints":
                 headerText.setText("Complaints");
@@ -939,6 +965,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Change Password":
                 headerText.setText("Dashboard");
@@ -950,6 +977,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Help":
                 headerText.setText("Help");
@@ -961,6 +989,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.VISIBLE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "LogOut":
                 getSessionManager().clearAllSharedPreferences();
@@ -978,6 +1007,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "QcRejected":
@@ -990,6 +1020,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
 //            case "Select Site":
@@ -1007,6 +1038,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Champs Reports":
                 headerText.setText("CHAMPS Analysis Reports");
@@ -1018,6 +1050,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Champs Admin":
@@ -1030,6 +1063,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Creation":
@@ -1043,6 +1077,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Post Rectro":
@@ -1056,6 +1091,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "After Completion":
@@ -1069,6 +1105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "Approval":
@@ -1079,9 +1116,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragPreRectroApproval.setArguments(preRetroApprovalbundle);
                 fragment = fragPreRectroApproval;
                 qcfilterIcon.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "Post Rectro Approval":
@@ -1095,6 +1136,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
             case "After Completion Approval":
@@ -1108,6 +1150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 filterIcon.setVisibility(View.GONE);
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
 
 
@@ -1121,6 +1164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 siteIdIcon.setVisibility(View.GONE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
+                toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 break;
             case "Logout":
                 dialogExit();
@@ -1487,50 +1531,44 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 listView.addHeaderModel(new HeaderModel("Swachh", Color.WHITE, true, R.drawable.ic_menu_swachh).addChildModel(new ChildModel("List", R.drawable.ic_apollo_list2)));
             }
         }
-        if (true) {
+//        if (true) {
+//
+//            if (getSessionManager().getLoginToken().isEmpty()) {
+//                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
+//                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
+//            } else if (getSessionManager().getLoginToken().length() > 1) {
+//                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
+//                                .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
+//                                .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
+//                                .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
+//                                .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
+//                                .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
+////                                .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
+////                                .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
+//                                .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
+//                        //.addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
+//
+//
+//                );
+//            }
+//
+//        }
 
-            if (getSessionManager().getLoginToken().isEmpty()) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1).addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
-            } else if (getSessionManager().getLoginToken().length() > 1) {
-                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
-                                .addChildModel(new ChildModel("Dashboard", R.drawable.ic_apollo_dashboard))
-                                .addChildModel(new ChildModel("My Orders", R.drawable.ic_apollo_list2))
-                                .addChildModel(new ChildModel("Cash Deposits", R.drawable.ic_apollo_bill))
-                                .addChildModel(new ChildModel("Summary", R.drawable.ic_apollo_survey_68__1_))
-                                .addChildModel(new ChildModel("Complaints", R.drawable.ic_apollo_complaint_list))
-                                .addChildModel(new ChildModel("Profile", R.drawable.ic_apollo_survey_admin))
-                                .addChildModel(new ChildModel("Change Password", R.drawable.ic_apollo_complaint_register))
-                                .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
-                        //.addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
 
-
-                );
-            }
-
-        }
-
-
-        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_))
-                .addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_))
-                .addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin))
-        );
+//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
+//
+//        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
         listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+                        .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
 //                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
 //                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
-                .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
+                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
 //                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
 //                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
         );
 
-
-
-        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ)
-                .addChildModel(new ChildModel("Apna Form", R.drawable.ic_menu_champ))
-                .addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_))
-        );
+        listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
 
 //        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
 
@@ -1658,16 +1696,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             } else if (listHeader.get(groupPosition).getTitle().equals("APNA")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                if (childModelList.get(childPosition).getTitle().equals("Apna Form")) {
-                    displaySelectedScreen("Apna Form");
-                } else if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
+                if (childModelList.get(childPosition).getTitle().equals("Apna Survey")) {
                     displaySelectedScreen("Apna Survey");
-                }
-                else if (childModelList.get(childPosition).getTitle().equals("Video View")){
+                } else if (childModelList.get(childPosition).getTitle().equals("Video View")) {
                     displaySelectedScreen("Video View");
                 }
-            }
-            else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Creation")) {
                     displaySelectedScreen("Creation");

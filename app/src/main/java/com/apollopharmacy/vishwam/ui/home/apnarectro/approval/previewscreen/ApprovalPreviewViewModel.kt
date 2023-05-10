@@ -8,8 +8,12 @@ import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro.PreviewLastImageCallback
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -21,6 +25,8 @@ class ApprovalPreviewViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
     val imageUrlResponse = MutableLiveData<GetImageUrlResponse>()
+    var saveAcceptAndReshootResponse = MutableLiveData<SaveAcceptResponse>()
+
     fun getRectroApprovalList(imageUrlRequest: GetImageUrlRequest, preRetroCallback: ApprovalReviewCallback) {
 
         val url = Preferences.getApi()

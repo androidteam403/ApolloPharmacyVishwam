@@ -20,10 +20,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCate
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
-import kotlinx.android.synthetic.main.activity_champs_survey.view.*
-import kotlinx.android.synthetic.main.adapter_getstorepersonhistory.*
 
-@Suppress("CAST_NEVER_SUCCEEDS")
 class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModuleBinding>(),
     AdminModuleCallBack {
     var isRotated: Boolean = false

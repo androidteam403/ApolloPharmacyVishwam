@@ -7,7 +7,7 @@ import android.content.IntentSender
 import android.location.LocationManager
 import android.util.Log
 import android.widget.Toast
-import com.apollopharmacy.vishwam.ui.home.champs.reports.adrenalin.attendance.AttendanceFragment
+import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.adrenalin.attendance.AttendanceFragment
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.LocationServices
@@ -46,7 +46,7 @@ class LocationUtil(private val context: Context) {
             OnGpsListener?.locationStatus(true)
         } else {
             settingsClient
-                .checkLocationSettings(locationSettingsRequest)
+                .checkLocationSettings(locationSettingsRequest!!)
                 .addOnSuccessListener(context as Activity) {
                     // GPS enabled already
                     OnGpsListener?.locationStatus(true)

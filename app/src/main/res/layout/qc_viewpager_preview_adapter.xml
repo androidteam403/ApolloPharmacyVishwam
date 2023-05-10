@@ -30,7 +30,7 @@
             android:textStyle="bold"
             android:id="@+id/previewmsg"/>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buttondownload"
             android:layout_width="@dimen/value_150dp"
             android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 package com.apollopharmacy.vishwam.data
 
-import java.util.*
+import java.util.Date
 
 object Config {
     var STORAGE_CONNECTION_FOR_CCR_APP =

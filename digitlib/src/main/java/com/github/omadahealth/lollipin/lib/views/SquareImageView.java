@@ -2,7 +2,6 @@ package com.github.omadahealth.lollipin.lib.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
 import androidx.appcompat.widget.AppCompatImageView;
 

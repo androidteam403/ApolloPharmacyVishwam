@@ -46,19 +46,17 @@ class ApprovalCategoryListAdapter(
         holder.preRetroPreviewLayoutBinding.categoryName.setText(approvedOrders.categoryname)
 
 
-        for (i in approvedOrders.groupByImageUrlList!!.indices) {
-approvedOrders.groupByImageUrlList!!.get(0).get(0).seturl("https://pharmtest.blob.core.windows.net/cms//data/user/0/com.apollopharmacy.vishwam/cache/1682509724450.jpg")
-
-        }
-
-        adapter = ApprovalImagesListAdapter(mContext,stage,
-            approvedOrders.groupByImageUrlList!!)
-        holder.preRetroPreviewLayoutBinding.recyclerViewimages.adapter = adapter
-
-//        holder.itemView.setOnClickListener {
-//            mclickistener.onClickItemView(position,approvedOrders)
+//        for (i in approvedOrders.groupByImageUrlList!!.indices) {
+//approvedOrders.groupByImageUrlList!!.get(0).get(0).seturl("https://pharmtest.blob.core.windows.net/cms//data/user/0/com.apollopharmacy.vishwam/cache/1682509724450.jpg")
 //
 //        }
+
+        adapter = ApprovalImagesListAdapter(mContext, stage,
+            approvedOrders.groupByImageUrlList!!,mclickistener,position,
+            approvedOrders.categoryname!!)
+        holder.preRetroPreviewLayoutBinding.recyclerViewimages.adapter = adapter
+
+
 
 
     }

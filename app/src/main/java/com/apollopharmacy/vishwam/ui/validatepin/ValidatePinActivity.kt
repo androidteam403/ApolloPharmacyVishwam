@@ -16,10 +16,9 @@ import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.MPinRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
-import com.apollopharmacy.vishwam.ui.HomeActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivity
-import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
+import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -59,11 +58,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         userData = LoginRepo.getProfile()!!
 
 
-        onCheckBuildDetails()
+//        onCheckBuildDetails()
         handleMPinService()
-        viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+        viewModel.getApplevelDesignation(
+            Preferences.getValidatedEmpId(),
             "SWACHH",
-            applicationContext)
+            applicationContext
+        )
         viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
         Preferences.setSiteIdListFetchedQcFail(false)
         Preferences.setSiteIdListQcFail("")
@@ -90,11 +91,13 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     intent.putExtra("currentAppVer", currentAppVer)
                     startActivityForResult(intent, REQUEST_CODE_ENABLE)
                 }
+
                 is Command.ShowToast -> {
                     ViswamApp.context.let {
                         Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         }
@@ -134,9 +137,12 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignation(
+                    Preferences.getValidatedEmpId(),
                     "SWACHH",
-                    applicationContext)
+                    applicationContext
+                )
+
                 viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
                     "RETRO",
                     applicationContext, this)
@@ -171,8 +177,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUid(it.data?.uploadSwach?.uid!!)
-                            if (it.data?.uploadSwach?.uid!!.equals("Yes",
-                                    true)
+                            if (it.data?.uploadSwach?.uid!!.equals(
+                                    "Yes",
+                                    true
+                                )
                             ) {
                                 if (it.data?.swacchDefaultSite != null && it.data?.swacchDefaultSite?.site != null) {
                                     Preferences.setSwachhSiteId(it.data?.swacchDefaultSite?.site!!)
@@ -196,8 +204,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                            it.data?.uploadSwach?.uid = "Yes"
 //                            it.data?.swacchDefaultSite?.site = ""
                             Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
-                            if (it.data?.newDrugRequest?.uid!!.equals("Yes",
-                                    true)
+                            if (it.data?.newDrugRequest?.uid!!.equals(
+                                    "Yes",
+                                    true
+                                )
                             ) {
                                 Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.newDrugRequest?.uid!!)
                             } else {
@@ -249,14 +259,14 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         }
     }
 
-    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()
-        viewModel.loginApiCall(Preferences.getValidatedEmpId(),
+    private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
+        viewModel.loginApiCall("APL48627",
             "R1De6#012022",
             Preferences.getFcmKey(),
             this,
             this)
 //emp-102//Nagapavan
-        //        Preferences.setIsPinCreated(true)
+//        Preferences.setIsPinCreated(true)
 //        val homeIntent = Intent(this, MainActivity::class.java)
 //        startActivity(homeIntent)
 //        finish()
@@ -279,8 +289,10 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handlePlayStoreIntent() {
         Utils.printMessage("ValidatePin", "Download URL : " + downloadUrl)
-        val viewIntent = Intent("android.intent.action.VIEW",
-            Uri.parse(downloadUrl))
+        val viewIntent = Intent(
+            "android.intent.action.VIEW",
+            Uri.parse(downloadUrl)
+        )
         startActivity(viewIntent)
     }
 
@@ -325,9 +337,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
+                viewModel.getRiderProfileDetailsApi(
+                    SessionManager(applicationContext).getLoginToken(),
                     applicationContext,
-                    this)
+                    this
+                )
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()
@@ -337,8 +351,6 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onFailureLoginApi(message: String?) {
-        val i = Intent(this, MainActivity::class.java)
-        startActivity(i)
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
@@ -359,9 +371,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     override fun onSuccessDeliveryReasonApiCall(deliveryFailreReasonsResponse: DeliveryFailreReasonsResponse) {
-//        if (deliveryFailreReasonsResponse != null) {
         if (deliveryFailreReasonsResponse != null) {
-
             SessionManager(this).setDeliveryFailureReasonsList(deliveryFailreReasonsResponse)
             //            MainActivity.mInstance.displaySelectedScreen("Dashboard");
             Preferences.setIsPinCreated(true)

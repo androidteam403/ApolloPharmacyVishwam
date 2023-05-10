@@ -3,13 +3,11 @@ package com.apollopharmacy.vishwam.ui.login
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,15 +19,18 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.LoginRequest
 import com.apollopharmacy.vishwam.data.model.MPinRequest
+import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding
 import com.apollopharmacy.vishwam.dialog.AppUpdateDialog
 import com.apollopharmacy.vishwam.ui.createpin.CreatePinActivity
 import com.apollopharmacy.vishwam.ui.validatepin.ValidatePinActivity
-import com.apollopharmacy.vishwam.util.*
+import com.apollopharmacy.vishwam.util.DownloadController
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -40,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var downloadController: DownloadController
     private val PERMISSION_REQUEST_CODE = 1
     val TAG = "LoginActivity"
-    private  var selectedcompany = ""
+    private var selectedcompany = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -72,9 +73,11 @@ class LoginActivity : AppCompatActivity() {
 //                    finish()
 //                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 }
+
                 is Command.ShowToast -> {
                     context?.let { Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show() }
                 }
+
                 is Command.MpinValidation -> {
                     if (command.value.Status) {
 //                        Preferences.setDoctorSpecialityListFetched(false)
@@ -93,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                     }
                 }
+
                 else -> {}
             }
         })
@@ -152,8 +156,7 @@ class LoginActivity : AppCompatActivity() {
 //            }
 //
 //        }
-        onCheckBuildDetails()
-
+//        onCheckBuildDetails()
     }
 
     private fun signIn() {
@@ -167,8 +170,7 @@ class LoginActivity : AppCompatActivity() {
                     selectedcompany
                 )
             )
-        }
-        else {
+        } else {
             context?.let {
                 Toast.makeText(
                     it,
@@ -207,13 +209,13 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                displayAppInfoDialog(
-                    "Info",
-                    buildDetailsEntity.AVABILITYMESSAGE,
-                    "",
-                    "",
-                    ""
-                )
+//                displayAppInfoDialog(
+//                    "Info",
+//                    buildDetailsEntity.AVABILITYMESSAGE,
+//                    "",
+//                    "",
+//                    ""
+//                )
             }
         }
     }
@@ -232,8 +234,10 @@ class LoginActivity : AppCompatActivity() {
             dialogView.setPositiveLabel(positiveBtn)
             dialogView.setPositiveListener(View.OnClickListener {
 //                dialogView.dismiss()
-                val viewIntent = Intent("android.intent.action.VIEW",
-                    Uri.parse(downloadUrl))
+                val viewIntent = Intent(
+                    "android.intent.action.VIEW",
+                    Uri.parse(downloadUrl)
+                )
                 startActivity(viewIntent)
             })
         }
@@ -308,9 +312,13 @@ class LoginActivity : AppCompatActivity() {
     private fun handleGetPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
-            loginViewModel.checkMPinLogin(MPinRequest(Preferences.getToken(),
-                "",
-                "GETDETAILS"))
+            loginViewModel.checkMPinLogin(
+                MPinRequest(
+                    Preferences.getToken(),
+                    "",
+                    "GETDETAILS"
+                )
+            )
         } else {
             Toast.makeText(
                 this,

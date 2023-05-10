@@ -13,14 +13,14 @@
             android:orientation="horizontal"
             >
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/left_arrow"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="0.2"
                 android:layout_gravity="center"
                 android:background="@drawable/left_arrow">
-            </Button>
+            </androidx.appcompat.widget.AppCompatButton>
 
             <LinearLayout
                 android:id="@+id/frontview_layout_id_1"
@@ -49,13 +49,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/store_icon"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Front View"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -116,13 +116,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/desktop"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Computer&amp;UPS"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -184,13 +184,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/racks"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Racks 3 Images"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -252,13 +252,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/front_counter"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Front Counter"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -319,13 +319,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/gandola"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Upload Pharmacy \n Gandola Display 3 Images"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -385,13 +385,13 @@
                         android:layout_weight="0.6"
                         android:src="@drawable/store_icon"></ImageView>
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1.4"
                         android:background="@color/apollo_btn_color"
                         android:text="Others"
-                        android:textAllCaps="false"></Button>
+                        android:textAllCaps="false"></androidx.appcompat.widget.AppCompatButton>
                 </LinearLayout>
 
                 <LinearLayout
@@ -426,13 +426,13 @@
             </LinearLayout>
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/right_arrow"
                 android:layout_width="20dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_weight="0.2"
-                android:background="@drawable/right_arrow"></Button>
+                android:background="@drawable/right_arrow"></androidx.appcompat.widget.AppCompatButton>
         </LinearLayout>
     </RelativeLayout>
 </layout>

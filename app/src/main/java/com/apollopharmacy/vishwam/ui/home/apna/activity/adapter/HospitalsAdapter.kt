@@ -37,7 +37,7 @@ class HospitalsAdapter(
         holder.adapterHospitalsListBinding.beds.text = hospitalsList[position].beds.toString()
         holder.adapterHospitalsListBinding.speciality.text = hospitalsList[position].speciality
         holder.adapterHospitalsListBinding.noOfOpd.text = hospitalsList[position].noOfOpd.toString()
-        holder.adapterHospitalsListBinding.occupancy.text = hospitalsList[position].occupancy.toString() + "%"
+        holder.adapterHospitalsListBinding.occupancy.text = hospitalsList[position].occupancy.toString()
 
         holder.adapterHospitalsListBinding.deleteHospital.setOnClickListener {
             mCallBack.onClickDeleteHospital(position)

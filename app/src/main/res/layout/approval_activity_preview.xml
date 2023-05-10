@@ -24,6 +24,8 @@
                 <ImageView
                     android:layout_width="@dimen/value_40dp"
                     android:layout_height="@dimen/value_40dp"
+                    android:id="@+id/back_arrow"
+
                     android:layout_marginTop="@dimen/value_3dp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
@@ -36,13 +38,24 @@
 
 
                     <TextView
+                        android:id="@+id/stage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Pre Retro Preview"
+
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_17sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/retro_Id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/three3_sp"
+                        android:textColor="@color/white"
+
+                        android:textSize="@dimen/text_14sp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -205,11 +218,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="8dp"
-                        android:paddingBottom="2dp"
-                        android:paddingTop="2dp"
                         android:layout_marginEnd="10dp"
                         android:background="@drawable/bg_retro_button"
                         android:orientation="horizontal"
+                        android:paddingTop="2dp"
+                        android:paddingBottom="2dp"
                         android:weightSum="3">
 
                         <ImageView
@@ -225,8 +238,8 @@
                             android:gravity="center"
 
 
-                            android:textAlignment="textStart"
                             android:text="TIMELINE"
+                            android:textAlignment="textStart"
                             android:textColor="@color/white"
                             android:textSize="13sp"
                             tools:ignore="RtlCompat" />
@@ -235,10 +248,36 @@
                             android:layout_width="@dimen/text_19sp"
                             android:layout_height="19dp"
                             android:layout_marginTop="5dp"
+                            android:id="@+id/arrow"
+                            android:src="@drawable/black_right_arroww"
+                            android:tint="@color/white"
+                            tools:ignore="UseAppTint" />
+
+                        <ImageView
+                            android:layout_width="@dimen/text_19sp"
+                            android:layout_height="19dp"
+                            android:layout_marginTop="5dp"
+                            android:id="@+id/downarrow"
+                            android:rotation="90"
+                            android:visibility="gone"
                             android:src="@drawable/black_right_arroww"
                             android:tint="@color/white"
                             tools:ignore="UseAppTint" />
                     </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/timeLine_recycleview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+
+                        android:visibility="gone"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:ignore="MissingClass"
+
+                        tools:itemCount="2"
+                        tools:listitem="@layout/timeline_layout" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -252,28 +291,28 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                            tools:ignore="MissingClass"
                             tools:itemCount="2"
-                            tools:listitem="@layout/pre_retro_preview_layout"
-                            tools:ignore="MissingClass" />
+                            tools:listitem="@layout/pre_retro_preview_layout" />
 
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/review"
-                        android:onClick="@{()-> callback.onClickReview()}"
-                        android:layout_marginStart="10dp"
                         android:layout_width="@dimen/value_80dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
                         android:layout_marginTop="@dimen/value_7dp"
                         android:layout_marginBottom="@dimen/five5_sp"
                         android:background="@drawable/green_rectangle_bg"
+                        android:onClick="@{()-> callback.onClickReview()}"
                         android:padding="@dimen/value_6dp"
                         android:text="Review"
-                        android:visibility="gone"
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_15sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -282,18 +321,18 @@
                         android:layout_marginTop="10dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Report"
-                        android:visibility="visible"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />
+                        android:textSize="@dimen/text_14sp"
+                        android:visibility="visible" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="10dp"
-                        android:visibility="visible"
                         android:layout_marginEnd="5dp"
                         android:orientation="horizontal"
+                        android:visibility="visible"
                         android:weightSum="4">
 
                         <LinearLayout
@@ -309,13 +348,13 @@
                                 android:textSize="@dimen/text_14sp" />
 
                             <TextView
+                                android:id="@+id/upload"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:paddingStart="12sp"
                                 android:fontFamily="@font/price_bold"
+                                android:paddingStart="12sp"
                                 android:text="10"
-                                android:id="@+id/upload"
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -334,14 +373,14 @@
                                 android:textSize="@dimen/text_14sp" />
 
                             <TextView
+                                android:id="@+id/accept"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/price_bold"
-                                android:text="7"
-                                android:id="@+id/accept"
-
                                 android:paddingStart="12sp"
+
+                                android:text="7"
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -360,14 +399,14 @@
                                 android:textSize="@dimen/text_14sp" />
 
                             <TextView
+                                android:id="@+id/reshoot"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/price_bold"
-                                android:text="2"
-                                android:id="@+id/reshoot"
-
                                 android:paddingStart="12sp"
+
+                                android:text="2"
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -386,13 +425,13 @@
                                 android:textSize="@dimen/text_14sp" />
 
                             <TextView
+                                android:id="@+id/pending"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/price_bold"
-                                android:text="1"
                                 android:paddingStart="12sp"
-                                android:id="@+id/pending"
+                                android:text="1"
 
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/text_14sp" />
@@ -409,47 +448,47 @@
                         android:id="@+id/state"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/value_10dp"
-                        android:textColor="@color/black"
                         android:layout_marginStart="10dp"
-                        android:visibility="gone"
-                        android:textStyle="bold"
+                        android:layout_marginTop="@dimen/value_10dp"
                         android:layout_marginBottom="@dimen/value_4dp"
-                        android:text="Add Comments" />
+                        android:text="Add Comments"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
 
 
                     <androidx.appcompat.widget.AppCompatEditText
-                        android:padding="@dimen/value_5dp"
                         android:id="@+id/stateSelect"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:visibility="gone"
-                        android:layout_marginEnd="10dp"
                         android:layout_below="@+id/state"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
                         android:background="@drawable/grey_border_bg"
                         android:drawableEnd="@drawable/bottomarrow"
                         android:drawableTint="#cacaca"
                         android:editable="false"
                         android:hint="Done all images - send feedback"
+                        android:padding="@dimen/value_5dp"
                         android:paddingLeft="@dimen/value_15dp"
                         android:textSize="@dimen/text_14sp"
+                        android:visibility="gone"
                         tools:ignore="MissingClass" />
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:visibility="invisible"
                         android:layout_marginTop="8dp"
-                        android:background="@color/colorGrey"></View>
+                        android:background="@color/colorGrey"
+                        android:visibility="invisible"></View>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="invisible"
                         android:layout_marginTop="@dimen/text_12sp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:visibility="invisible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -479,45 +518,11 @@
 
 
         </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:layout_alignParentBottom="true"
 
-            android:layout_marginTop="@dimen/value_15dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/bg_cancel_btn_rectro"
-                android:paddingTop="15dp"
-                android:id="@+id/cancel"
-                android:textSize="@dimen/text_18sp"
-                android:paddingBottom="15dp"
-                android:text="CANCEL"
-                android:textColor="@color/white" />
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_reshoot_button_rectro"
-                android:paddingTop="15dp"
-                android:id="@+id/submitButton"
-                android:textSize="@dimen/text_18sp"
-                android:backgroundTint="@color/greenn"
-                android:paddingBottom="15dp"
-                android:text="SUBMIT"
-                android:textColor="@color/white" />
-
-        </LinearLayout>
     </RelativeLayout>
 
     <data>
+
         <variable
             name="callback"
             type="com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalReviewCallback" />

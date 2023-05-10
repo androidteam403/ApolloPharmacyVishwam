@@ -1519,7 +1519,7 @@
                     android:visibility="gone"
                     android:weightSum="1">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginEnd="@dimen/value_8dp"
@@ -1530,7 +1530,7 @@
                         android:textSize="@dimen/text_16sp"
                         android:textStyle="bold" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginStart="@dimen/value_8dp"
@@ -1553,7 +1553,7 @@
         <!--            android:layout_marginTop="@dimen/twenty20_dp"-->
         <!--            android:weightSum="1">-->
 
-        <!--            <Button-->
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
         <!--                android:layout_width="0dp"-->
         <!--                android:layout_height="match_parent"-->
         <!--                android:layout_marginEnd="@dimen/value_8dp"-->
@@ -1564,7 +1564,7 @@
         <!--                android:textSize="@dimen/text_16sp"-->
         <!--                android:textStyle="bold" />-->
 
-        <!--            <Button-->
+        <!--            <androidx.appcompat.widget.AppCompatButton-->
         <!--                android:layout_width="0dp"-->
         <!--                android:layout_height="match_parent"-->
         <!--                android:layout_marginStart="@dimen/value_8dp"-->
@@ -3741,7 +3741,7 @@
                             </androidx.cardview.widget.CardView>&ndash;&gt;
         </LinearLayout>
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"

@@ -16,7 +16,6 @@ import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse;
 import com.apollopharmacy.vishwam.ui.rider.login.model.OrderPaymentTypeResponse;
 import com.apollopharmacy.vishwam.ui.rider.login.model.SaveUserDeviceInfoRequest;
 import com.apollopharmacy.vishwam.ui.rider.login.model.SaveUserDeviceInfoResponse;
-
 import com.apollopharmacy.vishwam.ui.rider.myorders.model.GlobalSettingSelectResponse;
 import com.apollopharmacy.vishwam.ui.rider.myorders.model.MyOrdersListResponse;
 import com.apollopharmacy.vishwam.ui.rider.neworder.model.OrderDetailsResponse;
@@ -59,7 +58,6 @@ public interface ApiInterface {
 //
     @POST
     Call<ResponseBody> getDetails(@Url String url, @Header("token") String token, @Body GetDetailsRequest getDetailsRequest);
-
 
 
 //    @POST
@@ -139,19 +137,23 @@ public interface ApiInterface {
 
     @GET("api/choose-data/order_payment_type")
     Call<OrderPaymentTypeResponse> GET_ORDER_PAYMENT_TYPE_LIST_API_CALL();
-//
+
+    //
     @GET("api/rider_complaint/list")
     Call<ComplaintsResponse> GET_COMPLAINTS_LIST_API_CALL(@Header("authorization") String token, @Query("page") String page);
 
-//    Payment Api's
+    //    Payment Api's
 //Payment Api's
-@POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/GenerateQrCode")// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/GenerateQrCode
-Call<PhonePeQrCodeResponse> PHONEPE_QRCODE_API_CALL(@Body PhonePeQrCodeRequest phonePeQrCodeRequest);
+    @POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/GenerateQrCode")
+// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/GenerateQrCode
+    Call<PhonePeQrCodeResponse> PHONEPE_QRCODE_API_CALL(@Body PhonePeQrCodeRequest phonePeQrCodeRequest);
 
-    @POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/CheckPaymentStatus")// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/CheckPaymentStatus
+    @POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/CheckPaymentStatus")
+// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/CheckPaymentStatus
     Call<PhonePeQrCodeResponse> PHONEPE_CHECK_PAYMENT_STAUS_API_CALL(@Body PhonePeQrCodeRequest phonePeQrCodeRequest);
 
-    @POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/PaymentCancel")// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/PaymentCancel
+    @POST("https://online.apollopharmacy.org/PHONEPEPROD/APOLLO/PhonePe/PaymentCancel")
+// UAT http://lms.apollopharmacy.org:8033/PHONEPEUAT/APOLLO/PhonePe/PaymentCancel
     Call<PhonePeQrCodeResponse> PHONEPE_PAYMENT_CANCELLED_API_CALL(@Body PhonePeQrCodeRequest phonePeQrCodeRequest);
 
     @GET("https://online.apollopharmacy.org/PHONEPELINK/apollophonepe.aspx")

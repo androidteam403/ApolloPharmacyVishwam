@@ -9,7 +9,11 @@ interface PreviewLastImageCallback {
     fun onClickAccept()
     fun onClickCompleted()
     fun onClickBack()
+    fun onSuccessRatingResponse(value: SaveAcceptResponse)
+    fun onFailureRatingResponse(value: SaveAcceptResponse)
+
     fun onSuccessSaveAcceptReshoot(value: SaveAcceptResponse)
     fun onFailureSaveAcceptReshoot(value: SaveAcceptResponse)
+    fun onClickDelete()
 
 }

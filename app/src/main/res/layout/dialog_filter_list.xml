@@ -176,7 +176,7 @@
 
             <!--            </RadioGroup>-->
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:layout_marginBottom="@dimen/value_5dp"
                 android:id="@+id/submit"
                 android:layout_width="wrap_content"
