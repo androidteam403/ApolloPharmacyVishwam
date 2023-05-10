@@ -41,5 +41,9 @@ class SaveImagesUrlsRequest : Serializable {
         @SerializedName("POSITION")
         @Expose
         var position: Int? = null
+
+        @SerializedName("IMAGEID")
+        @Expose
+        var imageId:String?=null
     }
 }

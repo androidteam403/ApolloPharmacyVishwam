@@ -240,6 +240,8 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/preview_image_viewpager"
                     android:layout_width="match_parent"
+
+                    android:visibility="visible"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/value_5dp"
                     android:layout_marginBottom="@dimen/value_60dp" />

@@ -163,6 +163,65 @@ class ValidatePinViewModel : ViewModel() {
         }
     }
 
+    fun getApplevelDesignationApnaRetro(
+        empId: String,
+        appType: String,
+        applicationContext: Context,
+        validatePinCallBack: ValidatePinCallBack
+
+        ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISWAM APP LEVEL DESIGNATION")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+
+
+
+        viewModelScope.launch {
+            state.postValue(State.SUCCESS)
+
+            val result = withContext(Dispatchers.IO) {
+                RegistrationRepo.getApplevelDesignation(baseUrl, empId, appType)
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status ?: null == true) {
+                        validatePinCallBack.onSuccessAppLevelDesignationApnaRetro(result.value)
+//                       Toast.makeText(applicationContext, ""+Preferences.getAppLevelDesignationSwach(),Toast.LENGTH_SHORT).show()
+                    } else {
+                        validatePinCallBack.onFailureAppLevelDesignationApnaRetro(result.value)
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
+                    })
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
     fun getApplevelDesignationQcFail(
         empId: String,
         appType: String,

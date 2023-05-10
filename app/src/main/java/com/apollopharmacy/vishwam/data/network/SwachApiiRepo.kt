@@ -209,7 +209,8 @@ object SwachApiiRepo {
         return try {
             val response = Api.getClient().getImageUrlApi(url, token, getImageUrlModelRequest)
             ApiResult.Success(response)
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             ApiResult.UnknownError(e.message)
         } catch (e: IOException) {
             e.printStackTrace()

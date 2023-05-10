@@ -38,17 +38,20 @@
                 android:text="Store ID "/>
 
             <androidx.appcompat.widget.AppCompatEditText
+                android:onClick="@{()-> callback.onClickSearch()}"
                 android:id="@+id/storeId"
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/value_40dp"
                 android:background="@drawable/grey_border_bg"
-                android:drawableEnd="@drawable/ic_search_24"
                 android:gravity="center"
+                android:paddingStart="@dimen/text_dimen_12"
+                android:textAlignment="textStart"
                 android:layout_gravity="center"
                 android:textStyle="bold"
                 android:textColorHint="@color/black"
-                android:textSize="@dimen/text_15sp" />
+                android:textSize="@dimen/text_15sp"
+                tools:ignore="RtlCompat" />
 
             <androidx.cardview.widget.CardView
                 android:layout_marginTop="@dimen/value_6dp"
@@ -101,6 +104,7 @@
                                 android:gravity="end">
 
                                 <LinearLayout
+                                    android:visibility="gone"
                                     android:layout_width="@dimen/twenty20_dp"
                                     android:layout_height="@dimen/twenty20_dp"
                                     android:layout_gravity="end">
@@ -208,6 +212,20 @@
                 android:visibility="visible"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/value_10dp" />
+
+            <TextView
+                android:layout_centerInParent="true"
+                android:layout_marginTop="@dimen/value_150dp"
+                android:visibility="gone"
+                android:id="@+id/noOrdersFound"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No List Found"
+                android:textColor="@color/red"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
+
 
 
 

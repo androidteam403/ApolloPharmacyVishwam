@@ -133,6 +133,13 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
         ok.setOnClickListener {
             dialog.dismiss()
             Preferences.setSwachhSiteId(storeListItem.site!!)
+            Preferences.setApnaSite(storeListItem.site!!)
+            if(storeListItem.store_name!=null){
+                Preferences.setSwachSiteName(storeListItem.store_name!!)
+            }else{
+                Preferences.setSwachSiteName("")
+            }
+
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()
             val intent = Intent()
