@@ -336,11 +336,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(
-                    SessionManager(applicationContext).getLoginToken(),
+                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
                     applicationContext,
-                    this
-                )
+                    this)
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()
