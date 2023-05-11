@@ -1,8 +1,20 @@
 package com.apollopharmacy.vishwam.data.network
 
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.GetpendingAndApprovedListRequest
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.GetpendingAndApprovedListResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.SaveAcceptAndReshootRequest
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.approvelist.model.SaveAcceptAndReshootResponse
 import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.GetStoreWiseCatDetailsApnaResponse
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelRequest
+import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelRequest
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.OnUploadSwachModelResponse
 import com.google.gson.JsonSyntaxException
@@ -89,5 +101,272 @@ object ApnaRectroApiRepo {
             ApiResult.UnknownHostException(e.message)
         }
     }
+
+    suspend fun getStorePendingAndApprovedListApnaRetro(
+        url: String, token: String,
+        getpendingAndApprovedListRequest: GetStorePendingAndApprovedListReq?,
+    ): ApiResult<GetStorePendingAndApprovedListRes> {
+        return try {
+            val response = Api.getClient().getStorePendingAndApprovedListApnaRetro(url, token,
+
+                getpendingAndApprovedListRequest)
+            if (response.status == true) ApiResult.Success(response)
+            else ApiResult.GenericError(null, "error")
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun retroApprovalList(
+        url: String,
+        token: String,
+        getRetroPendindAndApproverequest: GetRetroPendindAndApproverequest,
+    ): ApiResult<GetRetroPendingAndApproveResponse> {
+        return try {
+            val response = Api.getClient().getRetroApprovalList(url, token, getRetroPendindAndApproverequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getImageUrlApnaRetro(
+        url: String,
+        token: String,
+        getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest,
+    ): ApiResult<GetImageUrlsModelApnaResponse> {
+        return try {
+            val response = Api.getClient().getImageUrlApiApnaRetro(url, token, getImageUrlsModelApnaRequest)
+            ApiResult.Success(response)
+        }
+        catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+
+//    suspend fun retroApprovalList(
+//        url: String,
+//        token: String,
+//        getRetroPendindAndApproverequest: GetRetroPendindAndApproverequest,
+//    ): ApiResult<GetRetroPendingAndApproveResponse> {
+//        return try {
+//            val response = Api.getClient().getRetroApprovalList(url, token, getRetroPendindAndApproverequest)
+//            ApiResult.Success(response)
+//        } catch (e: Exception) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            ApiResult.NetworkError
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: HttpException) {
+//            ApiUtils.parseHttpError(e)
+//        } catch (e: UnknownError) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketTimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: JsonSyntaxException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: ConnectException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: TimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownHostException(e.message)
+//        }
+//    }
+
+
+
+    suspend fun saveAcceptAndReshoot(
+        url: String, token: String,
+        saveAcceptAndReshootRequest: SaveAcceptRequest,
+    ): ApiResult<SaveAcceptResponse> {
+        return try {
+            val response =
+                Api.getClient().getRetroSaveAcceptRetro(url, token, saveAcceptAndReshootRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+    suspend fun retroImageUrlList(
+        url: String,
+        token: String,
+        imageUrlRequest: GetImageUrlRequest,
+    ): ApiResult<GetImageUrlResponse> {
+        return try {
+            val response = Api.getClient().getRetroImageUrlList(url, token, imageUrlRequest)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+
+//    suspend fun getImageUrlApnaRetro(
+//        url: String,
+//        token: String,
+//        getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest,
+//    ): ApiResult<GetImageUrlsModelApnaResponse> {
+//        return try {
+//            val response = Api.getClient().getImageUrlApiApnaRetro(url, token, getImageUrlsModelApnaRequest)
+//            ApiResult.Success(response)
+//        }
+//        catch (e: Exception) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: IOException) {
+//            e.printStackTrace()
+//            ApiResult.NetworkError
+//        } catch (e: Throwable) {
+//            e.printStackTrace()
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: HttpException) {
+//            ApiUtils.parseHttpError(e)
+//        } catch (e: UnknownError) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketTimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: JsonSyntaxException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: ConnectException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: SocketException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: TimeoutException) {
+//            ApiResult.UnknownError(e.message)
+//        } catch (e: UnknownHostException) {
+//            ApiResult.UnknownHostException(e.message)
+//        }
+//    }
+
 
 }

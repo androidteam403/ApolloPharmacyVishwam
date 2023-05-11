@@ -167,9 +167,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <ImageView
+                android:id="@+id/image_tick"
                 android:layout_width="@dimen/value_12dp"
                 android:layout_height="@dimen/text_dimen_12"
-                android:src="@drawable/tick_icon_green"/>
+                android:src="@drawable/greenright" />
 
         </LinearLayout>
 

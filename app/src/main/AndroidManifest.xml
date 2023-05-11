@@ -42,7 +42,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".ui.home.apnarectro.approval.RetroPreviewImageActivity"
+            android:name=".ui.home.apnarectro.prerectro.previewlmageRetro.RetroPreviewImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -53,6 +58,11 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apnarectro.comparisonscreenscreation.ComparisonScreenCreation"
             android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -147,6 +157,12 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.home.apnarectro.prerectro.filter.SelectPreRectroSiteActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".ui.home.swach.swachlistmodule.approvelist.ApproveListActivity"
             android:exported="true"
