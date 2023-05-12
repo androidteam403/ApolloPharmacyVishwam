@@ -106,6 +106,7 @@ interface ViswamAppApi {
     ): CmsTicketResponse
 
 
+
     @POST
     suspend fun swachhResponseImageList(
         @Url url: String,
@@ -630,6 +631,7 @@ interface ViswamAppApi {
 
     @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
+
 
 
     //champs admin

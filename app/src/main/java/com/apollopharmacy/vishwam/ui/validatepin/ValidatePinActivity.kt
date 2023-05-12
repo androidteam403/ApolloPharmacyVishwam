@@ -76,7 +76,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->
-            Utlis.hideLoading()
+           Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
                     val intent = Intent(this@ValidatePinActivity, ForgotPinActivity::class.java)
@@ -137,8 +137,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(
-                    Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
                     "SWACHH",
                     applicationContext
                 )
@@ -337,11 +336,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(
-                    SessionManager(applicationContext).getLoginToken(),
+                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
                     applicationContext,
-                    this
-                )
+                    this)
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()
