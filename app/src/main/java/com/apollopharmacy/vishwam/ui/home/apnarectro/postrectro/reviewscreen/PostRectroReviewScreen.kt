@@ -91,6 +91,10 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             stagePosition = "3"
 
         }
+        else if (stage.toLowerCase().contains("pre")) {
+            stagePosition = "1"
+
+        }
         for (k in imageUrlMainList.indices) {
             imageUrlMainList.get(k).imageUrls!!.filter { it.stage.equals(stagePosition) }
         }
@@ -159,11 +163,22 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
     private fun setUp() {
         activityPostRectroReviewScreenBinding.callback = this
 
-        if (status.equals("Pending")){
+        if (status.equals("0")){
             activityPostRectroReviewScreenBinding.totalImagesandaction.visibility=View.VISIBLE
 
         }else{
             activityPostRectroReviewScreenBinding.totalImagesandaction.visibility=View.GONE
+
+        }
+
+        if (imageUrlList.get(0).size==3&&imageUrlList.get(0).filter { it.stage!!.contains("3") }.isNotEmpty()){
+            Glide.with(this).load(imageUrlList.get(pos).get(2).url)
+                .placeholder(R.drawable.thumbnail_image)
+                .into(activityPostRectroReviewScreenBinding.afterCompletionCbLayoutImage)
+            activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.VISIBLE
+
+        }else  if (imageUrlList.get(0).size==2&&imageUrlList.get(0).filter { it.stage!!.contains("2") }.isNotEmpty()){
+            activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
 
         }
         for (j in imageUrlMainList.indices) {
@@ -175,13 +190,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
 
                         if (imageUrlMainList.get(j).imageUrls!!.filter {
-                                it.stage.equals(stagePosition)
-                            }
-                                .get(pos).isVerified!! && imageUrlMainList.get(j).imageUrls!!.filter {
-                                it.stage.equals(stagePosition)
-                            }.get(
-                                pos).status.equals("1")
-                        ) {
+                                it.stage.equals(stagePosition) }.get(pos).isVerified!! && imageUrlMainList.get(j).imageUrls!!.filter { it.stage.equals(stagePosition) }.get(pos).status.equals("1")) {
 
                             activityPostRectroReviewScreenBinding.accept.alpha = 0.5f
 
@@ -216,14 +225,25 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
         activityPostRectroReviewScreenBinding.categoryNumber.setText((categorypos + 1).toString())
         activityPostRectroReviewScreenBinding.categoryName.setText(categoryName)
-        activityPostRectroReviewScreenBinding.status.setText(status)
-        if (status.toLowerCase().contains("pen")) {
+        if (status.equals("0")){
+            activityPostRectroReviewScreenBinding.status.setText("Pending")
+
+        }
+        else   if (status.equals("1")){
+            activityPostRectroReviewScreenBinding.status.setText("Approved")
+
+        }
+        else   if (status.equals("2")){
+            activityPostRectroReviewScreenBinding.status.setText("Reshoot")
+
+        }
+        if (status!!.toLowerCase().contains("0")) {
             activityPostRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#f26522"))
-        } else if (status.toLowerCase().contains("app")) {
+        } else if (status!!.toLowerCase().contains("1")) {
             activityPostRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#39B54A"))
-        } else if (status.toLowerCase().contains("res")) {
+        } else if (status!!.toLowerCase().contains("2")) {
             activityPostRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#f26522"))
         }
@@ -237,9 +257,9 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
         }
         if(imageUrlList.get(pos).get(1).stage!!.contains("2")){
-        if (imageUrlList.get(pos).get(1).stage.equals("2")) {
-            activityPostRectroReviewScreenBinding.imageTwoStage.setText("Post Retro Image")
-        }
+            if (imageUrlList.get(pos).get(1).stage.equals("2")) {
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("Post Retro Image")
+            }
         }
 
         Glide.with(this).load(imageUrlList.get(pos).get(0).url)
@@ -260,8 +280,16 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             .placeholder(R.drawable.thumbnail_image)
             .into(activityPostRectroReviewScreenBinding.postRectroCbLayoutImage)
         if (isAfterCompletion) {
-            activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
-            activityPostRectroReviewScreenBinding.imageOneStage.setText("Post Retro Image")
+
+            if(activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked==false){
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+                activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
+            }
+            else{
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+                activityPostRectroReviewScreenBinding.imageOneStage.setText("Post Retro Image")
+            }
+
             Glide.with(this).load(imageUrlList.get(pos).get(1).url)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -293,7 +321,14 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
                 .into(activityPostRectroReviewScreenBinding.imageTwo)
         }
         if (isPreRetro) {
-            activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
+            if (activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked==false){
+                activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+
+            }
+            else {
+                activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
+            }
 
             Glide.with(this).load(imageUrlList.get(pos).get(0).url)
                 .placeholder(R.drawable.thumbnail_image)
@@ -303,10 +338,10 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
                 .into(activityPostRectroReviewScreenBinding.imageTwo)
         }
 
-        if (stage.toLowerCase().contains("pos")) {
+        if (imageUrlList.size==1) {
             activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
 
-        } else if (stage.toLowerCase().contains("aft")) {
+        } else if (imageUrlList.get(0).size==3) {
             Glide.with(this).load(imageUrlList.get(pos).get(2).url)
                 .placeholder(R.drawable.thumbnail_image)
                 .into(activityPostRectroReviewScreenBinding.afterCompletionCbLayoutImage)
@@ -332,7 +367,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
 
         activityPostRectroReviewScreenBinding.preRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (stage.toLowerCase().contains("aft")) {
+            if (imageUrlList.get(0).size==3) {
 
                 if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked == false) {
                     activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -365,7 +400,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
         }
         activityPostRectroReviewScreenBinding.postRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (stage.toLowerCase().contains("aft")) {
+            if (imageUrlList.get(0).size==3) {
 
 
                 if (activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked == false) {
@@ -399,7 +434,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
         }
         activityPostRectroReviewScreenBinding.afterCompletionCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (stage.toLowerCase().contains("aft")) {
+            if (imageUrlList.get(0).size==3) {
                 if (activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked == false && activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked) {
                     activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked =
                         true
@@ -634,34 +669,40 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
 
     override fun onClickBack() {
 
-        val imagesStatusAlertDialog = Dialog(this)
-        val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
-            )
-        imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+        if (status.equals("0")) {
+
+            val imagesStatusAlertDialog = Dialog(this)
+            val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
+                )
+            imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
-        imagesStatusAlertDialog.getWindow()
-            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
-            finish()
-            imagesStatusAlertDialog.dismiss()
+            imagesStatusAlertDialog.getWindow()
+                ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+                finish()
+                imagesStatusAlertDialog.dismiss()
+            }
+            dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
+
+                val intent = Intent()
+                intent.putExtra("imageUrlList", imageUrlMainList)
+                intent.putExtra("imagesList", imageUrlsList)
+                intent.putExtra("stagePosition", stagePosition)
+                intent.putExtra("ratingApi", isRatingApiHit)
+                intent.putExtra("isApiHit", isApiHit)
+
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+                imagesStatusAlertDialog.dismiss()
+
+            }
+            imagesStatusAlertDialog.show()
         }
-        dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
-
-            val intent = Intent()
-            intent.putExtra("imageUrlList", imageUrlMainList)
-            intent.putExtra("imagesList", imageUrlsList)
-            intent.putExtra("stagePosition", stagePosition)
-            intent.putExtra("ratingApi", isRatingApiHit)
-            intent.putExtra("isApiHit", isApiHit)
-
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-            imagesStatusAlertDialog.dismiss()
-
+        else{
+            onBackPressed()
         }
-        imagesStatusAlertDialog.show()
 
     }
 

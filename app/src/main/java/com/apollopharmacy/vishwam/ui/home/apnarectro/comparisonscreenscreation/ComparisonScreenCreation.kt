@@ -49,6 +49,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     var imageClickedPos:Int?=null
     private lateinit var cameraDialog: Dialog
     var imageUploaded=false
+    var isUpload: Boolean =false
 
 
     public var posImageUrlList = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
@@ -240,12 +241,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         activityPostRectroReviewScreenBinding.categoryNumber.text=categoryid
 //        activityPostRectroReviewScreenBinding.storeId.text=storeIdFromRemarks
 
-        activityPostRectroReviewScreenBinding.imageOne.setImageView2(
-            activityPostRectroReviewScreenBinding.imageTwo
-        )
-        activityPostRectroReviewScreenBinding.imageTwo.setImageView1(
-            activityPostRectroReviewScreenBinding.imageOne
-        )
+        activityPostRectroReviewScreenBinding.imageOne.setImageView2(activityPostRectroReviewScreenBinding.imageTwo)
+        activityPostRectroReviewScreenBinding.imageTwo.setImageView1(activityPostRectroReviewScreenBinding.imageOne)
 
         handler.removeCallbacks(runnable)
         handler.postDelayed(runnable, 200)
@@ -253,7 +250,26 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
 
         activityPostRectroReviewScreenBinding.preRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
+
+            if (imageUploaded==false) {
+                if (isChecked) {
+                    for (i in posImageUrlList.indices) {
+                        if (posImageUrlList.get(i).stage.equals("1")) {
+                            Glide.with(this).load(posImageUrlList.get(i).url)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.imageOne)
+                        }
+                    }
+                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
+                    activityPostRectroReviewScreenBinding.imageHeading1.setText("Pre Retro Image")
+                    activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                        resources.getColor(R.color.grey))
+                }
+            }
+
+          else  if (isChecked) {
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
@@ -267,7 +283,31 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             }
         }
         activityPostRectroReviewScreenBinding.postRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
+
+
+                if (imageUploaded==false) {
+                    if (isChecked) {
+                        for (i in posImageUrlList.indices) {
+                            if (posImageUrlList.get(i).stage.equals("2")) {
+                                Glide.with(this).load(posImageUrlList.get(i).url)
+                                    .placeholder(R.drawable.thumbnail_image)
+                                    .into(activityPostRectroReviewScreenBinding.imageOne)
+                            }
+                        }
+
+                        activityPostRectroReviewScreenBinding.imageHeading1.setText("Post Retro Image")
+                        activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                        activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                            resources.getColor(R.color.blue)
+                        )
+                        activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
+                        activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                            resources.getColor(R.color.grey)
+                        )
+                    }
+                }
+
+         else   if (isChecked) {
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
                 activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
@@ -648,6 +688,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
                     activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
                     activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
+//                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility=View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility=View.VISIBLE
+
                     activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.VISIBLE
                     if(activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
                         activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
@@ -657,9 +700,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                 }
                 else{
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility=View.GONE
-//                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-//                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
+//                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
                     activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.VISIBLE
                     activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
                     activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE

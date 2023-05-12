@@ -137,10 +137,20 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         categoryPosition: Int,
         categoryName: String,
         url: String,
+        statusPos:String
     ) {
+        var tempImageList = ArrayList<GetImageUrlResponse.ImageUrl>()
+        for (i in imageUrlList.indices) {
+            for (j in imageUrlList.get(i).imageUrls!!.indices) {
+                var imageResponse = GetImageUrlResponse.ImageUrl()
+                imageResponse.imageid= imageUrlList.get(i).imageUrls!!.get(j).imageid
+                imageResponse.stage = imageUrlList.get(i).imageUrls!!.get(j).stage
+                tempImageList.add(imageResponse)
+            }
 
+        }
 
-        if (stage.toLowerCase().contains("pre")) {
+        if (tempImageList.distinctBy { it.imageid }.filter { it.stage.equals("1") }.size==tempImageList.distinctBy { it.imageid }.size ) {
             val intent = Intent(this, PreRectroReviewActivity::class.java)
             intent.putExtra("stage", stage)
             intent.putExtra("retroId", retroId)
@@ -151,10 +161,11 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
             intent.putExtra("categoryPos", categoryPosition)
             intent.putExtra("categoryName", categoryName)
-            intent.putExtra("status", status)
+            intent.putExtra("status", statusPos)
             intent.putExtra("position", position)
             startActivityForResult(intent, 235)
-        } else if (stage.toLowerCase().contains("pos") || stage.toLowerCase().contains("aft")) {
+        } else if (approvedOrders!!.size==2||approvedOrders.size==3) {
+
 
             val intent = Intent(this, PostRectroReviewScreen::class.java)
             intent.putExtra("stage", stage)
@@ -162,7 +173,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             intent.putExtra("store", store)
             intent.putExtra("categoryPos", categoryPosition)
             intent.putExtra("categoryName", categoryName)
-            intent.putExtra("status", status)
+            intent.putExtra("status", statusPos)
             intent.putExtra("imageUrlList", imageUrlList)
             intent.putExtra("uploadby", activityPreviewBinding.uploadby.text.toString())
 
@@ -520,7 +531,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
                 imageUrlsListReview =
                     data!!.getSerializableExtra("imagesList") as java.util.ArrayList<GetImageUrlResponse.ImageUrl>
 
-                imageUrlList = data!!.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
+                imageUrlList =
+                    data!!.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
 
                 if (isRatingApiHit || isApiHit) {
                     onBackPressed()

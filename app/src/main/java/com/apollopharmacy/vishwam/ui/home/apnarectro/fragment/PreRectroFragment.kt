@@ -93,7 +93,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, -0)
+            cal.add(Calendar.DATE, -14)
             val currentDate: String = simpleDateFormat.format(Date())
 
             var fromdate = simpleDateFormat.format(cal.time)
@@ -105,7 +105,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
             getStorePendingApprovedRequest.storeid = "16001"
-            getStorePendingApprovedRequest.empid = "APL0001"
+            getStorePendingApprovedRequest.empid = Preferences.getToken()
 //            getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //            getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
             getStorePendingApprovedRequest.fromdate = fromdate
@@ -154,7 +154,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -0)
+                    cal.add(Calendar.DATE, -14)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)
@@ -192,7 +192,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -0)
+                    cal.add(Calendar.DATE, -14)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)

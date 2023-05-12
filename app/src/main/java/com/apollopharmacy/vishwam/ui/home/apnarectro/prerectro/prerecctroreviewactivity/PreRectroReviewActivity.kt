@@ -40,7 +40,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
     private var status: String = ""
     var url: String = ""
-    public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
+    var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
     var imageUrlsList = ArrayList<GetImageUrlResponse.ImageUrl>()
     var saveRequestImageslist = java.util.ArrayList<SaveAcceptRequest.Imageurl>()
     private lateinit var previewLastImageViewModel: PreviewPreRetroViewModel
@@ -68,11 +68,11 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             imageUrlList =
                 intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
 
-            pos = intent.getIntExtra("position", 0)!!
+            pos = intent.getIntExtra("position", 0)
             Log.e("position", pos.toString())
 
             categoryName = intent.getStringExtra("categoryName")!!
-            categorypos = intent.getIntExtra("categoryPos", 0)!!
+            categorypos = intent.getIntExtra("categoryPos", 0)
             store = intent.getStringExtra("store")!!
         }
 
@@ -85,7 +85,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
         activityPreRectroReviewScreenBinding.callback = this
 
 
-        if(status.equals("Pending")){
+        if(status == "0"){
             activityPreRectroReviewScreenBinding.totalImageandaction.visibility=View.VISIBLE
         }else{
             activityPreRectroReviewScreenBinding.totalImageandaction.visibility=View.GONE
@@ -95,9 +95,8 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
         activityPreRectroReviewScreenBinding.isLastPos =
             imageUrlsList.filter { it.isVerified == true }.size == imageUrlsList.size
         for (j in imageUrlList.indices) {
-            if (imageUrlList.get(j).categoryname.equals(categoryName)) {
-                if (imageUrlList.get(j).imageUrls!!.get(pos).isVerified!! && imageUrlList.get(j).imageUrls!!.get(
-                        pos).status.equals("1")
+            if (imageUrlList[j].categoryname.equals(categoryName)) {
+                if (imageUrlList[j].imageUrls!![pos].isVerified!! && imageUrlList[j].imageUrls!![pos].status.equals("1")
                 ) {
 
                     activityPreRectroReviewScreenBinding.accept.alpha = 0.5f
@@ -106,7 +105,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
                     activityPreRectroReviewScreenBinding.accept.alpha = 1f
 
                 }
-                if (imageUrlList.get(j).imageUrls!!.get(pos).isVerified!!&&imageUrlList.get(j).imageUrls!!.get(pos).status.equals("2")) {
+                if (imageUrlList[j].imageUrls!![pos].isVerified!!&& imageUrlList[j].imageUrls!![pos].status.equals("2")) {
 
                     activityPreRectroReviewScreenBinding.reshoot.alpha = 0.5f
 
@@ -118,13 +117,13 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             }
         }
         for (k in imageUrlList.indices) {
-            for (l in imageUrlList.get(k).imageUrls!!.indices) {
-                var imageUrlResponse = GetImageUrlResponse.ImageUrl()
-                imageUrlResponse.isVerified = imageUrlList.get(k).imageUrls!!.get(l).isVerified
-                imageUrlResponse.status = imageUrlList.get(k).imageUrls!!.get(l).status
-                imageUrlResponse.retorautoid= imageUrlList.get(k).imageUrls!!.get(l).retorautoid
-                imageUrlResponse.imageid= imageUrlList.get(k).imageUrls!!.get(l).imageid
-                imageUrlResponse.categoryid= imageUrlList.get(k).imageUrls!!.get(l).categoryid
+            for (l in imageUrlList[k].imageUrls!!.indices) {
+                val imageUrlResponse = GetImageUrlResponse.ImageUrl()
+                imageUrlResponse.isVerified = imageUrlList[k].imageUrls!![l].isVerified
+                imageUrlResponse.status = imageUrlList[k].imageUrls!![l].status
+                imageUrlResponse.retorautoid= imageUrlList[k].imageUrls!![l].retorautoid
+                imageUrlResponse.imageid= imageUrlList[k].imageUrls!![l].imageid
+                imageUrlResponse.categoryid= imageUrlList[k].imageUrls!![l].categoryid
 
                 imageUrlsList.add(imageUrlResponse)
 
@@ -159,24 +158,28 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
         }
 
-        activityPreRectroReviewScreenBinding.categoryNumber.setText((categorypos + 1).toString())
-        activityPreRectroReviewScreenBinding.categoryName.setText(categoryName)
-        activityPreRectroReviewScreenBinding.status.setText(status)
-        if (status.toLowerCase().contains("pen")) {
+        activityPreRectroReviewScreenBinding.categoryNumber.text = (categorypos + 1).toString()
+        activityPreRectroReviewScreenBinding.categoryName.text = categoryName
+        if (status == "0") {
+            activityPreRectroReviewScreenBinding.status.text = "Pending"
+
             activityPreRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#f26522"))
-        } else if (status.toLowerCase().contains("app")) {
+        } else if (status == "1") {
+            activityPreRectroReviewScreenBinding.status.text = "Approved"
+
             activityPreRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#39B54A"))
-        } else if (status.toLowerCase().contains("res")) {
+        } else if (status == "2") {
+            activityPreRectroReviewScreenBinding.status.text = "Reshoot"
+
             activityPreRectroReviewScreenBinding.status.setTextColor(Color.parseColor(
                 "#f26522"))
         }
-        activityPreRectroReviewScreenBinding.stage.setText(WordUtils.capitalizeFully(stage.replace(
-            "-",
-            " ")) + " Review")
-        activityPreRectroReviewScreenBinding.retroId.setText(retroId)
-        activityPreRectroReviewScreenBinding.store.setText(store)
+        activityPreRectroReviewScreenBinding.stage.text =
+            WordUtils.capitalizeFully(stage.replace("-", " ")) + " Review"
+        activityPreRectroReviewScreenBinding.retroId.text = retroId
+        activityPreRectroReviewScreenBinding.store.text = store
 
 
 
@@ -193,12 +196,12 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     override fun onClickReShoot() {
         for (i in imageUrlList.indices) {
             for (j in imageUrlsList.indices){
-                if (imageUrlList.get(i).categoryname.equals(categoryName)) {
-                    imageUrlList.get(i).imageUrls!!.get(pos).setisVerified(true)
-                    imageUrlList.get(i).imageUrls!!.get(pos).status = "2"
-                    if (imageUrlList.get(i).imageUrls!!.get(pos).imageid.equals(imageUrlsList.get(j).imageid)){
-                        imageUrlsList.get(j).setisVerified(true)
-                        imageUrlsList.get(j).status="2"
+                if (imageUrlList[i].categoryname.equals(categoryName)) {
+                    imageUrlList[i].imageUrls!![pos].setisVerified(true)
+                    imageUrlList[i].imageUrls!![pos].status = "2"
+                    if (imageUrlList[i].imageUrls!![pos].imageid.equals(imageUrlsList[j].imageid)){
+                        imageUrlsList[j].setisVerified(true)
+                        imageUrlsList[j].status="2"
                     }
 
 
@@ -239,12 +242,12 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
         for (i in imageUrlList.indices) {
             for (j in imageUrlsList.indices){
-            if (imageUrlList.get(i).categoryname.equals(categoryName)) {
-                imageUrlList.get(i).imageUrls!!.get(pos).setisVerified(true)
-                imageUrlList.get(i).imageUrls!!.get(pos).status = "1"
-                if (imageUrlList.get(i).imageUrls!!.get(pos).imageid.equals(imageUrlsList.get(j).imageid)){
-                    imageUrlsList.get(j).setisVerified(true)
-                    imageUrlsList.get(j).status="1"
+            if (imageUrlList[i].categoryname.equals(categoryName)) {
+                imageUrlList[i].imageUrls!![pos].setisVerified(true)
+                imageUrlList[i].imageUrls!!.get(pos).status = "1"
+                if (imageUrlList[i].imageUrls!![pos].imageid.equals(imageUrlsList[j].imageid)){
+                    imageUrlsList[j].setisVerified(true)
+                    imageUrlsList[j].status="1"
                 }
 
 
@@ -283,7 +286,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
     override fun onClickCompleted() {
         for (i in imageUrlsList.indices) {
-            var imageRequest = SaveAcceptRequest.Imageurl()
+            val imageRequest = SaveAcceptRequest.Imageurl()
             imageRequest.statusid = imageUrlsList.get(i).status
             imageRequest.imageid = imageUrlsList.get(i).imageid
             saveRequestImageslist.add(imageRequest)
@@ -342,30 +345,36 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
     override fun onClickBack() {
 
-        val imagesStatusAlertDialog = Dialog(this)
-        val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
-            )
-        imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
+        if(status == "0") {
+
+            val imagesStatusAlertDialog = Dialog(this)
+            val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.dialog_lastimage_preview_alert, null, false
+                )
+            imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
-        imagesStatusAlertDialog.getWindow()
-            ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
-            finish()
-            imagesStatusAlertDialog.dismiss()
-        }
-        dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
+            imagesStatusAlertDialog.getWindow()
+                ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
+                finish()
+                imagesStatusAlertDialog.dismiss()
+            }
+            dialogLastimagePreviewAlertBinding.cancelButton.setOnClickListener {
 
-            val intent = Intent()
-            intent.putExtra("imageUrlList", imageUrlList)
-            intent.putExtra("imagesList",imageUrlsList)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-            imagesStatusAlertDialog.dismiss()
+                val intent = Intent()
+                intent.putExtra("imageUrlList", imageUrlList)
+                intent.putExtra("imagesList", imageUrlsList)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+                imagesStatusAlertDialog.dismiss()
 
+            }
+            imagesStatusAlertDialog.show()
         }
-        imagesStatusAlertDialog.show()
+        else{
+            onBackPressed()
+        }
     }
 
     override fun onSuccessRatingResponse(value: SaveAcceptResponse) {
@@ -409,11 +418,11 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
             )
         imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
-        imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.messege.setText(retroId+"\n"+"Reviewed Sucessfully")
+        imagesStatusAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialogLastimagePreviewAlertBinding.messege.text = retroId+"\n"+"Reviewed Sucessfully"
 
-        dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna "+WordUtils.capitalizeFully(stage.replace("-",
-            " ")) + " Review")
+        dialogLastimagePreviewAlertBinding.alertTitle.text = "Apna "+WordUtils.capitalizeFully(stage.replace("-",
+            " ")) + " Review"
 
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
@@ -469,9 +478,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
 
             submitButton.setOnClickListener {
-                if (comments.getText().toString() != null && comments.getText()
-                        .toString().trim() != ""
-                ) {
+                if (comments.text.toString().trim() != "") {
                     var imageRequest = SaveAcceptRequest()
                     imageRequest.retroautoid = retroId
                     imageRequest.type = "REMARKS"
@@ -505,11 +512,11 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
                 )
             imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
-            imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialogLastimagePreviewAlertBinding.messege.setText(retroId+"\n"+"Reviewed Sucessfully")
+            imagesStatusAlertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialogLastimagePreviewAlertBinding.messege.text = retroId+"\n"+"Reviewed Sucessfully"
 
-            dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna "+WordUtils.capitalizeFully(stage.replace("-",
-                " ")) + " Review")
+            dialogLastimagePreviewAlertBinding.alertTitle.text = "Apna "+WordUtils.capitalizeFully(stage.replace("-",
+                " ")) + " Review"
 
             dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
