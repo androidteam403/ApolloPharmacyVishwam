@@ -63,17 +63,26 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT STORE WISE CATEGORY DETAILS")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001"
-                token = data.APIS[i].TOKEN
-                break
+            if (Config.KEY=="2039") {
+
+                if (data.APIS[i].NAME.equals("RT STORE WISE CATEGORY DETAILS")) {
+                    baseUrl = data.APIS[i].URL
+
+                    token = data.APIS[i].TOKEN
+                    break
+                }
             }
+            else
+                if (Config.KEY=="2034"){
+                    baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001"
+                    token = "h72genrSSNFivOi/cfiX3A=="
+                }
         }
 
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStoreWiseCatDetailsApna("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001", "h72genrSSNFivOi/cfiX3A==", "16001")
+                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, "16001")
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -118,15 +127,23 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT SAVE IMAGE URLS")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
+            if (Config.KEY=="2039") {
+
+                if (data.APIS[i].NAME.equals("RT SAVE IMAGE URLS")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
             }
+            else
+                if (Config.KEY=="2034"){
+                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls"
+                    token = "h72genrSSNFivOi/cfiX3A=="
+                }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveImageUrlsApna("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls", "h72genrSSNFivOi/cfiX3A==", saveImageUrlsRequest)
+                ApnaRectroApiRepo.saveImageUrlsApna(baseUrl, token, saveImageUrlsRequest)
 
 //                        RegistrationRepo.NewComplaintRegistration(
 //                            baseUrl,
@@ -193,15 +210,23 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
-                token = data.APIS[i].TOKEN
-                break
+            if (Config.KEY=="2039") {
+
+                if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
             }
+            else
+                if (Config.KEY=="2034"){
+                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
+                    token = "h72genrSSNFivOi/cfiX3A=="
+                }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getImageUrlApnaRetro("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls", "h72genrSSNFivOi/cfiX3A==", getImageUrlsModelApnaRequest)
+                ApnaRectroApiRepo.getImageUrlApnaRetro(baseUrl, token, getImageUrlsModelApnaRequest)
 
 
             }
