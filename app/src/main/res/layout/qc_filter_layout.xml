@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/value_50dp"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/heaader"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_70dp"
+            android:background="@color/app_center_color"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="@dimen/text_12sp"
+                android:layout_marginTop="@dimen/twenty20_dp"
+                android:src="@drawable/qc_fillter_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/value_70dp"
+                android:layout_marginStart="@dimen/twenty20_dp"
+                android:elevation="@dimen/value_5dp"
+                android:fontFamily="@font/droidsans"
+
+                android:layout_marginTop="@dimen/text_18sp"
+                android:text="Filters"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_20sp" />
+
+            <ImageView
+                android:id="@+id/cancel"
+                android:layout_width="@dimen/value_35dp"
+                android:layout_height="@dimen/value_35dp"
+                android:layout_marginStart="205dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/qc_white_close_24" />
+
+        </LinearLayout>
+
+
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/siteId"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value_15dp"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginRight="@dimen/value_15dp"
+            android:focusable="true"
+            android:textColorHint="@color/black"
+
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/siteIdSelect"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                android:editable="false"
+                android:enabled="true"
+                android:focusable="false"
+                android:hint="@string/label_select_site_id"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/regionId"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value_15dp"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginRight="@dimen/value_15dp"
+            android:focusable="true"
+            android:textColorHint="@color/black"
+
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/regionIdSelect"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
+                android:editable="false"
+                android:enabled="true"
+                android:focusable="false"
+                android:hint="Select Region Id *"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/fromDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value_15dp"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginRight="@dimen/value_15dp"
+            android:textColorHint="@color/black">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/fromDateText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_50dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="From Date *"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/toDate"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/value_15dp"
+            android:layout_marginTop="@dimen/value_10dp"
+            android:layout_marginRight="@dimen/value_15dp"
+            android:textColorHint="@color/black">
+
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/toDateText"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/value_55dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/ic_baseline_date_range_24"
+                android:editable="false"
+                android:focusable="false"
+                android:hint="To Date *"
+                android:paddingStart="@dimen/value_7dp"
+                android:paddingEnd="@dimen/value_7dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black"
+                android:textSize="@dimen/text_14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_50dp"
+            android:layout_margin="@dimen/value_15dp"
+            android:background="@drawable/qc_accept_background"
+            android:text="Apply"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/inventoryMessageForCamera" />
+
+    </LinearLayout>
+</layout>

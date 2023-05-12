@@ -19,15 +19,18 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
-import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.LoginRequest
 import com.apollopharmacy.vishwam.data.model.MPinRequest
+import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.databinding.ActivityLoginBinding
 import com.apollopharmacy.vishwam.dialog.AppUpdateDialog
 import com.apollopharmacy.vishwam.ui.createpin.CreatePinActivity
 import com.apollopharmacy.vishwam.ui.validatepin.ValidatePinActivity
-import com.apollopharmacy.vishwam.util.*
+import com.apollopharmacy.vishwam.util.DownloadController
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utils
+import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
 import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import com.google.gson.Gson
@@ -38,7 +41,7 @@ class LoginActivity : AppCompatActivity() {
     lateinit var downloadController: DownloadController
     private val PERMISSION_REQUEST_CODE = 1
     val TAG = "LoginActivity"
-
+    private var selectedcompany = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
@@ -59,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
         loginBinding.loginButton.setOnClickListener {
             signIn()
         }
+
         loginViewModel.commands.observeForever({ command ->
             hideLoading()
             when (command) {
@@ -69,11 +73,17 @@ class LoginActivity : AppCompatActivity() {
 //                    finish()
 //                    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                 }
+
                 is Command.ShowToast -> {
                     context?.let { Toast.makeText(it, command.message, Toast.LENGTH_SHORT).show() }
                 }
+
                 is Command.MpinValidation -> {
                     if (command.value.Status) {
+//                        Preferences.setDoctorSpecialityListFetched(false)
+//                        Preferences.setItemTypeListFetched(false)
+//                        Preferences.setSiteIdListFetched(false)
+//                        Preferences.setReasonListFetched(false)
                         val homeIntent = Intent(this, ValidatePinActivity::class.java)
                         startActivity(homeIntent)
                         finish()
@@ -86,10 +96,67 @@ class LoginActivity : AppCompatActivity() {
                         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
                     }
                 }
+
+                else -> {}
             }
         })
 
-        onCheckBuildDetails()
+
+        loginBinding.entityEditText.setText(Preferences.getCompany())
+        selectedcompany = Preferences.getCompany()
+//        val companys = resources.getStringArray(R.array.company_list)
+//        val mySpinner = findViewById<Spinner>(R.id.company_spinner)
+//        val spinnerAdapter= object : ArrayAdapter<String>(this,R.layout.dropdown_item, companys) {
+//
+//            override fun isEnabled(position: Int): Boolean {
+//                // Disable the first item from Spinner
+//                // First item will be used for hint
+//                return position != 0
+//            }
+//
+//            override fun getDropDownView(
+//                position: Int,
+//                convertView: View?,
+//                parent: ViewGroup
+//            ): View {
+//                val view: TextView = super.getDropDownView(position, convertView, parent) as TextView
+//                //set the color of first item in the drop down list to gray
+//                if(position == 0) {
+//                    view.setTextColor(Color.GRAY)
+//                } else {
+//                    //here it is possible to define color for other items by
+//                    //view.setTextColor(Color.RED)
+//                }
+//                return view
+//            }
+//
+//        }
+//        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+//        mySpinner.adapter = spinnerAdapter
+//        val index = companys.indexOfFirst{
+//            it == Preferences.getCompany()
+//        }
+//        mySpinner.setSelection(index)
+//        mySpinner.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
+//            override fun onNothingSelected(parent: AdapterView<*>?) {
+//            }
+//
+//            override fun onItemSelected(
+//                parent: AdapterView<*>?,
+//                view: View?,
+//                position: Int,
+//                id: Long
+//            ) {
+//                val value = parent!!.getItemAtPosition(position).toString()
+//                if(value == companys[0]){
+////                    (view as TextView).setTextColor(Color.GRAY)
+//                }else{
+//                    selectedcompany = companys[position]
+//                }
+//            }
+//
+//        }
+//        onCheckBuildDetails()
     }
 
     private fun signIn() {
@@ -99,7 +166,8 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.checkLogin(
                 LoginRequest(
                     loginBinding.passwordEditText.text.toString().trim(),
-                    loginBinding.nameEditText.text.toString().trim()
+                    loginBinding.nameEditText.text.toString().trim(),
+                    selectedcompany
                 )
             )
         } else {
@@ -141,13 +209,13 @@ class LoginActivity : AppCompatActivity() {
                     }
                 }
             } else {
-                displayAppInfoDialog(
-                    "Info",
-                    buildDetailsEntity.AVABILITYMESSAGE,
-                    "",
-                    "",
-                    ""
-                )
+//                displayAppInfoDialog(
+//                    "Info",
+//                    buildDetailsEntity.AVABILITYMESSAGE,
+//                    "",
+//                    "",
+//                    ""
+//                )
             }
         }
     }
@@ -166,8 +234,10 @@ class LoginActivity : AppCompatActivity() {
             dialogView.setPositiveLabel(positiveBtn)
             dialogView.setPositiveListener(View.OnClickListener {
 //                dialogView.dismiss()
-                val viewIntent = Intent("android.intent.action.VIEW",
-                    Uri.parse(downloadUrl))
+                val viewIntent = Intent(
+                    "android.intent.action.VIEW",
+                    Uri.parse(downloadUrl)
+                )
                 startActivity(viewIntent)
             })
         }
@@ -242,9 +312,13 @@ class LoginActivity : AppCompatActivity() {
     private fun handleGetPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
-            loginViewModel.checkMPinLogin(MPinRequest(Preferences.getToken(),
-                "",
-                "GETDETAILS"))
+            loginViewModel.checkMPinLogin(
+                MPinRequest(
+                    Preferences.getToken(),
+                    "",
+                    "GETDETAILS"
+                )
+            )
         } else {
             Toast.makeText(
                 this,

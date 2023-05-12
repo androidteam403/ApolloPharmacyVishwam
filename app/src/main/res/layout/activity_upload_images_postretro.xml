@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity">
+        <LinearLayout
+            android:id="@+id/parent_layout"
+            android:layout_above="@+id/cancel_upload_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/splash_start_color"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_10dp">
+
+                <ImageView
+                    android:id="@+id/backButton"
+                    android:layout_width="@dimen/value_40dp"
+                    android:layout_height="@dimen/value_40dp"
+                    android:src="@drawable/ic_baseline_keyboard_arrow_left_24" />
+
+                <TextView
+                    android:id="@+id/reviewName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Post Rectro Review"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_17sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
+
+                        <LinearLayout
+                            android:id="@+id/store_details_layout"
+                            android:layout_margin="@dimen/value_5dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorWhite"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Store ID :  "
+
+                                    android:textSize="12.5sp" />
+
+                                <TextView
+                                    android:id="@+id/storeId"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="14001"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Store Name :  "
+                                    android:textSize="12.5sp" />
+
+                                <TextView
+                                    android:id="@+id/storeName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="--"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Uploaded On :  "
+                                    android:textSize="12.5sp" />
+
+                                <TextView
+                                    android:id="@+id/uploadon"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="02 Apr,2023 - 03:30PM"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Uploaded By :  "
+                                    android:textSize="12.5sp" />
+
+                                <TextView
+                                    android:id="@+id/uploadby"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="APL48627"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginTop="5dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Comments:  "
+                                    android:textSize="12.5sp" />
+
+                                <TextView
+                                    android:id="@+id/comments"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="--"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:visibility="gone"
+                                android:id="@+id/pre_retro_pending_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="8dp"
+                                android:background="@drawable/retro_background_pending"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginStart="10sp"
+                                        android:fontFamily="@font/poppin_bold"
+                                        android:gravity="center"
+
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="8dp"
+                                        android:text="Stage : "
+                                        android:textAlignment="textStart"
+                                        android:textSize="12sp"
+                                        tools:ignore="RtlCompat" />
+
+                                    <TextView
+                                        android:id="@+id/stage"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:paddingTop="10dp"
+                                        android:paddingBottom="8dp"
+                                        android:text="Pre Retro"
+                                        android:textColor="@color/black"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/poppin_bold"
+                                        android:paddingTop="10dp"
+
+                                        android:paddingBottom="8dp"
+                                        android:text="Status : "
+                                        android:textSize="12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/poppin_bold"
+                                        android:paddingTop="10dp"
+
+                                        android:paddingBottom="8dp"
+                                        android:text="PENDING "
+                                        android:textColor="@color/orange"
+                                        android:textSize="12sp" />
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+                            <LinearLayout
+                                android:onClick="@{()-> callback.onCickDownArrow()}"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/timeline_layout"
+                                android:layout_marginLeft="@dimen/text_dimen_10"
+                                android:layout_marginRight="@dimen/text_dimen_10"
+                                android:layout_marginTop="@dimen/text_dimen_10"
+                                android:background="@drawable/bg_retro_grey"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
+                                <ImageView
+                                    android:layout_width="33dp"
+                                    android:layout_height="33dp"
+                                    android:layout_marginLeft="@dimen/text_dimen_10"
+                                    android:src="@drawable/ic_menu_reports" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2.9"
+                                    android:fontFamily="@font/poppin_bold"
+                                    android:gravity="center"
+                                    android:textAlignment="textStart"
+                                    android:text="TIMELINE"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    tools:ignore="RtlCompat" />
+
+                                <ImageView
+                                    android:onClick="@{()-> callback.onCickDownArrow()}"
+                                    android:id="@+id/down_arrow"
+                                    android:layout_width="@dimen/text_19sp"
+                                    android:layout_height="19dp"
+                                    android:layout_marginTop="5dp"
+                                    android:src="@drawable/black_right_arroww"
+                                    android:tint="@color/white"
+                                    tools:ignore="UseAppTint" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/timeLine_details_layout"
+                                android:visibility="gone"
+
+                                android:layout_marginRight="@dimen/text_dimen_10"
+                                android:layout_marginLeft="@dimen/text_dimen_10"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/light_green"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Stage:  "
+
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/stage_timeline"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Uploaded by :  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:id="@+id/uploadedByTimeline"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Uploaded Date:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:id="@+id/uploaded_date_timeline"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Approved By :  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/approved_by"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Approved Date:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/approved_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Partially Approved by:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/partially_approved_by"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Partially Approved Date:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/partially_approved_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reshoot By:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/reshoot_by"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Reshoot Date:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:id="@+id/reshoot_date"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:visibility="gone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginTop="5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Comments:  "
+                                        android:textSize="12.5sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="--"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+
+
+
+
+
+                            </LinearLayout>
+
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+
+
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/lightt_blue">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/categoryNameApnaRecyclerView"
+                            android:layout_width="match_parent"
+                            android:visibility="visible"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/text_dimen_10"
+                            android:layout_marginRight="@dimen/text_dimen_10"
+                            />
+
+
+
+                    </LinearLayout>
+                    <TextView
+                        android:gravity="center"
+                        android:visibility="gone"
+                        android:id="@+id/noOrdersFound"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No List Found"
+                        android:textColor="@color/red"
+                        android:textAlignment="center"
+                        android:layout_gravity="center"/>
+
+
+                    <LinearLayout
+                        android:id="@+id/preRetroUpdateLayout"
+                        android:layout_marginStart="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/text_dimen_15"
+                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pre Retro Update"
+                            android:textStyle="bold"
+                            android:textSize="@dimen/text_16sp"
+                            android:textColor="@color/black"/>
+
+                        <TextView
+                            android:layout_marginTop="@dimen/text_dimen_10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Uploaded"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/uploaded_count"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/red"
+                                android:textSize="@dimen/text_18sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/overAllCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_18sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:visibility="visible"
+                            android:id="@+id/warning_layout"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/value_25dp"
+                                android:layout_height="@dimen/value_25dp"
+                                android:src="@drawable/red_warning"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="To upload complete all the shoots, without pending"
+                                android:textColor="@color/red"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_12sp"
+                                android:layout_marginStart="@dimen/value_5dp"/>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/completed_message"
+                            android:layout_marginTop="@dimen/value_7dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/twenty_three23dp"
+                                android:layout_height="@dimen/twenty_three23dp"
+                                android:src="@drawable/tick_icon_green"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="You have uploaded all the images send for review"
+                                android:textColor="#39b54a"
+                                android:textStyle="bold"
+                                android:textAlignment="center"
+                                android:layout_gravity="center"
+                                android:textSize="@dimen/text_12sp"
+                                android:layout_marginStart="@dimen/value_5dp"/>
+
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/add_comments_layout"
+                            android:orientation="vertical"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/regionSelect"
+                                android:layout_marginTop="@dimen/value_10dp"
+                                android:textColor="@color/black"
+                                android:textStyle="bold"
+                                android:layout_marginBottom="@dimen/value_4dp"
+                                android:text="Add Comments" />
+
+                            <androidx.appcompat.widget.AppCompatEditText
+                                android:padding="@dimen/value_5dp"
+                                android:id="@+id/stateSelectPre"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/state"
+                                android:background="@drawable/grey_border_bg"
+                                android:drawableEnd="@drawable/bottomarrow"
+                                android:drawableTint="#cacaca"
+                                android:editable="false"
+                                android:hint="Select Pre filled comment"
+                                android:paddingLeft="@dimen/value_15dp"
+                                android:textSize="@dimen/text_14sp" />
+
+                        </LinearLayout>
+
+
+
+
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:visibility="gone"
+                        android:id="@+id/report_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Report"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_14sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginEnd="5dp"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Uploaded"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:id="@+id/uploaded_overall_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:paddingStart="12sp"
+                                    android:fontFamily="@font/price_bold"
+
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Accepted"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:id="@+id/approved_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/price_bold"
+                                    android:paddingStart="12sp"
+
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Reshoot"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:id="@+id/reshoot_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/price_bold"
+                                    android:paddingStart="12sp"
+
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Pending"
+                                    android:textSize="@dimen/text_14sp" />
+
+                                <TextView
+                                    android:id="@+id/pending_count"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/price_bold"
+                                    android:paddingStart="12sp"
+
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_14sp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="6dp"
+                            android:background="@color/colorGrey"></View>
+
+                        <TextView
+                            android:id="@+id/state"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:textColor="@color/black"
+                            android:layout_marginStart="10dp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="@dimen/value_4dp"
+                            android:text="Add Comments" />
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:padding="@dimen/value_5dp"
+                            android:id="@+id/stateSelect"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_below="@+id/state"
+                            android:background="@drawable/grey_border_bg"
+                            android:drawableEnd="@drawable/bottomarrow"
+                            android:drawableTint="#cacaca"
+                            android:editable="false"
+                            android:hint="Done all images - send feedback"
+                            android:paddingLeft="@dimen/value_15dp"
+                            android:textSize="@dimen/text_14sp"
+                            tools:ignore="MissingClass" />
+
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/colorGrey"></View>
+
+                        <LinearLayout
+                            android:id="@+id/bottom_status_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/text_12sp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Status : "
+                                android:textColor="@color/black"
+
+                                android:textSize="@dimen/text_15sp" />
+
+                            <TextView
+                                android:id="@+id/status_bottom"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="4dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Re-Shoot "
+                                android:textColor="@color/color_red"
+                                android:textSize="@dimen/text_15sp" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+                </LinearLayout>
+            </ScrollView>
+
+
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/text_dimen_10"
+            android:id="@+id/cancel_upload_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:layout_alignParentBottom="true">
+            <LinearLayout
+                android:onClick="@{()-> callback.onClickCancel()}"
+                android:layout_marginEnd="@dimen/text_dimen_10"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/yellowbackground_for_buttons"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:gravity="center"
+                    android:text="CANCEL"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+
+                android:id="@+id/uploadnowbutton"
+                android:onClick="@{()-> callback.onClickUpload()}"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ashbackgrounf_for_buttons"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="UPLOAD"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:visibility="gone"
+                android:id="@+id/reshoot_button"
+                android:onClick="@{()-> callback.onClickReshoot()}"
+                android:layout_weight="0.5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/ashbackgrounf_for_buttons"
+                android:orientation="horizontal"
+                android:padding="@dimen/value_9dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/text_15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="RESHOOT"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_20sp" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesCallback" />
+    </data>
+</layout>

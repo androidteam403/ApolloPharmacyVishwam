@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_blue">
+
+        <com.github.chrisbanes.photoview.PhotoView
+            android:id="@+id/viewpager_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}" />
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}">
+
+            <LinearLayout
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/value_10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_50dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Retro ID: "
+                    android:textStyle="bold"
+                    android:textColor="@color/heading_blue"
+                    android:textSize="@dimen/text_16sp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:text="@{retroId}"
+                    android:textSize="@dimen/text_16sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_report"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_20sp"
+                android:visibility="gone"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/label_this_store_review_ncompleted_successfully"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_20sp"
+                android:id="@+id/stage_review_message"
+
+                android:layout_marginTop="@dimen/value_50dp"
+                android:layout_gravity="center_horizontal"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_20sp"
+                android:layout_marginTop="@dimen/value_50dp"
+                android:layout_gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/label_total_images"
+                        android:textColor="@color/grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:text="@{totalImages}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/value_1dp"
+                    android:layout_height="@dimen/value_70dp"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/label_accepted"
+                        android:textColor="@color/grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:text="@{accepted}"
+                        android:textColor="@color/greenn"
+                        android:textSize="@dimen/text_20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="@dimen/value_1dp"
+                    android:layout_height="@dimen/value_70dp"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:background="@color/grey" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/value_10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/label_rejected"
+                        android:textColor="@color/grey" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/value_5dp"
+                        android:text="@{rejected}"
+                        android:textColor="@color/color_red"
+                        android:textSize="@dimen/text_20sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+    <data>
+
+        <variable
+            name="isLastPos"
+            type="Boolean" />
+
+
+
+        <variable
+            name="view"
+            type="android.view.View" />
+
+        <variable
+            name="totalImages"
+            type="String" />
+
+        <variable
+            name="accepted"
+            type="String" />
+
+        <variable
+            name="rejected"
+            type="String" />
+
+        <variable
+            name="retroId"
+            type="String" />
+
+    </data>
+</layout>

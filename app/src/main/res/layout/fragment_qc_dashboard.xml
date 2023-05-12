@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="@dimen/value_60dp"
+                android:background="@color/white"
+
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <!--                android:background="#85B6B1"-->
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/vishwampendency"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/qc_rtopendency"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Vishwam Pendency"
+                    android:textAlignment="center"
+
+
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/rtopendency"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="2dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/qc_pendency"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="RTO Pendency"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_14sp" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/search_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                android:visibility="gone">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/value_45dp"
+                    android:layout_marginStart="@dimen/five5_sp"
+                    android:layout_marginEnd="@dimen/five5_sp"
+                    android:background="@drawable/search_view_pendency"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/search_view"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="@dimen/value_60dp"
+                        android:layout_weight="1.8"
+                        android:background="@color/transparent"
+                        android:gravity="left|center"
+                        android:hint="Search by Site ID or Emp ID"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/text_15sp"
+
+                        android:textColor="@color/black"
+                        android:textColorHint="@android:color/black"
+                        android:textSize="@dimen/text_14sp" />
+
+                    <ImageView
+                        android:id="@+id/close"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+
+                        android:layout_marginEnd="@dimen/text_10sp"
+                        android:layout_weight=".2"
+
+
+                        android:src="@drawable/ic_search_24" />
+
+
+                    <ImageView
+                        android:id="@+id/close_arrow"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/text_10sp"
+                        android:layout_weight=".2"
+                        android:src="@drawable/closee_black"
+
+
+                        android:visibility="gone" />
+                </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/summaryRecycleView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/dashboard_summary" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/searchrecycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="1"
+                    tools:listitem="@layout/search_site" />
+
+                <TextView
+                    android:id="@+id/no_order_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="@dimen/text_10sp"
+                    android:paddingBottom="@dimen/text_10sp"
+                    android:text="No Data Found"
+                    android:textAlignment="center"
+                    android:textColor="@color/warning_color"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="vertical">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/dashboardrecycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_20sp"
+                    android:scrollbars="vertical"
+                    android:visibility="visible"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/dashboard_site" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rtodashboardrecycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/text_20sp"
+                    android:scrollbars="vertical"
+                    android:visibility="gone"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/rto_pendency_layout" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/no_order_found_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:text="No Pending Orders Found"
+                    android:textColor="@color/warning_color" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

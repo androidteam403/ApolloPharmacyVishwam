@@ -32,9 +32,48 @@ object SplashRepo {
             val decryptData =
                 EncryptionManager.decryptData(response, VALIDATEVENDOR_ENCRIPTION_KEY)
             val actualResponse = Gson().fromJson(decryptData, ValidateResponse::class.java)
+            println(35)
             if (actualResponse.status)
                 ApiResult.Success(actualResponse)
 
+            else
+                ApiResult.GenericError(null, actualResponse.message, null)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        }
+    }
+
+    suspend fun getUserValidateTest(): ApiResult<ValidateResponse> {
+        return try {
+            val response = Api.getClient()
+                .getValidateTest()
+            val actualResponse = response
+            if (actualResponse.status)
+                ApiResult.Success(actualResponse)
             else
                 ApiResult.GenericError(null, actualResponse.message, null)
         } catch (e: Exception) {

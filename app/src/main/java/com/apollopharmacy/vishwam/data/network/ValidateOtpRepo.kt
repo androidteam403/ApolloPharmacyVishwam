@@ -1,6 +1,5 @@
 package com.apollopharmacy.vishwam.data.network
 
-import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.model.DeviceDeRegResponse
 import com.apollopharmacy.vishwam.data.model.ValidateOtpRequest
 import com.apollopharmacy.vishwam.data.model.ValidateOtpResponse
@@ -15,11 +14,15 @@ import java.util.concurrent.TimeoutException
 
 object ValidateOtpRepo {
     suspend fun validateEmpWithOtp(
+        url: String,
         token: String,
         validateOtpRequest: ValidateOtpRequest,
     ): ApiResult<ValidateOtpResponse> {
         return try {
-            val response = Api.getClient().validateEmpWithOtp(token, validateOtpRequest)
+            val response = Api.getClient().validateEmpWithOtp(url, token, validateOtpRequest)
+            println(23)
+            println(response)
+            println(25)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -50,9 +53,14 @@ object ValidateOtpRepo {
         }
     }
 
-    suspend fun deviceDeRegister(empId: String): ApiResult<DeviceDeRegResponse> {
+    suspend fun deviceDeRegister(
+        url: String,
+        token: String,
+        empId: String,
+    ): ApiResult<DeviceDeRegResponse> {
         return try {
-            val response = Api.getClient().deRegisterDevice(Config.ATTENDANCE_API_HEADER, empId)
+            val response =
+                Api.getClient().deRegisterDevice(url, token, empId)//Config.ATTENDANCE_API_HEADER
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

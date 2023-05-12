@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:gravity="center">
+
+
+        <com.github.chrisbanes.photoview.PhotoView
+
+            android:id="@+id/viewpager_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/white"
+            android:visibility="visible"
+            android:contentDescription="@string/app_name" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_medium"
+            android:text="Preview not available"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/text_14sp"
+            android:visibility="gone"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:id="@+id/previewmsg"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttondownload"
+            android:layout_width="@dimen/value_150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/previewmsg"
+            android:visibility="gone"
+
+            android:layout_marginTop="@dimen/text_10sp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/backgroundpending"
+            android:text="Click Here To DownLoad" />
+
+
+    </RelativeLayout>
+
+
+</layout>

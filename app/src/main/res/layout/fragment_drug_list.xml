@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:background="#088077"
+        tools:context=".ui.home.">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="525dp"
+                    android:layout_centerHorizontal="true"
+
+
+                    android:src="@drawable/mainimage2" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+
+            android:orientation="horizontal"
+            android:weightSum="2">
+            <!--                android:background="#85B6B1"-->
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/preview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/preview"
+                android:fontFamily="@font/price_bold"
+                android:text="Preview"
+                android:textAlignment="center"
+
+
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_17sp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/send"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/send"
+                android:fontFamily="@font/price_bold"
+                android:text="Send"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_17sp" />
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="23sp"
+            android:layout_height="23sp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginBottom="10sp"
+            android:src="@drawable/eye_icon" />
+
+
+
+
+
+        <LinearLayout
+            android:id="@+id/writeurtextlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/text"
+                android:layout_centerInParent="true"
+                android:fontFamily="@font/price_bold"
+                android:paddingTop="77dp"
+
+                android:text="Write your Text here"
+                android:textAlignment="center"
+                android:textColor="@color/white" />
+
+            <ImageView
+                android:layout_width="@dimen/value_32dp"
+                android:layout_height="@dimen/value_32dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic__plus" />
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/previewLayout"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:layout_alignParentStart="true"
+            android:background="#075758"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:weightSum="2">
+
+            <ImageView
+                android:layout_width="20sp"
+                android:layout_height="20sp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="6sp"
+                android:src="@drawable/eye_icon" />
+
+            <TextView
+                android:id="@+id/previewtext"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+
+                android:layout_marginLeft="57sp"
+                android:layout_marginTop="5sp"
+                android:fontFamily="@font/price_bold"
+                android:text="PREVIEW"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="15sp" />
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="@dimen/text_15sp"
+                android:src="@drawable/closee_whitee" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="80dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="@dimen/value_60dp"
+                android:layout_height="@dimen/value_75dp"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/camlayout"
+
+                android:layout_gravity="center"
+                android:layout_marginEnd="3dp"
+
+                android:background="@drawable/goldborder"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/camera_box"
+
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+
+                android:layout_gravity="center"
+                android:layout_marginEnd="3dp"
+
+                android:background="@drawable/round_corners"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/price_regular"
+                    android:paddingTop="10sp"
+                    android:paddingBottom="@dimen/text_18sp"
+                    android:text="Your\nSignature\nHere"
+                    android:textAlignment="center"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/dimen11sp" />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+</layout>
