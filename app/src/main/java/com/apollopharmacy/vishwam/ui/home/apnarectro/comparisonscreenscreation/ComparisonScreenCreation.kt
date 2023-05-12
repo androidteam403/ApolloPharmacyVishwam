@@ -117,17 +117,24 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         if (stage.equals("isPreRetroStage")) {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
             if(posImageUrlList.size==1){
-                activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT)
                 lp.weight = 1f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
+                if(uploadStage.equals("reshootStage")){
+                    activityPostRectroReviewScreenBinding.reshootCameraPreRetro.visibility=View.VISIBLE
+                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
+                }else{
+                    activityPostRectroReviewScreenBinding.reshootCameraPreRetro.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
+                }
+
             }
             else if(posImageUrlList.size==2){
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
@@ -612,7 +619,17 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             imageUploaded=false
             activityPostRectroReviewScreenBinding.uploadnowbutton.setBackgroundColor(resources.getColor(R.color.grey))
 
-            if(stage.equals("isPostRetroStage")){
+            if(stage.equals("isPreRetroStage")){
+                if(uploadStage.equals("reshootStage")){
+                    Glide.with(this).load(posImageUrlList.get(stagePos).url)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(activityPostRectroReviewScreenBinding.imageTwo)
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
+                }
+
+            }
+            else if(stage.equals("isPostRetroStage")){
                 if(uploadStage.equals("reshootStage")){
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
@@ -636,7 +653,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
 
                 }
-            }else if(stage.equals("isAfterCompletionStage")){
+            }
+            else if(stage.equals("isAfterCompletionStage")){
                 if(uploadStage.equals("reshootStage")){
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
@@ -808,8 +826,26 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             }
 
 
+            if(stage.equals("isPreRetroStage")){
+                for(i in posImageUrlList.indices){
+                    if(posImageUrlList.get(i).stage.equals("1")){
+                        activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
+                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
+                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
+                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
+                        activityPostRectroReviewScreenBinding.deleteIconPreRetro.visibility=View.VISIBLE
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
+                        activityPostRectroReviewScreenBinding.imageHeading2.text="Pre Retro Image"
+                        if(uploadStage.equals("reshootStage")){
+                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.imageOne)
+                        }
 
-            if(stage.equals("isPostRetroStage")){
+                    }
+                }
+            }
+            else if(stage.equals("isPostRetroStage")){
                 for(i in posImageUrlList.indices){
                     if(posImageUrlList.get(i).stage.equals("2")){
                         activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
@@ -841,7 +877,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                     }
                 }
-            }else if(stage.equals("isAfterCompletionStage")){
+            }
+            else if(stage.equals("isAfterCompletionStage")){
                 for(i in posImageUrlList.indices){
                     if(posImageUrlList.get(i).stage.equals("3")){
                         activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.VISIBLE

@@ -93,7 +93,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
             val cal = Calendar.getInstance()
-            cal.add(Calendar.DATE, -0)
+            cal.add(Calendar.DATE, -14)
             val currentDate: String = simpleDateFormat.format(Date())
 
             var fromdate = simpleDateFormat.format(cal.time)
@@ -154,7 +154,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -0)
+                    cal.add(Calendar.DATE, -14)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)
@@ -192,7 +192,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -0)
+                    cal.add(Calendar.DATE, -14)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)

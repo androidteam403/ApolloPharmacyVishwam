@@ -76,7 +76,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->
-            Utlis.hideLoading()
+           Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
                     val intent = Intent(this@ValidatePinActivity, ForgotPinActivity::class.java)

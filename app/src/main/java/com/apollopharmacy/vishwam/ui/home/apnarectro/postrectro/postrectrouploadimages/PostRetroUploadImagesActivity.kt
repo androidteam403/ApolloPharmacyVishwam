@@ -345,7 +345,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         }
 
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+           Utlis.showLoading(this)
             postRetroUploadImagesViewModel!!.getStoreWiseDetailsApna(this)
 
         } else {
@@ -867,7 +867,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 //            }
 
             if (NetworkUtil.isNetworkConnected(this)) {
-                Utlis.showLoading(this)
+               Utlis.showLoading(this)
                 var submit = GetImageUrlsModelApnaRequest()
                 submit.storeid = "16001"
                 submit.retroId = retroid
