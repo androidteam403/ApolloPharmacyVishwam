@@ -16,7 +16,7 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.Ch
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 
 class CategoryDetailsAdapter(
-    private var categoryDetails: List<GetCategoryDetailsModelResponse.EmailDetail>?,
+    private var categoryDetails: List<GetCategoryDetailsModelResponse.CategoryDetail>?,
     private var applicationContext: Context,
     private var champsSurveyCallBack: ChampsSurveyCallBack,
 ) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>() {
