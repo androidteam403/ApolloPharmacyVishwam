@@ -51,6 +51,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     public var approveResponseList = ArrayList<GetRetroPendingAndApproveResponse.Retro>()
     public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
     public var imageUrlsListReview = ArrayList<GetImageUrlResponse.ImageUrl>()
+    private var uploadBy: String = ""
 
     private var getImageUrlsResponses = GetImageUrlResponse()
     private var uploadDate: String = ""
@@ -77,6 +78,9 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         retroId = intent.getStringExtra("retroId")!!
         status = intent.getStringExtra("status")!!
         store = intent.getStringExtra("site")!!
+
+        uploadBy=intent.getStringExtra("uploadBy")!!
+        uploadDate=intent.getStringExtra("uploadOn")!!
         approveResponseList =
             intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
         var imageUrlRequest = GetImageUrlRequest()
@@ -85,6 +89,13 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 //        imageUrlRequest.retroId = "APRET1400120230426171928"
 //        imageUrlRequest.storeid = "14001"
         viewModel.getRectroApprovalList(imageUrlRequest, this)
+
+        val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
+        val date = frmt.parse(uploadDate)
+        val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
+
+        activityPreviewBinding.uploadby.setText(uploadBy)
+        activityPreviewBinding.uploadon.setText(newFrmt)
 
         activityPreviewBinding.storeId.setText(store)
         activityPreviewBinding.stage.setText(WordUtils.capitalizeFully(stage.replace("-",

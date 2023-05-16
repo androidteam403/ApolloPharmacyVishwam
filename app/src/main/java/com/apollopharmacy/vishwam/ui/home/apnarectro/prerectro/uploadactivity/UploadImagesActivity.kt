@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
@@ -235,8 +236,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //            Utlis.showLoading(this)
             var submit = SaveImagesUrlsRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid = "16001"
-            submit.userid = "APL0001"
+            submit.storeid =Preferences.getRectroSiteId()
+            submit.userid = Preferences.getToken()
             submit.stage="1"
             var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 
@@ -459,6 +460,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateButtonValidation() {
         if (uploadedImageCount == overallImageCount) {
             activityUploadImagesBinding.uploadnowbutton.background = (resources.getDrawable(R.drawable.greenbackground_for_buttons))

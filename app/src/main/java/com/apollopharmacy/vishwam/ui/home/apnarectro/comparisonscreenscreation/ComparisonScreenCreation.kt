@@ -15,6 +15,7 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -121,8 +122,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT)
-                lp.weight = 1f
-                activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
+                lp.weight=7f
+
+                activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams= lp
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -151,6 +153,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.grey))
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=true
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=true
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
@@ -262,6 +267,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 if (isChecked) {
                     for (i in posImageUrlList.indices) {
                         if (posImageUrlList.get(i).stage.equals("1")) {
+
+
                             Glide.with(this).load(posImageUrlList.get(i).url)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -296,6 +303,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     if (isChecked) {
                         for (i in posImageUrlList.indices) {
                             if (posImageUrlList.get(i).stage.equals("2")) {
+
                                 Glide.with(this).load(posImageUrlList.get(i).url)
                                     .placeholder(R.drawable.thumbnail_image)
                                     .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -331,6 +339,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         activityPostRectroReviewScreenBinding.afterCompletionCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
                 activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
+
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=false
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
@@ -368,6 +378,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
            activityPostRectroReviewScreenBinding.imageHeading1.text="Pre Retro Image"
            for(i in posImageUrlList.indices){
                if(posImageUrlList.get(i).stage.equals("1") ){
+
                    Glide.with(this).load(posImageUrlList.get(i).url)
                        .placeholder(R.drawable.thumbnail_image)
                        .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -385,6 +396,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
            activityPostRectroReviewScreenBinding.imageHeading2.text="Post Retro Image"
            for(i in posImageUrlList.indices){
                if(posImageUrlList.get(i).stage.equals("1") ){
+
                    Glide.with(this).load(posImageUrlList.get(i).url)
                        .placeholder(R.drawable.thumbnail_image)
                        .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -397,6 +409,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                if(posImageUrlList.get(i).stage.equals("2") ){
                    bottomStatusUpdate(posImageUrlList.get(i).status)
                    if(posImageUrlList.get(i).url!=null){
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -404,6 +417,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                    }else{
+
                        Glide.with(this).load(posImageUrlList.get(i).file)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -424,12 +438,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                activityPostRectroReviewScreenBinding.imageHeading2.text="Post Retro Image"
                for(i in posImageUrlList.indices){
                    if(posImageUrlList.get(i).stage.equals("1") ){
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageOne)
                    }
                }
                for(i in posImageUrlList.indices){
+
                    if(posImageUrlList.get(i).stage.equals("2") ){
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
@@ -442,6 +458,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                activityPostRectroReviewScreenBinding.imageHeading2.text="After Completion Image"
                for(i in posImageUrlList.indices){
                    if(posImageUrlList.get(i).stage.equals("2") ){
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -451,6 +468,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                    if(posImageUrlList.get(i).stage.equals("3") ){
                        bottomStatusUpdate(posImageUrlList.get(i).status)
                        if(posImageUrlList.get(i).url!=null){
+
                            Glide.with(this).load(posImageUrlList.get(i).url)
                                .placeholder(R.drawable.thumbnail_image)
                                .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -458,6 +476,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                                .placeholder(R.drawable.thumbnail_image)
                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
                        }else{
+
                            Glide.with(this).load(posImageUrlList.get(i).file)
                                .placeholder(R.drawable.thumbnail_image)
                                .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -474,6 +493,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                activityPostRectroReviewScreenBinding.imageHeading2.text="After Completion Image"
                for(i in posImageUrlList.indices){
                    if(posImageUrlList.get(i).stage.equals("1") ){
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -483,6 +503,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                    if(posImageUrlList.get(i).stage.equals("3") ){
                        bottomStatusUpdate(posImageUrlList.get(i).status)
                        if(posImageUrlList.get(i).url!=null){
+
                            Glide.with(this).load(posImageUrlList.get(i).url)
                                .placeholder(R.drawable.thumbnail_image)
                                .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -491,6 +512,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
 
                        }else{
+
                            Glide.with(this).load(posImageUrlList.get(i).file)
                                .placeholder(R.drawable.thumbnail_image)
                                .into(activityPostRectroReviewScreenBinding.imageTwo)
@@ -507,6 +529,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                for(i in posImageUrlList.indices){
                    if(posImageUrlList.get(i).stage.equals("1") ){
                        activityPostRectroReviewScreenBinding.imageHeading1.text="Post Retro Image"
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -517,6 +540,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                activityPostRectroReviewScreenBinding.imageHeading1.text="Post Retro Image"
                for(i in posImageUrlList.indices){
                    if(posImageUrlList.get(i).stage.equals("2") ){
+
                        Glide.with(this).load(posImageUrlList.get(i).url)
                            .placeholder(R.drawable.thumbnail_image)
                            .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -530,10 +554,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         for(i in posImageUrlList.indices){
             if(posImageUrlList.get(i).stage.equals("1") ){
                 if(posImageUrlList.get(i).url!=null){
+
                     Glide.with(this).load(posImageUrlList.get(i).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
                 }else{
+
                     Glide.with(this).load(posImageUrlList.get(i).file)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
@@ -541,6 +567,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             }else if(posImageUrlList.get(i).stage.equals("2") ){
                 if(posImageUrlList.get(i).url!=null){
+
                     Glide.with(this).load(posImageUrlList.get(i).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
@@ -661,6 +688,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             if(stage.equals("isPreRetroStage")){
                 if(uploadStage.equals("reshootStage")){
+
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.imageTwo)
