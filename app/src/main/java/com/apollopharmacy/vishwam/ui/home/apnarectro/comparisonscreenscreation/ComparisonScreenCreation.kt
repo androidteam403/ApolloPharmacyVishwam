@@ -323,10 +323,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 }
 
          else   if (isChecked) {
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
                 updateImages()
             } else {
