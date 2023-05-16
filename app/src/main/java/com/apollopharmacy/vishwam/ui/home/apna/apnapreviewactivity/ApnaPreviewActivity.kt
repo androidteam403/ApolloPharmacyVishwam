@@ -250,8 +250,25 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.trafficGeneratorsNotFound.visibility = View.VISIBLE
         }
 
-        mapUserLats = value.data!!.lat
-        mapUserLangs = value.data!!.long
+        if (value.data!!.lat != null) {
+            if (!value.data!!.lat!!.isEmpty()) {
+                mapUserLats = value.data!!.lat
+            } else {
+                mapUserLats = "0"
+            }
+        } else {
+            mapUserLats = "0"
+        }
+
+        if (value.data!!.long != null) {
+            if (!value.data!!.long!!.isEmpty()) {
+                mapUserLangs = value.data!!.long
+            } else {
+                mapUserLangs = "0"
+            }
+        } else {
+            mapUserLangs = "0"
+        }
 
         locationManager = getSystemService(LOCATION_SERVICE) as LocationManager
         supportMapFragment =
@@ -269,8 +286,25 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             googleMap.addMarker(options)
         }
 
-        apnaPreviewActivityBinding.lattitude.setText(value.data!!.lat)
-        apnaPreviewActivityBinding.longitude.setText(value.data!!.long)
+        if (value.data!!.lat != null) {
+            if (!value.data!!.lat!!.isEmpty()) {
+                apnaPreviewActivityBinding.lattitude.setText(value.data!!.lat)
+            } else {
+                apnaPreviewActivityBinding.lattitude.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.lattitude.setText("-")
+        }
+
+        if (value.data!!.long != null) {
+            if (!value.data!!.long!!.isEmpty()) {
+                apnaPreviewActivityBinding.longitude.setText(value.data!!.long)
+            } else {
+                apnaPreviewActivityBinding.longitude.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.longitude.setText("-")
+        }
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
         apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
 

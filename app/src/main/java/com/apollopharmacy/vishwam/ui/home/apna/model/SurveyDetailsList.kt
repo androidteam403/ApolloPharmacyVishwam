@@ -250,7 +250,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("building_age")
         @Expose
-        var buildingAge: Int? = null
+        var buildingAge: Double? = null
 
         @SerializedName("morning_from")
         @Expose
@@ -460,7 +460,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withBuildingAge(buildingAge: Int?): Data {
+        fun withBuildingAge(buildingAge: Double?): Data {
             this.buildingAge = buildingAge
             return this
         }

@@ -12,6 +12,7 @@ import android.view.View
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
@@ -40,6 +41,10 @@ import java.text.SimpleDateFormat
 import java.util.stream.Collectors
 
 class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback {
+
+    var toiletsAvailable: String = ""
+    var parkingAvailable: String = ""
+    var trafficType: String = ""
 
     lateinit var activityApnaSurveyPreviewBinding: ActivityApnaSurveyPreviewBinding
     var surveyCreateRequest = SurveyCreateRequest()
@@ -184,6 +189,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             val toiletsAvailability: SurveyCreateRequest.ToiletsAvailability =
                 surveyCreateRequest.toiletsAvailability!!
             if (toiletsAvailability.uid!!.isNotEmpty()) {
+                toiletsAvailable = toiletsAvailability.uid.toString()
                 activityApnaSurveyPreviewBinding.toiletsAvailability.setText(toiletsAvailability.uid)
             } else {
                 activityApnaSurveyPreviewBinding.toiletsAvailability.setText("-")
@@ -213,6 +219,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.parking != null) {
             val parking: SurveyCreateRequest.Parking = surveyCreateRequest.parking!!
             if (parking.uid!!.isNotEmpty()) {
+                parkingAvailable = parking.uid.toString()
                 activityApnaSurveyPreviewBinding.parking.setText(parking.uid)
             } else {
                 activityApnaSurveyPreviewBinding.parking.setText("-")
@@ -222,6 +229,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         if (surveyCreateRequest.trafficStreetType != null && surveyCreateRequest.trafficStreetType!!.uid != "") {
+            trafficType = surveyCreateRequest.trafficStreetType!!.uid.toString()
             activityApnaSurveyPreviewBinding.trafficStreetType.setText(surveyCreateRequest.trafficStreetType!!.uid)
         } else {
             activityApnaSurveyPreviewBinding.trafficStreetType.setText("-")
