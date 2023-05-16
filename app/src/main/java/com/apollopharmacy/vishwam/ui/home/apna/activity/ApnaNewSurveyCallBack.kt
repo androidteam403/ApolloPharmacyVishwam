@@ -12,7 +12,7 @@ interface ApnaNewSurveyCallBack {
 
     fun onUnorganisedItemSelect(position: Int, item: String)
 
-    fun onLocationListItemSelect(position: Int, item: String, uid: String)
+    fun onLocationListItemSelect(position: Int, location: String, state: String, city: String, locationUid: String, stateUid: String, cityUid: String)
 
     fun onClickDeleteChemist(position: Int)
 

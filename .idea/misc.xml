@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -47,6 +48,8 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/dark_gray_rounded_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/darkblue_roundedcorners.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/dialog_video_preview.xml" value="0.1445" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/discount.xml" value="0.1215" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/fmcg.xml" value="0.186" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/gray_border.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/gray_rounded_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/gray_rounded_corner.xml" value="0.1445" />
@@ -59,12 +62,15 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/light_gray_border.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/light_gray_rounded_corners.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/orange_rounded_background.xml" value="0.125" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/pharma.xml" value="0.186" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/radio_button_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/right_arrow_black_new.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/rounded_background.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/spinner_background.xml" value="0.212" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/spinner_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/spinner_border.xml" value="0.1445" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/surgicals.xml" value="0.186" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/toilets.xml" value="0.186" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/white_rounded_bg.xml" value="0.1445" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/drawable/yellow_drawable.xml" value="0.186" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_apna_new_survey.xml" value="0.264" />
@@ -81,6 +87,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_upload_images_postretro.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_verify_user.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_video_preview.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/activity_video_previews.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/adapter_apartments_list.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/adapter_apartments_list_preview.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/adapter_chemist_apna.xml" value="0.25" />
