@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.util;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -102,7 +103,11 @@ public class Utils {
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
-        progressDialog.show();
+
+        if (context instanceof Activity) {
+            if (!((Activity) context).isFinishing())
+                progressDialog.show();
+        }
         return progressDialog;
     }
 

@@ -6,10 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ChampsApiRepo
-import com.apollopharmacy.vishwam.data.network.ValidateOtpRepo
 import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
-import com.apollopharmacy.vishwam.ui.otpview.Command
 import com.hadilq.liveevent.LiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

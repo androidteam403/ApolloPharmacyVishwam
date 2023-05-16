@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide
 class ImagesDisplayChampsAdapter(
     private val context: Context,
     private val champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
-    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.EmailDetail.ImagesDatas>?
+    private val imageDataLists: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>?
 ) : RecyclerView.Adapter<ImagesDisplayChampsAdapter.ViewHolder>() {
 
 

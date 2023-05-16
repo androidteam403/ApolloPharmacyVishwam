@@ -102,9 +102,9 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             overallProgressBarCount(getCategoryAndSubCategoryDetails!!.totalProgressP!!)
 
         }
-        for(i in getCategoryAndSubCategoryDetails!!.emailDetails!!.indices){
-            if(!getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).clickedSubmit!!){
-                getCategoryAndSubCategoryDetails!!.emailDetails!!.get(i).subCategoryDetails=
+        for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices){
+            if(!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).clickedSubmit!!){
+                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails=
                     getSubCategoryResponses!!.subCategoryDetails
             }
         }
@@ -112,7 +112,7 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
 
         categoryDetailsPreviewAdapter =
             CategoryDetailsPreviewAdapter(
-                getCategoryAndSubCategoryDetails!!.emailDetails,
+                getCategoryAndSubCategoryDetails!!.categoryDetails,
                 applicationContext,
                 this
             )
