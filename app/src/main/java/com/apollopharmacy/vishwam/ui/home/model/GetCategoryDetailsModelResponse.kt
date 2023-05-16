@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.model
 
+import com.apollopharmacy.vishwam.ui.home.champs.SampleModel
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.ChampsDetailsandRatingBarActivity
 import com.apollopharmacy.vishwam.ui.sampleui.swachuploadmodule.model.GetImageUrlModelResponse
 import com.google.gson.annotations.Expose
@@ -8,13 +9,13 @@ import java.io.File
 import java.io.Serializable
 
  class GetCategoryDetailsModelResponse : Serializable {
-    @SerializedName("status")
-    @Expose
-    var status: Boolean? = null
+     @SerializedName("status")
+     @Expose
+     var status: Boolean? = null
 
-    @SerializedName("message")
-    @Expose
-    var message: String? = null
+     @SerializedName("message")
+     @Expose
+     var message: String? = null
 
     var storeIdP:String?=""
 
@@ -48,13 +49,12 @@ import java.io.Serializable
 
 
 
+     @SerializedName("CategoryDetails")
+     @Expose
+     var categoryDetails: List<CategoryDetail>? = null
 
-    @SerializedName("emailDetails")
-    @Expose
-    var emailDetails: List<EmailDetail>? = null
 
-
-     class EmailDetail : Serializable {
+     class CategoryDetail : Serializable{
         @SerializedName("id")
         @Expose
         var id: Int? = null
@@ -70,6 +70,15 @@ import java.io.Serializable
         @SerializedName("created_date")
         @Expose
         var createdDate: String? = null
+
+
+         @SerializedName("modified_by")
+         @Expose
+         var modifiedBy: Any? = null
+
+         @SerializedName("modified_date")
+         @Expose
+         var modifiedDate: Any? = null
 
         var sumOfThreePicsinMb:String?=null
 
