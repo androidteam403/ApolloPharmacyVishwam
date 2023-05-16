@@ -10,6 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.net.ssl.HostnameVerifier
 
 class Api {
     companion object {
@@ -31,6 +32,7 @@ class Api {
                 .readTimeout(100, TimeUnit.SECONDS)
                 .writeTimeout(100, TimeUnit.SECONDS)
                 .addInterceptor(httpLoggingInterceptor)
+                .hostnameVerifier(HostnameVerifier { hostname, session -> true })
                 .build()
             if (retrofit == null) {
                 retrofit = Retrofit.Builder()

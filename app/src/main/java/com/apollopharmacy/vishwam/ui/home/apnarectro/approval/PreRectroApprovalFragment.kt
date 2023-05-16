@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentApprovalPrerectroBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.adapter.RectroApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
@@ -45,7 +46,7 @@ class PreRectroApprovalFragment() :
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
-        getRetroPendindAndApproverequest.empid = "APL48627"
+        getRetroPendindAndApproverequest.empid = Preferences.getToken()
         getRetroPendindAndApproverequest.storeid = "16001"
         getRetroPendindAndApproverequest.fromdate = fromDate
         getRetroPendindAndApproverequest.todate = currentDate
@@ -89,7 +90,7 @@ class PreRectroApprovalFragment() :
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -7)
                 fromDate = simpleDateFormat.format(cal.time)
-                getRetroPendindAndApproverequest.empid = "APL48627"
+                getRetroPendindAndApproverequest.empid = Preferences.getToken()
                 getRetroPendindAndApproverequest.storeid = "16001"
                 getRetroPendindAndApproverequest.fromdate = fromDate
                 getRetroPendindAndApproverequest.todate = currentDate
