@@ -139,7 +139,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
@@ -218,7 +218,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
@@ -236,7 +236,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = "Approved"
                 activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
@@ -264,7 +264,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = "Re-shoot"
                 activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
@@ -289,7 +289,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
@@ -870,7 +870,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             if (NetworkUtil.isNetworkConnected(this)) {
                Utlis.showLoading(this)
                 var submit = GetImageUrlsModelApnaRequest()
-                submit.storeid = "16001"
+                submit.storeid =Preferences.getApnaSiteId()
                 submit.retroId = retroid
 
                 postRetroUploadImagesViewModel!!.getImageUrl(submit, this)
@@ -1061,8 +1061,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             submit.actionEvent = "RESHOOT"
         }
         submit.retroautoid = ""
-        submit.storeid = "16001"
-        submit.userid = "APL0001"
+        submit.storeid = Preferences.getApnaSiteId()
+        submit.userid = Preferences.getToken()
         if (stage.equals("isPreRetroStage")) {
             submit.stage = "1"
             submit.retroautoid = retroid
@@ -1401,11 +1401,7 @@ private fun checkAllImagesUploadedReshoot() {
     if (apnaConfigList.get(0).configlist != null) {
         for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
             for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                if (apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null) {
-                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = true
-                } else {
-                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = false
-                }
+                apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!![index].imageDataDto?.get(index1)?.file != null
             }
 
         }

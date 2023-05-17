@@ -82,7 +82,7 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, "16001")
+                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, Preferences.getApnaSiteId())
             }
             when (result) {
                 is ApiResult.Success -> {
