@@ -61,6 +61,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
     private var countUp: Long? = null
     private var asText: String? = null
     private var issuedOn: String? = null
+    private var status:String?=null
+    private var champsRefernceId:String?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,6 +98,8 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
         storeId = intent.getStringExtra("storeId")!!
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
+        status=intent.getStringExtra("status")
+        champsRefernceId=intent.getStringExtra("champsRefernceId")
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             activityChampsSurveyBinding.employeeName.text = userData.EMPNAME
@@ -152,32 +156,34 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
 //        }
 //
 
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            champsSurveyViewModel.getSurveyList(this);
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+//            champsSurveyViewModel.getSurveyList(this);
+//
+//        } else {
+//            Toast.makeText(
+//                context,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
 
-        } else {
-            Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+
+//        if (NetworkUtil.isNetworkConnected(this)) {
+//            Utlis.showLoading(this)
+//            champsSurveyViewModel.getSurveyListApi(this, "2023-01-23", "2023-05-15", "APL49392");
+//
+//        } else {
+//            Toast.makeText(
+//                context,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
 
 
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            champsSurveyViewModel.getSurveyListApi(this, "2023-01-23", "2023-05-15", "APL49392");
-
-        } else {
-            Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
 
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
@@ -190,6 +196,34 @@ class ChampsSurveyActivity : AppCompatActivity(), ChampsSurveyCallBack {
                 Toast.LENGTH_SHORT
             )
                 .show()
+        }
+
+        if (status.equals("PENDING") || status.equals("COMPLETED")) {
+            if(status.equals("PENDING")){
+                isPending = true
+                activityChampsSurveyBinding.submitButton.visibility=View.VISIBLE
+                activityChampsSurveyBinding.saveDraft.visibility=View.VISIBLE
+            }else{
+                isPending=false
+                activityChampsSurveyBinding.submitButton.visibility=View.GONE
+                activityChampsSurveyBinding.saveDraft.visibility=View.GONE
+            }
+
+            if (champsRefernceId != null) {
+//
+                Utlis.showLoading(this)
+                champsSurveyViewModel.getSurveyListByChampsIDApi(
+                    this,
+                    champsRefernceId!!
+                )
+//                    champsSurveyViewModel.getSurveyListByChampsID(
+//                        this
+//                    )
+
+
+            }
+        }else{
+
         }
 
 

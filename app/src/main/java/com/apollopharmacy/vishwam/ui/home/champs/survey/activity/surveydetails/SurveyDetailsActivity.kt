@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
+import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -208,7 +209,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
 
     override fun onClickStartChampsSurvey() {
-        val intent = Intent(context, ChampsSurveyActivity::class.java)
+        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
