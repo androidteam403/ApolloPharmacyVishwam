@@ -77,8 +77,8 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 //        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
-        activityUploadImagesBinding.incharge.text=Preferences.getValidatedEmpId()
-      activityUploadImagesBinding.storeName.text=Preferences.getSwachSiteName()
+        activityUploadImagesBinding.incharge.text=Preferences.getToken()
+      activityUploadImagesBinding.storeName.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
 
@@ -111,6 +111,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
     class ImgeDtcl(var file: File?,  var categoryName: String)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickUpload() {
 
         Utlis.showLoading(this)
@@ -236,7 +237,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //            Utlis.showLoading(this)
             var submit = SaveImagesUrlsRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid =Preferences.getRectroSiteId()
+            submit.storeid =Preferences.getApnaSiteId()
             submit.userid = Preferences.getToken()
             submit.stage="1"
             var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
@@ -378,11 +379,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         if (apnaConfigList.get(0).configlist != null) {
             for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
                 for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                    if (apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null) {
-                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = true
-                    } else {
-                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = false
-                    }
+                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
                 }
 
             }

@@ -59,11 +59,11 @@ class PreRectroApprovalViewModel : ViewModel() {
                         if (response.value.status ?: null == true) {
                             state.value = State.ERROR
                             preRetroCallback.onSuccessRetroApprovalList(response.value)
-                            retroPendingAndApproveResponse.value = response.value
+                            retroPendingAndApproveResponse.value = response.value!!
                         } else {
                             state.value = State.ERROR
                             preRetroCallback.onFailureRetroApprovalList(response.value)
-                            retroPendingAndApproveResponse.value = response.value
+                            retroPendingAndApproveResponse.value = response.value!!
                         }
                     }
                 is ApiResult.GenericError -> {

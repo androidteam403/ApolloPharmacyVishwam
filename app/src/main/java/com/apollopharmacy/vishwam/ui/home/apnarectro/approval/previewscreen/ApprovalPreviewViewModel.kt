@@ -25,7 +25,7 @@ import kotlinx.coroutines.withContext
 class ApprovalPreviewViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
-    val imageUrlResponse = MutableLiveData<GetImageUrlResponse>()
+    val imageUrlResponse = MutableLiveData<GetImageUrlResponse?>()
     var saveAcceptAndReshootResponse = MutableLiveData<SaveAcceptResponse>()
 
     fun getRectroApprovalList(imageUrlRequest: GetImageUrlRequest, preRetroCallback: ApprovalReviewCallback) {

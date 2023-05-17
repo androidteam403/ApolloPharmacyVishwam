@@ -41,7 +41,7 @@ class PreviewPreRetroViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (Config.KEY=="2039") {
 
-                if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+                if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
@@ -99,7 +99,7 @@ class PreviewPreRetroViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (Config.KEY=="2039") {
 
-                if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+                if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break

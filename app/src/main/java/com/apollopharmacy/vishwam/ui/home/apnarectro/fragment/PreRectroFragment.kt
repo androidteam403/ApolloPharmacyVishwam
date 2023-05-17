@@ -46,6 +46,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
 
+        Preferences.savingToken("APL67949")
 
 
         viewBinding.callback = this
@@ -84,7 +85,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
 //        viewBinding.storeId.text= Preferences.getSwachhSiteId()
-            viewBinding.incharge.text = Preferences.getValidatedEmpId()
+            viewBinding.incharge.text = Preferences.getToken()
             viewBinding.storeName.text = Preferences.getApnaSiteId()
 //        viewBinding.secondReshoot.setOnClickListener {
 //            val intent = Intent(context, PostRectroReviewScreen::class.java)
@@ -108,7 +109,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 // Utlis.showLoading(requireContext())
 
                 val getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                getStorePendingApprovedRequest.storeid =Preferences.getRectroSiteId()
+                getStorePendingApprovedRequest.storeid =Preferences.getApnaSiteId()
                 getStorePendingApprovedRequest.empid =Preferences.getToken()
 //            getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //            getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
@@ -209,7 +210,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                     // Utlis.showLoading(requireContext())
 
                     var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                    getStorePendingApprovedRequest.storeid = Preferences.getRectroSiteId()
+                    getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
                     getStorePendingApprovedRequest.empid = Preferences.getToken()
 //                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
