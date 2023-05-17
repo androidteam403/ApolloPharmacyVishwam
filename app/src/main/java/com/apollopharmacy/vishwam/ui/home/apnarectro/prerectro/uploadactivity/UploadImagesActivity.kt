@@ -77,8 +77,10 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
         fragmentName = intent.getStringExtra("fragmentName")!!
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 //        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
-        activityUploadImagesBinding.incharge.text=Preferences.getValidatedEmpId()
-      activityUploadImagesBinding.storeName.text=Preferences.getSwachSiteName()
+        activityUploadImagesBinding.incharge.text="APL67949"
+        Toast.makeText(this,Preferences.getApnaRetroSite(),Toast.LENGTH_LONG).show()
+
+        activityUploadImagesBinding.storeName.text=Preferences.getApnaRetroSite()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
 
@@ -111,6 +113,7 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 
     class ImgeDtcl(var file: File?,  var categoryName: String)
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onClickUpload() {
 
         Utlis.showLoading(this)
@@ -236,8 +239,9 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //            Utlis.showLoading(this)
             var submit = SaveImagesUrlsRequest()
             submit.actionEvent = "SUBMIT"
-            submit.storeid =Preferences.getRectroSiteId()
-            submit.userid = Preferences.getToken()
+
+        submit.storeid =Preferences.getApnaRetroSite()
+            submit.userid = "APL67949"
             submit.stage="1"
             var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 

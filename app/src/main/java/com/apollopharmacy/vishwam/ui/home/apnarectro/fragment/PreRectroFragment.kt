@@ -62,8 +62,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
               startActivityForResult(i, 781)
             } else {
-                viewBinding.storeId.text = Preferences.getApnaSiteId()
-                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getSwachSiteName()
+                viewBinding.storeId.text =Preferences.getApnaRetroSite()
+                viewBinding.storeName.text =Preferences.getApnaRetroSite() + " - " + Preferences.getSwachSiteName()
 //
 //            viewBinding.storeId.text = Preferences.getSwachhSiteId()
 //            viewBinding.userId.text = Preferences.getToken()
@@ -84,7 +84,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
 //        viewBinding.storeId.text= Preferences.getSwachhSiteId()
-            viewBinding.incharge.text = Preferences.getValidatedEmpId()
+            viewBinding.incharge.text = "APL67949"
             viewBinding.storeName.text = Preferences.getApnaSiteId()
 //        viewBinding.secondReshoot.setOnClickListener {
 //            val intent = Intent(context, PostRectroReviewScreen::class.java)
@@ -108,8 +108,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 // Utlis.showLoading(requireContext())
 
                 val getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                getStorePendingApprovedRequest.storeid =Preferences.getRectroSiteId()
-                getStorePendingApprovedRequest.empid =Preferences.getToken()
+                getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
+                getStorePendingApprovedRequest.empid ="APL67949"
 //            getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //            getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
                 getStorePendingApprovedRequest.fromdate = fromdate
@@ -170,7 +170,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
                     getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
-                    getStorePendingApprovedRequest.empid = Preferences.getToken()
+                    getStorePendingApprovedRequest.empid = "APL67949"
 //                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
                     getStorePendingApprovedRequest.fromdate = fromdate
@@ -209,8 +209,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                     // Utlis.showLoading(requireContext())
 
                     var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                    getStorePendingApprovedRequest.storeid = Preferences.getRectroSiteId()
-                    getStorePendingApprovedRequest.empid = Preferences.getToken()
+                    getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
+                    getStorePendingApprovedRequest.empid = "APL67949"
 //                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
 //                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
                     getStorePendingApprovedRequest.fromdate = fromdate

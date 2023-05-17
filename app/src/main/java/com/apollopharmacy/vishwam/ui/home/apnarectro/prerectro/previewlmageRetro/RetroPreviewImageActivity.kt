@@ -448,7 +448,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imageRequest.reamrks = ""
         imageRequest.statusid = apiStatus
         imageRequest.storeid = store
-        imageRequest.userid = uploadBy
+        imageRequest.userid = Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist
 
@@ -592,7 +592,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = apiStatus
                     imageRequest.storeid = store
-                    imageRequest.userid = uploadBy
+                    imageRequest.userid = Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
 
                     Utlis.showLoading(this)
