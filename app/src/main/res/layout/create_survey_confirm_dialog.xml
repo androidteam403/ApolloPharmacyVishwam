@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do you want to save survey details?"
+            android:text="Do you want to submit survey details?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/value_10dp"
                 android:background="@drawable/submit_button"
-                android:hint="Save"
+                android:hint="Yes"
                 android:textColorHint="@color/white"
                 android:textStyle="bold"
                 android:textSize="@dimen/text_14sp"/>

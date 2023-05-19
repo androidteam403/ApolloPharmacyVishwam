@@ -1199,7 +1199,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
                         LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-                    activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
+//                    activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
                     activityApnaNewSurveyBinding.storeText.text!!.clear()
                     activityApnaNewSurveyBinding.rentText.text!!.clear()
                     activityApnaNewSurveyBinding.salesText.text!!.clear()
@@ -1229,7 +1229,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 apartmentTypeItemAdapter.notifyDataSetChanged()
                 // clear
                 activityApnaNewSurveyBinding.apartmentsOrColony.text!!.clear()
-                activityApnaNewSurveyBinding.apartmentTypeSelect.text!!.clear()
+//                activityApnaNewSurveyBinding.apartmentTypeSelect.text!!.clear()
                 activityApnaNewSurveyBinding.noOfHousesText.text!!.clear()
                 activityApnaNewSurveyBinding.distanceText.text!!.clear()
                 activityApnaNewSurveyBinding.distanceText.clearFocus()
@@ -1259,7 +1259,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 // clear
                 activityApnaNewSurveyBinding.hospitalNameText.text!!.clear()
-                activityApnaNewSurveyBinding.hospitalSpecialitySelect.text!!.clear()
+//                activityApnaNewSurveyBinding.hospitalSpecialitySelect.text!!.clear()
                 activityApnaNewSurveyBinding.bedsText.text!!.clear()
                 activityApnaNewSurveyBinding.noOfOpdText.text!!.clear()
                 activityApnaNewSurveyBinding.occupancyText.text!!.clear()
@@ -1292,9 +1292,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                 // Clear
                 activityApnaNewSurveyBinding.chemistText.text!!.clear()
-                activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
+//                activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
                 activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
-                activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
+//                activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
                 activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
                 activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
             } else {
@@ -1325,6 +1325,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         totalUnorganisedAvgSale.toString())
                 } else {
                     activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
+                }
+
+                val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
+                if (total > 0) {
+                    activityApnaNewSurveyBinding.total.setText(total.toString())
+                } else {
+                    activityApnaNewSurveyBinding.total.setText("-")
                 }
             } else {
                 activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.GONE
@@ -2707,10 +2714,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                 age = age.substring(0, 2)
                                 if (age.toInt() > 11) {
                                     activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(this)
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text!!.clear()
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
+                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.clear()
                                     Toast.makeText(this@ApnaNewSurveyActivity, "Month should not be more than 11", Toast.LENGTH_SHORT).show()
                                     activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(this)
                                 } else {
@@ -2724,10 +2728,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             } else {
                                 if (age.toInt() > 11) {
                                     activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(this)
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
+                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.clear()
                                     Toast.makeText(this@ApnaNewSurveyActivity, "Month should not be more than 11", Toast.LENGTH_SHORT).show()
                                     activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(this)
                                 } else {
@@ -3237,6 +3238,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getTrafficStreetType(this@ApnaNewSurveyActivity)
                 }
+
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.marketInformationLayout.visibility = View.GONE
@@ -3314,6 +3316,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getTrafficGeneratorsType(this@ApnaNewSurveyActivity)
                 }
+
                 activityApnaNewSurveyBinding.marketInformationLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE
@@ -3496,6 +3499,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         activityApnaNewSurveyBinding.pharmaText.text.toString().substring(
                             0, activityApnaNewSurveyBinding.pharmaText.text.toString().length - 1
                         ).trim().toFloat()
+                } else {
+                    surveyCreateRequest.csPharma = 0f
                 }
 
                 if (activityApnaNewSurveyBinding.fmcgText.text.toString().isNotEmpty()) {
@@ -3503,6 +3508,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         activityApnaNewSurveyBinding.fmcgText.text.toString().substring(
                             0, activityApnaNewSurveyBinding.fmcgText.text.toString().length - 1
                         ).trim().toFloat()
+                } else {
+                    surveyCreateRequest.csFmcg = 0f
                 }
 
                 if (activityApnaNewSurveyBinding.surgicalsText.text.toString().isNotEmpty()) {
@@ -3510,6 +3517,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         activityApnaNewSurveyBinding.surgicalsText.text.toString().substring(
                             0, activityApnaNewSurveyBinding.surgicalsText.text.toString().length - 1
                         ).trim().toFloat()
+                } else {
+                    surveyCreateRequest.csSurgicals = 0f
                 }
 
                 if (activityApnaNewSurveyBinding.areaDiscountText.text.toString().isNotEmpty()) {
@@ -3518,6 +3527,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             0,
                             activityApnaNewSurveyBinding.areaDiscountText.text.toString().length - 1
                         ).trim().toFloat()
+                } else {
+                    surveyCreateRequest.areaDiscount = 0f
                 }
 
                 val neighbouringStores = ArrayList<SurveyCreateRequest.NeighboringStore>()
@@ -3576,6 +3587,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getApartmentType(this@ApnaNewSurveyActivity)
                 }
+
                 activityApnaNewSurveyBinding.populationAndHousesLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE
@@ -3645,6 +3657,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Utlis.showLoading(this@ApnaNewSurveyActivity)
                     apnaNewSurveyViewModel.getApnaSpeciality(this@ApnaNewSurveyActivity)
                 }
+
                 activityApnaNewSurveyBinding.hospitalsLayout.visibility = View.VISIBLE
                 activityApnaNewSurveyBinding.locationDetailsLayout.visibility = View.GONE
                 activityApnaNewSurveyBinding.siteSpecificationLayout.visibility = View.GONE
@@ -3979,6 +3992,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             } else {
                 activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
             }
+
+            val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
+            if (total > 0) {
+                activityApnaNewSurveyBinding.total.setText(total.toString())
+            } else {
+                activityApnaNewSurveyBinding.total.setText("-")
+            }
+
 //            val totalOrganisedAvgSale =
 //                chemistList.stream().map { it.organisedAvgSale }.mapToDouble { it.toDouble() }.sum()
 //            activityApnaNewSurveyBinding.totalOrganisedText.text =
@@ -4089,6 +4110,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             trafficStreetData =
                 trafficStreetTypeResponse.data!!.listData!!.rows as ArrayList<TrafficStreetTypeResponse.Data.ListData.Row>
         }
+        activityApnaNewSurveyBinding.trafficStreetSelect.setText(trafficStreetData[0].name.toString())
     }
 
     override fun onFailureGetTrafficStreetTypeApiCall(message: String) {
@@ -4113,6 +4135,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             apartmentTypeData =
                 apartmentTypeResponse.data!!.listData!!.rows as ArrayList<ApartmentTypeResponse.Data.ListData.Row>
         }
+        activityApnaNewSurveyBinding.apartmentTypeSelect.setText(apartmentTypeData[0].name.toString())
     }
 
     override fun onFailureGetApartmentTypeApiCall(message: String) {
@@ -4125,6 +4148,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             apnaSpecialityData =
                 apnaSpecialityResponse.data!!.listData!!.rows as ArrayList<ApnaSpecialityResponse.Data.ListData.Row>
         }
+        activityApnaNewSurveyBinding.hospitalSpecialitySelect.setText(apnaSpecialityData[0].name.toString())
     }
 
     override fun onFailureGetApnaSpecialityApiCall(message: String) {
@@ -4150,6 +4174,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             dimensionTypeList =
                 dimensionTypeResponse.data!!.listData!!.rows as ArrayList<DimensionTypeResponse.Data.ListData.Row>
             activityApnaNewSurveyBinding.expectedRentRadioGroup.check(activityApnaNewSurveyBinding.perSqFtRadioButton.id)
+
+            activityApnaNewSurveyBinding.dimensionTypeSelect.setText(dimensionTypeList[0].name.toString())
         }
     }
 
@@ -4170,6 +4196,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 //            activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
 //                LinearLayoutManager(this@ApnaNewSurveyActivity)
         }
+        activityApnaNewSurveyBinding.neighbourLocationSelect.setText(neighbouringLocationList[0].name.toString())
     }
 
     override fun onFailureGetNeighbouringLocationApiCall(message: String) {
@@ -4213,6 +4240,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         Toast.makeText(this@ApnaNewSurveyActivity, message, Toast.LENGTH_SHORT).show()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onSuccessSurveyCreateApiCall(surveyCreateResponse: SurveyCreateResponse) {
         Utlis.hideLoading()
         if (surveyCreateResponse.success!!) {
@@ -4228,7 +4256,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 )
             dialog.setContentView(surveySavedConfirmDialogBinding.root)
             surveySavedConfirmDialogBinding.uid.text =
-                "Transaction Id Is: " + surveyCreateResponse.data!!.uid
+                "Survey Id Is: " + surveyCreateResponse.data!!.surveyId.toString()
             surveySavedConfirmDialogBinding.message.text = surveyCreateResponse.message
             surveySavedConfirmDialogBinding.okButton.setOnClickListener {
                 dialog.dismiss()
@@ -4320,6 +4348,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         if (map != null) {
             map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
             val latLang = LatLng(p0!!.position.latitude, p0!!.position.longitude)
+            map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15f))
             activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f", latLang.latitude))
             activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f", latLang.longitude))
         }

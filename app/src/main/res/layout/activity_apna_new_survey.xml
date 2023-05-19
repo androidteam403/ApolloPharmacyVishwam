@@ -2061,7 +2061,7 @@
                                 android:layout_height="30dp"
                                 android:layout_alignParentEnd="true"
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
-                                android:tint="@color/green_color_resource"
+                                android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
                                 tools:ignore="UseAppTint" />
 
@@ -2322,6 +2322,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="@dimen/value_10dp"
+                                        android:orientation="vertical"
                                         android:layout_weight="1">
 
                                         <TextView
@@ -2331,6 +2332,15 @@
                                             android:text="Total"
                                             android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/total"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_bold"
+                                            android:text="10.2 Lac"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -2392,7 +2402,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"

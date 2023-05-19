@@ -15,6 +15,26 @@ class SurveyDetailsList : Serializable {
     @SerializedName("data")
     var data: Data? = null
 
+    inner class ToiletsAvailability: Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: Other_1? = null
+    }
+
+    inner class Other_1: Serializable {
+        @SerializedName("color")
+        @Expose
+        var color: String? = null
+    }
+
     inner class Apartment : Serializable {
         @SerializedName("uid")
         @Expose
@@ -211,6 +231,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("survey_id")
         @Expose
         var surveyId: String? = null
+
+        @SerializedName("toilets_availability")
+        @Expose
+        var toiletsAvailability: ToiletsAvailability? = null
 
         @SerializedName("traffic_patterns")
         @Expose
