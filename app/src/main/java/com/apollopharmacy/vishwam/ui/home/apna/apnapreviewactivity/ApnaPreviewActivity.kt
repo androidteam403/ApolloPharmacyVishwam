@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.Color
 import android.location.Geocoder
@@ -8,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -30,6 +32,10 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
+    var toiletsAvailable: String = ""
+    var parkingAvailable: String = ""
+    var trafficType: String = ""
+
     private lateinit var apnaPreviewActivityBinding: ActivityApnaPreviewBinding
     private lateinit var apnaNewPreviewViewModel: ApnaNewPreviewViewModel
     var adapter: PreviewChemistAdapter? = null
@@ -170,6 +176,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     }
 
 
+    @SuppressLint("SetTextI18n")
     override fun onSuccessgetSurveyDetails(value: SurveyDetailsList) {
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
@@ -192,9 +199,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             val totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
             val totalUnorg = value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }.sum()
+            val total = totalOrg + totalUnorg
 
             apnaPreviewActivityBinding.organized.setText(totalOrg.toString())
             apnaPreviewActivityBinding.unorganized.setText(totalUnorg.toString())
+            apnaPreviewActivityBinding.total.setText(total.toString())
         } else {
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.GONE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.GONE
@@ -282,7 +291,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 MarkerOptions().position(latLng).title("i")
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                 latLng,
-                9f))
+                15f))
             googleMap.addMarker(options)
         }
 
@@ -332,6 +341,25 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.securitydeposit.setText("-")
         }
 
+        if (value.data!!.toiletsAvailability != null) {
+            if (value.data!!.toiletsAvailability!!.uid != null) {
+                if (value.data!!.toiletsAvailability!!.uid.toString().isNotEmpty()) {
+                    if (!value.data!!.toiletsAvailability!!.uid.toString().equals("null", true)) {
+                        apnaPreviewActivityBinding.toiletsAvailability.setText(value.data!!.toiletsAvailability!!.uid.toString())
+                        toiletsAvailable = value.data!!.toiletsAvailability!!.uid.toString()
+                    } else {
+                        apnaPreviewActivityBinding.toiletsAvailability.setText("-")
+                    }
+                } else {
+                    apnaPreviewActivityBinding.toiletsAvailability.setText("-")
+                }
+            } else {
+                apnaPreviewActivityBinding.toiletsAvailability.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.toiletsAvailability.setText("-")
+        }
+
         if (value.data!!.buildingAge != null) {
             apnaPreviewActivityBinding.ageOfTheBuilding.setText(value.data!!.buildingAge.toString())
         } else {
@@ -340,8 +368,24 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
         if (value.data!!.parking != null) {
             apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.uid)
+            parkingAvailable = value.data!!.parking!!.uid.toString()
         } else {
             apnaPreviewActivityBinding.parking.setText("-")
+        }
+
+        if (value.data!!.trafficStreetType != null) {
+            if (value.data!!.trafficStreetType!!.uid != null) {
+                if (value.data!!.trafficStreetType!!.uid.toString().isNotEmpty()) {
+                    apnaPreviewActivityBinding.trafficStreetType.setText(value.data!!.trafficStreetType!!.uid.toString())
+                    trafficType = value.data!!.trafficStreetType!!.uid.toString()
+                } else {
+                    apnaPreviewActivityBinding.trafficStreetType.setText("-")
+                }
+            } else {
+                apnaPreviewActivityBinding.trafficStreetType.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.trafficStreetType.setText("-")
         }
 
         if (value.data!!.expectedRent != null) {
@@ -418,6 +462,123 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.localdistubutorcomment.setText(value.data!!.localDisbtsComments.toString())
         } else {
             apnaPreviewActivityBinding.localdistubutorcomment.setText("-")
+        }
+
+        // Key Features
+        if (toiletsAvailable.equals("yes", true)) {
+            apnaPreviewActivityBinding.toiletsAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.toiletsNotAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.toiletsText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.black)
+            )
+        } else if (toiletsAvailable.equals("No", true)) {
+            apnaPreviewActivityBinding.toiletsAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.toiletsNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.toiletsText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        } else {
+            apnaPreviewActivityBinding.toiletsAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.toiletsNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.toiletsText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey))
+        }
+
+        if (parkingAvailable.equals("Yes", true)) {
+            apnaPreviewActivityBinding.parkingAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.black)
+            )
+        } else if (parkingAvailable.equals("No", true)) {
+            apnaPreviewActivityBinding.parkingAvailable.visibility = View.GONE
+            apnaPreviewActivityBinding.parkingNotAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        }
+
+        if (trafficType.equals("Low", true)) {
+            apnaPreviewActivityBinding.trafficLow.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficText.setText("Traffic Low")
+        } else if (trafficType.equals("Medium", true)) {
+            apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficMedium.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficText.setText("Traffic Medium")
+        } else if (trafficType.equals("High", true)) {
+            apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficHigh.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficText.setText("Traffic High")
+        } else if (trafficType.equals("V.High", true)) {
+            apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.trafficText.setText("Traffic V.High")
+        } else {
+            apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.VISIBLE
+            apnaPreviewActivityBinding.trafficText.setText("Traffic")
+            apnaPreviewActivityBinding.trafficText.setTextColor(ContextCompat.getColor(
+                applicationContext,
+                R.color.grey
+            ))
+        }
+
+        // Category Sale
+        if (value.data!!.csPharma != null) {
+            apnaPreviewActivityBinding.pharmaAvailableLayout.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.pharmaNotAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.pharmaValue.setText(value.data!!.csPharma!!.toString()
+                .substringBefore('.') + "%")
+        } else {
+            apnaPreviewActivityBinding.pharmaAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (value.data!!.csFmcg != null) {
+            apnaPreviewActivityBinding.fmcgAvailableLayout.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.fmcgNotAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.fmcgValue.setText(value.data!!.csFmcg!!.toString()
+                .substringBefore('.') + "%")
+        } else {
+            apnaPreviewActivityBinding.fmcgAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (value.data!!.csSurgicals != null) {
+            apnaPreviewActivityBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.surgicalsNotAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.surgicalsValue.setText(value.data!!.csSurgicals!!.toString()
+                .substringBefore('.') + "%")
+        } else {
+            apnaPreviewActivityBinding.surgicalsAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (value.data!!.areaDiscount != null) {
+            apnaPreviewActivityBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.areaDiscountValue.setText(value.data!!.areaDiscount!!.toString()
+                .substringBefore('.') + "%")
+        } else {
+            apnaPreviewActivityBinding.areaDiscountAvailableLayout.visibility = View.GONE
+            apnaPreviewActivityBinding.areaDiscountNotAvailableLayout.visibility =
+                View.VISIBLE
         }
     }
 

@@ -11,6 +11,82 @@
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/apna_project_actionbar_bg"
+            android:orientation="horizontal"
+            android:padding="@dimen/value_10dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="@dimen/value_32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/app_name"
+                android:rotation="-90"
+
+                android:src="@drawable/ic_baseline_north_24"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="APNA Survey Preview"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="6dp"
+                        android:src="@drawable/ic_baseline_edit_24"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20sp"
+                        android:src="@drawable/closee_whitee"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,89 +98,11 @@
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/apna_project_actionbar_bg"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/value_10dp"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/arrow"
-                        android:layout_width="@dimen/value_32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginTop="4dp"
-                        android:contentDescription="@string/app_name"
-                        android:rotation="-90"
-
-                        android:src="@drawable/ic_baseline_north_24"
-                        android:tint="@color/white"
-                        tools:ignore="UseAppTint" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="APNA Survey Preview"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:orientation="horizontal"
-                            android:visibility="visible">
-
-                            <ImageView
-                                android:layout_width="@dimen/value_30dp"
-                                android:layout_height="@dimen/value_30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginEnd="20sp"
-                                android:background="@drawable/green_backgroundplus"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="6dp"
-                                android:src="@drawable/ic_baseline_edit_24"
-                                android:visibility="gone" />
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_gravity="center"
-                                android:layout_marginEnd="20sp"
-                                android:src="@drawable/closee_whitee"
-                                android:visibility="gone" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:id="@+id/taskCompletedLayout"
@@ -343,6 +341,487 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <!-- Key Features Layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Key Features"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:weightSum="3">
+
+                            <!-- Toilets availability -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/toiletsAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/toilets"
+                                    android:tint="@color/greenn"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/toiletsNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/toilets"
+                                    android:tint="@color/grey"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/toiletsText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Toilets"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- parking -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/parkingAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/parking"
+                                    android:tint="@color/greenn"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/parkingNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/parking"
+                                    android:tint="@color/grey"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/parkingText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Parking"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Traffic -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/trafficLow"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/green"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficMedium"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/yellow"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficHigh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/color_red"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficVeryHigh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/red"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/grey"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/trafficText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Traffic Low"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Category Sale -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Category Sale"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:weightSum="4">
+
+                            <!-- Pharma -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <LinearLayout
+                                    android:id="@+id/pharmaNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/pharmaNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/pharma"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/pharmaText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pharma"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/pharmaAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/pharmaImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/pharma"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/pharmaImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Pharma"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/pharmaValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="20%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- FMCG -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <LinearLayout
+                                    android:id="@+id/fmcgNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/fmcgNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/fmcg"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/fmcgText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="FMCG"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/fmcgAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/fmcgImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/fmcg"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/fmcgImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="FMCG"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/fmcgValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="20%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- Surgicals -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <LinearLayout
+                                    android:id="@+id/surgicalsNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/surgicalsNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/surgicals"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/surgicalsText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surgicals"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/surgicalsAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/surgicalsImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/surgicals"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/surgicalsImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Surgicals"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+
+                                    <TextView
+                                        android:id="@+id/surgicalsValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_30dp"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="25%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- Area Discount -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal"
+                                android:layout_weight="1">
+
+                                <LinearLayout
+                                    android:id="@+id/areaDiscountNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/areaDiscountNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/discount"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/areaDiscountText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Area Discount"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/areaDiscountAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/areaDiscountImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/discount"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/areaDiscountImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Area Discount"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/areaDiscountValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_40dp"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="25%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <!-- Location Details -->
                     <LinearLayout
@@ -360,13 +839,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="1"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -484,13 +964,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="2"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -774,6 +1255,31 @@
                                     android:textSize="12sp" />
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Type of traffic street: "
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/traffic_street_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:text="Low"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    app:fontFamily="@font/roboto_medium" />
+                            </LinearLayout>
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1003,13 +1509,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="3"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -1330,7 +1837,7 @@
                                 android:layout_marginStart="@dimen/value_10dp"
                                 android:paddingTop="@dimen/value_10dp"
                                 android:paddingBottom="@dimen/value_10dp"
-                                android:text="Traffic Generators not found"
+                                android:text="-"
                                 android:textColor="@color/black"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -1426,13 +1933,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="4"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -1479,14 +1987,29 @@
                                     android:visibility="gone"
                                     android:weightSum="3">
 
-                                    <TextView
+                                    <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="Total"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:orientation="vertical"
+                                        android:layout_weight="1">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Total"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/total"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="10.2Lac"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
@@ -1544,7 +2067,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No competitors Details available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1567,13 +2090,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="5"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -1616,7 +2140,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="Apartments list not found"
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1637,13 +2161,14 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="6"
+                                android:textSize="@dimen/text_12sp"
                                 android:textColor="@color/white" />
 
                             <TextView
@@ -1686,7 +2211,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="Hospitals list not found"
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
 
@@ -1705,13 +2230,14 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_width="@dimen/value_25dp"
-                                    android:layout_height="@dimen/value_25dp"
+                                    android:layout_width="@dimen/value_20dp"
+                                    android:layout_height="@dimen/value_20dp"
                                     android:background="@drawable/green_backgroundplus"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="7"
+                                    android:textSize="@dimen/text_12sp"
                                     android:textColor="@color/white" />
 
                                 <TextView
@@ -1757,7 +2283,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No photo available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1801,7 +2327,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No video available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
