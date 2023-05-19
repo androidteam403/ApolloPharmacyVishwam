@@ -50,6 +50,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     }
 
     private fun setUp() {
+        activityGetSurveyDetailsBinding.callback=this
         getStoreWiseDetails =
             intent.getSerializableExtra("getStoreWiseDetails") as GetStoreWiseDetailsModelResponse?
         surveyRecDetailsList =
@@ -61,7 +62,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         storeCity = intent.getStringExtra("storeCity")!!
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
-            getSurveyDetailsListViewModel.getSurveyListApi(this, "2023-01-23", "2023-05-15", "APL49392");
+            getSurveyDetailsListViewModel.getSurveyListApi(this, "2023-01-23", "2023-05-19", "APL48627");
 
         } else {
             Toast.makeText(
@@ -84,6 +85,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
             )
             activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
         }
+        Utlis.hideLoading()
 
     }
 
@@ -118,5 +120,9 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
         startActivity(intent)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+    }
+
+    override fun onClickback() {
+       super.onBackPressed()
     }
 }

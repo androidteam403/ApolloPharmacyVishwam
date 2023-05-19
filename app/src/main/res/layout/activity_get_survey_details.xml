@@ -15,13 +15,13 @@
             android:padding="@dimen/value_10dp">
 
             <ImageView
+                android:onClick="@{()-> callback.onClickback()}"
                 android:layout_width="@dimen/value_32dp"
                 android:layout_height="32dp"
                 android:layout_marginTop="4dp"
                 android:contentDescription="@string/app_name"
-                android:rotation="-90"
                 android:tint="@color/white"
-                android:src="@drawable/ic_baseline_north_24"
+                android:src="@drawable/ic_baseline_keyboard_arrow_left_24"
                 tools:ignore="UseAppTint" />
 
             <LinearLayout
@@ -44,7 +44,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:onClick="@{()-> callback.onClickPlusIcon()}"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -54,7 +54,8 @@
 
 
                     <ImageView
-                        android:contentDescription="@string/todo"
+                        android:onClick="@{()-> callback.onClickPlusIcon()}"
+                        android:contentDescription="TODO"
                         android:layout_width="@dimen/value_30dp"
                         android:layout_height="@dimen/value_30dp"
                         android:background="@drawable/green_backgroundplus"
@@ -70,7 +71,7 @@
 
                         android:layout_gravity="center"
                         android:src="@drawable/filtersnew"
-                        android:contentDescription="@string/todo" />
+                       android:contentDescription="TODO" />
 
             </LinearLayout>
         </LinearLayout>
@@ -86,4 +87,10 @@
 
 
     </LinearLayout>
+    <data>
+
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListCallback" />
+    </data>
 </layout>

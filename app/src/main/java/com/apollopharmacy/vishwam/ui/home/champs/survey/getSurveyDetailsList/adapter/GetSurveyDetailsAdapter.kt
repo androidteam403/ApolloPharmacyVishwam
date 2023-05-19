@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.databinding.AdapterGetsurveyDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListCallback
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
+import java.text.SimpleDateFormat
 
 class GetSurveyDetailsAdapter(
     private var getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse,
@@ -35,8 +36,13 @@ class GetSurveyDetailsAdapter(
        var surveyList = getSurvetDetailsModelResponse.storeDetails.get(position)
         holder.adapterGetSurveyDetailsBinding.champsRefId.text=surveyList.champsRefernceId
         holder.adapterGetSurveyDetailsBinding.siteName.text=surveyList.sitename + "" + surveyList.city
-        holder.adapterGetSurveyDetailsBinding.status.text= surveyList.visitDate
-        holder.adapterGetSurveyDetailsBinding.visitDate.text=surveyList.visitDate
+        holder.adapterGetSurveyDetailsBinding.status.text= surveyList.status
+        val strDate = surveyList.visitDate
+        val dateFormat = SimpleDateFormat("dd-MM-yy hh:mm:ss");
+        val date = dateFormat.parse(strDate)
+        val dateNewFormat =
+            SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
+        holder.adapterGetSurveyDetailsBinding.visitDate.text=dateNewFormat
         holder.adapterGetSurveyDetailsBinding.cardView.setOnClickListener {
             getSurveyDetailsListCallback.onClickCardView(surveyList.status, surveyList.champsRefernceId)
         }

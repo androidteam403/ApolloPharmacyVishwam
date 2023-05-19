@@ -7,4 +7,6 @@ interface GetSurveyDetailsListCallback {
      fun onFailureSurveyList(value: GetSurveyDetailsModelResponse)
      fun onClickCardView(status: String?, champsRefernceId: String?)
      fun onClickPlusIcon()
+
+     fun onClickback()
 }

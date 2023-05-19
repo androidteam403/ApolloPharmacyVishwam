@@ -59,6 +59,14 @@ import java.io.Serializable
         @Expose
         var id: Int? = null
 
+         @SerializedName("champ_auto_id")
+         @Expose
+         var champ_auto_id: String? = null
+
+         @SerializedName("type")
+         @Expose
+         var type: String? = null
+
         @SerializedName("category_name")
         @Expose
         var categoryName: String? = null
