@@ -6,27 +6,27 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.databinding.*
+import com.apollopharmacy.vishwam.databinding.ActivityPreviewRetroImageBinding
+import com.apollopharmacy.vishwam.databinding.DialogDeletePreviewAlertBinding
+import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
+import com.apollopharmacy.vishwam.databinding.DialogOkAlertBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.RetroPreviewImage
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageViewModel
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
-import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.text.WordUtils
 import java.util.stream.Collectors
 
@@ -48,7 +48,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     var pendingList = ArrayList<GetImageUrlResponse.ImageUrl>()
     private var overallStatus: String? = null
     var isAllapproved: Boolean? = false
-    public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
+    var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
     private var store: String = ""
     private var retroId: String = ""
     private var uploaddate: String = ""
@@ -92,12 +92,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
     private fun setUp() {
 
-        activityPreviewImageBinding.stageName.setText(WordUtils.capitalizeFully(stage.replace("-",
-            " ")) + " Review")
+        activityPreviewImageBinding.stageName.text = WordUtils.capitalizeFully(stage.replace("-", " ")) + " Review"
 
-        activityPreviewImageBinding.storeId.setText(store)
-        activityPreviewImageBinding.categoty.setText(imageUrlList.get(currentPosition).categoryname)
-        activityPreviewImageBinding.uploadedDate.setText(uploaddate)
+        activityPreviewImageBinding.storeId.text = store
+        activityPreviewImageBinding.categoty.text = imageUrlList.get(currentPosition).categoryname
+        activityPreviewImageBinding.uploadedDate.text = uploaddate
         if (stage.toLowerCase().contains("pre")) {
             apiStage = "1"
 
@@ -118,13 +117,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 ) {
                     imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
                     imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
-                    imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
-                    imageUrl.stage = imageUrlList[i].imageUrls!!.get(j).stage
-                    imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
-                    imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
-                    imageUrl.isVerified = imageUrlList[i].imageUrls!!.get(j).isVerified
+                    imageUrl.remarks = imageUrlList[i].imageUrls!![j].remarks
+                    imageUrl.stage = imageUrlList[i].imageUrls!![j].stage
+                    imageUrl.categoryid = imageUrlList[i].imageUrls!![j].categoryid
+                    imageUrl.imageid = imageUrlList[i].imageUrls!![j].imageid
+                    imageUrl.isVerified = imageUrlList[i].imageUrls!![j].isVerified
 
-                    imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
+                    imageUrl.retorautoid = imageUrlList[i].imageUrls!![j].retorautoid
                     imageUrlsList.add(imageUrl)
                 } else if (stage.toLowerCase()
                         .contains("pos") && imageUrlList[i].imageUrls!!.get(j).stage.equals("2")
@@ -177,7 +176,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         }
 
         if (imageUrlsList.isNotEmpty()) {
-            activityPreviewImageBinding.totalimages.setText("( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+            activityPreviewImageBinding.totalimages.text = "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
 
         }
         previewImageAdapter = RetroPreviewImage(this, imageUrlsList, retroId, stage)
@@ -386,7 +385,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     override fun onClickCompleted() {
 
         for (i in imageUrlsList.indices) {
-            var imageRequest = SaveAcceptRequest.Imageurl()
+            val imageRequest = SaveAcceptRequest.Imageurl()
             imageRequest.statusid = imageUrlsList.get(i).status
             imageRequest.imageid = imageUrlsList.get(i).imageid
             saveRequestImageslist.add(imageRequest)
@@ -448,7 +447,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imageRequest.reamrks = ""
         imageRequest.statusid = apiStatus
         imageRequest.storeid = store
-        imageRequest.userid = uploadBy
+        imageRequest.userid = Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist
 
@@ -491,11 +490,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Reviewed Sucessfully")
+        dialogLastimagePreviewAlertBinding.messege.text = retroId + "\n" + "Reviewed Sucessfully"
 
-        dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna " + WordUtils.capitalizeFully(
+        dialogLastimagePreviewAlertBinding.alertTitle.text = "Apna " + WordUtils.capitalizeFully(
             stage.replace("-",
-                " ")) + " Review")
+                " ")) + " Review"
 
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 
@@ -592,7 +591,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = apiStatus
                     imageRequest.storeid = store
-                    imageRequest.userid = uploadBy
+                    imageRequest.userid = Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
 
                     Utlis.showLoading(this)

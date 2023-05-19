@@ -59,13 +59,7 @@ class RetroPreviewImage(
         viewpagerPreviewImageBinding.rejected = "$rejected"
         if (position == imageUrl.size - 1) {
 
-            if (accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size) {
-                viewpagerPreviewImageBinding.isLastPos = true
-
-            } else {
-                viewpagerPreviewImageBinding.isLastPos = false
-
-            }
+            viewpagerPreviewImageBinding.isLastPos = accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size
 
         }else{
             viewpagerPreviewImageBinding.isLastPos=false

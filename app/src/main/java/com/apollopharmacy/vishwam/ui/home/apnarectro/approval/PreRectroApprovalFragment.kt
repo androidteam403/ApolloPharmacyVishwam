@@ -40,15 +40,16 @@ class PreRectroApprovalFragment() :
         get() = R.layout.fragment_approval_prerectro
 
     override fun retrieveViewModel(): PreRectroApprovalViewModel {
-        return ViewModelProvider(this).get(PreRectroApprovalViewModel::class.java)
+        return ViewModelProvider(this)[PreRectroApprovalViewModel::class.java]
     }
 
     override fun setup() {
 
         showLoading()
         Preferences.savingToken("APL48627")
+        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
         MainActivity.mInstance.mainActivityCallback = this
-
+//        AWAITING APPROVAL FROM CEO
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())

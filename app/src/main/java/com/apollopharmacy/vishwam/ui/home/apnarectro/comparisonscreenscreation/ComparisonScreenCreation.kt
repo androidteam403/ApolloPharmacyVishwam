@@ -15,7 +15,6 @@ import android.os.Handler
 import android.provider.MediaStore
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
@@ -28,13 +27,11 @@ import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
-import com.apollopharmacy.vishwam.databinding.ActivityPostRectroReviewScreenBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
 import com.bumptech.glide.Glide
-import java.io.File
-import java.security.AccessController.checkPermission
 import me.echodev.resizer.Resizer
 import okhttp3.internal.notify
+import java.io.File
 
 
 class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack {
@@ -53,7 +50,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     var isUpload: Boolean =false
 
 
-    public var posImageUrlList = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
+    var posImageUrlList = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
     var pos: Int = 0
 
     lateinit var activityPostRectroReviewScreenBinding: ActivityComparisonScreenBinding
@@ -114,7 +111,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             categoryName=intent.getStringExtra("categoryName")!!
             categoryid=intent.getStringExtra("categoryid")!!
             uploadStage = intent.getStringExtra("uploadStage")!!
-            imageClickedPos= intent.getIntExtra("imageClickedPos", 0)!!
+            imageClickedPos= intent.getIntExtra("imageClickedPos", 0)
         }
         if (stage.equals("isPreRetroStage")) {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
@@ -153,9 +150,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
-                    resources.getColor(R.color.grey))
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=true
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=true
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
@@ -163,7 +157,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             }
 
         } else if (stage.equals("isPostRetroStage")) {
-            activityPostRectroReviewScreenBinding.reviewName.setText("Post Retro Review")
+            activityPostRectroReviewScreenBinding.reviewName.text = "Post Retro Review"
 
             if(posImageUrlList.size==1 && uploadStage.equals("newUploadStage")){
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
@@ -771,18 +765,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
-            File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
-        } else {
-            val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context,
-                ViswamApp.context.packageName + ".provider",
-                imageFromCameraFile!!
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-        }
+        val photoUri = FileProvider.getUriForFile(
+            context,
+            context.packageName + ".provider",
+            imageFromCameraFile!!
+        )
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
 
@@ -846,7 +836,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 .setOutputFormat("JPG")
 //                .setOutputFilename(fileNameForCompressedImage)
                 .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
+                    context.cacheDir.toString()
                 )
 
                 .setSourceImage(imageFromCameraFile)
@@ -855,7 +845,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 //            Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_LONG).show()
             imageUploaded=true
 
-            var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
+            val imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
             if(uploadStage.equals("reshootStage")){
                 if (stage.equals("isPreRetroStage")) {
                     posImageUrlList.get(0).file=resizedImage
@@ -890,7 +880,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 imageUrl.position = imageClickedPos
                 imageUrlWithData=imageUrl
 
-                posImageUrlList!!.add(imageUrl)
+                posImageUrlList.add(imageUrl)
                 synchronized(posImageUrlList){
                     posImageUrlList.notify()
                 }

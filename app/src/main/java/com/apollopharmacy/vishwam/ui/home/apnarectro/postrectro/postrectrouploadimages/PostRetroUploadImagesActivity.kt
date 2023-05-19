@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.G
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.util.stream.Collectors
@@ -346,12 +347,12 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         }
 
         if (NetworkUtil.isNetworkConnected(this)) {
-           Utlis.showLoading(this)
+            showLoading(this)
             postRetroUploadImagesViewModel!!.getStoreWiseDetailsApna(this)
 
         } else {
             Toast.makeText(
-                ViswamApp.context,
+                context,
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
             )
@@ -366,7 +367,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
     override fun onClickUpload() {
 
-        Utlis.showLoading(this)
+        showLoading(this)
         updateButtonValidation()
     }
 
@@ -427,7 +428,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
-            Utlis.hideLoading()
+            hideLoading()
         }
     }
 
@@ -777,7 +778,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             activityUploadImagesPostRetroBinding.reshootButton.background =
                 (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
         }
-        Utlis.hideLoading()
+        hideLoading()
     }
 
     override fun onCickDownArrow() {
@@ -793,7 +794,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
     override fun onSuccessSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
         if (saveImageUrlsResponse != null && saveImageUrlsResponse.status == true) {
-            Utlis.hideLoading()
+            hideLoading()
             dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
@@ -828,13 +829,13 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             dialog.show()
         } else {
             Toast.makeText(context, "" + saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
-            Utlis.hideLoading()
+            hideLoading()
         }
     }
 
     override fun onFailureSaveImageUrlsApi(saveImageUrlsResponse: SaveImageUrlsResponse) {
         Toast.makeText(context, "" + saveImageUrlsResponse.message, Toast.LENGTH_SHORT).show()
-        Utlis.hideLoading()
+        hideLoading()
     }
 
     override fun onSuccessGetStoreWiseDetails(getStoreWiseResponse: GetStoreWiseCatDetailsApnaResponse) {
@@ -868,7 +869,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 //            }
 
             if (NetworkUtil.isNetworkConnected(this)) {
-               Utlis.showLoading(this)
+               showLoading(this)
                 var submit = GetImageUrlsModelApnaRequest()
                 submit.storeid =Preferences.getApnaSiteId()
                 submit.retroId = retroid
@@ -877,7 +878,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             } else {
                 Toast.makeText(
-                    ViswamApp.context,
+                    context,
                     resources.getString(R.string.label_network_error),
                     Toast.LENGTH_SHORT
                 )
@@ -897,7 +898,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             Toast.makeText(context, "Store ID not Available", Toast.LENGTH_SHORT)
                 .show()
             super.onBackPressed()
-            Utlis.hideLoading()
+            hideLoading()
         }
 
 
@@ -907,7 +908,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.VISIBLE
         Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
 
-        Utlis.hideLoading()
+        hideLoading()
     }
 
     var overallreshootcount: Int = 0
@@ -919,7 +920,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     ) {
         if (getImageUrlsList != null && getImageUrlsList.status!!.equals(true)) {
             getImageUrlsLists = getImageUrlsList
-            Utlis.hideLoading()
+            hideLoading()
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.visibility =
                 View.VISIBLE
             activityUploadImagesPostRetroBinding.noOrdersFound.visibility = View.GONE
@@ -1008,7 +1009,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     stage,
                     getImageUrlsList.categoryList
                 )
-            val layoutManager = LinearLayoutManager(ViswamApp.context)
+            val layoutManager = LinearLayoutManager(context)
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager =
                 layoutManager
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
@@ -1034,7 +1035,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     }
 
     override fun onClickReshoot() {
-        Utlis.showLoading(this)
+        showLoading(this)
         reshootButtonValidation()
     }
 
@@ -1047,7 +1048,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
-            Utlis.hideLoading()
+            hideLoading()
         }
     }
 
@@ -1179,14 +1180,14 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 private fun openCamera() {
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     imageFromCameraFile =
-        File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
     fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
     } else {
         val photoUri = FileProvider.getUriForFile(
-            ViswamApp.context,
-            ViswamApp.context.packageName + ".provider",
+            context,
+            context.packageName + ".provider",
             imageFromCameraFile!!
         )
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)

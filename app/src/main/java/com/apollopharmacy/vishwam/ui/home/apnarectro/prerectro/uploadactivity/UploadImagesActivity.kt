@@ -78,7 +78,9 @@ class UploadImagesActivity : AppCompatActivity(), UploadImagesCallback, ImagesUp
 //        Toast.makeText(applicationContext,""+fragmentName, Toast.LENGTH_SHORT).show()
 //        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.incharge.text=Preferences.getToken()
-      activityUploadImagesBinding.storeName.text=Preferences.getApnaSiteId()
+        activityUploadImagesBinding.storeName.text=Preferences.getApnaSiteName()
+
+        activityUploadImagesBinding.storeId.text=Preferences.getApnaSiteId()
         activityUploadImagesBinding.uploadedCount.text= uploadedImageCount.toString()
         activityUploadImagesBinding.overAllCount.text = "/" +overallImageCount.toString()
 
