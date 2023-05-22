@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -23,6 +24,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
     var partiallyApprovedDate:String?=null
     var reshootBy:String?=null
     var reshootDate:String?=null
+    var hierarchialStatus:String?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val adapterListApnaBinding: AdapterListApnaBinding=
@@ -53,6 +55,8 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(dateapprovedDate)
                 approvedDate=dateNewFormatapprovedDate.toString()
                 approvedby=item.get(i).approvedBy
+                hierarchialStatus=item.get(i).hierarchystatus
+
                 partiallyApprovedBy=item.get(i).partiallyApprovedBy
                 val strDatepartiallyApprovedDate = item.get(i).partiallyApprovedDate
                 val dateFormatpartiallyApprovedDate = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
@@ -109,6 +113,8 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(dateapprovedDate)
                 approvedDate=dateNewFormatapprovedDate.toString()
                 approvedby=item.get(i).approvedBy
+                hierarchialStatus=item.get(i).hierarchystatus
+
                 partiallyApprovedBy=item.get(i).partiallyApprovedBy
                 val strDatepartiallyApprovedDate = item.get(i).partiallyApprovedDate
                 val dateFormatpartiallyApprovedDate = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
@@ -156,6 +162,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(dateapprovedDate)
                 approvedDate=dateNewFormatapprovedDate.toString()
                 approvedby=item.get(i).approvedBy
+                hierarchialStatus=item.get(i).hierarchystatus
                 partiallyApprovedBy=item.get(i).partiallyApprovedBy
                 val strDatepartiallyApprovedDate = item.get(i).partiallyApprovedDate
                 val dateFormatpartiallyApprovedDate = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
@@ -224,8 +231,12 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
 //        }
         holder.adapterListApnaBinding.preRetroStageLayout.setOnClickListener {
             if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Pending")||holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("---")){
+                Toast.makeText(context,"syed",Toast.LENGTH_LONG).show()
+
                 preRectroCallback.onClickPreRetrPending("isPreRetroStage", holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(), holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(), "newUploadStage", approvedby, approvedDate, partiallyApprovedBy, partiallyApprovedDate, reshootBy, reshootDate)
             }else if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Approved")){
+                Toast.makeText(context,"vasee",Toast.LENGTH_LONG).show()
+
                 preRectroCallback.onClickPreRetrPending(
                     "isPreRetroStage",
                     holder.adapterListApnaBinding.postRetroStatus.text.toString(),
@@ -262,11 +273,14 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
         }
 
         holder.adapterListApnaBinding.postRetroStageLayout.setOnClickListener {
-            if(
-                holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Approved")&&holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("---"))//doubt about status name
+            if(holder.adapterListApnaBinding.preRetroStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.postRetroStatus.text.toString() == "---"|| holder.adapterListApnaBinding.postRetroStatus.text.toString() == "Approved")//doubt about status name
             {
+
                 preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(),holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(),"newUploadStage", approvedby, approvedDate, partiallyApprovedBy, partiallyApprovedDate, reshootBy, reshootDate)
             } else if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")){
+
+                Toast.makeText(context,"vase",Toast.LENGTH_LONG).show()
+
                 preRectroCallback.onClickPostRetroPending(
                     "isPostRetroStage",
                     holder.adapterListApnaBinding.postRetroStatus.text.toString(),

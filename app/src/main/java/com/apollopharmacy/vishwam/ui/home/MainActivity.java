@@ -1067,7 +1067,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Creation":
-                headerText.setText("Pre Rectro");
+                headerText.setText("Pre Retro");
                 Bundle bundlePreRectro = new Bundle();
                 bundlePreRectro.putBoolean("fromPreRectro", true);
                 PreRectroFragment fragPreRectro = new PreRectroFragment();
@@ -1081,7 +1081,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Post Rectro":
-                headerText.setText("Post Rectro");
+                headerText.setText("Post Retro");
                 Bundle bundlePostRectro = new Bundle();
                 bundlePostRectro.putBoolean("fromPostRectro", true);
                 PreRectroFragment fragPostRectro = new PreRectroFragment();

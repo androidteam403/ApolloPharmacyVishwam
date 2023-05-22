@@ -408,10 +408,10 @@ xmlns:tools="http://schemas.android.com/tools">
 
 
                         <LinearLayout
-
-
                             android:layout_width="0dp"
                             android:layout_weight="0.5"
+                            android:id="@+id/second_image_weight_layout"
+
                             android:layout_height="match_parent"
                             android:orientation="vertical">
 

@@ -25,7 +25,7 @@
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create New Rectro"
+                android:text="Create New Retro"
                 android:textSize="@dimen/text_17sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>

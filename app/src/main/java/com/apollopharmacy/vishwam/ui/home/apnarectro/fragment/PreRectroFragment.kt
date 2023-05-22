@@ -149,10 +149,9 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
             if (requestCode == 781) {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
-                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getSwachSiteName()
+                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
                 Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT)
                     .show()
-                Log.e("vase", Preferences.getRectroSiteId())
                 hideLoading()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
 //            isFirstTime = false

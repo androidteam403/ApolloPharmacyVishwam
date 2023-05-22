@@ -150,6 +150,7 @@ object Utlis {
     fun showLoading(context: Context) {
         hideLoading()
         mProgressDialog = null
+
         mProgressDialog = Utils.showLoadingDialog(context)
     }
 

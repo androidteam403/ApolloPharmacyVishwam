@@ -153,6 +153,7 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -483,7 +484,13 @@ object Preferences {
     fun getSwachSiteName(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
     }
+    fun setApnaSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITENAME, swachhSiteId).apply()
+    }
 
+    fun getApnaSiteName(): String {
+        return sharedPreferences.getString(KEY_APNA_SITENAME, "")!!
+    }
 
     fun storeEmployeeDetailsResponseJson(employeeDetailsResponse: String) {
         sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON, employeeDetailsResponse)

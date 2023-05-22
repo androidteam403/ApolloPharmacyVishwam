@@ -71,6 +71,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         setUp()
     }
 
+
+
     @SuppressLint("ResourceType")
     private fun setUp() {
 
@@ -104,7 +106,6 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         activityPreviewBinding.retroId.setText(retroId)
 
         if (status.toLowerCase().contains("pen")|| Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"|| Preferences.getAppLevelDesignationApnaRetro() == "CEO") {
-
             activityPreviewBinding.review.visibility = View.VISIBLE
 
 

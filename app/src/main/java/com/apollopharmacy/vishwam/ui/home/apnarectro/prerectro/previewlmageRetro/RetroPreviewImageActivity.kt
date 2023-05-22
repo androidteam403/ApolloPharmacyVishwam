@@ -6,27 +6,27 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RatingBar
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewpager.widget.ViewPager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
-import com.apollopharmacy.vishwam.databinding.*
+import com.apollopharmacy.vishwam.databinding.ActivityPreviewRetroImageBinding
+import com.apollopharmacy.vishwam.databinding.DialogDeletePreviewAlertBinding
+import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
+import com.apollopharmacy.vishwam.databinding.DialogOkAlertBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewlmageRetro.adapter.RetroPreviewImage
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.previewlastimage.PreviewLastImageViewModel
-import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.RatingModelRequest
 import com.apollopharmacy.vishwam.util.Utlis
-import com.apollopharmacy.vishwam.util.Utlis.hideLoading
-import com.apollopharmacy.vishwam.util.Utlis.showLoading
-import com.apollopharmacy.vishwam.util.signaturepad.ActivityUtils
-import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.text.WordUtils
 import java.util.stream.Collectors
 
@@ -48,7 +48,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     var pendingList = ArrayList<GetImageUrlResponse.ImageUrl>()
     private var overallStatus: String? = null
     var isAllapproved: Boolean? = false
-    public var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
+    var imageUrlList = java.util.ArrayList<GetImageUrlResponse.Category>()
     private var store: String = ""
     private var retroId: String = ""
     private var uploaddate: String = ""
@@ -87,28 +87,6 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             imageUrlList =
                 intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
         }
-        setUp()
-    }
-
-    private fun setUp() {
-
-        activityPreviewImageBinding.stageName.setText(WordUtils.capitalizeFully(stage.replace("-",
-            " ")) + " Review")
-
-        activityPreviewImageBinding.storeId.setText(store)
-        activityPreviewImageBinding.categoty.setText(imageUrlList.get(currentPosition).categoryname)
-        activityPreviewImageBinding.uploadedDate.setText(uploaddate)
-        if (stage.toLowerCase().contains("pre")) {
-            apiStage = "1"
-
-        } else if (stage.toLowerCase().contains("post")) {
-            apiStage = "2"
-
-        } else if (stage.toLowerCase().contains("aft")) {
-            apiStage = "3"
-
-        }
-
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 val imageUrl = GetImageUrlResponse.ImageUrl()
@@ -118,13 +96,13 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                 ) {
                     imageUrl.url = imageUrlList[i].imageUrls!!.get(j).url
                     imageUrl.status = imageUrlList[i].imageUrls!!.get(j).status
-                    imageUrl.remarks = imageUrlList[i].imageUrls!!.get(j).remarks
-                    imageUrl.stage = imageUrlList[i].imageUrls!!.get(j).stage
-                    imageUrl.categoryid = imageUrlList[i].imageUrls!!.get(j).categoryid
-                    imageUrl.imageid = imageUrlList[i].imageUrls!!.get(j).imageid
-                    imageUrl.isVerified = imageUrlList[i].imageUrls!!.get(j).isVerified
+                    imageUrl.remarks = imageUrlList[i].imageUrls!![j].remarks
+                    imageUrl.stage = imageUrlList[i].imageUrls!![j].stage
+                    imageUrl.categoryid = imageUrlList[i].imageUrls!![j].categoryid
+                    imageUrl.imageid = imageUrlList[i].imageUrls!![j].imageid
+                    imageUrl.isVerified = imageUrlList[i].imageUrls!![j].isVerified
 
-                    imageUrl.retorautoid = imageUrlList[i].imageUrls!!.get(j).retorautoid
+                    imageUrl.retorautoid = imageUrlList[i].imageUrls!![j].retorautoid
                     imageUrlsList.add(imageUrl)
                 } else if (stage.toLowerCase()
                         .contains("pos") && imageUrlList[i].imageUrls!!.get(j).stage.equals("2")
@@ -156,28 +134,50 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
             }
         }
-//
+        setUp()
+    }
 
+    private fun setUp() {
 
-        if (imageUrlsList.get(currentPosition).isVerified == true) {
-            if (imageUrlsList.get(currentPosition).status.equals("1")) {
+            if (imageUrlsList[currentPosition].status.equals("1")) {
                 activityPreviewImageBinding.accept.alpha = 0.5f
 
             } else {
                 activityPreviewImageBinding.accept.alpha = 1f
 
             }
-            if (imageUrlsList.get(currentPosition).status.equals("2")) {
+            if (imageUrlsList[currentPosition].status.equals("2")) {
                 activityPreviewImageBinding.reshoot.alpha = 0.5f
 
             } else {
                 activityPreviewImageBinding.reshoot.alpha = 1f
 
             }
+
+        activityPreviewImageBinding.stageName.text = WordUtils.capitalizeFully(stage.replace("-", " ")) + " Review"
+
+        activityPreviewImageBinding.storeId.text = store
+        activityPreviewImageBinding.categoty.text = imageUrlList.get(currentPosition).categoryname
+        activityPreviewImageBinding.uploadedDate.text = uploaddate
+        if (stage.toLowerCase().contains("pre")) {
+            apiStage = "1"
+
+        } else if (stage.toLowerCase().contains("post")) {
+            apiStage = "2"
+
+        } else if (stage.toLowerCase().contains("aft")) {
+            apiStage = "3"
+
         }
 
+
+//
+
+
+
+
         if (imageUrlsList.isNotEmpty()) {
-            activityPreviewImageBinding.totalimages.setText("( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )")
+            activityPreviewImageBinding.totalimages.text = "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
 
         }
         previewImageAdapter = RetroPreviewImage(this, imageUrlsList, retroId, stage)
@@ -219,12 +219,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
-        if (currentPosition == imageUrlsList.size - 1) {
-            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+        if (position ==imageUrlsList.size - 1) {
+            if (imageUrlsList[position].isVerified == true) {
 
                 if (applist.size == imageUrlsList.size || reshootList.size == imageUrlsList.size || applist.size + reshootList.size == imageUrlsList.size) {
-                    activityPreviewImageBinding.isLastPos =
-                        currentPosition == imageUrlsList.size - 1
+                    activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
                 } else {
                     activityPreviewImageBinding.isLastPos = false
                 }
@@ -386,7 +385,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
     override fun onClickCompleted() {
 
         for (i in imageUrlsList.indices) {
-            var imageRequest = SaveAcceptRequest.Imageurl()
+            val imageRequest = SaveAcceptRequest.Imageurl()
             imageRequest.statusid = imageUrlsList.get(i).status
             imageRequest.imageid = imageUrlsList.get(i).imageid
             saveRequestImageslist.add(imageRequest)
@@ -437,7 +436,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size) {
             apiStatus = "2"
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size + applist.size) {
-            apiStatus = "2"
+            apiStatus = "3"
         }
 
 
@@ -491,11 +490,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         imagesStatusAlertDialog.setContentView(dialogLastimagePreviewAlertBinding.root)
 //        imagesStatusAlertDialog.setCancelable(false)
         imagesStatusAlertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogLastimagePreviewAlertBinding.messege.setText(retroId + "\n" + "Reviewed Sucessfully")
+        dialogLastimagePreviewAlertBinding.messege.text = retroId + "\n" + "Reviewed Sucessfully"
 
-        dialogLastimagePreviewAlertBinding.alertTitle.setText("Apna " + WordUtils.capitalizeFully(
+        dialogLastimagePreviewAlertBinding.alertTitle.text = "Apna " + WordUtils.capitalizeFully(
             stage.replace("-",
-                " ")) + " Review")
+                " ")) + " Review"
 
         dialogLastimagePreviewAlertBinding.yesBtn.setOnClickListener {
 

@@ -82,7 +82,23 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
+        }
+        else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+
+        if(!Preferences.getApnaSiteId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        else{
             isSiteIdEmpty=true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
@@ -102,7 +118,25 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
+        }
+
+        else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+
+
+        if(!Preferences.getApnaSiteId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        else{
             isSiteIdEmpty=true
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
@@ -135,8 +169,12 @@ class SelectSwachhSiteIDActivity : AppCompatActivity(), SelectSwachhSiteIdCallba
             Preferences.setSwachhSiteId(storeListItem.site!!)
             Preferences.setApnaSite(storeListItem.site!!)
             if(storeListItem.store_name!=null){
+                Preferences.setApnaSiteName(storeListItem.store_name!!)
+
                 Preferences.setSwachSiteName(storeListItem.store_name!!)
             }else{
+                Preferences.setApnaSiteName("")
+
                 Preferences.setSwachSiteName("")
             }
 

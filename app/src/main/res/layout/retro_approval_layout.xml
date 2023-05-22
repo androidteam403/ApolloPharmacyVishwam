@@ -246,7 +246,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.9"
+                    android:id="@+id/pre_retro_Layout"
+
+                    android:layout_weight="1.6"
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -258,7 +260,15 @@
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
                         android:visibility="gone" />
-
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/pre_retro_lite_green_tick"
+                        android:layout_width="@dimen/text_dimen_15"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="@dimen/value_10dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/greenright"
+                        android:tint="@color/partial_green"
+                        android:visibility="gone" />
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/pre_retro_grey_tick"
                         android:layout_width="@dimen/text_dimen_15"
@@ -305,8 +315,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.4"
                     android:orientation="horizontal"
+                    android:id="@+id/pre_retro_status_Layout"
 
                     android:paddingBottom="9dp">
 
@@ -349,7 +360,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.9"
+                    android:layout_weight="1.6"
+                    android:id="@+id/post_retro_Layout"
+
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -371,6 +384,15 @@
                         android:src="@drawable/greenright"
                         android:tint="@color/grey"
                         android:visibility="visible" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/post_retro_lite_green_tick"
+                        android:layout_width="@dimen/text_dimen_15"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="@dimen/value_10dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/greenright"
+                        android:tint="@color/partial_green"
+                        android:visibility="gone" />
 
                     <ImageView
                         android:id="@+id/post_rectro_clock_image"
@@ -409,8 +431,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.4"
                     android:orientation="horizontal"
+                    android:id="@+id/post_retro_status_Layout"
 
                     android:paddingBottom="9dp">
 
@@ -454,7 +477,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.9"
+                    android:layout_weight="1.6"
+                    android:id="@+id/approved_statusLayout"
+
                     android:orientation="horizontal"
                     android:paddingBottom="@dimen/value_5dp">
 
@@ -465,6 +490,15 @@
                         android:layout_marginLeft="@dimen/value_10dp"
                         android:layout_marginTop="6dp"
                         android:src="@drawable/greenright"
+                        android:visibility="gone" />
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/approve_lite_green_tick"
+                        android:layout_width="@dimen/text_dimen_15"
+                        android:layout_height="18dp"
+                        android:layout_marginLeft="@dimen/value_10dp"
+                        android:layout_marginTop="6dp"
+                        android:src="@drawable/greenright"
+                        android:tint="@color/partial_green"
                         android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatImageView
@@ -515,8 +549,9 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1.1"
+                    android:layout_weight="1.4"
                     android:orientation="horizontal"
+                    android:id="@+id/approval_statusLayout"
 
                     android:paddingBottom="9dp">
 
