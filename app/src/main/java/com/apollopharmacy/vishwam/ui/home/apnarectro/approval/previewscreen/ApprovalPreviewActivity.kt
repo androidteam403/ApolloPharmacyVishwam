@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.ApprovalActivityPreviewBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.databinding.DialogReviewAlertBinding
@@ -102,7 +103,8 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             " ")) + " Preview")
         activityPreviewBinding.retroId.setText(retroId)
 
-        if (status.toLowerCase().contains("pen")) {
+        if (status.toLowerCase().contains("pen")|| Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"|| Preferences.getAppLevelDesignationApnaRetro() == "CEO") {
+
             activityPreviewBinding.review.visibility = View.VISIBLE
 
 

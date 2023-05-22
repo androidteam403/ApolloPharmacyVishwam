@@ -42,6 +42,7 @@ import com.apollopharmacy.vishwam.ui.home.swachhapollomodule.swachupload.model.G
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 import me.echodev.resizer.Resizer
 import java.io.File
 import java.util.stream.Collectors
@@ -346,12 +347,12 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         }
 
         if (NetworkUtil.isNetworkConnected(this)) {
-           Utlis.showLoading(this)
+            showLoading(this)
             postRetroUploadImagesViewModel!!.getStoreWiseDetailsApna(this)
 
         } else {
             Toast.makeText(
-                ViswamApp.context,
+                context,
                 resources.getString(R.string.label_network_error),
                 Toast.LENGTH_SHORT
             )
@@ -877,7 +878,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
             } else {
                 Toast.makeText(
-                    ViswamApp.context,
+                    context,
                     resources.getString(R.string.label_network_error),
                     Toast.LENGTH_SHORT
                 )
@@ -1008,7 +1009,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     stage,
                     getImageUrlsList.categoryList
                 )
-            val layoutManager = LinearLayoutManager(ViswamApp.context)
+            val layoutManager = LinearLayoutManager(context)
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.layoutManager =
                 layoutManager
             activityUploadImagesPostRetroBinding.categoryNameApnaRecyclerView.itemAnimator =
@@ -1179,14 +1180,14 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 private fun openCamera() {
     val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     imageFromCameraFile =
-        File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
     fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
     } else {
         val photoUri = FileProvider.getUriForFile(
-            ViswamApp.context,
-            ViswamApp.context.packageName + ".provider",
+            context,
+            context.packageName + ".provider",
             imageFromCameraFile!!
         )
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)

@@ -23,6 +23,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import org.apache.commons.lang3.text.WordUtils
+import java.util.prefs.Preferences
 
 class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
     var stage: String = ""
@@ -335,7 +336,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
         imageRequest.reamrks = ""
         imageRequest.statusid = statusId
         imageRequest.storeid = store
-        imageRequest.userid = uploadBy
+        imageRequest.userid = com.apollopharmacy.vishwam.data.Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist
 
@@ -486,7 +487,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = statusId
                     imageRequest.storeid = store
-                    imageRequest.userid = uploadBy
+                    imageRequest.userid = com.apollopharmacy.vishwam.data.Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
 
                     Utlis.showLoading(this)
