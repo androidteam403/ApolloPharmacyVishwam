@@ -46,6 +46,10 @@ class PreRectroApprovalViewModel : ViewModel() {
                     token = "h72genrSSNFivOi/cfiX3A=="
                 }
         }
+//        POST https://172.16.103.116:8443/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT
+//        {"IMAGEURLS":[{"IMAGEID":"681","STATUSID":"1"},{"IMAGEID":"682","STATUSID":"1"},{"IMAGEID":"683","STATUSID":"1"},{"IMAGEID":"684","STATUSID":"1"}],"RATING":"","REAMRKS":"","RETROAUTOID":"","STAGEID":"","STATUSID":"1","STOREID":"16001","TYPE":"","USERID":"APL49391"}
+
+
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
                 ApnaRectroApiRepo.retroApprovalList(baseUrl, token, getRetroPendindAndApproverequest)

@@ -626,11 +626,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (apnaConfigList.get(0).configlist != null) {
             for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
                 for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                    if (apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null) {
-                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = true
-                    } else {
-                        apnaConfigList.get(0).configlist!!.get(index).imageUploaded = false
-                    }
+                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
                 }
 
             }

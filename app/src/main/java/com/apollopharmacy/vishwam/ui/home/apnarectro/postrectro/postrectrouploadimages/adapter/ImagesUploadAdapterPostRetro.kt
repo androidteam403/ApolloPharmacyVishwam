@@ -77,9 +77,9 @@ class ImagesUploadAdapterPostRetro(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var posImageUrlList = getImagesUrlList.get(position)
-        if (stage.equals("isPreRetroStage")) {
+        if (stage == "isPreRetroStage") {
             for (i in posImageUrlList) {
-                if (i.stage.equals("1")||i.stage.equals("2")||i.stage.equals("3")) {
+                if (i.stage.equals("1")) {
                     if (i.status.equals("0")) {
                         Glide.with(context).load(i.url)
                             .placeholder(R.drawable.placeholder_image)

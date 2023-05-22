@@ -87,27 +87,6 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             imageUrlList =
                 intent.getSerializableExtra("imageUrlList") as java.util.ArrayList<GetImageUrlResponse.Category>
         }
-        setUp()
-    }
-
-    private fun setUp() {
-
-        activityPreviewImageBinding.stageName.text = WordUtils.capitalizeFully(stage.replace("-", " ")) + " Review"
-
-        activityPreviewImageBinding.storeId.text = store
-        activityPreviewImageBinding.categoty.text = imageUrlList.get(currentPosition).categoryname
-        activityPreviewImageBinding.uploadedDate.text = uploaddate
-        if (stage.toLowerCase().contains("pre")) {
-            apiStage = "1"
-
-        } else if (stage.toLowerCase().contains("post")) {
-            apiStage = "2"
-
-        } else if (stage.toLowerCase().contains("aft")) {
-            apiStage = "3"
-
-        }
-
         for (i in imageUrlList.indices) {
             for (j in imageUrlList[i].imageUrls!!.indices) {
                 val imageUrl = GetImageUrlResponse.ImageUrl()
@@ -155,25 +134,47 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
 
             }
         }
-//
+        setUp()
+    }
 
+    private fun setUp() {
 
-        if (imageUrlsList.get(currentPosition).isVerified == true) {
-            if (imageUrlsList.get(currentPosition).status.equals("1")) {
+            if (imageUrlsList[currentPosition].status.equals("1")) {
                 activityPreviewImageBinding.accept.alpha = 0.5f
 
             } else {
                 activityPreviewImageBinding.accept.alpha = 1f
 
             }
-            if (imageUrlsList.get(currentPosition).status.equals("2")) {
+            if (imageUrlsList[currentPosition].status.equals("2")) {
                 activityPreviewImageBinding.reshoot.alpha = 0.5f
 
             } else {
                 activityPreviewImageBinding.reshoot.alpha = 1f
 
             }
+
+        activityPreviewImageBinding.stageName.text = WordUtils.capitalizeFully(stage.replace("-", " ")) + " Review"
+
+        activityPreviewImageBinding.storeId.text = store
+        activityPreviewImageBinding.categoty.text = imageUrlList.get(currentPosition).categoryname
+        activityPreviewImageBinding.uploadedDate.text = uploaddate
+        if (stage.toLowerCase().contains("pre")) {
+            apiStage = "1"
+
+        } else if (stage.toLowerCase().contains("post")) {
+            apiStage = "2"
+
+        } else if (stage.toLowerCase().contains("aft")) {
+            apiStage = "3"
+
         }
+
+
+//
+
+
+
 
         if (imageUrlsList.isNotEmpty()) {
             activityPreviewImageBinding.totalimages.text = "( " + (currentPosition + 1 / imageUrlsList.size + 1).toString() + "/" + imageUrlsList.size.toString() + " )"
@@ -218,12 +219,11 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
             .collect(Collectors.toList()) as ArrayList<GetImageUrlResponse.ImageUrl>
 
 
-        if (currentPosition == imageUrlsList.size - 1) {
-            if (imageUrlsList[imageUrlsList.size - 1].isVerified == true) {
+        if (position ==imageUrlsList.size - 1) {
+            if (imageUrlsList[position].isVerified == true) {
 
                 if (applist.size == imageUrlsList.size || reshootList.size == imageUrlsList.size || applist.size + reshootList.size == imageUrlsList.size) {
-                    activityPreviewImageBinding.isLastPos =
-                        currentPosition == imageUrlsList.size - 1
+                    activityPreviewImageBinding.isLastPos = currentPosition == imageUrlsList.size - 1
                 } else {
                     activityPreviewImageBinding.isLastPos = false
                 }
@@ -436,7 +436,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size) {
             apiStatus = "2"
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size + applist.size) {
-            apiStatus = "2"
+            apiStatus = "3"
         }
 
 
