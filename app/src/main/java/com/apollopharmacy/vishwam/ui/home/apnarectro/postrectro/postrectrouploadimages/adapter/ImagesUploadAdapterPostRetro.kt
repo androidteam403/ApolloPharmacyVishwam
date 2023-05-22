@@ -331,7 +331,7 @@ class ImagesUploadAdapterPostRetro(
                             View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility =
                             View.VISIBLE
-                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
+                        holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
                             View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE

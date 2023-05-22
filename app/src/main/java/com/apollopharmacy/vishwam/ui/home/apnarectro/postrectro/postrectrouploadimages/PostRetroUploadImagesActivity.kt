@@ -300,13 +300,16 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
-                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
+
                 activityUploadImagesPostRetroBinding.storeId.text = storeId
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = "Approved"
