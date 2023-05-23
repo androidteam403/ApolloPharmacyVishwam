@@ -71,6 +71,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
+import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
@@ -849,6 +850,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
                 break;
 
+            case "Apollo Pharmacy":
+                headerText.setText("Apollo Pharmacy");
+                fragment = new ApolloSensingFragment();
+                filterIcon.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                qcfilterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
+                break;
+
             case "New Drug List":  //"Drug List":
                 headerText.setText("New Drug List");
                 fragment = new DrugListFragment();
@@ -1497,6 +1510,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
+        listView.addHeaderModel(new HeaderModel("Apollo Pharmacy", Color.WHITE, false, R.drawable.ic_menu_champ));
+
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
@@ -1591,6 +1606,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
                 displaySelectedScreen("Assets");
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apollo Pharmacy")) {
+                displaySelectedScreen("Apollo Pharmacy");
                 drawer.closeDrawer(GravityCompat.START);
             }
             return false;
