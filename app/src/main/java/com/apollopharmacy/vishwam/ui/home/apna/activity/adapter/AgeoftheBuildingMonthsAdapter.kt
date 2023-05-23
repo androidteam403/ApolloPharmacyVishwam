@@ -8,13 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
 
-class DimensionTypeAdapter(
+class AgeoftheBuildingMonthsAdapter(
     var mContext: Context,
     var mCallBack: ApnaNewSurveyCallBack,
-    var data: ArrayList<DimensionTypeResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<DimensionTypeAdapter.ViewHolder>() {
+    var monthsList: ArrayList<String>,
+) : RecyclerView.Adapter<AgeoftheBuildingMonthsAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -30,19 +29,18 @@ class DimensionTypeAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.viewItemRowBinding.itemName.setText(data.get(position).name)
-
+        holder.viewItemRowBinding.itemName.setText(monthsList.get(position))
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallBack.onSelectDimensionTypeItem(position, data.get(position).name.toString(), data.get(position))
+            if (mCallBack != null) mCallBack.onSelectedAgeoftheBuildingMonth(monthsList.get(position))
         }
     }
 
     override fun getItemCount(): Int {
-        return data.size
+        return monthsList.size
     }
 
-    fun filter(filteredList: ArrayList<DimensionTypeResponse.Data.ListData.Row>) {
-        data = filteredList
+    fun filter(filteredList: ArrayList<String>) {
+        monthsList = filteredList
         notifyDataSetChanged()
     }
 }

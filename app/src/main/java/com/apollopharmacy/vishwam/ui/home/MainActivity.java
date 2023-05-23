@@ -1547,7 +1547,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 //        if (true) {
-//
 //            if (getSessionManager().getLoginToken().isEmpty()) {
 //                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
 //                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
@@ -1563,7 +1562,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                                .addChildModel(new ChildModel("Help", R.drawable.ic_apollo_new_drug_request__1_))
 //                        //.addChildModel(new ChildModel("LogOut", R.drawable.ic_apollo_pending))
 //
-//
 //                );
 //            }
 //
@@ -1574,14 +1572,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
-        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                        .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-//                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
-//                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
-                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
-//                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
-//                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
-        );
+//        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
+//                        .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+////                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
+////                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+//                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
+////                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
+////                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
+//        );
 
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
 

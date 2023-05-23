@@ -10,6 +10,7 @@ import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.repo.SplashRepo
+import com.apollopharmacy.vishwam.util.AppConstants
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.Gson
@@ -35,6 +36,16 @@ class VerifyUserViewModel : ViewModel() {
                         validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
+
+                        val url = Preferences.getApi()
+                        val data = Gson().fromJson(url, ValidateResponse::class.java)
+                        for (i in data.APIS.indices) {
+                            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                                AppConstants.PROXY_URL = data.APIS[i].URL
+                                AppConstants.PROXY_TOKEN = data.APIS[i].TOKEN
+                                break
+                            }
+                        }
                         Utils.printMessage("SplashScreen", response.value.toString())
 //                        command.value =
 //                            NavigateTo(response.value)
