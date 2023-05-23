@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityPostRectroReviewScreenBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
@@ -658,7 +659,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
         imageRequest.reamrks = ""
         imageRequest.statusid = statusId
         imageRequest.storeid = store
-        imageRequest.userid = uploadBy
+        imageRequest.userid = Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist.distinctBy { it.imageid }
 
@@ -824,7 +825,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = statusId
                     imageRequest.storeid = store
-                    imageRequest.userid = uploadBy
+                    imageRequest.userid = Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
                     Utlis.showLoading(this)
 

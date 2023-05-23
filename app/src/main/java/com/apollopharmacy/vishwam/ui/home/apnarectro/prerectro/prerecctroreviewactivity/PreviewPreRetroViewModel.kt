@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreview
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
@@ -38,17 +39,25 @@ class PreviewPreRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
+            if (Config.KEY=="2039") {
+
+                if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
             }
+            else
+                if (Config.KEY=="2034"){
+                    baseUrl ="https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
+                    token = "h72genrSSNFivOi/cfiX3A=="
+                }
         }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveAcceptAndReshoot("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT",
-                    "h72genrSSNFivOi/cfiX3A==",
+                ApnaRectroApiRepo.saveAcceptAndReshoot(baseUrl,
+                    token,
                     saveAcceptAndReshootRequest)
             }
             when (response) {
@@ -56,10 +65,10 @@ class PreviewPreRetroViewModel : ViewModel() {
                     state.value = State.ERROR
                     if (response.value.status == true) {
                         previewLastImageCallback.onSuccessSaveAcceptReshoot(response.value)
-                        saveAcceptAndReshootResponse.value = response.value
+                        saveAcceptAndReshootResponse.value = response.value!!
                     } else {
                         previewLastImageCallback.onFailureSaveAcceptReshoot(response.value)
-                        saveAcceptAndReshootResponse.value = response.value
+                        saveAcceptAndReshootResponse.value = response.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -88,17 +97,24 @@ class PreviewPreRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
+            if (Config.KEY=="2039") {
+
+                if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+            }
+            else if (Config.KEY=="2034"){
+                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
+                token = "h72genrSSNFivOi/cfiX3A=="
             }
         }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveAcceptAndReshoot("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT",
-                    "h72genrSSNFivOi/cfiX3A==",
+                ApnaRectroApiRepo.saveAcceptAndReshoot(baseUrl,
+                    token,
                     saveAcceptAndReshootRequest)
             }
             when (response) {

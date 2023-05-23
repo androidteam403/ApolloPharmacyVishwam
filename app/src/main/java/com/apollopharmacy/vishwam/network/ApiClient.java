@@ -30,6 +30,7 @@ public class ApiClient {
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .hostnameVerifier((hostname, session) -> true)
                 .build();
         Gson gson = new GsonBuilder()
                 .setLenient()

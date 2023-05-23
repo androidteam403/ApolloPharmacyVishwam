@@ -8,6 +8,8 @@ import com.apollopharmacy.vishwam.data.model.ValidateRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.repo.SplashRepo
+import com.apollopharmacy.vishwam.util.AppConstants.PROXY_TOKEN
+import com.apollopharmacy.vishwam.util.AppConstants.PROXY_URL
 import com.apollopharmacy.vishwam.util.Utils
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -33,6 +35,15 @@ class SplashViewModel : ViewModel() {
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
                         Utils.printMessage("SplashScreen", response.value.toString())
+                        val url = Preferences.getApi()
+                        val data = Gson().fromJson(url, ValidateResponse::class.java)
+                        for (i in data.APIS.indices) {
+                            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                                PROXY_URL = data.APIS[i].URL
+                                PROXY_TOKEN = data.APIS[i].TOKEN
+                                break
+                            }
+                        }
                         command.value = Command.NavigateTo(response.value)
                         println(39)
                     } else {

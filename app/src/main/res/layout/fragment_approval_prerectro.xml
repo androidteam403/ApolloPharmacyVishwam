@@ -8,12 +8,15 @@
         android:layout_marginBottom="5dp"
 
         android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewapproval"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:itemCount="3"
+            tools:itemCount="2"
             tools:listitem="@layout/retro_approval_layout" />
+
+
     </LinearLayout>
 </layout>
