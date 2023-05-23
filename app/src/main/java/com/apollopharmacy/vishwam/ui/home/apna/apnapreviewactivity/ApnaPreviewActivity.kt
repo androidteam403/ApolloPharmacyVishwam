@@ -102,8 +102,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 }
             }
             apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor!!))
-            apnaPreviewActivityBinding.statusLayout.setBackgroundColor(Color.parseColor(
-                approvedOrders.status!!.backgroundColor!!))
+            apnaPreviewActivityBinding.statusLayout.setBackgroundColor(
+                Color.parseColor(
+                    approvedOrders.status!!.backgroundColor!!
+                )
+            )
 
             apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
             var fName = ""
@@ -127,10 +130,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
             val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
-            apnaPreviewActivityBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(
-                approvedOrders.createdTime!!)!!))
-            apnaPreviewActivityBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(
-                approvedOrders.modifiedTime!!)!!))
+            apnaPreviewActivityBinding.surveystart.setText(
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        approvedOrders.createdTime!!
+                    )!!
+                )
+            )
+            apnaPreviewActivityBinding.surveyended.setText(
+                outputDateFormat.format(
+                    inputDateFormat.parse(
+                        approvedOrders.modifiedTime!!
+                    )!!
+                )
+            )
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 
@@ -149,12 +162,16 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                     if (approvedOrders.status!!.other!!.color.toString()
                             .isNullOrEmpty() || approvedOrders.status!!.other!!.color.toString()
                             .equals(
-                                "null")
+                                "null"
+                            )
                     ) {
 
                     } else {
-                        apnaPreviewActivityBinding.status.setTextColor(Color.parseColor(
-                            approvedOrders.status!!.other!!.color))
+                        apnaPreviewActivityBinding.status.setTextColor(
+                            Color.parseColor(
+                                approvedOrders.status!!.other!!.color
+                            )
+                        )
 
                     }
                 }
@@ -166,8 +183,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                     if (approvedOrders.status!!.icon.equals("null") || approvedOrders.status!!.icon.isNullOrEmpty()) {
 
                     } else {
-                        apnaPreviewActivityBinding.statusLayout.setBackgroundColor(Color.parseColor(
-                            approvedOrders.status!!.icon))
+                        apnaPreviewActivityBinding.statusLayout.setBackgroundColor(
+                            Color.parseColor(
+                                approvedOrders.status!!.icon
+                            )
+                        )
                     }
                 }
             }
@@ -181,8 +201,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.GONE
-            apartmentAdapter = PreviewApartmentAdapter(this,
-                value.data!!.apartments as ArrayList<SurveyDetailsList.Apartment>)
+            apartmentAdapter = PreviewApartmentAdapter(
+                this,
+                value.data!!.apartments as ArrayList<SurveyDetailsList.Apartment>
+            )
             apnaPreviewActivityBinding.recyclerViewapartmnet.adapter = apartmentAdapter
         } else {
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.GONE
@@ -193,12 +215,18 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.recyclerViewchemist.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistTotal.visibility = View.VISIBLE
             apnaPreviewActivityBinding.chemistNotFound.visibility = View.GONE
-            adapter = PreviewChemistAdapter(this,
-                value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>)
+            adapter = PreviewChemistAdapter(
+                this,
+                value.data!!.chemist as ArrayList<SurveyDetailsList.Chemist>
+            )
             apnaPreviewActivityBinding.recyclerViewchemist.adapter = adapter
 
-            val totalOrg = value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
-            val totalUnorg = value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }.sum()
+            val totalOrg =
+                value.data!!.chemist!!.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }
+                    .sum()
+            val totalUnorg =
+                value.data!!.chemist!!.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }
+                    .sum()
             val total = totalOrg + totalUnorg
 
             apnaPreviewActivityBinding.organized.setText(totalOrg.toString())
@@ -213,8 +241,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.hospitals != null && value.data!!.hospitals!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.VISIBLE
             apnaPreviewActivityBinding.hospitalsNotFound.visibility = View.GONE
-            hospitalAdapter = PreviewHospitalAdapter(this,
-                value.data!!.hospitals as ArrayList<SurveyDetailsList.Hospital>)
+            hospitalAdapter = PreviewHospitalAdapter(
+                this,
+                value.data!!.hospitals as ArrayList<SurveyDetailsList.Hospital>
+            )
             apnaPreviewActivityBinding.recyclerViewhospital.adapter = hospitalAdapter
         } else {
             apnaPreviewActivityBinding.recyclerViewhospital.visibility = View.GONE
@@ -224,8 +254,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.siteImageMb != null && value.data!!.siteImageMb!!.images != null && value.data!!.siteImageMb!!.images!!.size > 0) {
             apnaPreviewActivityBinding.noPhotosAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.imageRecyclerView.visibility = View.VISIBLE
-            imageAdapter = PreviewImageAdapter(this,
-                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this)
+            imageAdapter = PreviewImageAdapter(
+                this,
+                value.data!!.siteImageMb!!.images as ArrayList<SurveyDetailsList.Image>, this
+            )
             apnaPreviewActivityBinding.imageRecyclerView.adapter = imageAdapter
         } else {
             apnaPreviewActivityBinding.imageRecyclerView.visibility = View.GONE
@@ -239,8 +271,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
             videoAdapter = PreviewVideoAdapter(this, value.data!!.videoMb!!.video!!, this)
             apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
-            neighbourAdapter = PreviewNeighbouringStoreAdapter(this,
-                value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>)
+            neighbourAdapter = PreviewNeighbouringStoreAdapter(
+                this,
+                value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>
+            )
             apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
         } else {
             apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
@@ -251,8 +285,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.trafficGenerator != null && value.data!!.trafficGenerator!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewTraffic.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficGeneratorsNotFound.visibility = View.GONE
-            trafficAdapter = PreviewTrafficAdapter(this,
-                value.data!!.trafficGenerator as ArrayList<SurveyDetailsList.TrafficGenerator>)
+            trafficAdapter = PreviewTrafficAdapter(
+                this,
+                value.data!!.trafficGenerator as ArrayList<SurveyDetailsList.TrafficGenerator>
+            )
             apnaPreviewActivityBinding.recyclerViewTraffic.adapter = trafficAdapter
         } else {
             apnaPreviewActivityBinding.recyclerViewTraffic.visibility = View.GONE
@@ -289,9 +325,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
             val options =
                 MarkerOptions().position(latLng).title("i")
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                latLng,
-                15f))
+            googleMap.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    latLng,
+                    15f
+                )
+            )
             googleMap.addMarker(options)
         }
 
@@ -313,6 +352,12 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         } else {
             apnaPreviewActivityBinding.longitude.setText("-")
+        }
+        if (value!!.data!!.dimensionType != null && value!!.data!!.dimensionType != null && value!!.data!!.dimensionType!!.uid != null && !value!!.data!!.dimensionType!!.uid!!.isEmpty()) {
+            apnaPreviewActivityBinding.dimensionType.setText(value!!.data!!.dimensionType!!.uid!!)
+        } else {
+            apnaPreviewActivityBinding.dimensionType.setText("-")
+
         }
         apnaPreviewActivityBinding.length.setText(value.data!!.length.toString())
         apnaPreviewActivityBinding.width.setText(value.data!!.width.toString())
@@ -360,8 +405,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.toiletsAvailability.setText("-")
         }
 
-        if (value.data!!.buildingAge != null) {
-            apnaPreviewActivityBinding.ageOfTheBuilding.setText(value.data!!.buildingAge.toString())
+        if (value.data!!.buildingAge != null && value.data!!.buildingAge != 0.0) {
+            var ageofBuilding = value.data!!.buildingAge.toString()
+            if (ageofBuilding!!.contains(".")) {
+                apnaPreviewActivityBinding.ageOfTheBuilding.setText(
+                    "${
+                        ageofBuilding.substring(
+                            0,
+                            ageofBuilding.indexOf(".")
+                        )
+                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".") + 1)} months"
+                )
+            } else {
+                apnaPreviewActivityBinding.ageOfTheBuilding.setText("${ageofBuilding} Years")
+            }
         } else {
             apnaPreviewActivityBinding.ageOfTheBuilding.setText("")
         }
@@ -424,7 +481,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.areadiscount.setText("-")
         }
 
-        if(value.data!!.serviceClass != null) {
+        if (value.data!!.serviceClass != null) {
             apnaPreviewActivityBinding.serviceClass.setText(value.data!!.serviceClass.toString())
         } else {
             apnaPreviewActivityBinding.serviceClass.setText("-")
@@ -481,7 +538,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.toiletsAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.toiletsNotAvailable.visibility = View.VISIBLE
             apnaPreviewActivityBinding.toiletsText.setTextColor(
-                ContextCompat.getColor(applicationContext, R.color.grey))
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
         }
 
         if (parkingAvailable.equals("Yes", true)) {
@@ -503,27 +561,27 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
-            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic Low")
         } else if (trafficType.equals("Medium", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
-            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic Medium")
         } else if (trafficType.equals("High", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
-            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficText.setText("Traffic High")
         } else if (trafficType.equals("V.High", true)) {
             apnaPreviewActivityBinding.trafficLow.visibility = View.GONE
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
-            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.GONE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficText.setText("Traffic V.High")
         } else {
@@ -531,20 +589,24 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.trafficMedium.visibility = View.GONE
             apnaPreviewActivityBinding.trafficHigh.visibility = View.GONE
             apnaPreviewActivityBinding.trafficVeryHigh.visibility = View.GONE
-            apnaPreviewActivityBinding.trafficNotAvailable.visibility= View.VISIBLE
+            apnaPreviewActivityBinding.trafficNotAvailable.visibility = View.VISIBLE
             apnaPreviewActivityBinding.trafficText.setText("Traffic")
-            apnaPreviewActivityBinding.trafficText.setTextColor(ContextCompat.getColor(
-                applicationContext,
-                R.color.grey
-            ))
+            apnaPreviewActivityBinding.trafficText.setTextColor(
+                ContextCompat.getColor(
+                    applicationContext,
+                    R.color.grey
+                )
+            )
         }
 
         // Category Sale
         if (value.data!!.csPharma != null) {
             apnaPreviewActivityBinding.pharmaAvailableLayout.visibility = View.VISIBLE
             apnaPreviewActivityBinding.pharmaNotAvailableLayout.visibility = View.GONE
-            apnaPreviewActivityBinding.pharmaValue.setText(value.data!!.csPharma!!.toString()
-                .substringBefore('.') + "%")
+            apnaPreviewActivityBinding.pharmaValue.setText(
+                value.data!!.csPharma!!.toString()
+                    .substringBefore('.') + "%"
+            )
         } else {
             apnaPreviewActivityBinding.pharmaAvailableLayout.visibility = View.GONE
             apnaPreviewActivityBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
@@ -553,8 +615,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.csFmcg != null) {
             apnaPreviewActivityBinding.fmcgAvailableLayout.visibility = View.VISIBLE
             apnaPreviewActivityBinding.fmcgNotAvailableLayout.visibility = View.GONE
-            apnaPreviewActivityBinding.fmcgValue.setText(value.data!!.csFmcg!!.toString()
-                .substringBefore('.') + "%")
+            apnaPreviewActivityBinding.fmcgValue.setText(
+                value.data!!.csFmcg!!.toString()
+                    .substringBefore('.') + "%"
+            )
         } else {
             apnaPreviewActivityBinding.fmcgAvailableLayout.visibility = View.GONE
             apnaPreviewActivityBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
@@ -563,8 +627,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.csSurgicals != null) {
             apnaPreviewActivityBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
             apnaPreviewActivityBinding.surgicalsNotAvailableLayout.visibility = View.GONE
-            apnaPreviewActivityBinding.surgicalsValue.setText(value.data!!.csSurgicals!!.toString()
-                .substringBefore('.') + "%")
+            apnaPreviewActivityBinding.surgicalsValue.setText(
+                value.data!!.csSurgicals!!.toString()
+                    .substringBefore('.') + "%"
+            )
         } else {
             apnaPreviewActivityBinding.surgicalsAvailableLayout.visibility = View.GONE
             apnaPreviewActivityBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
@@ -573,8 +639,10 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.areaDiscount != null) {
             apnaPreviewActivityBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
             apnaPreviewActivityBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
-            apnaPreviewActivityBinding.areaDiscountValue.setText(value.data!!.areaDiscount!!.toString()
-                .substringBefore('.') + "%")
+            apnaPreviewActivityBinding.areaDiscountValue.setText(
+                value.data!!.areaDiscount!!.toString()
+                    .substringBefore('.') + "%"
+            )
         } else {
             apnaPreviewActivityBinding.areaDiscountAvailableLayout.visibility = View.GONE
             apnaPreviewActivityBinding.areaDiscountNotAvailableLayout.visibility =
@@ -593,13 +661,15 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     }
 
     override fun onItemClick(position: Int, imagePath: String, name: String) {
-        PopUpWIndow(this,
+        PopUpWIndow(
+            this,
             R.layout.layout_image_fullview,
             View(this),
             imagePath,
             null,
             name,
-            position)
+            position
+        )
 
     }
 
@@ -624,7 +694,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         val elapsedSeconds = different / secondsInMilli
         return String.format(
             "%02d:%02d:%02d",
-            elapsedHours, elapsedMinutes, elapsedSeconds)
+            elapsedHours, elapsedMinutes, elapsedSeconds
+        )
     }
 
     override fun onBackPressed() {

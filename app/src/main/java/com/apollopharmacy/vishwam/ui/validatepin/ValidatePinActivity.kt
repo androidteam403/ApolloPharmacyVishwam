@@ -18,7 +18,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
-import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -143,9 +142,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     applicationContext
                 )
 
-                viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignationApnaRetro(
+                    Preferences.getValidatedEmpId(),
                     "RETRO",
-                    applicationContext, this)
+                    applicationContext, this
+                )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
@@ -260,17 +261,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
-        viewModel.loginApiCall("APL48627",
-            "R1De6#012022",
-            Preferences.getFcmKey(),
-            this,
-            this)
+//        viewModel.loginApiCall("APL48627",
+//            "R1De6#012022",
+//            Preferences.getFcmKey(),
+//            this,
+//            this)
 //emp-102//Nagapavan
-//        Preferences.setIsPinCreated(true)
-//        val homeIntent = Intent(this, MainActivity::class.java)
-//        startActivity(homeIntent)
-//        finish()
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        Preferences.setIsPinCreated(true)
+        val homeIntent = Intent(this, MainActivity::class.java)
+        startActivity(homeIntent)
+        finish()
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     private fun handleCreatePinIntent() {

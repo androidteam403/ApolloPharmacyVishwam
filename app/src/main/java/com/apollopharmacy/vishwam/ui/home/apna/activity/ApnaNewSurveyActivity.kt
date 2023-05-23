@@ -40,6 +40,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse.Data.ListData.Row
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -115,6 +116,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     lateinit var unorganisedDialog: Dialog
     lateinit var dimensionTypeDialog: Dialog
     lateinit var neighbouringLocationDialog: Dialog
+    lateinit var ageOftheBuildingDialog: Dialog
 
     lateinit var morningFromTimePickerDialog: TimePickerDialog
     lateinit var morningToTimePickerDialog: TimePickerDialog
@@ -134,10 +136,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var apartmentTypeData = ArrayList<ApartmentTypeResponse.Data.ListData.Row>()
     var apnaSpecialityData = ArrayList<ApnaSpecialityResponse.Data.ListData.Row>()
     var parkingTypeList = ArrayList<ParkingTypeResponse.Data.ListData.Row>()
-    var dimensionTypeList = ArrayList<DimensionTypeResponse.Data.ListData.Row>()
+    var dimensionTypeList = ArrayList<Row>()
     var neighbouringLocationList = ArrayList<NeighbouringLocationResponse.Data.ListData.Row>()
     var selectedTrafficGeneratorItem = ArrayList<String>()
+    var ageOftheBuildingMonthsList = ArrayList<String>()
 
+    var dimenTypeSelectedItem = Row()
     private lateinit var activityApnaNewSurveyBinding: ActivityApnaNewSurveyBinding
     private lateinit var apnaNewSurveyViewModel: ApnaNewSurveyViewModel
     var currentPosition: Int = 0
@@ -164,6 +168,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     lateinit var dimensionTypeAdapter: DimensionTypeAdapter
     lateinit var neighbouringLocationAdapter: NeighbouringLocationAdapter
     lateinit var neighbouringStoreAdapter: NeighbouringStoreAdapter
+    lateinit var ageoftheBuildingMonthsAdapter: AgeoftheBuildingMonthsAdapter
 
     val REQUEST_CODE_CAMERA = 2235211
     val REQUEST_CODE_VIDEO = 2156
@@ -1572,7 +1577,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute <= morningToMinute) {
+                                    if (morningFromMinute < morningToMinute) {
                                         if (morningHours.contains(morningFromHour)) {
                                             if (morningFromHour == 0 && morningFromMinute == 0) {
                                                 Toast.makeText(
@@ -1674,7 +1679,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute <= morningToMinute) {
+                                    if (morningFromMinute < morningToMinute) {
                                         if (morningHours.contains(morningFromHour)) {
                                             if (morningFromHour == 0 && morningFromMinute == 0) {
                                                 Toast.makeText(
@@ -1784,7 +1789,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute <= morningToMinute) {
+                                    if (morningFromMinute < morningToMinute) {
                                         if (morningHours.contains(morningToHour)) {
                                             if (morningToHour == 0 && morningToMinute == 0) {
                                                 Toast.makeText(
@@ -1887,7 +1892,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute <= morningToMinute) {
+                                    if (morningFromMinute < morningToMinute) {
                                         if (morningHours.contains(morningToHour)) {
                                             if (morningToHour == 0 && morningToMinute == 0) {
                                                 Toast.makeText(
@@ -1993,7 +1998,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute <= eveningToMinute) {
+                                    if (eveningFromMinute < eveningToMinute) {
                                         if (eveningHours.contains(eveningFromHour)) {
                                             activityApnaNewSurveyBinding.eveningFromSelect.setText(
                                                 formattedTime
@@ -2074,7 +2079,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute <= eveningToMinute) {
+                                    if (eveningFromMinute < eveningToMinute) {
                                         if (eveningHours.contains(eveningFromHour)) {
                                             activityApnaNewSurveyBinding.eveningFromSelect.setText(
                                                 formattedTime
@@ -2163,7 +2168,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute <= eveningToMinute) {
+                                    if (eveningFromMinute < eveningToMinute) {
                                         if (eveningHours.contains(eveningToHour)) {
                                             activityApnaNewSurveyBinding.eveningToSelect.setText(
                                                 formattedTime
@@ -2244,7 +2249,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute <= eveningToMinute) {
+                                    if (eveningFromMinute < eveningToMinute) {
                                         if (eveningHours.contains(eveningToHour)) {
                                             activityApnaNewSurveyBinding.eveningToSelect.setText(
                                                 formattedTime
@@ -2748,114 +2753,114 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
 
         // Age of the building validation
-        activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-                var value = s.toString()
-                if (value.isNotEmpty()) {
-                    if (value.contains('.')) {
-                        var age = value.substringAfter('.')
-                        if (age.isEmpty()) {
-                            activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                                this
-                            )
-                            activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
-                            activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                            )
-                            activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                                this
-                            )
-                        } else {
-                            if (age.length > 2) {
-                                age = age.substring(0, 2)
-                                if (age.toInt() > 11) {
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                                        this
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text!!.clear()
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText("")
-                                    Toast.makeText(
-                                        this@ApnaNewSurveyActivity,
-                                        "Month should not be more than 11",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                                        this
-                                    )
-                                } else {
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                                        this
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(
-                                        value.substring(
-                                            0,
-                                            value.indexOf('.')
-                                        ) + "." + age
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                                        this
-                                    )
-                                }
-                            } else {
-                                if (age.toInt() > 11) {
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                                        this
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText("")
-                                    Toast.makeText(
-                                        this@ApnaNewSurveyActivity,
-                                        "Month should not be more than 11",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                                        this
-                                    )
-                                } else {
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                                        this
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                                    )
-                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                                        this
-                                    )
-                                }
-                            }
-                        }
-                    } else {
-                        activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
-                            this
-                        )
-                        activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
-                        activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
-                            activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
-                        )
-                        activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
-                            this
-                        )
-                    }
-                }
-            }
-        })
+//        activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(object :
+//            TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                var value = s.toString()
+//                if (value.isNotEmpty()) {
+//                    if (value.contains('.')) {
+//                        var age = value.substringAfter('.')
+//                        if (age.isEmpty()) {
+//                            activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                                this
+//                            )
+//                            activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
+//                            activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                                activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                            )
+//                            activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                                this
+//                            )
+//                        } else {
+//                            if (age.length > 2) {
+//                                age = age.substring(0, 2)
+//                                if (age.toInt() > 11) {
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                                        this
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.text!!.clear()
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText("")
+//                                    Toast.makeText(
+//                                        this@ApnaNewSurveyActivity,
+//                                        "Month should not be more than 11",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                                        this
+//                                    )
+//                                } else {
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                                        this
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(
+//                                        value.substring(
+//                                            0,
+//                                            value.indexOf('.')
+//                                        ) + "." + age
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                                        this
+//                                    )
+//                                }
+//                            } else {
+//                                if (age.toInt() > 11) {
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                                        this
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText("")
+//                                    Toast.makeText(
+//                                        this@ApnaNewSurveyActivity,
+//                                        "Month should not be more than 11",
+//                                        Toast.LENGTH_SHORT
+//                                    ).show()
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                                        this
+//                                    )
+//                                } else {
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                                        this
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                                        activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                                    )
+//                                    activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                                        this
+//                                    )
+//                                }
+//                            }
+//                        }
+//                    } else {
+//                        activityApnaNewSurveyBinding.ageOfTheBuildingText.removeTextChangedListener(
+//                            this
+//                        )
+//                        activityApnaNewSurveyBinding.ageOfTheBuildingText.setText(value)
+//                        activityApnaNewSurveyBinding.ageOfTheBuildingText.setSelection(
+//                            activityApnaNewSurveyBinding.ageOfTheBuildingText.getText()!!.length
+//                        )
+//                        activityApnaNewSurveyBinding.ageOfTheBuildingText.addTextChangedListener(
+//                            this
+//                        )
+//                    }
+//                }
+//            }
+//        })
 
 
         // on click submit
@@ -2907,6 +2912,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             }
         }
         mapMoveIssue()
+        onClickAgeoftheBuildingMonths()
     }
 
     fun mapMoveIssue() {
@@ -2963,7 +2969,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         searchText: String,
         dialogDimensionTypeBinding: DialogDimensionTypeBinding?,
     ) {
-        val filteredList = ArrayList<DimensionTypeResponse.Data.ListData.Row>()
+        val filteredList = ArrayList<Row>()
         for (i in dimensionTypeList.indices) {
             if (searchText.isEmpty()) {
                 filteredList.clear()
@@ -2980,6 +2986,29 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             dialogDimensionTypeBinding.dimensionTypeAvailable.visibility = View.GONE
         }
         dimensionTypeAdapter.filter(filteredList)
+    }
+
+    private fun ageOftheBuildingMonthsFilter(
+        searchText: String,
+        dialogAgeOftheBuildingBinding: DialogAgeOftheBuildingBinding?,
+    ) {
+        val filteredList = ArrayList<String>()
+        for (i in ageOftheBuildingMonthsList.indices) {
+            if (searchText.isEmpty()) {
+                filteredList.clear()
+                filteredList.addAll(ageOftheBuildingMonthsList)
+            } else if (ageOftheBuildingMonthsList[i].contains(searchText, true)) {
+                filteredList.add(ageOftheBuildingMonthsList[i])
+            }
+        }
+        if (filteredList.size < 1) {
+            dialogAgeOftheBuildingBinding!!.dimensionTypeRcv.visibility = View.GONE
+            dialogAgeOftheBuildingBinding.dimensionTypeAvailable.visibility = View.VISIBLE
+        } else {
+            dialogAgeOftheBuildingBinding!!.dimensionTypeRcv.visibility = View.VISIBLE
+            dialogAgeOftheBuildingBinding.dimensionTypeAvailable.visibility = View.GONE
+        }
+        ageoftheBuildingMonthsAdapter.filter(filteredList)
     }
 
     // Current Location
@@ -3467,8 +3496,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val expectedRentRadioGroupId =
                     activityApnaNewSurveyBinding.expectedRentRadioGroup.checkedRadioButtonId
                 val dimensionType = SurveyCreateRequest.DimensionType()
-                dimensionType.uid =
-                    findViewById<RadioButton>(expectedRentRadioGroupId).text.toString().trim()
+                dimensionType.uid = dimenTypeSelectedItem.uid
+                dimensionType.name = dimenTypeSelectedItem.name
+//                    findViewById<RadioButton>(expectedRentRadioGroupId).text.toString().trim()
                 surveyCreateRequest.dimensionType = dimensionType
                 if (activityApnaNewSurveyBinding.expectedRentText.text.toString().isNotEmpty()) {
                     surveyCreateRequest.expectedRent =
@@ -3489,8 +3519,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                             .trim()
                     surveyCreateRequest.toiletsAvailability = toiletsAvailability
                 }
-                surveyCreateRequest.buildingAge =
+                var ageOfTheBuilding =
                     activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+                if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
+                        .isEmpty()
+                ) {
+                    if (ageOfTheBuilding.isEmpty()) {
+                        ageOfTheBuilding = "0"
+                    }
+                    ageOfTheBuilding = "$ageOfTheBuilding.${
+                        activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
+                    }"
+                }
+                surveyCreateRequest.buildingAge = ageOfTheBuilding
+
 
                 val parkingRadioGroupId =
                     activityApnaNewSurveyBinding.parkingRadioGroup.checkedRadioButtonId
@@ -3884,11 +3926,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         val securityDeposit =
             activityApnaNewSurveyBinding.securityDepositText.text.toString().trim()
 
-        var ageOfTheBuilding = ""
-        if (activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim().isNotEmpty()) {
-            ageOfTheBuilding =
-                activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+
+        var ageOfTheBuilding =
+            activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+        if (!activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
+                .isEmpty()
+        ) {
+            if (ageOfTheBuilding.isEmpty()) {
+                ageOfTheBuilding = "0"
+            }
+            ageOfTheBuilding = "$ageOfTheBuilding.${
+                activityApnaNewSurveyBinding.ageOftheBuildingMonths.text.toString().trim()
+            }"
         }
+
+//        var ageOfTheBuilding = ""
+//        if (activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim().isNotEmpty()) {
+//            ageOfTheBuilding =
+//                activityApnaNewSurveyBinding.ageOfTheBuildingText.text.toString().trim()
+//        }
 
         if (dimensionType.isEmpty()) {
             siteSpecificationsErrorMessage = "Please select dimension type"
@@ -4284,10 +4340,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         Utlis.hideLoading()
         if (dimensionTypeResponse != null && dimensionTypeResponse.data!!.listData != null && dimensionTypeResponse.data!!.listData!!.rows!!.size > 0) {
             dimensionTypeList =
-                dimensionTypeResponse.data!!.listData!!.rows as ArrayList<DimensionTypeResponse.Data.ListData.Row>
+                dimensionTypeResponse.data!!.listData!!.rows as ArrayList<Row>
             activityApnaNewSurveyBinding.expectedRentRadioGroup.check(activityApnaNewSurveyBinding.perSqFtRadioButton.id)
 
             activityApnaNewSurveyBinding.dimensionTypeSelect.setText(dimensionTypeList[0].name.toString())
+            this.dimenTypeSelectedItem = dimensionTypeList[0]
         }
     }
 
@@ -4436,14 +4493,22 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         Toast.makeText(this@ApnaNewSurveyActivity, "$message", Toast.LENGTH_SHORT).show()
     }
 
-    override fun onSelectDimensionTypeItem(position: Int, item: String) {
+    override fun onSelectDimensionTypeItem(position: Int, item: String, row: Row) {
         activityApnaNewSurveyBinding.dimensionTypeSelect.setText(item)
+        this.dimenTypeSelectedItem = row
         dimensionTypeDialog.dismiss()
     }
 
     override fun onSelectNeighbourLocation(position: Int, item: String) {
         activityApnaNewSurveyBinding.neighbourLocationSelect.setText(item)
         neighbouringLocationDialog.dismiss()
+    }
+
+    override fun onSelectedAgeoftheBuildingMonth(month: String) {
+        activityApnaNewSurveyBinding.ageOftheBuildingMonths.setText(month)
+        if (ageOftheBuildingDialog.isShowing) {
+            ageOftheBuildingDialog.dismiss()
+        }
     }
 
     override fun onBackPressed() {
@@ -4467,5 +4532,65 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     }
 
     override fun onMarkerDragStart(p0: Marker) {
+    }
+
+    fun onClickAgeoftheBuildingMonths() {
+        ageOftheBuildingMonthsList.add("0")
+        ageOftheBuildingMonthsList.add("1")
+        ageOftheBuildingMonthsList.add("2")
+        ageOftheBuildingMonthsList.add("3")
+        ageOftheBuildingMonthsList.add("4")
+        ageOftheBuildingMonthsList.add("5")
+        ageOftheBuildingMonthsList.add("6")
+        ageOftheBuildingMonthsList.add("7")
+        ageOftheBuildingMonthsList.add("8")
+        ageOftheBuildingMonthsList.add("9")
+        ageOftheBuildingMonthsList.add("10")
+        ageOftheBuildingMonthsList.add("11")
+
+        activityApnaNewSurveyBinding.ageOftheBuildingMonths.setOnClickListener {
+            ageOftheBuildingDialog = Dialog(this@ApnaNewSurveyActivity)
+            ageOftheBuildingDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            ageOftheBuildingDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            val dialogAgeOftheBuildingBinding =
+                DataBindingUtil.inflate<DialogAgeOftheBuildingBinding>(
+                    LayoutInflater.from(this@ApnaNewSurveyActivity),
+                    R.layout.dialog_age_ofthe_building,
+                    null,
+                    false
+                )
+            ageOftheBuildingDialog.setContentView(dialogAgeOftheBuildingBinding.root)
+            dialogAgeOftheBuildingBinding.closeDialog.setOnClickListener {
+                ageOftheBuildingDialog.dismiss()
+            }
+            ageoftheBuildingMonthsAdapter = AgeoftheBuildingMonthsAdapter(
+                this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, ageOftheBuildingMonthsList
+            )
+            dialogAgeOftheBuildingBinding.dimensionTypeRcv.adapter = ageoftheBuildingMonthsAdapter
+            dialogAgeOftheBuildingBinding.dimensionTypeRcv.layoutManager =
+                LinearLayoutManager(this@ApnaNewSurveyActivity)
+
+            dialogAgeOftheBuildingBinding.searchDimensionTypeText.addTextChangedListener(object :
+                TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence?,
+                    start: Int,
+                    count: Int,
+                    after: Int,
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+                    ageOftheBuildingMonthsFilter(s.toString(), dialogAgeOftheBuildingBinding)
+                }
+
+            })
+
+            ageOftheBuildingDialog.setCancelable(false)
+            ageOftheBuildingDialog.show()
+        }
     }
 }

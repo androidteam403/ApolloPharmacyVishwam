@@ -153,6 +153,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         // Site Specifications
 //        activityApnaSurveyPreviewBinding.dimensionTypeSelect.setText(surveyCreateRequest.dimensionType1)
+        if (surveyCreateRequest.dimensionType != null && surveyCreateRequest!!.dimensionType!!.name != null) {
+            activityApnaSurveyPreviewBinding.dimensionType.setText(surveyCreateRequest!!.dimensionType!!.name)
+        } else {
+            activityApnaSurveyPreviewBinding.dimensionType.setText("-")
+        }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
         } else {
@@ -211,7 +216,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //        }
 
         if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
-            activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(surveyCreateRequest.buildingAge)
+
+            var ageofBuilding = surveyCreateRequest.buildingAge
+            if (ageofBuilding!!.contains(".")) {
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(
+                    "${
+                        ageofBuilding.substring(
+                            0,
+                            ageofBuilding.indexOf(".")
+                        )
+                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".")+1)} months"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("${surveyCreateRequest.buildingAge} Years")
+            }
         } else {
             activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("-")
         }
@@ -315,8 +333,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.neighboringStore != null) {
             if (surveyCreateRequest.neighboringStore!!.size > 0) {
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.VISIBLE
-                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                    View.GONE
+                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.GONE
                 neighboringStores =
                     surveyCreateRequest.neighboringStore as ArrayList<SurveyCreateRequest.NeighboringStore>
 
@@ -327,8 +344,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                         .collect(Collectors.toList()) as ArrayList<SurveyCreateRequest.NeighboringStore>
 
                 val neighbouringStorePreviewAdapter = NeighbouringStorePreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    filteredList
+                    this@ApnaSurveyPreviewActivity, filteredList
                 )
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.adapter =
                     neighbouringStorePreviewAdapter
@@ -336,13 +352,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
             } else {
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                    View.VISIBLE
+//                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
             }
         } else {
             activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                View.VISIBLE
+//            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.localDisbtsComments != null && surveyCreateRequest.localDisbtsComments != "") {
@@ -377,8 +391,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 trafficGenerators =
                     surveyCreateRequest.trafficGenerator as ArrayList<SurveyCreateRequest.TrafficGenerator>
                 val trafficGeneratorPreviewAdapter = TrafficGeneratorPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    trafficGenerators
+                    this@ApnaSurveyPreviewActivity, trafficGenerators
                 )
                 activityApnaSurveyPreviewBinding.trafficGeneratorRecyclerView.adapter =
                     trafficGeneratorPreviewAdapter
@@ -403,8 +416,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.GONE
                 chemist = surveyCreateRequest.chemist as ArrayList<SurveyCreateRequest.Chemist>
                 val competitorsDetailsPreviewAdapter = CompetitorsDetailsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    chemist
+                    this@ApnaSurveyPreviewActivity, chemist
                 )
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.adapter =
                     competitorsDetailsPreviewAdapter
@@ -440,8 +452,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 apartments =
                     surveyCreateRequest.apartments as ArrayList<SurveyCreateRequest.Apartment>
                 val apartmentsPreviewAdapter = ApartmentsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    apartments
+                    this@ApnaSurveyPreviewActivity, apartments
                 )
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.adapter =
                     apartmentsPreviewAdapter
@@ -463,8 +474,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.GONE
                 hospitals = surveyCreateRequest.hospitals as ArrayList<SurveyCreateRequest.Hospital>
                 val hospitalsPreviewAdapter = HospitalsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    hospitals
+                    this@ApnaSurveyPreviewActivity, hospitals
                 )
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.adapter =
                     hospitalsPreviewAdapter
@@ -487,17 +497,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 images =
                     surveyCreateRequest.siteImageMb!!.images as ArrayList<SurveyCreateRequest.SiteImageMb.Image>
                 val imagePreviewAdapter = ImagePreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    this@ApnaSurveyPreviewActivity,
-                    images
+                    this@ApnaSurveyPreviewActivity, this@ApnaSurveyPreviewActivity, images
                 )
-                activityApnaSurveyPreviewBinding.imageRecyclerView.adapter =
-                    imagePreviewAdapter
+                activityApnaSurveyPreviewBinding.imageRecyclerView.adapter = imagePreviewAdapter
                 activityApnaSurveyPreviewBinding.imageRecyclerView.layoutManager =
                     LinearLayoutManager(
-                        this@ApnaSurveyPreviewActivity,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
+                        this@ApnaSurveyPreviewActivity, LinearLayoutManager.HORIZONTAL, false
                     )
             } else {
                 activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.GONE
@@ -516,17 +521,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 videos =
                     surveyCreateRequest.videoMb!!.video as ArrayList<SurveyCreateRequest.VideoMb.Video>
                 val videoPreviewAdapter = VideoPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    this@ApnaSurveyPreviewActivity,
-                    videos
+                    this@ApnaSurveyPreviewActivity, this@ApnaSurveyPreviewActivity, videos
                 )
-                activityApnaSurveyPreviewBinding.videoRecyclerView.adapter =
-                    videoPreviewAdapter
+                activityApnaSurveyPreviewBinding.videoRecyclerView.adapter = videoPreviewAdapter
                 activityApnaSurveyPreviewBinding.videoRecyclerView.layoutManager =
                     LinearLayoutManager(
-                        this@ApnaSurveyPreviewActivity,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
+                        this@ApnaSurveyPreviewActivity, LinearLayoutManager.HORIZONTAL, false
                     )
             } else {
                 activityApnaSurveyPreviewBinding.videoRecyclerView.visibility = View.GONE
@@ -596,8 +596,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.csPharma != null) {
             activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.pharmaValue.setText(surveyCreateRequest.csPharma!!.toString()
-                .substringBefore('.') + "%")
+            activityApnaSurveyPreviewBinding.pharmaValue.setText(
+                surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
+            )
         } else {
             activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
@@ -606,8 +607,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.csFmcg != null) {
             activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.fmcgValue.setText(surveyCreateRequest.csFmcg!!.toString()
-                .substringBefore('.') + "%")
+            activityApnaSurveyPreviewBinding.fmcgValue.setText(
+                surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
+            )
         } else {
             activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
@@ -616,8 +618,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.csSurgicals != null) {
             activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.surgicalsValue.setText(surveyCreateRequest.csSurgicals!!.toString()
-                .substringBefore('.') + "%")
+            activityApnaSurveyPreviewBinding.surgicalsValue.setText(
+                surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
+            )
         } else {
             activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
@@ -626,8 +629,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.areaDiscount != null) {
             activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.areaDiscountValue.setText(surveyCreateRequest.areaDiscount!!.toString()
-                .substringBefore('.') + "%")
+            activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
+                surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
+            )
         } else {
             activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
@@ -636,10 +640,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     }
 
     private fun getCurrentLocation(lat: String?, long: String?) {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
@@ -662,8 +667,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     }
 
     override fun onClick(imageUrl: String) {
-        val dialog = Dialog(this@ApnaSurveyPreviewActivity,
-            android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        val dialog = Dialog(
+            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
+        )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
             LayoutInflater.from(this@ApnaSurveyPreviewActivity),

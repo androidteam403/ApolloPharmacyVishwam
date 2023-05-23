@@ -322,7 +322,8 @@
                                         android:layout_centerHorizontal="true"
                                         android:src="@drawable/pharma"
                                         android:tint="@color/greenn"
-                                        tools:ignore="UseAppTint" />
+                                        tools:ignore="UseAppTint"
+                                        android:contentDescription="@string/app_name" />
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -592,8 +593,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="1"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -725,8 +726,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="2"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -755,10 +756,35 @@
                                 android:textSize="12sp" />
 
                             <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Dimension type: "
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/dimension_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="13sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="10dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginTop="4dp"
                                 android:orientation="horizontal"
                                 android:weightSum="2">
 
@@ -1216,8 +1242,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="3"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1439,7 +1465,7 @@
                                 android:layout_marginStart="5dp"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Local Distributors Comments :"
+                                android:text="Apollo Sourcing  Comments :"
                                 android:textSize="12sp" />
 
                             <TextView
@@ -1592,8 +1618,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="4"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1743,8 +1769,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="5"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1811,8 +1837,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="6"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1879,8 +1905,8 @@
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="7"
-                                android:textSize="@dimen/text_12sp"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
