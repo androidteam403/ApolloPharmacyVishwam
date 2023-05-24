@@ -208,7 +208,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Done all the images - send your feedback"
+                            android:text="-"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>

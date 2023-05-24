@@ -1080,7 +1080,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Creation":
-                headerText.setText("Pre Rectro");
+                headerText.setText("Pre Retro");
                 Bundle bundlePreRectro = new Bundle();
                 bundlePreRectro.putBoolean("fromPreRectro", true);
                 PreRectroFragment fragPreRectro = new PreRectroFragment();
@@ -1094,7 +1094,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case "Post Rectro":
-                headerText.setText("Post Rectro");
+                headerText.setText("Post Retro");
                 Bundle bundlePostRectro = new Bundle();
                 bundlePostRectro.putBoolean("fromPostRectro", true);
                 PreRectroFragment fragPostRectro = new PreRectroFragment();
@@ -1132,7 +1132,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 filterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
                 riderNotificationLayout.setVisibility(View.GONE);
@@ -1547,6 +1547,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
 //        if (true) {
+//
 //            if (getSessionManager().getLoginToken().isEmpty()) {
 //                listView.addHeaderModel(new HeaderModel("Vivekagam", Color.WHITE, true, R.drawable.ic_untitled_1)
 //                        .addChildModel(new ChildModel("Login", R.drawable.ic_apollo_pending)));
@@ -1568,17 +1569,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
-//        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
+       listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
-//        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-//                        .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-////                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
-////                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
+
+
+        if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")){
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
+                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+//                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+
+        }
+        else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
+//                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+        }
+
+//                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
 //                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
-////                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
-////                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
+//                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
+//                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
 //        );
 
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
@@ -1717,7 +1730,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Video View")) {
                     displaySelectedScreen("Video View");
                 }
-            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Retro")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Creation")) {
                     displaySelectedScreen("Creation");

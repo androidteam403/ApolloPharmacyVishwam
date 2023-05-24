@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
@@ -39,11 +40,14 @@ class PreRetroPreviewViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = data.APIS[i].URL
-                token = data.APIS[i].TOKEN
-                break
-            }
+
+//            if (Config.KEY=="2039") {
+                if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+//            }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -58,11 +62,11 @@ class PreRetroPreviewViewModel : ViewModel() {
                     if (response.value.status ?: null == true) {
                         state.value = State.ERROR
                         preRetroCallback.onSuccessImageUrlList(response.value)
-                        imageUrlResponse.value = response.value
+                        imageUrlResponse.value = response.value!!
                     } else {
                         state.value = State.ERROR
                         preRetroCallback.onFailureImageUrlList(response.value)
-                        imageUrlResponse.value = response.value
+                        imageUrlResponse.value = response.value!!
                     }
                 }
                 is ApiResult.GenericError -> {

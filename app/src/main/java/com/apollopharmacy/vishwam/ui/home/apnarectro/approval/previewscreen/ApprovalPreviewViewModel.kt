@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
@@ -24,7 +25,7 @@ import kotlinx.coroutines.withContext
 class ApprovalPreviewViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
-    val imageUrlResponse = MutableLiveData<GetImageUrlResponse>()
+    val imageUrlResponse = MutableLiveData<GetImageUrlResponse?>()
     var saveAcceptAndReshootResponse = MutableLiveData<SaveAcceptResponse>()
 
     fun getRectroApprovalList(imageUrlRequest: GetImageUrlRequest, preRetroCallback: ApprovalReviewCallback) {
@@ -34,15 +35,22 @@ class ApprovalPreviewViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
-                token = data.APIS[i].TOKEN
-                break
+//            if (Config.KEY=="2039") {
+                if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
+                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
+                    token = data.APIS[i].TOKEN
+                    break
+//                }
             }
+//            else
+//                if (Config.KEY=="2034"){
+//                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
+//                    token = "h72genrSSNFivOi/cfiX3A=="
+//                }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.retroImageUrlList("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls", "h72genrSSNFivOi/cfiX3A==", imageUrlRequest)
+                ApnaRectroApiRepo.retroImageUrlList(baseUrl, token, imageUrlRequest)
 
             }
             when (response) {

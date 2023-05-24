@@ -65,7 +65,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
-
+//
 //    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
@@ -98,6 +98,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
+
 
 
     @POST
@@ -624,6 +625,7 @@ interface ViswamAppApi {
 
     @GET("http://jsonblob.com/api/jsonBlob/1085424700242542592")
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
+
 
 
     //champs admin

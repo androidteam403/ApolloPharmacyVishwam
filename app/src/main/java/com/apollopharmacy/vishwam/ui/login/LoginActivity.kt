@@ -63,7 +63,7 @@ class LoginActivity : AppCompatActivity() {
             signIn()
         }
 
-        loginViewModel.commands.observeForever({ command ->
+        loginViewModel.commands.observeForever { command ->
             hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
@@ -80,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
                 is Command.MpinValidation -> {
                     if (command.value.Status) {
+                        Preferences.setApnaSite("")
 //                        Preferences.setDoctorSpecialityListFetched(false)
 //                        Preferences.setItemTypeListFetched(false)
 //                        Preferences.setSiteIdListFetched(false)
@@ -99,7 +100,7 @@ class LoginActivity : AppCompatActivity() {
 
                 else -> {}
             }
-        })
+        }
 
 
         loginBinding.entityEditText.setText(Preferences.getCompany())
