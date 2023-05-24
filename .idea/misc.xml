@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -148,6 +149,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/delete_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_accept_qc.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_acknowledgement.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_age_ofthe_building.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_aleart.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_alert_custom.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/dialog_alert_message.xml" value="0.25" />
@@ -209,6 +211,7 @@
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/prescription_image_preview.xml" value="0.24895833333333334" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/prescription_uploaded_confirm_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/preview_image_dialog.xml" value="0.25" />
+        <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/progress_dialog.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/qc_cash_closer_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/qc_filter_layout.xml" value="0.25" />
         <entry key="..\:/AndroidWorkspace/VishwamNew/app/src/main/res/layout/search_site.xml" value="0.25" />

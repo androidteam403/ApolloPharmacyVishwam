@@ -34,7 +34,6 @@ import com.apollopharmacy.vishwam.databinding.LinkSendConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.PrescriptionUploadedConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apollosensing.adapter.PrescriptionImageAdapter
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
-import me.echodev.resizer.Resizer
 import java.io.File
 
 

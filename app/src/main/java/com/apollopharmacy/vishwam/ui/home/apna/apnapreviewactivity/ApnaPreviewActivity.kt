@@ -271,16 +271,111 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.videoRecyclerView.visibility = View.VISIBLE
             videoAdapter = PreviewVideoAdapter(this, value.data!!.videoMb!!.video!!, this)
             apnaPreviewActivityBinding.videoRecyclerView.adapter = videoAdapter
+        } else {
+            apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
+            apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
+        }
+
+        if (value.data!!.neighboringStore != null && value.data!!.neighboringStore!!.size > 0) {
+            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.GONE
             neighbourAdapter = PreviewNeighbouringStoreAdapter(
                 this,
                 value.data!!.neighboringStore as ArrayList<SurveyDetailsList.NeighboringStore>
             )
             apnaPreviewActivityBinding.recyclerViewneighbour.adapter = neighbourAdapter
         } else {
-            apnaPreviewActivityBinding.videoRecyclerView.visibility = View.GONE
-            apnaPreviewActivityBinding.noVideoAvailable.visibility = View.VISIBLE
+            apnaPreviewActivityBinding.recyclerViewneighbour.visibility = View.GONE
+            apnaPreviewActivityBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
-        apnaPreviewActivityBinding.locationdetails.setText(value.data!!.state!!.name + ", " + value.data!!.city!!.name)
+
+        var location = ""
+        var state = ""
+        var city = ""
+        var pin = ""
+        var landmarks = ""
+
+        if (value.data!!.location != null) {
+            if (value.data!!.location!!.name != null) {
+                if (value.data!!.location!!.name.toString().isNotEmpty()) {
+                    if (value.data!!.location!!.name.toString().equals("null", true)) {
+                        location = value.data!!.location!!.name.toString()
+                    } else {
+                        location = "-"
+                    }
+                } else {
+                    location = "-"
+                }
+            } else {
+                location = "-"
+            }
+        } else {
+            location = "-"
+        }
+
+        if (value.data!!.city != null) {
+            if (value.data!!.city!!.name != null) {
+                if (value.data!!.city!!.name.toString().isNotEmpty()) {
+                    if (!value.data!!.city!!.name.toString().equals("null", true)) {
+                        city = value.data!!.city!!.name.toString()
+                    } else {
+                        city = "-"
+                    }
+                } else {
+                    city = "-"
+                }
+            } else {
+                city = "-"
+            }
+        } else {
+            city = "-"
+        }
+
+        if (value.data!!.state != null) {
+            if (value.data!!.state!!.name != null) {
+                if (value.data!!.state!!.name.toString().isNotEmpty()) {
+                    if (!value.data!!.state!!.name.toString().equals("null", true)) {
+                        state = value.data!!.state!!.name.toString()
+                    } else {
+                        state = "-"
+                    }
+                } else {
+                    state = "-"
+                }
+            } else {
+                state = "-"
+            }
+        } else {
+            state = "-"
+        }
+
+        if (value.data!!.pincode != null) {
+            if (value.data!!.pincode.toString().isNotEmpty()) {
+                if (!value.data!!.pincode.toString().equals("null", true)) {
+                    pin = value.data!!.pincode.toString()
+                } else {
+                    pin = "-"
+                }
+            } else {
+                pin = "-"
+            }
+        } else {
+            pin = "-"
+        }
+
+        if (value.data!!.landmarks != null) {
+            if (value.data!!.landmarks.toString().isNotEmpty()) {
+                landmarks = value.data!!.landmarks.toString()
+            } else {
+                landmarks = "-"
+            }
+        } else {
+            landmarks = "-"
+        }
+
+        apnaPreviewActivityBinding.locationdetails.setText(
+            location + "," + landmarks + "" + "\n" + city + "" + "\n" + state + "-" + pin
+        )
 
         if (value.data!!.trafficGenerator != null && value.data!!.trafficGenerator!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewTraffic.visibility = View.VISIBLE
@@ -455,6 +550,20 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)
         } else {
             apnaPreviewActivityBinding.existingOutletName.setText("-")
+        }
+
+        if (value.data!!.extngOutletAge != null) {
+            if (value.data!!.extngOutletAge.toString().isNotEmpty()) {
+                if (!value.data!!.extngOutletAge.toString().equals("null", true)) {
+                    apnaPreviewActivityBinding.existingOutletAge.setText(value.data!!.extngOutletAge.toString())
+                } else {
+                    apnaPreviewActivityBinding.existingOutletAge.setText("-")
+                }
+            } else {
+                apnaPreviewActivityBinding.existingOutletAge.setText("-")
+            }
+        } else {
+            apnaPreviewActivityBinding.existingOutletAge.setText("-")
         }
 
         if (value.data!!.csPharma != null) {

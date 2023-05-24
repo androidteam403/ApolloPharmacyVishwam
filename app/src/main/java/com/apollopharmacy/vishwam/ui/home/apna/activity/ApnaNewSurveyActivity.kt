@@ -1209,46 +1209,53 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         // Adding Neighbouring Store
         activityApnaNewSurveyBinding.neighbourAddBtn.setOnClickListener {
-            val location =
-                activityApnaNewSurveyBinding.neighbourLocationSelect.text.toString().trim()
-            val store = activityApnaNewSurveyBinding.storeText.text.toString().trim()
-            val rent = activityApnaNewSurveyBinding.rentText.text.toString().trim()
-            val sales = activityApnaNewSurveyBinding.salesText.text.toString().trim()
-            val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
+            if (neighbouringStoreList.size < 10) {
+                val location =
+                    activityApnaNewSurveyBinding.neighbourLocationSelect.text.toString().trim()
+                val store = activityApnaNewSurveyBinding.storeText.text.toString().trim()
+                val rent = activityApnaNewSurveyBinding.rentText.text.toString().trim()
+                val sales = activityApnaNewSurveyBinding.salesText.text.toString().trim()
+                val sqFt = activityApnaNewSurveyBinding.sqFtText.text.toString().trim()
 
-            if (location.isNotEmpty() && store.isNotEmpty() && rent.isNotEmpty() && sales.isNotEmpty() && sqFt.isNotEmpty()) {
-                if (rent.toDouble() > 0 && sales.toDouble() > 0 && sqFt.toDouble() > 0) {
-                    neighbouringStoreList.add(
-                        NeighbouringStoreData(
-                            location,
-                            store,
-                            rent,
-                            sales,
-                            sqFt
+                if (location.isNotEmpty() && store.isNotEmpty() && rent.isNotEmpty() && sales.isNotEmpty() && sqFt.isNotEmpty()) {
+                    if (rent.toDouble() > 0 && sales.toDouble() > 0 && sqFt.toDouble() > 0) {
+                        neighbouringStoreList.add(
+                            NeighbouringStoreData(
+                                location,
+                                store,
+                                rent,
+                                sales,
+                                sqFt
+                            )
                         )
-                    )
 
-                    neighbouringStoreAdapter = NeighbouringStoreAdapter(
-                        this@ApnaNewSurveyActivity,
-                        this@ApnaNewSurveyActivity,
-                        neighbouringStoreList
-                    )
-                    activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter =
-                        neighbouringStoreAdapter
-                    activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
-                        LinearLayoutManager(this@ApnaNewSurveyActivity)
+                        neighbouringStoreAdapter = NeighbouringStoreAdapter(
+                            this@ApnaNewSurveyActivity,
+                            this@ApnaNewSurveyActivity,
+                            neighbouringStoreList
+                        )
+                        activityApnaNewSurveyBinding.neighbouringStoreRcv.adapter =
+                            neighbouringStoreAdapter
+                        activityApnaNewSurveyBinding.neighbouringStoreRcv.layoutManager =
+                            LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-//                    activityApnaNewSurveyBinding.neighbourLocationSelect.text!!.clear()
-                    activityApnaNewSurveyBinding.storeText.text!!.clear()
-                    activityApnaNewSurveyBinding.rentText.text!!.clear()
-                    activityApnaNewSurveyBinding.salesText.text!!.clear()
-                    activityApnaNewSurveyBinding.sqFtText.text!!.clear()
-                    activityApnaNewSurveyBinding.sqFtText.clearFocus()
+                        activityApnaNewSurveyBinding.storeText.text!!.clear()
+                        activityApnaNewSurveyBinding.rentText.text!!.clear()
+                        activityApnaNewSurveyBinding.salesText.text!!.clear()
+                        activityApnaNewSurveyBinding.sqFtText.text!!.clear()
+                        activityApnaNewSurveyBinding.sqFtText.clearFocus()
+                    }
+                } else {
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Please enter all the fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "Please enter all the fields",
+                    "You are allowed to add only 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1256,31 +1263,42 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         // Adding apartments data
         activityApnaNewSurveyBinding.apartmentsAddBtn.setOnClickListener {
-            val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
-            val apartmentType = activityApnaNewSurveyBinding.apartmentTypeSelect.text.toString()
-            val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
-            val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
-            if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
-                apartmentsList.add(ApartmentData(apartments, apartmentType, noOfHouses, distance))
+            if (apartmentsList.size < 10) {
+                val apartments = activityApnaNewSurveyBinding.apartmentsOrColony.text.toString()
+                val apartmentType = activityApnaNewSurveyBinding.apartmentTypeSelect.text.toString()
+                val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
+                val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
+                if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
+                    apartmentsList.add(ApartmentData(apartments,
+                        apartmentType,
+                        noOfHouses,
+                        distance))
 
-                apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
-                    this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, apartmentsList
-                )
-                activityApnaNewSurveyBinding.apartmentsRecyclerView.adapter =
-                    apartmentTypeItemAdapter
-                activityApnaNewSurveyBinding.apartmentsRecyclerView.layoutManager =
-                    LinearLayoutManager(this@ApnaNewSurveyActivity)
-                apartmentTypeItemAdapter.notifyDataSetChanged()
-                // clear
-                activityApnaNewSurveyBinding.apartmentsOrColony.text!!.clear()
+                    apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
+                        this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, apartmentsList
+                    )
+                    activityApnaNewSurveyBinding.apartmentsRecyclerView.adapter =
+                        apartmentTypeItemAdapter
+                    activityApnaNewSurveyBinding.apartmentsRecyclerView.layoutManager =
+                        LinearLayoutManager(this@ApnaNewSurveyActivity)
+                    apartmentTypeItemAdapter.notifyDataSetChanged()
+                    // clear
+                    activityApnaNewSurveyBinding.apartmentsOrColony.text!!.clear()
 //                activityApnaNewSurveyBinding.apartmentTypeSelect.text!!.clear()
-                activityApnaNewSurveyBinding.noOfHousesText.text!!.clear()
-                activityApnaNewSurveyBinding.distanceText.text!!.clear()
-                activityApnaNewSurveyBinding.distanceText.clearFocus()
+                    activityApnaNewSurveyBinding.noOfHousesText.text!!.clear()
+                    activityApnaNewSurveyBinding.distanceText.text!!.clear()
+                    activityApnaNewSurveyBinding.distanceText.clearFocus()
+                } else {
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Please enter all the fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "Please enter all the fields",
+                    "You are allowed to add only 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1288,34 +1306,43 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         // Adding hospital data
         activityApnaNewSurveyBinding.hospitalAddBtn.setOnClickListener {
-            val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
-            val speciality = activityApnaNewSurveyBinding.hospitalSpecialitySelect.text.toString()
-            val beds = activityApnaNewSurveyBinding.bedsText.text.toString()
-            val noOfOpd = activityApnaNewSurveyBinding.noOfOpdText.text.toString()
-            val occupancy = activityApnaNewSurveyBinding.occupancyText.text.toString()
+            if (hospitalsList.size < 10) {
+                val name = activityApnaNewSurveyBinding.hospitalNameText.text.toString()
+                val speciality =
+                    activityApnaNewSurveyBinding.hospitalSpecialitySelect.text.toString()
+                val beds = activityApnaNewSurveyBinding.bedsText.text.toString()
+                val noOfOpd = activityApnaNewSurveyBinding.noOfOpdText.text.toString()
+                val occupancy = activityApnaNewSurveyBinding.occupancyText.text.toString()
 
-            if (name.isNotEmpty() && speciality.isNotEmpty() && beds.isNotEmpty() && noOfOpd.isNotEmpty() && occupancy.isNotEmpty()) {
-                hospitalsList.add(HospitalData(name, beds, speciality, noOfOpd, occupancy))
+                if (name.isNotEmpty() && speciality.isNotEmpty() && beds.isNotEmpty() && noOfOpd.isNotEmpty() && occupancy.isNotEmpty()) {
+                    hospitalsList.add(HospitalData(name, beds, speciality, noOfOpd, occupancy))
 
-                hospitalsAdapter = HospitalsAdapter(
-                    this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, hospitalsList
-                )
-                activityApnaNewSurveyBinding.hospitalsRecyclerView.adapter = hospitalsAdapter
-                activityApnaNewSurveyBinding.hospitalsRecyclerView.layoutManager =
-                    LinearLayoutManager(this@ApnaNewSurveyActivity)
-                hospitalsAdapter.notifyDataSetChanged()
+                    hospitalsAdapter = HospitalsAdapter(
+                        this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, hospitalsList
+                    )
+                    activityApnaNewSurveyBinding.hospitalsRecyclerView.adapter = hospitalsAdapter
+                    activityApnaNewSurveyBinding.hospitalsRecyclerView.layoutManager =
+                        LinearLayoutManager(this@ApnaNewSurveyActivity)
+                    hospitalsAdapter.notifyDataSetChanged()
 
-                // clear
-                activityApnaNewSurveyBinding.hospitalNameText.text!!.clear()
+                    // clear
+                    activityApnaNewSurveyBinding.hospitalNameText.text!!.clear()
 //                activityApnaNewSurveyBinding.hospitalSpecialitySelect.text!!.clear()
-                activityApnaNewSurveyBinding.bedsText.text!!.clear()
-                activityApnaNewSurveyBinding.noOfOpdText.text!!.clear()
-                activityApnaNewSurveyBinding.occupancyText.text!!.clear()
-                activityApnaNewSurveyBinding.noOfOpdText.clearFocus()
+                    activityApnaNewSurveyBinding.bedsText.text!!.clear()
+                    activityApnaNewSurveyBinding.noOfOpdText.text!!.clear()
+                    activityApnaNewSurveyBinding.occupancyText.text!!.clear()
+                    activityApnaNewSurveyBinding.noOfOpdText.clearFocus()
+                } else {
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Please enter all the fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "Please enter all the fields",
+                    "You are allowed to add only 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1323,79 +1350,89 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
         // Adding chemist data
         activityApnaNewSurveyBinding.chemistAddBtn.setOnClickListener {
-            val chemist = activityApnaNewSurveyBinding.chemistText.text.toString()
-            val organised = activityApnaNewSurveyBinding.organisedSelect.text.toString()
-            val organisedAvgSale = activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
-            val unorganised = activityApnaNewSurveyBinding.unorganisedSelect.text.toString()
-            val unorganisedAvgSale =
-                activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
+            if (chemistList.size < 10) {
+                val chemist = activityApnaNewSurveyBinding.chemistText.text.toString()
+                val organised = activityApnaNewSurveyBinding.organisedSelect.text.toString()
+                val organisedAvgSale =
+                    activityApnaNewSurveyBinding.organisedAvgSaleText.text.toString()
+                val unorganised = activityApnaNewSurveyBinding.unorganisedSelect.text.toString()
+                val unorganisedAvgSale =
+                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.text.toString()
 
-            if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
-                chemistList.add(
-                    ChemistData(
-                        chemist, organised, organisedAvgSale, unorganised, unorganisedAvgSale
+                if (chemist.isNotEmpty() && organised.isNotEmpty() && organisedAvgSale.isNotEmpty() && unorganised.isNotEmpty() && unorganisedAvgSale.isNotEmpty()) {
+                    chemistList.add(
+                        ChemistData(
+                            chemist, organised, organisedAvgSale, unorganised, unorganisedAvgSale
+                        )
                     )
-                )
-                chemistAdapter =
-                    ChemistAdapter(
-                        this@ApnaNewSurveyActivity,
-                        this@ApnaNewSurveyActivity,
-                        chemistList
-                    )
-                activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
-                activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
-                    LinearLayoutManager(this@ApnaNewSurveyActivity)
+                    chemistAdapter =
+                        ChemistAdapter(
+                            this@ApnaNewSurveyActivity,
+                            this@ApnaNewSurveyActivity,
+                            chemistList
+                        )
+                    activityApnaNewSurveyBinding.chemistRecyclerView.adapter = chemistAdapter
+                    activityApnaNewSurveyBinding.chemistRecyclerView.layoutManager =
+                        LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-                // Clear
-                activityApnaNewSurveyBinding.chemistText.text!!.clear()
+                    // Clear
+                    activityApnaNewSurveyBinding.chemistText.text!!.clear()
 //                activityApnaNewSurveyBinding.organisedSelect.text!!.clear()
-                activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
+                    activityApnaNewSurveyBinding.organisedAvgSaleText.text!!.clear()
 //                activityApnaNewSurveyBinding.unorganisedSelect.text!!.clear()
-                activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
-                activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
+                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.text!!.clear()
+                    activityApnaNewSurveyBinding.unorganisedAvgSaleText.clearFocus()
+                } else {
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        "Please enter all the fields",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                if (chemistList.size > 0) {
+                    activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.VISIBLE
+
+                    val orgAvgSale =
+                        chemistList.filter { it.organisedAvgSale.isNotEmpty() }
+                            .map { it.organisedAvgSale }
+
+                    val totalOrganisedAvgSale = orgAvgSale.map { it.toInt() }.sum()
+
+                    if (totalOrganisedAvgSale > 0) {
+                        activityApnaNewSurveyBinding.totalOrganisedText.setText(
+                            totalOrganisedAvgSale.toString())
+                    } else {
+                        activityApnaNewSurveyBinding.totalOrganisedText.setText("-")
+                    }
+
+                    val unorgAvgSale = chemistList.filter { it.unorganisedAvgSale.isNotEmpty() }
+                        .map { it.unorganisedAvgSale }
+                    val totalUnorganisedAvgSale = unorgAvgSale.map { it.toInt() }.sum()
+
+                    if (totalUnorganisedAvgSale > 0) {
+                        activityApnaNewSurveyBinding.totalUnorganisedText.setText(
+                            totalUnorganisedAvgSale.toString()
+                        )
+                    } else {
+                        activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
+                    }
+
+                    val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
+                    if (total > 0) {
+                        activityApnaNewSurveyBinding.total.setText(total.toString())
+                    } else {
+                        activityApnaNewSurveyBinding.total.setText("-")
+                    }
+                } else {
+                    activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.GONE
+                }
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "Please enter all the fields",
+                    "You are allowed to add only 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
-            }
-
-            if (chemistList.size > 0) {
-                activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.VISIBLE
-
-                val orgAvgSale =
-                    chemistList.filter { it.organisedAvgSale.isNotEmpty() }
-                        .map { it.organisedAvgSale }
-
-                val totalOrganisedAvgSale = orgAvgSale.map { it.toInt() }.sum()
-
-                if (totalOrganisedAvgSale > 0) {
-                    activityApnaNewSurveyBinding.totalOrganisedText.setText(totalOrganisedAvgSale.toString())
-                } else {
-                    activityApnaNewSurveyBinding.totalOrganisedText.setText("-")
-                }
-
-                val unorgAvgSale = chemistList.filter { it.unorganisedAvgSale.isNotEmpty() }
-                    .map { it.unorganisedAvgSale }
-                val totalUnorganisedAvgSale = unorgAvgSale.map { it.toInt() }.sum()
-
-                if (totalUnorganisedAvgSale > 0) {
-                    activityApnaNewSurveyBinding.totalUnorganisedText.setText(
-                        totalUnorganisedAvgSale.toString()
-                    )
-                } else {
-                    activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
-                }
-
-                val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
-                if (total > 0) {
-                    activityApnaNewSurveyBinding.total.setText(total.toString())
-                } else {
-                    activityApnaNewSurveyBinding.total.setText("-")
-                }
-            } else {
-                activityApnaNewSurveyBinding.chemistTotalLayout.visibility = View.GONE
             }
         }
 

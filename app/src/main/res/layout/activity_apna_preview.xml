@@ -997,7 +997,7 @@
                                 android:layout_marginStart="@dimen/text_dimen_10"
                                 android:layout_marginTop="5dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Dimensions of the Premises(in foot)"
+                                android:text="Dimensions of the Premises"
                                 android:textSize="12sp" />
 
                             <LinearLayout
@@ -1589,6 +1589,33 @@
                                     android:textSize="12sp" />
                             </LinearLayout>
 
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginTop="5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Existing Outlet Age :"
+                                    android:textSize="12sp" />
+
+                                <TextView
+                                    android:id="@+id/existingOutletAge"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="12sp" />
+                            </LinearLayout>
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -1726,6 +1753,17 @@
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:itemCount="2"
                                 tools:listitem="@layout/neighbour_store_adapter_layout" />
+
+                            <TextView
+                                android:id="@+id/neighbouring_store_not_found"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:paddingTop="@dimen/value_10dp"
+                                android:paddingBottom="@dimen/value_10dp"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:visibility="gone" />
 
                             <TextView
                                 android:layout_width="wrap_content"
