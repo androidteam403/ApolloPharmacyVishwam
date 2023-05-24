@@ -352,11 +352,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
             } else {
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-//                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
             }
         } else {
             activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-//            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.localDisbtsComments != null && surveyCreateRequest.localDisbtsComments != "") {
