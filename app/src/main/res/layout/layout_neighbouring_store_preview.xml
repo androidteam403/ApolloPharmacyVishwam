@@ -15,17 +15,15 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
                 android:fontFamily="@font/roboto_medium"
                 android:text="Neighbouring Store (left)"
-                android:textSize="12sp" />
+                android:textSize="@dimen/text_12sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="@dimen/value_40dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/value_8dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -38,16 +36,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Store"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/store"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rajeev Pharmacy"
                         android:textColor="@color/black"
@@ -63,16 +61,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Rent"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/rent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:drawableLeft="@drawable/rupee_apna"
                         android:fontFamily="@font/roboto_medium"
                         android:text="100"
@@ -84,9 +82,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
                 android:layout_marginEnd="@dimen/value_40dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="@dimen/value_8dp"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
@@ -99,16 +96,16 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Sales"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:drawableLeft="@drawable/rupee_apna"
                         android:fontFamily="@font/roboto_medium"
                         android:text="100"
@@ -125,10 +122,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="@dimen/value_2dp"
                         android:fontFamily="@font/roboto_medium"
                         android:text="Sq.ft"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/sqft"
