@@ -339,21 +339,36 @@ xmlns:tools="http://schemas.android.com/tools">
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
-                                <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                                    android:layout_marginTop="@dimen/value_2dp"
-                                    android:id="@+id/image_one"
-                                    android:layout_marginEnd="@dimen/value_3dp"
+                                <RelativeLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    app:zoomage_animateOnReset="true"
-                                    app:zoomage_autoCenter="true"
-                                    app:zoomage_autoResetMode="UNDER"
-                                    app:zoomage_maxScale="8"
-                                    app:zoomage_minScale="0.6"
-                                    app:zoomage_restrictBounds="false"
-                                    app:zoomage_translatable="true"
-                                    app:zoomage_zoomable="true"
-                                    android:src="@drawable/capture1" />
+                                    android:layout_height="match_parent">
+
+                                    <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                        android:id="@+id/image_one"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginEnd="@dimen/value_3dp"
+                                        android:src="@drawable/capture1"
+                                        app:zoomage_animateOnReset="true"
+                                        app:zoomage_autoCenter="true"
+
+                                        app:zoomage_autoResetMode="UNDER"
+                                        app:zoomage_maxScale="8"
+                                        app:zoomage_minScale="0.6"
+                                        app:zoomage_restrictBounds="false"
+                                        app:zoomage_translatable="true"
+                                        app:zoomage_zoomable="true" />
+                                    <ImageView
+                                        android:layout_width="22dp"
+                                        android:src="@drawable/icon_cancel_order_header"
+                                        android:id="@+id/first_image_zoom"
+                                        android:tint="@color/white"
+                                        android:layout_alignParentEnd="true"
+                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginTop="88dp"
+                                        android:layout_height="22dp"
+                                        tools:ignore="UseAppTint" />
+                                </RelativeLayout>
 
                                 <LinearLayout
                                     android:onClick="@{()-> callback.onClickDelete()}"
@@ -435,21 +450,37 @@ xmlns:tools="http://schemas.android.com/tools">
                                 <RelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent">
-                                    <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                                        android:layout_marginStart="@dimen/value_3dp"
-                                        android:layout_marginTop="@dimen/value_2dp"
-                                        android:id="@+id/image_two"
+                                    <RelativeLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        app:zoomage_animateOnReset="true"
-                                        app:zoomage_autoCenter="true"
-                                        app:zoomage_autoResetMode="UNDER"
-                                        app:zoomage_maxScale="8"
-                                        app:zoomage_minScale="0.6"
-                                        app:zoomage_restrictBounds="false"
-                                        app:zoomage_translatable="true"
-                                        app:zoomage_zoomable="true"
-                                        android:src="@drawable/capture1"/>
+                                        android:layout_height="match_parent">
+
+                                        <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                            android:id="@+id/image_two"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_marginStart="@dimen/value_3dp"
+                                            android:src="@drawable/capture1"
+                                            app:zoomage_animateOnReset="true"
+                                            app:zoomage_autoCenter="true"
+                                            app:zoomage_autoResetMode="UNDER"
+                                            app:zoomage_maxScale="8"
+
+                                            app:zoomage_minScale="0.6"
+                                            app:zoomage_restrictBounds="false"
+                                            app:zoomage_translatable="true"
+                                            app:zoomage_zoomable="true" />
+
+                                        <ImageView
+                                            android:id="@+id/second_image_zoom"
+                                            android:layout_width="22dp"
+                                            android:layout_height="22dp"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_marginTop="88dp"
+                                            android:layout_marginEnd="10dp"
+                                            android:src="@drawable/icon_cancel_order_header"
+                                            android:tint="@color/white"
+                                            tools:ignore="UseAppTint" />
+                                    </RelativeLayout>
                                     <LinearLayout
                                         android:onClick="@{()-> callback.onClickDelete()}"
                                         android:id="@+id/deleteIcon"
@@ -666,7 +697,7 @@ xmlns:tools="http://schemas.android.com/tools">
                             android:layout_marginStart="@dimen/value_5dp"
                             android:layout_width="100dp"
                             android:layout_height="@dimen/value_140dp"
-                            android:background="@color/blue"
+                            android:background="@color/grey"
                             android:orientation="vertical">
 
                             <ImageView
@@ -687,7 +718,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
                             <CheckBox
                                 android:id="@+id/after_completion_checkbox"
-                                android:checked="true"
+                                android:checked="false"
                                 android:layout_gravity="center"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -746,7 +777,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_1dp"
-                        android:layout_marginTop="@dimen/value_8dp"
+                        android:layout_marginTop="10dp"
                         android:background="@color/another_grey" />
 
                     <LinearLayout
@@ -761,6 +792,7 @@ xmlns:tools="http://schemas.android.com/tools">
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:layout_width="wrap_content"
+                            android:paddingTop="4dp"
                             android:layout_height="wrap_content"
                             android:text="Status: "
                             android:textColor="@color/black" />
@@ -771,6 +803,8 @@ xmlns:tools="http://schemas.android.com/tools">
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Pending"
+                            android:paddingTop="4dp"
+
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_15sp"
                             android:textStyle="bold" />
@@ -789,6 +823,8 @@ xmlns:tools="http://schemas.android.com/tools">
                                 android:background="@drawable/ash_rounded_corners"
                                 android:padding="@dimen/value_6dp"
                                 android:text="Re-Shoot"
+                                android:paddingTop="4dp"
+
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/text_15sp"
@@ -819,7 +855,7 @@ xmlns:tools="http://schemas.android.com/tools">
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/value_1dp"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="6dp"
                         android:background="@color/another_grey" />
                     <LinearLayout
                         android:visibility="gone"

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-  <ScrollView
-                    android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="match_parent"
 
-                    android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -123,8 +123,7 @@
                     android:visibility="@{isLastPos ? view.GONE : view.VISIBLE}">
 
 
-
-                <LinearLayout
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
@@ -315,21 +314,39 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
-                            <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                                android:id="@+id/image_one"
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginEnd="@dimen/value_3dp"
-                                android:src="@drawable/capture1"
-                                app:zoomage_animateOnReset="true"
-                                app:zoomage_autoCenter="true"
+                                android:layout_height="match_parent">
 
-                                app:zoomage_autoResetMode="UNDER"
-                                app:zoomage_maxScale="8"
-                                app:zoomage_minScale="0.6"
-                                app:zoomage_restrictBounds="false"
-                                app:zoomage_translatable="true"
-                                app:zoomage_zoomable="true" />
+                                <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                    android:id="@+id/image_one"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginEnd="@dimen/value_3dp"
+                                    android:src="@drawable/capture1"
+                                    app:zoomage_animateOnReset="true"
+                                    app:zoomage_autoCenter="true"
+
+                                    app:zoomage_autoResetMode="UNDER"
+                                    app:zoomage_maxScale="8"
+                                    app:zoomage_minScale="0.6"
+                                    app:zoomage_restrictBounds="false"
+                                    app:zoomage_translatable="true"
+                                    app:zoomage_zoomable="true" />
+
+                                <ImageView
+                                    android:id="@+id/first_image_zoom"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="88dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:src="@drawable/icon_cancel_order_header"
+                                    android:tint="@color/white"
+                                    tools:ignore="UseAppTint" />
+                            </RelativeLayout>
+
+
                         </LinearLayout>
 
 
@@ -351,23 +368,37 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
-
-                            <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
-                                android:id="@+id/image_two"
+                            <RelativeLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="@dimen/value_3dp"
-                                android:src="@drawable/capture1"
-                                app:zoomage_animateOnReset="true"
-                                app:zoomage_autoCenter="true"
-                                app:zoomage_autoResetMode="UNDER"
-                                app:zoomage_maxScale="8"
+                                android:layout_height="match_parent">
 
-                                app:zoomage_minScale="0.6"
-                                app:zoomage_restrictBounds="false"
-                                app:zoomage_translatable="true"
-                                app:zoomage_zoomable="true" />
+                                <com.apollopharmacy.vishwam.util.zoomage.ZoomMultiImageView
+                                    android:id="@+id/image_two"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginStart="@dimen/value_3dp"
+                                    android:src="@drawable/capture1"
+                                    app:zoomage_animateOnReset="true"
+                                    app:zoomage_autoCenter="true"
+                                    app:zoomage_autoResetMode="UNDER"
+                                    app:zoomage_maxScale="8"
 
+                                    app:zoomage_minScale="0.6"
+                                    app:zoomage_restrictBounds="false"
+                                    app:zoomage_translatable="true"
+                                    app:zoomage_zoomable="true" />
+
+                                <ImageView
+                                    android:id="@+id/second_image_zoom"
+                                    android:layout_width="22dp"
+                                    android:layout_height="22dp"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_marginTop="88dp"
+                                    android:layout_marginEnd="10dp"
+                                    android:src="@drawable/icon_cancel_order_header"
+                                    android:tint="@color/white"
+                                    tools:ignore="UseAppTint" />
+                            </RelativeLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -427,7 +458,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:gravity="center"
-                            android:text="Two images selected for comparison"
+                            android:text="Select any two stages for comparison"
                             android:textColor="@color/black"
                             android:textStyle="bold" />
 
@@ -607,167 +638,166 @@
 
                 </LinearLayout>
 
-            <LinearLayout
+                <LinearLayout
 
-                android:layout_width="match_parent"
-                android:layout_height="650dp"
-                android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}">
+                    android:layout_width="match_parent"
+                    android:layout_height="650dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}">
 
 
-            <LinearLayout
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/value_10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/value_50dp"
-                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/value_50dp"
+                        android:layout_marginBottom="@dimen/value_10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Retro ID: "
+                            android:textColor="@color/heading_blue"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{retroId}"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/text_16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Retro ID: "
-                        android:textStyle="bold"
-                        android:textColor="@color/heading_blue"
-                        android:textSize="@dimen/text_16sp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:text="@string/label_report"
                         android:textColor="@color/black"
-                        android:text="@{retroId}"
-                        android:textSize="@dimen/text_16sp"
+                        android:textSize="@dimen/text_20sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/stage_review_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/value_50dp"
+                        android:gravity="center"
+                        android:text="@string/label_this_store_review_ncompleted_successfully"
+
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_20sp"
                         android:textStyle="bold" />
 
-                </LinearLayout>
-
-
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/label_report"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_20sp"
-                    android:visibility="gone"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@string/label_this_store_review_ncompleted_successfully"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_20sp"
-                    android:id="@+id/stage_review_message"
-
-                    android:layout_marginTop="@dimen/value_50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_20sp"
-                    android:layout_marginTop="@dimen/value_50dp"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
-
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/value_50dp"
+                        android:orientation="horizontal"
+                        android:textSize="@dimen/text_20sp">
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@string/label_total_images"
-                            android:textColor="@color/grey" />
+                            android:orientation="vertical">
 
-                        <TextView
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_total_images"
+                                android:textColor="@color/grey" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:text="@{totalImages}"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_20sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="@dimen/value_1dp"
+                            android:layout_height="@dimen/value_70dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:text="@{totalImages}"
-                            android:textColor="@color/black"
-                            android:textSize="@dimen/text_20sp"
-                            android:textStyle="bold" />
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:orientation="vertical">
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_accepted"
+                                android:textColor="@color/grey" />
 
-                    <View
-                        android:layout_width="@dimen/value_1dp"
-                        android:layout_height="@dimen/value_70dp"
-                        android:layout_marginStart="@dimen/value_10dp"
-                        android:background="@color/grey" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:text="@{accepted}"
+                                android:textColor="@color/greenn"
+                                android:textSize="@dimen/text_20sp"
+                                android:textStyle="bold" />
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/value_10dp"
-                        android:orientation="vertical">
+                        </LinearLayout>
 
-                        <TextView
+                        <View
+                            android:layout_width="@dimen/value_1dp"
+                            android:layout_height="@dimen/value_70dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:text="@string/label_accepted"
-                            android:textColor="@color/grey" />
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:text="@{accepted}"
-                            android:textColor="@color/greenn"
-                            android:textSize="@dimen/text_20sp"
-                            android:textStyle="bold" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="@string/label_rejected"
+                                android:textColor="@color/grey" />
 
-                    </LinearLayout>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:text="@{rejected}"
+                                android:textColor="@color/color_red"
+                                android:textSize="@dimen/text_20sp"
+                                android:textStyle="bold" />
 
-                    <View
-                        android:layout_width="@dimen/value_1dp"
-                        android:layout_height="@dimen/value_70dp"
-                        android:layout_marginStart="@dimen/value_10dp"
-                        android:background="@color/grey" />
+                        </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="@dimen/value_10dp"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="@string/label_rejected"
-                            android:textColor="@color/grey" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/value_5dp"
-                            android:text="@{rejected}"
-                            android:textColor="@color/color_red"
-                            android:textSize="@dimen/text_20sp"
-                            android:textStyle="bold" />
 
                     </LinearLayout>
 
 
                 </LinearLayout>
-
-
-            </LinearLayout>
 
 
                 <LinearLayout
@@ -897,7 +927,7 @@
 
 
         </RelativeLayout>
-  </ScrollView>
+    </ScrollView>
 
 
     <data>

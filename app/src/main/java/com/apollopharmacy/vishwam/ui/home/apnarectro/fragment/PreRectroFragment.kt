@@ -46,7 +46,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
 
-        Preferences.savingToken("APL67949")
+//        Preferences.savingToken("APL67949")
 
 
         viewBinding.callback = this

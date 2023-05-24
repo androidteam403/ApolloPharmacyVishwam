@@ -62,6 +62,7 @@ class RectroApproveListAdapter(
         holder.adapterApproveListBinding.approvedStatusLayout.layoutParams=lp
       for (j in approvedOrders!!.indices) {
         if (approvedOrders!!.get(j).stage.equals("PRE-RETRO")){
+            approvedOrders.filter { it.status!!.contains("Pending")|| it.status!!.contains("Reshoot") }
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
             val date = dateFormat.parse(approvedOrders!!.get(j).uploadedDate)
             val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)

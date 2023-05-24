@@ -25,6 +25,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveAcceptResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreviewPreRetroViewModel
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.previewlmageRetro.PreviewLastImageCallback
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.apollopharmacy.vishwam.util.Utlis
 import com.bumptech.glide.Glide
 import org.apache.commons.lang3.text.WordUtils
@@ -263,6 +264,35 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             }
         }
 
+        activityPostRectroReviewScreenBinding.firstImageZoom.setOnClickListener {
+
+            if (activityPostRectroReviewScreenBinding.imageOneStage.text.toString().contains("Pre")){
+                PopUpWIndow(this, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.firstImageZoom, imageUrlList[pos][0].url, null, "", 0)
+            }
+            else   if (activityPostRectroReviewScreenBinding.imageOneStage.text.toString().contains("Post")) {
+                PopUpWIndow(this, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.firstImageZoom, imageUrlList[pos][1].url, null, "", 0)
+            }
+
+            else   if (activityPostRectroReviewScreenBinding.imageOneStage.text.toString().contains("After")) {
+
+                PopUpWIndow(this, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.firstImageZoom, imageUrlList[pos][2].url, null, "", 0)
+            }
+
+        }
+        activityPostRectroReviewScreenBinding.secondImageZoom.setOnClickListener {
+            if (activityPostRectroReviewScreenBinding.imageTwoStage.text.toString().contains("Pre")){
+                PopUpWIndow(context, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.secondImageZoom, imageUrlList[pos][0].url, null, "", 0)
+            }
+            else   if (activityPostRectroReviewScreenBinding.imageTwoStage.text.toString().contains("Post")) {
+
+                PopUpWIndow(context, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.secondImageZoom, imageUrlList[pos][1].url, null, "", 0)
+            }
+
+            else   if (activityPostRectroReviewScreenBinding.imageTwoStage.text.toString().contains("After")) {
+
+                PopUpWIndow(this, R.layout.layout_image_fullview, activityPostRectroReviewScreenBinding.secondImageZoom, imageUrlList[pos][2].url, null, "", 0)
+            }        }
+
         Glide.with(this).load(imageUrlList.get(pos).get(0).url)
             .placeholder(R.drawable.thumbnail_image)
             .into(activityPostRectroReviewScreenBinding.imageOne)
@@ -273,21 +303,21 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
             .into(activityPostRectroReviewScreenBinding.imageTwo)
 
 
-        Glide.with(this).load(imageUrlList.get(pos).get(0).url)
+        Glide.with(this).load(imageUrlList[pos].get(0).url)
             .placeholder(R.drawable.thumbnail_image)
             .into(activityPostRectroReviewScreenBinding.preRectroCbLayoutImage)
 
-        Glide.with(this).load(imageUrlList.get(pos).get(1).url)
+        Glide.with(this).load(imageUrlList[pos].get(1).url)
             .placeholder(R.drawable.thumbnail_image)
             .into(activityPostRectroReviewScreenBinding.postRectroCbLayoutImage)
         if (isAfterCompletion) {
 
             if(activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked==false){
-                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After Completion  Image")
                 activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
             }
             else{
-                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After Completion  Image")
                 activityPostRectroReviewScreenBinding.imageOneStage.setText("Post Retro Image")
             }
 
@@ -324,7 +354,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
         if (isPreRetro) {
             if (activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked==false){
                 activityPostRectroReviewScreenBinding.imageOneStage.setText("Pre Retro Image")
-                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After-Completion  Image")
+                activityPostRectroReviewScreenBinding.imageTwoStage.setText("After Completion  Image")
 
             }
             else {

@@ -273,7 +273,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
         }
 
         holder.adapterListApnaBinding.postRetroStageLayout.setOnClickListener {
-            if(holder.adapterListApnaBinding.preRetroStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.postRetroStatus.text.toString() == "---"|| holder.adapterListApnaBinding.postRetroStatus.text.toString() == "Approved")//doubt about status name
+            if(holder.adapterListApnaBinding.preRetroStatus.text.toString() == "Approved" && holder.adapterListApnaBinding.postRetroStatus.text.toString() == "Pending")//doubt about status name
             {
 
                 preRectroCallback.onClickPostRetroPending("isPostRetroStage",  holder.adapterListApnaBinding.postRetroStatus.text.toString(), holder.adapterListApnaBinding.transactionId.text.toString(),holder.adapterListApnaBinding.uploadedOn.text.toString(), holder.adapterListApnaBinding.uploadedBy.text.toString(), holder.adapterListApnaBinding.storeId.text.toString(),"newUploadStage", approvedby, approvedDate, partiallyApprovedBy, partiallyApprovedDate, reshootBy, reshootDate)
@@ -316,7 +316,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
         }
 
         holder.adapterListApnaBinding.afterCompletionStageLayout.setOnClickListener {
-            if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")&& holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("---"))//doubt about status name
+            if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Approved")&& holder.adapterListApnaBinding.afterCompleteionStatus.text.toString().equals("Pending"))//doubt about status name
             {
                 preRectroCallback.onClickPostRetroPending(
                     "isAfterCompletionStage",

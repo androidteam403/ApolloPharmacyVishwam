@@ -39,18 +39,18 @@ class PreviewPostRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
+//            if (Config.KEY=="2039") {
                 if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }
-            else
-                if (Config.KEY=="2034"){
-                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
-                    token = "h72genrSSNFivOi/cfiX3A=="
-                }
+//            }
+//            else
+//                if (Config.KEY=="2034"){
+//                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
+//                    token = "h72genrSSNFivOi/cfiX3A=="
+//                }
         }
         viewModelScope.launch {
             state.value = State.SUCCESS
@@ -96,19 +96,19 @@ class PreviewPostRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
+//            if (Config.KEY=="2039") {
 
                 if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-            }
-            else
-                if (Config.KEY=="2034"){
-                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
-                    token = "h72genrSSNFivOi/cfiX3A=="
-                }
+//            }
+//            else
+//                if (Config.KEY=="2034"){
+//                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT"
+//                    token = "h72genrSSNFivOi/cfiX3A=="
+//                }
         }
         viewModelScope.launch {
             state.value = State.SUCCESS

@@ -595,9 +595,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     imageRequest.rating = ratingforsubmit.toString()
 
                     Utlis.showLoading(this)
-                    previewLastImageViewModel.getRatingResponse(imageRequest,
-                        this
-                    )
+                    previewLastImageViewModel.getRatingResponse(imageRequest, this)
                     dialog.dismiss()
 
                 } else {
