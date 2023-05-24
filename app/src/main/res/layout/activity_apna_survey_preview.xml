@@ -139,7 +139,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/toilets"
                                     android:tint="@color/greenn"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     tools:ignore="UseAppTint" />
 
                                 <ImageView
@@ -148,7 +148,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/toilets"
                                     android:tint="@color/grey"
-                                    android:visibility="gone"
+                                    android:visibility="visible"
                                     tools:ignore="UseAppTint" />
 
                                 <TextView
@@ -175,7 +175,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/parking"
                                     android:tint="@color/greenn"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     tools:ignore="UseAppTint" />
 
                                 <ImageView
@@ -184,7 +184,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/parking"
                                     android:tint="@color/grey"
-                                    android:visibility="gone"
+                                    android:visibility="visible"
                                     tools:ignore="UseAppTint" />
 
                                 <TextView
@@ -204,6 +204,15 @@
                                 android:layout_weight="1"
                                 android:gravity="center_horizontal"
                                 android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/trafficNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/grey"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
 
                                 <ImageView
                                     android:id="@+id/trafficLow"
@@ -229,7 +238,7 @@
                                     android:layout_height="wrap_content"
                                     android:src="@drawable/traffic"
                                     android:tint="@color/color_red"
-                                    android:visibility="visible"
+                                    android:visibility="gone"
                                     tools:ignore="UseAppTint" />
 
                                 <ImageView
@@ -320,10 +329,10 @@
                                         android:layout_width="35dp"
                                         android:layout_height="wrap_content"
                                         android:layout_centerHorizontal="true"
+                                        android:contentDescription="@string/app_name"
                                         android:src="@drawable/pharma"
                                         android:tint="@color/greenn"
-                                        tools:ignore="UseAppTint"
-                                        android:contentDescription="@string/app_name" />
+                                        tools:ignore="UseAppTint" />
 
                                     <TextView
                                         android:layout_width="wrap_content"

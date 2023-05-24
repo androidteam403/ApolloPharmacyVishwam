@@ -571,25 +571,36 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic Low")
         } else if (trafficType.equals("Medium", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic Medium")
         } else if (trafficType.equals("High", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic High")
         } else if (trafficType.equals("V.High", true)) {
             activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
             activityApnaSurveyPreviewBinding.trafficText.setText("Traffic V.High")
+        } else {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic")
         }
 
         // Category Sale
