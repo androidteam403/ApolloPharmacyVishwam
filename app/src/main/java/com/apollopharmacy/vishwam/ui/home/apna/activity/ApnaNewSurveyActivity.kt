@@ -1255,7 +1255,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "You are allowed to add only 10 records",
+                    "You can add maximum 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1298,7 +1298,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "You are allowed to add only 10 records",
+                    "You can add maximum 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1342,7 +1342,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "You are allowed to add only 10 records",
+                    "You can add maximum 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -1430,7 +1430,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             } else {
                 Toast.makeText(
                     this@ApnaNewSurveyActivity,
-                    "You are allowed to add only 10 records",
+                    "You can add maximum 10 records",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -3669,8 +3669,24 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 );
 
 
-                surveyCreateRequest.extngOutletName =
-                    activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
+                val extngOutletSiteId =
+                    activityApnaNewSurveyBinding.existingOutletSiteId.text.toString().trim()
+                val extngOutletSiteName =
+                    activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().trim()
+
+                if (extngOutletSiteId.isNotEmpty() && extngOutletSiteName.isNotEmpty()) {
+                    surveyCreateRequest.extngOutletName =
+                        "$extngOutletSiteId-$extngOutletSiteName"
+                } else if (extngOutletSiteId.isNotEmpty()) {
+                    surveyCreateRequest.extngOutletName = extngOutletSiteId
+                } else if (extngOutletSiteName.isNotEmpty()) {
+                    surveyCreateRequest.extngOutletName = extngOutletSiteName
+                } else {
+                    surveyCreateRequest.extngOutletName = ""
+                }
+
+//                surveyCreateRequest.extngOutletName =
+//                    activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
 
                 if (activityApnaNewSurveyBinding.ageOrSaleText.text.toString().isNotEmpty()) {
                     surveyCreateRequest.extngOutletAge =

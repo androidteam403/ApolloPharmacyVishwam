@@ -1403,21 +1403,45 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/white_rounded_bg"
-                                android:orientation="vertical"
+                                android:orientation="horizontal"
+                                android:weightSum="1"
                                 android:padding="@dimen/value_10dp">
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginEnd="@dimen/value_5dp"
+                                    android:layout_weight=".5"
                                     android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
                                     <androidx.appcompat.widget.AppCompatEditText
-                                        android:id="@+id/existingOutletName"
+                                        android:id="@+id/existingOutletSiteId"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
-                                        android:hint="Existing outlet name"
+                                        android:hint="Existing outlet Site ID"
+                                        android:inputType="number"
+                                        android:paddingStart="@dimen/value_10dp"
+                                        android:paddingEnd="@dimen/value_10dp"
+                                        android:textColor="@color/black"
+                                        android:textColorHint="@color/black"
+                                        android:textSize="14sp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight=".5"
+                                    android:textColorHint="@color/black"
+                                    android:theme="@style/TextLabelEditTextApnaProject">
+
+                                    <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/existingOutletSiteName"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/value_50dp"
+                                        android:hint="Existing outlet site name"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
