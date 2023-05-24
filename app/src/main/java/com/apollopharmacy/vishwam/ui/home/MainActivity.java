@@ -1569,23 +1569,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
-       listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
+//       listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
 
-
-        if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")){
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+//        if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")) {
+//            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
+//                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+////                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
+//
+//        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
+//            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
+////                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
 //                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-
-        }
-        else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
-            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-//                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-        }
+//        }
 
 //                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
 //                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
