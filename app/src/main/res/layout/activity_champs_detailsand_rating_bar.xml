@@ -81,7 +81,7 @@
                             <LinearLayout
                                 android:id="@+id/layout1"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/value_50dp"
+                                android:layout_height="@dimen/value_70dp"
                                 android:layout_marginTop="@dimen/value_8dp">
 
                                 <ImageView
@@ -93,6 +93,7 @@
                                     app:tint="#777777" />
 
                                 <LinearLayout
+                                    android:layout_gravity="center"
                                     android:layout_width="@dimen/value_50dp"
                                     android:layout_height="@dimen/value_50dp">
 
@@ -104,41 +105,55 @@
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:gravity="center"
                                     android:layout_gravity="center"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/store_id"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_18sp"
-                                        android:textStyle="bold" />
-
-                                    <TextView
-
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/address"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="@dimen/text_15sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="end|center_vertical"
-                                    android:paddingRight="@dimen/value_20dp">
+                                    android:weightSum="1"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_gravity="center"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="0.8"
+                                        android:orientation="vertical">
+                                        <TextView
+                                            android:layout_marginTop="@dimen/value_7dp"
+                                            android:layout_gravity="center_vertical"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/store_id"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
 
-                                    <ImageView
-                                        android:layout_width="50dp"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/help_icon_question_mark"
-                                        app:tint="#293d55" />
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/address"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_15sp" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_weight="0.2"
+                                        android:layout_height="match_parent"
+                                        android:gravity="end|center_vertical"
+                                        android:layout_marginRight="@dimen/text_dimen_10">
+
+                                        <ImageView
+                                            android:layout_width="50dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/help_icon_question_mark"
+                                            app:tint="#293d55" />
+                                    </LinearLayout>
                                 </LinearLayout>
+
+
                             </LinearLayout>
 
                             <LinearLayout
@@ -167,7 +182,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="@dimen/value_8dp"
-                                    android:layout_weight="0.7"
+                                    android:layout_weight="0.65"
                                     android:gravity="center_vertical"
                                     android:lines="2"
                                     android:textColor="@color/black"
@@ -175,26 +190,23 @@
                                     android:textStyle="bold" />
 
                                 <LinearLayout
-                                    android:layout_gravity="center"
-                                    android:gravity="center"
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="0.23"
+                                    android:layout_weight="0.28"
                                     android:orientation="horizontal">
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="center">
+                                        android:layout_height="wrap_content">
 
                                         <TextView
+                                           android:text="0"
+                                            android:id="@+id/sumOfrating"
                                             android:layout_width="@dimen/value_40dp"
                                             android:layout_height="@dimen/value_40dp"
+                                            android:layout_marginRight="@dimen/value_2dp"
                                             android:background="@drawable/grey_rounded_rectangle"
                                             android:gravity="center_vertical|center_horizontal"
-                                            android:id="@+id/sumOfrating"
-                                            android:text="0"
-                                            android:layout_marginRight="@dimen/value_2dp"
                                             android:textAlignment="center"
                                             android:textColor="#838383"
                                             android:textSize="@dimen/text_18sp"
@@ -522,13 +534,13 @@
                             <!--                    </LinearLayout>-->
                             <!--                </LinearLayout>-->
 
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/category_recyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/layout2"
                                 android:layout_marginTop="@dimen/value_8dp" />
-
 
                             <LinearLayout
                                 android:id="@+id/upload_image_header"
@@ -596,6 +608,7 @@
                                 android:layout_below="@+id/zero_mb_used_text">
 
                                 <TextView
+                                    android:id="@+id/camera_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="Click on photo/Android/Camera to attach image from camera"
@@ -869,6 +882,7 @@
 <!--                                </LinearLayout>-->
 
                                 <LinearLayout
+                                    android:id="@+id/continue_layout"
                                     android:layout_marginBottom="@dimen/value_5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

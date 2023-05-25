@@ -20,6 +20,7 @@ import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsReq
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.SaveCategoryConfigurationDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.CmsTicketResponse
@@ -650,6 +651,7 @@ interface ViswamAppApi {
     suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL(
         @Header("token") token: String,
         @Url url: String,
+        @Query("categoryName") id: String
     ): GetSubCategoryDetailsResponse
 
     @GET
@@ -657,10 +659,11 @@ interface ViswamAppApi {
         @Url url: String,
     ): GetSubCategoryDetailsResponse
 
-    @GET
+    @POST
     suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(
         @Header("token") token: String,
         @Url url: String,
+       @Body saveCategoryConfigurationDetailsRequest: SaveCategoryConfigurationDetailsRequest,
     ): SaveCategoryConfigurationDetailsResponse
 
     @GET

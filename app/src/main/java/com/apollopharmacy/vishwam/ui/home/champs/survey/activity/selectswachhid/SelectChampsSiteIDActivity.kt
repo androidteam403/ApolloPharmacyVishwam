@@ -133,8 +133,8 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
             dialog.dismiss()
-            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-            Preferences.setSwachSiteName(storeListItem.sitename!!)
+//            Preferences.setSwachhSiteId(storeListItem.siteid!!)
+//            Preferences.setSwachSiteName(storeListItem.sitename!!)
             Preferences.setApnaSite(storeListItem.siteid!!)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()

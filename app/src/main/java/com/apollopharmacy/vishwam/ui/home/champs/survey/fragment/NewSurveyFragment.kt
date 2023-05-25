@@ -30,6 +30,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     var address:String?=""
     var siteName:String?=""
     var siteCity:String?=""
+    var isSiteIdEmpty: Boolean = false
 
     override val layoutRes: Int
         get() = R.layout.fragment_champs_survey
@@ -42,13 +43,14 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         viewBinding.callback = this
         MainActivity.mInstance.mainActivityCallback = this
         Utlis.hideLoading()
-        if (Preferences.getSwachhSiteId().isEmpty()) {
+        if (Preferences.getApnaSiteId().isEmpty()) {
             showLoading()
             val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         } else {
 
-            viewBinding.enterStoreEdittext.setText(Preferences.getSwachhSiteId())
+            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
 
 
 //
@@ -273,7 +275,31 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            viewBinding.enterStoreEdittext.setText(Preferences.getSwachhSiteId())
+            isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
+             if (requestCode == 781) {
+                 hideLoading()
+                 Utlis.hideLoading()
+                 if (isSiteIdEmpty) {
+                     MainActivity.mInstance.onBackPressed()
+//                    hideLoadingTemp()
+                     hideLoading()
+                 } else {
+                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                         showLoading()
+                         viewModel.getStoreDetailsChampsApi(
+                             this
+                         )
+                     } else {
+                         Toast.makeText(
+                             activity,
+                             resources.getString(R.string.label_network_error),
+                             Toast.LENGTH_SHORT
+                         )
+                             .show()
+                     }
+                 }
+             }
+            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
 //            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //                showLoading()
 //                viewModel.getStoreDetailsChamps(this)
@@ -287,19 +313,8 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 //                    .show()
 //            }
 
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreDetailsChampsApi(
-                    this
-                )
-            } else {
-                Toast.makeText(
-                    activity,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+
+
 
         }
     }
