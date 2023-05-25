@@ -40,6 +40,7 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsReque
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -94,11 +95,13 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 val sendGlobalSmsRequest = SendGlobalSmsRequest()
                 sendGlobalSmsRequest.sourceFor = "SENSING"
                 sendGlobalSmsRequest.type = "OTP"
-                sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                sendGlobalSmsRequest.mobileNo =
+                    viewBinding.customerPhoneNumber.text.toString().trim()
                 sendGlobalSmsRequest.link = ""
 
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                     showLoading()
+                    Utlis.hideKeyPad(context as Activity)
                     retrieveViewModel().sendGlobalSmsApiCall(
                         "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
                     )
@@ -373,7 +376,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             LayoutInflater.from(requireContext()), R.layout.link_send_confirm_dialog, null, false
         )
         dialog.setContentView(linkSendConfirmDialogBinding.root)
-
+        linkSendConfirmDialogBinding.customerPhoneNumber.text =
+            viewBinding.customerPhoneNumber.text.toString().trim()
         linkSendConfirmDialogBinding.closeButton.setOnClickListener {
             dialog.dismiss()
         }
@@ -452,11 +456,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             val sendGlobalSmsRequest = SendGlobalSmsRequest()
             sendGlobalSmsRequest.sourceFor = "SENSING"
             sendGlobalSmsRequest.type = "OTP"
-            sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+            sendGlobalSmsRequest.mobileNo = viewBinding.customerPhoneNumber.text.toString().trim()
             sendGlobalSmsRequest.link = ""
 
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 showLoading()
+                Utlis.hideKeyPad(context as Activity)
                 retrieveViewModel().sendGlobalSmsApiCall(
                     "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
                 )
@@ -481,11 +486,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         val sendGlobalSmsRequest = SendGlobalSmsRequest()
         sendGlobalSmsRequest.sourceFor = "SENSING"
         sendGlobalSmsRequest.type = "LINK"
-        sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+        sendGlobalSmsRequest.mobileNo = viewBinding.customerPhoneNumber.text.toString().trim()
         sendGlobalSmsRequest.link = link
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
+            Utlis.hideKeyPad(context as Activity)
             retrieveViewModel().sendGlobalSmsApiCall(
                 "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment
             )
