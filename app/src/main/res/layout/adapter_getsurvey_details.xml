@@ -200,8 +200,6 @@
                     android:id="@+id/statusLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/retro_background_approval"
                     android:orientation="horizontal"
                     android:visibility="visible"
                     android:weightSum="3">
@@ -231,8 +229,6 @@
                             android:layout_height="match_parent"
                             android:fontFamily="@font/poppin_bold"
                             android:paddingTop="6dp"
-                            android:text="Completed "
-                            android:textColor="#39B54A"
                             android:textSize="11.5sp" />
                     </LinearLayout>
 

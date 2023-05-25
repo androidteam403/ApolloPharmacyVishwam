@@ -96,6 +96,9 @@ class ImagesDisplayChampsAdapter(
 //        }
 
     }
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
 
 
     class ViewHolder(val adapterCaptureImagesSwachBinding: AdapterCaptureimagesChampsBinding) :
