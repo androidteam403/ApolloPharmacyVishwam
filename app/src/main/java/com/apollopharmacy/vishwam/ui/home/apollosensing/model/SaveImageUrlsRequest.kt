@@ -17,6 +17,14 @@ class SaveImageUrlsRequest {
     @Expose
     var requestedBy: String? = null
 
+    @SerializedName("CUSTOMERNAME")
+    @Expose
+    var customerName: String? = null
+
+    @SerializedName("MOBNO")
+    @Expose
+    var mobNo: String? = null
+
     @SerializedName("BASE64IMAGE")
     @Expose
     var base64ImageList: List<Base64Image>? = null

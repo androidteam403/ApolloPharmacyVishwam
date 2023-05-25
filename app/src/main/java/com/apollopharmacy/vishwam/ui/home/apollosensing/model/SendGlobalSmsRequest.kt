@@ -20,4 +20,9 @@ class SendGlobalSmsRequest {
     @Expose
     var link: String? = null
 
+    @SerializedName("CUSTOMERNAME")
+    @Expose
+    var customerName: String? = null
+
+
 }

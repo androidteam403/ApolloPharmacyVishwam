@@ -98,7 +98,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 sendGlobalSmsRequest.mobileNo =
                     viewBinding.customerPhoneNumber.text.toString().trim()
                 sendGlobalSmsRequest.link = ""
-
+                sendGlobalSmsRequest.customerName = viewBinding.name.text.toString().trim()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                     showLoading()
                     Utlis.hideKeyPad(context as Activity)
@@ -458,6 +458,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             sendGlobalSmsRequest.type = "OTP"
             sendGlobalSmsRequest.mobileNo = viewBinding.customerPhoneNumber.text.toString().trim()
             sendGlobalSmsRequest.link = ""
+            sendGlobalSmsRequest.customerName = viewBinding.name.text.toString().trim()
 
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 showLoading()
@@ -488,6 +489,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         sendGlobalSmsRequest.type = "LINK"
         sendGlobalSmsRequest.mobileNo = viewBinding.customerPhoneNumber.text.toString().trim()
         sendGlobalSmsRequest.link = link
+        sendGlobalSmsRequest.customerName = viewBinding.name.text.toString().trim()
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -511,6 +513,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 saveImageUrlsRequest.siteId = Preferences.getSiteId()
                 saveImageUrlsRequest.type = "STORE"
                 saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+                saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+                saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
                 val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
                 for (i in prescriptionImageList) {
                     val base64Image = SaveImageUrlsRequest.Base64Image()
