@@ -26,13 +26,11 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityChampsDetailsandRatingBarBinding
-import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.ImagesDisplayChampsAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSubCategoryDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurevyDetailsByChampsIdResponse
-import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import me.echodev.resizer.Resizer
 import java.io.File
@@ -52,6 +50,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     private var getCategoryAndSubCategoryDetails: GetCategoryDetailsModelResponse? = null
     private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack? = null
     private var categoryPosition: Int = 0
+    private var status:String=""
     private var isPending: Boolean = false
     var thread: Thread?=null
     var imageDataList: MutableList<GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas>? = null
@@ -85,7 +84,16 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 intent.getSerializableExtra("getCategoryAndSubCategoryDetails") as GetCategoryDetailsModelResponse?
             categoryPosition = intent.getIntExtra("position", 0)
             isPending = intent.getBooleanExtra("isPending", isPending)
+            status= intent.getStringExtra("status")!!
 
+        }
+        if(status.equals("COMPLETED")){
+            activityChampsDetailsandRatingBarBinding.cameraText.visibility=View.GONE
+            activityChampsDetailsandRatingBarBinding.continueLayout.visibility=View.GONE
+//            calucateSumOfSubCategory() 
+        }else{
+            activityChampsDetailsandRatingBarBinding.cameraText.visibility=View.VISIBLE
+            activityChampsDetailsandRatingBarBinding.continueLayout.visibility=View.VISIBLE
         }
         activityChampsDetailsandRatingBarBinding.storeId.setText(getCategoryAndSubCategoryDetails?.storeIdP)
         activityChampsDetailsandRatingBarBinding.address.setText(getCategoryAndSubCategoryDetails?.addressP)
@@ -133,8 +141,9 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
 //        }
 
         LoadRecyclerView()
-        if(getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null &&
-                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null){
+        if((getCategoryAndSubCategoryDetails!=null && getCategoryAndSubCategoryDetails!!.categoryDetails!=null &&
+                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists==null && !status.equals("COMPLETED") )||
+                getCategoryAndSubCategoryDetails!!.categoryDetails?.get(categoryPosition)?.imageDataLists!!.size==0 && !status.equals("COMPLETED")){
             var image1=GetCategoryDetailsModelResponse.CategoryDetail.ImagesDatas()
             image1.imageFilled=false
             image1.file=null
@@ -158,7 +167,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 ImagesDisplayChampsAdapter(
                     this,
                     this,
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists,
+                    status
                 )
             activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
                 LinearLayoutManager(
@@ -247,7 +257,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 ImagesDisplayChampsAdapter(
                     this,
                     this,
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists,
+                    status
                 )
             activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
                 LinearLayoutManager(
@@ -343,7 +354,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 SubCategoryAdapter(
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!,
                     applicationContext,
-                    this
+                    this, status
                 )
             activityChampsDetailsandRatingBarBinding.categoryRecyclerView.setLayoutManager(
                 LinearLayoutManager(this)
@@ -385,7 +396,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     ImagesDisplayChampsAdapter(
                         this,
                         this,
-                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists,
+                        status
                     )
                 activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
                     LinearLayoutManager(
@@ -402,7 +414,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
     }
 
     private fun calucateSumOfSubCategory() {
-        var sumOfRange: Float = 0f
+
         if (getCategoryAndSubCategoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails != null && getCategoryAndSubCategoryDetails!!.categoryDetails?.get(
                 categoryPosition
             )?.subCategoryDetails != null
@@ -412,6 +424,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                         i
                     ).givenRating != null
                 ) {
+                    var sumOfRange: Float = 0f      
                     var indiviualRange: Float =
                         (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!.get(
                             i
@@ -473,10 +486,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
             for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                 if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                   getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                     break
                 }
             }
+            disableUploadOption()
 //            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //            imagesDisplayChampsAdapter =
 //                ImagesDisplayChampsAdapter(
@@ -519,10 +533,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                     for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
                         if (!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!) {
                             getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file = resizedImage
-//                            getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
+//                           getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled = true
                             break
                         }
                     }
+                    disableUploadOption()
 //                    getCategoryAndSubCategoryDetails!!.emailDetails!!.get(categoryPosition).imageDataLists=imageDataList
 //                    imagesDisplayChampsAdapter =
 //                        ImagesDisplayChampsAdapter(
@@ -559,8 +574,11 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
         var imageFiles = ArrayList<Boolean>()
         if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists != null) {
             for (i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.indices) {
-                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled) {
-                    imageFiles.add(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled)
+                if (getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).file!=null) {
+                    imageFiles.add(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!)
+                }     else if(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageUrl!=null &&
+                        getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageUrl!="") {
+                          imageFiles.add(getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists!!.get(i).imageFilled!!)
                 }
             }
         }
@@ -613,7 +631,8 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 SubCategoryAdapter(
                     getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).subCategoryDetails!!,
                     applicationContext,
-                    this
+                    this,
+                    status
                 )
             activityChampsDetailsandRatingBarBinding.categoryRecyclerView.setLayoutManager(
                 LinearLayoutManager(this)
@@ -675,7 +694,7 @@ class ChampsDetailsandRatingBarActivity : AppCompatActivity(), ChampsDetailsandR
                 ImagesDisplayChampsAdapter(
                     applicationContext,
                    this,
-                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists
+                    getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(categoryPosition).imageDataLists, status
                 )
             activityChampsDetailsandRatingBarBinding.imagesDisplayRecyclerview.layoutManager =
                 LinearLayoutManager(

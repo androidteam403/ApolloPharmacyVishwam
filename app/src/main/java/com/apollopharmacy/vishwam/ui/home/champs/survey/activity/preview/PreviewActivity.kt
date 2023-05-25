@@ -95,7 +95,7 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
                 activityPreviewBinding.enterOtherTrainingEdittext.visibility=View.GONE
             }
             if(!getCategoryAndSubCategoryDetails?.issuesToBeResolvedText!!.isEmpty()){
-                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.otherTrainingText)
+                activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText(getCategoryAndSubCategoryDetails?.issuesToBeResolvedText)
             }else{
                 activityPreviewBinding.enterIssuesTobeResolvedEdittext.setText("--")
             }
