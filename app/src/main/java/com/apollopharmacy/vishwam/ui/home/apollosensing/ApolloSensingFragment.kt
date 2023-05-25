@@ -6,6 +6,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -34,7 +36,14 @@ import com.apollopharmacy.vishwam.databinding.LinkSendConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.PrescriptionUploadedConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apollosensing.adapter.PrescriptionImageAdapter
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.util.NetworkUtil
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileInputStream
+import java.io.FileNotFoundException
 
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
@@ -49,7 +58,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     private var compressedImageFileName: String? = null
     var prescriptionImageList = ArrayList<ImageDto>()
     var storeData = ArrayList<LoginDetails.StoreData>()
-
+    var otp = "-1"
     override val layoutRes: Int
         get() = R.layout.fragment_apollo_sensing
 
@@ -58,7 +67,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     override fun setup() {
-
+        viewBinding.callback = this@ApolloSensingFragment
         val userData = LoginRepo.getProfile()
         if (userData != null) {
             employeeName = userData.EMPNAME
@@ -81,27 +90,47 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
 
         viewBinding.sendOtpBtn.setOnClickListener {
-            isOtpVerified = true
-            viewBinding.sendOtpBtn.visibility = View.GONE
-            viewBinding.otpVerificationLayout.visibility = View.VISIBLE
-            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
-            viewBinding.sendLinkBtn.setBackgroundColor(ContextCompat.getColor(
-                requireContext(),
-                R.color.greenn
-            ))
-            viewBinding.sendLinkText.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                R.color.white
-            ))
-            startTimer()
-        }
+            if (validateSendLinkCustomerDetails()) {
+                val sendGlobalSmsRequest = SendGlobalSmsRequest()
+                sendGlobalSmsRequest.sourceFor = "SENSING"
+                sendGlobalSmsRequest.type = "OTP"
+                sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+                sendGlobalSmsRequest.link = ""
 
-        viewBinding.sendLinkBtn.setOnClickListener {
-            if (isOtpVerified) {
-                showConfirmDialog()
-            } else {
+                if (NetworkUtil.isNetworkConnected(requireContext())) {
+                    showLoading()
+                    retrieveViewModel().sendGlobalSmsApiCall(
+                        "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                    )
+                }
+
+
+//                isOtpVerified = true
+//                viewBinding.sendOtpBtn.visibility = View.GONE
+//                viewBinding.otpVerificationLayout.visibility = View.VISIBLE
+//                viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
+//                viewBinding.sendLinkBtn.setBackgroundColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.greenn
+//                    )
+//                )
+//                viewBinding.sendLinkText.setTextColor(
+//                    ContextCompat.getColor(
+//                        requireContext(),
+//                        R.color.white
+//                    )
+//                )
+//                startTimer()
             }
         }
+
+//        viewBinding.sendLinkBtn.setOnClickListener {
+//            if (isOtpVerified) {
+//                showConfirmDialog()
+//            } else {
+//            }
+//        }
 
         viewBinding.takePhoto.setOnClickListener {
             viewBinding.uploadCustomerPrescriptionLayout.visibility = View.GONE
@@ -126,27 +155,46 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     }
                 } else {
                     Toast.makeText(
-                        requireContext(),
-                        "Please enter valid phone number",
-                        Toast.LENGTH_SHORT
+                        requireContext(), "Please enter valid phone number", Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
                 Toast.makeText(
-                    requireContext(),
-                    "Please enter phone number and name",
-                    Toast.LENGTH_SHORT
+                    requireContext(), "Please enter phone number and name", Toast.LENGTH_SHORT
                 ).show()
             }
         }
 
-        viewBinding.uploadPrescriptionBtn.setOnClickListener {
-            if (isPrescriptionUpload) {
-                openDialog()
-            } else {
-            }
-        }
+//        viewBinding.uploadPrescriptionBtn.setOnClickListener {
+//            if (isPrescriptionUpload) {
+//                openDialog()
+//            } else {
+//            }
+//        }
     }
+
+    fun validateSendLinkCustomerDetails(): Boolean {
+        var customerPhoneNumber = viewBinding.customerPhoneNumber.text.toString().trim()
+        var customerName = viewBinding.name.text.toString().trim()
+        if (customerPhoneNumber.isEmpty()) {
+            viewBinding.customerPhoneNumber.requestFocus()
+            Toast.makeText(
+                context, "Customer phone number should not be empty.", Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (customerPhoneNumber.length != 10) {
+            viewBinding.customerPhoneNumber.requestFocus()
+            Toast.makeText(context, "Customer phone number must be 10 digits.", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        } else if (customerName.isEmpty()) {
+            viewBinding.name.requestFocus()
+            Toast.makeText(context, "Customer name should not be empty.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
+    }
+
 
     private fun startTimer() {
         countDownTimer = object : CountDownTimer(countDownTime, 1000) {
@@ -158,6 +206,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             @SuppressLint("SetTextI18n")
             override fun onFinish() {
+                otp = "-1"
                 viewBinding.timer.setText("00:00")
             }
         }
@@ -208,9 +257,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context,
-                ViswamApp.context.packageName + ".provider",
-                imageFile!!
+                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
@@ -218,28 +265,45 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
     }
 
+    fun encodeImage(path: String): String? {
+        val imagefile = File(path)
+        var fis: FileInputStream? = null
+        try {
+            fis = FileInputStream(imagefile)
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+        val bm = BitmapFactory.decodeStream(fis)
+        val baos = ByteArrayOutputStream()
+        bm.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val b = baos.toByteArray()
+        //Base64.de
+        return android.util.Base64.encodeToString(b, android.util.Base64.NO_WRAP)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null && resultCode == Activity.RESULT_OK) {
-            prescriptionImageList.add(ImageDto(imageFile!!, ""))
+            val imageBase64 = encodeImage(imageFile!!.absolutePath)
+            prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
         }
         if (prescriptionImageList.size > 0) {
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.START
             viewBinding.prescriptionImgRcv.visibility = View.VISIBLE
             viewBinding.uploadYourPrescriptionLayout.visibility = View.VISIBLE
-            viewBinding.uploadPrescriptionBtn.setBackgroundColor(ContextCompat.getColor(
-                requireContext(),
-                R.color.greenn
-            ))
-            viewBinding.uploadPrescriptionText.setTextColor(ContextCompat.getColor(
-                requireContext(),
-                R.color.white
-            ))
+            viewBinding.uploadPrescriptionBtn.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.greenn
+                )
+            )
+            viewBinding.uploadPrescriptionText.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.white
+                )
+            )
             isPrescriptionUpload = true
             prescriptionImageAdapter = PrescriptionImageAdapter(
-                requireContext(),
-                this@ApolloSensingFragment,
-                prescriptionImageList
+                requireContext(), this@ApolloSensingFragment, prescriptionImageList
             )
             viewBinding.prescriptionImgRcv.adapter = prescriptionImageAdapter
             viewBinding.prescriptionImgRcv.layoutManager =
@@ -306,10 +370,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val linkSendConfirmDialogBinding = DataBindingUtil.inflate<LinkSendConfirmDialogBinding>(
-            LayoutInflater.from(requireContext()),
-            R.layout.link_send_confirm_dialog,
-            null,
-            false
+            LayoutInflater.from(requireContext()), R.layout.link_send_confirm_dialog, null, false
         )
         dialog.setContentView(linkSendConfirmDialogBinding.root)
 
@@ -347,5 +408,152 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             isPrescriptionUpload = false
         }
         prescriptionImageAdapter.notifyDataSetChanged()
+    }
+
+    override fun onSuccessSendGlobalSms(
+        sendGlobalSmsResponse: SendGlobalSmsResponse,
+        type: String,
+    ) {
+        hideLoading()
+        if (type.equals("OTP")) {
+            otp = sendGlobalSmsResponse.otp!!
+            isOtpVerified = true
+            viewBinding.sendOtpBtn.visibility = View.GONE
+            viewBinding.otpVerificationLayout.visibility = View.VISIBLE
+            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
+            viewBinding.sendLinkBtn.setBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.greenn
+                )
+            )
+            viewBinding.sendLinkText.setTextColor(
+                ContextCompat.getColor(
+                    requireContext(), R.color.white
+                )
+            )
+            startTimer()
+        } else {
+            showConfirmDialog()
+        }
+    }
+
+    override fun onFailureSendGlobalSms(
+        sendGlobalSmsResponse: SendGlobalSmsResponse,
+        type: String,
+    ) {
+        hideLoading()
+        if (sendGlobalSmsResponse.message != null) Toast.makeText(
+            context, sendGlobalSmsResponse.message, Toast.LENGTH_SHORT
+        ).show()
+    }
+
+    override fun onClickResend() {
+        if (validateSendLinkCustomerDetails()) {
+            val sendGlobalSmsRequest = SendGlobalSmsRequest()
+            sendGlobalSmsRequest.sourceFor = "SENSING"
+            sendGlobalSmsRequest.type = "OTP"
+            sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+            sendGlobalSmsRequest.link = ""
+
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                retrieveViewModel().sendGlobalSmsApiCall(
+                    "OTP", sendGlobalSmsRequest, this@ApolloSensingFragment
+                )
+            }
+        }
+    }
+
+    override fun onClickSendLinkBtn() {
+        if (otp.equals(viewBinding.otpView.text.toString())) {
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                var customerPhoneNumber = viewBinding.customerPhoneNumber.text.toString().trim()
+                var customerName = viewBinding.name.text.toString().trim()
+                retrieveViewModel().getLinkApiCall(
+                    customerName, customerPhoneNumber, this@ApolloSensingFragment
+                )
+            }
+        }
+    }
+
+    override fun onSuccessGetLinkApolloSensing(link: String) {
+        val sendGlobalSmsRequest = SendGlobalSmsRequest()
+        sendGlobalSmsRequest.sourceFor = "SENSING"
+        sendGlobalSmsRequest.type = "LINK"
+        sendGlobalSmsRequest.mobileNo = viewBinding.phoneNumber.text.toString().trim()
+        sendGlobalSmsRequest.link = link
+
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            retrieveViewModel().sendGlobalSmsApiCall(
+                "LINK", sendGlobalSmsRequest, this@ApolloSensingFragment
+            )
+        }
+    }
+
+    override fun onFailureGetLinkApolloSensing(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onClickUploadPrescription() {
+        if (validateUploadPrescription()) {
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                val saveImageUrlsRequest = SaveImageUrlsRequest()
+                saveImageUrlsRequest.siteId = Preferences.getSiteId()
+                saveImageUrlsRequest.type = "STORE"
+                saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+                val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+                for (i in prescriptionImageList) {
+                    val base64Image = SaveImageUrlsRequest.Base64Image()
+                    base64Image.base64Image = i.base64Images
+                    base64ImageList.add(base64Image)
+                }
+                saveImageUrlsRequest.base64ImageList = base64ImageList
+
+
+                retrieveViewModel().saveImageUrlsApiCall(
+                    saveImageUrlsRequest, this@ApolloSensingFragment
+                )
+            }
+        }
+
+    }
+
+    override fun onSuccessUploadPrescriptionApiCall(message: String) {
+        hideLoading()
+        openDialog()
+    }
+
+    override fun onFailureUploadPrescriptionApiCall(message: String) {
+        hideLoading()
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
+    fun validateUploadPrescription(): Boolean {
+        var customerPhoneNumber = viewBinding.phoneNumber.text.toString().trim()
+        var customerName = viewBinding.custName.text.toString().trim()
+        if (customerPhoneNumber.isEmpty()) {
+            viewBinding.phoneNumber.requestFocus()
+            Toast.makeText(
+                context, "Customer phone number should not be empty.", Toast.LENGTH_SHORT
+            ).show()
+            return false
+        } else if (customerPhoneNumber.length != 10) {
+            viewBinding.phoneNumber.requestFocus()
+            Toast.makeText(context, "Customer phone number must be 10 digits.", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        } else if (customerName.isEmpty()) {
+            viewBinding.custName.requestFocus()
+            Toast.makeText(context, "Customer name should not be empty.", Toast.LENGTH_SHORT).show()
+            return false
+        } else if (prescriptionImageList == null || prescriptionImageList.size == 0) {
+            Toast.makeText(context, "No prescriptions available.", Toast.LENGTH_SHORT).show()
+            return false
+        }
+        return true
     }
 }

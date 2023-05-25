@@ -10,6 +10,9 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteList
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -98,7 +101,6 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: CmsTicketRequest,
     ): CmsTicketResponse
-
 
 
     @POST
@@ -627,7 +629,6 @@ interface ViswamAppApi {
     suspend fun GET_SURVEY_DETAILS_BY_CHAMPID(): GetSurevyDetailsByChampsIdResponse
 
 
-
     //champs admin
     @GET
     suspend fun GET_CATEGORY_DETAILS_API_CALL(
@@ -778,6 +779,25 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetImageUrlsModelApnaRequest,
     ): GetImageUrlsModelApnaResponse
+
+    //Apollo sensing apis
+    @POST//(https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms)
+    suspend fun SEND_GLOBAL_SMS_API_CALL(
+        @Url url: String,
+        @Body sendGlobalSmsRequest: SendGlobalSmsRequest?,
+    ): SendGlobalSmsResponse
+
+
+    @GET
+    suspend fun GET_APOLLO_SENSING_LINK_API_CALL(
+        @Url url: String,
+    ): ResponseBody
+
+    @POST//(https://172.16.103.116:8443/SENSING/SaveSensingDetails)
+    suspend fun SAVE_IMAGE_URLS_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body saveImageUrlsRequest: SaveImageUrlsRequest,
+    ): com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
 }
 
 
