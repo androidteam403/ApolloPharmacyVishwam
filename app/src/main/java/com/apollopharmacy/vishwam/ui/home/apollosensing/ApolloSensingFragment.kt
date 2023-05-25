@@ -538,6 +538,35 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onClickBacktoMainScreen() {
+        viewBinding.customerPhoneNumber.getText()!!.clear()
+        viewBinding.name.getText()!!.clear()
+        viewBinding.otpView.getText()!!.clear()
+        viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
+        viewBinding.sendOtpBtn.visibility = View.VISIBLE
+        viewBinding.customerPrescriptionLayout.visibility = View.GONE
+        viewBinding.sendLinkBtn.visibility = View.GONE
+        viewBinding.otpVerificationLayout.visibility = View.GONE
+        viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+        viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
+        viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+    }
+
+    override fun onClickBacktoMainScreenPrescription() {
+        viewBinding.phoneNumber.getText()!!.clear()
+        viewBinding.custName.getText()!!.clear()
+        viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
+        viewBinding.prescriptionImgRcv.visibility = View.GONE
+        viewBinding.uploadPrescriptionLayout.visibility = View.GONE
+        viewBinding.uploadPrescriptionBtn.visibility = View.GONE
+        viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
+        viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
+        viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
+        viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+        prescriptionImageList.clear()
+        isPrescriptionUpload = false
+    }
+
     fun validateUploadPrescription(): Boolean {
         var customerPhoneNumber = viewBinding.phoneNumber.text.toString().trim()
         var customerName = viewBinding.custName.text.toString().trim()

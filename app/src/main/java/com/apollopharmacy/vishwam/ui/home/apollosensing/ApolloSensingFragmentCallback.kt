@@ -23,4 +23,8 @@ interface ApolloSensingFragmentCallback {
     fun onSuccessUploadPrescriptionApiCall(message: String)
 
     fun onFailureUploadPrescriptionApiCall(message: String)
+
+    fun onClickBacktoMainScreen()
+
+    fun onClickBacktoMainScreenPrescription()
 }
