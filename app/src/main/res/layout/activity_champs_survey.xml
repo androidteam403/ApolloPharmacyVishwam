@@ -62,6 +62,7 @@
 
 
                         <LinearLayout
+                            android:id="@+id/preview"
                             android:onClick="@{()-> callback.onClickPreview()}"
                             android:gravity="end"
                             android:layout_width="wrap_content"
@@ -158,6 +159,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:layout_width="76dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginEnd="@dimen/value_5dp"
@@ -1192,6 +1194,21 @@
                                 android:buttonTint="@color/dark_green"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/technical_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:maxLength="250"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:gravity="start"
+                                android:editable="false"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
 
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/technical_edittext"
@@ -1249,6 +1266,22 @@
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
 
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/softskills_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:maxLength="250"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:gravity="start"
+                                android:editable="false"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/softSkills_edittext"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1305,6 +1338,22 @@
                                 android:buttonTint="@color/dark_green"
                                 android:textColor="@color/black"
                                 android:textStyle="bold" />
+
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/othertraining_textview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:clickable="true"
+                                android:maxLength="250"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:gravity="start"
+                                android:editable="false"
+                                android:textAlignment="textStart"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
 
 
                             <com.google.android.material.textfield.TextInputLayout
@@ -1406,6 +1455,23 @@
                             android:textColorHint="@color/black"
                             app:counterMaxLength="750">
 
+                            <TextView
+                                android:visibility="gone"
+                                android:id="@+id/issues_tobe_resolved_textView"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:clickable="false"
+                                android:ellipsize="start"
+                                android:gravity="start"
+                                android:maxLength="250"
+                                android:layout_marginStart="@dimen/value_25dp"
+                                android:paddingEnd="@dimen/value_10dp"
+                                android:textAlignment="viewStart"
+                                android:textColor="@color/black"
+                                android:textColorHint="@color/black"
+                                android:textSize="@dimen/text_15sp" />
+
                             <androidx.appcompat.widget.AppCompatEditText
                                 android:id="@+id/enter_issues_tobe_resolved_edittext"
                                 android:layout_width="match_parent"
@@ -1424,6 +1490,7 @@
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <LinearLayout
+                            android:id="@+id/char_issues_left_box"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="@dimen/value_15dp"
@@ -1485,7 +1552,7 @@
                                         android:max="100"
                                         android:padding="@dimen/value_1dp"
                                         android:progressDrawable="@drawable/progress_bar_orange"
-                                        android:visibility="visible" />
+                                        android:visibility="gone" />
 
                                     <ProgressBar
                                         android:id="@+id/progressBarTotalRed"
@@ -1496,7 +1563,6 @@
                                         android:background="@drawable/background_forprogress_bar"
                                         android:max="100"
                                         android:padding="@dimen/value_1dp"
-                                        android:progress="80"
                                         android:progressDrawable="@drawable/progress_bar_red"
                                         android:visibility="gone" />
 
@@ -1509,7 +1575,6 @@
                                         android:background="@drawable/background_forprogress_bar"
                                         android:max="100"
                                         android:padding="@dimen/value_1dp"
-                                        android:progress="80"
                                         android:progressDrawable="@drawable/progress_bar_green"
                                         android:visibility="gone" />
 
@@ -1522,11 +1587,22 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerVertical="true"
                                     android:layout_gravity="center"
+                                    android:orientation="horizontal"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:gravity="center">
 
                                     <TextView
                                         android:id="@+id/percentageSum"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center"
+                                        android:gravity="center"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/dimen25sp"
+                                        android:textStyle="bold" />
+                                    <TextView
+                                        android:text="%"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_gravity="center"
@@ -1557,6 +1633,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/warning_layout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_15dp"
@@ -1598,6 +1675,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/save_saveDraft"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/value_15dp"

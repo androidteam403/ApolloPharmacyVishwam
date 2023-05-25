@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivityGetSurveyDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
@@ -19,7 +21,10 @@ import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.GetSurveyDetailsModelResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import java.text.SimpleDateFormat
 import java.util.ArrayList
+import java.util.Calendar
+import java.util.Date
 
 class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListCallback{
     private lateinit var activityGetSurveyDetailsBinding: ActivityGetSurveyDetailsBinding
@@ -60,9 +65,16 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         storeId = intent.getStringExtra("storeId")!!
         siteName = intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        val currentDate: String = simpleDateFormat.format(Date())
+
+        var fromdate = simpleDateFormat.format(cal.time)
+        var toDate = currentDate
         if (NetworkUtil.isNetworkConnected(this)) {
             Utlis.showLoading(this)
-            getSurveyDetailsListViewModel.getSurveyListApi(this, "2023-01-23", "2023-05-19", "APL48627");
+            getSurveyDetailsListViewModel.getSurveyListApi(this, fromdate, toDate, Preferences.getValidatedEmpId());
 
         } else {
             Toast.makeText(
@@ -77,6 +89,8 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
     override fun onSuccessSurveyList(getSurvetDetailsModelResponse: GetSurveyDetailsModelResponse) {
         if(getSurvetDetailsModelResponse!=null && getSurvetDetailsModelResponse.storeDetails!=null &&
                 getSurvetDetailsModelResponse.storeDetails.size>0){
+            activityGetSurveyDetailsBinding.noListFound.visibility= View.GONE
+            activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.VISIBLE
             getSurveyDetailsAdapter =
                 GetSurveyDetailsAdapter(getSurvetDetailsModelResponse, applicationContext, this
                 )
@@ -84,6 +98,9 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
                 LinearLayoutManager(this)
             )
             activityGetSurveyDetailsBinding.recyclerViewList.setAdapter(getSurveyDetailsAdapter)
+        }else{
+            activityGetSurveyDetailsBinding.noListFound.visibility= View.VISIBLE
+            activityGetSurveyDetailsBinding.recyclerViewList.visibility=View.GONE
         }
         Utlis.hideLoading()
 
@@ -104,7 +121,7 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         intent.putExtra("champsRefernceId", champsRefernceId)
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivity(intent)
+        startActivityForResult(intent, 781)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
@@ -115,14 +132,39 @@ class GetSurveyDetailsListActivity : AppCompatActivity() , GetSurveyDetailsListC
         intent.putExtra("storeId", storeId)
         intent.putExtra("siteName", siteName)
         intent.putExtra("storeCity", storeCity)
-        intent.putExtra("status", "new")
+        intent.putExtra("status", "NEW")
         intent.putStringArrayListExtra("surveyRecDetailsList", surveyRecDetailsList)
         intent.putStringArrayListExtra("surveyCCDetailsList", surveyCCDetailsList)
-        startActivity(intent)
+        startActivityForResult(intent, 781)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     override fun onClickback() {
        super.onBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==781 && resultCode== RESULT_OK){
+            val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.DATE, -7)
+            val currentDate: String = simpleDateFormat.format(Date())
+
+            var fromdate = simpleDateFormat.format(cal.time)
+            var toDate = currentDate
+            if (NetworkUtil.isNetworkConnected(this)) {
+                Utlis.showLoading(this)
+                getSurveyDetailsListViewModel.getSurveyListApi(this, fromdate, toDate, Preferences.getValidatedEmpId());
+
+            } else {
+                Toast.makeText(
+                    ViswamApp.context,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+        }
     }
 }

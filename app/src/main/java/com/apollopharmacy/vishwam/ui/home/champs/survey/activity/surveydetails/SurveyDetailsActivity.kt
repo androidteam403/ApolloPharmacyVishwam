@@ -110,13 +110,13 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
-            if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty()){
+            if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
                 activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
             }else{
                 activityStartSurvey2Binding.trainer.text="--"
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty())
+            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
             {
                 activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
 
@@ -124,7 +124,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
                 activityStartSurvey2Binding.regionalHead.text="--"
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty()){
+            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
                 activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
 
             }else{
@@ -132,7 +132,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
             }
 
-            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty()){
+            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
                 activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
             }else{
                 activityStartSurvey2Binding.manager.text="--"
@@ -146,7 +146,10 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         }
 
         activityStartSurvey2Binding.storeId.text=storeId
-        activityStartSurvey2Binding.address.text=siteName
+        if(siteName!=null){
+            activityStartSurvey2Binding.address.text=siteName
+        }
+
 
 
 //        if (NetworkUtil.isNetworkConnected(this)) {

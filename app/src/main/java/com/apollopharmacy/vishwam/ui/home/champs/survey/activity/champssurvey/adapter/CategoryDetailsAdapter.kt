@@ -2,16 +2,13 @@ package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.a
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterCategoryDetailsBinding
-import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champsratingbar.adapter.SubCategoryAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 
@@ -19,6 +16,7 @@ class CategoryDetailsAdapter(
     private var categoryDetails: List<GetCategoryDetailsModelResponse.CategoryDetail>?,
     private var applicationContext: Context,
     private var champsSurveyCallBack: ChampsSurveyCallBack,
+    private var status: String?,
 ) : RecyclerView.Adapter<CategoryDetailsAdapter.ViewHolder>() {
 
 
@@ -41,8 +39,10 @@ class CategoryDetailsAdapter(
         val categoryDetailss = categoryDetails!!.get(position)
         holder.adapterCategoryDetailsBinding.categoryName.text = categoryDetailss.categoryName
         holder.adapterCategoryDetailsBinding.categoryNumber.text = categoryDetailss.id.toString()
+        holder.adapterCategoryDetailsBinding.progressBar.isEnabled=false
 
-        if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!!) {
+
+        if (categoryDetailss.sumOfSubCategoryRating != null && categoryDetailss.clickedSubmit!! ) {
             holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility = View.VISIBLE
             if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
                 holder.adapterCategoryDetailsBinding.progressBar.progress = 0
@@ -87,6 +87,10 @@ class CategoryDetailsAdapter(
 
     override fun getItemCount(): Int {
         return categoryDetails!!.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     class ViewHolder(val adapterCategoryDetailsBinding: AdapterCategoryDetailsBinding) :
