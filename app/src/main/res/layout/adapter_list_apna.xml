@@ -51,6 +51,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Transaction ID: "
+                            android:textColor="@color/grey"
+
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -103,7 +105,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store ID: "
-                            android:textSize="@dimen/text_12sp" />
+                            android:textColor="@color/grey"
+                            android:textSize="12.5sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -147,6 +150,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Store Name: "
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -193,6 +197,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Uploaded On: "
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -225,6 +230,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:text="Uploaded by: "
+                            android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -257,6 +263,8 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textColor="@color/grey"
+
                             android:text="Approved By: "
                             android:textSize="@dimen/text_12sp" />
 
@@ -286,6 +294,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Approved On: "
+                            android:textColor="@color/grey"
+
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
@@ -426,6 +436,8 @@
                         <ImageView
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
+                            android:layout_marginStart="2dp"
+
                             android:layout_gravity="center"
                             android:src="@drawable/clock_small" />
 
@@ -494,12 +506,12 @@
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginStart="2dp"
                             android:src="@drawable/clock_small" />
 
                         <ImageView
                             android:visibility="gone"
-                            android:layout_marginStart="@dimen/value_15dp"
+                            android:layout_marginStart="2dp"
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
                             android:src="@drawable/greenright" />
@@ -509,7 +521,7 @@
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginStart="2dp"
                             android:src="@drawable/ash_tick" />
 
                         <TextView
@@ -518,6 +530,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Stage: "
+                            android:textColor="@color/grey"
+
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp" />
 
@@ -525,7 +539,7 @@
                             android:id="@+id/pre_rectro_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Pre Rectro"
+                            android:text="Pre Retro"
                             android:textColor="@color/ash_color_for_apna"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
@@ -646,7 +660,7 @@
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginStart="2dp"
                             android:src="@drawable/clock_small" />
 
                         <TextView
@@ -655,6 +669,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Stage: "
+                            android:textColor="@color/grey"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp" />
 
@@ -662,7 +677,7 @@
                             android:id="@+id/post_rectro_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Post Rectro"
+                            android:text="Post Retro"
                             android:textColor="@color/ash_color_for_apna"
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp"
@@ -750,7 +765,7 @@
                             android:layout_width="@dimen/text_13sp"
                             android:layout_height="@dimen/text_13sp"
                             android:layout_gravity="center"
-                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginStart="2dp"
                             android:src="@drawable/clock_small" />
 
                         <TextView
@@ -759,6 +774,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/five5_sp"
                             android:text="Stage: "
+                            android:textColor="@color/grey"
+
                             android:textAlignment="center"
                             android:textSize="@dimen/text_12sp" />
 

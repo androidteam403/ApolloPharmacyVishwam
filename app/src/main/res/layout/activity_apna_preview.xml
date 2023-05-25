@@ -11,6 +11,82 @@
         android:descendantFocusability="blocksDescendants"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/apna_project_actionbar_bg"
+            android:orientation="horizontal"
+            android:padding="@dimen/value_10dp"
+            android:visibility="visible">
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="@dimen/value_32dp"
+                android:layout_height="32dp"
+                android:layout_marginTop="4dp"
+                android:contentDescription="@string/app_name"
+                android:rotation="-90"
+
+                android:src="@drawable/ic_baseline_north_24"
+                android:tint="@color/white"
+                tools:ignore="UseAppTint" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:text="APNA Survey Preview"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:layout_width="@dimen/value_30dp"
+                        android:layout_height="@dimen/value_30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20sp"
+                        android:background="@drawable/green_backgroundplus"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="6dp"
+                        android:src="@drawable/ic_baseline_edit_24"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="20sp"
+                        android:src="@drawable/closee_whitee"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -22,89 +98,11 @@
                 android:descendantFocusability="blocksDescendants"
                 android:orientation="vertical">
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/apna_project_actionbar_bg"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/value_10dp"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/arrow"
-                        android:layout_width="@dimen/value_32dp"
-                        android:layout_height="32dp"
-                        android:layout_marginTop="4dp"
-                        android:contentDescription="@string/app_name"
-                        android:rotation="-90"
-
-                        android:src="@drawable/ic_baseline_north_24"
-                        android:tint="@color/white"
-                        tools:ignore="UseAppTint" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:orientation="vertical">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:text="APNA Survey Preview"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="end"
-                        android:orientation="vertical">
-
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:gravity="end"
-                            android:orientation="horizontal"
-                            android:visibility="visible">
-
-                            <ImageView
-                                android:layout_width="@dimen/value_30dp"
-                                android:layout_height="@dimen/value_30dp"
-                                android:layout_gravity="center"
-                                android:layout_marginEnd="20sp"
-                                android:background="@drawable/green_backgroundplus"
-                                android:paddingTop="5dp"
-                                android:paddingBottom="6dp"
-                                android:src="@drawable/ic_baseline_edit_24"
-                                android:visibility="gone" />
-
-                            <ImageView
-                                android:layout_width="35dp"
-                                android:layout_height="35dp"
-                                android:layout_gravity="center"
-                                android:layout_marginEnd="20sp"
-                                android:src="@drawable/closee_whitee"
-                                android:visibility="gone" />
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
                     android:orientation="vertical">
-
 
                     <LinearLayout
                         android:id="@+id/taskCompletedLayout"
@@ -143,8 +141,6 @@
                                     android:text="APNA4215"
                                     android:textColor="@color/black"
                                     android:textSize="11.5sp" />
-
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -156,8 +152,6 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
-
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Location :  "
                                     android:textColor="@color/grey"
@@ -178,7 +172,6 @@
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="3dp"
                                 android:orientation="horizontal"
-
                                 android:weightSum="2">
 
                                 <LinearLayout
@@ -203,7 +196,6 @@
                                         android:text="07 Apr,2023-12:30PM"
                                         android:textColor="@color/black"
                                         android:textSize="11.5sp" />
-
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -228,9 +220,7 @@
                                         android:text="12 Apr,2023-4:30PM"
                                         android:textColor="@color/black"
                                         android:textSize="11.5sp" />
-
                                 </LinearLayout>
-
                             </LinearLayout>
 
 
@@ -238,7 +228,6 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_marginTop="3dp"
-
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -259,7 +248,6 @@
                                     android:textColor="@color/black"
                                     android:textSize="11.5sp" />
                             </LinearLayout>
-
                         </LinearLayout>
 
                         <View
@@ -284,7 +272,6 @@
                                 android:orientation="horizontal"
                                 android:paddingBottom="@dimen/value_5dp">
 
-
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
@@ -306,7 +293,6 @@
                                     android:textColor="#39B54A"
                                     android:textSize="11.5sp" />
                             </LinearLayout>
-
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -338,11 +324,490 @@
                                 <!--                   pending textcolor     android:textColor="#f26522"-->
 
                             </LinearLayout>
-
-
                         </LinearLayout>
                     </LinearLayout>
 
+                    <!-- Key Features Layout -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Key Features"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:weightSum="3">
+
+                            <!-- Toilets availability -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/toiletsAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/toilets"
+                                    android:tint="@color/greenn"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/toiletsNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/toilets"
+                                    android:tint="@color/grey"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/toiletsText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Toilets"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- parking -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/parkingAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/parking"
+                                    android:tint="@color/greenn"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/parkingNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/parking"
+                                    android:tint="@color/grey"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/parkingText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Parking"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+                            <!-- Traffic -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/trafficLow"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/green"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficMedium"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/yellow"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficHigh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/color_red"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficVeryHigh"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/red"
+                                    android:visibility="gone"
+                                    tools:ignore="UseAppTint" />
+
+                                <ImageView
+                                    android:id="@+id/trafficNotAvailable"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/traffic"
+                                    android:tint="@color/grey"
+                                    android:visibility="visible"
+                                    tools:ignore="UseAppTint" />
+
+                                <TextView
+                                    android:id="@+id/trafficText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Traffic Low"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Category Sale -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/roboto_medium"
+                            android:text="Category Sale"
+                            android:textColor="@color/black" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="@dimen/value_10dp"
+                            android:weightSum="4">
+
+                            <!-- Pharma -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/pharmaNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/pharmaNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/pharma"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/pharmaText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Pharma"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/pharmaAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/pharmaImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/pharma"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/pharmaImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Pharma"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/pharmaValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerInParent="true"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="20%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- FMCG -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/fmcgNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/fmcgNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/fmcg"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/fmcgText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="FMCG"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/fmcgAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:id="@+id/fmcgImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/fmcg"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/fmcgImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="FMCG"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/fmcgValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="20%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- Surgicals -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/surgicalsNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/surgicalsNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/surgicals"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/surgicalsText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Surgicals"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/surgicalsAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/surgicalsImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/surgicals"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/surgicalsImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Surgicals"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+
+                                    <TextView
+                                        android:id="@+id/surgicalsValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_30dp"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="25%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+
+                            <!-- Area Discount -->
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/areaDiscountNotAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:gravity="center_horizontal"
+                                    android:orientation="vertical"
+                                    android:visibility="gone">
+
+                                    <ImageView
+                                        android:id="@+id/areaDiscountNotAvailable"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:src="@drawable/discount"
+                                        android:tint="@color/grey"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:id="@+id/areaDiscountText"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Area Discount"
+                                        android:textColor="@color/grey"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+                                </LinearLayout>
+
+                                <RelativeLayout
+                                    android:id="@+id/areaDiscountAvailableLayout"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:id="@+id/areaDiscountImg"
+                                        android:layout_width="35dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_centerHorizontal="true"
+                                        android:src="@drawable/discount"
+                                        android:tint="@color/greenn"
+                                        tools:ignore="UseAppTint" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_below="@id/areaDiscountImg"
+                                        android:layout_centerHorizontal="true"
+                                        android:text="Area Discount"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        android:textStyle="bold" />
+
+                                    <TextView
+                                        android:id="@+id/areaDiscountValue"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_40dp"
+                                        android:layout_marginTop="@dimen/value_20dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:background="#fd9625"
+                                        android:paddingHorizontal="@dimen/value_3dp"
+                                        android:paddingVertical="@dimen/value_2dp"
+                                        android:text="25%"
+                                        android:textColor="@color/white"
+                                        android:textSize="@dimen/text_10sp" />
+                                </RelativeLayout>
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <!-- Location Details -->
                     <LinearLayout
@@ -360,14 +825,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="1"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -390,12 +856,12 @@
                                 android:id="@+id/locationdetails"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/text_dimen_10"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Venugoapl Nagar,Quthubullapur,\nNear Govt.Hospiutal,Hyderabad,\nTelanagana-500054"
                                 android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -472,8 +938,8 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginTop="@dimen/value_15dp"
                         android:layout_marginEnd="@dimen/value_10dp"
                         android:orientation="vertical"
                         android:visibility="visible">
@@ -484,14 +950,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="2"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -513,17 +980,43 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/text_dimen_10"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Dimensions of the Premises(in foot)"
-                                android:textSize="12sp" />
+                                android:text="Dimensions of the Premises"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_2dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:gravity="center"
+                                    android:text="Dimension type: "
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/dimension_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="-"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_13sp" />
+                            </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="2dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_4dp"
                                 android:orientation="horizontal"
                                 android:weightSum="2">
 
@@ -540,7 +1033,7 @@
                                         android:gravity="center"
                                         android:text="Length: "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/length"
@@ -549,7 +1042,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="10.6"
                                         android:textColor="@color/black"
-                                        android:textSize="13sp" />
+                                        android:textSize="@dimen/text_13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -565,7 +1058,7 @@
                                         android:gravity="center"
                                         android:text="Width: "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/width"
@@ -574,15 +1067,15 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="10.6"
                                         android:textColor="@color/black"
-                                        android:textSize="13sp" />
+                                        android:textSize="@dimen/text_13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginTop="4dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_4dp"
                                 android:orientation="horizontal"
                                 android:weightSum="2">
 
@@ -599,7 +1092,7 @@
                                         android:gravity="center"
                                         android:text="Ceiling Height: "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/ceilingHeight"
@@ -608,7 +1101,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="11"
                                         android:textColor="@color/black"
-                                        android:textSize="13sp" />
+                                        android:textSize="@dimen/text_13sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -624,7 +1117,7 @@
                                         android:gravity="center"
                                         android:text="Total Area Sq.ft: "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/totalareasqft"
@@ -633,7 +1126,7 @@
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="976.6"
                                         android:textColor="@color/black"
-                                        android:textSize="13sp" />
+                                        android:textSize="@dimen/text_13sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -645,18 +1138,18 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Expected Rent :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/expectedrentsrft"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:drawableLeft="@drawable/rupee_apna"
                                     android:text="100"
                                     android:textColor="@color/black"
@@ -672,23 +1165,22 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Security Deposit :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/securitydeposit"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:drawableLeft="@drawable/rupee_apna"
                                     android:text="100"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp"
-
                                     app:fontFamily="@font/roboto_medium" />
 
                             </LinearLayout>
@@ -701,23 +1193,23 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Toilets Availability :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/toiletsAvailability"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Yes"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -728,23 +1220,23 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Age Of Building :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/ageOfTheBuilding"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="4 Years 6 Months"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -755,33 +1247,59 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Parking :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/parking"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Yes"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Type of traffic street: "
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/traffic_street_type"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:text="Low"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    app:fontFamily="@font/roboto_medium" />
                             </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Peak Hours"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -800,21 +1318,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="Morning From"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/morningFrom"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="9:30AM"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -826,21 +1344,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="Morning To"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/morningTo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="10:30AM "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -861,21 +1379,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="Evening From"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/eveningFrom"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="5:30PM"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -887,21 +1405,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="Evening To"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/eveningTo"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="6:30PM "
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -909,20 +1427,20 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Present Traffic Patterns"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Normal"
                                 android:textColor="@color/black"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -993,8 +1511,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         android:layout_marginTop="15dp"
-                        android:orientation="vertical"
                         android:layout_marginEnd="@dimen/value_10dp"
+                        android:orientation="vertical"
                         android:visibility="visible">
 
                         <LinearLayout
@@ -1003,14 +1521,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="3"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1037,123 +1556,23 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Existing Outlet Name :"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:id="@+id/existingOutletName"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Pharmacy"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/text_dimen_10"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Category Sale "
-                                android:textSize="12sp" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="@dimen/value_40dp"
-                                android:orientation="horizontal"
-                                android:weightSum="3">
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="Pharma"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-
-                                    <TextView
-                                        android:id="@+id/pharma"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="70% "
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="FMCG"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-
-                                    <TextView
-                                        android:id="@+id/fmcg"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="70% "
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="Surgicals"
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-
-                                    <TextView
-                                        android:id="@+id/surgicals"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="1% "
-                                        android:textColor="@color/black"
-                                        android:textSize="12sp" />
-
-                                </LinearLayout>
-
+                                    android:textSize="@dimen/text_12sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1164,80 +1583,38 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Area Discount :"
-                                    android:textSize="12sp" />
+                                    android:text="Existing Outlet Age :"
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
-                                    android:id="@+id/areadiscount"
+                                    android:id="@+id/existingOutletAge"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="10%"
+                                    android:text="-"
                                     android:textColor="@color/black"
-                                    android:textSize="12sp" />
+                                    android:textSize="@dimen/text_12sp" />
                             </LinearLayout>
 
-
-                            <androidx.recyclerview.widget.RecyclerView
-                                android:id="@+id/recyclerViewneighbour"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="5dp"
-                                android:layout_marginEnd="@dimen/value_40dp"
-                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                tools:itemCount="2"
-                                tools:listitem="@layout/neighbour_store_adapter_layout" />
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Local Distributors Comments :"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/localdistubutorcomment"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Perfect for place for the business"
-                                android:textColor="@color/black"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Occupation:"
-                                android:textSize="12sp" />
-
-                            <TextView
-                                android:id="@+id/occupation"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
-                                android:layout_marginTop="5dp"
-                                android:fontFamily="@font/roboto_medium"
-                                android:text="Catchment area"
-                                android:textColor="@color/black"
-                                android:textSize="13sp" />
+                                android:text="Category Sale "
+                                android:textSize="@dimen/text_12sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="5dp"
+                                android:layout_marginStart="@dimen/value_10dp"
                                 android:layout_marginEnd="@dimen/value_40dp"
                                 android:orientation="horizontal"
                                 android:weightSum="3">
@@ -1251,24 +1628,21 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Service Class"
+                                        android:text="Pharma"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
-                                        android:id="@+id/serviceClass"
+                                        android:id="@+id/pharma"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:layout_marginTop="5dp"
-                                        android:drawableLeft="@drawable/rupee_apna"
-                                        android:text="100"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="70% "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp"
-                                        app:fontFamily="@font/roboto_medium" />
-
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -1280,44 +1654,226 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginTop="5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Business Class"
+                                        android:text="FMCG"
                                         android:textColor="@color/black"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
-                                        android:id="@+id/businessClass"
+                                        android:id="@+id/fmcg"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="5dp"
-                                        android:layout_marginTop="5dp"
-                                        android:drawableLeft="@drawable/rupee_apna"
-                                        android:text="100"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="70% "
                                         android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp"
-                                        app:fontFamily="@font/roboto_medium" />
-
-
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Surgicals"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/surgicals"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="1% "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Area Discount :"
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/areadiscount"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="10%"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
                             </LinearLayout>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Neighbouring Stores :"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/recyclerViewneighbour"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginEnd="@dimen/value_40dp"
+                                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                                tools:itemCount="2"
+                                tools:listitem="@layout/neighbour_store_adapter_layout" />
+
+                            <TextView
+                                android:id="@+id/neighbouring_store_not_found"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:paddingTop="@dimen/value_5dp"
+                                android:text="-"
+                                android:textColor="@color/black"
+                                android:visibility="gone" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Apollo Sourcing  Comments :"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/localdistubutorcomment"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Perfect for place for the business"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Occupation:"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <TextView
+                                android:id="@+id/occupation"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
+                                android:fontFamily="@font/roboto_medium"
+                                android:text="Catchment area"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/text_12sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginEnd="@dimen/value_40dp"
+                                android:orientation="horizontal"
+                                android:weightSum="3">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Service Class"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/serviceClass"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:drawableLeft="@drawable/rupee_apna"
+                                        android:text="100"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        app:fontFamily="@font/roboto_medium" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Business Class"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/businessClass"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_5dp"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:drawableLeft="@drawable/rupee_apna"
+                                        android:text="100"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp"
+                                        app:fontFamily="@font/roboto_medium" />
+                                </LinearLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/value_10dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Traffic Generators:"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
 
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recyclerViewTraffic"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"
-                                android:layout_marginTop="5dp"
+                                android:layout_marginTop="@dimen/value_5dp"
                                 android:orientation="horizontal"
                                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                 tools:itemCount="2"
@@ -1330,7 +1886,7 @@
                                 android:layout_marginStart="@dimen/value_10dp"
                                 android:paddingTop="@dimen/value_10dp"
                                 android:paddingBottom="@dimen/value_10dp"
-                                android:text="Traffic Generators not found"
+                                android:text="-"
                                 android:textColor="@color/black"
                                 android:visibility="gone" />
                         </LinearLayout>
@@ -1426,14 +1982,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="4"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1459,7 +2016,6 @@
                                 android:layout_marginStart="@dimen/text_dimen_10"
                                 android:layout_marginTop="5dp"
                                 android:layout_marginEnd="@dimen/text_dimen_10"
-
                                 android:orientation="vertical">
 
 
@@ -1479,14 +2035,29 @@
                                     android:visibility="gone"
                                     android:weightSum="3">
 
-                                    <TextView
+                                    <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight=".5"
-                                        android:fontFamily="@font/roboto_medium"
-                                        android:text="Total"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_12sp" />
+                                        android:layout_weight="1"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/roboto_medium"
+                                            android:text="Total"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+
+                                        <TextView
+                                            android:id="@+id/total"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:fontFamily="@font/poppin_bold"
+                                            android:text="10.2Lac"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_12sp" />
+                                    </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="0dp"
@@ -1544,7 +2115,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No competitors Details available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1567,14 +2138,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="5"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1616,7 +2188,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="Apartments list not found"
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1637,14 +2209,15 @@
                             android:orientation="horizontal">
 
                             <TextView
-                                android:layout_width="@dimen/value_25dp"
-                                android:layout_height="@dimen/value_25dp"
+                                android:layout_width="@dimen/value_20dp"
+                                android:layout_height="@dimen/value_20dp"
                                 android:background="@drawable/green_backgroundplus"
                                 android:backgroundTint="@color/apna_project_actionbar_color"
                                 android:fontFamily="@font/roboto_medium"
                                 android:gravity="center"
                                 android:text="6"
-                                android:textColor="@color/white" />
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -1686,7 +2259,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="Hospitals list not found"
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
 
@@ -1696,7 +2269,7 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginTop="@dimen/value_15dp"
                             android:orientation="vertical">
 
                             <LinearLayout
@@ -1705,14 +2278,15 @@
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_width="@dimen/value_25dp"
-                                    android:layout_height="@dimen/value_25dp"
+                                    android:layout_width="@dimen/value_20dp"
+                                    android:layout_height="@dimen/value_20dp"
                                     android:background="@drawable/green_backgroundplus"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:fontFamily="@font/roboto_medium"
                                     android:gravity="center"
                                     android:text="7"
-                                    android:textColor="@color/white" />
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/text_12sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -1744,7 +2318,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="80dp"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginTop="10dp"
+                                    android:layout_marginTop="@dimen/value_10dp"
                                     android:orientation="horizontal"
                                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                                     tools:itemCount="2"
@@ -1757,7 +2331,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No photo available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>
@@ -1801,7 +2375,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:paddingTop="@dimen/value_10dp"
                                     android:paddingBottom="@dimen/value_10dp"
-                                    android:text="No video available."
+                                    android:text="-"
                                     android:textColor="@color/black"
                                     android:visibility="gone" />
                             </LinearLayout>

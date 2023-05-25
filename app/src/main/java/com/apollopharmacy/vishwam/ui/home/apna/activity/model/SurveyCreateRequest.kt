@@ -1,11 +1,10 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.model
 
-import com.google.gson.annotations.SerializedName
 import com.google.gson.annotations.Expose
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest.ToiletsAvailability
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-class SurveyCreateRequest: Serializable {
+class SurveyCreateRequest : Serializable {
     @SerializedName("dimension_type")
     @Expose
     var dimensionType: DimensionType? = null
@@ -180,25 +179,27 @@ class SurveyCreateRequest: Serializable {
 
     var city2: String? = null
 
-    class DimensionType: Serializable {
+    class DimensionType : Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        var name: String? = null
+    }
+
+    class Parking : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class Parking: Serializable {
+    class ToiletsAvailability : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class ToiletsAvailability: Serializable {
-        @SerializedName("uid")
-        @Expose
-        var uid: String? = null
-    }
-
-    class NeighboringStore: Serializable {
+    class NeighboringStore : Serializable {
         @SerializedName("location")
         @Expose
         var location: Location? = null
@@ -219,14 +220,14 @@ class SurveyCreateRequest: Serializable {
         @Expose
         var sqft: Float? = null
 
-        class Location: Serializable {
+        class Location : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
         }
     }
 
-    class Chemist: Serializable {
+    class Chemist : Serializable {
         @SerializedName("chemist")
         @Expose
         var chemist: String? = null
@@ -247,20 +248,20 @@ class SurveyCreateRequest: Serializable {
         @Expose
         var unorgAvgSale: Int? = null
 
-        class Organised: Serializable {
+        class Organised : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
         }
 
-        class Unorganised: Serializable {
+        class Unorganised : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
         }
     }
 
-    class Apartment: Serializable {
+    class Apartment : Serializable {
         @SerializedName("type")
         @Expose
         var type: Type? = null
@@ -277,14 +278,14 @@ class SurveyCreateRequest: Serializable {
         @Expose
         var distance: Int? = null
 
-        class Type: Serializable {
+        class Type : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
         }
     }
 
-    class Hospital: Serializable {
+    class Hospital : Serializable {
         @SerializedName("speciality")
         @Expose
         var speciality: Speciality? = null
@@ -305,62 +306,62 @@ class SurveyCreateRequest: Serializable {
         @Expose
         var occupancy: String? = null
 
-        class Speciality: Serializable {
+        class Speciality : Serializable {
             @SerializedName("uid")
             @Expose
             var uid: String? = null
         }
     }
 
-    class SiteImageMb: Serializable {
+    class SiteImageMb : Serializable {
         @SerializedName("images")
         @Expose
         var images: List<Image>? = null
 
-        class Image: Serializable {
+        class Image : Serializable {
             @SerializedName("url")
             @Expose
             var url: String? = null
         }
     }
 
-    class VideoMb: Serializable {
+    class VideoMb : Serializable {
         @SerializedName("video")
         @Expose
         var video: List<Video>? = null
 
-        class Video: Serializable {
+        class Video : Serializable {
             @SerializedName("url")
             @Expose
             var url: String? = null
         }
     }
 
-    class Location__1: Serializable {
+    class Location__1 : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class State: Serializable {
+    class State : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class City: Serializable {
+    class City : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class TrafficGenerator: Serializable {
+    class TrafficGenerator : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
     }
 
-    class TrafficStreetType: Serializable {
+    class TrafficStreetType : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
