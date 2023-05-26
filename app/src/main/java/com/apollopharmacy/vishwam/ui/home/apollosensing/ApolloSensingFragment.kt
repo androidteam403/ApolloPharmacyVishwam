@@ -478,7 +478,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 showLoading()
                 var customerPhoneNumber = viewBinding.customerPhoneNumber.text.toString().trim()
                 var customerName = viewBinding.name.text.toString().trim()
-                val timeStamp = Preferences.getSiteId() + System.currentTimeMillis()
+                val timeStamp = Preferences.getSiteId() + Utlis.getCurrentTimeStampFormat()//System.currentTimeMillis()
                 retrieveViewModel().getLinkApiCall(
                     customerName, customerPhoneNumber, this@ApolloSensingFragment, timeStamp
                 )

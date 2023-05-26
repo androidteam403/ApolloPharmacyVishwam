@@ -81,7 +81,7 @@ class ApolloSensingViewModel : ViewModel() {
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
         var baseUrl =
-            "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber"
+            "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("testt")) {
                 baseUrl = data.APIS[i].URL
