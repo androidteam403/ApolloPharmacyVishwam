@@ -1559,18 +1559,45 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Existing Outlet Name :"
+                                    android:text="Existing Outlet Site ID :"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
-                                    android:id="@+id/existingOutletName"
+                                    android:id="@+id/existingOutletSiteId"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:layout_weight="1"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Pharmacy"
+                                    android:text="4567"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="Existing Outlet Site Name :"
+                                    android:textSize="@dimen/text_12sp" />
+
+                                <TextView
+                                    android:id="@+id/existingOutletSiteName"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:layout_weight="1"
+                                    android:fontFamily="@font/roboto_medium"
+                                    android:text="APL Telangana"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp" />
                             </LinearLayout>

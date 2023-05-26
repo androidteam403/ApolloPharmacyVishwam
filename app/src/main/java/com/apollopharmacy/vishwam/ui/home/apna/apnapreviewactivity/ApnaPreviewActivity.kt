@@ -546,10 +546,22 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             apnaPreviewActivityBinding.expectedrentsrft.setText("-")
         }
 
-        if (value.data!!.extngOutletName != null) {
-            apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)
+//        if (value.data!!.extngOutletName != null) {
+//            apnaPreviewActivityBinding.existingOutletName.setText(value.data!!.extngOutletName)
+//        } else {
+//            apnaPreviewActivityBinding.existingOutletName.setText("-")
+//        }
+
+        if (value.data!!.eoSiteId != null) {
+            apnaPreviewActivityBinding.existingOutletSiteId.setText(value.data!!.eoSiteId)
         } else {
-            apnaPreviewActivityBinding.existingOutletName.setText("-")
+            apnaPreviewActivityBinding.existingOutletSiteId.setText("-")
+        }
+
+        if (value.data!!.eoSiteName != null) {
+            apnaPreviewActivityBinding.existingOutletSiteName.setText(value.data!!.eoSiteName)
+        } else {
+            apnaPreviewActivityBinding.existingOutletSiteName.setText("-")
         }
 
         if (value.data!!.extngOutletAge != null) {

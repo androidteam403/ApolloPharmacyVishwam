@@ -18,6 +18,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -2427,7 +2428,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString()
-                if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
+                if (enteredText.isNotEmpty() && !enteredText.contains("%")) {
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.areaDiscountText.setSelection(
@@ -2445,67 +2446,31 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.areaDiscountText.text!!.clear()
                     activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
+                } else if (enteredText.contains("%") && enteredText.get(enteredText.length - 1) != '%') {
+                    activityApnaNewSurveyBinding.areaDiscountText.removeTextChangedListener(this)
+                    val result = enteredText.replace("%", "")
+                    activityApnaNewSurveyBinding.areaDiscountText.getText()!!.clear()
+                    activityApnaNewSurveyBinding.areaDiscountText.setText("$result%")
+                    activityApnaNewSurveyBinding.areaDiscountText.setSelection(
+                        activityApnaNewSurveyBinding.areaDiscountText.text!!.length - 1
+                    )
+                    activityApnaNewSurveyBinding.areaDiscountText.addTextChangedListener(this)
                 }
 
-//                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
-//                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
-//                val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
-//                val areaDiscount = s.toString().trim()
-//
-//                var pharmaValue: Int = 0
-//                var fmcgValue: Int = 0
-//                var surgicalsValue: Int = 0
-//                var areaDiscountValue: Int = 0
-//
-//                if (pharma.isEmpty()) {
-//                    pharmaValue = 0
-//                } else {
-//                    if (pharma.endsWith("%")) {
-//                        pharmaValue = pharma.substring(0, pharma.length - 1).toInt()
-//                    } else {
-//                        pharmaValue = pharma.toInt()
-//                    }
-//                }
-//
-//                if (fmcg.isEmpty()) {
-//                    fmcgValue = 0
-//                } else {
-//                    if (fmcg.endsWith("%")) {
-//                        fmcgValue = fmcg.substring(0, fmcg.length - 1).toInt()
-//                    } else {
-//                        fmcgValue = fmcg.toInt()
-//                    }
-//                }
-//
-//                if (surgicals.isEmpty()) {
-//                    surgicalsValue = 0
-//                } else {
-//                    if (surgicals.endsWith("%")) {
-//                        surgicalsValue = surgicals.substring(0, surgicals.length - 1).toInt()
-//                    } else {
-//                        surgicalsValue = surgicals.toInt()
-//                    }
-//                }
-//
-//                if (areaDiscount.isEmpty()) {
-//                    areaDiscountValue = 0
-//                } else {
-//                    if (areaDiscount.endsWith("%")) {
-//                        areaDiscountValue =
-//                            areaDiscount.substring(0, areaDiscount.length - 1).toInt()
-//                    } else {
-//                        areaDiscountValue = areaDiscount.toInt()
-//                    }
-//                }
-//                val sum = pharmaValue + fmcgValue + surgicalsValue + areaDiscountValue
-//                if (sum > 100) {
-//                    activityApnaNewSurveyBinding.areaDiscountText.getText()!!.clear()
-//                    Toast.makeText(
-//                        this@ApnaNewSurveyActivity,
-//                        "Must be less than or equals to 100",
-//                        Toast.LENGTH_SHORT
-//                    ).show()
-//                }
+                val inputText = activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
+                if (inputText.contains("%")) {
+                    val result = inputText.substringBefore("%")
+                    if (result.isNotEmpty()) {
+                        if (result.toInt() > 100) {
+                            activityApnaNewSurveyBinding.areaDiscountText.getText()!!.clear()
+                            Toast.makeText(
+                                this@ApnaNewSurveyActivity,
+                                "Must be less than or equals to 100",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                    }
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -2519,7 +2484,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString()
-                if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
+                if (enteredText.isNotEmpty() && !enteredText.contains("%")) {
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.pharmaText.setSelection(
@@ -2537,9 +2502,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.pharmaText.text!!.clear()
                     activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
+                } else if (enteredText.contains("%") && enteredText.get(enteredText.length - 1) != '%') {
+                    activityApnaNewSurveyBinding.pharmaText.removeTextChangedListener(this)
+                    val result = enteredText.replace("%", "")
+                    activityApnaNewSurveyBinding.pharmaText.getText()!!.clear()
+                    activityApnaNewSurveyBinding.pharmaText.setText("$result%")
+                    activityApnaNewSurveyBinding.pharmaText.setSelection(
+                        activityApnaNewSurveyBinding.pharmaText.text!!.length - 1
+                    )
+                    activityApnaNewSurveyBinding.pharmaText.addTextChangedListener(this)
                 }
 
-                val pharma = s.toString().trim()
+//                val pharma = s.toString().trim()
+                val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
                 val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
 //                val areaDiscount =
@@ -2613,7 +2588,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString()
-                if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
+                if (enteredText.isNotEmpty() && !enteredText.contains("%")) {
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.fmcgText.setSelection(activityApnaNewSurveyBinding.fmcgText.text!!.length - 1)
@@ -2627,10 +2602,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.fmcgText.text!!.clear()
                     activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
+                } else if (enteredText.contains("%") && enteredText.get(enteredText.length - 1) != '%') {
+                    activityApnaNewSurveyBinding.fmcgText.removeTextChangedListener(this)
+                    val result = enteredText.replace("%", "")
+                    activityApnaNewSurveyBinding.fmcgText.getText()!!.clear()
+                    activityApnaNewSurveyBinding.fmcgText.setText("$result%")
+                    activityApnaNewSurveyBinding.fmcgText.setSelection(
+                        activityApnaNewSurveyBinding.fmcgText.text!!.length - 1
+                    )
+                    activityApnaNewSurveyBinding.fmcgText.addTextChangedListener(this)
                 }
 
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
-                val fmcg = s.toString().trim()
+                val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
                 val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
 //                val areaDiscount =
 //                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
@@ -2702,7 +2686,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val enteredText = s.toString()
-                if (enteredText.isNotEmpty() && !enteredText.endsWith("%")) {
+                if (enteredText.isNotEmpty() && !enteredText.contains("%")) {
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.setText("$enteredText%")
                     activityApnaNewSurveyBinding.surgicalsText.setSelection(
@@ -2720,11 +2704,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
                     activityApnaNewSurveyBinding.surgicalsText.text!!.clear()
                     activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
+                } else if (enteredText.contains("%") && enteredText.get(enteredText.length - 1) != '%') {
+                    activityApnaNewSurveyBinding.surgicalsText.removeTextChangedListener(this)
+                    val result = enteredText.replace("%", "")
+                    activityApnaNewSurveyBinding.surgicalsText.getText()!!.clear()
+                    activityApnaNewSurveyBinding.surgicalsText.setText("$result%")
+                    activityApnaNewSurveyBinding.surgicalsText.setSelection(
+                        activityApnaNewSurveyBinding.surgicalsText.text!!.length - 1
+                    )
+                    activityApnaNewSurveyBinding.surgicalsText.addTextChangedListener(this)
                 }
 
                 val pharma = activityApnaNewSurveyBinding.pharmaText.text.toString().trim()
                 val fmcg = activityApnaNewSurveyBinding.fmcgText.text.toString().trim()
-                val surgicals = s.toString().trim()
+                val surgicals = activityApnaNewSurveyBinding.surgicalsText.text.toString().trim()
 //                val areaDiscount =
 //                    activityApnaNewSurveyBinding.areaDiscountText.text.toString().trim()
 
@@ -3669,21 +3662,24 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 );
 
 
-                val extngOutletSiteId =
+                val eoSiteId =
                     activityApnaNewSurveyBinding.existingOutletSiteId.text.toString().trim()
-                val extngOutletSiteName =
+                val eoSiteName =
                     activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().trim()
 
-                if (extngOutletSiteId.isNotEmpty() && extngOutletSiteName.isNotEmpty()) {
-                    surveyCreateRequest.extngOutletName =
-                        "$extngOutletSiteId-$extngOutletSiteName"
-                } else if (extngOutletSiteId.isNotEmpty()) {
-                    surveyCreateRequest.extngOutletName = extngOutletSiteId
-                } else if (extngOutletSiteName.isNotEmpty()) {
-                    surveyCreateRequest.extngOutletName = extngOutletSiteName
-                } else {
-                    surveyCreateRequest.extngOutletName = ""
-                }
+                surveyCreateRequest.eoSiteId = eoSiteId
+                surveyCreateRequest.eoSiteName = eoSiteName
+
+//                if (extngOutletSiteId.isNotEmpty() && extngOutletSiteName.isNotEmpty()) {
+//                    surveyCreateRequest.extngOutletName =
+//                        "$extngOutletSiteId-$extngOutletSiteName"
+//                } else if (extngOutletSiteId.isNotEmpty()) {
+//                    surveyCreateRequest.extngOutletName = extngOutletSiteId
+//                } else if (extngOutletSiteName.isNotEmpty()) {
+//                    surveyCreateRequest.extngOutletName = extngOutletSiteName
+//                } else {
+//                    surveyCreateRequest.extngOutletName = ""
+//                }
 
 //                surveyCreateRequest.extngOutletName =
 //                    activityApnaNewSurveyBinding.existingOutletName.text.toString().trim()
@@ -3691,6 +3687,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 if (activityApnaNewSurveyBinding.ageOrSaleText.text.toString().isNotEmpty()) {
                     surveyCreateRequest.extngOutletAge =
                         activityApnaNewSurveyBinding.ageOrSaleText.text.toString().trim().toFloat()
+                } else {
+                    surveyCreateRequest.extngOutletAge = 0f
                 }
 
                 if (activityApnaNewSurveyBinding.pharmaText.text.toString().isNotEmpty()) {
