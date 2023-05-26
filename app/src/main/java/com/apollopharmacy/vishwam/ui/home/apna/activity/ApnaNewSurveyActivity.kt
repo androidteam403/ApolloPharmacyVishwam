@@ -18,7 +18,6 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -1270,10 +1269,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 val noOfHouses = activityApnaNewSurveyBinding.noOfHousesText.text.toString()
                 val distance = activityApnaNewSurveyBinding.distanceText.text.toString()
                 if (apartments.isNotEmpty() && apartmentType.isNotEmpty() && noOfHouses.isNotEmpty() && distance.isNotEmpty()) {
-                    apartmentsList.add(ApartmentData(apartments,
-                        apartmentType,
-                        noOfHouses,
-                        distance))
+                    apartmentsList.add(
+                        ApartmentData(
+                            apartments,
+                            apartmentType,
+                            noOfHouses,
+                            distance
+                        )
+                    )
 
                     apartmentTypeItemAdapter = ApartmentTypeItemAdapter(
                         this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, apartmentsList
@@ -1402,7 +1405,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     if (totalOrganisedAvgSale > 0) {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText(
-                            totalOrganisedAvgSale.toString())
+                            totalOrganisedAvgSale.toString()
+                        )
                     } else {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText("-")
                     }
@@ -4476,7 +4480,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 )
             dialog.setContentView(surveySavedConfirmDialogBinding.root)
             surveySavedConfirmDialogBinding.uid.text =
-                "Survey Id Is: " + surveyCreateResponse.data!!.surveyId.toString()
+                surveyCreateResponse.data!!.surveyId.toString()
             surveySavedConfirmDialogBinding.message.text = surveyCreateResponse.message
             surveySavedConfirmDialogBinding.okButton.setOnClickListener {
                 dialog.dismiss()
