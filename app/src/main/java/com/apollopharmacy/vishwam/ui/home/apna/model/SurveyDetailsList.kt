@@ -200,6 +200,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletName: String? = null
 
+        @SerializedName("eo_site_id")
+        @Expose
+        var eoSiteId: String? = null
+
+        @SerializedName("eo_site_name")
+        @Expose
+        var eoSiteName: String? = null
+
         @SerializedName("lat")
         @Expose
         var lat: String? = null

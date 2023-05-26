@@ -225,7 +225,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                             0,
                             ageofBuilding.indexOf(".")
                         )
-                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".")+1)} months"
+                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".") + 1)} months"
                 )
             } else {
                 activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("${surveyCreateRequest.buildingAge} Years")
@@ -294,14 +294,24 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         // Market information
-        if (surveyCreateRequest.extngOutletName != null && surveyCreateRequest.extngOutletName != "") {
-            activityApnaSurveyPreviewBinding.existingOutletName.setText(surveyCreateRequest.extngOutletName)
+        if (surveyCreateRequest.eoSiteId != null && surveyCreateRequest.eoSiteId != "") {
+            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText(surveyCreateRequest.eoSiteId)
         } else {
-            activityApnaSurveyPreviewBinding.existingOutletName.setText("-")
+            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText("-")
+        }
+
+        if (surveyCreateRequest.eoSiteName != null && surveyCreateRequest.eoSiteName != "") {
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText(surveyCreateRequest.eoSiteName)
+        } else {
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText("-")
         }
 
         if (surveyCreateRequest.extngOutletAge != null) {
-            activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
+            if (surveyCreateRequest.extngOutletAge!! > 0) {
+                activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
+            } else {
+                activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
+            }
         } else {
             activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
         }
