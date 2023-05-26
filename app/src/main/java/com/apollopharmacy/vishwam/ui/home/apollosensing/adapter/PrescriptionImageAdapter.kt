@@ -47,7 +47,10 @@ class PrescriptionImageAdapter(
 //        )
 
         holder.layoutPrescriptionImageBinding.image.setImageBitmap(
-            rotateImage(BitmapFactory.decodeFile(images[position].file.absolutePath), images[position].file)
+            rotateImage(
+                BitmapFactory.decodeFile(images[position].file.absolutePath),
+                images[position].file
+            )
         )
 
         holder.layoutPrescriptionImageBinding.deleteImage.setOnClickListener {

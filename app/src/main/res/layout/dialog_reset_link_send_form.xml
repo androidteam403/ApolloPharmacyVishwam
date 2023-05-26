@@ -20,7 +20,7 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:layout_marginBottom="@dimen/value_25dp"
             android:gravity="center_horizontal"
-            android:text="Do you want to Delete Prescription?"
+            android:text="Do you want to reset form?"
             android:textColor="@color/black"
             android:textSize="@dimen/text_18sp" />
 
@@ -37,8 +37,8 @@
                 android:background="@drawable/cancel_button"
                 android:hint="No"
                 android:textColorHint="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_14sp"/>
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/yesButton"
@@ -48,8 +48,8 @@
                 android:background="@drawable/submit_button"
                 android:hint="Yes"
                 android:textColorHint="@color/white"
-                android:textStyle="bold"
-                android:textSize="@dimen/text_14sp"/>
+                android:textSize="@dimen/text_14sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 </layout>

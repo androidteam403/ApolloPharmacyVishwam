@@ -48,7 +48,8 @@
             android:layout_marginTop="@dimen/value_15dp"
             android:paddingStart="60dp"
             android:paddingEnd="60dp"
-            android:text="Link sent successfully to"
+            android:gravity="center"
+            android:text="Prescription Upload Link Sent Successfully to"
             android:textColor="@color/black"
             android:textSize="@dimen/text_16sp"
             android:textStyle="bold" />

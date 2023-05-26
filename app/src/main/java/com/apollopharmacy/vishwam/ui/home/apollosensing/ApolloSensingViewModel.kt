@@ -1,9 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apollosensing
 
-import android.provider.DocumentsContract
 import android.text.Html
 import android.text.Spanned
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -77,6 +75,7 @@ class ApolloSensingViewModel : ViewModel() {
         customerName: String,
         customerMobileNumber: String,
         apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+        timeStamp: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -103,8 +102,8 @@ class ApolloSensingViewModel : ViewModel() {
                     if (data != null && data
                             .isNotEmpty()
                     ) {
-                       // String strToHtml = Html.fromHtml(htmlContentInStringFormat)
-                        var strHtml : Spanned? = Html.fromHtml(data)
+                        // String strToHtml = Html.fromHtml(htmlContentInStringFormat)
+                        var strHtml: Spanned? = Html.fromHtml(data)
                         apolloSensingFragmentCallback.onSuccessGetLinkApolloSensing(strHtml.toString())
                     } else {
                         apolloSensingFragmentCallback.onFailureGetLinkApolloSensing("Something went wrong")
