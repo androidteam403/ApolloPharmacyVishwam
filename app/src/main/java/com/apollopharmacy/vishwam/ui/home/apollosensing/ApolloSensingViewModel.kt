@@ -75,13 +75,15 @@ class ApolloSensingViewModel : ViewModel() {
         customerName: String,
         customerMobileNumber: String,
         apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+        siteId: String,
         timeStamp: String,
     ) {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
         var baseUrl =
-            "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
+            "https://t.zeroco.de/index.php?format=text&url=http://dev.thresholdsoft.com/Apollo-sensing?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
+        // "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("testt")) {
                 baseUrl = data.APIS[i].URL
