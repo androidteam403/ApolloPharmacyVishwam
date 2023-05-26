@@ -14,6 +14,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.CountDownTimer
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -55,7 +57,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     lateinit var prescriptionImageAdapter: PrescriptionImageAdapter
     var isOtpVerified: Boolean = false
     var isPrescriptionUpload: Boolean = false
-    var countDownTime: Long = 30000
+    var countDownTime: Long = 60000
     lateinit var countDownTimer: CountDownTimer
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
@@ -72,6 +74,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun setup() {
         viewBinding.callback = this@ApolloSensingFragment
         val userData = LoginRepo.getProfile()
+        otpValidation()
         if (userData != null) {
             employeeName = userData.EMPNAME
             storeData = userData.STOREDETAILS
@@ -423,20 +426,21 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         hideLoading()
         if (type.equals("OTP")) {
             otp = sendGlobalSmsResponse.otp!!
+            viewBinding.otpView.text!!.clear()
             isOtpVerified = true
             viewBinding.sendOtpBtn.visibility = View.GONE
             viewBinding.otpVerificationLayout.visibility = View.VISIBLE
             viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
-            viewBinding.sendLinkBtn.setBackgroundColor(
-                ContextCompat.getColor(
-                    requireContext(), R.color.greenn
-                )
-            )
-            viewBinding.sendLinkText.setTextColor(
-                ContextCompat.getColor(
-                    requireContext(), R.color.white
-                )
-            )
+//            viewBinding.sendLinkBtn.setBackgroundColor(
+//                ContextCompat.getColor(
+//                    requireContext(), R.color.greenn
+//                )
+//            )
+//            viewBinding.sendLinkText.setTextColor(
+//                ContextCompat.getColor(
+//                    requireContext(), R.color.white
+//                )
+//            )
             startTimer()
         } else {
             showConfirmDialog()
@@ -643,5 +647,50 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
         dialog.setCancelable(false)
         dialog.show()
+    }
+
+    fun otpValidation() {
+        viewBinding.otpView.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(
+                s: CharSequence, start: Int, before: Int,
+                count: Int,
+            ) {
+                if (s != "") {
+                    //do your work here
+                }
+            }
+
+            override fun beforeTextChanged(
+                s: CharSequence, start: Int, count: Int,
+                after: Int,
+            ) {
+            }
+
+            override fun afterTextChanged(s: Editable) {
+                if (s != null && s.toString().length == 6) {
+                    if (s.toString().equals(otp)) {
+                        Utlis.hideKeyPad(context as Activity)
+                        viewBinding.sendLinkBtn.setBackgroundColor(
+                            ContextCompat.getColor(
+                                requireContext(), R.color.greenn
+                            )
+                        )
+                        viewBinding.sendLinkText.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(), R.color.white
+                            )
+                        )
+                    } else {
+                        Toast.makeText(context, "Invalid otp", Toast.LENGTH_SHORT).show()
+                        viewBinding.otpView.text!!.clear()
+                        viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
+                        viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                    }
+                } else {
+                    viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
+                    viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+                }
+            }
+        })
     }
 }

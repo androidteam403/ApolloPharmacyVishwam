@@ -275,4 +275,6 @@
         <item name="android:textColorSecondary">@color/colorPrimary</item>
     </style>
 
+    <style name="MyGravity" parent="android:Theme.Material.Dialog"></style>
+
 </resources>

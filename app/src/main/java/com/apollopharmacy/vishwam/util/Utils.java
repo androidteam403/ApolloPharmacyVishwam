@@ -94,7 +94,7 @@ public class Utils {
     }
 
     public static ProgressDialog showLoadingDialog(Context context) {
-        ProgressDialog progressDialog = new ProgressDialog(context);//new ProgressDialog(context);
+        ProgressDialog progressDialog = new ProgressDialog(context, R.style.MyGravity);//new ProgressDialog(context);
         if (progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
