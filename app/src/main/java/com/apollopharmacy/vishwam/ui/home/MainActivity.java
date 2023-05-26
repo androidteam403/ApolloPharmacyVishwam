@@ -850,7 +850,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
                 break;
 
-            case "Apollo Pharmacy":
+            case "Apollo Sensing":
                 headerText.setText("Apollo Pharmacy");
                 fragment = new ApolloSensingFragment();
                 filterIcon.setVisibility(View.GONE);
@@ -1510,7 +1510,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
-        listView.addHeaderModel(new HeaderModel("Apollo Pharmacy", Color.WHITE, false, R.drawable.ic_menu_champ));
+        listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
 
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
@@ -1616,8 +1616,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
                 displaySelectedScreen("Assets");
                 drawer.closeDrawer(GravityCompat.START);
-            } else if (listHeader.get(groupPosition).getTitle().equals("Apollo Pharmacy")) {
-                displaySelectedScreen("Apollo Pharmacy");
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apollo Sensing")) {
+                displaySelectedScreen("Apollo Sensing");
                 drawer.closeDrawer(GravityCompat.START);
             }
             return false;

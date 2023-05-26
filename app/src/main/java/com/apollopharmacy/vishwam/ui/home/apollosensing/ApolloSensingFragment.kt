@@ -31,6 +31,8 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.network.LoginRepo
+import com.apollopharmacy.vishwam.databinding.DialogResetLinkSendFormBinding
+import com.apollopharmacy.vishwam.databinding.DialogResetPrescriptionUploadFormBinding
 import com.apollopharmacy.vishwam.databinding.FragmentApolloSensingBinding
 import com.apollopharmacy.vishwam.databinding.LinkSendConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.PrescriptionUploadedConfirmDialogBinding
@@ -476,8 +478,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 showLoading()
                 var customerPhoneNumber = viewBinding.customerPhoneNumber.text.toString().trim()
                 var customerName = viewBinding.name.text.toString().trim()
+                val timeStamp = Preferences.getSiteId() + System.currentTimeMillis()
                 retrieveViewModel().getLinkApiCall(
-                    customerName, customerPhoneNumber, this@ApolloSensingFragment
+                    customerName, customerPhoneNumber, this@ApolloSensingFragment, timeStamp
                 )
             }
         }
@@ -542,6 +545,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    override fun onClickBacktoMainScreen() {
+        confirmationForResetLinkForm()
+    }
+
+    override fun onClickBacktoMainScreenPrescription() {
+        confirmationForResetUploadPrescriptionForm()
+    }
+
     fun validateUploadPrescription(): Boolean {
         var customerPhoneNumber = viewBinding.phoneNumber.text.toString().trim()
         var customerName = viewBinding.custName.text.toString().trim()
@@ -565,5 +576,69 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             return false
         }
         return true
+    }
+
+    fun confirmationForResetLinkForm() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialogResetLinkSendFormBinding =
+            DataBindingUtil.inflate<DialogResetLinkSendFormBinding>(
+                LayoutInflater.from(context), R.layout.dialog_reset_link_send_form, null, false
+            )
+        dialog.setContentView(dialogResetLinkSendFormBinding.root)
+        dialogResetLinkSendFormBinding.noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogResetLinkSendFormBinding.yesButton.setOnClickListener {
+            viewBinding.customerPhoneNumber.getText()!!.clear()
+            viewBinding.name.getText()!!.clear()
+            viewBinding.otpView.getText()!!.clear()
+            viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
+            viewBinding.sendOtpBtn.visibility = View.VISIBLE
+            viewBinding.customerPrescriptionLayout.visibility = View.GONE
+            viewBinding.sendLinkBtn.visibility = View.GONE
+            viewBinding.otpVerificationLayout.visibility = View.GONE
+            viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+            viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
+            viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.show()
+    }
+
+    fun confirmationForResetUploadPrescriptionForm() {
+        val dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialogResetUploadPrescriptionFormBinding =
+            DataBindingUtil.inflate<DialogResetPrescriptionUploadFormBinding>(
+                LayoutInflater.from(context),
+                R.layout.dialog_reset_prescription_upload_form,
+                null,
+                false
+            )
+        dialog.setContentView(dialogResetUploadPrescriptionFormBinding.root)
+        dialogResetUploadPrescriptionFormBinding.noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogResetUploadPrescriptionFormBinding.yesButton.setOnClickListener {
+            viewBinding.phoneNumber.getText()!!.clear()
+            viewBinding.custName.getText()!!.clear()
+            viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
+            viewBinding.prescriptionImgRcv.visibility = View.GONE
+            viewBinding.uploadPrescriptionLayout.visibility = View.GONE
+            viewBinding.uploadPrescriptionBtn.visibility = View.GONE
+            viewBinding.uploadCustomerPrescriptionLayout.visibility = View.VISIBLE
+            viewBinding.uploadYourPrescriptionLayout.visibility = View.GONE
+            viewBinding.uploadPrescriptionBtn.setBackgroundColor(Color.parseColor("#efefef"))
+            viewBinding.uploadPrescriptionText.setTextColor(Color.parseColor("#b5b5b5"))
+            prescriptionImageList.clear()
+            isPrescriptionUpload = false
+            dialog.dismiss()
+        }
+        dialog.setCancelable(false)
+        dialog.show()
     }
 }
