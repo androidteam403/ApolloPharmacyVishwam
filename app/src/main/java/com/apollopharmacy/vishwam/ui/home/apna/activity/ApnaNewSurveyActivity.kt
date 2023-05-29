@@ -1619,23 +1619,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute < morningToMinute) {
-                                        if (morningHours.contains(morningFromHour)) {
-                                            if (morningFromHour == 0 && morningFromMinute == 0) {
-                                                Toast.makeText(
-                                                    this@ApnaNewSurveyActivity,
-                                                    "Please give correct Time",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
-                                                morningFromHour = 0
-                                                morningFromMinute = 0
-                                            } else {
-                                                activityApnaNewSurveyBinding.morningFromSelect.setText(
-                                                    formattedTime
-                                                )
-                                            }
-                                        } else {
+//                                    if (morningFromMinute < morningToMinute) {
+                                    if (morningHours.contains(morningFromHour)) {
+//                                            if (morningFromHour == 0 && morningFromMinute == 0) {
+//                                                Toast.makeText(
+//                                                    this@ApnaNewSurveyActivity,
+//                                                    "Please give correct Time",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                                activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                                morningFromHour = 0
+//                                                morningFromMinute = 0
+//                                            } else {
+//                                        var morningFromTimeTemp =
+//                                            activityApnaNewSurveyBinding.morningToSelect.text.toString()
+//                                        var morningFromHourTemp =
+//                                            morningFromTimeTemp.substring(
+//                                                0,
+//                                                morningFromTimeTemp.indexOf(":")
+//                                            ).toInt()
+//                                        var morningFromMinuteTemp =
+//                                            morningFromTimeTemp.substring(
+//                                                morningFromTimeTemp.indexOf(
+//                                                    ":"
+//                                                ) + 1
+//                                            ).toInt()
+                                        if (morningFromHour == morningToHour && morningFromMinute == morningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -1644,7 +1653,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
                                             morningFromHour = 0
                                             morningFromMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+
+//                                            }
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -1655,6 +1670,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         morningFromHour = 0
                                         morningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                        morningFromHour = 0
+//                                        morningFromMinute = 0
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         this@ApnaNewSurveyActivity,
@@ -1663,24 +1688,24 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     ).show()
                                     morningFromHour = 0
                                     morningFromMinute = 0
-                                    activityApnaNewSurveyBinding.morningFromSelect.text
+                                    activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
                                 }
                             } else {
                                 if (morningHours.contains(morningFromHour)) {
-                                    if (morningFromHour == 0 && morningFromMinute == 0) {
-                                        Toast.makeText(
-                                            this@ApnaNewSurveyActivity,
-                                            "Please give correct Time",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
-                                        morningFromHour = 0
-                                        morningFromMinute = 0
-                                    } else {
-                                        activityApnaNewSurveyBinding.morningFromSelect.setText(
-                                            formattedTime
-                                        )
-                                    }
+//                                    if (morningFromHour == 0 && morningFromMinute == 0) {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                        morningFromHour = 0
+//                                        morningFromMinute = 0
+//                                    } else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                        formattedTime
+                                    )
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         this@ApnaNewSurveyActivity,
@@ -1721,23 +1746,33 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute < morningToMinute) {
-                                        if (morningHours.contains(morningFromHour)) {
-                                            if (morningFromHour == 0 && morningFromMinute == 0) {
-                                                Toast.makeText(
-                                                    this@ApnaNewSurveyActivity,
-                                                    "Please give correct Time",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
-                                                morningFromHour = 0
-                                                morningFromMinute = 0
-                                            } else {
-                                                activityApnaNewSurveyBinding.morningFromSelect.setText(
-                                                    formattedTime
-                                                )
-                                            }
-                                        } else {
+//                                    if (morningFromMinute < morningToMinute) {
+                                    if (morningHours.contains(morningFromHour)) {
+//                                            if (morningFromHour == 0 && morningFromMinute == 0) {
+//                                                Toast.makeText(
+//                                                    this@ApnaNewSurveyActivity,
+//                                                    "Please give correct Time",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                                activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                                morningFromHour = 0
+//                                                morningFromMinute = 0
+//                                            } else {
+
+//                                        var morningFromTimeTemp =
+//                                            activityApnaNewSurveyBinding.morningToSelect.text.toString()
+//                                        var morningFromHourTemp =
+//                                            morningFromTimeTemp.substring(
+//                                                0,
+//                                                morningFromTimeTemp.indexOf(":")
+//                                            ).toInt()
+//                                        var morningFromMinuteTemp =
+//                                            morningFromTimeTemp.substring(
+//                                                morningFromTimeTemp.indexOf(
+//                                                    ":"
+//                                                ) + 1
+//                                            ).toInt()
+                                        if (morningFromHour == morningToHour && morningFromMinute == morningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -1746,7 +1781,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
                                             morningFromHour = 0
                                             morningFromMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+//                                        activityApnaNewSurveyBinding.morningFromSelect.setText(
+//                                            formattedTime
+//                                        )
+//                                            }
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -1757,6 +1800,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         morningFromHour = 0
                                         morningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                        morningFromHour = 0
+//                                        morningFromMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -1770,20 +1823,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                 }
                             } else {
                                 if (morningHours.contains(morningFromHour)) {
-                                    if (morningFromHour == 0 && morningFromMinute == 0) {
-                                        Toast.makeText(
-                                            this@ApnaNewSurveyActivity,
-                                            "Please give correct Time",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
-                                        morningFromHour = 0
-                                        morningFromMinute = 0
-                                    } else {
-                                        activityApnaNewSurveyBinding.morningFromSelect.setText(
-                                            formattedTime
-                                        )
-                                    }
+//                                    if (morningFromHour == 0 && morningFromMinute == 0) {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningFromSelect.text!!.clear()
+//                                        morningFromHour = 0
+//                                        morningFromMinute = 0
+//                                    } else {
+                                    activityApnaNewSurveyBinding.morningFromSelect.setText(
+                                        formattedTime
+                                    )
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         this@ApnaNewSurveyActivity,
@@ -1831,23 +1884,32 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute < morningToMinute) {
-                                        if (morningHours.contains(morningToHour)) {
-                                            if (morningToHour == 0 && morningToMinute == 0) {
-                                                Toast.makeText(
-                                                    this@ApnaNewSurveyActivity,
-                                                    "Please give correct Time",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
-                                                morningToHour = 0
-                                                morningToMinute = 0
-                                            } else {
-                                                activityApnaNewSurveyBinding.morningToSelect.setText(
-                                                    formattedTime
-                                                )
-                                            }
-                                        } else {
+//                                    if (morningFromMinute < morningToMinute) {
+                                    if (morningHours.contains(morningToHour)) {
+//                                            if (morningToHour == 0 && morningToMinute == 0) {
+//                                                Toast.makeText(
+//                                                    this@ApnaNewSurveyActivity,
+//                                                    "Please give correct Time",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                                activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
+//                                                morningToHour = 0
+//                                                morningToMinute = 0
+//                                            } else {
+//                                        var morningToTimeTemp =
+//                                            activityApnaNewSurveyBinding.morningToSelect.text.toString()
+//                                        var morningToHourTemp =
+//                                            morningToTimeTemp.substring(
+//                                                0,
+//                                                morningToTimeTemp.indexOf(":")
+//                                            ).toInt()
+//                                        var morningToMinuteTemp =
+//                                            morningToTimeTemp.substring(
+//                                                morningToTimeTemp.indexOf(
+//                                                    ":"
+//                                                ) + 1
+//                                            ).toInt()
+                                        if (morningFromHour == morningToHour && morningFromMinute == morningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -1856,7 +1918,17 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
                                             morningToHour = 0
                                             morningToMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.morningToSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+
+
+//                                        activityApnaNewSurveyBinding.morningToSelect.setText(
+//                                            formattedTime
+//                                        )
+//                                            }
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -1867,6 +1939,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         morningToHour = 0
                                         morningToMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
+//                                        morningToHour = 0
+//                                        morningToMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -1880,20 +1962,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                 }
                             } else {
                                 if (morningHours.contains(morningToHour)) {
-                                    if (morningToHour == 0 && morningToMinute == 0) {
-                                        Toast.makeText(
-                                            this@ApnaNewSurveyActivity,
-                                            "Please give correct Time",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
-                                        morningToHour = 0
-                                        morningToMinute = 0
-                                    } else {
-                                        activityApnaNewSurveyBinding.morningToSelect.setText(
-                                            formattedTime
-                                        )
-                                    }
+//                                    if (morningToHour == 0 && morningToMinute == 0) {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
+//                                        morningToHour = 0
+//                                        morningToMinute = 0
+//                                    } else {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(
+                                        formattedTime
+                                    )
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         this@ApnaNewSurveyActivity,
@@ -1934,23 +2016,33 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (morningFromHour <= morningToHour) {
-                                    if (morningFromMinute < morningToMinute) {
-                                        if (morningHours.contains(morningToHour)) {
-                                            if (morningToHour == 0 && morningToMinute == 0) {
-                                                Toast.makeText(
-                                                    this@ApnaNewSurveyActivity,
-                                                    "Please give correct Time",
-                                                    Toast.LENGTH_SHORT
-                                                ).show()
-                                                activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
-                                                morningToHour = 0
-                                                morningToMinute = 0
-                                            } else {
-                                                activityApnaNewSurveyBinding.morningToSelect.setText(
-                                                    formattedTime
-                                                )
-                                            }
-                                        } else {
+//                                    if (morningFromMinute < morningToMinute) {
+                                    if (morningHours.contains(morningToHour)) {
+//                                            if (morningToHour == 0 && morningToMinute == 0) {
+//                                                Toast.makeText(
+//                                                    this@ApnaNewSurveyActivity,
+//                                                    "Please give correct Time",
+//                                                    Toast.LENGTH_SHORT
+//                                                ).show()
+//                                                activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
+//                                                morningToHour = 0
+//                                                morningToMinute = 0
+//                                            } else {
+
+//                                        var morningToTimeTemp =
+//                                            activityApnaNewSurveyBinding.morningToSelect.text.toString()
+//                                        var morningToHourTemp =
+//                                            morningToTimeTemp.substring(
+//                                                0,
+//                                                morningToTimeTemp.indexOf(":")
+//                                            ).toInt()
+//                                        var morningToMinuteTemp =
+//                                            morningToTimeTemp.substring(
+//                                                morningToTimeTemp.indexOf(
+//                                                    ":"
+//                                                ) + 1
+//                                            ).toInt()
+                                        if (morningFromHour == morningToHour && morningFromMinute == morningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -1959,7 +2051,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
                                             morningToHour = 0
                                             morningToMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.morningToSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+//                                        activityApnaNewSurveyBinding.morningToSelect.setText(
+//                                            formattedTime
+//                                        )
+//                                            }
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -1970,6 +2070,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         morningToHour = 0
                                         morningToMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.morningToSelect.text!!.clear()
+//                                        morningToHour = 0
+//                                        morningToMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -1983,15 +2093,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                 }
                             } else {
                                 if (morningHours.contains(morningToHour)) {
-                                    if (morningToHour == 0 && morningToMinute == 0) {
-                                        activityApnaNewSurveyBinding.morningToSelect.setText(
-                                            formattedTime
-                                        )
-                                    } else {
-                                        activityApnaNewSurveyBinding.morningToSelect.setText(
-                                            formattedTime
-                                        )
-                                    }
+//                                    if (morningToHour == 0 && morningToMinute == 0) {
+//                                        activityApnaNewSurveyBinding.morningToSelect.setText(
+//                                            formattedTime
+//                                        )
+//                                    } else {
+                                    activityApnaNewSurveyBinding.morningToSelect.setText(
+                                        formattedTime
+                                    )
+//                                    }
                                 } else {
                                     Toast.makeText(
                                         this@ApnaNewSurveyActivity,
@@ -2040,12 +2150,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute < eveningToMinute) {
-                                        if (eveningHours.contains(eveningFromHour)) {
-                                            activityApnaNewSurveyBinding.eveningFromSelect.setText(
-                                                formattedTime
-                                            )
-                                        } else {
+//                                    if (eveningFromMinute < eveningToMinute) {
+                                    if (eveningHours.contains(eveningFromHour)) {
+
+
+                                        if (eveningFromHour == eveningToHour && eveningFromMinute == eveningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -2054,7 +2163,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.eveningFromSelect.text!!.clear()
                                             eveningFromHour = 0
                                             eveningFromMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+
+
+//                                        activityApnaNewSurveyBinding.eveningFromSelect.setText(
+//                                            formattedTime
+//                                        )
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -2065,6 +2183,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         eveningFromHour = 0
                                         eveningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.eveningFromSelect.text!!.clear()
+//                                        eveningFromHour = 0
+//                                        eveningFromMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -2121,12 +2249,9 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute < eveningToMinute) {
-                                        if (eveningHours.contains(eveningFromHour)) {
-                                            activityApnaNewSurveyBinding.eveningFromSelect.setText(
-                                                formattedTime
-                                            )
-                                        } else {
+//                                    if (eveningFromMinute < eveningToMinute) {
+                                    if (eveningHours.contains(eveningFromHour)) {
+                                        if (eveningFromHour == eveningToHour && eveningFromMinute == eveningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
@@ -2135,7 +2260,14 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             activityApnaNewSurveyBinding.eveningFromSelect.text!!.clear()
                                             eveningFromHour = 0
                                             eveningFromMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.eveningFromSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+//                                        activityApnaNewSurveyBinding.eveningFromSelect.setText(
+//                                            formattedTime
+//                                        )
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -2146,6 +2278,16 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                         eveningFromHour = 0
                                         eveningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.eveningFromSelect.text!!.clear()
+//                                        eveningFromHour = 0
+//                                        eveningFromMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -2210,21 +2352,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute < eveningToMinute) {
-                                        if (eveningHours.contains(eveningToHour)) {
-                                            activityApnaNewSurveyBinding.eveningToSelect.setText(
-                                                formattedTime
-                                            )
-                                        } else {
+//                                    if (eveningFromMinute < eveningToMinute) {
+                                    if (eveningHours.contains(eveningToHour)) {
+                                        if (eveningFromHour == eveningToHour && eveningFromMinute == eveningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                             activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
-                                            eveningFromHour = 0
-                                            eveningFromMinute = 0
+                                            eveningToHour = 0
+                                            eveningToMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+//                                        activityApnaNewSurveyBinding.eveningToSelect.setText(
+//                                            formattedTime
+//                                        )
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -2232,9 +2378,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
-                                        eveningToHour = 0
-                                        eveningToMinute = 0
+                                        eveningFromHour = 0
+                                        eveningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
+//                                        eveningToHour = 0
+//                                        eveningToMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -2291,21 +2447,25 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                     .isEmpty()
                             ) {
                                 if (eveningFromHour <= eveningToHour) {
-                                    if (eveningFromMinute < eveningToMinute) {
-                                        if (eveningHours.contains(eveningToHour)) {
-                                            activityApnaNewSurveyBinding.eveningToSelect.setText(
-                                                formattedTime
-                                            )
-                                        } else {
+//                                    if (eveningFromMinute < eveningToMinute) {
+                                    if (eveningHours.contains(eveningToHour)) {
+                                        if (eveningFromHour == eveningToHour && eveningFromMinute == eveningToMinute) {
                                             Toast.makeText(
                                                 this@ApnaNewSurveyActivity,
                                                 "Please give correct Time",
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                             activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
-                                            eveningFromHour = 0
-                                            eveningFromMinute = 0
+                                            eveningToHour = 0
+                                            eveningToMinute = 0
+                                        } else {
+                                            activityApnaNewSurveyBinding.eveningToSelect.setText(
+                                                formattedTime
+                                            )
                                         }
+//                                        activityApnaNewSurveyBinding.eveningToSelect.setText(
+//                                            formattedTime
+//                                        )
                                     } else {
                                         Toast.makeText(
                                             this@ApnaNewSurveyActivity,
@@ -2313,9 +2473,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                                             Toast.LENGTH_SHORT
                                         ).show()
                                         activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
-                                        eveningToHour = 0
-                                        eveningToMinute = 0
+                                        eveningFromHour = 0
+                                        eveningFromMinute = 0
                                     }
+//                                    } else {
+//                                        Toast.makeText(
+//                                            this@ApnaNewSurveyActivity,
+//                                            "Please give correct Time",
+//                                            Toast.LENGTH_SHORT
+//                                        ).show()
+//                                        activityApnaNewSurveyBinding.eveningToSelect.text!!.clear()
+//                                        eveningToHour = 0
+//                                        eveningToMinute = 0
+//                                    }
 
                                 } else {
                                     Toast.makeText(
@@ -2354,6 +2524,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 eveningToTimePickerDialog.show()
             }
         }
+
 
         // Total area sq ft calculate
         activityApnaNewSurveyBinding.lengthText.addTextChangedListener(object : TextWatcher {
