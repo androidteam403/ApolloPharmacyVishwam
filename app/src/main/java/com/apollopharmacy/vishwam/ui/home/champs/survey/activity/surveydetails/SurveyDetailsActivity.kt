@@ -24,6 +24,7 @@ import com.apollopharmacy.vishwam.ui.home.model.GetEmailAddressModelResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey.ChampsSurveyActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressAdapter
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.adapter.EmailAddressCCAdapter
+import com.apollopharmacy.vishwam.ui.home.champs.survey.getSurveyDetailsList.GetSurveyDetailsListActivity
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.fragment.model.PendingAndApproved
 import com.apollopharmacy.vishwam.util.NetworkUtil
@@ -109,31 +110,51 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
         siteName= intent.getStringExtra("siteName")
         storeCity = intent.getStringExtra("storeCity")!!
         if(getStoreWiseDetails!=null && getStoreWiseDetails!!.storeWiseDetails!=null){
-            activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
-            activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
-            activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
-            activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
+            if(!getStoreWiseDetails!!.storeWiseDetails.trainerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.trainerEmail!=null){
+                activityStartSurvey2Binding.trainer.text=getStoreWiseDetails!!.storeWiseDetails.trainerEmail
+            }else{
+                activityStartSurvey2Binding.trainer.text="--"
+            }
+
+            if(!getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail!=null)
+            {
+                activityStartSurvey2Binding.regionalHead.text=getStoreWiseDetails!!.storeWiseDetails.reagionalHeadEmail
+
+            }else{
+                activityStartSurvey2Binding.regionalHead.text="--"
+            }
+
+            if(!getStoreWiseDetails!!.storeWiseDetails.executiveEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.executiveEmail!=null){
+                activityStartSurvey2Binding.executive.text=getStoreWiseDetails!!.storeWiseDetails.executiveEmail
+
+            }else{
+                activityStartSurvey2Binding.executive.text="--"
+
+            }
+
+            if(!getStoreWiseDetails!!.storeWiseDetails.managerEmail.isEmpty() && getStoreWiseDetails!!.storeWiseDetails.managerEmail!=null){
+                activityStartSurvey2Binding.manager.text=getStoreWiseDetails!!.storeWiseDetails.managerEmail
+            }else{
+                activityStartSurvey2Binding.manager.text="--"
+            }
+
+        }else{
+            activityStartSurvey2Binding.trainer.text="--"
+            activityStartSurvey2Binding.manager.text="--"
+            activityStartSurvey2Binding.executive.text="--"
+            activityStartSurvey2Binding.regionalHead.text="--"
         }
 
         activityStartSurvey2Binding.storeId.text=storeId
-        activityStartSurvey2Binding.address.text=siteName
-
-
-        if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
-            surveyDetailsViewModel.getEmailDetailsChamps(this);
-
-        } else {
-            Toast.makeText(
-                context,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
+        if(siteName!=null){
+            activityStartSurvey2Binding.address.text=siteName
         }
+
+
+
 //        if (NetworkUtil.isNetworkConnected(this)) {
 //            Utlis.showLoading(this)
-//            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "CC");
+//            surveyDetailsViewModel.getEmailDetailsChamps(this);
 //
 //        } else {
 //            Toast.makeText(
@@ -143,6 +164,31 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 //            )
 //                .show()
 //        }
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "CC");
+
+        } else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
+
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            surveyDetailsViewModel.getEmailDetailsChampsApi(this, "RECIPIENTS");
+
+        } else {
+            Toast.makeText(
+                context,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
 
 
 //        surveyRecDetailsList.add("kkr@apollopharmacy.org")
@@ -166,7 +212,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
 
 
     override fun onClickStartChampsSurvey() {
-        val intent = Intent(context, ChampsSurveyActivity::class.java)
+        val intent = Intent(context, GetSurveyDetailsListActivity::class.java)
         intent.putExtra("getStoreWiseDetails", getStoreWiseDetails)
         intent.putExtra("address", address)
         intent.putExtra("storeId", storeId)
@@ -278,7 +324,7 @@ class SurveyDetailsActivity : AppCompatActivity(), SurveyDetailsCallback {
             activityStartSurvey2Binding.emailRecRecyclerView.setLayoutManager(LinearLayoutManager(this))
             activityStartSurvey2Binding.emailRecRecyclerView.setAdapter(adapterRec)
         }
-        onSuccessgetEmailDetailsCC(getEmailAddressResponse)
+//        onSuccessgetEmailDetailsCC(getEmailAddressResponse)
         Utlis.hideLoading()
 
 //        if (NetworkUtil.isNetworkConnected(this)) {
