@@ -298,7 +298,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handleMPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            Utlis.showLoading(this@ValidatePinActivity)
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(

@@ -48,7 +48,7 @@ class GetCategoryDetailsAdapter(
                 GetSubCategoryDetailsAdapter(subCategoryDetailsList!!,
                     mContext,
                     mCallback,
-                    position)
+                    position, getCategoryDetails.rating)
             var layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
             holder.adapterGetCategoryDetailsBinding.getSubCategoryDetailsRecyclerview.layoutManager =
                 layoutManager

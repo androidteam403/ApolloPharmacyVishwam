@@ -30,6 +30,8 @@ class SaveSurveyModelRequest : Serializable {
         @Expose
         var dateOfVisit: String? = null
 
+
+
         @SerializedName("email_id_of_trainer")
         @Expose
         var emailIdOfTrainer: String? = null
@@ -82,9 +84,11 @@ class SaveSurveyModelRequest : Serializable {
         @Expose
         var status: String? = null
 
-        companion object {
-            private const val serialVersionUID = -1288800374712059556L
-        }
+        @SerializedName("champ_auto_id")
+        @Expose
+        var champAutoId: String? = null
+
+
     }
 
     class CategoryDetails : Serializable {
@@ -248,8 +252,6 @@ class SaveSurveyModelRequest : Serializable {
         @Expose
         var speedServiceSalesPromotionImages: String? = null
 
-        companion object {
-            private const val serialVersionUID = -12102310336626825L
-        }
+
     }
 }
