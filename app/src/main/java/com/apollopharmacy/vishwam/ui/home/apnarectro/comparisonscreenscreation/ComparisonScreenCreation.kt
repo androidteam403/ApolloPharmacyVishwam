@@ -245,12 +245,12 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 } else if (posImageUrlList.size == 3) {
                     activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                     activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
-                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
+                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
                     activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
-                        resources.getColor(R.color.grey)
+                        resources.getColor(R.color.blue)
                     )
                     activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
                     checkBoxClickedCount = 2
                 }
 

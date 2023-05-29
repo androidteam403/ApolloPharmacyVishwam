@@ -113,7 +113,7 @@ class PreRectroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-//            if (Config.KEY=="2039") {
+            if (Config.KEY=="2039") {
 
 
                 if (data.APIS[i].NAME.equals("RT STORE PENDING AND APPROVED LIST")) {
@@ -122,11 +122,11 @@ class PreRectroViewModel : ViewModel() {
                     token = data.APIS[i].TOKEN
                     break
                 }
-//            }
-//            else if (Config.KEY=="2034"){
-//                baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
-//                token = "h72genrSSNFivOi/cfiX3A=="
-//            }
+            }
+            else if (Config.KEY=="2034"){
+                baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
+                token = "h72genrSSNFivOi/cfiX3A=="
+            }
         }
 
         viewModelScope.launch {
