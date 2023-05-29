@@ -44,7 +44,8 @@ class ApnaSurveyAdapter(
                 holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name)
             }
         }
-        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
+//        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
+        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.id)
         var fName = ""
         var lName = ""
         if (approvedOrders.createdId!!.firstName != null) fName =

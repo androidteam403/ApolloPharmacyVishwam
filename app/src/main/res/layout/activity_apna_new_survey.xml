@@ -1410,7 +1410,6 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginEnd="@dimen/value_5dp"
                                     android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 

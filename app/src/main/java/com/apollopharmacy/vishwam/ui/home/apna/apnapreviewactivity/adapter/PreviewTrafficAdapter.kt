@@ -13,7 +13,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 
 class PreviewTrafficAdapter(
     val mContext: Context,
-    private val hospitalListData: ArrayList<SurveyDetailsList.TrafficGenerator>,
+    private val trafficGenerators: ArrayList<SurveyDetailsList.TrafficGenerator>,
 
     ) : RecyclerView.Adapter<PreviewTrafficAdapter.ViewHolder>() {
 
@@ -29,14 +29,14 @@ class PreviewTrafficAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=hospitalListData.get(position)
-        holder.apartmentAdapterLayoutBinding.name.setText(items.uid)
+        val items=trafficGenerators.get(position)
+        holder.apartmentAdapterLayoutBinding.name.setText(items.name)
 
 
     }
 
     override fun getItemCount(): Int {
-        return hospitalListData.size
+        return trafficGenerators.size
     }
 
     class ViewHolder(val apartmentAdapterLayoutBinding: TrafficAdapterLayoutBinding) :

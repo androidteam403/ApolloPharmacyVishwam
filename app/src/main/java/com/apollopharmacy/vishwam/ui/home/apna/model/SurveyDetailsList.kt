@@ -200,6 +200,10 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletName: String? = null
 
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+
         @SerializedName("eo_site_id")
         @Expose
         var eoSiteId: String? = null
@@ -632,6 +636,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): DimensionType {
             this.uid = uid
             return this
@@ -801,6 +809,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Organised {
             this.uid = uid
             return this
@@ -821,6 +833,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Parking {
             this.uid = uid
             return this
@@ -841,6 +857,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Speciality {
             this.uid = uid
             return this
@@ -907,6 +927,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): TrafficGenerator {
             this.uid = uid
             return this
@@ -917,6 +941,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): TrafficStreetType {
             this.uid = uid
             return this
@@ -937,6 +965,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Unorganised {
             this.uid = uid
             return this

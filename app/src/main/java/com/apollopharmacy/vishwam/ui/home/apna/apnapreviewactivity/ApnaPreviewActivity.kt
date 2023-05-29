@@ -108,7 +108,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                 )
             )
 
-            apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
+//            apnaPreviewActivityBinding.storeId.setText(approvedOrders.surveyId)
             var fName = ""
             var lName = ""
             if (approvedOrders.createdId!!.firstName != null) {
@@ -198,6 +198,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 
     @SuppressLint("SetTextI18n")
     override fun onSuccessgetSurveyDetails(value: SurveyDetailsList) {
+        apnaPreviewActivityBinding.storeId.setText(value.data!!.id)
         if (value.data!!.apartments != null && value.data!!.apartments!!.size > 0) {
             apnaPreviewActivityBinding.recyclerViewapartmnet.visibility = View.VISIBLE
             apnaPreviewActivityBinding.apartmentsNotFound.visibility = View.GONE
@@ -298,7 +299,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         if (value.data!!.location != null) {
             if (value.data!!.location!!.name != null) {
                 if (value.data!!.location!!.name.toString().isNotEmpty()) {
-                    if (value.data!!.location!!.name.toString().equals("null", true)) {
+                    if (!value.data!!.location!!.name.toString().equals("null", true)) {
                         location = value.data!!.location!!.name.toString()
                     } else {
                         location = "-"
@@ -448,8 +449,8 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         } else {
             apnaPreviewActivityBinding.longitude.setText("-")
         }
-        if (value!!.data!!.dimensionType != null && value!!.data!!.dimensionType != null && value!!.data!!.dimensionType!!.uid != null && !value!!.data!!.dimensionType!!.uid!!.isEmpty()) {
-            apnaPreviewActivityBinding.dimensionType.setText(value!!.data!!.dimensionType!!.uid!!)
+        if (value!!.data!!.dimensionType != null && value!!.data!!.dimensionType != null && value!!.data!!.dimensionType!!.name != null && !value!!.data!!.dimensionType!!.name!!.isEmpty()) {
+            apnaPreviewActivityBinding.dimensionType.setText(value!!.data!!.dimensionType!!.name!!)
         } else {
             apnaPreviewActivityBinding.dimensionType.setText("-")
 
@@ -482,11 +483,11 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.toiletsAvailability != null) {
-            if (value.data!!.toiletsAvailability!!.uid != null) {
-                if (value.data!!.toiletsAvailability!!.uid.toString().isNotEmpty()) {
-                    if (!value.data!!.toiletsAvailability!!.uid.toString().equals("null", true)) {
-                        apnaPreviewActivityBinding.toiletsAvailability.setText(value.data!!.toiletsAvailability!!.uid.toString())
-                        toiletsAvailable = value.data!!.toiletsAvailability!!.uid.toString()
+            if (value.data!!.toiletsAvailability!!.name != null) {
+                if (value.data!!.toiletsAvailability!!.name.toString().isNotEmpty()) {
+                    if (!value.data!!.toiletsAvailability!!.name.toString().equals("null", true)) {
+                        apnaPreviewActivityBinding.toiletsAvailability.setText(value.data!!.toiletsAvailability!!.name.toString())
+                        toiletsAvailable = value.data!!.toiletsAvailability!!.name.toString()
                     } else {
                         apnaPreviewActivityBinding.toiletsAvailability.setText("-")
                     }
@@ -519,17 +520,17 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.parking != null) {
-            apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.uid)
-            parkingAvailable = value.data!!.parking!!.uid.toString()
+            apnaPreviewActivityBinding.parking.setText(value.data!!.parking!!.name)
+            parkingAvailable = value.data!!.parking!!.name.toString()
         } else {
             apnaPreviewActivityBinding.parking.setText("-")
         }
 
         if (value.data!!.trafficStreetType != null) {
-            if (value.data!!.trafficStreetType!!.uid != null) {
-                if (value.data!!.trafficStreetType!!.uid.toString().isNotEmpty()) {
-                    apnaPreviewActivityBinding.trafficStreetType.setText(value.data!!.trafficStreetType!!.uid.toString())
-                    trafficType = value.data!!.trafficStreetType!!.uid.toString()
+            if (value.data!!.trafficStreetType!!.name != null) {
+                if (value.data!!.trafficStreetType!!.name.toString().isNotEmpty()) {
+                    apnaPreviewActivityBinding.trafficStreetType.setText(value.data!!.trafficStreetType!!.name.toString())
+                    trafficType = value.data!!.trafficStreetType!!.name.toString()
                 } else {
                     apnaPreviewActivityBinding.trafficStreetType.setText("-")
                 }
@@ -620,7 +621,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         }
 
         if (value.data!!.morningTo != null) {
-            apnaPreviewActivityBinding.morningTo.setText(value.data!!.morningFrom.toString())
+            apnaPreviewActivityBinding.morningTo.setText(value.data!!.morningTo.toString())
         } else {
             apnaPreviewActivityBinding.morningTo.setText("-")
         }
@@ -636,6 +637,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
         } else {
             apnaPreviewActivityBinding.eveningTo.setText("-")
         }
+
+        if (value.data!!.trafficPatterns != null && value.data!!.trafficPatterns!!.isNotEmpty()) {
+            apnaPreviewActivityBinding.presentTrafficPatterns.setText(value.data!!.trafficPatterns)
+        } else {
+            apnaPreviewActivityBinding.presentTrafficPatterns.setText("-")
+        }
+
         if (value.data!!.localDisbtsComments != null) {
             apnaPreviewActivityBinding.localdistubutorcomment.setText(value.data!!.localDisbtsComments.toString())
         } else {

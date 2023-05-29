@@ -1433,6 +1433,7 @@
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
+                                android:id="@+id/presentTrafficPatterns"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/value_10dp"

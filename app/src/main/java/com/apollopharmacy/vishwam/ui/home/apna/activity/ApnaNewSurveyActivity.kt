@@ -3207,11 +3207,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             }
         }
         if (filteredList.size < 1) {
-            dialogAgeOftheBuildingBinding!!.dimensionTypeRcv.visibility = View.GONE
-            dialogAgeOftheBuildingBinding.dimensionTypeAvailable.visibility = View.VISIBLE
+            dialogAgeOftheBuildingBinding!!.monthRcv.visibility = View.GONE
+            dialogAgeOftheBuildingBinding.monthNotAvailable.visibility = View.VISIBLE
         } else {
-            dialogAgeOftheBuildingBinding!!.dimensionTypeRcv.visibility = View.VISIBLE
-            dialogAgeOftheBuildingBinding.dimensionTypeAvailable.visibility = View.GONE
+            dialogAgeOftheBuildingBinding!!.monthRcv.visibility = View.VISIBLE
+            dialogAgeOftheBuildingBinding.monthNotAvailable.visibility = View.GONE
         }
         ageoftheBuildingMonthsAdapter.filter(filteredList)
     }
@@ -4792,11 +4792,11 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             ageoftheBuildingMonthsAdapter = AgeoftheBuildingMonthsAdapter(
                 this@ApnaNewSurveyActivity, this@ApnaNewSurveyActivity, ageOftheBuildingMonthsList
             )
-            dialogAgeOftheBuildingBinding.dimensionTypeRcv.adapter = ageoftheBuildingMonthsAdapter
-            dialogAgeOftheBuildingBinding.dimensionTypeRcv.layoutManager =
+            dialogAgeOftheBuildingBinding.monthRcv.adapter = ageoftheBuildingMonthsAdapter
+            dialogAgeOftheBuildingBinding.monthRcv.layoutManager =
                 LinearLayoutManager(this@ApnaNewSurveyActivity)
 
-            dialogAgeOftheBuildingBinding.searchDimensionTypeText.addTextChangedListener(object :
+            dialogAgeOftheBuildingBinding.searchMonth.addTextChangedListener(object :
                 TextWatcher {
                 override fun beforeTextChanged(
                     s: CharSequence?,
