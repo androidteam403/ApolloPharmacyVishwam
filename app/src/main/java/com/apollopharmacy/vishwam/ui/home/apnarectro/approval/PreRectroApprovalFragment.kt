@@ -14,6 +14,8 @@ import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.adapter.RectroApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.ApnaSelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy
@@ -50,8 +52,8 @@ class PreRectroApprovalFragment() :
 
 
 
-//        Preferences.savingToken("APL48627")
-//        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
+        Preferences.savingToken("APL48627")
+        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
         MainActivity.mInstance.mainActivityCallback = this
 //        AWAITING APPROVAL FROM CEO
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
@@ -59,7 +61,7 @@ class PreRectroApprovalFragment() :
         currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
+        cal.add(Calendar.DATE, -3)
         fromDate = simpleDateFormat.format(cal.time)
         getRetroPendindAndApproverequest.empid = Preferences.getToken()
         getRetroPendindAndApproverequest.storeid =Preferences.getRectroSiteId()
@@ -191,6 +193,10 @@ class PreRectroApprovalFragment() :
 
     override fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse) {
     }
+
+
+
+
 
     override fun onClickFilterIcon() {
 

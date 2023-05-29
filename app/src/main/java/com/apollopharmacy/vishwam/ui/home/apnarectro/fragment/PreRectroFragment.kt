@@ -46,7 +46,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
 
-//        Preferences.savingToken("APL67949")
+        Preferences.savingToken("APL67949")
 
 
         viewBinding.callback = this
@@ -98,7 +98,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
-                cal.add(Calendar.DATE, -14)
+                cal.add(Calendar.DATE, -4)
                 val currentDate: String = simpleDateFormat.format(Date())
 
                 val fromdate = simpleDateFormat.format(cal.time)
@@ -158,7 +158,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -14)
+                    cal.add(Calendar.DATE, -4)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)

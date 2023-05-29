@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
@@ -799,6 +800,13 @@ interface ViswamAppApi {
         @Url url: String, @Header("token") token: String,
         @Body saveImageUrlsRequest: SaveImageUrlsRequest,
     ): com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
+
+    @GET
+    suspend fun getDiscountColorDetails(
+        @Url url: String,
+        @Header("token") token: String,
+        ): GetDiscountColorResponse
+
 }
 
 

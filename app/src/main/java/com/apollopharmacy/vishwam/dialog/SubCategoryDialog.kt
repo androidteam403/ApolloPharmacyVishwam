@@ -13,11 +13,9 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.DepartmentV2Response
 import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
 import com.apollopharmacy.vishwam.databinding.DialogCustomBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
-import com.apollopharmacy.vishwam.dialog.model.CategotyViewModel
 import com.apollopharmacy.vishwam.dialog.model.SubCategoryViewModel
 
 class SubCategoryDialog : DialogFragment() {

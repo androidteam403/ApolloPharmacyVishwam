@@ -6,8 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.qc.QcFilterData
 import com.apollopharmacy.vishwam.data.model.qc.QcStoreFilterData
@@ -18,7 +16,6 @@ import com.apollopharmacy.vishwam.dialog.DatePickerDialog
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionList
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcStoreList
-import com.apollopharmacy.vishwam.util.Utils
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
