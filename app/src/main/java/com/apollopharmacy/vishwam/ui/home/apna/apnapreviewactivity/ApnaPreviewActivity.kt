@@ -137,13 +137,36 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
                     )!!
                 )
             )
-            apnaPreviewActivityBinding.surveyended.setText(
-                outputDateFormat.format(
-                    inputDateFormat.parse(
-                        approvedOrders.modifiedTime!!
-                    )!!
-                )
-            )
+//            apnaPreviewActivityBinding.surveyended.setText(
+//                outputDateFormat.format(
+//                    inputDateFormat.parse(
+//                        approvedOrders.modifiedTime!!
+//                    )!!
+//                )
+//            )
+
+
+            if (approvedOrders.status != null) {
+                if (approvedOrders.status!!.name != null) {
+                    if (approvedOrders.status!!.name.toString()
+                            .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
+                    ) {
+                        if (approvedOrders.status!!.name.toString()
+                                .equals("Approved", true) || approvedOrders.status!!.name.toString()
+                                .equals("Rejected", true)
+                        ) {
+                            apnaPreviewActivityBinding.surveyended.setText(outputDateFormat.format(
+                                inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+                        } else {
+                            apnaPreviewActivityBinding.surveyended.setText("-")
+                        }
+                    } else {
+                        apnaPreviewActivityBinding.surveyended.setText("-")
+                    }
+                } else {
+                    apnaPreviewActivityBinding.surveyended.setText("-")
+                }
+            }
 
             val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
 

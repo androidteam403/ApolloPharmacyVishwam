@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -35,6 +36,7 @@ class ApartmentTypeItemAdapter(
         return ViewHolder(adapterApartmentsListBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data.get(position).apartments.isNotEmpty()) {
             holder.adapterApartmentsListBinding.apartmentsText.setText(data[position].apartments)
@@ -55,7 +57,7 @@ class ApartmentTypeItemAdapter(
         }
 
         if (data[position].distance.isNotEmpty()) {
-            holder.adapterApartmentsListBinding.distanceText.setText(data[position].distance)
+            holder.adapterApartmentsListBinding.distanceText.setText(data[position].distance + " m")
         } else {
             holder.adapterApartmentsListBinding.distanceText.setText("-")
         }

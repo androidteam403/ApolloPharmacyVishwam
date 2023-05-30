@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -12,21 +13,23 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateReques
 class ApartmentsPreviewAdapter(
     var mContext: Context,
     var data: ArrayList<SurveyCreateRequest.Apartment>,
-): RecyclerView.Adapter<ApartmentsPreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ApartmentsPreviewAdapter.ViewHolder>() {
 
     class ViewHolder(val adapterApartmentsListPreviewBinding: AdapterApartmentsListPreviewBinding) :
         RecyclerView.ViewHolder(adapterApartmentsListPreviewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val adapterApartmentsListPreviewBinding = DataBindingUtil.inflate<AdapterApartmentsListPreviewBinding>(
-            LayoutInflater.from(mContext),
-            R.layout.adapter_apartments_list_preview,
-            parent,
-            false
-        )
+        val adapterApartmentsListPreviewBinding =
+            DataBindingUtil.inflate<AdapterApartmentsListPreviewBinding>(
+                LayoutInflater.from(mContext),
+                R.layout.adapter_apartments_list_preview,
+                parent,
+                false
+            )
         return ViewHolder(adapterApartmentsListPreviewBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data.get(position).type!!.uid!!.isNotEmpty()) {
             holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
@@ -47,7 +50,7 @@ class ApartmentsPreviewAdapter(
         }
 
         if (data.get(position).distance!! > 0) {
-            holder.adapterApartmentsListPreviewBinding.distance.setText(data[position].distance.toString())
+            holder.adapterApartmentsListPreviewBinding.distance.setText(data[position].distance.toString() + " m")
         } else {
             holder.adapterApartmentsListPreviewBinding.distance.setText("-")
         }

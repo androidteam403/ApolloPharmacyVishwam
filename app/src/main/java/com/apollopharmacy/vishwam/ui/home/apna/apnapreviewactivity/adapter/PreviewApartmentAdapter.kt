@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +8,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ApartmentAdapterLayoutBinding
-import com.apollopharmacy.vishwam.databinding.HospitalAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 
 class PreviewApartmentAdapter(
@@ -27,8 +27,9 @@ class PreviewApartmentAdapter(
         return ViewHolder(apartmentAdapterLayoutBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=hospitalListData.get(position)
+        val items = hospitalListData.get(position)
         if (items.apartments!!.isNotEmpty()) {
             holder.apartmentAdapterLayoutBinding.name.setText(items.apartments)
         } else {
@@ -40,7 +41,7 @@ class PreviewApartmentAdapter(
             holder.apartmentAdapterLayoutBinding.noOfHouses.setText("-")
         }
         if (items.distance.toString().isNotEmpty()) {
-            holder.apartmentAdapterLayoutBinding.distance.setText(items.distance!!.toString())
+            holder.apartmentAdapterLayoutBinding.distance.setText(items.distance!!.toString() + " m")
         } else {
             holder.apartmentAdapterLayoutBinding.distance.setText("-")
         }

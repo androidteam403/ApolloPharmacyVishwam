@@ -6,8 +6,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.databinding.ApartmentAdapterLayoutBinding
-import com.apollopharmacy.vishwam.databinding.HospitalAdapterLayoutBinding
 import com.apollopharmacy.vishwam.databinding.TrafficAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 
@@ -29,10 +27,8 @@ class PreviewTrafficAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=trafficGenerators.get(position)
+        val items = trafficGenerators.get(position)
         holder.apartmentAdapterLayoutBinding.name.setText(items.name)
-
-
     }
 
     override fun getItemCount(): Int {

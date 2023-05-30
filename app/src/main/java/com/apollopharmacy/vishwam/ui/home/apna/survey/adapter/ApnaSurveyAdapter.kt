@@ -66,8 +66,28 @@ class ApnaSurveyAdapter(
         val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
         holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(
             approvedOrders.createdTime!!)!!))
-        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(
-            approvedOrders.modifiedTime!!)!!))
+
+        if (approvedOrders.status != null) {
+            if (approvedOrders.status!!.name != null) {
+                if (approvedOrders.status!!.name.toString()
+                        .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
+                ) {
+                    if (approvedOrders.status!!.name.toString()
+                            .equals("Approved", true) || approvedOrders.status!!.name.toString()
+                            .equals("Rejected", true)
+                    ) {
+                        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(
+                            inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+                    } else {
+                        holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                    }
+                } else {
+                    holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                }
+            } else {
+                holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+            }
+        }
 
 //        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
 //        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
@@ -135,8 +155,6 @@ class ApnaSurveyAdapter(
         holder.itemView.setOnClickListener {
             mClicklistner.onClick(position, approvedOrders)
         }
-
-
     }
 
     private fun printDifference(startDate: Date, endDate: Date): String {
@@ -164,11 +182,9 @@ class ApnaSurveyAdapter(
     }
 
     override fun getItemCount(): Int {
-
         return approveList.size
     }
 
     class ViewHolder(val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding) :
         RecyclerView.ViewHolder(apnaSurveyLayoutBinding.root)
-
 }

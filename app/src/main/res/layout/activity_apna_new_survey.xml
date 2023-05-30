@@ -2632,14 +2632,11 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="@dimen/value_8dp"
                                     android:gravity="bottom"
-                                    android:orientation="horizontal"
-                                    android:weightSum="3">
+                                    android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:layout_width="0dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_8dp"
-                                        android:layout_weight="1.5"
                                         android:orientation="vertical">
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2664,16 +2661,17 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:layout_width="0dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="@dimen/value_8dp"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:weightSum="1"
+                                        android:layout_marginTop="@dimen/value_8dp"
+                                        android:orientation="horizontal">
 
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                            android:layout_width="match_parent"
+                                            android:layout_width="0dp"
                                             android:layout_height="wrap_content"
+                                            android:layout_weight=".8"
                                             android:textColorHint="@color/black"
                                             android:theme="@style/TextLabelEditTextApnaProject">
 
@@ -2681,7 +2679,7 @@
                                                 android:id="@+id/distanceText"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
-                                                android:hint="Distance"
+                                                android:hint="Distance (m)"
                                                 android:inputType="number"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
@@ -2689,23 +2687,25 @@
                                                 android:textColorHint="@color/black"
                                                 android:textSize="14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
+
+                                        <LinearLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight=".2"
+                                            android:layout_marginStart="@dimen/value_8dp"
+                                            android:layout_gravity="bottom">
+
+                                            <androidx.appcompat.widget.AppCompatButton
+                                                android:id="@+id/apartmentsAddBtn"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="@dimen/value_50dp"
+                                                android:background="@drawable/apna_project_add_btn_bg"
+                                                android:hint="Add"
+                                                android:textColorHint="@color/white"
+                                                android:textSize="@dimen/text_14sp" />
+                                        </LinearLayout>
                                     </LinearLayout>
 
-                                    <LinearLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_gravity="bottom"
-                                        android:layout_weight=".5">
-
-                                        <androidx.appcompat.widget.AppCompatButton
-                                            android:id="@+id/apartmentsAddBtn"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="@dimen/value_50dp"
-                                            android:background="@drawable/apna_project_add_btn_bg"
-                                            android:hint="Add"
-                                            android:textColorHint="@color/white"
-                                            android:textSize="@dimen/text_14sp" />
-                                    </LinearLayout>
                                 </LinearLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView

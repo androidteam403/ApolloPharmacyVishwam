@@ -3231,7 +3231,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             override fun onSuccess(location: Location?) {
                 supportMapFragment.getMapAsync(object : OnMapReadyCallback {
                     override fun onMapReady(map: GoogleMap) {
-                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity);
+                        map.setOnMarkerDragListener(this@ApnaNewSurveyActivity)
                         this@ApnaNewSurveyActivity.map = map
                         val latLang = LatLng(location!!.latitude, location.longitude)
                         activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
@@ -3251,52 +3251,52 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         })
     }
 
-    private fun filterCityList(searchText: String, dialogCityListBinding: DialogCityListBinding?) {
-        val filteredList = ArrayList<CityListResponse.Data.ListData.Row>()
-        for (i in cityList.indices) {
-            if (searchText.isEmpty()) {
-                filteredList.clear()
-                filteredList.addAll(cityList)
-            } else {
-                if (cityList[i].name!!.contains(searchText, true)) {
-                    filteredList.add(cityList[i])
-                }
-            }
-        }
-        if (filteredList.size < 1) {
-            dialogCityListBinding!!.cityRcv.visibility = View.GONE
-            dialogCityListBinding.cityAvailable.visibility = View.VISIBLE
-        } else {
-            dialogCityListBinding!!.cityRcv.visibility = View.VISIBLE
-            dialogCityListBinding.cityAvailable.visibility = View.GONE
-        }
-        cityItemAdapter.filter(filteredList)
-    }
+//    private fun filterCityList(searchText: String, dialogCityListBinding: DialogCityListBinding?) {
+//        val filteredList = ArrayList<CityListResponse.Data.ListData.Row>()
+//        for (i in cityList.indices) {
+//            if (searchText.isEmpty()) {
+//                filteredList.clear()
+//                filteredList.addAll(cityList)
+//            } else {
+//                if (cityList[i].name!!.contains(searchText, true)) {
+//                    filteredList.add(cityList[i])
+//                }
+//            }
+//        }
+//        if (filteredList.size < 1) {
+//            dialogCityListBinding!!.cityRcv.visibility = View.GONE
+//            dialogCityListBinding.cityAvailable.visibility = View.VISIBLE
+//        } else {
+//            dialogCityListBinding!!.cityRcv.visibility = View.VISIBLE
+//            dialogCityListBinding.cityAvailable.visibility = View.GONE
+//        }
+//        cityItemAdapter.filter(filteredList)
+//    }
 
-    private fun filterStateList(
-        searchText: String,
-        dialogStateListBinding: DialogStateListBinding?,
-    ) {
-        val filteredList = ArrayList<StateListResponse.Data.ListData.Row>()
-        for (i in stateList.indices) {
-            if (searchText.isEmpty()) {
-                filteredList.clear()
-                filteredList.addAll(stateList)
-            } else {
-                if (stateList[i].name!!.contains(searchText, true)) {
-                    filteredList.add(stateList[i])
-                }
-            }
-        }
-        if (filteredList.size < 1) {
-            dialogStateListBinding!!.stateRcv.visibility = View.GONE
-            dialogStateListBinding.stateAvailable.visibility = View.VISIBLE
-        } else {
-            dialogStateListBinding!!.stateRcv.visibility = View.VISIBLE
-            dialogStateListBinding.stateAvailable.visibility = View.GONE
-        }
-        stateItemAdapter.filter(filteredList)
-    }
+//    private fun filterStateList(
+//        searchText: String,
+//        dialogStateListBinding: DialogStateListBinding?,
+//    ) {
+//        val filteredList = ArrayList<StateListResponse.Data.ListData.Row>()
+//        for (i in stateList.indices) {
+//            if (searchText.isEmpty()) {
+//                filteredList.clear()
+//                filteredList.addAll(stateList)
+//            } else {
+//                if (stateList[i].name!!.contains(searchText, true)) {
+//                    filteredList.add(stateList[i])
+//                }
+//            }
+//        }
+//        if (filteredList.size < 1) {
+//            dialogStateListBinding!!.stateRcv.visibility = View.GONE
+//            dialogStateListBinding.stateAvailable.visibility = View.VISIBLE
+//        } else {
+//            dialogStateListBinding!!.stateRcv.visibility = View.VISIBLE
+//            dialogStateListBinding.stateAvailable.visibility = View.GONE
+//        }
+//        stateItemAdapter.filter(filteredList)
+//    }
 
     private fun filterLocationList(
         searchText: String,
@@ -3356,7 +3356,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         searchText: String,
         dialogOrganisedBinding: DialogOrganisedBinding?,
     ) {
-        var filteredList = ArrayList<ParkingTypeResponse.Data.ListData.Row>()
+        val filteredList = ArrayList<ParkingTypeResponse.Data.ListData.Row>()
         for (i in parkingTypeList.indices) {
             if (searchText.isEmpty()) {
                 filteredList.clear()
@@ -3510,7 +3510,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 FileProvider.getUriForFile(context, context.packageName + ".provider", imageFile!!)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
         }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         startActivityForResult(intent, REQUEST_CODE_CAMERA)
     }
 
@@ -3604,7 +3604,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
 
                 surveyCreateRequest.location2 =
@@ -3683,7 +3683,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
                 surveyCreateRequest.dimensionType1 =
                     activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
@@ -3834,7 +3834,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
 
                 val eoSiteId =
@@ -3989,7 +3989,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
 
                 val chemist = ArrayList<SurveyCreateRequest.Chemist>()
@@ -4059,7 +4059,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
 
                 val apartments = ArrayList<SurveyCreateRequest.Apartment>()
@@ -4117,7 +4117,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         context,
                         R.color.green
                     ), android.graphics.PorterDuff.Mode.SRC_IN
-                );
+                )
 
 
                 val hospitals = ArrayList<SurveyCreateRequest.Hospital>()
