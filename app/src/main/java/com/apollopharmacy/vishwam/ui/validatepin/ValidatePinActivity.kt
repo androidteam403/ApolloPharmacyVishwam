@@ -18,7 +18,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
-import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -142,9 +141,11 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                     applicationContext
                 )
 
-                viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignationApnaRetro(
+                    Preferences.getValidatedEmpId(),
                     "RETRO",
-                    applicationContext, this)
+                    applicationContext, this
+                )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
@@ -297,7 +298,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handleMPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            Utlis.showLoading(this@ValidatePinActivity)
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(

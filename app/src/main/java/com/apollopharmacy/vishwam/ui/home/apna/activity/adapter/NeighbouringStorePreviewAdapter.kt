@@ -30,9 +30,9 @@ class NeighbouringStorePreviewAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data[position].location!!.uid != null) {
-            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + data[position].location!!.uid + ")" + " :")
+            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + data[position].location!!.uid + ")")
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + "-" + ")" + " :")
+            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + "-" + ")")
         }
         if (data[position].store != null) {
             holder.layoutNeighbouringStorePreviewBinding.store.setText(data[position].store)

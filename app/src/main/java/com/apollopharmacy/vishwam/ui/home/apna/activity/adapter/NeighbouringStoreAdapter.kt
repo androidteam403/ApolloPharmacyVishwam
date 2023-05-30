@@ -1,17 +1,23 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.Window
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStoreBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringStoreData
+import java.io.File
 
 class NeighbouringStoreAdapter(
     var mContext: Context,
@@ -66,65 +72,33 @@ class NeighbouringStoreAdapter(
         }
 
         holder.layoutNeighbouringStoreBinding.close.setOnClickListener {
+//            mCallback.onClickNeighbouringStoreDelete(position)
+            openConfirmDialog(position, neighbouringList[position])
+        }
+    }
+
+    private fun openConfirmDialog(position: Int, neighbouringStoreData: NeighbouringStoreData) {
+        val dialog = Dialog(mContext)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val imageDeleteConfirmDialogBinding =
+            DataBindingUtil.inflate<ImageDeleteConfirmDialogBinding>(
+                LayoutInflater.from(mContext),
+                R.layout.image_delete_confirm_dialog,
+                null,
+                false
+            )
+        dialog.setContentView(imageDeleteConfirmDialogBinding.root)
+        imageDeleteConfirmDialogBinding.noButton.setOnClickListener {
+            dialog.dismiss()
+        }
+        imageDeleteConfirmDialogBinding.yesButton.setOnClickListener {
             mCallback.onClickNeighbouringStoreDelete(position)
+            dialog.dismiss()
         }
 
-//        holder.layoutNeighbouringStoreBinding.locationText.text = neighbouringList[position].name
-//
-//        holder.layoutNeighbouringStoreBinding.storeText.addTextChangedListener(object :
-//            TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                neighbouringList.get(position).store = s.toString()
-//            }
-//
-//        })
-//
-//        holder.layoutNeighbouringStoreBinding.rentText.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                neighbouringList.get(position).rent = s.toString()
-//            }
-//
-//        })
-//
-//        holder.layoutNeighbouringStoreBinding.salesText.addTextChangedListener(object :
-//            TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                neighbouringList.get(position).sales = s.toString()
-//            }
-//
-//        })
-//
-//        holder.layoutNeighbouringStoreBinding.sqFtText.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//            }
-//
-//            override fun afterTextChanged(s: Editable?) {
-//                neighbouringList.get(position).sqFt = s.toString()
-//                mCallback.onDataChanged(neighbouringList)
-//            }
-//
-//        })
+        dialog.setCancelable(false)
+        dialog.show()
     }
 
     override fun getItemCount(): Int {

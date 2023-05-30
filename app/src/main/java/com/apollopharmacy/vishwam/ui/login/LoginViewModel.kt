@@ -48,6 +48,7 @@ class LoginViewModel : ViewModel() {
                         validateResponseMutableList.value = response.value!!
                         Preferences.saveApi(Gson().toJson(response.value))
                         Preferences.saveGlobalResponse(Gson().toJson(response.value))
+
                         val url = Preferences.getApi()
                         val data = Gson().fromJson(url, ValidateResponse::class.java)
                         for (i in data.APIS.indices) {
@@ -57,6 +58,8 @@ class LoginViewModel : ViewModel() {
                                 break
                             }
                         }
+
+
                         Utils.printMessage("SplashScreen", response.value.toString())
 //                        command.value =
 //                            NavigateTo(response.value)

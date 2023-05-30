@@ -488,7 +488,8 @@ class AdminModuleFragment : BaseFragment<AdminModuleViewModel, ActivityAdminModu
     }
 
     override fun onFailureGetSubCategoryDetailsApiCall(message: String) {
-        TODO("Not yet implemented")
+        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show()
+        hideLoading()
     }
 
     override fun onClickSubmit() {

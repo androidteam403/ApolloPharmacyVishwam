@@ -24,7 +24,6 @@ public class ApiClient {
         if (BuildConfig.DEBUG) {
             builder.addInterceptor(new OkHttpProfilerInterceptor());
         }
-
         OkHttpClient client = builder
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)

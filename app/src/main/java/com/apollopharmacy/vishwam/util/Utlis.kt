@@ -417,4 +417,14 @@ object Utlis {
         val tsLong = System.currentTimeMillis() / 1000
         return tsLong.toString()
     }
+    fun getCurrentTimeStampFormat(): String? {
+        return try {
+            val dateFormat =
+                SimpleDateFormat("yyyyMMddHHmmss")
+            dateFormat.format(Date())
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            null
+        }
+    }
 }
