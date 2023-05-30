@@ -33,7 +33,7 @@ class DimensionTypeAdapter(
         holder.viewItemRowBinding.itemName.setText(data.get(position).name)
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallBack.onSelectDimensionTypeItem(position, data.get(position).name.toString())
+            mCallBack.onSelectDimensionTypeItem(position, data.get(position).name.toString(), data.get(position))
         }
     }
 

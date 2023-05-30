@@ -18,7 +18,6 @@ import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.swach.model.AppLevelDesignationModelResponse
-import com.apollopharmacy.vishwam.ui.home.greeting.GreetingActivity
 import com.apollopharmacy.vishwam.ui.login.LoginActivity
 import com.apollopharmacy.vishwam.ui.rider.db.SessionManager
 import com.apollopharmacy.vishwam.ui.rider.login.model.LoginResponse
@@ -76,7 +75,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
         Preferences.setSiteRetroListFetched(false)
         Preferences.setReasonListFetched(false)
         viewModel.commands.observeForever { command ->
-            Utlis.hideLoading()
+           Utlis.hideLoading()
             when (command) {
                 is Command.NavigateTo -> {
                     val intent = Intent(this@ValidatePinActivity, ForgotPinActivity::class.java)
@@ -137,15 +136,16 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 //                handleNextIntent()
 
                 viewModel.getRole(Preferences.getValidatedEmpId())
-                viewModel.getApplevelDesignation(
-                    Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignation(Preferences.getValidatedEmpId(),
                     "SWACHH",
                     applicationContext
                 )
 
-                viewModel.getApplevelDesignationApnaRetro(Preferences.getValidatedEmpId(),
+                viewModel.getApplevelDesignationApnaRetro(
+                    Preferences.getValidatedEmpId(),
                     "RETRO",
-                    applicationContext, this)
+                    applicationContext, this
+                )
                 viewModel.getApplevelDesignationQcFail(Preferences.getValidatedEmpId(), "QCFAIL")
 
 
@@ -260,17 +260,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
-        viewModel.loginApiCall("APL48627",
-            "R1De6#012022",
-            Preferences.getFcmKey(),
-            this,
-            this)
+//        viewModel.loginApiCall("APL48627",
+//            "R1De6#012022",
+//            Preferences.getFcmKey(),
+//            this,
+//            this)
 //emp-102//Nagapavan
-//        Preferences.setIsPinCreated(true)
-//        val homeIntent = Intent(this, MainActivity::class.java)
-//        startActivity(homeIntent)
-//        finish()
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        Preferences.setIsPinCreated(true)
+        val homeIntent = Intent(this, MainActivity::class.java)
+        startActivity(homeIntent)
+        finish()
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     private fun handleCreatePinIntent() {
@@ -298,7 +298,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handleMPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            Utlis.showLoading(this@ValidatePinActivity)
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(
@@ -337,11 +337,9 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
             try {
                 SessionManager(applicationContext).setLoginToken(loginResponse.data.token)
                 SessionManager(applicationContext).setRiderIconUrl(loginResponse.data.pic[0].dimenesions.get200200FullPath())
-                viewModel.getRiderProfileDetailsApi(
-                    SessionManager(applicationContext).getLoginToken(),
+                viewModel.getRiderProfileDetailsApi(SessionManager(applicationContext).getLoginToken(),
                     applicationContext,
-                    this
-                )
+                    this)
             } catch (e: java.lang.Exception) {
                 println("onSuccessLoginApi ::::::::::::::::::::::::" + e.message)
                 ActivityUtils.hideDialog()

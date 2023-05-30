@@ -88,11 +88,11 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_alignParentBottom="true"
             android:id="@+id/submit"
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_50dp"
-            android:background="@color/greenn"
+            android:layout_alignParentBottom="true"
+            android:background="@color/apna_project_actionbar_color"
             android:gravity="center"
             android:orientation="horizontal"
             android:padding="@dimen/value_12dp">

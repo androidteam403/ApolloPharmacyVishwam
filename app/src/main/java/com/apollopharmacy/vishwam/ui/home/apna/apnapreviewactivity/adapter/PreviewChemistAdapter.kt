@@ -27,15 +27,19 @@ class PreviewChemistAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=chemistData.get(position)
-        if (items.chemist!!.isNotEmpty()) {
-            holder.chemistLayoutBinding.name.setText(items.chemist)
+        val items = chemistData.get(position)
+        if (items.chemist != null) {
+            if (items.chemist!!.isNotEmpty()) {
+                holder.chemistLayoutBinding.name.setText(items.chemist)
+            } else {
+                holder.chemistLayoutBinding.name.setText("-")
+            }
         } else {
             holder.chemistLayoutBinding.name.setText("-")
         }
         if (items.organised != null) {
-            if (items.organised!!.uid.toString().isNotEmpty() && items.organised!!.uid != null) {
-                holder.chemistLayoutBinding.organized.setText(items.organised!!.uid.toString())
+            if (items.organised!!.name.toString().isNotEmpty() && items.organised!!.name != null) {
+                holder.chemistLayoutBinding.organized.setText(items.organised!!.name.toString())
             } else {
                 holder.chemistLayoutBinding.organized.setText("-")
             }
@@ -48,8 +52,10 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.avgsale.setText("-")
         }
         if (items.unorganised != null) {
-            if (items.unorganised!!.uid.toString().isNotEmpty() && items.unorganised!!.uid != null) {
-                holder.chemistLayoutBinding.unorganized.setText(items.unorganised!!.uid)
+            if (items.unorganised!!.name.toString()
+                    .isNotEmpty() && items.unorganised!!.name != null
+            ) {
+                holder.chemistLayoutBinding.unorganized.setText(items.unorganised!!.name)
             } else {
                 holder.chemistLayoutBinding.unorganized.setText("-")
             }

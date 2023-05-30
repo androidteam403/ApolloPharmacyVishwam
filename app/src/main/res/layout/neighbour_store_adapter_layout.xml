@@ -5,25 +5,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/value_5dp"
         android:orientation="vertical">
+
         <TextView
+            android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/name"
-
             android:fontFamily="@font/roboto_medium"
-            android:text="Neighbouring Store (left) :"
-            android:textSize="12sp" />
+            android:text="Neighbouring Store (left)"
+            android:textSize="@dimen/text_12sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:layout_marginEnd="@dimen/value_40dp"
-
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="@dimen/value_8dp"
             android:orientation="horizontal"
             android:weightSum="3">
 
@@ -36,23 +33,21 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/value_2dp"
                     android:fontFamily="@font/roboto_medium"
-                    android:text="Rent"
-                    android:textSize="12sp" />
+                    android:text="Store"
+                    android:textSize="@dimen/text_12sp" />
 
                 <TextView
-                    android:id="@+id/rent"
+                    android:id="@+id/store"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_2dp"
                     android:drawableLeft="@drawable/rupee_apna"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="100"
-                    android:layout_marginTop="2dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp"
-                    android:fontFamily="@font/roboto_medium" />
-
-
+                    android:textSize="@dimen/text_12sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -64,27 +59,81 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Rent"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:id="@+id/rent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:drawableLeft="@drawable/rupee_apna"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/value_40dp"
+            android:layout_marginBottom="@dimen/value_8dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="Sales"
+                    android:textSize="@dimen/text_12sp" />
+
+                <TextView
+                    android:id="@+id/sales"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_2dp"
+                    android:drawableLeft="@drawable/rupee_apna"
+                    android:fontFamily="@font/roboto_medium"
+                    android:text="100"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_12sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:text="Sq.ft"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/text_12sp" />
+
                 <TextView
                     android:id="@+id/sqft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_2dp"
                     android:drawableLeft="@drawable/rupee_apna"
+                    android:fontFamily="@font/roboto_medium"
                     android:text="100"
-                    android:layout_marginTop="2dp"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_12sp"
-                    android:fontFamily="@font/roboto_medium" />
-
-
-
+                    android:textSize="@dimen/text_12sp" />
             </LinearLayout>
-
         </LinearLayout>
-
-
     </LinearLayout>
 </layout>

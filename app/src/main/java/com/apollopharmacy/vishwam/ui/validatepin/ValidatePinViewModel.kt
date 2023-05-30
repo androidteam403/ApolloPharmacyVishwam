@@ -138,7 +138,7 @@ class ValidatePinViewModel : ViewModel() {
                         Preferences.setAppLevelDesignationSwach(result.value.message)
 //                       Toast.makeText(applicationContext, ""+Preferences.getAppLevelDesignationSwach(),Toast.LENGTH_SHORT).show()
                     } else {
-                        appLevelDesignationRespSwach.value = result.value
+                        appLevelDesignationRespSwach.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -248,9 +248,9 @@ class ValidatePinViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        appLevelDesignationRespQCFail.value = result.value
+                        appLevelDesignationRespQCFail.value = result.value!!
                     } else {
-                        appLevelDesignationRespQCFail.value = result.value
+                        appLevelDesignationRespQCFail.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {

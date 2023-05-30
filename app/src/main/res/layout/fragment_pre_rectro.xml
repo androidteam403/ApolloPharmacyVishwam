@@ -25,7 +25,7 @@
                 android:layout_marginTop="@dimen/value_5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create New Rectro"
+                android:text="Create New Retro"
                 android:textSize="@dimen/text_17sp"
                 android:textColor="@color/black"
                 android:textStyle="bold"/>
@@ -37,7 +37,7 @@
                 android:layout_marginTop="@dimen/text_dimen_10"
                 android:text="Store ID "/>
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <TextView
                 android:onClick="@{()-> callback.onClickSearch()}"
                 android:id="@+id/storeId"
                 android:layout_marginTop="@dimen/value_5dp"
