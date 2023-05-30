@@ -616,11 +616,7 @@ class UploadNowButtonActivity : AppCompatActivity(), ImagesCardViewAdapter.Callb
         if (swacchApolloList.get(0).configlist != null) {
             for ((index, value) in swacchApolloList.get(0).configlist!!.withIndex()) {
                 for ((index1, value1) in swacchApolloList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                    if (swacchApolloList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null) {
-                        swacchApolloList.get(0).configlist!!.get(index).imageUploaded = true
-                    } else {
-                        swacchApolloList.get(0).configlist!!.get(index).imageUploaded = false
-                    }
+                    swacchApolloList.get(0).configlist!!.get(index).imageUploaded = swacchApolloList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
                 }
 
             }

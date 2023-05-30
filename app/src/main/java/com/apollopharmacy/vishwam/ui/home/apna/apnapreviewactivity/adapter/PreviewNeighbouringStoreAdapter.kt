@@ -35,6 +35,12 @@ class PreviewNeighbouringStoreAdapter(
         holder.neighbourStoreAdapterLayoutBinding.name.setText("Neighbouring Store"+" ( "+ items.location!!.name +" )")
 
         holder.neighbourStoreAdapterLayoutBinding.sqft.setText(items.sqft!!.toString())
+        holder.neighbourStoreAdapterLayoutBinding.store.setText(items.store.toString())
+        if (items.sales != null) {
+            holder.neighbourStoreAdapterLayoutBinding.sales.setText(items.sales.toString())
+        } else {
+            holder.neighbourStoreAdapterLayoutBinding.sales.setText("-")
+        }
 
     }
 

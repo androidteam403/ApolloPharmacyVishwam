@@ -44,7 +44,7 @@ object Preferences {
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
-
+    private const val  APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
 
 
@@ -153,6 +153,7 @@ object Preferences {
     private const val KEY_RECTRO_SITENAME = "KEY_RECTRO_SITENAME"
 
     private const val KEY_APNA_SITEID = "KEY_APNA_SITEID"
+    private const val KEY_APNA_SITENAME = "KEY_APNA_SITENAME"
 
     private const val KEY_SWACHH_SITENAME = "KEY_SWACHH_SITENAME"
 
@@ -430,6 +431,22 @@ object Preferences {
     fun getAppLevelDesignationQCFail(): String {
         return sharedPreferences.getString(APP_LEVEL_DESIGNATION_QC_FAIL, "")!!
     }
+
+
+
+
+    fun setApnaRetroSite(role: String) {
+        sharedPreferences.edit().putString(APNA_RETRO_SITE, role).apply()
+    }
+
+    fun getApnaRetroSite(): String {
+        return sharedPreferences.getString(APNA_RETRO_SITE, "")!!
+    }
+
+
+
+
+
     fun setRectroSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_RECTRO_SITEID, swachhSiteId).apply()
     }
@@ -467,7 +484,13 @@ object Preferences {
     fun getSwachSiteName(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
     }
+    fun setApnaSiteName(swachhSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APNA_SITENAME, swachhSiteId).apply()
+    }
 
+    fun getApnaSiteName(): String {
+        return sharedPreferences.getString(KEY_APNA_SITENAME, "")!!
+    }
 
     fun storeEmployeeDetailsResponseJson(employeeDetailsResponse: String) {
         sharedPreferences.edit().putString(PREF_KEY_EMP_DETAILS_JSON, employeeDetailsResponse)

@@ -28,10 +28,29 @@ class ApartmentsPreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
-        holder.adapterApartmentsListPreviewBinding.name.setText(data[position].apartments)
-        holder.adapterApartmentsListPreviewBinding.noOfHouses.setText(data[position].noHouses)
-        holder.adapterApartmentsListPreviewBinding.distance.setText(data[position].distance.toString())
+        if (data.get(position).type!!.uid!!.isNotEmpty()) {
+            holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
+        } else {
+            holder.adapterApartmentsListPreviewBinding.type.setText("-")
+        }
+
+        if (data.get(position).apartments!!.isNotEmpty()) {
+            holder.adapterApartmentsListPreviewBinding.name.setText(data[position].apartments)
+        } else {
+            holder.adapterApartmentsListPreviewBinding.name.setText("-")
+        }
+
+        if (data.get(position).noHouses!!.isNotEmpty()) {
+            holder.adapterApartmentsListPreviewBinding.noOfHouses.setText(data[position].noHouses)
+        } else {
+            holder.adapterApartmentsListPreviewBinding.noOfHouses.setText("-")
+        }
+
+        if (data.get(position).distance!! > 0) {
+            holder.adapterApartmentsListPreviewBinding.distance.setText(data[position].distance.toString())
+        } else {
+            holder.adapterApartmentsListPreviewBinding.distance.setText("-")
+        }
     }
 
     override fun getItemCount(): Int {

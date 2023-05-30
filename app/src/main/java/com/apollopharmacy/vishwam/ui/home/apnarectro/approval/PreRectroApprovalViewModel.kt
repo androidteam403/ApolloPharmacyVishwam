@@ -3,13 +3,17 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.BuildConfig
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApnaRectroApiRepo
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
+import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.reviewingscreens.PreRetroReviewingCallback
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.google.gson.Gson
 import com.hadilq.liveevent.LiveEvent
@@ -29,15 +33,28 @@ class PreRectroApprovalViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT PENDING APPROVED LIST")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetpendingAndApprovedList"
-                token = data.APIS[i].TOKEN
-                break
+
+            if (Config.KEY=="2039") {
+                if (data.APIS[i].NAME.equals("RT PENDING APPROVED LIST")) {
+                    baseUrl = data.APIS[i].URL
+                    token = data.APIS[i].TOKEN
+                    break
+                }
             }
+            else
+                if (Config.KEY=="2034"){
+                    baseUrl =
+                        "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetpendingAndApprovedList"
+                    token = "h72genrSSNFivOi/cfiX3A=="
+                }
         }
+//        POST https://172.16.103.116:8443/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT
+//        {"IMAGEURLS":[{"IMAGEID":"681","STATUSID":"1"},{"IMAGEID":"682","STATUSID":"1"},{"IMAGEID":"683","STATUSID":"1"},{"IMAGEID":"684","STATUSID":"1"}],"RATING":"","REAMRKS":"","RETROAUTOID":"","STAGEID":"","STATUSID":"1","STOREID":"16001","TYPE":"","USERID":"APL49391"}
+
+
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.retroApprovalList("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetpendingAndApprovedList", "h72genrSSNFivOi/cfiX3A==", getRetroPendindAndApproverequest)
+                ApnaRectroApiRepo.retroApprovalList(baseUrl, token, getRetroPendindAndApproverequest)
 
             }
             when (response) {
@@ -48,11 +65,11 @@ class PreRectroApprovalViewModel : ViewModel() {
                         if (response.value.status ?: null == true) {
                             state.value = State.ERROR
                             preRetroCallback.onSuccessRetroApprovalList(response.value)
-                            retroPendingAndApproveResponse.value = response.value
+                            retroPendingAndApproveResponse.value = response.value!!
                         } else {
                             state.value = State.ERROR
                             preRetroCallback.onFailureRetroApprovalList(response.value)
-                            retroPendingAndApproveResponse.value = response.value
+                            retroPendingAndApproveResponse.value = response.value!!
                         }
                     }
                 is ApiResult.GenericError -> {
@@ -80,5 +97,10 @@ class PreRectroApprovalViewModel : ViewModel() {
         }
 
     }
+
+
+
+
+
 
 }

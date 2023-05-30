@@ -15,6 +15,26 @@ class SurveyDetailsList : Serializable {
     @SerializedName("data")
     var data: Data? = null
 
+    inner class ToiletsAvailability: Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: Other_1? = null
+    }
+
+    inner class Other_1: Serializable {
+        @SerializedName("color")
+        @Expose
+        var color: String? = null
+    }
+
     inner class Apartment : Serializable {
         @SerializedName("uid")
         @Expose
@@ -180,6 +200,14 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletName: String? = null
 
+        @SerializedName("eo_site_id")
+        @Expose
+        var eoSiteId: String? = null
+
+        @SerializedName("eo_site_name")
+        @Expose
+        var eoSiteName: String? = null
+
         @SerializedName("lat")
         @Expose
         var lat: String? = null
@@ -211,6 +239,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("survey_id")
         @Expose
         var surveyId: String? = null
+
+        @SerializedName("toilets_availability")
+        @Expose
+        var toiletsAvailability: ToiletsAvailability? = null
 
         @SerializedName("traffic_patterns")
         @Expose
@@ -250,7 +282,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("building_age")
         @Expose
-        var buildingAge: Int? = null
+        var buildingAge: Double? = null
 
         @SerializedName("morning_from")
         @Expose
@@ -460,7 +492,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withBuildingAge(buildingAge: Int?): Data {
+        fun withBuildingAge(buildingAge: Double?): Data {
             this.buildingAge = buildingAge
             return this
         }

@@ -1,16 +1,25 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
+import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentApprovalPrerectroBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.adapter.RectroApproveListAdapter
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.ApnaSelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlRequest
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
+import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,7 +28,7 @@ import kotlin.collections.ArrayList
 
 
 class PreRectroApprovalFragment() :
-    BaseFragment<PreRectroApprovalViewModel, FragmentApprovalPrerectroBinding>(),
+    BaseFragment<PreRectroApprovalViewModel, FragmentApprovalPrerectroBinding>(),MainActivityCallback,
     PreRectroApprovalCallback {
     var adapter: RectroApproveListAdapter? = null
     private var fragmentName: String = ""
@@ -27,26 +36,35 @@ class PreRectroApprovalFragment() :
     var fromDate = String()
     var isApiHit: Boolean = false
     var isRatingApiHit: Boolean = false
+    var selectsiteIdList = ArrayList<String>()
 
     override val layoutRes: Int
         get() = R.layout.fragment_approval_prerectro
 
     override fun retrieveViewModel(): PreRectroApprovalViewModel {
-        return ViewModelProvider(this).get(PreRectroApprovalViewModel::class.java)
+        return ViewModelProvider(this)[PreRectroApprovalViewModel::class.java]
     }
 
     override fun setup() {
 
         showLoading()
+
+
+
+
+        Preferences.savingToken("APL48627")
+        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
+        MainActivity.mInstance.mainActivityCallback = this
+//        AWAITING APPROVAL FROM CEO
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
+        cal.add(Calendar.DATE, -3)
         fromDate = simpleDateFormat.format(cal.time)
-        getRetroPendindAndApproverequest.empid = "APL48627"
-        getRetroPendindAndApproverequest.storeid = "16001"
+        getRetroPendindAndApproverequest.empid = Preferences.getToken()
+        getRetroPendindAndApproverequest.storeid =Preferences.getRectroSiteId()
         getRetroPendindAndApproverequest.fromdate = fromDate
         getRetroPendindAndApproverequest.todate = currentDate
 
@@ -64,10 +82,13 @@ class PreRectroApprovalFragment() :
 
     override fun onClick(position: Int,  subPos:Int,status: List<List<GetRetroPendingAndApproveResponse.Retro>>?,approvePendingList:ArrayList<GetRetroPendingAndApproveResponse.Retro>) {
         val intent = Intent(context, ApprovalPreviewActivity::class.java)
-        intent.putExtra("stage", status!!.get(position).get(subPos).stage)
-        intent.putExtra("status", status!!.get(position).get(subPos).status)
-        intent.putExtra("site", status!!.get(position).get(subPos).store)
+        intent.putExtra("stage", status!![position][subPos].stage)
+        intent.putExtra("status", status!!.get(position)[subPos].status)
+        intent.putExtra("site", status!!.get(position)[subPos].store)
         intent.putExtra("approvePendingList",approvePendingList)
+        intent.putExtra("uploadBy", status!![position][subPos].uploadedBy)
+        intent.putExtra("uploadOn", status!![position][subPos].uploadedDate)
+
 
         intent.putExtra("retroId", status!!.get(position).get(subPos).retroid)
         startActivityForResult(intent, 221)
@@ -89,12 +110,34 @@ class PreRectroApprovalFragment() :
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -7)
                 fromDate = simpleDateFormat.format(cal.time)
-                getRetroPendindAndApproverequest.empid = "APL48627"
-                getRetroPendindAndApproverequest.storeid = "16001"
+                getRetroPendindAndApproverequest.empid = Preferences.getToken()
+                getRetroPendindAndApproverequest.storeid = Preferences.getRectroSiteId()
                 getRetroPendindAndApproverequest.fromdate = fromDate
                 getRetroPendindAndApproverequest.todate = currentDate
 
                 viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
+            }
+        }
+
+
+        if (requestCode==721){
+            selectsiteIdList= data?.getStringArrayListExtra("selectsiteIdList") as ArrayList<String>
+            if (selectsiteIdList!=null){
+                showLoading()
+                var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
+                val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+                currentDate = simpleDateFormat.format(Date())
+
+                val cal = Calendar.getInstance()
+                cal.add(Calendar.DATE, -7)
+                fromDate = simpleDateFormat.format(cal.time)
+                getRetroPendindAndApproverequest.empid = Preferences.getToken()
+                getRetroPendindAndApproverequest.storeid = selectsiteIdList.toString().replace("[","").replace("]","").replace(" ","")
+                getRetroPendindAndApproverequest.fromdate = fromDate
+                getRetroPendindAndApproverequest.todate = currentDate
+
+                viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
+
             }
         }
     }
@@ -146,7 +189,27 @@ class PreRectroApprovalFragment() :
     }
 
 
+
+
     override fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse) {
+    }
+
+
+
+
+
+    override fun onClickFilterIcon() {
+
+    }
+
+    override fun onClickSiteIdIcon() {
+
+        val i = Intent(context, ApnaSelectSiteActivityy::class.java)
+        startActivityForResult(i, 721)
+    }
+
+    override fun onClickQcFilterIcon() {
+
     }
 
 

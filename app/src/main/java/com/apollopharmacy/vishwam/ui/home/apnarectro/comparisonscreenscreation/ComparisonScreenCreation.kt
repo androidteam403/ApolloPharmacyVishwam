@@ -29,6 +29,7 @@ import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityComparisonScreenBinding
 import com.apollopharmacy.vishwam.databinding.ActivityPostRectroReviewScreenBinding
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
+import com.apollopharmacy.vishwam.util.PopUpWIndow
 import com.bumptech.glide.Glide
 import java.io.File
 import java.security.AccessController.checkPermission
@@ -39,19 +40,20 @@ import okhttp3.internal.notify
 class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCallBack {
     var stage: String = ""
     var retroid: String = ""
-    var categoryName:String=""
-    var categoryid:String=""
-    var storeIdFromRemarks:String=""
-    var checkBoxClickedCount:Int=0
-    private var uploadStage:String=""
+    var categoryName: String = ""
+    var categoryid: String = ""
+    var storeIdFromRemarks: String = ""
+    var checkBoxClickedCount: Int = 0
+    private var uploadStage: String = ""
     private var fileNameForCompressedImage: String? = null
     var imageFromCameraFile: File? = null
-    var imageClickedPos:Int?=null
+    var imageClickedPos: Int? = null
     private lateinit var cameraDialog: Dialog
-    var imageUploaded=false
+    var imageUploaded = false
 
 
-    public var posImageUrlList = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
+    public var posImageUrlList =
+        java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
     var pos: Int = 0
 
     lateinit var activityPostRectroReviewScreenBinding: ActivityComparisonScreenBinding
@@ -103,141 +105,161 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     }
 
     private fun setUp() {
-        activityPostRectroReviewScreenBinding.callback=this
+        activityPostRectroReviewScreenBinding.callback = this
         if (intent != null) {
             stage = intent.getStringExtra("stage")!!
             retroid = intent.getStringExtra("retroid")!!
             posImageUrlList =
                 intent.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
-            categoryName=intent.getStringExtra("categoryName")!!
-            categoryid=intent.getStringExtra("categoryid")!!
+            categoryName = intent.getStringExtra("categoryName")!!
+            categoryid = intent.getStringExtra("categoryid")!!
             uploadStage = intent.getStringExtra("uploadStage")!!
-            imageClickedPos= intent.getIntExtra("imageClickedPos", 0)!!
+            imageClickedPos = intent.getIntExtra("imageClickedPos", 0)!!
         }
-        if (stage.equals("isPreRetroStage")) {
+        if (stage == "isPreRetroStage") {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
-            if(posImageUrlList.size==1){
+            if (posImageUrlList.size == 1) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.firstImageZoom.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT)
-                lp.weight = 1f
+                    LinearLayout.LayoutParams.MATCH_PARENT
+                )
+                lp.weight = .2f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
-            }
-            else if(posImageUrlList.size==2){
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
+            } else if (posImageUrlList.size == 2) {
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=false
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=false
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
-                checkBoxClickedCount=2
-            }
-            else if(posImageUrlList.size==3){
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
+                checkBoxClickedCount = 2
+            } else if (posImageUrlList.size == 3) {
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=true
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = true
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
 
             }
 
         } else if (stage.equals("isPostRetroStage")) {
             activityPostRectroReviewScreenBinding.reviewName.setText("Post Retro Review")
 
-            if(posImageUrlList.size==1 && uploadStage.equals("newUploadStage")){
+            if (posImageUrlList.size == 1 && uploadStage.equals("newUploadStage")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
-                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.VISIBLE
-                activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
-                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text="Upload Post Retro"
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
-            }else if(posImageUrlList.size==2 && uploadStage.equals("reshootStage")){
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                    "Upload Post Retro"
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
+            } else if (posImageUrlList.size == 2 && uploadStage.equals("reshootStage")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
-                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text="Post Retro Image"
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
-            }
-            else if(posImageUrlList.size==2){
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                    "Post Retro Image"
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
+            } else if (posImageUrlList.size == 2) {
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=false
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=false
-                checkBoxClickedCount=2
-            }
-            else if(posImageUrlList.size==3){
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
+                checkBoxClickedCount = 2
+            } else if (posImageUrlList.size == 3) {
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                    resources.getColor(
+                        R.color.grey
+                    )
+                )
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = true
 
             }
         } else {
-            activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
-            if(posImageUrlList.size==2 && uploadStage.equals("newUploadStage")){
-                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
+            activityPostRectroReviewScreenBinding.reviewName.text = "After Completion Review"
+            if (posImageUrlList.size == 2 && uploadStage == "newUploadStage") {
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.grey)
+                )
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
-                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.VISIBLE
-                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
-                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text="Upload After Completion Retro"
-            }else{
-                if(posImageUrlList.size==3 && uploadStage.equals("reshootStage")){
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                    "Upload After Completion Retro"
+            } else {
+                if (posImageUrlList.size == 3 && uploadStage == "reshootStage") {
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                        resources.getColor(R.color.grey)
+                    )
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                        "Upload After Completion"
+
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                        View.VISIBLE
                     activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                    if(activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
-                    }else{
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                        View.VISIBLE
+                    if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                            View.VISIBLE
+                    } else {
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
                     }
-                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text="After Completion Image"
-                }else if(posImageUrlList.size==3){
+                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
+                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                        "After Completion Image"
+                } else if (posImageUrlList.size == 3) {
                     activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                     activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
-                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=false
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                    checkBoxClickedCount=2
+                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                    activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                        resources.getColor(R.color.blue)
+                    )
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
+                    checkBoxClickedCount = 2
                 }
 
             }
 
         }
         activityPostRectroReviewScreenBinding.retroId.text = retroid
-        activityPostRectroReviewScreenBinding.categoryName.text=categoryName
-        activityPostRectroReviewScreenBinding.categoryNumber.text=categoryid
+        activityPostRectroReviewScreenBinding.categoryName.text = categoryName
+        activityPostRectroReviewScreenBinding.categoryNumber.text = categoryid
 //        activityPostRectroReviewScreenBinding.storeId.text=storeIdFromRemarks
 
         activityPostRectroReviewScreenBinding.imageOne.setImageView2(
@@ -250,265 +272,371 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         handler.removeCallbacks(runnable)
         handler.postDelayed(runnable, 200)
 
+        activityPostRectroReviewScreenBinding.firstImageZoom.setOnClickListener {
 
-
+            for (i in posImageUrlList.indices) {
+                if (posImageUrlList[i].stage.equals("1")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading1.text.toString()
+                            .contains("Pre")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.firstImageZoom,
+                            posImageUrlList[i].url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                } else if (posImageUrlList[i].stage.equals("2")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading1.text.toString()
+                            .contains("Post")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.firstImageZoom,
+                            posImageUrlList.get(i).url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                } else if (posImageUrlList.get(i).stage.equals("3")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading1.text.toString()
+                            .contains("After")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.firstImageZoom,
+                            posImageUrlList[i].url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                }
+            }
+        }
         activityPostRectroReviewScreenBinding.preRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                    resources.getColor(
+                        R.color.blue
+                    )
+                )
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
                 updateImages()
             } else {
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.setBackgroundColor(
+                    resources.getColor(
+                        R.color.grey
+                    )
+                )
             }
         }
         activityPostRectroReviewScreenBinding.postRectroCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.blue)
+                )
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
                 updateImages()
             } else {
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.grey)
+                )
 
             }
         }
         activityPostRectroReviewScreenBinding.afterCompletionCheckbox.setOnCheckedChangeListener { buttonView, isChecked ->
             if (isChecked) {
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(resources.getColor(R.color.blue))
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.blue)
+                )
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
                 updateImages()
             } else {
-                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=false
-                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
+                activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = false
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.grey)
+                )
+            }
+        }
+        activityPostRectroReviewScreenBinding.secondImageZoom.setOnClickListener {
+
+            for (i in posImageUrlList.indices) {
+                if (posImageUrlList[i].stage.equals("1")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading2.text.toString()
+                            .contains("Pre")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.secondImageZoom,
+                            posImageUrlList[i].url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                } else if (posImageUrlList[i].stage.equals("2")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading2.text.toString()
+                            .contains("Post")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.secondImageZoom,
+                            posImageUrlList.get(i).url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                } else if (posImageUrlList.get(i).stage.equals("3")) {
+                    if (activityPostRectroReviewScreenBinding.imageHeading2.text.toString()
+                            .contains("After")
+                    ) {
+                        PopUpWIndow(
+                            this,
+                            R.layout.layout_image_fullview,
+                            activityPostRectroReviewScreenBinding.secondImageZoom,
+                            posImageUrlList[i].url,
+                            null,
+                            "",
+                            0
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateImages() {
+        if (uploadStage.equals("reshootStage") && stage.equals("isAfterCompletionStage")) {
+            if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+                if (!imageUploaded) {
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.VISIBLE
+                    activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.GONE
+                } else {
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
+                }
+
+            } else {
+                activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
             }
         }
 
-    }
-   fun updateImages(){
-       if(uploadStage.equals("reshootStage") && stage.equals("isAfterCompletionStage")){
-           if(activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
-               if(!imageUploaded){
-                   activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
-                   activityPostRectroReviewScreenBinding.deleteIcon.visibility=View.GONE
-               }else{
-                   activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
-                   activityPostRectroReviewScreenBinding.deleteIcon.visibility=View.VISIBLE
-               }
-
-           } else{
-               activityPostRectroReviewScreenBinding.deleteIcon.visibility=View.GONE
-               activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
-           }
-       }
 
 
+        if (posImageUrlList.size == 1) {
 
-       if (posImageUrlList.size == 1) {
-
-           activityPostRectroReviewScreenBinding.imageHeading1.text="Pre Retro Image"
-           for(i in posImageUrlList.indices){
-               if(posImageUrlList.get(i).stage.equals("1") ){
-                   Glide.with(this).load(posImageUrlList.get(i).url)
-                       .placeholder(R.drawable.thumbnail_image)
-                       .into(activityPostRectroReviewScreenBinding.imageOne)
-                   bottomStatusUpdate(posImageUrlList.get(i).status)
-                   Glide.with(this).load(posImageUrlList.get(i).url)
-                       .placeholder(R.drawable.thumbnail_image)
-                       .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
-               }
-           }
-
-       }
-       else if (posImageUrlList.size == 2) {
-
-           activityPostRectroReviewScreenBinding.imageHeading1.text="Pre Retro Image"
-           activityPostRectroReviewScreenBinding.imageHeading2.text="Post Retro Image"
-           for(i in posImageUrlList.indices){
-               if(posImageUrlList.get(i).stage.equals("1") ){
-                   Glide.with(this).load(posImageUrlList.get(i).url)
-                       .placeholder(R.drawable.thumbnail_image)
-                       .into(activityPostRectroReviewScreenBinding.imageOne)
-                   Glide.with(this).load(posImageUrlList.get(i).url)
-                       .placeholder(R.drawable.thumbnail_image)
-                       .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
-               }
-           }
-           for(i in posImageUrlList.indices){
-               if(posImageUrlList.get(i).stage.equals("2") ){
-                   bottomStatusUpdate(posImageUrlList.get(i).status)
-                   if(posImageUrlList.get(i).url!=null){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageTwo)
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
-                   }else{
-                       Glide.with(this).load(posImageUrlList.get(i).file)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageTwo)
-                       Glide.with(this).load(posImageUrlList.get(i).file)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
-                   }
-
-                   bottomStatusUpdate(posImageUrlList.get(i).status)
-               }
-           }
-       }
-       else if (posImageUrlList.size == 3) {
-           updateCheckBoxImages()
-
-           if(activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked){
-               activityPostRectroReviewScreenBinding.imageHeading1.text="Pre Retro Image"
-               activityPostRectroReviewScreenBinding.imageHeading2.text="Post Retro Image"
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("1") ){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageOne)
-                   }
-               }
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("2") ){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageTwo)
-                   }
-               }
-           }
-           else if(activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
-               activityPostRectroReviewScreenBinding.imageHeading1.text="Post Retro Image"
-               activityPostRectroReviewScreenBinding.imageHeading2.text="After Completion Image"
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("2") ){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageOne)
-                   }
-               }
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("3") ){
-                       bottomStatusUpdate(posImageUrlList.get(i).status)
-                       if(posImageUrlList.get(i).url!=null){
-                           Glide.with(this).load(posImageUrlList.get(i).url)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.imageTwo)
-                           Glide.with(this).load(posImageUrlList.get(i).url)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                       }else{
-                           Glide.with(this).load(posImageUrlList.get(i).file)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.imageTwo)
-                           Glide.with(this).load(posImageUrlList.get(i).file)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                       }
-
-                   }
-               }
-           }
-           else if(activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
-               activityPostRectroReviewScreenBinding.imageHeading1.text="Pre Retro Image"
-               activityPostRectroReviewScreenBinding.imageHeading2.text="After Completion Image"
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("1") ){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageOne)
-                   }
-               }
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("3") ){
-                       bottomStatusUpdate(posImageUrlList.get(i).status)
-                       if(posImageUrlList.get(i).url!=null){
-                           Glide.with(this).load(posImageUrlList.get(i).url)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.imageTwo)
-                           Glide.with(this).load(posImageUrlList.get(i).url)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-
-                       }else{
-                           Glide.with(this).load(posImageUrlList.get(i).file)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.imageTwo)
-                           Glide.with(this).load(posImageUrlList.get(i).file)
-                               .placeholder(R.drawable.thumbnail_image)
-                               .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                       }
-
-
-                   }
-               }
-           }
-           else if(activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked){
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("1") ){
-                       activityPostRectroReviewScreenBinding.imageHeading1.text="Post Retro Image"
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageOne)
-                   }
-               }
-           }
-           else if(activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked){
-               activityPostRectroReviewScreenBinding.imageHeading1.text="Post Retro Image"
-               for(i in posImageUrlList.indices){
-                   if(posImageUrlList.get(i).stage.equals("2") ){
-                       Glide.with(this).load(posImageUrlList.get(i).url)
-                           .placeholder(R.drawable.thumbnail_image)
-                           .into(activityPostRectroReviewScreenBinding.imageOne)
-                   }
-               }
-           }
-       }
-    }
-
-    fun updateCheckBoxImages(){
-        for(i in posImageUrlList.indices){
-            if(posImageUrlList.get(i).stage.equals("1") ){
-                if(posImageUrlList.get(i).url!=null){
+            activityPostRectroReviewScreenBinding.imageHeading1.text = "Pre Retro Image"
+            for (i in posImageUrlList.indices) {
+                if (posImageUrlList.get(i).stage.equals("1")) {
+                    Glide.with(this).load(posImageUrlList.get(i).url)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(activityPostRectroReviewScreenBinding.imageOne)
+                    bottomStatusUpdate(posImageUrlList.get(i).status)
                     Glide.with(this).load(posImageUrlList.get(i).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
-                }else{
+                }
+            }
+
+        } else if (posImageUrlList.size == 2) {
+
+            activityPostRectroReviewScreenBinding.imageHeading1.text = "Pre Retro Image"
+            activityPostRectroReviewScreenBinding.imageHeading2.text = "Post Retro Image"
+            for (i in posImageUrlList.indices) {
+                if (posImageUrlList.get(i).stage.equals("1")) {
+                    Glide.with(this).load(posImageUrlList.get(i).url)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(activityPostRectroReviewScreenBinding.imageOne)
+                    Glide.with(this).load(posImageUrlList.get(i).url)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
+                }
+            }
+            for (i in posImageUrlList.indices) {
+                if (posImageUrlList.get(i).stage.equals("2")) {
+                    bottomStatusUpdate(posImageUrlList.get(i).status)
+                    if (posImageUrlList.get(i).url != null) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageTwo)
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
+                    } else {
+                        Glide.with(this).load(posImageUrlList.get(i).file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageTwo)
+                        Glide.with(this).load(posImageUrlList.get(i).file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
+                    }
+
+                    bottomStatusUpdate(posImageUrlList.get(i).status)
+                }
+            }
+        } else if (posImageUrlList.size == 3) {
+            updateCheckBoxImages()
+
+            if (activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked) {
+                activityPostRectroReviewScreenBinding.imageHeading1.text = "Pre Retro Image"
+                activityPostRectroReviewScreenBinding.imageHeading2.text = "Post Retro Image"
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("1")) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageOne)
+                    }
+                }
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("2")) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageTwo)
+                    }
+                }
+            } else if (activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+                activityPostRectroReviewScreenBinding.imageHeading1.text = "Post Retro Image"
+                activityPostRectroReviewScreenBinding.imageHeading2.text = "After Completion Image"
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("2")) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageOne)
+                    }
+                }
+                for (i in posImageUrlList.indices) {
+
+                    if (posImageUrlList.get(i).stage.equals("3") && activityPostRectroReviewScreenBinding.deleteIcon.isShown) {
+                        Glide.with(this).load(posImageUrlList[i].file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageTwo)
+                        Glide.with(this).load(posImageUrlList[i].file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+                    } else if (posImageUrlList.get(i).stage.equals("3")) {
+                        bottomStatusUpdate(posImageUrlList.get(i).status)
+                        if (posImageUrlList.get(i).url != null) {
+                            Glide.with(this).load(posImageUrlList.get(i).url)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.imageTwo)
+                            Glide.with(this).load(posImageUrlList.get(i).url)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+                        }
+
+                    }
+                }
+            } else if (activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked && activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+                activityPostRectroReviewScreenBinding.imageHeading1.text = "Pre Retro Image"
+                activityPostRectroReviewScreenBinding.imageHeading2.text = "After Completion Image"
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("1")) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageOne)
+                    }
+                }
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("3") && activityPostRectroReviewScreenBinding.deleteIcon.isShown) {
+                        Glide.with(this).load(posImageUrlList.get(i).file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageTwo)
+                        Glide.with(this).load(posImageUrlList.get(i).file)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+                    } else if (posImageUrlList.get(i).stage.equals("3")) {
+                        bottomStatusUpdate(posImageUrlList.get(i).status)
+                        if (posImageUrlList.get(i).url != null) {
+                            Glide.with(this).load(posImageUrlList.get(i).url)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.imageTwo)
+                            Glide.with(this).load(posImageUrlList.get(i).url)
+                                .placeholder(R.drawable.thumbnail_image)
+                                .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
+
+                        }
+
+
+                    }
+                }
+            } else if (activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked) {
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("1")) {
+                        activityPostRectroReviewScreenBinding.imageHeading1.text =
+                            "Post Retro Image"
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageOne)
+                    }
+                }
+            } else if (activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked) {
+                activityPostRectroReviewScreenBinding.imageHeading1.text = "Post Retro Image"
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("2")) {
+                        Glide.with(this).load(posImageUrlList.get(i).url)
+                            .placeholder(R.drawable.thumbnail_image)
+                            .into(activityPostRectroReviewScreenBinding.imageOne)
+                    }
+                }
+            }
+        }
+    }
+
+    fun updateCheckBoxImages() {
+        for (i in posImageUrlList.indices) {
+            if (posImageUrlList.get(i).stage.equals("1")) {
+                if (posImageUrlList.get(i).url != null) {
+                    Glide.with(this).load(posImageUrlList.get(i).url)
+                        .placeholder(R.drawable.thumbnail_image)
+                        .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
+                } else {
                     Glide.with(this).load(posImageUrlList.get(i).file)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.preRetroCbImage)
                 }
 
-            }else if(posImageUrlList.get(i).stage.equals("2") ){
-                if(posImageUrlList.get(i).url!=null){
+            } else if (posImageUrlList.get(i).stage.equals("2")) {
+                if (posImageUrlList.get(i).url != null) {
                     Glide.with(this).load(posImageUrlList.get(i).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
-                }else{
+                } else {
                     Glide.with(this).load(posImageUrlList.get(i).file)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                 }
 
-            }  else if(posImageUrlList.get(i).stage.equals("3") ){
-                if(posImageUrlList.get(i).url!=null){
+            } else if (posImageUrlList.get(i).stage.equals("3")) {
+                if (posImageUrlList.get(i).url != null) {
                     Glide.with(this).load(posImageUrlList.get(i).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
-                }else{
+                } else {
                     Glide.with(this).load(posImageUrlList.get(i).file)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
@@ -520,14 +648,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
     @SuppressLint("ResourceAsColor")
     fun bottomStatusUpdate(status: String?) {
-        if(status.equals("0")){
-            activityPostRectroReviewScreenBinding.imageStatus.text="Pending"
+        if (status.equals("0")) {
+            activityPostRectroReviewScreenBinding.imageStatus.text = "Pending"
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.material_amber_accent_700))
-        }else if(status.equals("1")){
-            activityPostRectroReviewScreenBinding.imageStatus.text="Approved"
+        } else if (status.equals("1")) {
+            activityPostRectroReviewScreenBinding.imageStatus.text = "Approved"
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.dark_green))
-        }else if(status.equals("2")){
-            activityPostRectroReviewScreenBinding.imageStatus.text="Reshoot"
+        } else if (status.equals("2")) {
+            activityPostRectroReviewScreenBinding.imageStatus.text = "Reshoot"
             activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.color_red))
 
         }
@@ -559,18 +687,19 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     override fun onClickBack() {
         super.onBackPressed()
     }
+
     var imageUrlWithData = GetImageUrlsModelApnaResponse.Category.ImageUrl()
     override fun onClickUpload() {
-        if(imageUploaded){
+        if (imageUploaded) {
             val intent = Intent()
             intent.putExtra("imageUrlWithData", imageUrlWithData)
-            if(uploadStage.equals("reshootStage")){
+            if (uploadStage.equals("reshootStage")) {
                 intent.putExtra("posImageUrlList", posImageUrlList)
                 intent.putExtra("fileForReshoot", fileForReshoot)
             }
             setResult(Activity.RESULT_OK, intent)
             finish()
-        }else{
+        } else {
             Toast.makeText(context, "Please upload the image", Toast.LENGTH_SHORT).show()
         }
     }
@@ -609,61 +738,71 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     posImageUrlList.get(pos).file = null
                 }
             }
-            imageUploaded=false
-            activityPostRectroReviewScreenBinding.uploadnowbutton.setBackgroundColor(resources.getColor(R.color.grey))
+            imageUploaded = false
+            activityPostRectroReviewScreenBinding.uploadnowbutton.setBackgroundColor(
+                resources.getColor(
+                    R.color.grey
+                )
+            )
 
-            if(stage.equals("isPostRetroStage")){
-                if(uploadStage.equals("reshootStage")){
+            if (stage.equals("isPostRetroStage")) {
+                if (uploadStage.equals("reshootStage")) {
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.imageTwo)
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=false
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=false
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=true
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
-                }
-                else{
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=false
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = true
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.VISIBLE
+                } else {
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
+                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
 
                 }
-            }else if(stage.equals("isAfterCompletionStage")){
-                if(uploadStage.equals("reshootStage")){
+            } else if (stage.equals("isAfterCompletionStage")) {
+                if (uploadStage.equals("reshootStage")) {
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
                     Glide.with(this).load(posImageUrlList.get(stagePos).url)
                         .placeholder(R.drawable.thumbnail_image)
                         .into(activityPostRectroReviewScreenBinding.imageTwo)
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
-                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.VISIBLE
-                    if(activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked){
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.VISIBLE
-                    }else{
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
+                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                        View.VISIBLE
+                    if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+                            View.VISIBLE
+                    } else {
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
                     }
 
-                }
-                else{
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility=View.GONE
+                } else {
+                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
 //                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
 //                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.VISIBLE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
-                    activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
+                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                        View.VISIBLE
+                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                        View.GONE
+                    activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
 
                 }
             }
@@ -744,8 +883,9 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
             )
         }
     }
-    var stagePos=-1
-    var fileForReshoot:File?=null
+
+    var stagePos = -1
+    var fileForReshoot: File? = null
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
@@ -762,74 +902,82 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                 .setSourceImage(imageFromCameraFile)
                 .resizedFile
-            activityPostRectroReviewScreenBinding.uploadnowbutton.setBackgroundColor(resources.getColor(R.color.dark_green))
+            activityPostRectroReviewScreenBinding.uploadnowbutton.setBackgroundColor(
+                resources.getColor(
+                    R.color.dark_green
+                )
+            )
 //            Toast.makeText(context, "Image uploaded successfully", Toast.LENGTH_LONG).show()
-            imageUploaded=true
+            imageUploaded = true
 
             var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
-            if(uploadStage.equals("reshootStage")){
+            if (uploadStage.equals("reshootStage")) {
                 if (stage.equals("isPreRetroStage")) {
-                    posImageUrlList.get(0).file=resizedImage
+                    posImageUrlList.get(0).file = resizedImage
 //                    posImageUrlList.get(0).url=null
-                    stagePos=0
+                    stagePos = 0
                 } else if (stage.equals("isPostRetroStage")) {
-                    posImageUrlList.get(1).file=resizedImage
+                    posImageUrlList.get(1).file = resizedImage
 //                    posImageUrlList.get(1).url=null
-                    stagePos=1
+                    stagePos = 1
                 } else {
-                    posImageUrlList.get(2).file=resizedImage
+                    posImageUrlList.get(2).file = resizedImage
 //                    posImageUrlList.get(2).url=null
-                    stagePos=2
+                    stagePos = 2
                 }
-                fileForReshoot=resizedImage
+                fileForReshoot = resizedImage
 
-            }else{
+            } else {
 
                 imageUrl.file = resizedImage!!
                 imageUrl.status = "9"
                 if (stage.equals("isPreRetroStage")) {
                     imageUrl.stage = "1"
-                    stagePos=0
+                    stagePos = 0
                 } else if (stage.equals("isPostRetroStage")) {
                     imageUrl.stage = "2"
-                    stagePos=1
+                    stagePos = 1
                 } else {
                     imageUrl.stage = "3"
-                    stagePos=2
+                    stagePos = 2
                 }
                 imageUrl.categoryid = categoryid.toInt()
                 imageUrl.position = imageClickedPos
-                imageUrlWithData=imageUrl
+                imageUrlWithData = imageUrl
 
                 posImageUrlList!!.add(imageUrl)
-                synchronized(posImageUrlList){
+                synchronized(posImageUrlList) {
                     posImageUrlList.notify()
                 }
             }
 
 
 
-            if(stage.equals("isPostRetroStage")){
-                for(i in posImageUrlList.indices){
-                    if(posImageUrlList.get(i).stage.equals("2")){
-                        activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
-                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility=View.GONE
-                        activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled=false
-                        activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled=false
-                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                        activityPostRectroReviewScreenBinding.deleteIcon.visibility=View.VISIBLE
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
-                        activityPostRectroReviewScreenBinding.imageHeading2.text="Post Retro Image"
-                        if(!uploadStage.equals("reshootStage")){
+            if (stage.equals("isPostRetroStage")) {
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("2")) {
+                        activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+                            View.VISIBLE
+                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                            View.GONE
+                        activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
+                        activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
+                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                            View.GONE
+                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                            View.VISIBLE
+                        activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+                        activityPostRectroReviewScreenBinding.imageHeading2.text =
+                            "Post Retro Image"
+                        if (!uploadStage.equals("reshootStage")) {
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.imageTwo)
-                        }
-                        else{
+                        } else {
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
@@ -841,23 +989,27 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                     }
                 }
-            }else if(stage.equals("isAfterCompletionStage")){
-                for(i in posImageUrlList.indices){
-                    if(posImageUrlList.get(i).stage.equals("3")){
-                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.VISIBLE
-                        activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked=true
-                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility=View.GONE
-                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility=View.VISIBLE
-                        activityPostRectroReviewScreenBinding.deleteIcon.visibility=View.VISIBLE
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility=View.GONE
-                        if(!uploadStage.equals("reshootStage")){
+            } else if (stage.equals("isAfterCompletionStage")) {
+                for (i in posImageUrlList.indices) {
+                    if (posImageUrlList.get(i).stage.equals("3")) {
+                        activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+                            View.VISIBLE
+                        activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked =
+                            true
+                        activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+                            View.GONE
+                        activityPostRectroReviewScreenBinding.secondImageLayout.visibility =
+                            View.VISIBLE
+                        activityPostRectroReviewScreenBinding.deleteIcon.visibility = View.VISIBLE
+                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+                        if (!uploadStage.equals("reshootStage")) {
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.imageTwo)
-                        }else{
+                        } else {
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.afterCompletionCbImage)
@@ -867,7 +1019,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                         }
 
-                        activityPostRectroReviewScreenBinding.imageHeading2.text="After Completion Image"
+                        activityPostRectroReviewScreenBinding.imageHeading2.text =
+                            "After Completion Image"
                     }
                 }
             }

@@ -5,7 +5,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="4dp"
+        android:layout_marginRight="@dimen/value_4dp"
         android:background="@drawable/background_for_champs_names"
         android:orientation="vertical">
 
@@ -19,20 +19,20 @@
                 android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="@dimen/value_8dp"
                 android:fontFamily="@font/roboto_medium"
-                android:paddingTop="4dp"
-                android:paddingBottom="4dp"
+                android:paddingTop="@dimen/value_4dp"
+                android:paddingBottom="@dimen/value_4dp"
                 android:text="Mall"
                 android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:textSize="@dimen/text_13sp" />
 
             <ImageView
                 android:id="@+id/delete"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="3dp"
+                android:layout_width="@dimen/value_20dp"
+                android:layout_height="@dimen/value_20dp"
+                android:layout_marginStart="@dimen/value_15dp"
+                android:layout_marginTop="@dimen/value_3dp"
                 android:src="@drawable/close_ashh" />
         </LinearLayout>
     </LinearLayout>

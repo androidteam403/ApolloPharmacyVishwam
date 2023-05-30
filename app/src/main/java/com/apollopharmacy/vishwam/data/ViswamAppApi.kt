@@ -3,19 +3,17 @@ package com.apollopharmacy.vishwam.data
 import com.apollopharmacy.vishwam.data.model.*
 import com.apollopharmacy.vishwam.data.model.attendance.*
 import com.apollopharmacy.vishwam.data.model.cms.*
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListRequest
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaRequest
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlsModelApnaResponse
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImageUrlsResponse
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.SaveImagesUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -73,11 +71,12 @@ interface ViswamAppApi {
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    //
+//    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
@@ -759,6 +758,7 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetRetroPendindAndApproverequest,
     ): GetRetroPendingAndApproveResponse
+
     @POST//("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList")
     suspend fun getStorePendingAndApprovedListApnaRetro(
         @Url url: String,
@@ -786,6 +786,32 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body data: GetImageUrlsModelApnaRequest,
     ): GetImageUrlsModelApnaResponse
+
+    //Apollo sensing apis
+    @POST//(https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms)
+    suspend fun SEND_GLOBAL_SMS_API_CALL(
+        @Url url: String,
+        @Body sendGlobalSmsRequest: SendGlobalSmsRequest?,
+    ): SendGlobalSmsResponse
+
+
+    @GET
+    suspend fun GET_APOLLO_SENSING_LINK_API_CALL(
+        @Url url: String,
+    ): ResponseBody
+
+    @POST//(https://172.16.103.116:8443/SENSING/SaveSensingDetails)
+    suspend fun SAVE_IMAGE_URLS_API_CALL(
+        @Url url: String, @Header("token") token: String,
+        @Body saveImageUrlsRequest: SaveImageUrlsRequest,
+    ): com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
+
+    @GET
+    suspend fun getDiscountColorDetails(
+        @Url url: String,
+        @Header("token") token: String,
+        ): GetDiscountColorResponse
+
 }
 
 
