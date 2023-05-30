@@ -17,7 +17,8 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.preview.Preview
 import com.apollopharmacy.vishwam.ui.home.model.GetCategoryDetailsModelResponse
 
 class CategoryDetailsPreviewAdapter(
-    private var categoryDetails: List<GetCategoryDetailsModelResponse.EmailDetail>?,
+    private var categoryDetails: List<GetCategoryDetailsModelResponse.CategoryDetail
+            >?,
     private var applicationContext: Context,
     private var previewActivityCallback: PreviewActivityCallback
 ) : RecyclerView.Adapter<CategoryDetailsPreviewAdapter.ViewHolder>()  {

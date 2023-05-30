@@ -1,11 +1,15 @@
 package com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.adapter
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.AdapterGetSubCategoryDetailsBinding
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleCallBack
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetSubCategoryDetailsResponse
@@ -15,6 +19,7 @@ class GetSubCategoryDetailsAdapter(
     var mContext: Context?,
     var mCallback: AdminModuleCallBack?,
     var categoryPosition: Int,
+    var categoryRating: String?,
 ) : RecyclerView.Adapter<GetSubCategoryDetailsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -42,10 +47,50 @@ class GetSubCategoryDetailsAdapter(
             holder.adapterGetSubCategoryDetailsBinding.seekbar.max =
                 getCategoryDetails.rating!!.toInt()
         }
+
+        holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRange.addTextChangedListener( object :
+            TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if(!s!!.isEmpty()){
+                    var sumOfRange: Double = 0.0
+                    for(i in subCategoryDetailsList!!.indices){
+                        if(!subCategoryDetailsList!!.get(i).subCategoryName!!.equals(getCategoryDetails.subCategoryName)){
+                            var indiviualRange: Double= subCategoryDetailsList!!.get(i).rating!!.toDouble()
+                            sumOfRange = indiviualRange + sumOfRange
+                        }
+
+                    }
+                    sumOfRange= sumOfRange + (s.toString()).toDouble()
+                    if(sumOfRange<=((categoryRating)!!.toDouble())){
+                        getCategoryDetails.rating=s.toString()
+                    }else{
+                        Toast.makeText(context,
+                            "Please enter a value with in the range",
+                            Toast.LENGTH_SHORT).show()
+                       holder.adapterGetSubCategoryDetailsBinding.subCatgoryRatingRange.setText( subCategoryDetailsList!!.get(position).rating)
+                    }
+                }
+
+
+            }
+
+        })
     }
 
     override fun getItemCount(): Int {
         return subCategoryDetailsList!!.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     class ViewHolder(val adapterGetSubCategoryDetailsBinding: AdapterGetSubCategoryDetailsBinding) :

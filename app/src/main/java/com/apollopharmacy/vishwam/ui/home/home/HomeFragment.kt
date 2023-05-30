@@ -30,21 +30,21 @@ class HomeFragment : BaseFragment<HomeViewModel, FragmentHomeBinding>(), HomeFra
         Utlis.hideLoading()
         hideLoading()
 
-        if (getDataManager().getRiderActiveStatus() == "Offline") {
-            viewModel.riderUpdateStauts(
-                getDataManager().getLoginToken(),
-                "Offline",
-                requireContext(),
-                this@HomeFragment
-            )
-        } else {
-            viewModel.riderUpdateStauts(
-                getDataManager().getLoginToken(),
-                "Online",
-                requireContext(),
-                this@HomeFragment
-            )
-        }
+//        if (getDataManager().getRiderActiveStatus() == "Offline") {
+//            viewModel.riderUpdateStauts(
+//                getDataManager().getLoginToken(),
+//                "Offline",
+//                requireContext(),
+//                this@HomeFragment
+//            )
+//        } else {
+//            viewModel.riderUpdateStauts(
+//                getDataManager().getLoginToken(),
+//                "Online",
+//                requireContext(),
+//                this@HomeFragment
+//            )
+//        }
     }
 
     fun getDataManager(): SessionManager {

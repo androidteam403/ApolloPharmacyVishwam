@@ -260,17 +260,17 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
     }
 
     private fun handleNextIntent() {//"Kiran99"//Preferences.getValidatedEmpId()//emp-102
-        viewModel.loginApiCall("APL48627",
-            "R1De6#012022",
-            Preferences.getFcmKey(),
-            this,
-            this)
+//        viewModel.loginApiCall("APL48627",
+//            "R1De6#012022",
+//            Preferences.getFcmKey(),
+//            this,
+//            this)
 //emp-102//Nagapavan
-//        Preferences.setIsPinCreated(true)
-//        val homeIntent = Intent(this, MainActivity::class.java)
-//        startActivity(homeIntent)
-//        finish()
-//        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+        Preferences.setIsPinCreated(true)
+        val homeIntent = Intent(this, MainActivity::class.java)
+        startActivity(homeIntent)
+        finish()
+        overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 
     private fun handleCreatePinIntent() {
@@ -298,7 +298,7 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
 
     private fun handleMPinService() {
         if (NetworkUtil.isNetworkConnected(this)) {
-            Utlis.showLoading(this)
+            Utlis.showLoading(this@ValidatePinActivity)
             viewModel.checkMPinLogin(MPinRequest(userData.EMPID, "", "GETDETAILS"))
         } else {
             Toast.makeText(
