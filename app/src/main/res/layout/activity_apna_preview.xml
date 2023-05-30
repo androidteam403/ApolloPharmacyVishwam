@@ -809,6 +809,174 @@
                         </LinearLayout>
                     </LinearLayout>
 
+                    <!-- Graphs -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="@dimen/value_15dp"
+                        android:layout_marginStart="@dimen/value_10dp"
+                        android:layout_marginEnd="@dimen/value_10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:layout_marginBottom="@dimen/value_8dp"
+                                    android:text="Neighboring Store"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <com.github.mikephil.charting.charts.BarChart
+                                    android:id="@+id/neighbor_chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_150dp"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginEnd="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_15dp"/>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:text="Competitors Details"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginBottom="@dimen/value_8dp"
+                                    android:text="MedPlus"
+                                    android:textColor="#29945f"
+                                    android:textSize="@dimen/text_10sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <com.github.mikephil.charting.charts.LineChart
+                                    android:id="@+id/competitors_chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_150dp"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginBottom="@dimen/value_8dp"
+                                    android:layout_marginEnd="@dimen/value_8dp"/>
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/value_8dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:layout_marginEnd="@dimen/value_5dp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:text="Population &amp; Houses"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginBottom="@dimen/value_8dp"
+                                    android:text="Population"
+                                    android:textColor="#00a99e"
+                                    android:textSize="@dimen/text_10sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <com.github.mikephil.charting.charts.BarChart
+                                    android:id="@+id/apartments_chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_120dp" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight=".5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_8dp"
+                                    android:layout_marginTop="@dimen/value_8dp"
+                                    android:text="Hospitals"
+                                    android:textColor="@color/black"
+                                    android:textSize="@dimen/text_12sp"
+                                    android:fontFamily="@font/roboto_medium"/>
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_8dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:text="Multi"
+                                        android:textColor="#01559d"
+                                        android:textSize="@dimen/text_10sp"
+                                        android:fontFamily="@font/roboto_medium"/>
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginStart="@dimen/value_8dp"
+                                        android:layout_marginBottom="@dimen/value_8dp"
+                                        android:text="Super"
+                                        android:textColor="#623087"
+                                        android:textSize="@dimen/text_10sp"
+                                        android:fontFamily="@font/roboto_medium"/>
+                                </LinearLayout>
+
+                                <com.github.mikephil.charting.charts.BarChart
+                                    android:id="@+id/hospitals_chart"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/value_120dp" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+
                     <!-- Location Details -->
                     <LinearLayout
                         android:layout_width="match_parent"

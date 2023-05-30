@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -21,6 +22,9 @@ import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -59,6 +63,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
 
+    var neighborEntries = ArrayList<BarEntry>()
+    var competitorsEntries = ArrayList<Entry>()
+    var apartmentsEntryOne = ArrayList<BarEntry>()
+    var apartmentsEntryTwo = ArrayList<BarEntry>()
+    var hospitalsEntryOne = ArrayList<BarEntry>()
+    var hospitalsEntryTwo = ArrayList<BarEntry>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -78,6 +89,24 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.backArrow.setOnClickListener {
             finish()
         }
+
+        // Neighboring store graph
+        setNeighborChartValues()
+        setupNeighborChart()
+
+        // Competitors Details graph
+        setCompetitorsValues()
+        setupCompetitorsChart()
+
+        // Apartments graph
+        setApartmentsValuesOne()
+        setApartmentsValuesTwo()
+        setupApartmentsChart()
+
+        // Hospitals graph
+        setHospitalsValuesOne()
+        setHospitalsValuesTwo()
+        setupHospitalsChart()
 
         // Location Details
         val lat = surveyCreateRequest.lat
@@ -658,6 +687,218 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
                 View.VISIBLE
         }
+    }
+
+    private fun setupHospitalsChart() {
+        val barDataSetOne = BarDataSet(hospitalsEntryOne, "")
+        barDataSetOne.setColor(Color.parseColor("#05539d"))
+        val barDataSetTwo = BarDataSet(hospitalsEntryTwo, "")
+        barDataSetTwo.setColor(Color.parseColor("#623087"))
+        val barData = BarData(barDataSetOne, barDataSetTwo)
+        activityApnaSurveyPreviewBinding.hospitalsChart.data = barData
+        barData.setDrawValues(false)
+
+        barData.barWidth = 0.15f
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisRight.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+            )
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.setCenterAxisLabels(true)
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.isGranularityEnabled = true
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.granularity = 1f
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.axisMinimum = 0f
+        activityApnaSurveyPreviewBinding.hospitalsChart.groupBars(0f, 0.5f, 0.1f)
+
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setVisibleXRangeMaximum(2f)
+
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.legend.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.invalidate()
+    }
+
+    private fun setHospitalsValuesTwo() {
+        hospitalsEntryTwo.add(BarEntry(1f, 6f))
+        hospitalsEntryTwo.add(BarEntry(2f, 3f))
+        hospitalsEntryTwo.add(BarEntry(3f, 5f))
+        hospitalsEntryTwo.add(BarEntry(4f, 4f))
+        hospitalsEntryTwo.add(BarEntry(5f, 5f))
+        hospitalsEntryTwo.add(BarEntry(6f, 4f))
+    }
+
+    private fun setHospitalsValuesOne() {
+        hospitalsEntryOne.add(BarEntry(1f, 5f))
+        hospitalsEntryOne.add(BarEntry(2f, 2f))
+        hospitalsEntryOne.add(BarEntry(3f, 4f))
+        hospitalsEntryOne.add(BarEntry(4f, 5f))
+        hospitalsEntryOne.add(BarEntry(5f, 3f))
+        hospitalsEntryOne.add(BarEntry(6f, 5f))
+    }
+
+    private fun setupApartmentsChart() {
+        val barDataSetOne = BarDataSet(apartmentsEntryOne, "")
+        barDataSetOne.setColor(Color.parseColor("#f7941c"))
+        val barDataSetTwo = BarDataSet(apartmentsEntryTwo, "")
+        barDataSetTwo.setColor(Color.parseColor("#00a99e"))
+        val barData = BarData(barDataSetOne, barDataSetTwo)
+        activityApnaSurveyPreviewBinding.apartmentsChart.data = barData
+
+        barData.barWidth = 0.15f
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisRight.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Apartments", "Houses")
+            )
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.setCenterAxisLabels(true)
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.isGranularityEnabled = true
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.granularity = 1f
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.axisMinimum = 0f
+        activityApnaSurveyPreviewBinding.apartmentsChart.groupBars(0f, 0.5f, 0.1f)
+
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.legend.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.invalidate()
+    }
+
+    private fun setApartmentsValuesTwo() {
+        apartmentsEntryTwo.add(BarEntry(1f, 6f))
+        apartmentsEntryTwo.add(BarEntry(2f, 5f))
+    }
+
+    private fun setApartmentsValuesOne() {
+        apartmentsEntryOne.add(BarEntry(1f, 5f))
+        apartmentsEntryOne.add(BarEntry(2f, 4f))
+    }
+
+    private fun setupCompetitorsChart() {
+        val lineDataSet = LineDataSet(competitorsEntries, "")
+        val lineData = LineData(lineDataSet)
+        activityApnaSurveyPreviewBinding.competitorsChart.data = lineData
+
+        // Line width
+        lineDataSet.lineWidth = 2f
+        // Line color
+        lineDataSet.setColor(Color.parseColor("#56a35f"))
+        // Remove circles from the line
+        lineDataSet.setDrawCircles(false)
+        // Remove values above the line
+        lineDataSet.setDrawValues(false)
+
+        activityApnaSurveyPreviewBinding.competitorsChart.axisRight.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setAxisMaximum(20f)
+
+        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.position =
+            XAxis.XAxisPosition.BOTTOM
+        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.setCenterAxisLabels(true)
+        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Jan", "Feb", "Mar")
+            )
+
+        activityApnaSurveyPreviewBinding.competitorsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.competitorsChart.legend.isEnabled = false
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.competitorsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.invalidate()
+    }
+
+    private fun setCompetitorsValues() {
+        competitorsEntries.add(Entry(0f, 5f))
+        competitorsEntries.add(Entry(1f, 7f))
+        competitorsEntries.add(Entry(2f, 8f))
+    }
+
+    private fun setupNeighborChart() {
+        val barDataSet = BarDataSet(neighborEntries, "")
+        val barData = BarData(barDataSet)
+        activityApnaSurveyPreviewBinding.neighborChart.data = barData
+
+        // Set bar colors
+        barDataSet.colors = listOf(
+            Color.parseColor("#f7941d"),
+            Color.parseColor("#8dc73e"),
+            Color.parseColor("#03a99e"),
+            Color.parseColor("#00b0ee")
+        )
+
+        // Remove values top of the bar
+        barDataSet.setDrawValues(false)
+        // Bar width
+        barData.barWidth = 0.5f
+
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.isEnabled = false
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.isEnabled = false
+
+        // Set y axis values
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMaximum(20f)
+        // Disable touch
+        activityApnaSurveyPreviewBinding.neighborChart.setTouchEnabled(false)
+        // Remove description
+        activityApnaSurveyPreviewBinding.neighborChart.description.isEnabled = false
+        // Remove legend
+        activityApnaSurveyPreviewBinding.neighborChart.legend.isEnabled = false
+        // Remove outer line
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.neighborChart.axisLeft.setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.setDrawAxisLine(false)
+        // Remove grid line
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.neighborChart.axisLeft.setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.neighborChart.invalidate()
+    }
+
+    private fun setNeighborChartValues() {
+        neighborEntries.add(BarEntry(1f, 18f))
+        neighborEntries.add(BarEntry(2f, 13f))
+        neighborEntries.add(BarEntry(3f, 11f))
+        neighborEntries.add(BarEntry(4f, 5f))
     }
 
     private fun getCurrentLocation(lat: String?, long: String?) {

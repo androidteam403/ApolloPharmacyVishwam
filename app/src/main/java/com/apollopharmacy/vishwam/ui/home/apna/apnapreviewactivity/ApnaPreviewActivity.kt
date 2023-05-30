@@ -20,6 +20,9 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment
 import com.apollopharmacy.vishwam.ui.home.apna.survey.videopreview.ApnaVideoPreview
 import com.apollopharmacy.vishwam.util.PopUpWIndow
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -59,6 +62,13 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
     private var instance: ApnaSurveyFragment? = null
 
     var mapUserLangs: String? = null
+
+    var neighborEntries = ArrayList<BarEntry>()
+    var competitorsEntries = ArrayList<Entry>()
+    var apartmentsEntryOne = ArrayList<BarEntry>()
+    var apartmentsEntryTwo = ArrayList<BarEntry>()
+    var hospitalsEntryOne = ArrayList<BarEntry>()
+    var hospitalsEntryTwo = ArrayList<BarEntry>()
 
     @RequiresApi(33)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -216,6 +226,235 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
             }
         }
 
+        // Neighboring store graph
+        setNeighborChartValues()
+        setupNeighborChart()
+
+        // Competitors Details graph
+        setCompetitorsValues()
+        setupCompetitorsChart()
+
+        // Apartments graph
+        setApartmentsValuesOne()
+        setApartmentsValuesTwo()
+        setupApartmentsChart()
+
+        // Hospitals graph
+        setHospitalsValuesOne()
+        setHospitalsValuesTwo()
+        setupHospitalsChart()
+    }
+
+    private fun setupHospitalsChart() {
+        val barDataSetOne = BarDataSet(hospitalsEntryOne, "")
+        barDataSetOne.setColor(Color.parseColor("#05539d"))
+        val barDataSetTwo = BarDataSet(hospitalsEntryTwo, "")
+        barDataSetTwo.setColor(Color.parseColor("#623087"))
+        val barData = BarData(barDataSetOne, barDataSetTwo)
+        apnaPreviewActivityBinding.hospitalsChart.data = barData
+        barData.setDrawValues(false)
+
+        barData.barWidth = 0.15f
+
+        apnaPreviewActivityBinding.hospitalsChart.axisLeft.isEnabled = false
+        apnaPreviewActivityBinding.hospitalsChart.axisRight.isEnabled = false
+
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+            )
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.setCenterAxisLabels(true)
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.isGranularityEnabled = true
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.granularity = 1f
+        apnaPreviewActivityBinding.hospitalsChart.xAxis.axisMinimum = 0f
+        apnaPreviewActivityBinding.hospitalsChart.groupBars(0f, 0.5f, 0.1f)
+
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setVisibleXRangeMaximum(2f)
+
+
+        // removing outer line
+        apnaPreviewActivityBinding.hospitalsChart.getAxisRight().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.hospitalsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        apnaPreviewActivityBinding.hospitalsChart.getAxisRight().setDrawGridLines(false)
+        apnaPreviewActivityBinding.hospitalsChart.getAxisLeft().setDrawGridLines(false)
+        apnaPreviewActivityBinding.hospitalsChart.getXAxis().setDrawGridLines(false)
+
+        apnaPreviewActivityBinding.hospitalsChart.description.isEnabled = false
+        apnaPreviewActivityBinding.hospitalsChart.legend.isEnabled = false
+        apnaPreviewActivityBinding.hospitalsChart.setTouchEnabled(false)
+        apnaPreviewActivityBinding.hospitalsChart.invalidate()
+    }
+
+    private fun setHospitalsValuesTwo() {
+        hospitalsEntryTwo.add(BarEntry(1f, 6f))
+        hospitalsEntryTwo.add(BarEntry(2f, 3f))
+        hospitalsEntryTwo.add(BarEntry(3f, 5f))
+        hospitalsEntryTwo.add(BarEntry(4f, 4f))
+        hospitalsEntryTwo.add(BarEntry(5f, 5f))
+        hospitalsEntryTwo.add(BarEntry(6f, 4f))
+    }
+
+    private fun setHospitalsValuesOne() {
+        hospitalsEntryOne.add(BarEntry(1f, 5f))
+        hospitalsEntryOne.add(BarEntry(2f, 2f))
+        hospitalsEntryOne.add(BarEntry(3f, 4f))
+        hospitalsEntryOne.add(BarEntry(4f, 5f))
+        hospitalsEntryOne.add(BarEntry(5f, 3f))
+        hospitalsEntryOne.add(BarEntry(6f, 5f))
+    }
+
+    private fun setupApartmentsChart() {
+        val barDataSetOne = BarDataSet(apartmentsEntryOne, "")
+        barDataSetOne.setColor(Color.parseColor("#f7941c"))
+        val barDataSetTwo = BarDataSet(apartmentsEntryTwo, "")
+        barDataSetTwo.setColor(Color.parseColor("#00a99e"))
+        val barData = BarData(barDataSetOne, barDataSetTwo)
+        apnaPreviewActivityBinding.apartmentsChart.data = barData
+
+        barData.barWidth = 0.15f
+
+        apnaPreviewActivityBinding.apartmentsChart.axisLeft.isEnabled = false
+        apnaPreviewActivityBinding.apartmentsChart.axisRight.isEnabled = false
+
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Apartments", "Houses")
+            )
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.setCenterAxisLabels(true)
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.isGranularityEnabled = true
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.granularity = 1f
+        apnaPreviewActivityBinding.apartmentsChart.xAxis.axisMinimum = 0f
+        apnaPreviewActivityBinding.apartmentsChart.groupBars(0f, 0.5f, 0.1f)
+
+
+        // removing outer line
+        apnaPreviewActivityBinding.apartmentsChart.getAxisRight().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.apartmentsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        apnaPreviewActivityBinding.apartmentsChart.getAxisRight().setDrawGridLines(false)
+        apnaPreviewActivityBinding.apartmentsChart.getAxisLeft().setDrawGridLines(false)
+        apnaPreviewActivityBinding.apartmentsChart.getXAxis().setDrawGridLines(false)
+
+        apnaPreviewActivityBinding.apartmentsChart.description.isEnabled = false
+        apnaPreviewActivityBinding.apartmentsChart.legend.isEnabled = false
+        apnaPreviewActivityBinding.apartmentsChart.setTouchEnabled(false)
+        apnaPreviewActivityBinding.apartmentsChart.invalidate()
+    }
+
+    private fun setApartmentsValuesTwo() {
+        apartmentsEntryTwo.add(BarEntry(1f, 6f))
+        apartmentsEntryTwo.add(BarEntry(2f, 5f))
+    }
+
+    private fun setApartmentsValuesOne() {
+        apartmentsEntryOne.add(BarEntry(1f, 5f))
+        apartmentsEntryOne.add(BarEntry(2f, 4f))
+    }
+
+    private fun setupCompetitorsChart() {
+        val lineDataSet = LineDataSet(competitorsEntries, "")
+        val lineData = LineData(lineDataSet)
+        apnaPreviewActivityBinding.competitorsChart.data = lineData
+
+        // Line width
+        lineDataSet.lineWidth = 2f
+        // Line color
+        lineDataSet.setColor(Color.parseColor("#56a35f"))
+        // Remove circles from the line
+        lineDataSet.setDrawCircles(false)
+        // Remove values above the line
+        lineDataSet.setDrawValues(false)
+
+        apnaPreviewActivityBinding.competitorsChart.axisRight.isEnabled = false
+
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setAxisMaximum(20f)
+
+        apnaPreviewActivityBinding.competitorsChart.xAxis.position =
+            XAxis.XAxisPosition.BOTTOM
+        apnaPreviewActivityBinding.competitorsChart.xAxis.setCenterAxisLabels(true)
+        apnaPreviewActivityBinding.competitorsChart.xAxis.valueFormatter =
+            IndexAxisValueFormatter(
+                listOf("Jan", "Feb", "Mar")
+            )
+
+        apnaPreviewActivityBinding.competitorsChart.description.isEnabled = false
+        apnaPreviewActivityBinding.competitorsChart.legend.isEnabled = false
+
+        // removing outer line
+        apnaPreviewActivityBinding.competitorsChart.getAxisRight().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setDrawAxisLine(false)
+        apnaPreviewActivityBinding.competitorsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        apnaPreviewActivityBinding.competitorsChart.getAxisRight().setDrawGridLines(false)
+        apnaPreviewActivityBinding.competitorsChart.getAxisLeft().setDrawGridLines(false)
+        apnaPreviewActivityBinding.competitorsChart.getXAxis().setDrawGridLines(false)
+
+        apnaPreviewActivityBinding.competitorsChart.setTouchEnabled(false)
+        apnaPreviewActivityBinding.competitorsChart.invalidate()
+    }
+
+    private fun setCompetitorsValues() {
+        competitorsEntries.add(Entry(0f, 5f))
+        competitorsEntries.add(Entry(1f, 7f))
+        competitorsEntries.add(Entry(2f, 8f))
+    }
+
+    private fun setupNeighborChart() {
+        val barDataSet = BarDataSet(neighborEntries, "")
+        val barData = BarData(barDataSet)
+        apnaPreviewActivityBinding.neighborChart.data = barData
+
+        // Set bar colors
+        barDataSet.colors = listOf(
+            Color.parseColor("#f7941d"),
+            Color.parseColor("#8dc73e"),
+            Color.parseColor("#03a99e"),
+            Color.parseColor("#00b0ee")
+        )
+
+        // Remove values top of the bar
+        barDataSet.setDrawValues(false)
+        // Bar width
+        barData.barWidth = 0.5f
+
+        apnaPreviewActivityBinding.neighborChart.axisRight.isEnabled = false
+        apnaPreviewActivityBinding.neighborChart.xAxis.isEnabled = false
+
+        // Set y axis values
+        apnaPreviewActivityBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
+        apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
+        apnaPreviewActivityBinding.neighborChart.getAxisLeft().setAxisMaximum(20f)
+        // Disable touch
+        apnaPreviewActivityBinding.neighborChart.setTouchEnabled(false)
+        // Remove description
+        apnaPreviewActivityBinding.neighborChart.description.isEnabled = false
+        // Remove legend
+        apnaPreviewActivityBinding.neighborChart.legend.isEnabled = false
+        // Remove outer line
+        apnaPreviewActivityBinding.neighborChart.axisRight.setDrawAxisLine(false)
+        apnaPreviewActivityBinding.neighborChart.axisLeft.setDrawAxisLine(false)
+        apnaPreviewActivityBinding.neighborChart.xAxis.setDrawAxisLine(false)
+        // Remove grid line
+        apnaPreviewActivityBinding.neighborChart.axisRight.setDrawGridLines(false)
+        apnaPreviewActivityBinding.neighborChart.axisLeft.setDrawGridLines(false)
+        apnaPreviewActivityBinding.neighborChart.xAxis.setDrawGridLines(false)
+
+        apnaPreviewActivityBinding.neighborChart.invalidate()
+    }
+
+    private fun setNeighborChartValues() {
+        neighborEntries.add(BarEntry(1f, 18f))
+        neighborEntries.add(BarEntry(2f, 13f))
+        neighborEntries.add(BarEntry(3f, 11f))
+        neighborEntries.add(BarEntry(4f, 5f))
     }
 
 
