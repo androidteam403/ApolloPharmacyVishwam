@@ -505,7 +505,7 @@ xmlns:tools="http://schemas.android.com/tools">
 
 
                                     <LinearLayout
-                                        android:visibility="gone"
+                                        android:visibility="visible"
                                         android:onClick="@{()-> callback.onClickCamera()}"
                                         android:id="@+id/reshootCamera"
                                         android:layout_width="wrap_content"
@@ -513,13 +513,17 @@ xmlns:tools="http://schemas.android.com/tools">
                                         android:layout_alignParentRight="true"
                                         android:layout_alignParentBottom="true"
                                         android:layout_margin="@dimen/six6_sp"
-                                        android:background="@drawable/red_rounded_corners"
+
+
                                         android:padding="@dimen/value_3dp">
 
                                         <ImageView
                                             android:layout_width="@dimen/twenty20_dp"
                                             android:layout_height="@dimen/twenty20_dp"
+                                            android:layout_marginEnd="10dp"
+
                                             android:layout_gravity="center"
+                                            android:background="@drawable/red_rounded_corners"
                                             android:padding="@dimen/value_3dp"
                                             android:src="@drawable/camerawhite" />
 

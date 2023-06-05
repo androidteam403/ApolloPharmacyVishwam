@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
+
 public class GetStorePendingAndApprovedListRes implements Serializable {
 
     @SerializedName("MESSAGE")
@@ -19,14 +20,17 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
     @Expose
     private List<Get> getList;
 
-    private List<List<Get>> groupByRetrodList;
-
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public GetStorePendingAndApprovedListRes withMessage(String message) {
+        this.message = message;
+        return this;
     }
 
     public Boolean getStatus() {
@@ -37,6 +41,11 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
         this.status = status;
     }
 
+    public GetStorePendingAndApprovedListRes withStatus(Boolean status) {
+        this.status = status;
+        return this;
+    }
+
     public List<Get> getGetList() {
         return getList;
     }
@@ -45,16 +54,13 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
         this.getList = getList;
     }
 
-    public List<List<Get>> getGroupByRetrodList() {
-        return groupByRetrodList;
-    }
-
-    public void setGroupByRetrodList(List<List<Get>> groupByRetrodList) {
-        this.groupByRetrodList = groupByRetrodList;
+    public GetStorePendingAndApprovedListRes withGetList(List<Get> getList) {
+        this.getList = getList;
+        return this;
     }
 
 
-    public static class Get implements Serializable {
+    public class Get implements Serializable {
 
         @SerializedName("RETROID")
         @Expose
@@ -68,24 +74,54 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
         @SerializedName("UPLOADED_DATE")
         @Expose
         private String uploadedDate;
-        @SerializedName("APPROVED_BY")
+        @SerializedName("EXECUTIVE_APPROVED_BY")
         @Expose
-        private String approvedBy;
-        @SerializedName("APPROVED_DATE")
+        private Object executiveApprovedBy;
+        @SerializedName("EXECUTIVE_APPROVED_DATE")
         @Expose
-        private String approvedDate;
-        @SerializedName("RESHOOT_BY")
+        private Object executiveApprovedDate;
+        @SerializedName("EXECUTIVE_RESHOOT_BY")
         @Expose
-        private String reshootBy;
-        @SerializedName("RESHOOT_DATE")
+        private Object executiveReshootBy;
+        @SerializedName("EXECUTIVE_RESHOOT_DATE")
         @Expose
-        private String reshootDate;
-        @SerializedName("PARTIALLY_APPROVED_BY")
+        private Object executiveReshootDate;
+        @SerializedName("MANAGER_APPROVED_BY")
         @Expose
-        private String partiallyApprovedBy;
-        @SerializedName("PARTIALLY_APPROVED_DATE")
+        private Object managerApprovedBy;
+        @SerializedName("MANAGER_APPROVED_DATE")
         @Expose
-        private String partiallyApprovedDate;
+        private Object managerApprovedDate;
+        @SerializedName("MANAGER_RESHOOT_BY")
+        @Expose
+        private Object managerReshootBy;
+        @SerializedName("MANAGER_RESHOOT_DATE")
+        @Expose
+        private Object managerReshootDate;
+        @SerializedName("GM_APPROVED_BY")
+        @Expose
+        private Object gmApprovedBy;
+        @SerializedName("GM_APPROVED_DATE")
+        @Expose
+        private Object gmApprovedDate;
+        @SerializedName("GM_RESHOOT_BY")
+        @Expose
+        private Object gmReshootBy;
+        @SerializedName("GM_RESHOOT_DATE")
+        @Expose
+        private Object gmReshootDate;
+        @SerializedName("CEO_APPROVED_BY")
+        @Expose
+        private Object ceoApprovedBy;
+        @SerializedName("CEO_APPROVED_DATE")
+        @Expose
+        private Object ceoApprovedDate;
+        @SerializedName("CEO_RESHOOT_BY")
+        @Expose
+        private Object ceoReshootBy;
+        @SerializedName("CEO_RESHOOT_DATE")
+        @Expose
+        private Object ceoReshootDate;
         @SerializedName("STATUS")
         @Expose
         private String status;
@@ -94,8 +130,7 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
         private String stage;
         @SerializedName("HIERARCHYSTATUS")
         @Expose
-        private String hierarchystatus;
-
+        private Object hierarchystatus;
 
         public String getRetroid() {
             return retroid;
@@ -103,6 +138,11 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
 
         public void setRetroid(String retroid) {
             this.retroid = retroid;
+        }
+
+        public Get withRetroid(String retroid) {
+            this.retroid = retroid;
+            return this;
         }
 
         public String getStore() {
@@ -113,12 +153,22 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
             this.store = store;
         }
 
+        public Get withStore(String store) {
+            this.store = store;
+            return this;
+        }
+
         public String getUploadedBy() {
             return uploadedBy;
         }
 
         public void setUploadedBy(String uploadedBy) {
             this.uploadedBy = uploadedBy;
+        }
+
+        public Get withUploadedBy(String uploadedBy) {
+            this.uploadedBy = uploadedBy;
+            return this;
         }
 
         public String getUploadedDate() {
@@ -129,52 +179,217 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
             this.uploadedDate = uploadedDate;
         }
 
-        public String getApprovedBy() {
-            return approvedBy;
+        public Get withUploadedDate(String uploadedDate) {
+            this.uploadedDate = uploadedDate;
+            return this;
         }
 
-        public void setApprovedBy(String approvedBy) {
-            this.approvedBy = approvedBy;
+        public Object getExecutiveApprovedBy() {
+            return executiveApprovedBy;
         }
 
-        public String getApprovedDate() {
-            return approvedDate;
+        public void setExecutiveApprovedBy(Object executiveApprovedBy) {
+            this.executiveApprovedBy = executiveApprovedBy;
         }
 
-        public void setApprovedDate(String approvedDate) {
-            this.approvedDate = approvedDate;
+        public Get withExecutiveApprovedBy(Object executiveApprovedBy) {
+            this.executiveApprovedBy = executiveApprovedBy;
+            return this;
         }
 
-        public String getReshootBy() {
-            return reshootBy;
+        public Object getExecutiveApprovedDate() {
+            return executiveApprovedDate;
         }
 
-        public void setReshootBy(String reshootBy) {
-            this.reshootBy = reshootBy;
+        public void setExecutiveApprovedDate(Object executiveApprovedDate) {
+            this.executiveApprovedDate = executiveApprovedDate;
         }
 
-        public String getReshootDate() {
-            return reshootDate;
+        public Get withExecutiveApprovedDate(Object executiveApprovedDate) {
+            this.executiveApprovedDate = executiveApprovedDate;
+            return this;
         }
 
-        public void setReshootDate(String reshootDate) {
-            this.reshootDate = reshootDate;
+        public Object getExecutiveReshootBy() {
+            return executiveReshootBy;
         }
 
-        public String getPartiallyApprovedBy() {
-            return partiallyApprovedBy;
+        public void setExecutiveReshootBy(Object executiveReshootBy) {
+            this.executiveReshootBy = executiveReshootBy;
         }
 
-        public void setPartiallyApprovedBy(String partiallyApprovedBy) {
-            this.partiallyApprovedBy = partiallyApprovedBy;
+        public Get withExecutiveReshootBy(Object executiveReshootBy) {
+            this.executiveReshootBy = executiveReshootBy;
+            return this;
         }
 
-        public String getPartiallyApprovedDate() {
-            return partiallyApprovedDate;
+        public Object getExecutiveReshootDate() {
+            return executiveReshootDate;
         }
 
-        public void setPartiallyApprovedDate(String partiallyApprovedDate) {
-            this.partiallyApprovedDate = partiallyApprovedDate;
+        public void setExecutiveReshootDate(Object executiveReshootDate) {
+            this.executiveReshootDate = executiveReshootDate;
+        }
+
+        public Get withExecutiveReshootDate(Object executiveReshootDate) {
+            this.executiveReshootDate = executiveReshootDate;
+            return this;
+        }
+
+        public Object getManagerApprovedBy() {
+            return managerApprovedBy;
+        }
+
+        public void setManagerApprovedBy(Object managerApprovedBy) {
+            this.managerApprovedBy = managerApprovedBy;
+        }
+
+        public Get withManagerApprovedBy(Object managerApprovedBy) {
+            this.managerApprovedBy = managerApprovedBy;
+            return this;
+        }
+
+        public Object getManagerApprovedDate() {
+            return managerApprovedDate;
+        }
+
+        public void setManagerApprovedDate(Object managerApprovedDate) {
+            this.managerApprovedDate = managerApprovedDate;
+        }
+
+        public Get withManagerApprovedDate(Object managerApprovedDate) {
+            this.managerApprovedDate = managerApprovedDate;
+            return this;
+        }
+
+        public Object getManagerReshootBy() {
+            return managerReshootBy;
+        }
+
+        public void setManagerReshootBy(Object managerReshootBy) {
+            this.managerReshootBy = managerReshootBy;
+        }
+
+        public Get withManagerReshootBy(Object managerReshootBy) {
+            this.managerReshootBy = managerReshootBy;
+            return this;
+        }
+
+        public Object getManagerReshootDate() {
+            return managerReshootDate;
+        }
+
+        public void setManagerReshootDate(Object managerReshootDate) {
+            this.managerReshootDate = managerReshootDate;
+        }
+
+        public Get withManagerReshootDate(Object managerReshootDate) {
+            this.managerReshootDate = managerReshootDate;
+            return this;
+        }
+
+        public Object getGmApprovedBy() {
+            return gmApprovedBy;
+        }
+
+        public void setGmApprovedBy(Object gmApprovedBy) {
+            this.gmApprovedBy = gmApprovedBy;
+        }
+
+        public Get withGmApprovedBy(Object gmApprovedBy) {
+            this.gmApprovedBy = gmApprovedBy;
+            return this;
+        }
+
+        public Object getGmApprovedDate() {
+            return gmApprovedDate;
+        }
+
+        public void setGmApprovedDate(Object gmApprovedDate) {
+            this.gmApprovedDate = gmApprovedDate;
+        }
+
+        public Get withGmApprovedDate(Object gmApprovedDate) {
+            this.gmApprovedDate = gmApprovedDate;
+            return this;
+        }
+
+        public Object getGmReshootBy() {
+            return gmReshootBy;
+        }
+
+        public void setGmReshootBy(Object gmReshootBy) {
+            this.gmReshootBy = gmReshootBy;
+        }
+
+        public Get withGmReshootBy(Object gmReshootBy) {
+            this.gmReshootBy = gmReshootBy;
+            return this;
+        }
+
+        public Object getGmReshootDate() {
+            return gmReshootDate;
+        }
+
+        public void setGmReshootDate(Object gmReshootDate) {
+            this.gmReshootDate = gmReshootDate;
+        }
+
+        public Get withGmReshootDate(Object gmReshootDate) {
+            this.gmReshootDate = gmReshootDate;
+            return this;
+        }
+
+        public Object getCeoApprovedBy() {
+            return ceoApprovedBy;
+        }
+
+        public void setCeoApprovedBy(Object ceoApprovedBy) {
+            this.ceoApprovedBy = ceoApprovedBy;
+        }
+
+        public Get withCeoApprovedBy(Object ceoApprovedBy) {
+            this.ceoApprovedBy = ceoApprovedBy;
+            return this;
+        }
+
+        public Object getCeoApprovedDate() {
+            return ceoApprovedDate;
+        }
+
+        public void setCeoApprovedDate(Object ceoApprovedDate) {
+            this.ceoApprovedDate = ceoApprovedDate;
+        }
+
+        public Get withCeoApprovedDate(Object ceoApprovedDate) {
+            this.ceoApprovedDate = ceoApprovedDate;
+            return this;
+        }
+
+        public Object getCeoReshootBy() {
+            return ceoReshootBy;
+        }
+
+        public void setCeoReshootBy(Object ceoReshootBy) {
+            this.ceoReshootBy = ceoReshootBy;
+        }
+
+        public Get withCeoReshootBy(Object ceoReshootBy) {
+            this.ceoReshootBy = ceoReshootBy;
+            return this;
+        }
+
+        public Object getCeoReshootDate() {
+            return ceoReshootDate;
+        }
+
+        public void setCeoReshootDate(Object ceoReshootDate) {
+            this.ceoReshootDate = ceoReshootDate;
+        }
+
+        public Get withCeoReshootDate(Object ceoReshootDate) {
+            this.ceoReshootDate = ceoReshootDate;
+            return this;
         }
 
         public String getStatus() {
@@ -185,6 +400,11 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
             this.status = status;
         }
 
+        public Get withStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
         public String getStage() {
             return stage;
         }
@@ -193,18 +413,24 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
             this.stage = stage;
         }
 
-        public String getHierarchystatus() {
+        public Get withStage(String stage) {
+            this.stage = stage;
+            return this;
+        }
+
+        public Object getHierarchystatus() {
             return hierarchystatus;
         }
 
-        public void setHierarchystatus(String hierarchystatus) {
+        public void setHierarchystatus(Object hierarchystatus) {
             this.hierarchystatus = hierarchystatus;
         }
 
+        public Get withHierarchystatus(Object hierarchystatus) {
+            this.hierarchystatus = hierarchystatus;
+            return this;
+        }
     }
-
 }
-
-
 
 
