@@ -592,6 +592,7 @@
                             android:layout_height="wrap_content"
                             android:text="Pre Retro Update"
                             android:textStyle="bold"
+                            android:id="@+id/stageupdate"
                             android:textSize="@dimen/text_16sp"
                             android:textColor="@color/black"/>
 

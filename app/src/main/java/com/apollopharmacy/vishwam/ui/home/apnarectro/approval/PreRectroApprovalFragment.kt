@@ -50,16 +50,19 @@ class PreRectroApprovalFragment() :
 
 
 
-        Preferences.savingToken("APL48627")
-        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
+        Preferences.savingToken("APL49391")
+        Preferences.setAppLevelDesignationApnaRetro("CEO")
         MainActivity.mInstance.mainActivityCallback = this
 //        AWAITING APPROVAL FROM CEO
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
+
+
+
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -7)
+        cal.add(Calendar.DATE, -2)
         fromDate = simpleDateFormat.format(cal.time)
         getRetroPendindAndApproverequest.empid = Preferences.getToken()
         getRetroPendindAndApproverequest.storeid =Preferences.getRectroSiteId()

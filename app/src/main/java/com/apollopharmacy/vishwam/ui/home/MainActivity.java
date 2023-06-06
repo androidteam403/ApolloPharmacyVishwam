@@ -339,12 +339,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         locationDeniedLayout.setVisibility(View.GONE);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        if (isGpsEnambled()) {
-            checkLocationPermission();
-        } else {
-            buildAlertMessageNoGps();
-        }
+//
+//        if (isGpsEnambled()) {
+//            checkLocationPermission();
+//        } else {
+//            buildAlertMessageNoGps();
+//        }
         setUp();
 
 
@@ -1669,34 +1669,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("List")) {
                     displaySelectedScreen("List");
                 }
-            } else if (listHeader.get(groupPosition).getTitle().equals("Vivekagam")) {
-//                adapter = new NavigationListAdapter(context, listView.getListHeader());
-
-                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-                if (childModelList.get(childPosition).getTitle().equals("Login")) {
-                    displaySelectedScreen("Login");
-                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
-                    displaySelectedScreen("Dashboard");
-                } else if (childModelList.get(childPosition).getTitle().equals("Profile")) {
-                    displaySelectedScreen("Profile");
-                } else if (childModelList.get(childPosition).getTitle().equals("My Orders")) {
-                    displaySelectedScreen("My Orders");
-                } else if (childModelList.get(childPosition).getTitle().equals("Cash Deposits")) {
-                    displaySelectedScreen("Cash Deposits");
-                } else if (childModelList.get(childPosition).getTitle().equals("Summary")) {
-                    displaySelectedScreen("Summary");
-                } else if (childModelList.get(childPosition).getTitle().equals("Complaints")) {
-                    displaySelectedScreen("Complaints");
-                } else if (childModelList.get(childPosition).getTitle().equals("Change Password")) {
-                    displaySelectedScreen("Change Password");
-                } else if (childModelList.get(childPosition).getTitle().equals("Help")) {
-                    displaySelectedScreen("Help");
-                } else if (childModelList.get(childPosition).getTitle().equals("LogOut")) {
-                    displaySelectedScreen("LogOut");
-                }
+            }
+//            else if (listHeader.get(groupPosition).getTitle().equals("Vivekagam")) {
+////                adapter = new NavigationListAdapter(context, listView.getListHeader());
+//
+//                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+//                if (childModelList.get(childPosition).getTitle().equals("Login")) {
+//                    displaySelectedScreen("Login");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+//                    displaySelectedScreen("Dashboard");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Profile")) {
+//                    displaySelectedScreen("Profile");
+//                } else if (childModelList.get(childPosition).getTitle().equals("My Orders")) {
+//                    displaySelectedScreen("My Orders");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Cash Deposits")) {
+//                    displaySelectedScreen("Cash Deposits");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Summary")) {
+//                    displaySelectedScreen("Summary");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Complaints")) {
+//                    displaySelectedScreen("Complaints");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Change Password")) {
+//                    displaySelectedScreen("Change Password");
+//                } else if (childModelList.get(childPosition).getTitle().equals("Help")) {
+//                    displaySelectedScreen("Help");
+//                } else if (childModelList.get(childPosition).getTitle().equals("LogOut")) {
+//                    displaySelectedScreen("LogOut");
+//                }
 
 //                adapter.notifyDataSetChanged();
-            } else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
+//        }
+            else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
                     displaySelectedScreen("Champs Survey");

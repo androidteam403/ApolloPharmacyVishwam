@@ -44,13 +44,13 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         viewBinding.callback = this
         MainActivity.mInstance.mainActivityCallback = this
         Utlis.hideLoading()
-        if (Preferences.getSwachhSiteId().isEmpty()) {
-            showLoading()
+        if (Preferences.getApnaSiteId().isEmpty()) {
+//            showLoading()
             val i = Intent(context, SelectChampsSiteIDActivity::class.java)
             startActivityForResult(i, 781)
         } else {
 
-            viewBinding.enterStoreEdittext.setText(Preferences.getSwachhSiteId())
+            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
 
 
 

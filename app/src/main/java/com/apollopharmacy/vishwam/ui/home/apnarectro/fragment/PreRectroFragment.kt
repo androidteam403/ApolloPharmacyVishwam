@@ -98,7 +98,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
-                cal.add(Calendar.DATE, -14)
+                cal.add(Calendar.DATE, -4)
                 val currentDate: String = simpleDateFormat.format(Date())
 
                 val fromdate = simpleDateFormat.format(cal.time)
@@ -132,10 +132,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                     .show()
             }
 
-//        var configLst = ArrayList<AdapterList>()
-//        configLst.add(AdapterList("14001_APNARECTRO_06042023", "14001", "Ameerpet, Hyderabad", "07 Apr, 2023 - 12 :30PM", "APL48627", "", "", "PENDING", "---", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("16001_APNARECTRO_96042023", "16001", "Hydernagar, Hyderabad", "15 Apr, 2023 - 11 :45AM", "APL49299", "", "", "APPROVED", "RE-SHOOT", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("47852_APNARECTRO_96042023", "18624", "Chanda Nagar, Hyderabad", "05 Apr, 2023 - 04:25PM", "APL48574", "07 apr, 2023 -04:25PM", "APL48627", "APPROVED", "APPROVED", "COMPLETED", "COMPLETE"))
+
 
 
         }
@@ -158,7 +155,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -14)
+                    cal.add(Calendar.DATE, -4)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)
@@ -198,7 +195,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -14)
+                    cal.add(Calendar.DATE, -4)
                     val currentDate: String = simpleDateFormat.format(Date())
 
                     var fromdate = simpleDateFormat.format(cal.time)

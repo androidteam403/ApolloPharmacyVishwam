@@ -100,22 +100,22 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         uploadedBy = intent.getStringExtra("uploadedBy")!!
         storeId = intent.getStringExtra("storeId")!!
         uploadStage = intent.getStringExtra("uploadStage")!!
-        approvedby = intent.getStringExtra("approvedby")!!
-        approvedDate = intent.getStringExtra("approvedDate")!!
-        partiallyApprovedBy = intent.getStringExtra("partiallyApprovedBy")!!
-        partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")!!
-        reshootBy = intent.getStringExtra("reshootBy")!!
-        reshootDate = intent.getStringExtra("reshootDate")!!
+//        approvedby = intent.getStringExtra("approvedby")!!
+//        approvedDate = intent.getStringExtra("approvedDate")!!
+//        partiallyApprovedBy = intent.getStringExtra("partiallyApprovedBy")!!
+//        partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")!!
+//        reshootBy = intent.getStringExtra("reshootBy")!!
+//        reshootDate = intent.getStringExtra("reshootDate")!!
 
 
         activityUploadImagesPostRetroBinding.uploadedByTimeline.setText(uploadedBy)
         activityUploadImagesPostRetroBinding.uploadedDateTimeline.setText(uploadedOn)
         activityUploadImagesPostRetroBinding.approvedBy.setText(approvedby)
-        activityUploadImagesPostRetroBinding.approvedDate.setText(approvedDate)
-        activityUploadImagesPostRetroBinding.partiallyApprovedBy.setText(partiallyApprovedBy)
-        activityUploadImagesPostRetroBinding.partiallyApprovedDate.setText(partiallyApprovedDate)
+//        activityUploadImagesPostRetroBinding.approvedDate.setText(approvedDate)
+//        activityUploadImagesPostRetroBinding.partiallyApprovedBy.setText(partiallyApprovedBy)
+//        activityUploadImagesPostRetroBinding.partiallyApprovedDate.setText(partiallyApprovedDate)
         activityUploadImagesPostRetroBinding.reshootBy.setText(reshootBy)
-        activityUploadImagesPostRetroBinding.reshootDate.setText(reshootDate)
+//        activityUploadImagesPostRetroBinding.reshootDate.setText(reshootDate)
         if (stage.equals("isPreRetroStage")) {
             activityUploadImagesPostRetroBinding.stageTimeline.setText("Pre Retro")
 
@@ -131,6 +131,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
 
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
@@ -157,6 +158,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
@@ -182,6 +185,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -211,6 +216,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
@@ -224,11 +231,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
             } else if (uploadStage.equals("approvedStage")) {
-                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.white
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
@@ -254,6 +261,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -283,6 +293,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
@@ -301,6 +313,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     )
                 )
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
 
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -327,6 +340,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
