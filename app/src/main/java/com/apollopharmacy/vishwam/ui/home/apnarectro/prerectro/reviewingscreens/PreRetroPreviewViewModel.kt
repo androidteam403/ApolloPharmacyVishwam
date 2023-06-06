@@ -40,14 +40,11 @@ class PreRetroPreviewViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-
-//            if (Config.KEY=="2039") {
-                if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
+             if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
                     baseUrl = data.APIS[i].URL
                     token = data.APIS[i].TOKEN
                     break
                 }
-//            }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
