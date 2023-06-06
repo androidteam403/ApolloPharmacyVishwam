@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ChemistAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
+import java.text.DecimalFormat
 
 class PreviewChemistAdapter(
     val mContext: Context,
@@ -26,6 +28,7 @@ class PreviewChemistAdapter(
         return ViewHolder(chemistLayoutBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = chemistData.get(position)
         if (items.chemist != null) {
@@ -47,7 +50,7 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.organized.setText("-")
         }
         if (items.orgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.avgsale.setText(items.orgAvgSale.toString())
+            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.orgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.avgsale.setText("-")
         }
@@ -63,7 +66,7 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.unorganized.setText("-")
         }
         if (items.unorgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.unorganisedAvgSale.setText(items.unorgAvgSale.toString())
+            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.unorgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.unorganisedAvgSale.setText("-")
         }

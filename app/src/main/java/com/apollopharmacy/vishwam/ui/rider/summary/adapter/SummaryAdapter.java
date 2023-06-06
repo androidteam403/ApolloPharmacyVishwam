@@ -17,7 +17,6 @@ import com.apollopharmacy.vishwam.databinding.LoadingProgressbarBinding;
 import com.apollopharmacy.vishwam.ui.rider.myorders.model.MyOrdersListResponse;
 import com.apollopharmacy.vishwam.ui.rider.reports.adapter.OrdersCodStatusAdapter;
 import com.apollopharmacy.vishwam.ui.rider.summary.SummaryFragmentCallback;
-import com.apollopharmacy.vishwam.util.Utils;
 import com.apollopharmacy.vishwam.util.Utlis;
 
 import java.text.ParseException;

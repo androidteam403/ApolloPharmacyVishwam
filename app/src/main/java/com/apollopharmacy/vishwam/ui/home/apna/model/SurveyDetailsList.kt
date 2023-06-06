@@ -799,7 +799,7 @@ class SurveyDetailsList : Serializable {
         var rent = 0
 
         @SerializedName("sales")
-        var sales = 0.0
+        var sales: Float = 0.0F
 
         @SerializedName("sqft")
         var sqft = 0.0
