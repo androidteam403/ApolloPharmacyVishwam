@@ -89,7 +89,6 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
             }else if(item.get(i).stage.equals("POST-RETRO")){
 
 
-
                 if(item.get(i).status.contains("Pending") || item.get(i).status.contains("Reshoot")){
                     holder.adapterListApnaBinding.postRectroText.setTextColor(context.getColor(R.color.black))
                     holder.adapterListApnaBinding.approvedByLayout.visibility= View.GONE
@@ -135,7 +134,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     holder.adapterListApnaBinding.approvedByLayout.visibility= View.VISIBLE
                     holder.adapterListApnaBinding.approvedOnLayout.visibility= View.VISIBLE
                     holder.adapterListApnaBinding.uploadedBy.text=item.get(i).uploadedBy
-                }else if(item.get(i).status.equals("")){
+                                   }else if(item.get(i).status.equals("")){
                     holder.adapterListApnaBinding.afterCompletionText.setTextColor(context.getColor(R.color.ash_color_for_apna))
                     holder.adapterListApnaBinding.approvedByLayout.visibility= View.GONE
                     holder.adapterListApnaBinding.approvedOnLayout.visibility= View.GONE
@@ -186,21 +185,21 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     reshootBy
                 )
             } else if(holder.adapterListApnaBinding.preRetroStatus.text.toString().equals("Reshoot")){
-                preRectroCallback.onClickPreRetrPending(
-                    "isPreRetroStage",
-                    holder.adapterListApnaBinding.postRetroStatus.text.toString(),
-                    holder.adapterListApnaBinding.transactionId.text.toString(),
-                    holder.adapterListApnaBinding.uploadedOn.text.toString(),
-                    holder.adapterListApnaBinding.uploadedBy.text.toString(),
-                    holder.adapterListApnaBinding.storeId.text.toString(),
-                    "reshootStage",
-                    approvedby,
-                    approvedDate,
-                    partiallyApprovedBy,
-                    partiallyApprovedDate,
-                    reshootDate,
-                    reshootBy
-                )
+               preRectroCallback.onClickPreRetrPending(
+                   "isPreRetroStage",
+                   holder.adapterListApnaBinding.postRetroStatus.text.toString(),
+                   holder.adapterListApnaBinding.transactionId.text.toString(),
+                   holder.adapterListApnaBinding.uploadedOn.text.toString(),
+                   holder.adapterListApnaBinding.uploadedBy.text.toString(),
+                   holder.adapterListApnaBinding.storeId.text.toString(),
+                   "reshootStage",
+                   approvedby,
+                   approvedDate,
+                   partiallyApprovedBy,
+                   partiallyApprovedDate,
+                   reshootDate,
+                   reshootBy
+               )
             }
 
         }
@@ -229,7 +228,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     reshootBy,
                     reshootDate
                 )
-            } else if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Reshoot")){
+          } else if(holder.adapterListApnaBinding.postRetroStatus.text.toString().equals("Reshoot")){
                 preRectroCallback.onClickPostRetroPending(
                     "isPostRetroStage",
                     holder.adapterListApnaBinding.postRetroStatus.text.toString(),
@@ -308,7 +307,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
     }
 
     override fun getItemCount(): Int {
-        return fragmentList.size
+       return fragmentList.size
     }
 
 

@@ -94,7 +94,7 @@ public class Utils {
     }
 
     public static ProgressDialog showLoadingDialog(Context context) {
-        ProgressDialog progressDialog = new ProgressDialog(context);
+        ProgressDialog progressDialog = new ProgressDialog(context, R.style.MyGravity);//new ProgressDialog(context);
         if (progressDialog.getWindow() != null) {
             progressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
@@ -382,6 +382,7 @@ public class Utils {
         resultTime = hrsLbl + "-" + minsLbl + "-" + secsLbl;
         return resultTime;
     }
+
     public static String getLastLoginDateNew(String loginDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -401,6 +402,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String getLastLoginDateNewinSec(String loginDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -420,6 +422,7 @@ public class Utils {
         }
         return convertedDate;
     }
+
     public static String getLastLoginDate(String loginDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;
@@ -489,6 +492,7 @@ public class Utils {
             return "";
         }
     }
+
     public static String getAttendanceCurrentDateNew() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return new SimpleDateFormat("dd MMM yyyy, hh:mm:ss aa", Locale.ENGLISH).format(Calendar.getInstance().getTime());
@@ -496,6 +500,7 @@ public class Utils {
             return "";
         }
     }
+
     public static String getAttendanceCustomDate(String orderedDate) {
         SimpleDateFormat format1 = null;
         SimpleDateFormat format2 = null;

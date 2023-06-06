@@ -71,6 +71,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.PreRectroApprovalFragment;
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.PreRectroFragment;
 import com.apollopharmacy.vishwam.ui.home.apolloassets.AssetsFragment;
+import com.apollopharmacy.vishwam.ui.home.apollosensing.ApolloSensingFragment;
 import com.apollopharmacy.vishwam.ui.home.cashcloser.CashCloserFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.AdminModuleFragment;
 import com.apollopharmacy.vishwam.ui.home.champs.reports.fragment.ChampsReportsFragment;
@@ -339,7 +340,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         locationDeniedLayout.setVisibility(View.GONE);
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-//
+
 //        if (isGpsEnambled()) {
 //            checkLocationPermission();
 //        } else {
@@ -847,6 +848,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.apna_project_actionbar_bg));
+                break;
+
+            case "Apollo Sensing":
+                headerText.setText("Apollo Pharmacy");
+                fragment = new ApolloSensingFragment();
+                filterIcon.setVisibility(View.GONE);
+                plusIconApna.setVisibility(View.GONE);
+                filterIconApna.setVisibility(View.GONE);
+                qcfilterIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.GONE);
+                isHomeScreen = false;
+                riderNotificationLayout.setVisibility(View.GONE);
                 break;
 
             case "New Drug List":  //"Drug List":
@@ -1497,6 +1510,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
+        listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
+
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
@@ -1555,20 +1570,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        }
 
 
-       listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
+        listView.addHeaderModel(new HeaderModel("Champs", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Champs Survey", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Champs Reports", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("Champs Admin", R.drawable.ic_apollo_survey_admin)));
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
 
-
-        if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")){
-            listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
+        if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")) {
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
 
-        }
-        else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo")||Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
-            listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
+        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
+            listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }
 
@@ -1602,6 +1614,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 drawer.closeDrawer(GravityCompat.START);
             } else if (listHeader.get(groupPosition).getTitle().equals("Assets")) {
                 displaySelectedScreen("Assets");
+                drawer.closeDrawer(GravityCompat.START);
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apollo Sensing")) {
+                displaySelectedScreen("Apollo Sensing");
                 drawer.closeDrawer(GravityCompat.START);
             }
             return false;
@@ -1669,36 +1684,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("List")) {
                     displaySelectedScreen("List");
                 }
-            }
-//            else if (listHeader.get(groupPosition).getTitle().equals("Vivekagam")) {
-////                adapter = new NavigationListAdapter(context, listView.getListHeader());
-//
-//                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
-//                if (childModelList.get(childPosition).getTitle().equals("Login")) {
-//                    displaySelectedScreen("Login");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
-//                    displaySelectedScreen("Dashboard");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Profile")) {
-//                    displaySelectedScreen("Profile");
-//                } else if (childModelList.get(childPosition).getTitle().equals("My Orders")) {
-//                    displaySelectedScreen("My Orders");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Cash Deposits")) {
-//                    displaySelectedScreen("Cash Deposits");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Summary")) {
-//                    displaySelectedScreen("Summary");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Complaints")) {
-//                    displaySelectedScreen("Complaints");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Change Password")) {
-//                    displaySelectedScreen("Change Password");
-//                } else if (childModelList.get(childPosition).getTitle().equals("Help")) {
-//                    displaySelectedScreen("Help");
-//                } else if (childModelList.get(childPosition).getTitle().equals("LogOut")) {
-//                    displaySelectedScreen("LogOut");
-//                }
+            } else if (listHeader.get(groupPosition).getTitle().equals("Vivekagam")) {
+//                adapter = new NavigationListAdapter(context, listView.getListHeader());
+
+                List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
+                if (childModelList.get(childPosition).getTitle().equals("Login")) {
+                    displaySelectedScreen("Login");
+                } else if (childModelList.get(childPosition).getTitle().equals("Dashboard")) {
+                    displaySelectedScreen("Dashboard");
+                } else if (childModelList.get(childPosition).getTitle().equals("Profile")) {
+                    displaySelectedScreen("Profile");
+                } else if (childModelList.get(childPosition).getTitle().equals("My Orders")) {
+                    displaySelectedScreen("My Orders");
+                } else if (childModelList.get(childPosition).getTitle().equals("Cash Deposits")) {
+                    displaySelectedScreen("Cash Deposits");
+                } else if (childModelList.get(childPosition).getTitle().equals("Summary")) {
+                    displaySelectedScreen("Summary");
+                } else if (childModelList.get(childPosition).getTitle().equals("Complaints")) {
+                    displaySelectedScreen("Complaints");
+                } else if (childModelList.get(childPosition).getTitle().equals("Change Password")) {
+                    displaySelectedScreen("Change Password");
+                } else if (childModelList.get(childPosition).getTitle().equals("Help")) {
+                    displaySelectedScreen("Help");
+                } else if (childModelList.get(childPosition).getTitle().equals("LogOut")) {
+                    displaySelectedScreen("LogOut");
+                }
 
 //                adapter.notifyDataSetChanged();
-//        }
-            else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Champs")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Champs Survey")) {
                     displaySelectedScreen("Champs Survey");
@@ -1714,7 +1727,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 } else if (childModelList.get(childPosition).getTitle().equals("Video View")) {
                     displaySelectedScreen("Video View");
                 }
-            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Rectro")) {
+            } else if (listHeader.get(groupPosition).getTitle().equals("Apna Retro")) {
                 List<ChildModel> childModelList = listHeader.get(groupPosition).getChildModelList();
                 if (childModelList.get(childPosition).getTitle().equals("Creation")) {
                     displaySelectedScreen("Creation");

@@ -436,7 +436,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size) {
             apiStatus = "2"
         } else if (pendingList.size == 0 && imageUrlsList.size == reshootList.size + applist.size) {
-            apiStatus = "3"
+            apiStatus = "2"
         }
 
 
@@ -595,9 +595,7 @@ class RetroPreviewImageActivity : AppCompatActivity(), PreviewLastImageCallback,
                     imageRequest.rating = ratingforsubmit.toString()
 
                     Utlis.showLoading(this)
-                    previewLastImageViewModel.getRatingResponse(imageRequest,
-                        this
-                    )
+                    previewLastImageViewModel.getRatingResponse(imageRequest, this)
                     dialog.dismiss()
 
                 } else {

@@ -119,22 +119,19 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         if (stage == "isPreRetroStage") {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
             if (posImageUrlList.size == 1) {
-
-
-
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.GONE
-                activityPostRectroReviewScreenBinding.firstImageZoom.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.firstImageZoom.visibility=View.GONE
                 activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
                 )
 
+                lp.weight = 1f
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
-
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
             } else if (posImageUrlList.size == 2) {
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -166,10 +163,15 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Upload Post Retro"
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-            } else if (posImageUrlList.size == 2 && uploadStage.equals("reshootStage")) {
+            }
+
+
+
+            else if (posImageUrlList.size == 2 && uploadStage.equals("reshootStage")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE

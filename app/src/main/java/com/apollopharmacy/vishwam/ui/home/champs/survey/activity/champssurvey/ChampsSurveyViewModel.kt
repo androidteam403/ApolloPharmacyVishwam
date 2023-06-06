@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.champs.survey.activity.champssurvey
 
+import android.annotation.SuppressLint
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -144,6 +145,8 @@ class ChampsSurveyViewModel: ViewModel() {
         }
     }
 
+
+
     fun getSurveyListByChampsID(champsSurveyCallBack: ChampsSurveyCallBack) {
         state.postValue(State.LOADING)
         viewModelScope.launch {
@@ -205,6 +208,51 @@ class ChampsSurveyViewModel: ViewModel() {
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
                        Command.ShowToast(it)
+                    })
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    commands.postValue(Command.ShowToast("Network Error"))
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+                else -> {
+                    commands.postValue(Command.ShowToast("Something went wrong, please try again later"))
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun getSurveyListApi(
+        champsSurveyCallBack: ChampsSurveyCallBack,
+        startDate: String,
+        endDate: String,
+        id: String
+    ) {
+        state.postValue(State.LOADING)
+        viewModelScope.launch {
+            val result = withContext(Dispatchers.IO) {
+                ChampsApiRepo.getSurveyDetailsApi(startDate, endDate, id);
+            }
+            when (result) {
+                is ApiResult.Success -> {
+                    if (result.value.status!!) {
+                        state.value = State.ERROR
+                        champsSurveyCallBack.onSuccessSurveyList(result.value)
+//                        getStoreDetailsChamps.value = result.value
+                    } else {
+                        state.value = State.ERROR
+                        champsSurveyCallBack.onFailureSurveyList(result.value)
+                        commands.value = Command.ShowToast(result.value.message!!)
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    commands.postValue(result.error?.let {
+                        Command.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
@@ -310,6 +358,7 @@ class ChampsSurveyViewModel: ViewModel() {
 
 
 
+    @SuppressLint("SuspiciousIndentation")
     fun getSurveyListByChampsIDApi(champsSurveyCallBack: ChampsSurveyCallBack, champsId: String) {
         state.postValue(State.LOADING)
         viewModelScope.launch {

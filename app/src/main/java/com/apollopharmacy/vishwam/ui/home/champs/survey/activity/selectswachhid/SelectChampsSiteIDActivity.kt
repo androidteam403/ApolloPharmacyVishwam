@@ -42,19 +42,19 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
 //        Utlis.showLoading(this)
-        viewModel.getStoreDetailsChamps(this)
-//        if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-//            viewModel.getStoreDetailsChampsApi(this)
-//        }
-//        else {
-//            Toast.makeText(
-//                applicationContext,
-//                resources.getString(R.string.label_network_error),
-//                Toast.LENGTH_SHORT
-//            )
-//                .show()
-//        }
+//        viewModel.getStoreDetailsChamps(this)
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            viewModel.getStoreDetailsChampsApi(this)
+        }
+        else {
+            Toast.makeText(
+                applicationContext,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
     }
 
     private fun searchByFulfilmentId() {

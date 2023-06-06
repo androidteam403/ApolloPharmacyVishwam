@@ -20,7 +20,6 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
     @Expose
     private List<Get> getList;
 
-    private List<List<Get>> groupByRetrodList;
     public String getMessage() {
         return message;
     }
@@ -59,13 +58,7 @@ public class GetStorePendingAndApprovedListRes implements Serializable {
         this.getList = getList;
         return this;
     }
-    public List<List<Get>> getGroupByRetrodList() {
-        return groupByRetrodList;
-    }
 
-    public void setGroupByRetrodList(List<List<Get>> groupByRetrodList) {
-        this.groupByRetrodList = groupByRetrodList;
-    }
 
     public class Get implements Serializable {
 

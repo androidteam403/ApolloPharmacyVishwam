@@ -50,7 +50,7 @@
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:src="@drawable/close_icon"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
         </RelativeLayout>
 
         <LinearLayout

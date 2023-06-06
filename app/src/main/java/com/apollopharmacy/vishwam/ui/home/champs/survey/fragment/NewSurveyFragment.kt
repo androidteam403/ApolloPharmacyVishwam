@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.TypedValue
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -20,7 +19,6 @@ import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.S
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 
@@ -32,6 +30,7 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     var address:String?=""
     var siteName:String?=""
     var siteCity:String?=""
+    var isSiteIdEmpty: Boolean = false
 
     override val layoutRes: Int
         get() = R.layout.fragment_champs_survey
@@ -45,18 +44,34 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         MainActivity.mInstance.mainActivityCallback = this
         Utlis.hideLoading()
         if (Preferences.getApnaSiteId().isEmpty()) {
-//            showLoading()
+            showLoading()
             val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
         } else {
 
             viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
 
 
+//
+//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                showLoading()
+//                viewModel.getStoreDetailsChamps(this)
+//            } else {
+//                Toast.makeText(
+//                    activity,
+//                    resources.getString(R.string.label_network_error),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+
 
             if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
                 showLoading()
-                viewModel.getStoreDetailsChamps(this)
+                viewModel.getStoreDetailsChampsApi(
+                    this
+                )
             } else {
                 Toast.makeText(
                     activity,
@@ -65,35 +80,20 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
                 )
                     .show()
             }
-
-
-//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//                showLoading()
-//                viewModel.getStoreDetailsChampsApi(
-//                    this
-//                )
-//            } else {
-//                Toast.makeText(
-//                    activity,
-//                    resources.getString(R.string.label_network_error),
-//                    Toast.LENGTH_SHORT
-//                )
-//                    .show()
-//            }
-//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//                showLoading()
-//                viewModel.getStoreWiseDetailsChampsApi(
-//                    this,
-//                    viewBinding.enterStoreEdittext.text.toString()
-//                )
-//            } else {
-//                Toast.makeText(
-//                    activity,
-//                    resources.getString(R.string.label_network_error),
-//                    Toast.LENGTH_SHORT
-//                )
-//                    .show()
-//            }
+            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                showLoading()
+                viewModel.getStoreWiseDetailsChampsApi(
+                    this,
+                    viewBinding.enterStoreEdittext.text.toString()
+                )
+            } else {
+                Toast.makeText(
+                    activity,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
 //
 
 
@@ -168,18 +168,34 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         }
 
         hideLoading()
-        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-            showLoading()
-            viewModel.getStoreWiseDetailsChamps(this)
 
-        } else {
-            Toast.makeText(
-                activity,
-                resources.getString(R.string.label_network_error),
-                Toast.LENGTH_SHORT
-            )
-                .show()
-        }
+        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                showLoading()
+                viewModel.getStoreWiseDetailsChampsApi(
+                    this,
+                    viewBinding.enterStoreEdittext.text.toString()
+                )
+            } else {
+                Toast.makeText(
+                    activity,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+
+//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//            showLoading()
+//            viewModel.getStoreWiseDetailsChamps(this)
+//
+//        } else {
+//            Toast.makeText(
+//                activity,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
 //       Toast.makeText(activity, ""+value.storeDetails.size,Toast.LENGTH_SHORT).show();
 //        getStoreDetailsAdapter =
 //            GetStoreDetailsAdapter(context, value.storeDetails, this, this)
@@ -195,10 +211,25 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
         Toast.makeText(activity, "" + value.message, Toast.LENGTH_SHORT).show();
         hideLoading()
+//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//            showLoading()
+//            viewModel.getStoreWiseDetailsChamps(this)
+//
+//        }
+//        else {
+//            Toast.makeText(
+//                activity,
+//                resources.getString(R.string.label_network_error),
+//                Toast.LENGTH_SHORT
+//            )
+//                .show()
+//        }
+
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
             showLoading()
-            viewModel.getStoreWiseDetailsChamps(this)
-
+            viewModel.getStoreDetailsChampsApi(
+                this
+            )
         } else {
             Toast.makeText(
                 activity,
@@ -213,13 +244,16 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
         if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
+        }else{
+            viewBinding.emailId.setText("--")
         }
         hideLoading()
     }
 
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
         if (value != null && value.message != null) {
-            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
+            viewBinding.emailId.setText("--")
+//            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         }
         hideLoading()
     }
@@ -241,18 +275,47 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            viewBinding.enterStoreEdittext.setText(Preferences.getSwachhSiteId())
-            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreDetailsChamps(this)
-            } else {
-                Toast.makeText(
-                    activity,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+            isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
+             if (requestCode == 781) {
+                 hideLoading()
+                 Utlis.hideLoading()
+                 if (isSiteIdEmpty) {
+                     MainActivity.mInstance.onBackPressed()
+//                    hideLoadingTemp()
+                     hideLoading()
+                 } else {
+                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                         showLoading()
+                         viewModel.getStoreDetailsChampsApi(
+                             this
+                         )
+                     } else {
+                         Toast.makeText(
+                             activity,
+                             resources.getString(R.string.label_network_error),
+                             Toast.LENGTH_SHORT
+                         )
+                             .show()
+                     }
+                 }
+             }
+            viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
+//            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+//                showLoading()
+//                viewModel.getStoreDetailsChamps(this)
+//            }
+//            else {
+//                Toast.makeText(
+//                    activity,
+//                    resources.getString(R.string.label_network_error),
+//                    Toast.LENGTH_SHORT
+//                )
+//                    .show()
+//            }
+
+
+
+
         }
     }
 }

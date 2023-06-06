@@ -61,25 +61,21 @@ class RectroApproveListAdapter(
         holder.adapterApproveListBinding.approvalStatusLayout.layoutParams=lp1
         holder.adapterApproveListBinding.approvedStatusLayout.layoutParams=lp
       for (j in approvedOrders!!.indices) {
-        if (approvedOrders!!.get(j).stage.equals("PRE-RETRO")){
+        if (approvedOrders!![j].stage.equals("PRE-RETRO")){
 
 
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
             val date = dateFormat.parse(approvedOrders!!.get(j).uploadedDate)
             val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
-            holder.adapterApproveListBinding.transactionId.setText(approvedOrders.get(j).retroid)
-            holder.adapterApproveListBinding.uploadby.setText(approvedOrders.get(j).uploadedBy)
-            holder.adapterApproveListBinding.uploadon.setText(dateNewFormat)
+            holder.adapterApproveListBinding.transactionId.text = approvedOrders.get(j).retroid
+            holder.adapterApproveListBinding.uploadby.text = approvedOrders.get(j).uploadedBy
+            holder.adapterApproveListBinding.uploadon.text = dateNewFormat
             holder.adapterApproveListBinding.preRectroStage.setText(WordUtils.capitalizeFully(
-                approvedOrders.get(j).stage!!.replace("-", " ")))
-            holder.adapterApproveListBinding.preRectroStatus.setText(approvedOrders.get(j).status)
-            holder.adapterApproveListBinding.storeId.setText(approvedOrders.get(j).store)
+                approvedOrders[j].stage!!.replace("-", " ")))
+            holder.adapterApproveListBinding.preRectroStatus.setText(approvedOrders[j].status)
+            holder.adapterApproveListBinding.storeId.setText(approvedOrders[j].store)
 
-            holder.adapterApproveListBinding.preRectroLayout.setOnClickListener { mClicklistner.onClick(
-                position,
-                j,
-                approvePendingList,
-                approveList) }
+            holder.adapterApproveListBinding.preRectroLayout.setOnClickListener { mClicklistner.onClick(position, j, approvePendingList, approveList) }
             if (approvedOrders.get(j).status.equals("Pending")){
                 val lp = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,

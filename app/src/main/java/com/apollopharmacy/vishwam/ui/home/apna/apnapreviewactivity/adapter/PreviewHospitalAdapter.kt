@@ -39,8 +39,8 @@ class PreviewHospitalAdapter(
             holder.hospitalAdapterLayoutBinding.beds.setText("-")
         }
         if (items.speciality != null) {
-            if (items.speciality!!.uid.toString().isNotEmpty() && items.speciality!!.uid != null) {
-                holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.uid.toString())
+            if (items.speciality!!.name.toString().isNotEmpty() && items.speciality!!.name != null) {
+                holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.name.toString())
             } else {
                 holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
             }
