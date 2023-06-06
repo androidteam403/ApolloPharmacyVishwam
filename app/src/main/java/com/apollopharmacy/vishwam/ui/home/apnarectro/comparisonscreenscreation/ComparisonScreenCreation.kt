@@ -129,13 +129,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.MATCH_PARENT
                 )
-                val lp1 = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.MATCH_PARENT
-                )
-                lp1.weight=0f
+
                 lp.weight = 1f
-                activityPostRectroReviewScreenBinding.secondImageLayout.layoutParams=lp1
                 activityPostRectroReviewScreenBinding.firstImageLayout.layoutParams = lp
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.GONE
             } else if (posImageUrlList.size == 2) {
