@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
 import android.widget.TextView
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -25,6 +24,7 @@ class SubCategoryAdapter(
     private var subCategoryDetails: List<GetSubCategoryDetailsModelResponse.SubCategoryDetail>,
     private var applicationContext: Context,
     private var champsDetailsandRatingBarCallBack: ChampsDetailsandRatingBarCallBack,
+    private var status: String,
 ) : RecyclerView.Adapter<SubCategoryAdapter.ViewHolder>() {
 
 
@@ -49,6 +49,11 @@ class SubCategoryAdapter(
             subCategory.subCategoryName
         holder.adapterSubCategoryAdapterBinding.seekbar1.max =
             ((subCategoryDetails.get(position).rating)!!.toFloat() * 2).toInt()
+        if(status.equals("COMPLETED")){
+            holder.adapterSubCategoryAdapterBinding.seekbar1.isEnabled=false
+        }else{
+            holder.adapterSubCategoryAdapterBinding.seekbar1.isEnabled=true
+        }
 
         if (subCategory.givenRating != null) {
             var value = (subCategory.givenRating)!!.toFloat() * 2
@@ -124,6 +129,10 @@ class SubCategoryAdapter(
 
     override fun getItemCount(): Int {
         return subCategoryDetails.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     class ViewHolder(val adapterSubCategoryAdapterBinding: AdapterSubCategoryBinding) :

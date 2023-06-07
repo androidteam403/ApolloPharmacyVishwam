@@ -5,21 +5,25 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.Window
+import android.view.*
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityApnaSurveyPreviewBinding
+import com.apollopharmacy.vishwam.databinding.ApnaPreviewQuickGoDialogBinding
 import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 import com.bumptech.glide.Glide
+import com.github.mikephil.charting.data.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -36,10 +40,15 @@ import com.karumi.dexter.listener.PermissionDeniedResponse
 import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.stream.Collectors
 
 class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback {
+
+    var toiletsAvailable: String = ""
+    var parkingAvailable: String = ""
+    var trafficType: String = ""
 
     lateinit var activityApnaSurveyPreviewBinding: ActivityApnaSurveyPreviewBinding
     var surveyCreateRequest = SurveyCreateRequest()
@@ -53,6 +62,19 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var client: FusedLocationProviderClient
+
+    var neighborEntries = ArrayList<BarEntry>()
+    var competitorsEntries = ArrayList<Entry>()
+
+    //    var apartmentsEntryOne = ArrayList<BarEntry>()
+    var apartmentsEntries = ArrayList<BarEntry>()
+    var hospitalsEntries = ArrayList<BarEntry>()
+
+    //    var hospitalsEntryTwo = ArrayList<BarEntry>()
+    var sales = ArrayList<Float>()
+    var avgSales = ArrayList<Float>()
+    var noOfHouses = ArrayList<Float>()
+    var beds = ArrayList<Float>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +95,77 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.backArrow.setOnClickListener {
             finish()
         }
+        activityApnaSurveyPreviewBinding.scrollTop.setOnClickListener {
+            activityApnaSurveyPreviewBinding.scrollView.fullScroll(View.FOCUS_UP)
+        }
+        activityApnaSurveyPreviewBinding.quickGoIcon.setOnClickListener {
+            val apnaPreviewQuickGoDialogBinding: ApnaPreviewQuickGoDialogBinding? =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(this), R.layout.apna_preview_quick_go_dialog, null, false
+                )
+            val customDialog = android.app.AlertDialog.Builder(this, 0).create()
+            customDialog.apply {
+
+                setView(apnaPreviewQuickGoDialogBinding?.root)
+                setCancelable(false)
+                apnaPreviewQuickGoDialogBinding!!.close.setOnClickListener {
+                    dismiss()
+                }
+                apnaPreviewQuickGoDialogBinding.locationDetails.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.locationDetailsLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.siteSpecification.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.siteSpecificationsLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.marketInformation.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.marketInformationLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.competitorsDetails.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.competitorsDetailsLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.populationAndHouses.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.populationAndHousesLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.hospitals.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.hospitalsLayout)
+                }
+                apnaPreviewQuickGoDialogBinding.photosAndMedia.setOnClickListener {
+                    customDialog.dismiss()
+                    scrollToView(activityApnaSurveyPreviewBinding.scrollView,
+                        activityApnaSurveyPreviewBinding.photosAndMediaLayout)
+                }
+            }.show()
+        }
+
+        // Neighboring store graph
+//        setNeighborChartValues()
+//        setupNeighborChart()
+
+        // Competitors Details graph
+//        setCompetitorsValues()
+//        setupCompetitorsChart()
+
+        // Apartments graph
+//        setApartmentsValuesOne()
+//        setApartmentsValuesTwo()
+//        setupApartmentsChart()
+
+        // Hospitals graph
+//        setHospitalsValuesOne()
+//        setHospitalsValues()
+//        setupHospitalsChart()
 
         // Location Details
         val lat = surveyCreateRequest.lat
@@ -109,19 +202,19 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             pin = "-"
         }
 
-        activityApnaSurveyPreviewBinding.locationdetails.setText(
-            location + "," + landMarks + "," + "\n" + city + "," + "\n" + state + "-" + pin
+        activityApnaSurveyPreviewBinding.locationDetails.setText(
+            "$location,$landMarks,$city,$state-$pin"
         )
-        if (lat != null) {
-            activityApnaSurveyPreviewBinding.lattitude.setText(lat)
-        } else {
-            activityApnaSurveyPreviewBinding.lattitude.setText("-")
-        }
-        if (long != null) {
-            activityApnaSurveyPreviewBinding.longitude.setText(long)
-        } else {
-            activityApnaSurveyPreviewBinding.longitude.setText("-")
-        }
+//        if (lat != null) {
+//            activityApnaSurveyPreviewBinding.lattitude.setText(lat)
+//        } else {
+//            activityApnaSurveyPreviewBinding.lattitude.setText("-")
+//        }
+//        if (long != null) {
+//            activityApnaSurveyPreviewBinding.longitude.setText(long)
+//        } else {
+//            activityApnaSurveyPreviewBinding.longitude.setText("-")
+//        }
 
         supportMapFragment =
             supportFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
@@ -148,6 +241,17 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         // Site Specifications
 //        activityApnaSurveyPreviewBinding.dimensionTypeSelect.setText(surveyCreateRequest.dimensionType1)
+        if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
+            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+        } else {
+            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(-)")
+            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(-)")
+            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(-)")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-)")
+        }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
         } else {
@@ -169,13 +273,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.totalArea.setText("-")
         }
         if (surveyCreateRequest.expectedRent != null) {
-            activityApnaSurveyPreviewBinding.expectedRent.setText(surveyCreateRequest.expectedRent.toString())
+            val decimalFormat = DecimalFormat("##,##,##0")
+            val formattedNumber =
+                decimalFormat.format(surveyCreateRequest.expectedRent.toString().toLong())
+            activityApnaSurveyPreviewBinding.expectedRent.setText(formattedNumber)
+//            activityApnaSurveyPreviewBinding.expectedRent.setText(surveyCreateRequest.expectedRent.toString())
         } else {
             activityApnaSurveyPreviewBinding.expectedRent.setText("-")
         }
 
         if (surveyCreateRequest.securityDeposit != null) {
-            activityApnaSurveyPreviewBinding.securityDeposit.setText(surveyCreateRequest.securityDeposit.toString())
+            val decimalFormat = DecimalFormat("##,##,##0")
+            val formattedNumber =
+                decimalFormat.format(surveyCreateRequest.securityDeposit.toString().toLong())
+            activityApnaSurveyPreviewBinding.securityDeposit.setText(formattedNumber)
         } else {
             activityApnaSurveyPreviewBinding.securityDeposit.setText("-")
         }
@@ -184,12 +295,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             val toiletsAvailability: SurveyCreateRequest.ToiletsAvailability =
                 surveyCreateRequest.toiletsAvailability!!
             if (toiletsAvailability.uid!!.isNotEmpty()) {
-                activityApnaSurveyPreviewBinding.toiletsAvailability.setText(toiletsAvailability.uid)
+                toiletsAvailable = toiletsAvailability.uid.toString()
+//                activityApnaSurveyPreviewBinding.toiletsAvailability.setText(toiletsAvailability.uid)
             } else {
-                activityApnaSurveyPreviewBinding.toiletsAvailability.setText("-")
+//                activityApnaSurveyPreviewBinding.toiletsAvailability.setText("-")
             }
         } else {
-            activityApnaSurveyPreviewBinding.toiletsAvailability.setText("-")
+//            activityApnaSurveyPreviewBinding.toiletsAvailability.setText("-")
         }
 
 //        if (surveyCreateRequest.dimensionType != null) {
@@ -205,7 +317,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 //        }
 
         if (surveyCreateRequest.buildingAge != null && surveyCreateRequest.buildingAge != "") {
-            activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(surveyCreateRequest.buildingAge)
+
+            var ageofBuilding = surveyCreateRequest.buildingAge
+            if (ageofBuilding!!.contains(".")) {
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText(
+                    "${
+                        ageofBuilding.substring(
+                            0,
+                            ageofBuilding.indexOf(".")
+                        )
+                    } years ${ageofBuilding.substring(ageofBuilding.indexOf(".") + 1)} months"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("${surveyCreateRequest.buildingAge} Years")
+            }
         } else {
             activityApnaSurveyPreviewBinding.ageOfTheBuilding.setText("-")
         }
@@ -213,18 +338,20 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         if (surveyCreateRequest.parking != null) {
             val parking: SurveyCreateRequest.Parking = surveyCreateRequest.parking!!
             if (parking.uid!!.isNotEmpty()) {
-                activityApnaSurveyPreviewBinding.parking.setText(parking.uid)
+                parkingAvailable = parking.uid.toString()
+//                activityApnaSurveyPreviewBinding.parking.setText(parking.uid)
             } else {
-                activityApnaSurveyPreviewBinding.parking.setText("-")
+//                activityApnaSurveyPreviewBinding.parking.setText("-")
             }
         } else {
-            activityApnaSurveyPreviewBinding.parking.setText("-")
+//            activityApnaSurveyPreviewBinding.parking.setText("-")
         }
 
         if (surveyCreateRequest.trafficStreetType != null && surveyCreateRequest.trafficStreetType!!.uid != "") {
-            activityApnaSurveyPreviewBinding.trafficStreetType.setText(surveyCreateRequest.trafficStreetType!!.uid)
+            trafficType = surveyCreateRequest.trafficStreetType!!.uid.toString()
+//            activityApnaSurveyPreviewBinding.trafficStreetType.setText(surveyCreateRequest.trafficStreetType!!.uid)
         } else {
-            activityApnaSurveyPreviewBinding.trafficStreetType.setText("-")
+//            activityApnaSurveyPreviewBinding.trafficStreetType.setText("-")
         }
 
         val inputDateFormat = SimpleDateFormat("HH:mm:ss")
@@ -268,70 +395,86 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         // Market information
-        if (surveyCreateRequest.extngOutletName != null && surveyCreateRequest.extngOutletName != "") {
-            activityApnaSurveyPreviewBinding.existingOutletName.setText(surveyCreateRequest.extngOutletName)
+        if (surveyCreateRequest.eoSiteId != null && surveyCreateRequest.eoSiteId != "") {
+            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText(surveyCreateRequest.eoSiteId)
         } else {
-            activityApnaSurveyPreviewBinding.existingOutletName.setText("-")
+            activityApnaSurveyPreviewBinding.existingOutletSiteId.setText("-")
+        }
+
+        if (surveyCreateRequest.eoSiteName != null && surveyCreateRequest.eoSiteName != "") {
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText(surveyCreateRequest.eoSiteName)
+        } else {
+            activityApnaSurveyPreviewBinding.existingOutletSiteName.setText("-")
         }
 
         if (surveyCreateRequest.extngOutletAge != null) {
-            activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
+            if (surveyCreateRequest.extngOutletAge!! > 0) {
+                activityApnaSurveyPreviewBinding.existingOutletAge.setText(surveyCreateRequest.extngOutletAge.toString())
+            } else {
+                activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
+            }
         } else {
             activityApnaSurveyPreviewBinding.existingOutletAge.setText("-")
         }
 
-        if (surveyCreateRequest.csPharma != null) {
-            activityApnaSurveyPreviewBinding.pharma.setText(surveyCreateRequest.csPharma.toString())
-        } else {
-            activityApnaSurveyPreviewBinding.pharma.setText("-")
-        }
+//        if (surveyCreateRequest.csPharma != null) {
+//            activityApnaSurveyPreviewBinding.pharma.setText(surveyCreateRequest.csPharma.toString())
+//        } else {
+//            activityApnaSurveyPreviewBinding.pharma.setText("-")
+//        }
 
-        if (surveyCreateRequest.csFmcg != null) {
-            activityApnaSurveyPreviewBinding.fmcg.setText(surveyCreateRequest.csFmcg.toString())
-        } else {
-            activityApnaSurveyPreviewBinding.fmcg.setText("-")
-        }
+//        if (surveyCreateRequest.csFmcg != null) {
+//            activityApnaSurveyPreviewBinding.fmcg.setText(surveyCreateRequest.csFmcg.toString())
+//        } else {
+//            activityApnaSurveyPreviewBinding.fmcg.setText("-")
+//        }
 
-        if (surveyCreateRequest.csSurgicals != null) {
-            activityApnaSurveyPreviewBinding.surgicals.setText(surveyCreateRequest.csSurgicals.toString())
-        } else {
-            activityApnaSurveyPreviewBinding.surgicals.setText("-")
-        }
+//        if (surveyCreateRequest.csSurgicals != null) {
+//            activityApnaSurveyPreviewBinding.surgicals.setText(surveyCreateRequest.csSurgicals.toString())
+//        } else {
+//            activityApnaSurveyPreviewBinding.surgicals.setText("-")
+//        }
 
-        if (surveyCreateRequest.areaDiscount != null) {
-            activityApnaSurveyPreviewBinding.areaDiscount.setText(surveyCreateRequest.areaDiscount.toString())
-        } else {
-            activityApnaSurveyPreviewBinding.areaDiscount.setText("-")
-        }
+//        if (surveyCreateRequest.areaDiscount != null) {
+//            activityApnaSurveyPreviewBinding.areaDiscount.setText(surveyCreateRequest.areaDiscount.toString())
+//        } else {
+//            activityApnaSurveyPreviewBinding.areaDiscount.setText("-")
+//        }
 
         if (surveyCreateRequest.neighboringStore != null) {
             if (surveyCreateRequest.neighboringStore!!.size > 0) {
+                activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.VISIBLE
-                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                    View.GONE
-                neighboringStores = surveyCreateRequest.neighboringStore as ArrayList<SurveyCreateRequest.NeighboringStore>
+                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.GONE
+                neighboringStores =
+                    surveyCreateRequest.neighboringStore as ArrayList<SurveyCreateRequest.NeighboringStore>
 
-                val filteredList: ArrayList<SurveyCreateRequest.NeighboringStore> = neighboringStores.stream().filter {
-                    i -> i.store != null || i.rent != null || i.sales != null || i.sqft != null
-                }.collect(Collectors.toList()) as ArrayList<SurveyCreateRequest.NeighboringStore>
+                val filteredList: ArrayList<SurveyCreateRequest.NeighboringStore> =
+                    neighboringStores.stream().filter { i ->
+                        i.store != null || i.rent != null || i.sales != null || i.sqft != null
+                    }
+                        .collect(Collectors.toList()) as ArrayList<SurveyCreateRequest.NeighboringStore>
 
                 val neighbouringStorePreviewAdapter = NeighbouringStorePreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    filteredList
+                    this@ApnaSurveyPreviewActivity, filteredList
                 )
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.adapter =
                     neighbouringStorePreviewAdapter
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.layoutManager =
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
+
+                sales = neighboringStores.map { it.sales } as ArrayList<Float>
+                setNeighborChartValues()
+                setupNeighborChart()
             } else {
+                activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                    View.VISIBLE
+                activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
             }
         } else {
+            activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility =
-                View.VISIBLE
+            activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.localDisbtsComments != null && surveyCreateRequest.localDisbtsComments != "") {
@@ -347,26 +490,30 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         if (surveyCreateRequest.serviceClass != null) {
-            activityApnaSurveyPreviewBinding.serviceClass.setText(surveyCreateRequest.serviceClass.toString())
+            val decimalFormat = DecimalFormat("##,##,##0")
+            val formattedNumber = decimalFormat.format(surveyCreateRequest.serviceClass!!.toLong())
+            activityApnaSurveyPreviewBinding.serviceClass.setText(formattedNumber)
         } else {
             activityApnaSurveyPreviewBinding.serviceClass.setText("-")
         }
 
         if (surveyCreateRequest.businessClass != null) {
-            activityApnaSurveyPreviewBinding.businessClass.setText(surveyCreateRequest.businessClass.toString())
+            val decimalFormat = DecimalFormat("##,##,##0")
+            val formattedNumber = decimalFormat.format(surveyCreateRequest.businessClass!!.toLong())
+            activityApnaSurveyPreviewBinding.businessClass.setText(formattedNumber)
         } else {
             activityApnaSurveyPreviewBinding.businessClass.setText("-")
         }
 
         if (surveyCreateRequest.trafficGenerator != null) {
             if (surveyCreateRequest.trafficGenerator!!.size > 0) {
-                activityApnaSurveyPreviewBinding.trafficGeneratorRecyclerView.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.trafficGeneratorRecyclerView.visibility =
+                    View.VISIBLE
                 activityApnaSurveyPreviewBinding.trafficGeneratorsNotFound.visibility = View.GONE
                 trafficGenerators =
                     surveyCreateRequest.trafficGenerator as ArrayList<SurveyCreateRequest.TrafficGenerator>
                 val trafficGeneratorPreviewAdapter = TrafficGeneratorPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    trafficGenerators
+                    this@ApnaSurveyPreviewActivity, trafficGenerators
                 )
                 activityApnaSurveyPreviewBinding.trafficGeneratorRecyclerView.adapter =
                     trafficGeneratorPreviewAdapter
@@ -386,30 +533,46 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Competitors details
         if (surveyCreateRequest.chemist != null) {
             if (surveyCreateRequest.chemist!!.size > 0) {
+                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.GONE
                 chemist = surveyCreateRequest.chemist as ArrayList<SurveyCreateRequest.Chemist>
                 val competitorsDetailsPreviewAdapter = CompetitorsDetailsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    chemist
+                    this@ApnaSurveyPreviewActivity, chemist
                 )
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.adapter =
                     competitorsDetailsPreviewAdapter
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.layoutManager =
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
 
-                val totalOrgAvgSale = chemist.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
-                val totalUnorgAvgSale = chemist.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }.sum()
-                activityApnaSurveyPreviewBinding.totalOrganized.setText(totalOrgAvgSale.toString())
-                activityApnaSurveyPreviewBinding.totalUnorganized.setText(totalUnorgAvgSale.toString())
+                val totalOrgAvgSale =
+                    chemist.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
+                val totalUnorgAvgSale =
+                    chemist.stream().map { it.unorgAvgSale }.mapToInt { it!!.toInt() }.sum()
+                val total = totalOrgAvgSale + totalUnorgAvgSale
 
+                activityApnaSurveyPreviewBinding.totalOrganized.setText(
+                    DecimalFormat("##,##,##0").format(totalOrgAvgSale.toLong())
+                )
+                activityApnaSurveyPreviewBinding.totalUnorganized.setText(
+                    DecimalFormat("##,##,##0").format(totalUnorgAvgSale.toLong())
+                )
+                activityApnaSurveyPreviewBinding.total.setText(
+                    DecimalFormat("##,##,##0").format(total.toLong())
+                )
+
+                avgSales = chemist.map { it.orgAvgSale!!.toFloat() } as ArrayList<Float>
+                setCompetitorsValues()
+                setupCompetitorsChart()
             } else {
+                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.GONE
             }
         } else {
+            activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.GONE
@@ -418,78 +581,85 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Population and houses
         if (surveyCreateRequest.apartments != null) {
             if (surveyCreateRequest.apartments!!.size > 0) {
+                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.GONE
                 apartments =
                     surveyCreateRequest.apartments as ArrayList<SurveyCreateRequest.Apartment>
                 val apartmentsPreviewAdapter = ApartmentsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    apartments
+                    this@ApnaSurveyPreviewActivity, apartments
                 )
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.adapter =
                     apartmentsPreviewAdapter
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.layoutManager =
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
+
+                noOfHouses = apartments.map { it.noHouses!!.toInt().toFloat() } as ArrayList<Float>
+                setApartmentsValues()
+                setupApartmentsChart()
             } else {
+                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.VISIBLE
             }
         } else {
+            activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.VISIBLE
         }
 
-       // Hospitals
+        // Hospitals
         if (surveyCreateRequest.hospitals != null) {
             if (surveyCreateRequest.hospitals!!.size > 0) {
+                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.GONE
                 hospitals = surveyCreateRequest.hospitals as ArrayList<SurveyCreateRequest.Hospital>
                 val hospitalsPreviewAdapter = HospitalsPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    hospitals
+                    this@ApnaSurveyPreviewActivity, hospitals
                 )
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.adapter =
                     hospitalsPreviewAdapter
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.layoutManager =
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
+
+                beds = hospitals.map { it.beds!!.toInt().toFloat() } as ArrayList<Float>
+                setHospitalsValues()
+                setupHospitalsChart()
             } else {
+                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.VISIBLE
             }
         } else {
+            activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.VISIBLE
         }
 
         // photos and media
-       if (surveyCreateRequest.siteImageMb != null) {
-           if (surveyCreateRequest.siteImageMb!!.images!!.size > 0) {
-               activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.VISIBLE
-               activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.GONE
-               images =
-                   surveyCreateRequest.siteImageMb!!.images as ArrayList<SurveyCreateRequest.SiteImageMb.Image>
-               val imagePreviewAdapter = ImagePreviewAdapter(
-                   this@ApnaSurveyPreviewActivity,
-                   this@ApnaSurveyPreviewActivity,
-                   images
-               )
-               activityApnaSurveyPreviewBinding.imageRecyclerView.adapter =
-                   imagePreviewAdapter
-               activityApnaSurveyPreviewBinding.imageRecyclerView.layoutManager =
-                   LinearLayoutManager(
-                       this@ApnaSurveyPreviewActivity,
-                       LinearLayoutManager.HORIZONTAL,
-                       false
-                   )
-           } else {
-               activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.GONE
-               activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.VISIBLE
-           }
-       } else {
-           activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.GONE
-           activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.VISIBLE
-       }
+        if (surveyCreateRequest.siteImageMb != null) {
+            if (surveyCreateRequest.siteImageMb!!.images!!.size > 0) {
+                activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.GONE
+                images =
+                    surveyCreateRequest.siteImageMb!!.images as ArrayList<SurveyCreateRequest.SiteImageMb.Image>
+                val imagePreviewAdapter = ImagePreviewAdapter(
+                    this@ApnaSurveyPreviewActivity, this@ApnaSurveyPreviewActivity, images
+                )
+                activityApnaSurveyPreviewBinding.imageRecyclerView.adapter = imagePreviewAdapter
+                activityApnaSurveyPreviewBinding.imageRecyclerView.layoutManager =
+                    LinearLayoutManager(
+                        this@ApnaSurveyPreviewActivity, LinearLayoutManager.HORIZONTAL, false
+                    )
+            } else {
+                activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.VISIBLE
+            }
+        } else {
+            activityApnaSurveyPreviewBinding.imageRecyclerView.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.noPhotosAvailable.visibility = View.VISIBLE
+        }
 
         // video
         if (surveyCreateRequest.videoMb != null) {
@@ -499,17 +669,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 videos =
                     surveyCreateRequest.videoMb!!.video as ArrayList<SurveyCreateRequest.VideoMb.Video>
                 val videoPreviewAdapter = VideoPreviewAdapter(
-                    this@ApnaSurveyPreviewActivity,
-                    this@ApnaSurveyPreviewActivity,
-                    videos
+                    this@ApnaSurveyPreviewActivity, this@ApnaSurveyPreviewActivity, videos
                 )
-                activityApnaSurveyPreviewBinding.videoRecyclerView.adapter =
-                    videoPreviewAdapter
+                activityApnaSurveyPreviewBinding.videoRecyclerView.adapter = videoPreviewAdapter
                 activityApnaSurveyPreviewBinding.videoRecyclerView.layoutManager =
                     LinearLayoutManager(
-                        this@ApnaSurveyPreviewActivity,
-                        LinearLayoutManager.HORIZONTAL,
-                        false
+                        this@ApnaSurveyPreviewActivity, LinearLayoutManager.HORIZONTAL, false
                     )
             } else {
                 activityApnaSurveyPreviewBinding.videoRecyclerView.visibility = View.GONE
@@ -519,13 +684,392 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
             activityApnaSurveyPreviewBinding.videoRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.noVideoAvailable.visibility = View.VISIBLE
         }
+
+        // Key Features
+        if (toiletsAvailable.equals("yes", true)) {
+            activityApnaSurveyPreviewBinding.toiletsAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.toiletsNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.toiletsText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.black)
+            )
+        } else if (toiletsAvailable.equals("No", true)) {
+            activityApnaSurveyPreviewBinding.toiletsAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.toiletsNotAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.toiletsText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        }
+
+        if (parkingAvailable.equals("Yes", true)) {
+            activityApnaSurveyPreviewBinding.parkingAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.parkingNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.black)
+            )
+        } else if (parkingAvailable.equals("No", true)) {
+            activityApnaSurveyPreviewBinding.parkingAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.parkingNotAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.parkingText.setTextColor(
+                ContextCompat.getColor(applicationContext, R.color.grey)
+            )
+        }
+
+        if (trafficType.equals("Low", true)) {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic Low")
+        } else if (trafficType.equals("Medium", true)) {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic Medium")
+        } else if (trafficType.equals("High", true)) {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic High")
+        } else if (trafficType.equals("V.High", true)) {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic V.High")
+        } else {
+            activityApnaSurveyPreviewBinding.trafficLow.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficMedium.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficVeryHigh.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.trafficNotAvailable.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.trafficText.setText("Traffic")
+        }
+
+        // Category Sale
+        if (surveyCreateRequest.csPharma != null) {
+            activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.pharmaValue.setText(
+                surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
+            )
+        } else {
+            activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (surveyCreateRequest.csFmcg != null) {
+            activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.fmcgValue.setText(
+                surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
+            )
+        } else {
+            activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (surveyCreateRequest.csSurgicals != null) {
+            activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.surgicalsValue.setText(
+                surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
+            )
+        } else {
+            activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
+        }
+
+        if (surveyCreateRequest.areaDiscount != null) {
+            activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
+            activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
+                surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
+            )
+        } else {
+            activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
+            activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
+                View.VISIBLE
+        }
+    }
+
+    private fun scrollToView(scrollView: ScrollView, view: View) {
+        val childOffset = Point()
+        getDeepChildOffset(scrollView, view.parent, view, childOffset)
+        scrollView.smoothScrollTo(0, childOffset.y)
+    }
+
+    private fun getDeepChildOffset(
+        mainParent: ViewGroup,
+        parent: ViewParent,
+        child: View,
+        accumulatedOffset: Point,
+    ) {
+        val parentGroup = parent as ViewGroup
+        accumulatedOffset.x += child.left
+        accumulatedOffset.y += child.top
+        if (parentGroup == mainParent) {
+            return
+        }
+        getDeepChildOffset(mainParent, parentGroup.parent, parentGroup, accumulatedOffset)
+    }
+
+    private fun setupHospitalsChart() {
+        val barDataSet = BarDataSet(hospitalsEntries, "")
+        val barData = BarData(barDataSet)
+        activityApnaSurveyPreviewBinding.hospitalsChart.data = barData
+
+        barDataSet.setColor(Color.parseColor("#07559d"))
+        barData.setDrawValues(false)
+        if (beds.size > 2) {
+            barData.barWidth = 0.5f
+        } else {
+            barData.barWidth = 0.1f
+        }
+
+//        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisRight.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMinimum = 0f
+        activityApnaSurveyPreviewBinding.hospitalsChart.axisLeft.axisMaximum = beds.max()
+
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.valueFormatter =
+//            IndexAxisValueFormatter(
+//                listOf("Jan", "Feb", "Mar", "Apr", "May", "Jun")
+//            )
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.setCenterAxisLabels(true)
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.isGranularityEnabled = true
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.granularity = 1f
+//        activityApnaSurveyPreviewBinding.hospitalsChart.xAxis.axisMinimum = 0f
+//        activityApnaSurveyPreviewBinding.hospitalsChart.groupBars(0f, 0.5f, 0.1f)
+
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
+//        activityApnaSurveyPreviewBinding.hospitalsChart.setVisibleXRangeMaximum(2f)
+
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.legend.isEnabled = false
+        activityApnaSurveyPreviewBinding.hospitalsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.invalidate()
+    }
+
+//    private fun setHospitalsValuesTwo() {
+//        hospitalsEntryTwo.add(BarEntry(1f, 6f))
+//        hospitalsEntryTwo.add(BarEntry(2f, 3f))
+//        hospitalsEntryTwo.add(BarEntry(3f, 5f))
+//        hospitalsEntryTwo.add(BarEntry(4f, 4f))
+//        hospitalsEntryTwo.add(BarEntry(5f, 5f))
+//        hospitalsEntryTwo.add(BarEntry(6f, 4f))
+//    }
+
+    private fun setHospitalsValues() {
+        for (i in beds.indices) {
+            hospitalsEntries.add(BarEntry(i.toFloat(), beds.get(i)))
+        }
+//        hospitalsEntryOne.add(BarEntry(1f, 5f))
+//        hospitalsEntryOne.add(BarEntry(2f, 2f))
+//        hospitalsEntryOne.add(BarEntry(3f, 4f))
+//        hospitalsEntryOne.add(BarEntry(4f, 5f))
+//        hospitalsEntryOne.add(BarEntry(5f, 3f))
+//        hospitalsEntryOne.add(BarEntry(6f, 5f))
+    }
+
+    private fun setupApartmentsChart() {
+        val barDataSet = BarDataSet(apartmentsEntries, "")
+        val barData = BarData(barDataSet)
+        activityApnaSurveyPreviewBinding.apartmentsChart.data = barData
+
+        barDataSet.setColor(Color.parseColor("#00aa9e"))
+        barData.setDrawValues(false)
+        if (noOfHouses.size > 2) {
+            barData.barWidth = 0.5f
+        } else {
+            barData.barWidth = 0.1f
+        }
+
+//        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisRight.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMinimum = 0f
+        activityApnaSurveyPreviewBinding.apartmentsChart.axisLeft.axisMaximum = noOfHouses.max()
+
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.valueFormatter =
+//            IndexAxisValueFormatter(
+//                listOf("Apartments", "Houses")
+//            )
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.setCenterAxisLabels(true)
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.isGranularityEnabled = true
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.granularity = 1f
+//        activityApnaSurveyPreviewBinding.apartmentsChart.xAxis.axisMinimum = 0f
+//        activityApnaSurveyPreviewBinding.apartmentsChart.groupBars(0f, 0.5f, 0.1f)
+
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.legend.isEnabled = false
+        activityApnaSurveyPreviewBinding.apartmentsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.invalidate()
+    }
+
+    private fun setApartmentsValues() {
+        for (i in noOfHouses.indices) {
+            apartmentsEntries.add(BarEntry(i.toFloat(), noOfHouses.get(i)))
+        }
+//        apartmentsEntryTwo.add(BarEntry(1f, 6f))
+//        apartmentsEntryTwo.add(BarEntry(2f, 5f))
+    }
+
+//    private fun setApartmentsValuesOne() {
+//        apartmentsEntryOne.add(BarEntry(1f, 5f))
+//        apartmentsEntryOne.add(BarEntry(2f, 4f))
+//    }
+
+    private fun setupCompetitorsChart() {
+        val lineDataSet = LineDataSet(competitorsEntries, "")
+        val lineData = LineData(lineDataSet)
+        activityApnaSurveyPreviewBinding.competitorsChart.data = lineData
+
+        // Line width
+        lineDataSet.lineWidth = 2f
+        // Line color
+        lineDataSet.setColor(Color.parseColor("#56a35f"))
+        // Remove circles from the line
+        lineDataSet.setDrawCircles(false)
+        // Remove values above the line
+        lineDataSet.setDrawValues(false)
+
+        activityApnaSurveyPreviewBinding.competitorsChart.axisRight.isEnabled = false
+        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.isEnabled = false
+
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setAxisMinimum(0f)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft()
+            .setAxisMaximum(avgSales.max())
+
+//        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.position =
+//            XAxis.XAxisPosition.BOTTOM
+//        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.setCenterAxisLabels(true)
+//        activityApnaSurveyPreviewBinding.competitorsChart.xAxis.valueFormatter =
+//            IndexAxisValueFormatter(
+//                listOf("Jan", "Feb", "Mar")
+//            )
+
+        activityApnaSurveyPreviewBinding.competitorsChart.description.isEnabled = false
+        activityApnaSurveyPreviewBinding.competitorsChart.legend.isEnabled = false
+
+        // removing outer line
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisRight().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getXAxis().setDrawAxisLine(false)
+        // removing grid line
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisRight().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.getXAxis().setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.competitorsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.invalidate()
+    }
+
+    private fun setCompetitorsValues() {
+        for (i in avgSales.indices) {
+            competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i)))
+        }
+//        competitorsEntries.add(Entry(0f, 5f))
+//        competitorsEntries.add(Entry(1f, 7f))
+//        competitorsEntries.add(Entry(2f, 8f))
+    }
+
+    private fun setupNeighborChart() {
+        val barDataSet = BarDataSet(neighborEntries, "")
+        val barData = BarData(barDataSet)
+        activityApnaSurveyPreviewBinding.neighborChart.data = barData
+
+        // Set bar colors
+        barDataSet.colors = listOf(
+            Color.parseColor("#f7941d"),
+            Color.parseColor("#8dc73e"),
+            Color.parseColor("#03a99e"),
+            Color.parseColor("#00b0ee")
+        )
+
+        // Remove values top of the bar
+        barDataSet.setDrawValues(false)
+        // Bar width
+        if (sales.size > 2) {
+            barData.barWidth = 0.5f
+        } else {
+            barData.barWidth = 0.1f
+        }
+
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.isEnabled = false
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.isEnabled = false
+
+        // Set y axis values
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setLabelCount(5, true)
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
+        activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())
+        // Disable touch
+        activityApnaSurveyPreviewBinding.neighborChart.setTouchEnabled(false)
+        // Remove description
+        activityApnaSurveyPreviewBinding.neighborChart.description.isEnabled = false
+        // Remove legend
+        activityApnaSurveyPreviewBinding.neighborChart.legend.isEnabled = false
+        // Remove outer line
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.neighborChart.axisLeft.setDrawAxisLine(false)
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.setDrawAxisLine(false)
+        // Remove grid line
+        activityApnaSurveyPreviewBinding.neighborChart.axisRight.setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.neighborChart.axisLeft.setDrawGridLines(false)
+        activityApnaSurveyPreviewBinding.neighborChart.xAxis.setDrawGridLines(false)
+
+        activityApnaSurveyPreviewBinding.neighborChart.invalidate()
+    }
+
+    private fun setNeighborChartValues() {
+        for (i in sales.indices) {
+            neighborEntries.add(BarEntry(i.toFloat(), sales.get(i)))
+        }
+//        neighborEntries.add(BarEntry(1f, 18f))
+//        neighborEntries.add(BarEntry(2f, 13f))
+//        neighborEntries.add(BarEntry(3f, 11f))
+//        neighborEntries.add(BarEntry(4f, 5f))
     }
 
     private fun getCurrentLocation(lat: String?, long: String?) {
-        if (ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
@@ -538,7 +1082,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                             val latLang = LatLng(lat.toDouble(), long.toDouble())
                             val markerOption = MarkerOptions().position(latLang).title("")
                             map.addMarker(markerOption)
-                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 10F))
+                            map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15F))
                         } else {
                         }
                     }
@@ -548,7 +1092,9 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     }
 
     override fun onClick(imageUrl: String) {
-        val dialog = Dialog(this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+        val dialog = Dialog(
+            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
+        )
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
             LayoutInflater.from(this@ApnaSurveyPreviewActivity),

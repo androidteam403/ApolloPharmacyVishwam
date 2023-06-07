@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.apollopharmacy.vishwam.databinding.ApartmentAdapterLayoutBinding
 import com.apollopharmacy.vishwam.databinding.HospitalAdapterLayoutBinding
 import com.apollopharmacy.vishwam.databinding.NeighbourStoreAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
+import java.text.DecimalFormat
 
 class PreviewNeighbouringStoreAdapter(
     val mContext: Context,
@@ -28,14 +30,20 @@ class PreviewNeighbouringStoreAdapter(
         return ViewHolder(neighbourStoreAdapterLayoutBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items=listData.get(position)
-        holder.neighbourStoreAdapterLayoutBinding.rent.setText(items.rent.toString())
+        holder.neighbourStoreAdapterLayoutBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.rent.toLong()))
 
-        holder.neighbourStoreAdapterLayoutBinding.name.setText("Neighbouring Store"+" ( "+ items.location!!.name +" )")
+        holder.neighbourStoreAdapterLayoutBinding.neighborLocation.setText(items.location!!.name)
 
         holder.neighbourStoreAdapterLayoutBinding.sqft.setText(items.sqft!!.toString())
-
+        holder.neighbourStoreAdapterLayoutBinding.store.setText(items.store.toString())
+        if (items.sales != null) {
+            holder.neighbourStoreAdapterLayoutBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.sales.toLong()))
+        } else {
+            holder.neighbourStoreAdapterLayoutBinding.sales.setText("-")
+        }
     }
 
     override fun getItemCount(): Int {

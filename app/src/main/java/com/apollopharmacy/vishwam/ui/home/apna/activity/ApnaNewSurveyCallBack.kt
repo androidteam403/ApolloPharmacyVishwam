@@ -1,6 +1,18 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApnaSpecialityResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ParkingTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.StateListResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficStreetTypeResponse
 import java.io.File
 
 interface ApnaNewSurveyCallBack {
@@ -12,7 +24,15 @@ interface ApnaNewSurveyCallBack {
 
     fun onUnorganisedItemSelect(position: Int, item: String)
 
-    fun onLocationListItemSelect(position: Int, item: String, uid: String)
+    fun onLocationListItemSelect(
+        position: Int,
+        location: String,
+        state: String,
+        city: String,
+        locationUid: String,
+        stateUid: String,
+        cityUid: String,
+    )
 
     fun onClickDeleteChemist(position: Int)
 
@@ -100,9 +120,13 @@ interface ApnaNewSurveyCallBack {
 
     fun onFailureVideoConnectAzure(message: String)
 
-    fun onSelectDimensionTypeItem(position: Int, item: String)
+    fun onSelectDimensionTypeItem(
+        position: Int,
+        item: String,
+        dimenTypeSelectedItem: DimensionTypeResponse.Data.ListData.Row,
+    )
 
     fun onSelectNeighbourLocation(position: Int, item: String)
 
-
+    fun onSelectedAgeoftheBuildingMonth(month: String)
 }

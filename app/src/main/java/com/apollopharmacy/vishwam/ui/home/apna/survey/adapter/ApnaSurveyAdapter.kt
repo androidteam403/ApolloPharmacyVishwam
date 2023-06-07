@@ -5,24 +5,30 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ApnaSurveyLayoutBinding
+import com.apollopharmacy.vishwam.databinding.LoadingProgressLazyBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class ApnaSurveyAdapter(
     val mContext: Context,
-    var approveList: ArrayList<SurveyListResponse.Row>,
+    var approveList: ArrayList<SurveyListResponse.Row?>,
     val mClicklistner: ApnaSurveyCallback,
 
-    ) : RecyclerView.Adapter<ApnaSurveyAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private val VIEW_TYPE_ITEM = 0
+    private val VIEW_TYPE_LOADING = 1
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        if (viewType == VIEW_TYPE_ITEM) {
         val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
             DataBindingUtil.inflate(
                 LayoutInflater.from(mContext),
@@ -31,20 +37,34 @@ class ApnaSurveyAdapter(
                 false
             )
         return ViewHolder(apnaSurveyLayoutBinding)
-
+        } else {
+            val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.loading_progress_lazy,
+                parent,
+                false)
+            return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
+        }
     }
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ApnaSurveyAdapter.ViewHolder) {
+            onBindViewHolderItem((holder as ViewHolder), position)
+        }
+    }
+
+    fun onBindViewHolderItem(holder: ViewHolder, position: Int) {
         val approvedOrders = approveList.get(position)
-        if (approvedOrders.status != null) {
+        if (approvedOrders!!.status != null) {
             if (approvedOrders.status!!.name.equals("null") && approvedOrders.status!!.name.isNullOrEmpty()) {
                 holder.apnaSurveyLayoutBinding.status.setText("-")
             } else {
                 holder.apnaSurveyLayoutBinding.status.setText(approvedOrders.status!!.name)
             }
         }
-        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
+//        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
+        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.id)
         var fName = ""
         var lName = ""
         if (approvedOrders.createdId!!.firstName != null) fName =
@@ -62,11 +82,33 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.storeName.setText("$locationName$cityName")
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("dd MMM, yyy hh:mm a")
-        holder.apnaSurveyLayoutBinding.surveystart.setText(outputDateFormat.format(inputDateFormat.parse(
-            approvedOrders.createdTime!!)!!))
-        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(inputDateFormat.parse(
-            approvedOrders.modifiedTime!!)!!))
+        val outputDateFormat = SimpleDateFormat("dd MMMM,yyyy")
+        holder.apnaSurveyLayoutBinding.surveystart.setText(
+            outputDateFormat.format(
+                inputDateFormat.parse(
+                    approvedOrders.createdTime!!
+                )!!
+            )
+        )
+
+        if (approvedOrders.status != null) {
+            if (approvedOrders.status!!.name != null) {
+                if (approvedOrders.status!!.name.toString()
+                        .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
+                ) {
+                    if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
+                        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(
+                            inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+                    } else {
+                        holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                    }
+                } else {
+                    holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                }
+            } else {
+                holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+            }
+        }
 
 //        holder.apnaSurveyLayoutBinding.surveystart.setText(approvedOrders.createdTime)
 //        holder.apnaSurveyLayoutBinding.surveyended.setText(approvedOrders.modifiedTime)
@@ -78,14 +120,51 @@ class ApnaSurveyAdapter(
             val date1 = simpleDateFormat.parse(approvedOrders.createdTime)
             val date2 = simpleDateFormat.parse(approvedOrders.modifiedTime)
             printDifference(date1, date2)
-            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1, date2))
+//            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1, date2))
+
+            if (approvedOrders.status != null) {
+                if (approvedOrders.status!!.name != null) {
+                    if (approvedOrders.status!!.name.toString()
+                            .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
+                    ) {
+                        if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
+                            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1,
+                                date2))
+                        } else {
+                            holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                        }
+                    } else {
+                        holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                    }
+                } else {
+                    holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                }
+            }
 
         } catch (e: ParseException) {
             e.printStackTrace()
         }
         holder.apnaSurveyLayoutBinding.status.setTextColor(Color.parseColor(approvedOrders.status!!.textColor))//approvedOrders.status!!.textColor
-        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
-            approvedOrders.status!!.backgroundColor))
+        if (approvedOrders.status != null) {
+            if (approvedOrders.status!!.name != null) {
+                if (approvedOrders.status!!.name.toString()
+                        .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
+                ) {
+                    if (approvedOrders.status!!.name.toString().equals("New", true)) {
+                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
+                            ContextCompat.getColor(mContext, R.color.apna_project_actionbar_color)
+                        )
+                    } else {
+                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+                            approvedOrders.status!!.backgroundColor))
+                    }
+                } else {
+                }
+            } else {
+            }
+        }
+//        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
+//            approvedOrders.status!!.backgroundColor))
 
 //        if (approvedOrders.status!=null) {
 //            if (approvedOrders.status!!.other!=null) {
@@ -134,8 +213,6 @@ class ApnaSurveyAdapter(
         holder.itemView.setOnClickListener {
             mClicklistner.onClick(position, approvedOrders)
         }
-
-
     }
 
     private fun printDifference(startDate: Date, endDate: Date): String {
@@ -162,12 +239,31 @@ class ApnaSurveyAdapter(
             elapsedHours, elapsedMinutes, elapsedSeconds)
     }
 
-    override fun getItemCount(): Int {
+    override fun getItemViewType(position: Int): Int {
+        return if (approveList.get(position) == null) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
+    }
 
+    override fun getItemCount(): Int {
         return approveList.size
+    }
+
+//    fun setData(data: ArrayList<SurveyListResponse.Row?>) {
+//        this.approveList = data
+//        notifyDataSetChanged()
+//    }
+
+    fun getData(): ArrayList<SurveyListResponse.Row?> {
+        return approveList
+    }
+
+    fun filter(filteredList: ArrayList<SurveyListResponse.Row?>) {
+        this.approveList = filteredList
+        notifyDataSetChanged()
     }
 
     class ViewHolder(val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding) :
         RecyclerView.ViewHolder(apnaSurveyLayoutBinding.root)
 
+    class LoadingApnaSurveyViewHolder(loadingProgressLazyBinding: LoadingProgressLazyBinding) :
+        RecyclerView.ViewHolder(loadingProgressLazyBinding.root)
 }

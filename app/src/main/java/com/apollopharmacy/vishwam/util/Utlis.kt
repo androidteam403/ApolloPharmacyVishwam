@@ -150,6 +150,7 @@ object Utlis {
     fun showLoading(context: Context) {
         hideLoading()
         mProgressDialog = null
+
         mProgressDialog = Utils.showLoadingDialog(context)
     }
 
@@ -415,5 +416,15 @@ object Utlis {
     fun getCurrentTimeStamp(): String {
         val tsLong = System.currentTimeMillis() / 1000
         return tsLong.toString()
+    }
+    fun getCurrentTimeStampFormat(): String? {
+        return try {
+            val dateFormat =
+                SimpleDateFormat("yyyyMMddHHmmss")
+            dateFormat.format(Date())
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 }

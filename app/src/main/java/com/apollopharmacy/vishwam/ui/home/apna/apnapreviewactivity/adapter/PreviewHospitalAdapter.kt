@@ -39,13 +39,13 @@ class PreviewHospitalAdapter(
             holder.hospitalAdapterLayoutBinding.beds.setText("-")
         }
         if (items.speciality != null) {
-            if (items.speciality!!.uid.toString().isNotEmpty() && items.speciality!!.uid != null) {
-                holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.uid.toString())
+            if (items.speciality!!.name.toString().isNotEmpty() && items.speciality!!.name != null) {
+                holder.hospitalAdapterLayoutBinding.speciality.setText(items.speciality!!.name.toString())
             } else {
-                holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+                holder.hospitalAdapterLayoutBinding.speciality.setText("-")
             }
         } else {
-            holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+            holder.hospitalAdapterLayoutBinding.speciality.setText("-")
         }
         if (items.noOpd.toString().isNotEmpty()) {
             holder.hospitalAdapterLayoutBinding.noOfOpd.setText(items.noOpd.toString())

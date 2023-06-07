@@ -27,6 +27,7 @@ class RetroPreviewImage(
     PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
+
         val viewpagerPreviewImageBinding: RetroPreviewImageBinding = DataBindingUtil.inflate(
             LayoutInflater.from(mContext),
             R.layout.retro_preview_image,
@@ -58,15 +59,12 @@ class RetroPreviewImage(
         viewpagerPreviewImageBinding.accepted = "$accepted"
         viewpagerPreviewImageBinding.rejected = "$rejected"
         if (position == imageUrl.size - 1) {
+            if (imageUrl[position].isVerified == true) {
 
-            if (accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size) {
-                viewpagerPreviewImageBinding.isLastPos = true
-
-            } else {
-                viewpagerPreviewImageBinding.isLastPos = false
+                viewpagerPreviewImageBinding.isLastPos =
+                    accepted == imageUrl.size || rejected == imageUrl.size || accepted + rejected == imageUrl.size
 
             }
-
         }else{
             viewpagerPreviewImageBinding.isLastPos=false
         }
