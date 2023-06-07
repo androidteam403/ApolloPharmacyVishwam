@@ -47,27 +47,18 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         MainActivity.mInstance.mainActivityCallback = this
 
         Preferences.savingToken("APL67949")
-
-
         viewBinding.callback = this
-        Toast.makeText(
-            context,
-            "" + Preferences.getAppLevelDesignationApnaRetro(),
-            Toast.LENGTH_SHORT
-        ).show()
+        Toast.makeText(context, "" + Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
 
         if (this.arguments?.getBoolean("fromPreRectro") == true) {
-
             if (Preferences.getApnaSiteId().isEmpty()) {
                 showLoading()
                 val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
-              startActivityForResult(i, 781)
+                startActivityForResult(i, 781)
             } else {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
-                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getSwachSiteName()
-//
-//            viewBinding.storeId.text = Preferences.getSwachhSiteId()
-//            viewBinding.userId.text = Preferences.getToken()
+                viewBinding.storeName.text =
+                    Preferences.getApnaSiteId() + " - " + Preferences.getSwachSiteName()
             }
 
             if (this.arguments?.getBoolean("fromPreRectro") == true) {
@@ -84,43 +75,23 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 viewBinding.createNewRectroLayout.visibility = View.GONE
                 viewBinding.recordsUploaded.visibility = View.GONE
             }
-//        viewBinding.storeId.text= Preferences.getSwachhSiteId()
             viewBinding.incharge.text = Preferences.getToken()
             viewBinding.storeName.text = Preferences.getApnaSiteId()
-//        viewBinding.secondReshoot.setOnClickListener {
-//            val intent = Intent(context, PostRectroReviewScreen::class.java)
-//            startActivity(intent)
-//            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
-
             if (NetworkUtil.isNetworkConnected(requireContext())) {
-//            isFirstTime = false
-
                 val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                 val cal = Calendar.getInstance()
                 cal.add(Calendar.DATE, -4)
                 val currentDate: String = simpleDateFormat.format(Date())
-
                 val fromdate = simpleDateFormat.format(cal.time)
                 val toDate = currentDate
-//            getStorePersonHistoryList.clear()
-//            if (!isLoading)
                 showLoading()
-                // Utlis.showLoading(requireContext())
-
                 val getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
-                getStorePendingApprovedRequest.storeid =Preferences.getApnaSiteId()
-                getStorePendingApprovedRequest.empid =Preferences.getToken()
-//            getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
-//            getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
+                getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
+                getStorePendingApprovedRequest.empid = Preferences.getToken()
                 getStorePendingApprovedRequest.fromdate = fromdate
                 getStorePendingApprovedRequest.todate = toDate
-//            getStoreHistoryRequest.startpageno = startPageNo
-//            getStoreHistoryRequest.endpageno = endpageno
-//            getStoreHistoryRequest.status = updatedComplaintListStatus
                 viewModel.getStorePendingApprovedListApiCallApnaRetro(
-                    getStorePendingApprovedRequest,
-                    this
+                    getStorePendingApprovedRequest, this
                 )
 
             } else {
@@ -128,16 +99,8 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                     requireContext(),
                     resources.getString(R.string.label_network_error),
                     Toast.LENGTH_SHORT
-                )
-                    .show()
+                ).show()
             }
-
-//        var configLst = ArrayList<AdapterList>()
-//        configLst.add(AdapterList("14001_APNARECTRO_06042023", "14001", "Ameerpet, Hyderabad", "07 Apr, 2023 - 12 :30PM", "APL48627", "", "", "PENDING", "---", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("16001_APNARECTRO_96042023", "16001", "Hydernagar, Hyderabad", "15 Apr, 2023 - 11 :45AM", "APL49299", "", "", "APPROVED", "RE-SHOOT", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("47852_APNARECTRO_96042023", "18624", "Chanda Nagar, Hyderabad", "05 Apr, 2023 - 04:25PM", "APL48574", "07 apr, 2023 -04:25PM", "APL48627", "APPROVED", "APPROVED", "COMPLETED", "COMPLETE"))
-
-
         }
 
 
@@ -149,38 +112,26 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
             if (requestCode == 781) {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
-                viewBinding.storeName.text = Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
+                viewBinding.storeName.text =
+                    Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
                 Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT)
                     .show()
                 hideLoading()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
-//            isFirstTime = false
-
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
                     cal.add(Calendar.DATE, -4)
                     val currentDate: String = simpleDateFormat.format(Date())
-
                     var fromdate = simpleDateFormat.format(cal.time)
                     var toDate = currentDate
-//            getStorePersonHistoryList.clear()
-//            if (!isLoading)
                     showLoading()
-                    // Utlis.showLoading(requireContext())
-
                     var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
                     getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
                     getStorePendingApprovedRequest.empid = Preferences.getToken()
-//                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
-//                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
                     getStorePendingApprovedRequest.fromdate = fromdate
                     getStorePendingApprovedRequest.todate = toDate
-//            getStoreHistoryRequest.startpageno = startPageNo
-//            getStoreHistoryRequest.endpageno = endpageno
-//            getStoreHistoryRequest.status = updatedComplaintListStatus
                     viewModel.getStorePendingApprovedListApiCallApnaRetro(
-                        getStorePendingApprovedRequest,
-                        this
+                        getStorePendingApprovedRequest, this
                     )
 
                 } else {
@@ -188,8 +139,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                         requireContext(),
                         resources.getString(R.string.label_network_error),
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
 
             } else if (requestCode == 779) {
@@ -203,24 +153,14 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
                     var fromdate = simpleDateFormat.format(cal.time)
                     var toDate = currentDate
-//            getStorePersonHistoryList.clear()
-//            if (!isLoading)
                     showLoading()
-                    // Utlis.showLoading(requireContext())
-
                     var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
                     getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
                     getStorePendingApprovedRequest.empid = Preferences.getToken()
-//                    getStorePendingApprovedRequest.storeid = Preferences.getValidatedEmpId()
-//                    getStorePendingApprovedRequest.empid = Preferences.getSwachSiteName()
                     getStorePendingApprovedRequest.fromdate = fromdate
                     getStorePendingApprovedRequest.todate = toDate
-//            getStoreHistoryRequest.startpageno = startPageNo
-//            getStoreHistoryRequest.endpageno = endpageno
-//            getStoreHistoryRequest.status = updatedComplaintListStatus
                     viewModel.getStorePendingApprovedListApiCallApnaRetro(
-                        getStorePendingApprovedRequest,
-                        this
+                        getStorePendingApprovedRequest, this
                     )
 
                 } else {
@@ -228,14 +168,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                         requireContext(),
                         resources.getString(R.string.label_network_error),
                         Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                 }
             }
-
-
         }
-
     }
 
 
@@ -320,17 +256,6 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("reshootBy", reshootBy)
         startActivity(intent)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
-//        else{
-//            val intent = Intent(context, PreRetroPreviewActivity::class.java)
-//            intent.putExtra("fragmentName", "nonApprovalFragment")
-//            intent.putExtra("stage", stage)
-//            intent.putExtra("uploadedOn", uploadedOn)
-//            intent.putExtra("uploadedBy", uploadedBy)
-//            intent.putExtra("storeId", storeId)
-//            startActivity(intent)
-//            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
     }
 
 
@@ -358,8 +283,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 ListAdapter(getStorePendingApprovedList.groupByRetrodList, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
             viewBinding.listRecyclerView.layoutManager = layoutManager
-            viewBinding.listRecyclerView.itemAnimator =
-                DefaultItemAnimator()
+            viewBinding.listRecyclerView.itemAnimator = DefaultItemAnimator()
             viewBinding.listRecyclerView.adapter = listAdapter
 
         } else {

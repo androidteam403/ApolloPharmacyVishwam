@@ -1573,18 +1573,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }
 
-//                .addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_))
-//                .addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin))
-//                        .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_))
-//                .addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_))
-//                .addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin))
-//        );
-
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
-
-//        listView.addHeaderModel(new HeaderModel("Assets", Color.WHITE, false, R.drawable.ic_menu_champ));
-
-//        listView.addHeaderModel(new HeaderModel("Logout", R.drawable.ic_baseline_logout));
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
