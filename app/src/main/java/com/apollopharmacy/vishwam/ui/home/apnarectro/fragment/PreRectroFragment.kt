@@ -17,6 +17,7 @@ import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
@@ -26,12 +27,14 @@ import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
     PreRectroCallback, MainActivityCallback {
     private var fragmentName: String = ""
     private var listAdapter: ListAdapter? = null
+    var storeList: ArrayList<GetStorePendingAndApprovedListRes.Get>? = null
     var hashMap: HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>> =
         HashMap<Int, List<GetStorePendingAndApprovedListRes.Get>>()
 
@@ -244,6 +247,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("stage", stage)
         intent.putExtra("retroid", retroid)
         intent.putExtra("uploadedOn", uploadedOn)
+        intent.putExtra("storeList",storeList)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
         intent.putExtra("uploadStage", uploadStage)
@@ -262,6 +266,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
+            storeList= getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
             viewBinding.listRecyclerView.visibility = View.VISIBLE
             viewBinding.noOrdersFound.visibility = View.GONE
             viewBinding.recordsUploaded.visibility = View.VISIBLE

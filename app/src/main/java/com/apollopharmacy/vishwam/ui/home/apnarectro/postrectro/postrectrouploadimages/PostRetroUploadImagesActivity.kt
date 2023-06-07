@@ -32,8 +32,10 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.databinding.ActivityUploadImagesPostretroBinding
 import com.apollopharmacy.vishwam.databinding.DialogForImageUploadBinding
+import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.adapter.TimeLineListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.comparisonscreenscreation.ComparisonScreenCreation
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.adapter.PreRetroTimeLineAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.reviewscreen.PostRectroReviewScreen
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreviewactivity.PreRectroReviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.adapter.ConfigApnaAdapterPostRetro
@@ -60,6 +62,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var storeId: String = ""
     private var stage: String = ""
     private var uploadStage: String = ""
+    var timelineAdapter: PreRetroTimeLineAdapter? = null
 
     private var fileNameForCompressedImage: String? = null
     var pos: Int = 0
@@ -75,6 +78,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     var partiallyApprovedDate: String? = null
     var reshootBy: String? = null
     var reshootDate: String? = null
+    var storeList: ArrayList<GetStorePendingAndApprovedListRes.Get>? = null
 
     private var getImageUrlsLists: GetImageUrlsModelApnaResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,16 +105,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         storeId = intent.getStringExtra("storeId")!!
         uploadStage = intent.getStringExtra("uploadStage")!!
         approvedby = intent.getStringExtra("approvedby")!!
+        storeList= intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
 
 
 
-        activityUploadImagesPostRetroBinding.uploadedByTimeline.setText(uploadedBy)
-        activityUploadImagesPostRetroBinding.uploadedDateTimeline.setText(uploadedOn)
-        activityUploadImagesPostRetroBinding.approvedBy.setText(approvedby)
-
-        activityUploadImagesPostRetroBinding.reshootBy.setText(reshootBy)
         if (stage == "isPreRetroStage") {
-            activityUploadImagesPostRetroBinding.stageTimeline.setText("Pre Retro")
 
             if (uploadStage == "newUploadStage") {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
@@ -170,7 +169,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             }
 
         } else if (stage.equals("isPostRetroStage")) {
-            activityUploadImagesPostRetroBinding.stageTimeline.setText("Post Retro")
 
 
             if (uploadStage == "newUploadStage") {
@@ -245,7 +243,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             }
 
         } else {
-            activityUploadImagesPostRetroBinding.stageTimeline.setText("After Completion")
             if (uploadStage.equals("newUploadStage")) {
 
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
@@ -731,6 +728,10 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (activityUploadImagesPostRetroBinding.downArrow.rotation.equals(0f)) {
             activityUploadImagesPostRetroBinding.downArrow.rotation = 90f
             activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility = View.VISIBLE
+            timelineAdapter =
+                PreRetroTimeLineAdapter(this, storeList!!.filter { it.retroid.equals(retroid) })
+            activityUploadImagesPostRetroBinding.timeLineRecycleview.adapter = timelineAdapter
+
         } else {
             activityUploadImagesPostRetroBinding.downArrow.rotation = 0f
             activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility = View.GONE

@@ -217,18 +217,6 @@ class PostRetroUploadImagesViewModel : ViewModel() {
         getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest,
         postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
     ) {
-//        val url = Preferences.getApi()
-//        val data = Gson().fromJson(url, ValidateResponse::class.java)
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
-//                val baseUrl = data.APIS[i].URL
-//                val token = data.APIS[i].TOKEN
-        /*  val baseUrl =
-              "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
-//                val onSubmitSwachModelRequestJson =
-//                    Gson().toJson(onSubmitSwachModelRequest)
-
-//                val header = "application/json"
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)

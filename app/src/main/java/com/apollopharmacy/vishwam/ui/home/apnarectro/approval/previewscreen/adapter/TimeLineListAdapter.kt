@@ -141,7 +141,7 @@ class TimeLineListAdapter(
                 approvedOrders.ceoApprovedDate.toString()!!
             )
         }
-        if(approvedOrders.ceoReshootBy.toString().contains("null")||approvedOrders.ceoReshootBy.toString().isNullOrEmpty()){
+        if(approvedOrders.ceoReshootBy.toString() == "null" ||approvedOrders.ceoReshootBy.toString().isNullOrEmpty()){
             holder.timelineLayoutBinding.ceoReshootByLayout.visibility=android.view.View.GONE
             holder.timelineLayoutBinding.ceoReshootDateLayout.visibility=android.view.View.GONE
 
