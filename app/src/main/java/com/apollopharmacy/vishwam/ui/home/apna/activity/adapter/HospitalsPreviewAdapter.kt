@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterHospitalsListPreviewBinding
+import com.apollopharmacy.vishwam.databinding.HospitalAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 
 class HospitalsPreviewAdapter(
@@ -14,48 +15,48 @@ class HospitalsPreviewAdapter(
     var data: ArrayList<SurveyCreateRequest.Hospital>,
 ): RecyclerView.Adapter<HospitalsPreviewAdapter.ViewHolder>() {
 
-    class ViewHolder(val adapterHospitalsListPreviewBinding: AdapterHospitalsListPreviewBinding) :
-        RecyclerView.ViewHolder(adapterHospitalsListPreviewBinding.root)
+    class ViewHolder(val hospitalAdapterLayoutBinding: HospitalAdapterLayoutBinding) :
+        RecyclerView.ViewHolder(hospitalAdapterLayoutBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val adapterHospitalsListPreviewBinding = DataBindingUtil.inflate<AdapterHospitalsListPreviewBinding>(
+        val hospitalAdapterLayoutBinding = DataBindingUtil.inflate<HospitalAdapterLayoutBinding>(
             LayoutInflater.from(mContext),
-            R.layout.adapter_hospitals_list_preview,
+            R.layout.hospital_adapter_layout,
             parent,
             false
         )
-        return ViewHolder(adapterHospitalsListPreviewBinding)
+        return ViewHolder(hospitalAdapterLayoutBinding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data.get(position).speciality!!.uid!!.isNotEmpty()) {
-            holder.adapterHospitalsListPreviewBinding.speciality.setText(data[position].speciality!!.uid)
+            holder.hospitalAdapterLayoutBinding.speciality.setText(data[position].speciality!!.uid)
         } else {
-            holder.adapterHospitalsListPreviewBinding.speciality.setText("-")
+            holder.hospitalAdapterLayoutBinding.speciality.setText("-")
         }
 
         if (data.get(position).hospitals!!.isNotEmpty()) {
-            holder.adapterHospitalsListPreviewBinding.name.setText(data[position].hospitals)
+            holder.hospitalAdapterLayoutBinding.name.setText(data[position].hospitals)
         } else {
-            holder.adapterHospitalsListPreviewBinding.name.setText("-")
+            holder.hospitalAdapterLayoutBinding.name.setText("-")
         }
 
         if (data.get(position).beds!!.isNotEmpty()) {
-            holder.adapterHospitalsListPreviewBinding.beds.setText(data[position].beds)
+            holder.hospitalAdapterLayoutBinding.beds.setText(data[position].beds)
         } else {
-            holder.adapterHospitalsListPreviewBinding.beds.setText("-")
+            holder.hospitalAdapterLayoutBinding.beds.setText("-")
         }
 
         if (data.get(position).occupancy!!.isNotEmpty()) {
-            holder.adapterHospitalsListPreviewBinding.occupancy.setText(data[position].occupancy)
+            holder.hospitalAdapterLayoutBinding.occupancy.setText(data[position].occupancy)
         } else {
-            holder.adapterHospitalsListPreviewBinding.occupancy.setText("-")
+            holder.hospitalAdapterLayoutBinding.occupancy.setText("-")
         }
 
         if (data.get(position).noOpd!!.isNotEmpty()) {
-            holder.adapterHospitalsListPreviewBinding.noOfOpd.setText(data[position].noOpd)
+            holder.hospitalAdapterLayoutBinding.noOfOpd.setText(data[position].noOpd)
         } else {
-            holder.adapterHospitalsListPreviewBinding.noOfOpd.setText("-")
+            holder.hospitalAdapterLayoutBinding.noOfOpd.setText("-")
         }
     }
 

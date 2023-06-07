@@ -31,11 +31,11 @@ class ApartmentsPreviewAdapter(
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (data.get(position).type!!.uid!!.isNotEmpty()) {
-            holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
-        } else {
-            holder.adapterApartmentsListPreviewBinding.type.setText("-")
-        }
+//        if (data.get(position).type!!.uid!!.isNotEmpty()) {
+//            holder.adapterApartmentsListPreviewBinding.type.setText(data[position].type!!.uid)
+//        } else {
+//            holder.adapterApartmentsListPreviewBinding.type.setText("-")
+//        }
 
         if (data.get(position).apartments!!.isNotEmpty()) {
             holder.adapterApartmentsListPreviewBinding.name.setText(data[position].apartments)
