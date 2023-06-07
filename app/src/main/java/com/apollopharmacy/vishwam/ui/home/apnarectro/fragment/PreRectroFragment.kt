@@ -46,7 +46,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
 
-//        Preferences.savingToken("APL67949")
+        Preferences.savingToken("APL67949")
 
 
         viewBinding.callback = this
@@ -132,10 +132,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                     .show()
             }
 
-//        var configLst = ArrayList<AdapterList>()
-//        configLst.add(AdapterList("14001_APNARECTRO_06042023", "14001", "Ameerpet, Hyderabad", "07 Apr, 2023 - 12 :30PM", "APL48627", "", "", "PENDING", "---", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("16001_APNARECTRO_96042023", "16001", "Hydernagar, Hyderabad", "15 Apr, 2023 - 11 :45AM", "APL49299", "", "", "APPROVED", "RE-SHOOT", "---", "INCOMPLETE"))
-//        configLst.add(AdapterList("47852_APNARECTRO_96042023", "18624", "Chanda Nagar, Hyderabad", "05 Apr, 2023 - 04:25PM", "APL48574", "07 apr, 2023 -04:25PM", "APL48627", "APPROVED", "APPROVED", "COMPLETED", "COMPLETE"))
+
 
 
         }
@@ -318,19 +315,9 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
         intent.putExtra("reshootDate", reshootDate)
         intent.putExtra("reshootBy", reshootBy)
-        startActivity(intent)
+        startActivityForResult(intent, 779)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
-//        else{
-//            val intent = Intent(context, PreRetroPreviewActivity::class.java)
-//            intent.putExtra("fragmentName", "nonApprovalFragment")
-//            intent.putExtra("stage", stage)
-//            intent.putExtra("uploadedOn", uploadedOn)
-//            intent.putExtra("uploadedBy", uploadedBy)
-//            intent.putExtra("storeId", storeId)
-//            startActivity(intent)
-//            activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
+
     }
 
 
