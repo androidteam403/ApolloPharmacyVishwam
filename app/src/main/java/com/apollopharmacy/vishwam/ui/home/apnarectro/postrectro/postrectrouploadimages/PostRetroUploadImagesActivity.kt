@@ -101,11 +101,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         storeId = intent.getStringExtra("storeId")!!
         uploadStage = intent.getStringExtra("uploadStage")!!
         approvedby = intent.getStringExtra("approvedby")!!
-//        approvedDate = intent.getStringExtra("approvedDate")!!
-//        partiallyApprovedBy = intent.getStringExtra("partiallyApprovedBy")!!
-//        partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")!!
-//        reshootBy = intent.getStringExtra("reshootBy")!!
-//        reshootDate = intent.getStringExtra("reshootDate")!!
+
 
 
         activityUploadImagesPostRetroBinding.uploadedByTimeline.setText(uploadedBy)
@@ -113,25 +109,14 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         activityUploadImagesPostRetroBinding.approvedBy.setText(approvedby)
 
         activityUploadImagesPostRetroBinding.reshootBy.setText(reshootBy)
-//        activityUploadImagesPostRetroBinding.reshootDate.setText(reshootDate)
-        if (stage.equals("isPreRetroStage")) {
+        if (stage == "isPreRetroStage") {
             activityUploadImagesPostRetroBinding.stageTimeline.setText("Pre Retro")
 
-            if (uploadStage.equals("newUploadStage")) {
-                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.white
-                    )
-                )
-//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
-                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.lightt_blue
-                    )
-                )
-                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
-
-                activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
+            if (uploadStage == "newUploadStage") {
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.stageupdate.text = "Pre Retro Update"
+                activityUploadImagesPostRetroBinding.reviewName.text = "Pre Retro Review"
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.VISIBLE
@@ -145,20 +130,10 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
 
             } else if (uploadStage.equals("approvedStage")) {
-                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.white
-                    )
-                )
-//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
-                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.lightt_blue
-                    )
-                )
-                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
-
-                activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
+                activityUploadImagesPostRetroBinding.stageupdate.text = "Pre Retro Update"
+                activityUploadImagesPostRetroBinding.reviewName.text = "Pre Retro Review"
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.GONE
@@ -172,20 +147,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
 
             } else if (uploadStage.equals("reshootStage")) {
-                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.white
-                    )
-                )
-//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
-                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
-                    context.getColor(
-                        R.color.lightt_blue
-                    )
-                )
+                activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
+                activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
                 activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
-
-                activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
@@ -209,7 +173,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             activityUploadImagesPostRetroBinding.stageTimeline.setText("Post Retro")
 
 
-            if (uploadStage.equals("newUploadStage")) {
+            if (uploadStage == "newUploadStage") {
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.white
@@ -256,7 +220,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
-//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.lightt_blue
@@ -264,8 +227,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 )
 
                 activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
-
-                activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
@@ -293,7 +254,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     )
                 )
                 activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
-
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
@@ -313,12 +273,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 )
                 activityUploadImagesPostRetroBinding.warningLayout.visibility=View.GONE
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
-
-                activityUploadImagesPostRetroBinding.addCommentsLayout.visibility=View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
-
-                activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
+                activityUploadImagesPostRetroBinding.stageupdate.text = "After Completion Update"
+                activityUploadImagesPostRetroBinding.reviewName.text = "After Completion Review"
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.GONE
@@ -337,15 +294,12 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
-//            activityUploadImagesPostRetroBinding.preRetroPendingLayout.setBackgroundColor(context.getColor(R.color.white))
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.lightt_blue
                     )
                 )
                 activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
-
-                activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
@@ -408,9 +362,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     LayoutInflater.from(this), R.layout.dialog_for_image_upload, null, false
                 )
             imagesStatusAlertDialog.setContentView(dialogBackPressedAllert.root)
-//        dialogBackPressedAllert.alertTitle.visibility = View.GONE
-//        dialogBackPressedAllert.messege.text = "Do you want to exit?"
-//       imagesStatusAlertDialog.setCancelable(false)
             imagesStatusAlertDialog.getWindow()
                 ?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialogBackPressedAllert.yesBtn.setOnClickListener {
@@ -436,16 +387,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (uploadedImageCount == overallImageCount) {
             activityUploadImagesPostRetroBinding.uploadnowbutton.background =
                 (resources.getDrawable(R.drawable.greenbackground_for_buttons))
-
-
-//            for (i in swacchApolloList.get(0).configlist?.indices!!) {
             postRetroUploadImagesViewModel!!.connectToAzure(
-                getImageUrlsLists, this, uploadStage.equals("reshootStage"), stage
-            )
-
-//            }
-
-
+                getImageUrlsLists, this, uploadStage.equals("reshootStage"), stage)
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
@@ -726,23 +669,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         startActivityForResult(intent, 999)
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
-//        if (stage.equals("isPreRetroStage")) {
-//            val intent = Intent(applicationContext, PreRectroReviewActivity::class.java)
-//            intent.putExtra("fragmentName", fragmentName)
-//            intent.putExtra("stage", stage)
-//            intent.putExtra("posImageUrlList", posImageUrlList)
-//            startActivity(intent)
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        } else {
-//            val intent = Intent(applicationContext, ComparisonScreenCreation::class.java)
-//            intent.putExtra("fragmentName", fragmentName)
-//            intent.putExtra("stage", stage)
-//            startActivity(intent)
-//            overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
-//        }
-
-//    }
-
     var configPosition: Int = 0
     var uploadPosition: Int = 0
     var reshootImageDetails: ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>? = null
@@ -951,7 +877,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 val retroIdsGroupedList: Map<Int, List<GetImageUrlsModelApnaResponse.Category.ImageUrl>> =
                     getImageUrlsList.categoryList!!.get(i).imageUrls!!.stream()
                         .collect(Collectors.groupingBy { w -> w.position })
-//           getStorePendingApprovedList.getList.clear()
                 Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
                 var getImageUrlListDummys =
@@ -1076,8 +1001,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     }
 
     private fun uploadApi() {
-//        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-//            Utlis.showLoading(this)
         var submit = SaveImagesUrlsRequest()
         if (!uploadStage.equals("reshootStage")) {
             submit.actionEvent = "SUBMIT"
@@ -1284,27 +1207,18 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 .setTargetLength(1080)
                 .setQuality(100)
                 .setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
                 .setOutputDirPath(
-                    ViswamApp.Companion.context.cacheDir.toString()
+                    ViswamApp.context.cacheDir.toString()
                 )
 
                 .setSourceImage(imageFromCameraFile)
                 .resizedFile
             if (resizedImage != null) {
-                // resizedImage
                 if (uploadStage.equals("reshootStage")) {
                     if (stage.equals("isPreRetroStage")) {
                         for (i in reshootImageDetails!!) {
                             if (i.stage.equals("1") && i.status.equals("2")) {
                                 i.file = resizedImage
-//                               getImageUrlsLists!!.categoryList!!.get(configPosition).imageUrls
-//                               apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                                   uploadPosition
-//                               )?.imageStatus = i.status!!
-//                               apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                                   uploadPosition
-//                               )?.file = resizedImage
                                 break
                             }
 
@@ -1323,13 +1237,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         for (i in reshootImageDetails!!) {
                             if (i.stage.equals("3") && i.status.equals("2")) {
                                 i.file = resizedImage
-
-//                                apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                                    uploadPosition
-//                                )?.imageStatus = i.status!!
-//                                apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                                    uploadPosition
-//                                )?.file = resizedImage
                                 break
                             }
 
@@ -1340,7 +1247,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
                     var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
                     imageUrl.file = resizedImage
-
                     imageUrl.status = "9"
                     if (stage.equals("isPreRetroStage")) {
                         imageUrl.stage = "1"
@@ -1351,17 +1257,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                     }
                     imageUrl.categoryid = reshootImageDetails!!.get(0).categoryid
                     imageUrl.position = uploadPosition
-
-
                     getImageUrlsLists!!.categoryList!!.get(configPosition).groupingImageUrlList!!.get(
                         uploadPosition
                     ).add(imageUrl)
-
-//                    getImageUrlsLists!!.categoryList!!.get(configPosition).groupingImageUrlList!!.get(uploadPosition)=imageUrl
-//                    apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                        uploadPosition
-//                    )?.file = resizedImage
-
                 }
 
 
@@ -1381,14 +1279,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             }
 
 
-//            Utlis.showLoading(this)
-//            viewModel.connectToAzure(
-//                swacchApolloList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
-//                    uploadPosition
-//                )
-//            )
-
-
         } else if (requestCode == 999 && resultCode == Activity.RESULT_OK) {
             if (uploadStage.equals("reshootStage")) {
                 posImageUrlListForReshoot =
@@ -1406,7 +1296,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 } else {
                     getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
                         imageClickedPosComp!!
-                    ).get(2).file = posImageUrlListForReshoot.get(2).file
+                    )[2].file = posImageUrlListForReshoot.get(2).file
 
                 }
                 uploadedReshootImageCount++

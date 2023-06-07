@@ -6,10 +6,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#d3f8d3"
-
         android:layout_marginBottom="5dp"
+
+        android:background="#d3f8d3"
         android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +35,6 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -61,7 +61,6 @@
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -86,23 +85,22 @@
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
-
         <LinearLayout
+            android:id="@+id/executive_approve_by_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approved By :  "
+                android:text="Executive Approved By :  "
                 android:textSize="12.5sp" />
 
             <TextView
-                android:id="@+id/approve_by"
+                android:id="@+id/executive_approve_by"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"
@@ -112,44 +110,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/executive_approve_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Approved Date :  "
+                android:text="Executive Approved Date :  "
                 android:textSize="12.5sp" />
 
             <TextView
-                android:id="@+id/approve_date"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:fontFamily="@font/roboto_medium"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_12sp" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Partially Approved By :  "
-                android:textSize="12.5sp" />
-
-            <TextView
-                android:id="@+id/partially_approved_by"
+                android:id="@+id/executive_approve_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"
@@ -158,24 +133,22 @@
                 android:textSize="@dimen/text_12sp" />
         </LinearLayout>
 
-
-
         <LinearLayout
+            android:id="@+id/executive_reshoot_by_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Partially Approved Date :  "
+                android:text="Executive Reshoot By :  "
                 android:textSize="12.5sp" />
 
             <TextView
-                android:id="@+id/partially_approved_date"
+                android:id="@+id/executive_reshoot_by"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"
@@ -185,22 +158,21 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/executive_reshoot_date_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reshoot By :  "
+                android:text="Executive Reshoot Date :  "
                 android:textSize="12.5sp" />
 
             <TextView
-                android:id="@+id/reshootBy"
+                android:id="@+id/executive_reshoot_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"
@@ -210,22 +182,285 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/manager_approve_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="5dp"
-
             android:layout_marginTop="5dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reshoot Date :  "
+                android:text="Manager Approved By :  "
                 android:textSize="12.5sp" />
 
             <TextView
-                android:id="@+id/reshootDate"
+                android:id="@+id/manager_approve_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manager_approve_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manager Approved Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/manager_approve_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manager_reshoot_by_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manager Reshoot By :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/manager_reshoot_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/manager_reshoot_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Manager Reshoot Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/manager_reshoot_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gm_approve_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GM Approved By :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/gm_approve_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gm_approve_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GM Approved Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/gm_approve_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gm_reshoot_by_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GM Reshoot By :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/gm_reshoot_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/gm_reshoot_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="GM Reshoot Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/gm_reshoot_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ceo_approve_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CEO Approved By :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/ceo_approve_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ceo_approve_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CEO Approved Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/ceo_approve_date"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ceo_reshoot_by_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CEO Reshoot By :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/ceo_reshoot_by"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_medium"
+                android:text="-"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_12sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ceo_reshoot_date_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CEO Reshoot Date :  "
+                android:textSize="12.5sp" />
+
+            <TextView
+                android:id="@+id/ceo_reshoot_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_medium"

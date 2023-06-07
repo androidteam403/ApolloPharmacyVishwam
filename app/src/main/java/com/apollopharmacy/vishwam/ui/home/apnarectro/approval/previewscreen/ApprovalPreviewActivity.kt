@@ -42,7 +42,6 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
     var isApiHit: Boolean = false
     var isRatingApiHit: Boolean = false
     var stagePosition: String = ""
-
     public var imageList = ArrayList<String>()
     public var pendingList = ArrayList<String>()
     public var reshootList = ArrayList<String>()
@@ -89,30 +88,19 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
         var imageUrlRequest = GetImageUrlRequest()
         imageUrlRequest.retroId = retroId
         imageUrlRequest.storeid = store
-//        imageUrlRequest.retroId = "APRET1400120230426171928"
-//        imageUrlRequest.storeid = "14001"
         viewModel.getRectroApprovalList(imageUrlRequest, this)
-
         val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         val date = frmt.parse(uploadDate)
         val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
-
         activityPreviewBinding.uploadby.setText(uploadBy)
         activityPreviewBinding.uploadon.setText(newFrmt)
-
         activityPreviewBinding.storeId.setText(store)
-        activityPreviewBinding.stage.setText(WordUtils.capitalizeFully(stage.replace("-",
-            " ")) + " Preview")
+        activityPreviewBinding.stage.setText(WordUtils.capitalizeFully(stage.replace("-", " ")) + " Preview")
         activityPreviewBinding.retroId.setText(retroId)
-
         if (status.toLowerCase().contains("pen")|| Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"|| Preferences.getAppLevelDesignationApnaRetro() == "CEO") {
             activityPreviewBinding.review.visibility = View.VISIBLE
-
-
         } else if (status.toLowerCase().contains("app")) {
             activityPreviewBinding.review.visibility = View.GONE
-
-
         } else if (status.toLowerCase().contains("res")) {
             activityPreviewBinding.review.visibility = View.GONE
 

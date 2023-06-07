@@ -65,7 +65,7 @@ class RectroApproveListAdapter(
 
 
             val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
-            val date = dateFormat.parse(approvedOrders!!.get(j).uploadedDate)
+            val date = dateFormat.parse(approvedOrders!!.get(j).uploadedDate!!)
             val dateNewFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a").format(date)
             holder.adapterApproveListBinding.transactionId.text = approvedOrders.get(j).retroid
             holder.adapterApproveListBinding.uploadby.text = approvedOrders.get(j).uploadedBy

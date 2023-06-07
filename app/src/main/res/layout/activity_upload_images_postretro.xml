@@ -581,8 +581,8 @@
                     <LinearLayout
                         android:id="@+id/preRetroUpdateLayout"
                         android:layout_marginStart="@dimen/value_15dp"
-                        android:layout_marginEnd="@dimen/text_dimen_15"
-                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:layout_marginEnd="@dimen/value_15dp"
+                        android:layout_marginTop="@dimen/value_10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
@@ -684,6 +684,7 @@
                         <LinearLayout
                             android:id="@+id/add_comments_layout"
                             android:orientation="vertical"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 

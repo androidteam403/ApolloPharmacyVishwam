@@ -1,8 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 
-import android.app.Activity
 import android.content.Intent
-import android.os.Bundle
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -14,17 +12,12 @@ import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.adapter.RectroApproveListAdapter
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.ApnaSelectSiteActivityy
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlRequest
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetImageUrlResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
-import com.apollopharmacy.vishwam.ui.home.swach.swachlistmodule.siteIdselect.SelectSiteActivityy
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
-
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import java.util.stream.Collectors
-import kotlin.collections.ArrayList
 
 
 class PreRectroApprovalFragment() :
@@ -50,7 +43,7 @@ class PreRectroApprovalFragment() :
         Preferences.savingToken("APL25054")
         Preferences.setAppLevelDesignationApnaRetro("GENERAL MANAGER")
         MainActivity.mInstance.mainActivityCallback = this
-//        AWAITING APPROVAL FROM CEO
+
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
@@ -82,8 +75,6 @@ class PreRectroApprovalFragment() :
         intent.putExtra("approvePendingList",approvePendingList)
         intent.putExtra("uploadBy", status!![position][subPos].uploadedBy)
         intent.putExtra("uploadOn", status!![position][subPos].uploadedDate)
-
-
         intent.putExtra("retroId", status!!.get(position).get(subPos).retroid)
         startActivityForResult(intent, 221)
 
@@ -142,11 +133,6 @@ class PreRectroApprovalFragment() :
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var getPendingApproveList: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
 
-
-//        list1 =
-//            list!!.distinctBy { it.retroid } as ArrayList<GetRetroPendingAndApproveResponse.Retro>
-
-
         val retroIdsGroupedList: Map<String, List<GetRetroPendingAndApproveResponse.Retro>> =
             getStorePendingApprovedList.retrolist!!.stream()
                 .collect(Collectors.groupingBy { w -> w.retroid })
@@ -161,21 +147,11 @@ class PreRectroApprovalFragment() :
 
         getStorePendingApprovedList.groupByRetrodList =
             getStorePendingApprovedListDummys as List<MutableList<GetRetroPendingAndApproveResponse.Retro>>?
-        getStorePendingApprovedList.Retro().retroSublist =
-            getStorePendingApprovedListDummys as ArrayList<GetRetroPendingAndApproveResponse.Retro>
+
         list =
             getStorePendingApprovedList.retrolist as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>?
         list1 =
             list!!.distinctBy { it.retroid } as java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>
-
-
-//        adapter =
-//            ListAdapter(getStorePendingApprovedList.groupByRetrodList, requireContext(), this)
-//        val layoutManager = LinearLayoutManager(ViswamApp.context)
-//        viewBinding.listRecyclerView.layoutManager = layoutManager
-//        viewBinding.listRecyclerView.itemAnimator =
-//            DefaultItemAnimator()
-//        viewBinding.listRecyclerView.adapter = listAdapter
 
         adapter = context?.let { RectroApproveListAdapter(it, list, list1,retroIdsGroupedList, getStorePendingApprovedList.groupByRetrodList,this) }
         viewBinding.recyclerViewapproval.adapter = adapter

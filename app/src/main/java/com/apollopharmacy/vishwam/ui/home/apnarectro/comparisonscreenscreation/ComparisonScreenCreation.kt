@@ -51,9 +51,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     private lateinit var cameraDialog: Dialog
     var imageUploaded = false
     var status: String = ""
-
-
-    public var posImageUrlList =
+    private var posImageUrlList =
         java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
     var pos: Int = 0
 
@@ -842,8 +840,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
                 } else {
                     activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
-//                    activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(resources.getColor(R.color.grey))
-//                    activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked=false
                     activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
                         View.VISIBLE
                     activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
@@ -868,14 +864,14 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     private fun openCamera() {
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         imageFromCameraFile =
-            File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
         fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
         } else {
             val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context,
-                ViswamApp.context.packageName + ".provider",
+                context,
+                context.packageName + ".provider",
                 imageFromCameraFile!!
             )
             intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
@@ -883,9 +879,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
 
-
-//        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//        startActivityForResult(cameraIntent, cameraRequest)
     }
 
     private fun checkPermission(): Boolean {
@@ -936,7 +929,6 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-//            var capture: File? = null
             imageFromCameraFile?.length()
             val resizedImage = Resizer(this)
                 .setTargetLength(1080)
@@ -1017,16 +1009,10 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                         activityPostRectroReviewScreenBinding.imageHeading1.text =
                             "Pre Retro Image"
                         if (!uploadStage.equals("reshootStage")) {
-//                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-//                                .placeholder(R.drawable.thumbnail_image)
-//                                .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.imageOne)
                         } else {
-//                            Glide.with(this).load(posImageUrlList.get(stagePos).file)
-//                                .placeholder(R.drawable.thumbnail_image)
-//                                .into(activityPostRectroReviewScreenBinding.postRetroCbImage)
                             Glide.with(this).load(posImageUrlList.get(stagePos).file)
                                 .placeholder(R.drawable.thumbnail_image)
                                 .into(activityPostRectroReviewScreenBinding.imageOne)
