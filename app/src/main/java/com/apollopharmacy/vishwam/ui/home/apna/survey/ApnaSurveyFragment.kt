@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.apna.survey
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
@@ -25,6 +26,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     }
 
     override fun setup() {
+        Log.i("TAG", "setup: ")
         showLoading()
         viewModel.getApnaSurveyList(this)
         MainActivity.mInstance.plusIconApna.setOnClickListener {
@@ -32,6 +34,12 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 requireContext()), APNA_NEW_SURVEY_ACTIVITY_VALUE!!)
         }
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        showLoading()
+        viewModel.getApnaSurveyList(this)
     }
 
     override fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row) {

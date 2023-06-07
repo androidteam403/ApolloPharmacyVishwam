@@ -237,6 +237,10 @@ class SurveyListResponse : Serializable {
         @Expose
         var state: State? = null
 
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+
         @SerializedName("created_time")
         @Expose
         var createdTime: String? = null

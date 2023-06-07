@@ -62,7 +62,7 @@
                     android:paddingStart="@dimen/value_10dp"
                     android:paddingEnd="@dimen/value_10dp"
                     android:singleLine="true"
-                    android:hint="Search Location"
+                    android:hint="Search State"
                     android:textColor="@color/black"
                     android:textColorHint="@color/black"
                     android:textSize="@dimen/text_15sp" />

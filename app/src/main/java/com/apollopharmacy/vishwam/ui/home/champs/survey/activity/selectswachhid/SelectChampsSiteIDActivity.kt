@@ -42,19 +42,19 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         viewModel = ViewModelProvider(this)[SelectChampsSiteIdViewModel::class.java]
         activitySelectChampsSiteidBinding.callback = this
 //        Utlis.showLoading(this)
-        viewModel.getStoreDetailsChamps(this)
-//        if (NetworkUtil.isNetworkConnected(this)) {
-//            Utlis.showLoading(this)
-//            viewModel.getStoreDetailsChampsApi(this)
-//        }
-//        else {
-//            Toast.makeText(
-//                applicationContext,
-//                resources.getString(R.string.label_network_error),
-//                Toast.LENGTH_SHORT
-//            )
-//                .show()
-//        }
+//        viewModel.getStoreDetailsChamps(this)
+        if (NetworkUtil.isNetworkConnected(this)) {
+            Utlis.showLoading(this)
+            viewModel.getStoreDetailsChampsApi(this)
+        }
+        else {
+            Toast.makeText(
+                applicationContext,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
     }
 
     private fun searchByFulfilmentId() {
@@ -77,7 +77,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     }
 
     override fun onClickCancel() {
-        if(!Preferences.getSwachhSiteId().isEmpty()){
+        if(!Preferences.getApnaSiteId().isEmpty()){
             isSiteIdEmpty=false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
@@ -97,7 +97,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
 //        setResult(Activity.RESULT_OK, intent)
 //        finish()
 
-        if(!Preferences.getSwachhSiteId().isEmpty()){
+        if(!Preferences.getApnaSiteId().isEmpty()){
             isSiteIdEmpty=false
             val intent = Intent()
             intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
@@ -133,8 +133,8 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
             dialog.dismiss()
-            Preferences.setSwachhSiteId(storeListItem.siteid!!)
-            Preferences.setSwachSiteName(storeListItem.sitename!!)
+//            Preferences.setSwachhSiteId(storeListItem.siteid!!)
+//            Preferences.setSwachSiteName(storeListItem.sitename!!)
             Preferences.setApnaSite(storeListItem.siteid!!)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             dialog.show()

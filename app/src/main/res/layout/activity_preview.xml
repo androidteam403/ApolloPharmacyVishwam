@@ -134,9 +134,10 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="@dimen/value_10dp"
                                 android:layout_weight="0.65"
                                 android:orientation="vertical">
 
@@ -158,6 +159,7 @@
                             </LinearLayout>
 
                             <LinearLayout
+                                android:visibility="gone"
                                 android:id="@+id/crossMark"
                                 android:onClick="@{()-> callback.onClickBack()}"
                                 android:layout_width="76dp"
@@ -442,6 +444,7 @@
 <!--                            android:layout_height="match_parent">-->
 
                             <androidx.recyclerview.widget.RecyclerView
+                                android:nestedScrollingEnabled="false"
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:layout_marginEnd="@dimen/value_10dp"
                                 android:layout_marginStart="@dimen/value_10dp"

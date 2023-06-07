@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
 
-class PostRetroUploadImagesViewModel: ViewModel() {
+class PostRetroUploadImagesViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     val commands = LiveEvent<CommandsUploadImages>()
 
@@ -32,24 +32,31 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         apnaConfigList: GetImageUrlsModelApnaResponse?,
         postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
         isReshoot: Boolean,
-        stage: String
+        stage: String,
     ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionAzureApna.connectToAzurList(apnaConfigList!!,
+            val response = ConnectionAzureApna.connectToAzurList(
+                apnaConfigList!!,
                 Config.CONTAINER_NAME,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP, isReshoot,stage)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP, isReshoot, stage
+            )
             postRetroUploadImagesCallback.onSuccessImageIsUploadedInAzur(response)
 
         }
     }
 
-    fun connectToAzureReshoot(image: File?, postRetroUploadImagesCallback: PostRetroUploadImagesCallback) {
+    fun connectToAzureReshoot(
+        image: File?,
+        postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
+    ) {
         state.value = State.SUCCESS
         viewModelScope.launch(Dispatchers.IO) {
-            val response = ConnectionAzureSwachRes.connectToAzur(image,
+            val response = ConnectionAzureSwachRes.connectToAzur(
+                image,
                 Config.CONTAINER_NAME,
-                Config.STORAGE_CONNECTION_FOR_CCR_APP)
+                Config.STORAGE_CONNECTION_FOR_CCR_APP
+            )
 
             postRetroUploadImagesCallback.onSuccessImageIsUploadedInAzurReshoot(response)
         }
@@ -63,26 +70,30 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
+//            if (Config.KEY=="2039") {
 
-                if (data.APIS[i].NAME.equals("RT STORE WISE CATEGORY DETAILS")) {
-                    baseUrl = data.APIS[i].URL
+            if (data.APIS[i].NAME.equals("RT STORE WISE CATEGORY DETAILS")) {
+                baseUrl = data.APIS[i].URL
 
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+                token = data.APIS[i].TOKEN
+                break
             }
-            else
-                if (Config.KEY=="2034"){
-                    baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001"
-                    token = "h72genrSSNFivOi/cfiX3A=="
-                }
+//            }
+//            else
+//                if (Config.KEY=="2034"){
+//                    baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStoreWiseCategoryDetails?Storeid=16001"
+//                    token = "h72genrSSNFivOi/cfiX3A=="
+//                }
         }
 
 
         viewModelScope.launch {
             val result = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(baseUrl, token, Preferences.getApnaSiteId())
+                ApnaRectroApiRepo.getStoreWiseCatDetailsApna(
+                    baseUrl,
+                    token,
+                    Preferences.getApnaSiteId()
+                )
             }
             when (result) {
                 is ApiResult.Success -> {
@@ -96,20 +107,24 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(result.error?.let {
-                       CommandsUploadImages.ShowToast(it)
+                        CommandsUploadImages.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -120,26 +135,29 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 
     }
 
-    fun onUploadImagesApna(saveImageUrlsRequest: SaveImagesUrlsRequest, postRetroUploadImagesCallback: PostRetroUploadImagesCallback) {
+    fun onUploadImagesApna(
+        saveImageUrlsRequest: SaveImagesUrlsRequest,
+        postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
+    ) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
+//            if (Config.KEY=="2039") {
 
-                if (data.APIS[i].NAME.equals("RT SAVE IMAGE URLS")) {
-                    baseUrl = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+            if (data.APIS[i].NAME.equals("RT SAVE IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
-            else
-                if (Config.KEY=="2034"){
-                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls"
-                    token = "h72genrSSNFivOi/cfiX3A=="
-                }
+//            }
+//            else
+//                if (Config.KEY=="2034"){
+//                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SaveImageUrls"
+//                    token = "h72genrSSNFivOi/cfiX3A=="
+//                }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -167,20 +185,24 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(response.error?.let {
                         CommandsUploadImages.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
@@ -191,7 +213,10 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 //        }
     }
 
-    fun getImageUrl(getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest, postRetroUploadImagesCallback: PostRetroUploadImagesCallback) {
+    fun getImageUrl(
+        getImageUrlsModelApnaRequest: GetImageUrlsModelApnaRequest,
+        postRetroUploadImagesCallback: PostRetroUploadImagesCallback,
+    ) {
 //        val url = Preferences.getApi()
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
 //        for (i in data.APIS.indices) {
@@ -210,19 +235,11 @@ class PostRetroUploadImagesViewModel: ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
-
-                if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
-                    baseUrl = data.APIS[i].URL
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+            if (data.APIS[i].NAME.equals("RT IMAGE URLS")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
-            else
-                if (Config.KEY=="2034"){
-                    baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetImageUrls"
-                    token = "h72genrSSNFivOi/cfiX3A=="
-                }
         }
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
@@ -235,7 +252,10 @@ class PostRetroUploadImagesViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (response.value.status ?: null == true) {
                         state.value = State.ERROR
-                        postRetroUploadImagesCallback.onSuccessImageUrlsList(response.value,getImageUrlsModelApnaRequest.retroId)
+                        postRetroUploadImagesCallback.onSuccessImageUrlsList(
+                            response.value,
+                            getImageUrlsModelApnaRequest.retroId
+                        )
                     }
 
                     if (response.value.status ?: null == false) {
@@ -246,6 +266,7 @@ class PostRetroUploadImagesViewModel: ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(response.error?.let {
                         CommandsUploadImages.ShowToast(it)
@@ -253,22 +274,24 @@ class PostRetroUploadImagesViewModel: ViewModel() {
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(CommandsUploadImages.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
             }
         }
-//            }
-//        }
+
     }
 
     sealed class CommandsUploadImages {

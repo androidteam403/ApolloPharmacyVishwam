@@ -28,11 +28,35 @@ class HospitalsPreviewAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.adapterHospitalsListPreviewBinding.speciality.setText(data[position].speciality!!.uid)
-        holder.adapterHospitalsListPreviewBinding.name.setText(data[position].hospitals)
-        holder.adapterHospitalsListPreviewBinding.beds.setText(data[position].beds)
-        holder.adapterHospitalsListPreviewBinding.occupancy.setText(data[position].occupancy)
-        holder.adapterHospitalsListPreviewBinding.noOfOpd.setText(data[position].noOpd)
+        if (data.get(position).speciality!!.uid!!.isNotEmpty()) {
+            holder.adapterHospitalsListPreviewBinding.speciality.setText(data[position].speciality!!.uid)
+        } else {
+            holder.adapterHospitalsListPreviewBinding.speciality.setText("-")
+        }
+
+        if (data.get(position).hospitals!!.isNotEmpty()) {
+            holder.adapterHospitalsListPreviewBinding.name.setText(data[position].hospitals)
+        } else {
+            holder.adapterHospitalsListPreviewBinding.name.setText("-")
+        }
+
+        if (data.get(position).beds!!.isNotEmpty()) {
+            holder.adapterHospitalsListPreviewBinding.beds.setText(data[position].beds)
+        } else {
+            holder.adapterHospitalsListPreviewBinding.beds.setText("-")
+        }
+
+        if (data.get(position).occupancy!!.isNotEmpty()) {
+            holder.adapterHospitalsListPreviewBinding.occupancy.setText(data[position].occupancy)
+        } else {
+            holder.adapterHospitalsListPreviewBinding.occupancy.setText("-")
+        }
+
+        if (data.get(position).noOpd!!.isNotEmpty()) {
+            holder.adapterHospitalsListPreviewBinding.noOfOpd.setText(data[position].noOpd)
+        } else {
+            holder.adapterHospitalsListPreviewBinding.noOfOpd.setText("-")
+        }
     }
 
     override fun getItemCount(): Int {

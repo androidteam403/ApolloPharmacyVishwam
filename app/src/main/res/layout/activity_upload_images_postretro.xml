@@ -592,6 +592,7 @@
                             android:layout_height="wrap_content"
                             android:text="Pre Retro Update"
                             android:textStyle="bold"
+                            android:id="@+id/stageupdate"
                             android:textSize="@dimen/text_16sp"
                             android:textColor="@color/black"/>
 
@@ -856,6 +857,7 @@
                             android:textColor="@color/black"
                             android:layout_marginStart="10dp"
                             android:textStyle="bold"
+                            android:visibility="gone"
                             android:layout_marginBottom="@dimen/value_4dp"
                             android:text="Add Comments" />
 
@@ -867,6 +869,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="10dp"
                             android:layout_marginEnd="10dp"
+                            android:visibility="gone"
                             android:layout_below="@+id/state"
                             android:background="@drawable/grey_border_bg"
                             android:drawableEnd="@drawable/bottomarrow"
@@ -878,11 +881,6 @@
                             tools:ignore="MissingClass" />
 
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:layout_marginTop="8dp"
-                            android:background="@color/colorGrey"></View>
 
                         <LinearLayout
                             android:id="@+id/bottom_status_layout"
@@ -911,6 +909,11 @@
                                 android:textColor="@color/color_red"
                                 android:textSize="@dimen/text_15sp" />
                         </LinearLayout>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/colorGrey"></View>
 
 
                     </LinearLayout>

@@ -52,8 +52,10 @@ class PreRectroViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,"h72genrSSNFivOi/cfiX3A==",
-                    GetDetailsRequest(baseUrl, "POST", requestCMSLoginJson, "", ""))
+                SwachApiiRepo.updateSwachhDefaultSite(
+                    baseUrL, "h72genrSSNFivOi/cfiX3A==",
+                    GetDetailsRequest(baseUrl, "POST", requestCMSLoginJson, "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -63,8 +65,10 @@ class PreRectroViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val updateSwachhDefaultSiteResponse =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    UpdateSwachhDefaultSiteResponse::class.java)
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    UpdateSwachhDefaultSiteResponse::class.java
+                                )
                             if (updateSwachhDefaultSiteResponse.success!!) {
                                 updateSwachhDefaultSiteResponseModel.value =
                                     updateSwachhDefaultSiteResponse
@@ -75,15 +79,19 @@ class PreRectroViewModel : ViewModel() {
                     } else {
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
@@ -93,53 +101,28 @@ class PreRectroViewModel : ViewModel() {
 
     fun getStorePendingApprovedListApiCallApnaRetro(
         getStorePendingAndApprovedListReq: GetStorePendingAndApprovedListReq,
-        preRectroCallback: PreRectroCallback
+        preRectroCallback: PreRectroCallback,
     ) {
-//        val url = Preferences.getApi()
-//        val data = Gson().fromJson(url, ValidateResponse::class.java)
-//        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("SAVE CATEGORY WISE IMAGE URLS")) {
-//                val baseUrl = data.APIS[i].URL
-//                val token = data.APIS[i].TOKEN
-        /*  val baseUrl =
-              "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/mobile-ticket-save"*/
-//                val onSubmitSwachModelRequestJson =
-//                    Gson().toJson(onSubmitSwachModelRequest)
-
-//                val header = "application/json"
-
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (Config.KEY=="2039") {
-
-
-                if (data.APIS[i].NAME.equals("RT STORE PENDING AND APPROVED LIST")) {
-                    baseUrl = data.APIS[i].URL
-
-                    token = data.APIS[i].TOKEN
-                    break
-                }
+            if (data.APIS[i].NAME.equals("RT STORE PENDING AND APPROVED LIST")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
             }
-            else if (Config.KEY=="2034"){
-                baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
-                token = "h72genrSSNFivOi/cfiX3A=="
-            }
+
         }
 
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStorePendingAndApprovedListApnaRetro(baseUrl,
+                ApnaRectroApiRepo.getStorePendingAndApprovedListApnaRetro(
+                    baseUrl,
                     token,
-                    getStorePendingAndApprovedListReq)
-
-//                        RegistrationRepo.NewComplaintRegistration(
-//                            baseUrl,
-//                            header,
-//                            requestNewComplaintRegistration
-//                        )
+                    getStorePendingAndApprovedListReq
+                )
             }
             when (response) {
 
@@ -158,28 +141,31 @@ class PreRectroViewModel : ViewModel() {
 
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     commands.postValue(response.error?.let {
                         CommandsApnaFrag.ShowToast(it)
                     })
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     commands.postValue(CommandsApnaFrag.ShowToast("Network Error"))
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     commands.postValue(CommandsApnaFrag.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
+
                 else -> {
                     commands.postValue(CommandsApnaFrag.ShowToast("Something went wrong, please try again later"))
                     state.value = State.ERROR
                 }
             }
         }
-//            }
-//        }
+
     }
 
 

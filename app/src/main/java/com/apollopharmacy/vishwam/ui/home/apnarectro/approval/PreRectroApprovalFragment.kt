@@ -46,22 +46,16 @@ class PreRectroApprovalFragment() :
     }
 
     override fun setup() {
-
         showLoading()
-
-
-
-
-        Preferences.savingToken("APL48627")
-        Preferences.setAppLevelDesignationApnaRetro("EXECUTIVE")
+        Preferences.savingToken("APL25054")
+        Preferences.setAppLevelDesignationApnaRetro("GENERAL MANAGER")
         MainActivity.mInstance.mainActivityCallback = this
 //        AWAITING APPROVAL FROM CEO
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
-
         val cal = Calendar.getInstance()
-        cal.add(Calendar.DATE, -3)
+        cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
         getRetroPendindAndApproverequest.empid = Preferences.getToken()
         getRetroPendindAndApproverequest.storeid =Preferences.getRectroSiteId()
@@ -192,6 +186,8 @@ class PreRectroApprovalFragment() :
 
 
     override fun onFailureRetroApprovalList(value: GetRetroPendingAndApproveResponse) {
+        hideLoading()
+        Toast.makeText(context,value.message,Toast.LENGTH_LONG).show()
     }
 
 

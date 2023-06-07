@@ -59,7 +59,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var uploadedBy: String = ""
     private var storeId: String = ""
     private var stage: String = ""
-    private var uploadStage:String=""
+    private var uploadStage: String = ""
 
     private var fileNameForCompressedImage: String? = null
     var pos: Int = 0
@@ -69,12 +69,12 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var overallImageCount: Int = 0
     private var apnaConfigList = ArrayList<GetStoreWiseCatDetailsApnaResponse>()
     private lateinit var cameraDialog: Dialog
-    var approvedby:String?=null
-    var approvedDate:String?=null
-    var partiallyApprovedBy:String?=null
-    var partiallyApprovedDate:String?=null
-    var reshootBy:String?=null
-    var reshootDate:String?=null
+    var approvedby: String? = null
+    var approvedDate: String? = null
+    var partiallyApprovedBy: String? = null
+    var partiallyApprovedDate: String? = null
+    var reshootBy: String? = null
+    var reshootDate: String? = null
 
     private var getImageUrlsLists: GetImageUrlsModelApnaResponse? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -101,21 +101,19 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         storeId = intent.getStringExtra("storeId")!!
         uploadStage = intent.getStringExtra("uploadStage")!!
         approvedby = intent.getStringExtra("approvedby")!!
-        approvedDate = intent.getStringExtra("approvedDate")!!
-        partiallyApprovedBy = intent.getStringExtra("partiallyApprovedBy")!!
-        partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")!!
-        reshootBy = intent.getStringExtra("reshootBy")!!
-        reshootDate = intent.getStringExtra("reshootDate")!!
+//        approvedDate = intent.getStringExtra("approvedDate")!!
+//        partiallyApprovedBy = intent.getStringExtra("partiallyApprovedBy")!!
+//        partiallyApprovedDate = intent.getStringExtra("partiallyApprovedDate")!!
+//        reshootBy = intent.getStringExtra("reshootBy")!!
+//        reshootDate = intent.getStringExtra("reshootDate")!!
 
 
         activityUploadImagesPostRetroBinding.uploadedByTimeline.setText(uploadedBy)
         activityUploadImagesPostRetroBinding.uploadedDateTimeline.setText(uploadedOn)
         activityUploadImagesPostRetroBinding.approvedBy.setText(approvedby)
-        activityUploadImagesPostRetroBinding.approvedDate.setText(approvedDate)
-        activityUploadImagesPostRetroBinding.partiallyApprovedBy.setText(partiallyApprovedBy)
-        activityUploadImagesPostRetroBinding.partiallyApprovedDate.setText(partiallyApprovedDate)
+
         activityUploadImagesPostRetroBinding.reshootBy.setText(reshootBy)
-        activityUploadImagesPostRetroBinding.reshootDate.setText(reshootDate)
+//        activityUploadImagesPostRetroBinding.reshootDate.setText(reshootDate)
         if (stage.equals("isPreRetroStage")) {
             activityUploadImagesPostRetroBinding.stageTimeline.setText("Pre Retro")
 
@@ -131,6 +129,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
 
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
@@ -157,6 +156,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
@@ -182,6 +183,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Pre Retro Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Pre Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -205,12 +208,15 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         } else if (stage.equals("isPostRetroStage")) {
             activityUploadImagesPostRetroBinding.stageTimeline.setText("Post Retro")
 
+
             if (uploadStage.equals("newUploadStage")) {
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
@@ -223,12 +229,14 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
-            } else if (uploadStage.equals("approvedStage")) {
+            } else if (uploadStage == "approvedStage") {
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(
                     context.getColor(
                         R.color.white
                     )
                 )
+
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
@@ -254,6 +262,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+
+                activityUploadImagesPostRetroBinding.stageupdate.setText("Post Retro Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("Post Retro Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -269,8 +280,6 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.statusBottom.text = "Re-shoot"
                 activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
-                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
-                activityUploadImagesPostRetroBinding.reshootButton.visibility = View.VISIBLE
 
             }
 
@@ -283,6 +292,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
+
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
@@ -291,7 +302,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
                 activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
-                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
+                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
             } else if (uploadStage.equals("approvedStage")) {
@@ -300,11 +311,16 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.white
                     )
                 )
+                activityUploadImagesPostRetroBinding.warningLayout.visibility=View.GONE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
+
+                activityUploadImagesPostRetroBinding.addCommentsLayout.visibility=View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
 
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
-                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
+                activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
@@ -327,6 +343,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         R.color.lightt_blue
                     )
                 )
+                activityUploadImagesPostRetroBinding.stageupdate.setText("After Completion Update")
+
                 activityUploadImagesPostRetroBinding.addCommentsLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reviewName.setText("After Completion Review")
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.VISIBLE
@@ -422,8 +440,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 
 //            for (i in swacchApolloList.get(0).configlist?.indices!!) {
             postRetroUploadImagesViewModel!!.connectToAzure(
-                getImageUrlsLists, this, uploadStage.equals("reshootStage")
-            ,stage)
+                getImageUrlsLists, this, uploadStage.equals("reshootStage"), stage
+            )
 
 //            }
 
@@ -559,7 +577,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             for (i in getImageUrlsLists!!.categoryList?.indices!!) {
                 for (j in getImageUrlsLists!!.categoryList!!.get(i).imageUrls?.indices!!) {
                     if (getImageUrlsLists!!.categoryList!!.get(i).imageUrls!!.get(j).stage.equals(
-                            "1"
+                            "2"
                         )
                     ) {
                         if (getImageUrlsLists!!.categoryList!!.get(i).imageUrls!!.get(j).status.equals(
@@ -588,7 +606,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             for (i in getImageUrlsLists!!.categoryList?.indices!!) {
                 for (j in getImageUrlsLists!!.categoryList!!.get(i).imageUrls?.indices!!) {
                     if (getImageUrlsLists!!.categoryList!!.get(i).imageUrls!!.get(j).stage.equals(
-                            "1"
+                            "3"
                         )
                     ) {
                         if (getImageUrlsLists!!.categoryList!!.get(i).imageUrls!!.get(j).status.equals(
@@ -629,7 +647,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (apnaConfigList.get(0).configlist != null) {
             for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
                 for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
+                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded =
+                        apnaConfigList.get(0).configlist!!.get(index).imageDataDto?.get(index1)?.file != null
                 }
 
             }
@@ -676,29 +695,31 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     override fun onClickImageView() {
         TODO("Not yet implemented")
     }
-    var imageClickedPosComp: Int?=0
-    var categoryPosComp:Int?=0
+
+    var imageClickedPosComp: Int? = 0
+    var categoryPosComp: Int? = 0
     override fun onClickImageView(
         stage: String,
         posImageUrlList: java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>,
         categoryName: String?,
         categoryid: String?,
         imageClickedPos: Int,
-        configPosition: Int
+        configPosition: Int,
     ) {
-        imageClickedPosComp=imageClickedPos
-        categoryPosComp=configPosition
+        imageClickedPosComp = imageClickedPos
+        categoryPosComp = configPosition
 
         val intent = Intent(applicationContext, ComparisonScreenCreation::class.java)
         intent.putExtra("fragmentName", fragmentName)
         intent.putExtra("stage", stage)
+        intent.putExtra("status", approvedby)
         intent.putExtra("posImageUrlList", posImageUrlList)
         intent.putExtra("retroid", retroid)
         intent.putExtra("categoryName", categoryName)
         intent.putExtra("categoryid", categoryid)
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("imageClickedPos", imageClickedPos)
-        if(getImageUrlsLists!=null && getImageUrlsLists!!.remarks!=null && getImageUrlsLists!!.remarks!!.size>0){
+        if (getImageUrlsLists != null && getImageUrlsLists!!.remarks != null && getImageUrlsLists!!.remarks!!.size > 0) {
             intent.putExtra("storeIdFromRemarks", getImageUrlsLists!!.remarks!!.get(0).storeId)
 
         }
@@ -781,12 +802,12 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     }
 
     override fun onCickDownArrow() {
-        if(activityUploadImagesPostRetroBinding.downArrow.rotation.equals(0f)){
-            activityUploadImagesPostRetroBinding.downArrow.rotation=90f
-            activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility=View.VISIBLE
-        }else{
-            activityUploadImagesPostRetroBinding.downArrow.rotation=0f
-            activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility=View.GONE
+        if (activityUploadImagesPostRetroBinding.downArrow.rotation.equals(0f)) {
+            activityUploadImagesPostRetroBinding.downArrow.rotation = 90f
+            activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility = View.VISIBLE
+        } else {
+            activityUploadImagesPostRetroBinding.downArrow.rotation = 0f
+            activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility = View.GONE
         }
     }
 
@@ -798,17 +819,20 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
             dialog.setContentView(R.layout.dialog_onsuccessupload_apna)
             val close = dialog.findViewById<LinearLayout>(R.id.close_apna)
             val textMessage = dialog.findViewById<TextView>(R.id.transaction_id_apna)
-            if(saveImageUrlsResponse.retroid!=null){
-                if(stage.equals("isPreRetroStage")){
-                    textMessage.text = "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
+            if (saveImageUrlsResponse.retroid != null) {
+                if (stage.equals("isPreRetroStage")) {
+                    textMessage.text =
+                        "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
                 }
-               }else{
-                 if(stage.equals("isPostRetroStage")){
-                    textMessage.text = "Post Retro is Submitted for Review for transaction id: "+ retroid
-                }else{
-                     textMessage.text = "After Completion is Submitted for Review for transaction id: "+ retroid
+            } else {
+                if (stage.equals("isPostRetroStage")) {
+                    textMessage.text =
+                        "Post Retro is Submitted for Review for transaction id: " + retroid
+                } else {
+                    textMessage.text =
+                        "After Completion is Submitted for Review for transaction id: " + retroid
 
-                 }
+                }
             }
 
             close.setOnClickListener {
@@ -868,9 +892,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
 //            }
 
             if (NetworkUtil.isNetworkConnected(this)) {
-               showLoading(this)
+                showLoading(this)
                 var submit = GetImageUrlsModelApnaRequest()
-                submit.storeid =Preferences.getApnaSiteId()
+                submit.storeid = Preferences.getApnaSiteId()
                 submit.retroId = retroid
 
                 postRetroUploadImagesViewModel!!.getImageUrl(submit, this)
@@ -1042,8 +1066,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private fun reshootButtonValidation() {
         if (uploadedReshootImageCount == overallreshootcount) {
             postRetroUploadImagesViewModel!!.connectToAzure(
-                getImageUrlsLists, this, uploadStage.equals("reshootStage")
-                ,stage)
+                getImageUrlsLists, this, uploadStage.equals("reshootStage"), stage
+            )
         } else {
             Toast.makeText(applicationContext, "Please upload all Images", Toast.LENGTH_SHORT)
                 .show()
@@ -1087,41 +1111,43 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                             if (k.stage.equals("1")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
                                 imageUrlsList.add(imageUrl)
                             }
 
-                        }else if (stage.equals("isPostRetroStage")) {
+                        } else if (stage.equals("isPostRetroStage")) {
                             if (k.stage.equals("2")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
                                 imageUrlsList.add(imageUrl)
                             }
 
-                        }else{
+                        } else {
                             if (k.stage.equals("3")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
                                 imageUrlsList.add(imageUrl)
                             }
 
+                        }
+
+
                     }
 
-
                 }
-
             }
-        }
-        submit.imageUrls = imageUrlsList
-        postRetroUploadImagesViewModel!!.onUploadImagesApna(submit, this)
+            submit.imageUrls = imageUrlsList
+            postRetroUploadImagesViewModel!!.onUploadImagesApna(submit, this)
 
-    }else
-        {
+        } else {
             var imageUrlsList = java.util.ArrayList<SaveImagesUrlsRequest.ImageUrl>()
 
             for (i in getImageUrlsLists!!.categoryList!!.indices) {
@@ -1135,29 +1161,32 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                             if (k.stage.equals("1") && k.status.equals("2")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
-                                imageUrl.imageId=k.imageid
+                                imageUrl.imageId = k.imageid
                                 imageUrlsList.add(imageUrl)
                             }
 
-                        }else if (stage.equals("isPostRetroStage")) {
+                        } else if (stage.equals("isPostRetroStage")) {
                             if (k.stage.equals("2") && k.status.equals("2")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
-                                imageUrl.imageId=k.imageid
+                                imageUrl.imageId = k.imageid
                                 imageUrlsList.add(imageUrl)
                             }
 
-                        }else{
+                        } else {
                             if (k.stage.equals("3") && k.status.equals("2")) {
                                 imageUrl.url =
                                     k.url
-                                imageUrl.categoryid = getImageUrlsLists!!.categoryList!!.get(i).categoryid
+                                imageUrl.categoryid =
+                                    getImageUrlsLists!!.categoryList!!.get(i).categoryid
                                 imageUrl.position = k.position
-                                imageUrl.imageId=k.imageid
+                                imageUrl.imageId = k.imageid
                                 imageUrlsList.add(imageUrl)
                             }
 
@@ -1173,100 +1202,102 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         }
 
 //        }
-}
-
-
-private fun openCamera() {
-    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-    imageFromCameraFile =
-        File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
-    fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
-    } else {
-        val photoUri = FileProvider.getUriForFile(
-            context,
-            context.packageName + ".provider",
-            imageFromCameraFile!!
-        )
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
     }
-    intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+
+
+    private fun openCamera() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        imageFromCameraFile =
+            File(context.cacheDir, "${System.currentTimeMillis()}.jpg")
+        fileNameForCompressedImage = "${System.currentTimeMillis()}.jpg"
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFromCameraFile))
+        } else {
+            val photoUri = FileProvider.getUriForFile(
+                context,
+                context.packageName + ".provider",
+                imageFromCameraFile!!
+            )
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+        }
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
 
 
 //        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //        startActivityForResult(cameraIntent, cameraRequest)
-}
-
-private fun checkPermission(): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_MEDIA_IMAGES
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_MEDIA_AUDIO
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_MEDIA_VIDEO
-        ) == PackageManager.PERMISSION_GRANTED
-    } else {
-        ContextCompat.checkSelfPermission(
-            this, Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this, Manifest.permission.WRITE_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
-            this, Manifest.permission.CAMERA
-        ) == PackageManager.PERMISSION_GRANTED
     }
-}
 
-private fun askPermissions(PermissonCode: Int) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.READ_MEDIA_AUDIO,
-                Manifest.permission.READ_MEDIA_IMAGES,
-                Manifest.permission.READ_MEDIA_VIDEO,
-                Manifest.permission.CAMERA
-            ), PermissonCode
-        )
-    } else {
-        requestPermissions(
-            arrayOf(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA
-            ), PermissonCode
-        )
+    private fun checkPermission(): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_MEDIA_IMAGES
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_MEDIA_AUDIO
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_MEDIA_VIDEO
+            ) == PackageManager.PERMISSION_GRANTED
+        } else {
+            ContextCompat.checkSelfPermission(
+                this, Manifest.permission.READ_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(
+                this, Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        }
     }
-}
-     var posImageUrlListForReshoot = java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
-    var imageUrlWithData = GetImageUrlsModelApnaResponse.Category.ImageUrl()
-    var fileForReshoot:File?=null
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
-//            var capture: File? = null
-        imageFromCameraFile?.length()
-        val resizedImage = Resizer(this)
-            .setTargetLength(1080)
-            .setQuality(100)
-            .setOutputFormat("JPG")
-//                .setOutputFilename(fileNameForCompressedImage)
-            .setOutputDirPath(
-                ViswamApp.Companion.context.cacheDir.toString()
+
+    private fun askPermissions(PermissonCode: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_AUDIO,
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.READ_MEDIA_VIDEO,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
             )
+        } else {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA
+                ), PermissonCode
+            )
+        }
+    }
 
-            .setSourceImage(imageFromCameraFile)
-            .resizedFile
-        if (resizedImage != null) {
-            // resizedImage
-            if (uploadStage.equals("reshootStage")) {
-                if (stage.equals("isPreRetroStage")) {
-                    for (i in reshootImageDetails!!) {
-                        if (i.stage.equals("1") && i.status.equals("2")) {
-                            i.file = resizedImage
+    var posImageUrlListForReshoot =
+        java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>()
+    var imageUrlWithData = GetImageUrlsModelApnaResponse.Category.ImageUrl()
+    var fileForReshoot: File? = null
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFromCameraFile != null && resultCode == Activity.RESULT_OK) {
+//            var capture: File? = null
+            imageFromCameraFile?.length()
+            val resizedImage = Resizer(this)
+                .setTargetLength(1080)
+                .setQuality(100)
+                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                .setOutputDirPath(
+                    ViswamApp.Companion.context.cacheDir.toString()
+                )
+
+                .setSourceImage(imageFromCameraFile)
+                .resizedFile
+            if (resizedImage != null) {
+                // resizedImage
+                if (uploadStage.equals("reshootStage")) {
+                    if (stage.equals("isPreRetroStage")) {
+                        for (i in reshootImageDetails!!) {
+                            if (i.stage.equals("1") && i.status.equals("2")) {
+                                i.file = resizedImage
 //                               getImageUrlsLists!!.categoryList!!.get(configPosition).imageUrls
 //                               apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
 //                                   uploadPosition
@@ -1274,24 +1305,24 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 //                               apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
 //                                   uploadPosition
 //                               )?.file = resizedImage
-                            break
+                                break
+                            }
+
                         }
 
-                    }
+                    } else if (stage.equals("isPostRetroStage")) {
+                        for (i in reshootImageDetails!!) {
+                            if (i.stage.equals("2") && i.status.equals("2")) {
+                                i.file = resizedImage
 
-                } else if (stage.equals("isPostRetroStage")) {
-                    for (i in reshootImageDetails!!) {
-                        if (i.stage.equals("2") && i.status.equals("2")) {
-                            i.file = resizedImage
+                                break
+                            }
 
-                            break
                         }
-
-                    }
-                } else {
-                    for (i in reshootImageDetails!!) {
-                        if (i.stage.equals("3")&& i.status.equals("2")) {
-                            i.file = resizedImage
+                    } else {
+                        for (i in reshootImageDetails!!) {
+                            if (i.stage.equals("3") && i.status.equals("2")) {
+                                i.file = resizedImage
 
 //                                apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
 //                                    uploadPosition
@@ -1299,55 +1330,55 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 //                                apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
 //                                    uploadPosition
 //                                )?.file = resizedImage
-                            break
+                                break
+                            }
+
                         }
-
                     }
-                }
 
-            } else {
-
-                var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
-                imageUrl.file = resizedImage
-
-                imageUrl.status = "9"
-                if (stage.equals("isPreRetroStage")) {
-                    imageUrl.stage = "1"
-                } else if (stage.equals("isPostRetroStage")) {
-                    imageUrl.stage = "2"
                 } else {
-                    imageUrl.stage = "3"
-                }
-                imageUrl.categoryid = reshootImageDetails!!.get(0).categoryid
-                imageUrl.position = uploadPosition
+
+                    var imageUrl = GetImageUrlsModelApnaResponse.Category.ImageUrl()
+                    imageUrl.file = resizedImage
+
+                    imageUrl.status = "9"
+                    if (stage.equals("isPreRetroStage")) {
+                        imageUrl.stage = "1"
+                    } else if (stage.equals("isPostRetroStage")) {
+                        imageUrl.stage = "2"
+                    } else {
+                        imageUrl.stage = "3"
+                    }
+                    imageUrl.categoryid = reshootImageDetails!!.get(0).categoryid
+                    imageUrl.position = uploadPosition
 
 
-                getImageUrlsLists!!.categoryList!!.get(configPosition).groupingImageUrlList!!.get(
-                    uploadPosition
-                ).add(imageUrl)
+                    getImageUrlsLists!!.categoryList!!.get(configPosition).groupingImageUrlList!!.get(
+                        uploadPosition
+                    ).add(imageUrl)
 
 //                    getImageUrlsLists!!.categoryList!!.get(configPosition).groupingImageUrlList!!.get(uploadPosition)=imageUrl
 //                    apnaConfigList.get(0).configlist?.get(configPosition)?.imageDataDto?.get(
 //                        uploadPosition
 //                    )?.file = resizedImage
 
+                }
+
+
             }
-
-
-        }
 
 //
 
 
-        configApnaAdapterPostRetro?.notifyDataSetChanged()
+            configApnaAdapterPostRetro?.notifyDataSetChanged()
 
-        if (!uploadStage.equals("reshootStage")) {
-            uploadedImageCount++
-            checkAllImagesUploaded()
-        } else {
-            uploadedReshootImageCount++
-            checkAllImagesUploadedReshoot()
-        }
+            if (!uploadStage.equals("reshootStage")) {
+                uploadedImageCount++
+                checkAllImagesUploaded()
+            } else {
+                uploadedReshootImageCount++
+                checkAllImagesUploadedReshoot()
+            }
 
 
 //            Utlis.showLoading(this)
@@ -1358,82 +1389,90 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
 //            )
 
 
-    }else if(requestCode==999 && resultCode == Activity.RESULT_OK){
-        if(uploadStage.equals("reshootStage")){
-            posImageUrlListForReshoot= data!!.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
-            if(stage.equals("isPreRetroStage")){
-                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(imageClickedPosComp!!).get(0).file=posImageUrlListForReshoot.get(0).file
+        } else if (requestCode == 999 && resultCode == Activity.RESULT_OK) {
+            if (uploadStage.equals("reshootStage")) {
+                posImageUrlListForReshoot =
+                    data!!.getSerializableExtra("posImageUrlList") as java.util.ArrayList<GetImageUrlsModelApnaResponse.Category.ImageUrl>
+                if (stage.equals("isPreRetroStage")) {
+                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+                        imageClickedPosComp!!
+                    ).get(0).file = posImageUrlListForReshoot.get(0).file
 
-            }else if(stage.equals("isPostRetroStage")){
-                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(imageClickedPosComp!!).get(1).file=posImageUrlListForReshoot.get(1).file
+                } else if (stage.equals("isPostRetroStage")) {
+                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+                        imageClickedPosComp!!
+                    ).get(1).file = posImageUrlListForReshoot.get(1).file
 
-            }else{
-                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(imageClickedPosComp!!).get(2).file=posImageUrlListForReshoot.get(2).file
+                } else {
+                    getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+                        imageClickedPosComp!!
+                    ).get(2).file = posImageUrlListForReshoot.get(2).file
 
+                }
+                uploadedReshootImageCount++
+                checkAllImagesUploadedReshoot()
+                configApnaAdapterPostRetro!!.notifyDataSetChanged()
+            } else {
+                imageUrlWithData =
+                    data!!.getSerializableExtra("imageUrlWithData") as GetImageUrlsModelApnaResponse.Category.ImageUrl
+                getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
+                    imageClickedPosComp!!
+                ).add(imageUrlWithData)
+                configApnaAdapterPostRetro!!.notifyDataSetChanged()
+                uploadedImageCount++
+                checkAllImagesUploaded()
             }
-            uploadedReshootImageCount++
-            checkAllImagesUploadedReshoot()
-            configApnaAdapterPostRetro!!.notifyDataSetChanged()
-        }else{
-            imageUrlWithData=
-                data!!.getSerializableExtra("imageUrlWithData") as GetImageUrlsModelApnaResponse.Category.ImageUrl
-            getImageUrlsLists!!.categoryList!!.get(categoryPosComp!!).groupingImageUrlList!!.get(
-                imageClickedPosComp!!
-            ).add(imageUrlWithData)
-            configApnaAdapterPostRetro!!.notifyDataSetChanged()
-            uploadedImageCount++
-            checkAllImagesUploaded()
+
         }
+
 
     }
 
-
-}
-
-private fun checkAllImagesUploadedReshoot() {
-    runOnUiThread(Runnable {
+    private fun checkAllImagesUploadedReshoot() {
+        runOnUiThread(Runnable {
             activityUploadImagesPostRetroBinding.uploadedCount.text =
                 uploadedReshootImageCount.toString()
             activityUploadImagesPostRetroBinding.overAllCount.text =
                 "/" + overallreshootcount.toString()
-    })
+        })
 
-    if (apnaConfigList.get(0).configlist != null) {
+        if (apnaConfigList.get(0).configlist != null) {
+            for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
+                for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
+                    apnaConfigList.get(0).configlist!!.get(index).imageUploaded =
+                        apnaConfigList.get(0).configlist!![index].imageDataDto?.get(index1)?.file != null
+                }
+
+            }
+        }
+
+
+        var allImagesUploaded: Boolean = true
         for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
-            for ((index1, value1) in apnaConfigList.get(0).configlist?.get(index)?.imageDataDto?.withIndex()!!) {
-                apnaConfigList.get(0).configlist!!.get(index).imageUploaded = apnaConfigList.get(0).configlist!![index].imageDataDto?.get(index1)?.file != null
+            if (apnaConfigList.get(0).configlist!!.get(index).imageUploaded == false) {
+                allImagesUploaded = false
+            }
+
+            if (uploadedReshootImageCount == overallreshootcount) {
+                runOnUiThread(Runnable {
+                    activityUploadImagesPostRetroBinding.warningLayout.visibility = View.GONE
+                    activityUploadImagesPostRetroBinding.completedMessage.visibility = View.VISIBLE
+                    activityUploadImagesPostRetroBinding.reshootButton.background =
+                        (resources.getDrawable(R.drawable.redbackground_for_buttons))
+                    activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.dark_green))
+                })
+            } else {
+                runOnUiThread(Runnable {
+                    activityUploadImagesPostRetroBinding.warningLayout.visibility = View.VISIBLE
+                    activityUploadImagesPostRetroBinding.completedMessage.visibility = View.GONE
+                    activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.red))
+                    activityUploadImagesPostRetroBinding.reshootButton.background =
+                        (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
+                })
+
             }
 
         }
     }
-
-
-    var allImagesUploaded: Boolean = true
-    for ((index, value) in apnaConfigList.get(0).configlist!!.withIndex()) {
-        if (apnaConfigList.get(0).configlist!!.get(index).imageUploaded == false) {
-            allImagesUploaded = false
-        }
-
-        if (uploadedReshootImageCount == overallreshootcount) {
-            runOnUiThread(Runnable {
-                activityUploadImagesPostRetroBinding.warningLayout.visibility = View.GONE
-                activityUploadImagesPostRetroBinding.completedMessage.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.reshootButton.background =
-                    (resources.getDrawable(R.drawable.redbackground_for_buttons))
-                activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.dark_green))
-            })
-        } else {
-            runOnUiThread(Runnable {
-                activityUploadImagesPostRetroBinding.warningLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.completedMessage.visibility = View.GONE
-                activityUploadImagesPostRetroBinding.uploadedCount.setTextColor(getColor(R.color.red))
-                activityUploadImagesPostRetroBinding.reshootButton.background =
-                    (resources.getDrawable(R.drawable.ashbackgrounf_for_buttons))
-            })
-
-        }
-
-    }
-}
 
 }
