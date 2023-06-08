@@ -1577,12 +1577,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("nodata") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("super")) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-                    .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
-        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("manag") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("gm")) {
+                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
+        } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
-                    .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
-
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }
 

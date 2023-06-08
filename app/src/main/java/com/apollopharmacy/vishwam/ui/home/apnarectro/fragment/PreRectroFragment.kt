@@ -48,7 +48,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     @SuppressLint("SuspiciousIndentation", "SimpleDateFormat")
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
-        Preferences.savingToken("APL67949")
+//        Preferences.savingToken("APL67949")
         viewBinding.callback = this
         Toast.makeText(context, "" + Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
 
@@ -149,7 +149,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
                     val cal = Calendar.getInstance()
-                    cal.add(Calendar.DATE, -14)
+                    cal.add(Calendar.DATE, -7)
                     val currentDate: String = simpleDateFormat.format(Date())
                     var fromdate = simpleDateFormat.format(cal.time)
                     var toDate = currentDate
@@ -198,7 +198,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootDate: String?,
-        reshootBy: String?,
+        reshootBy: String?,retroStage: String?
     ) {
         val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -207,13 +207,17 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("uploadedOn", uploadedOn)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("storeList",storeList)
+        intent.putExtra("retroStage",retroStage)
+
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
-        intent.putExtra("approvedDate", approvedDate)
-        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
-        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
-        intent.putExtra("reshootDate", reshootDate)
-        intent.putExtra("reshootBy", reshootBy)
+//
+        intent.putExtra("status", status)
+//        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
+//        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
+//        intent.putExtra("reshootDate", reshootDate)
+//        intent.putExtra("reshootBy", reshootBy)
 
         startActivityForResult(intent, 779)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
@@ -240,7 +244,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootBy: String?,
-        reshootDate: String?,
+        reshootDate: String?,retroStage: String?
     ) {
         val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -250,13 +254,14 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         intent.putExtra("storeList",storeList)
         intent.putExtra("uploadedBy", uploadedBy)
         intent.putExtra("storeId", storeId)
+        intent.putExtra("retroStage",retroStage)
         intent.putExtra("uploadStage", uploadStage)
         intent.putExtra("approvedby", approvedby)
-        intent.putExtra("approvedDate", approvedDate)
-        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
-        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
-        intent.putExtra("reshootDate", reshootDate)
-        intent.putExtra("reshootBy", reshootBy)
+        intent.putExtra("status", status)
+//        intent.putExtra("partiallyApprovedBy", partiallyApprovedBy)
+//        intent.putExtra("partiallyApprovedDate", partiallyApprovedDate)
+//        intent.putExtra("reshootDate", reshootDate)
+//        intent.putExtra("reshootBy", reshootBy)
         startActivityForResult(intent, 779)
         activity?.overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 

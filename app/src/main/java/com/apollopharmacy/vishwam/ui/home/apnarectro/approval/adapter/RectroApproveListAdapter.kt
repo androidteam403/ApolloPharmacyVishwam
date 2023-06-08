@@ -73,7 +73,8 @@ class RectroApproveListAdapter(
             holder.adapterApproveListBinding.preRectroStage.setText(WordUtils.capitalizeFully(
                 approvedOrders[j].stage!!.replace("-", " ")))
             holder.adapterApproveListBinding.preRectroStatus.setText(approvedOrders[j].status)
-            holder.adapterApproveListBinding.storeId.setText(approvedOrders[j].store)
+            holder.adapterApproveListBinding.storeId.text = approvedOrders[j].store!!.split("-").get(0)
+            holder.adapterApproveListBinding.storeName.text = approvedOrders[j].store!!.split("-").get(1)
 
             holder.adapterApproveListBinding.preRectroLayout.setOnClickListener { mClicklistner.onClick(position, j, approvePendingList, approveList) }
             if (approvedOrders.get(j).status.equals("Pending")){
@@ -159,7 +160,8 @@ class RectroApproveListAdapter(
             holder.adapterApproveListBinding.transactionId.setText(approvedOrders.get(j).retroid)
             holder.adapterApproveListBinding.uploadby.setText(approvedOrders.get(j).uploadedBy)
             holder.adapterApproveListBinding.uploadon.setText(dateNewFormat)
-            holder.adapterApproveListBinding.storeId.setText(approvedOrders.get(j).store)
+            holder.adapterApproveListBinding.storeId.text = approvedOrders[j].store!!.split("-").get(0)
+            holder.adapterApproveListBinding.storeName.text = approvedOrders[j].store!!.split("-").get(1)
             holder.adapterApproveListBinding.postRectroStage.setText(WordUtils.capitalizeFully(
                 approvedOrders.get(j).stage!!.replace("-", " ")))
             holder.adapterApproveListBinding.postRectrostatus.setText(approvedOrders.get(j).status)
@@ -248,7 +250,8 @@ class RectroApproveListAdapter(
             holder.adapterApproveListBinding.transactionId.setText(approvedOrders.get(j).retroid)
             holder.adapterApproveListBinding.uploadby.setText(approvedOrders.get(j).uploadedBy)
             holder.adapterApproveListBinding.uploadon.setText(dateNewFormat)
-            holder.adapterApproveListBinding.storeId.setText(approvedOrders.get(j).store)
+            holder.adapterApproveListBinding.storeId.text = approvedOrders[j].store!!.split("-").get(0)
+            holder.adapterApproveListBinding.storeName.text = approvedOrders[j].store!!.split("-").get(1)
             holder.adapterApproveListBinding.approveStage.setText(WordUtils.capitalizeFully(
                 approvedOrders.get(
                     j).stage!!.replace("-", " ")))

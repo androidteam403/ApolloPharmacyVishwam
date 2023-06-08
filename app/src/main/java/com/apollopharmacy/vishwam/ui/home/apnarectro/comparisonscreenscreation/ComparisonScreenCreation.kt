@@ -122,7 +122,17 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
         activityPostRectroReviewScreenBinding.imageStatus.setText(status)
 
 
+        if (status.contains("Approved")){
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.greenn))
 
+        }else  if (status.contains("Pending")){
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.pending_color_for_apna))
+
+        }else
+        {
+            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(ViswamApp.context.getColor(R.color.color_red))
+
+        }
 
 
 
@@ -693,17 +703,17 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
     @SuppressLint("ResourceAsColor")
     fun bottomStatusUpdate(status: String?) {
-        if (status.equals("0")) {
-            activityPostRectroReviewScreenBinding.imageStatus.text = "Pending"
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.material_amber_accent_700))
-        } else if (status.equals("1")) {
-            activityPostRectroReviewScreenBinding.imageStatus.text = "Approved"
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.dark_green))
-        } else if (status.equals("2")) {
-            activityPostRectroReviewScreenBinding.imageStatus.text = "Reshoot"
-            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.color_red))
-
-        }
+//        if (status.equals("0")) {
+//            activityPostRectroReviewScreenBinding.imageStatus.text = "Pending"
+//            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.material_amber_accent_700))
+//        } else if (status.equals("1")) {
+//            activityPostRectroReviewScreenBinding.imageStatus.text = "Approved"
+//            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.dark_green))
+//        } else if (status.equals("2")) {
+//            activityPostRectroReviewScreenBinding.imageStatus.text = "Reshoot"
+//            activityPostRectroReviewScreenBinding.imageStatus.setTextColor(getResources().getColor(R.color.color_red))
+//
+//        }
 
     }
 

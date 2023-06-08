@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -18,6 +19,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringStoreData
 import java.io.File
+import java.text.DecimalFormat
 
 class NeighbouringStoreAdapter(
     var mContext: Context,
@@ -39,6 +41,7 @@ class NeighbouringStoreAdapter(
         return ViewHolder(layoutNeighbouringStoreBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         if (neighbouringList.get(position).location.isNotEmpty()) {
@@ -54,13 +57,17 @@ class NeighbouringStoreAdapter(
         }
 
         if (neighbouringList.get(position).rent.isNotEmpty()) {
-            holder.layoutNeighbouringStoreBinding.rent.setText(neighbouringList.get(position).rent)
+            holder.layoutNeighbouringStoreBinding.rent.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(neighbouringList[position].rent.toLong())
+            )
         } else {
             holder.layoutNeighbouringStoreBinding.rent.setText("-")
         }
 
         if (neighbouringList.get(position).sales.isNotEmpty()) {
-            holder.layoutNeighbouringStoreBinding.sales.setText(neighbouringList.get(position).sales)
+            holder.layoutNeighbouringStoreBinding.sales.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(neighbouringList[position].sales.toLong())
+            )
         } else {
             holder.layoutNeighbouringStoreBinding.sales.setText("-")
         }

@@ -16,6 +16,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.Preferences
+import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ApprovalActivityPreviewBinding
 import com.apollopharmacy.vishwam.databinding.DialogLastimagePreviewAlertBinding
 import com.apollopharmacy.vishwam.databinding.DialogReviewAlertBinding
@@ -87,14 +88,27 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
             intent.getSerializableExtra("approvePendingList") as ArrayList<GetRetroPendingAndApproveResponse.Retro>
         var imageUrlRequest = GetImageUrlRequest()
         imageUrlRequest.retroId = retroId
-        imageUrlRequest.storeid = store
+        imageUrlRequest.storeid = store.split("-").get(0)
         viewModel.getRectroApprovalList(imageUrlRequest, this)
         val frmt = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss")
         val date = frmt.parse(uploadDate)
         val newFrmt = SimpleDateFormat("dd MMM, yyy - hh:mm a").format(date)
         activityPreviewBinding.uploadby.setText(uploadBy)
         activityPreviewBinding.uploadon.setText(newFrmt)
-        activityPreviewBinding.storeId.setText(store)
+        activityPreviewBinding.status.setText(status)
+        if (status.contains("Approved")){
+            activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.greenn))
+
+        }else  if (status.contains("Pending")){
+            activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.pending_color_for_apna))
+
+        }else
+        {
+            activityPreviewBinding.status.setTextColor(ViswamApp.context.getColor(R.color.color_red))
+
+        }
+        activityPreviewBinding.storeId.text = store.split("-").get(0)
+        activityPreviewBinding.storeName.text = store.split("-").get(1)
         activityPreviewBinding.stage.setText(WordUtils.capitalizeFully(stage.replace("-", " ")) + " Preview")
         activityPreviewBinding.retroId.setText(retroId)
         if (status.toLowerCase().contains("pen")|| Preferences.getAppLevelDesignationApnaRetro() == "MANAGER" || Preferences.getAppLevelDesignationApnaRetro() == "GENERAL MANAGER"|| Preferences.getAppLevelDesignationApnaRetro() == "CEO") {
@@ -121,7 +135,7 @@ class ApprovalPreviewActivity : AppCompatActivity(), ApprovalReviewCallback {
 
         if (approveResponseList != null) {
             timelineAdapter =
-                TimeLineListAdapter(this, approveResponseList.filter { it.retroid.equals(retroId) })
+                TimeLineListAdapter(this, approveResponseList.filter { it.retroid.equals(retroId) && it.stage.equals(stage) })
             activityPreviewBinding.timeLineRecycleview.adapter = timelineAdapter
         }
 
