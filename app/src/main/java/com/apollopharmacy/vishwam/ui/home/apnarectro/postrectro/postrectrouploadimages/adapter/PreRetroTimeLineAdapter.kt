@@ -42,7 +42,7 @@ import org.apache.commons.lang3.text.WordUtils
             holder.timelineLayoutBinding.stage.text = WordUtils.capitalizeFully(approvedOrders.stage!!.replace("-", " "))
             holder.timelineLayoutBinding.uploadBy.text = approvedOrders.uploadedBy
             holder.timelineLayoutBinding.uploadedDate.text = Utlis.convertRetroDate(approvedOrders.uploadedDate!!)
-            if(approvedOrders.executiveApprovedBy.toString().contains("null")||approvedOrders.executiveApprovedBy.toString().isNullOrEmpty()){
+            if(approvedOrders.executiveApprovedBy==null){
                 holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
 
@@ -55,7 +55,7 @@ import org.apache.commons.lang3.text.WordUtils
                     approvedOrders.executiveApprovedDate.toString()!!
                 )
             }
-            if(approvedOrders.executiveReshootBy.toString().contains("null")||approvedOrders.executiveReshootBy.toString().isNullOrEmpty()){
+            if(approvedOrders.executiveReshootBy==null){
                 holder.timelineLayoutBinding.executiveReshootByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.executiveReshootDateLayout.visibility=android.view.View.GONE
 
@@ -69,7 +69,7 @@ import org.apache.commons.lang3.text.WordUtils
                 )
             }
 
-            if(approvedOrders.managerApprovedBy.toString().contains("null")||approvedOrders.managerApprovedBy.toString().isNullOrEmpty()){
+            if(approvedOrders.managerApprovedBy==null){
                 holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
 
@@ -82,7 +82,7 @@ import org.apache.commons.lang3.text.WordUtils
                     approvedOrders.managerApprovedDate.toString()!!
                 )
             }
-            if(approvedOrders.managerReshootBy.toString().contains("null")||approvedOrders.managerReshootBy.toString().isNullOrEmpty()){
+            if(approvedOrders.managerReshootBy==null){
                 holder.timelineLayoutBinding.managerReshootByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.managerReshootDateLayout.visibility=android.view.View.GONE
 
@@ -94,7 +94,7 @@ import org.apache.commons.lang3.text.WordUtils
                 holder.timelineLayoutBinding.managerReshootDate.text= Utlis.convertRetroDate(approvedOrders.managerReshootDate.toString()!!)
             }
 
-            if(approvedOrders.gmApprovedBy.toString().contains("null")||approvedOrders.gmApprovedBy.toString().isNullOrEmpty()){
+            if(approvedOrders.gmApprovedBy==null){
                 holder.timelineLayoutBinding.executiveApproveByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.executiveApproveDateLayout.visibility=android.view.View.GONE
 
@@ -107,7 +107,7 @@ import org.apache.commons.lang3.text.WordUtils
                     approvedOrders.gmApprovedDate.toString()!!
                 )
             }
-            if(approvedOrders.gmReshootBy.toString().contains("null")||approvedOrders.gmReshootBy.toString().isNullOrEmpty()){
+            if(approvedOrders.gmReshootBy==null){
                 holder.timelineLayoutBinding.gmReshootByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.gmReshootDateLayout.visibility=android.view.View.GONE
 
@@ -122,7 +122,7 @@ import org.apache.commons.lang3.text.WordUtils
             }
 
 
-            if(approvedOrders.ceoApprovedBy.toString().contains("null")||approvedOrders.ceoApprovedBy.toString().isNullOrEmpty()){
+            if(approvedOrders.ceoApprovedBy==null){
                 holder.timelineLayoutBinding.ceoApproveLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.ceoApproveDateLayout.visibility=android.view.View.GONE
 
@@ -135,7 +135,7 @@ import org.apache.commons.lang3.text.WordUtils
                     approvedOrders.ceoApprovedDate.toString()!!
                 )
             }
-            if(approvedOrders.ceoReshootBy.toString() == "null" ||approvedOrders.ceoReshootBy.toString().isNullOrEmpty()){
+            if(approvedOrders.ceoReshootBy==null){
                 holder.timelineLayoutBinding.ceoReshootByLayout.visibility=android.view.View.GONE
                 holder.timelineLayoutBinding.ceoReshootDateLayout.visibility=android.view.View.GONE
 

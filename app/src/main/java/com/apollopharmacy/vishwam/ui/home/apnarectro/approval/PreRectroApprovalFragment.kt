@@ -40,8 +40,8 @@ class PreRectroApprovalFragment() :
 
     override fun setup() {
         showLoading()
-        Preferences.savingToken("APL25054")
-        Preferences.setAppLevelDesignationApnaRetro("GENERAL MANAGER")
+        Preferences.savingToken("APL49391")
+        Preferences.setAppLevelDesignationApnaRetro("CEO")
         MainActivity.mInstance.mainActivityCallback = this
 
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()

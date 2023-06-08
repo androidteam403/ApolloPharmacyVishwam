@@ -61,6 +61,8 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private var uploadedBy: String = ""
     private var storeId: String = ""
     private var stage: String = ""
+    private var retroStage: String = ""
+
     private var uploadStage: String = ""
     var timelineAdapter: PreRetroTimeLineAdapter? = null
 
@@ -74,7 +76,7 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
     private lateinit var cameraDialog: Dialog
     var approvedby: String? = null
     var approvedDate: String? = null
-    var partiallyApprovedBy: String? = null
+    var status: String? = null
     var partiallyApprovedDate: String? = null
     var reshootBy: String? = null
     var reshootDate: String? = null
@@ -103,29 +105,45 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         uploadedOn = intent.getStringExtra("uploadedOn")!!
         uploadedBy = intent.getStringExtra("uploadedBy")!!
         storeId = intent.getStringExtra("storeId")!!
+        status = intent.getStringExtra("status")!!
+
+        retroStage = intent.getStringExtra("retroStage")!!
         uploadStage = intent.getStringExtra("uploadStage")!!
         approvedby = intent.getStringExtra("approvedby")!!
         storeList= intent.getSerializableExtra("storeList") as ArrayList<GetStorePendingAndApprovedListRes.Get>?
 
 
+        activityUploadImagesPostRetroBinding.backButton.setOnClickListener {
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
 
         if (stage == "isPreRetroStage") {
-
             if (uploadStage == "newUploadStage") {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
                 activityUploadImagesPostRetroBinding.stageupdate.text = "Pre Retro Update"
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
                 activityUploadImagesPostRetroBinding.reviewName.text = "Pre Retro Review"
                 activityUploadImagesPostRetroBinding.cancelUploadLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroUpdateLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.preRetroPendingLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.GONE
-                activityUploadImagesPostRetroBinding.reportLayout.visibility = View.GONE
+                activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
-                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
-                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
+                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
 
             } else if (uploadStage.equals("approvedStage")) {
@@ -140,11 +158,17 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Approved"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
 
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
             } else if (uploadStage.equals("reshootStage")) {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(context.getColor(R.color.white))
                 activityUploadImagesPostRetroBinding.parentLayout.setBackgroundColor(context.getColor(R.color.lightt_blue))
@@ -159,10 +183,18 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
+
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Re-shoot"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.VISIBLE
 
@@ -186,8 +218,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
@@ -207,11 +242,18 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.reportLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
-                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Approved"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
 
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
+                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
             } else if (uploadStage.equals("reshootStage")) {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
                     context.getColor(
@@ -235,11 +277,18 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
-                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Re-shoot"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
 
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
+                activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
             }
 
         } else {
@@ -258,7 +307,9 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = Preferences.getApnaSiteId()
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
+
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.GONE
@@ -279,12 +330,18 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
 
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Approved"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
 
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
             } else if (uploadStage.equals("reshootStage")) {
                 activityUploadImagesPostRetroBinding.storeDetailsLayout.setBackgroundColor(
                     context.getColor(
@@ -307,10 +364,17 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                 activityUploadImagesPostRetroBinding.timelineLayout.visibility = View.VISIBLE
                 activityUploadImagesPostRetroBinding.uploadby.text = uploadedBy
                 activityUploadImagesPostRetroBinding.uploadon.text = uploadedOn
-                activityUploadImagesPostRetroBinding.storeId.text = storeId
+                activityUploadImagesPostRetroBinding.storeName.text = storeId.split("-").get(1)
+                activityUploadImagesPostRetroBinding.storeId.text = storeId.split("-").get(0)
                 activityUploadImagesPostRetroBinding.bottomStatusLayout.visibility = View.VISIBLE
-                activityUploadImagesPostRetroBinding.statusBottom.text = "Re-shoot"
-                activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+                activityUploadImagesPostRetroBinding.statusBottom.text = status
+                if (status!!.contains("Approved")){
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.greenn))
+
+                }else{
+                    activityUploadImagesPostRetroBinding.statusBottom.setTextColor(context.getColor(R.color.color_red))
+
+                }
                 activityUploadImagesPostRetroBinding.uploadnowbutton.visibility = View.GONE
                 activityUploadImagesPostRetroBinding.reshootButton.visibility = View.VISIBLE
 
@@ -728,8 +792,13 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
         if (activityUploadImagesPostRetroBinding.downArrow.rotation.equals(0f)) {
             activityUploadImagesPostRetroBinding.downArrow.rotation = 90f
             activityUploadImagesPostRetroBinding.timeLineDetailsLayout.visibility = View.VISIBLE
-            timelineAdapter =
-                PreRetroTimeLineAdapter(this, storeList!!.filter { it.retroid.equals(retroid) })
+
+            val layoutManager = LinearLayoutManager(context)
+            activityUploadImagesPostRetroBinding.timeLineRecycleview.layoutManager =
+                layoutManager
+
+
+            timelineAdapter = PreRetroTimeLineAdapter(this, storeList!!.filter { it.retroid.equals(retroid) && it.stage.equals(retroStage)})
             activityUploadImagesPostRetroBinding.timeLineRecycleview.adapter = timelineAdapter
 
         } else {

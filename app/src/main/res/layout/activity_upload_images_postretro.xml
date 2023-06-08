@@ -193,6 +193,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="2"
+                                    android:visibility="gone"
                                     android:orientation="horizontal">
 
                                     <TextView
@@ -224,6 +225,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1"
+                                    android:visibility="gone"
                                     android:orientation="horizontal">
 
                                     <TextView
@@ -299,19 +301,16 @@
                                 android:layout_marginLeft="@dimen/text_dimen_10"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:background="@color/light_green"
                                 android:orientation="vertical">
+
                                 <androidx.recyclerview.widget.RecyclerView
                                     android:id="@+id/timeLine_recycleview"
                                     android:layout_width="match_parent"
+                                    android:visibility="visible"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="10dp"
-                                    android:layout_marginEnd="10dp"
-                                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                                    tools:ignore="MissingClass"
+                                    android:layout_marginEnd="10dp"/>                                   />
 
-                                    tools:itemCount="2"
-                                    tools:listitem="@layout/timeline_layout" />
 
 
 
@@ -355,7 +354,7 @@
 
 
                     <LinearLayout
-                        android:layout_marginTop="@dimen/text_dimen_10"
+                        android:layout_marginTop="@dimen/thirteen13_dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/lightt_blue">
@@ -714,7 +713,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="4dp"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Re-Shoot "
+                                android:text=" "
                                 android:textColor="@color/color_red"
                                 android:textSize="@dimen/text_15sp" />
                         </LinearLayout>
@@ -739,6 +738,7 @@
             android:layout_marginTop="@dimen/text_dimen_10"
             android:id="@+id/cancel_upload_layout"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:weightSum="1"
             android:layout_alignParentBottom="true">

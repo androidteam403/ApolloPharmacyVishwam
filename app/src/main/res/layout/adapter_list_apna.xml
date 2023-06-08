@@ -575,6 +575,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="PENDING"
+                                android:id="@+id/first_stage_status"
                                 android:textAlignment="center"
                                 android:textColor="@color/pending_reshoot_color"
                                 android:textSize="@dimen/text_12sp"
@@ -710,6 +711,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="---"
+                                android:id="@+id/secondstage_status"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
@@ -816,6 +818,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="---"
+                                android:id="@+id/thirdstagestatus"
                                 android:textAlignment="center"
                                 android:textSize="@dimen/text_12sp"
                                 android:textStyle="bold" />
