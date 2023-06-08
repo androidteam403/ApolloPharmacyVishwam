@@ -171,331 +171,331 @@ class PendingViewModel : ViewModel() {
 
 
     fun filterClicked() {
-        var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+//        var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+//
+//        var remarksList = ArrayList<PendingOrder.REMARKSItem>()
+//        var statusList = ArrayList<PendingOrder.STATUSItem>()
+//        var itemsList = ArrayList<PendingOrder.ITEMSItem>()
+//
+//        val pending = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "16001",
+//            "",
+//            "16301",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "16301",
+//            statusList,
+//            false
+//        )
+//        val pending1 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "16002",
+//            "",
+//            "16902",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "16902",
+//            statusList,
+//            false
+//        )
+//        val pending2 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "16031",
+//            "",
+//            "16231",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "16231",
+//            statusList,
+//            false
+//        )
+//        val pending3 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "13251",
+//            "",
+//            "13051",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "13051",
+//            statusList,
+//            false
+//        )
+//        val pending4 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "13051",
+//            "",
+//            "13851",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "13851",
+//            statusList,
+//            false
+//        )
+//        val pending5 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "14051",
+//            "",
+//            "12051",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "12051",
+//            statusList,
+//            false
+//        )
+//
+//
+//        val pending6 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "14351",
+//            "",
+//            "14151",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "14151",
+//            statusList,
+//            false
+//        )
+//        val pending7 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "15002",
+//            "",
+//            "15402",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "15402",
+//            statusList,
+//            false
+//        )
+//        val pending8 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "17001",
+//            "",
+//            "17801",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "17801",
+//            statusList,
+//            false
+//        )
+//
+//
+//
+//        val pending9 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "14051",
+//            "",
+//            "14851",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "",
+//            statusList,
+//            false
+//        )
+//
+//
+//        val pending10 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "14351",
+//            "",
+//            "14251",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "",
+//            statusList,
+//            false
+//        )
+//        val pending11 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "15002",
+//            "",
+//            "15042",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "",
+//            statusList,
+//            false
+//        )
+//        val pending12 = PendingOrder.PENDINGLISTItem(
+//            "",
+//            "",
+//            remarksList,
+//            "",
+//            itemsList,
+//            "",
+//            "17001",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            "13001",
+//            "",
+//            "",
+//            0,
+//            "",
+//            "",
+//            "",
+//            statusList,
+//            false
+//        )
+//
+//
+//
+//
+//        pendinglistItem.add(pending)
+//        pendinglistItem.add(pending1)
+//        pendinglistItem.add(pending2)
+//        pendinglistItem.add(pending3)
+//        pendinglistItem.add(pending4)
+//        pendinglistItem.add(pending5)
+//        pendinglistItem.add(pending6)
+//        pendinglistItem.add(pending7)
+//        pendinglistItem.add(pending8)
+//        pendinglistItem.add(pending9)
+//        pendinglistItem.add(pending10)
+//        pendinglistItem.add(pending11)
+//        pendinglistItem.add(pending12)
+//
+//
 
-        var remarksList = ArrayList<PendingOrder.REMARKSItem>()
-        var statusList = ArrayList<PendingOrder.STATUSItem>()
-        var itemsList = ArrayList<PendingOrder.ITEMSItem>()
-
-        val pending = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16001",
-            "",
-            "16301",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16301",
-            statusList,
-            false
-        )
-        val pending1 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16002",
-            "",
-            "16902",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16902",
-            statusList,
-            false
-        )
-        val pending2 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16031",
-            "",
-            "16231",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16231",
-            statusList,
-            false
-        )
-        val pending3 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "13251",
-            "",
-            "13051",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "13051",
-            statusList,
-            false
-        )
-        val pending4 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "13051",
-            "",
-            "13851",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "13851",
-            statusList,
-            false
-        )
-        val pending5 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14051",
-            "",
-            "12051",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "12051",
-            statusList,
-            false
-        )
-
-
-        val pending6 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14351",
-            "",
-            "14151",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "14151",
-            statusList,
-            false
-        )
-        val pending7 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "15002",
-            "",
-            "15402",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "15402",
-            statusList,
-            false
-        )
-        val pending8 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "17001",
-            "",
-            "17801",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "17801",
-            statusList,
-            false
-        )
-
-
-
-        val pending9 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14051",
-            "",
-            "14851",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-
-
-        val pending10 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14351",
-            "",
-            "14251",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-        val pending11 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "15002",
-            "",
-            "15042",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-        val pending12 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "17001",
-            "",
-            "13001",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-
-
-
-
-        pendinglistItem.add(pending)
-        pendinglistItem.add(pending1)
-        pendinglistItem.add(pending2)
-        pendinglistItem.add(pending3)
-        pendinglistItem.add(pending4)
-        pendinglistItem.add(pending5)
-        pendinglistItem.add(pending6)
-        pendinglistItem.add(pending7)
-        pendinglistItem.add(pending8)
-        pendinglistItem.add(pending9)
-        pendinglistItem.add(pending10)
-        pendinglistItem.add(pending11)
-        pendinglistItem.add(pending12)
-
-
-
-        if (pendinglistItem.isNullOrEmpty()) {
+        if (arrayList.isNullOrEmpty()) {
             Utils.printMessage("data is empty", "data is empty")
         } else {
             command.value = Command.ShowButtonSheet(
                 FilterFragment::class.java, bundleOf(
-                    Pair(KEY_PENDING_DATA, pendinglistItem)
+                    Pair(KEY_PENDING_DATA, arrayList)
                 )
             )
         }
@@ -591,325 +591,6 @@ class PendingViewModel : ViewModel() {
     }
 
     fun filterData(pendingListData: ArrayList<PendingOrder.PENDINGLISTItem>) {
-        var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
-
-        var remarksList = ArrayList<PendingOrder.REMARKSItem>()
-        var statusList = ArrayList<PendingOrder.STATUSItem>()
-        var itemsList = ArrayList<PendingOrder.ITEMSItem>()
-
-        val pending = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16001",
-            "",
-            "16301",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16301",
-            statusList,
-            false
-        )
-        val pending1 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16002",
-            "",
-            "16902",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16902",
-            statusList,
-            false
-        )
-        val pending2 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "16031",
-            "",
-            "16231",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "16231",
-            statusList,
-            false
-        )
-        val pending3 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "13251",
-            "",
-            "13051",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "13051",
-            statusList,
-            false
-        )
-        val pending4 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "13051",
-            "",
-            "13851",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "13851",
-            statusList,
-            false
-        )
-        val pending5 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14051",
-            "",
-            "12051",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "12051",
-            statusList,
-            false
-        )
-
-
-        val pending6 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14351",
-            "",
-            "14151",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "14151",
-            statusList,
-            false
-        )
-        val pending7 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "15002",
-            "",
-            "15402",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "15402",
-            statusList,
-            false
-        )
-        val pending8 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "17001",
-            "",
-            "17801",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "17801",
-            statusList,
-            false
-        )
-
-
-
-        val pending9 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14051",
-            "",
-            "14851",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-
-
-        val pending10 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "14351",
-            "",
-            "14251",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-        val pending11 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "15002",
-            "",
-            "15042",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-        val pending12 = PendingOrder.PENDINGLISTItem(
-            "",
-            "",
-            remarksList,
-            "",
-            itemsList,
-            "",
-            "17001",
-            "",
-            "13001",
-            "",
-            "",
-            "13001",
-            "",
-            "",
-            0,
-            "",
-            "",
-            "",
-            statusList,
-            false
-        )
-
-
-
-
-        pendinglistItem.add(pending)
-        pendinglistItem.add(pending1)
-        pendinglistItem.add(pending2)
-        pendinglistItem.add(pending3)
-        pendinglistItem.add(pending4)
-        pendinglistItem.add(pending5)
-        pendinglistItem.add(pending6)
-        pendinglistItem.add(pending7)
-        pendinglistItem.add(pending8)
-        pendinglistItem.add(pending9)
-        pendinglistItem.add(pending10)
-        pendinglistItem.add(pending11)
-        pendinglistItem.add(pending12)
-
-        pendinglistItem=pendingListData
-
-//        pendingList.value = pendingListData
+        pendingList.value = pendingListData
     }
 }

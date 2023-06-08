@@ -169,13 +169,6 @@ object Utlis {
         return Build.MODEL
     }
 
-//    @SuppressLint("SimpleDateFormat")
-//    fun convertDate(DatefromServer: String): String {
-//        val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-//        val destFormat = SimpleDateFormat("dd-MMM-yyyy")
-//        val convertedDate: Date = sourceFormat.parse(DatefromServer)
-//        return destFormat.format(convertedDate)
-//    }
 
     fun convertDate(DatefromServer: String): String {
         // val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
@@ -257,7 +250,12 @@ object Utlis {
         return sdf.format(todate1)
     }
 
-
+    fun convertRetroDate(DatefromServer: String): String {
+        val sourceFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd MMM, yyyy - hh:mm a", Locale.ENGLISH)
+        val convertedDate: Date = sourceFormat.parse(DatefromServer)
+        return destFormat.format(convertedDate)
+    }
     fun getDatethirtyDays(pattern: String?): String? {
         val sdf = SimpleDateFormat(pattern, Locale.getDefault())
 

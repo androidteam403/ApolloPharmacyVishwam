@@ -688,7 +688,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
         imageRequest.stageid =stagePosition
         imageRequest.reamrks = ""
         imageRequest.statusid = statusId
-        imageRequest.storeid = store
+        imageRequest.storeid = store.split("-").get(0)
         imageRequest.userid = Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist.distinctBy { it.imageid }
@@ -854,7 +854,7 @@ class PostRectroReviewScreen : AppCompatActivity(), PreviewLastImageCallback {
                     imageRequest.stageid =stagePosition
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = statusId
-                    imageRequest.storeid = store
+                    imageRequest.storeid = store.split("-").get(0)
                     imageRequest.userid = Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
                     Utlis.showLoading(this)
