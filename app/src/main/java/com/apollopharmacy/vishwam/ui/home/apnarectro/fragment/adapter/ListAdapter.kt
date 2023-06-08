@@ -125,7 +125,7 @@ class ListAdapter(private var fragmentList: List<List<GetStorePendingAndApproved
                     holder.adapterListApnaBinding.afterCompleteionStatus.setTextColor(context.getColor(R.color.pending_reshoot_color))
                     holder.adapterListApnaBinding.afterCompletionStageLayout.setBackgroundColor(context.getColor(R.color.light_pink_for_reshoot_pending))
                     holder.adapterListApnaBinding.afterCompletionStatusImage.setImageDrawable(context.getDrawable(R.drawable.clock_small))
-                }else if(item.get(i).status.equals("Approved")){
+                }else if(item.get(i).hierarchystatus.toString().equals("Approved")){
                     holder.adapterListApnaBinding.afterCompletionText.setTextColor(context.getColor(R.color.black))
                     holder.adapterListApnaBinding.afterCompleteionStatus.text=item.get(i).status
                     holder.adapterListApnaBinding.afterCompleteionStatus.setTextColor(context.getColor(R.color.greenn))
