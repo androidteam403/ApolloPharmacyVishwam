@@ -78,11 +78,11 @@ class ListAdapter(
                         if (item.get(i).hierarchystatus.toString().toLowerCase().contains("executive")) {
                             holder.adapterListApnaBinding.preRetroStatus.text = "Pending At Executive"
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("manager")){
+                        else if (item.get(i).hierarchystatus.toString().equals("AWAITING APPROVAL FROM MANAGER")){
                             holder.adapterListApnaBinding.preRetroStatus.text = "Pending At Manager"
 
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("gm")){
+                        else if (item.get(i).hierarchystatus.toString().replace(" ","").contains("GENERAL")){
                             holder.adapterListApnaBinding.preRetroStatus.text = "Pending At GM"
 
                         }
@@ -156,11 +156,11 @@ class ListAdapter(
                         if (item.get(i).hierarchystatus.toString().toLowerCase().contains("executive")) {
                             holder.adapterListApnaBinding.postRetroStatus.text = "Pending At Executive"
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("manager")){
+                        else if (item.get(i).hierarchystatus.toString().equals("AWAITING APPROVAL FROM MANAGER")){
                             holder.adapterListApnaBinding.postRetroStatus.text = "Pending At Manager"
 
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("gm")){
+                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("general")){
                             holder.adapterListApnaBinding.postRetroStatus.text = "Pending At GM"
 
                         }
@@ -237,11 +237,11 @@ class ListAdapter(
                         if (item.get(i).hierarchystatus.toString().toLowerCase().contains("executive")) {
                             holder.adapterListApnaBinding.afterCompleteionStatus.text = "Pending At Executive"
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("manager")){
+                        else if (item.get(i).hierarchystatus.toString().equals("AWAITING APPROVAL FROM MANAGER")){
                             holder.adapterListApnaBinding.afterCompleteionStatus.text = "Pending At Manager"
 
                         }
-                        else if (item.get(i).hierarchystatus.toString().toLowerCase().contains("gm")){
+                        else if (item.get(i).hierarchystatus.toString().contains("GENERAL")){
                             holder.adapterListApnaBinding.afterCompleteionStatus.text = "Pending At GM"
 
                         }
