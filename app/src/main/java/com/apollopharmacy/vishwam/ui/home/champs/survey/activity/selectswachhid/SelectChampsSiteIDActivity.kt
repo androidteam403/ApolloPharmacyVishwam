@@ -19,11 +19,14 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.ActivitySelectChampsSiteidBinding
 import com.apollopharmacy.vishwam.databinding.ActivitySelectSwachhSiteidBinding
+import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.adapter.SiteIdListChampsAdapter
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utlis
+import com.apollopharmacy.vishwam.util.Utlis.hideLoading
+import com.apollopharmacy.vishwam.util.Utlis.showLoading
 
 class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallback {
     lateinit var activitySelectChampsSiteidBinding: ActivitySelectChampsSiteidBinding
@@ -120,7 +123,7 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             activitySelectChampsSiteidBinding.noOrderFoundText.setVisibility(View.VISIBLE)
         }
     }
-
+    var siteId:String?=""
     override fun onItemClick(storeListItem: StoreDetailsModelResponse.StoreDetail) {
 
 
@@ -135,12 +138,26 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
             dialog.dismiss()
 //            Preferences.setSwachhSiteId(storeListItem.siteid!!)
 //            Preferences.setSwachSiteName(storeListItem.sitename!!)
-            Preferences.setApnaSite(storeListItem.siteid!!)
+            siteId=storeListItem.siteid!!
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
-            val intent = Intent()
-            setResult(Activity.RESULT_OK, intent)
-            finish()
+//            dialog.show()
+            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                showLoading(this)
+                viewModel.getStoreWiseDetailsChampsApi(
+                    this,
+                    storeListItem.siteid!!
+                )
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    resources.getString(R.string.label_network_error),
+                    Toast.LENGTH_SHORT
+                )
+                    .show()
+            }
+//            val intent = Intent()
+//            setResult(Activity.RESULT_OK, intent)
+//            finish()
         }
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
@@ -160,5 +177,23 @@ class SelectChampsSiteIDActivity : AppCompatActivity(), SelectChampsSiteIdCallba
     override fun onFailuregetStoreDetails(value: StoreDetailsModelResponse) {
     Toast.makeText(applicationContext,""+value.message, Toast.LENGTH_SHORT).show()
         Utlis.hideLoading()
+    }
+
+    override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
+//            viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
+            Preferences.setApnaSite(siteId!!)
+            val intent = Intent()
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        } else {
+            Toast.makeText(applicationContext, "No data found" , Toast.LENGTH_SHORT).show()
+        }
+        hideLoading()
+    }
+
+    override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
+        Toast.makeText(applicationContext, ""+value.message , Toast.LENGTH_SHORT).show()
+        hideLoading()
     }
 }

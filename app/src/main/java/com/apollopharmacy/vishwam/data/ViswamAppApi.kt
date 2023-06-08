@@ -72,11 +72,11 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
     //
-    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
@@ -599,7 +599,8 @@ interface ViswamAppApi {
 
     @GET("http://jsonblob.com/api/jsonBlob/1080728862249467904")
     suspend fun GET_TRAINING_AND_COLOR_DETAILS(): GetTrainingAndColorDetailsModelResponse
-//    https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=TECH
+
+    //    https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails?type=TECH
     @GET("https://172.16.103.116/Apollo/Champs/getTrainingAndColorDetails")
     suspend fun GET_TRAINING_AND_COLOR_DETAILS_API(
         @Header("token") token: String,
@@ -611,14 +612,15 @@ interface ViswamAppApi {
         @Header("token") token: String,
         @Body saveSurveyModelRequest: SaveSurveyModelRequest,
     ): SaveSurveyModelResponse
-//    https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=2023-01-23&toDate=2023-01-24&empId=APL49392
-        @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
+
+    //    https://172.16.103.116/Apollo/Champs/getServeyDetails?fromDate=2023-01-23&toDate=2023-01-24&empId=APL49392
+    @GET("https://172.16.103.116/Apollo/Champs/getServeyDetails")
     suspend fun GET_SURVEY_DETAILS_API(
-            @Header("token") token: String,
+        @Header("token") token: String,
 
         @Query("fromDate") fromDate: String,
         @Query("toDate") tomDate: String,
-            @Query("empId") id: String
+        @Query("empId") id: String,
     ): GetSurveyDetailsModelResponse
 
     @GET("http://jsonblob.com/api/jsonBlob/1085226360330534912")
@@ -650,7 +652,7 @@ interface ViswamAppApi {
     suspend fun GET_SUB_CATEGORY_DETAILS_API_CALL(
         @Header("token") token: String,
         @Url url: String,
-        @Query("categoryName") id: String
+        @Query("categoryName") id: String,
     ): GetSubCategoryDetailsResponse
 
     @GET
@@ -662,7 +664,7 @@ interface ViswamAppApi {
     suspend fun SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(
         @Header("token") token: String,
         @Url url: String,
-       @Body saveCategoryConfigurationDetailsRequest: SaveCategoryConfigurationDetailsRequest,
+        @Body saveCategoryConfigurationDetailsRequest: SaveCategoryConfigurationDetailsRequest,
     ): SaveCategoryConfigurationDetailsResponse
 
     @GET
@@ -810,7 +812,7 @@ interface ViswamAppApi {
     suspend fun getDiscountColorDetails(
         @Url url: String,
         @Header("token") token: String,
-        ): GetDiscountColorResponse
+    ): GetDiscountColorResponse
 
 }
 

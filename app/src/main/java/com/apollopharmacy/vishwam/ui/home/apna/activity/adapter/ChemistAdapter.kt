@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity.adapter
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
@@ -15,6 +16,7 @@ import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ChemistData
 import java.io.File
+import java.text.DecimalFormat
 
 class ChemistAdapter(
     var mContext: Context,
@@ -35,6 +37,7 @@ class ChemistAdapter(
         return ViewHolder(adapterChemistListBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (chemistList.get(position).chemist.isNotEmpty()) {
             holder.adapterChemistListBinding.chemistType.setText(chemistList.get(position).chemist)
@@ -49,7 +52,9 @@ class ChemistAdapter(
         }
 
         if (chemistList[position].organisedAvgSale.isNotEmpty()) {
-            holder.adapterChemistListBinding.organisedAvgSaleText.setText(chemistList[position].organisedAvgSale)
+            holder.adapterChemistListBinding.organisedAvgSaleText.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(chemistList[position].organisedAvgSale.toLong())
+            )
         } else {
             holder.adapterChemistListBinding.organisedAvgSaleText.setText("-")
         }
@@ -61,7 +66,9 @@ class ChemistAdapter(
         }
 
         if (chemistList[position].unorganisedAvgSale.isNotEmpty()) {
-            holder.adapterChemistListBinding.unorganisedAvgSaleText.setText(chemistList[position].unorganisedAvgSale)
+            holder.adapterChemistListBinding.unorganisedAvgSaleText.setText(
+                "\u20B9" + DecimalFormat("##,##,##0").format(chemistList[position].unorganisedAvgSale.toLong())
+            )
         } else {
             holder.adapterChemistListBinding.unorganisedAvgSaleText.setText("-")
         }

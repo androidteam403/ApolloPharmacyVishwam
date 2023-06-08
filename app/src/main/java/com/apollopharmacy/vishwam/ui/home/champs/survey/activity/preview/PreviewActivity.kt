@@ -102,12 +102,12 @@ class PreviewActivity : AppCompatActivity(), PreviewActivityCallback {
             overallProgressBarCount(getCategoryAndSubCategoryDetails!!.totalProgressP!!)
 
         }
-        for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices){
-            if(!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).clickedSubmit!!){
-                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails=
-                    getSubCategoryResponses!!.subCategoryDetails
-            }
-        }
+//        for(i in getCategoryAndSubCategoryDetails!!.categoryDetails!!.indices){
+//            if(!getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).clickedSubmit!!){
+//                getCategoryAndSubCategoryDetails!!.categoryDetails!!.get(i).subCategoryDetails=
+//                    getSubCategoryResponses!!.subCategoryDetails
+//            }
+//        }
 
 
         categoryDetailsPreviewAdapter =

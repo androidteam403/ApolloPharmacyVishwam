@@ -10,6 +10,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.Geocoder
 import android.location.Location
 import android.net.Uri
 import android.os.Build
@@ -61,6 +62,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.single.PermissionListener
 import java.io.File
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -75,9 +77,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var stateName = ""
     var cityName = ""
 
+    lateinit var geocoder: Geocoder
+
     var selectedMarker: Marker? = null
     var errorMessage: String = "Please fill all mandatory fields"
     var siteSpecificationsErrorMessage: String = ""
+    var marketInformationErrorMessage: String = ""
     var length = 0.0
     var width = 0.0
 
@@ -209,6 +214,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         // State list api call
 //        apnaNewSurveyViewModel.getStateList(this@ApnaNewSurveyActivity)
 
+        geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
 
         activityApnaNewSurveyBinding.backButton.setOnClickListener {
             val dialog = Dialog(this@ApnaNewSurveyActivity)
@@ -688,9 +694,26 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                 surveyCreateRequest.videoMb = videoMb
             }
 
-            val intent = Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
-            intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
-            startActivity(intent)
+            val location = surveyCreateRequest.location2.toString()
+            var isCompleted: Boolean = false
+            if (location.isNotEmpty()) {
+                if (!location.equals("null", true)) {
+                    isCompleted = true
+                } else {
+                    isCompleted = false
+                }
+            } else {
+                isCompleted = false
+            }
+            if (currentPosition > 0 || isCompleted) {
+                val intent =
+                    Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
+                intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
+                startActivity(intent)
+            }
+//            val intent = Intent(this@ApnaNewSurveyActivity, ApnaSurveyPreviewActivity::class.java)
+//            intent.putExtra("SURVEY_REQUEST", surveyCreateRequest)
+//            startActivity(intent)
         }
 
         showNext(currentPosition)
@@ -729,6 +752,12 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     Toast.makeText(
                         this@ApnaNewSurveyActivity,
                         siteSpecificationsErrorMessage,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else if (currentPosition == 2 && !validateMarketInformation()) {
+                    Toast.makeText(
+                        this@ApnaNewSurveyActivity,
+                        marketInformationErrorMessage,
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
@@ -860,13 +889,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         // State Dropdown
         activityApnaNewSurveyBinding.stateText.setOnClickListener {
 
-            if (activityApnaNewSurveyBinding.locationText.text.toString().isEmpty()) {
-                Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "Please select location first",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+//            if (activityApnaNewSurveyBinding.locationText.text.toString().isEmpty()) {
+//                Toast.makeText(
+//                    this@ApnaNewSurveyActivity,
+//                    "Please select location first",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
 //            stateListDialog = Dialog(this@ApnaNewSurveyActivity)
 //            val dialogStateListBinding = DataBindingUtil.inflate<DialogStateListBinding>(
 //                LayoutInflater.from(this@ApnaNewSurveyActivity),
@@ -908,13 +937,13 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         // City dropdown
         activityApnaNewSurveyBinding.cityText.setOnClickListener {
 
-            if (activityApnaNewSurveyBinding.locationText.text.toString().isEmpty()) {
-                Toast.makeText(
-                    this@ApnaNewSurveyActivity,
-                    "Please select location first",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+//            if (activityApnaNewSurveyBinding.locationText.text.toString().isEmpty()) {
+//                Toast.makeText(
+//                    this@ApnaNewSurveyActivity,
+//                    "Please select location first",
+//                    Toast.LENGTH_SHORT
+//                ).show()
+//            }
 
 //            if (activityApnaNewSurveyBinding.stateText.text.toString().isNotEmpty()) {
 //
@@ -1405,7 +1434,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     if (totalOrganisedAvgSale > 0) {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText(
-                            totalOrganisedAvgSale.toString()
+                            "\u20B9" + DecimalFormat("##,##,##0").format(totalOrganisedAvgSale.toLong())
                         )
                     } else {
                         activityApnaNewSurveyBinding.totalOrganisedText.setText("-")
@@ -1417,7 +1446,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     if (totalUnorganisedAvgSale > 0) {
                         activityApnaNewSurveyBinding.totalUnorganisedText.setText(
-                            totalUnorganisedAvgSale.toString()
+                            "\u20B9" + DecimalFormat("##,##,##0").format(totalUnorganisedAvgSale.toLong())
                         )
                     } else {
                         activityApnaNewSurveyBinding.totalUnorganisedText.setText("-")
@@ -1425,7 +1454,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
                     val total = totalOrganisedAvgSale + totalUnorganisedAvgSale
                     if (total > 0) {
-                        activityApnaNewSurveyBinding.total.setText(total.toString())
+                        activityApnaNewSurveyBinding.total.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                            total.toLong()))
                     } else {
                         activityApnaNewSurveyBinding.total.setText("-")
                     }
@@ -3237,6 +3267,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                         activityApnaNewSurveyBinding.latitude.setText(location.latitude.toString())
                         activityApnaNewSurveyBinding.longitude.setText(location.longitude.toString())
 
+//                        geocoder = Geocoder(this@ApnaNewSurveyActivity, Locale.getDefault())
+                        val addresses = geocoder.getFromLocation(
+                            location.latitude,
+                            location.longitude,
+                            1
+                        )
+                        activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
+                        activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
+                        activityApnaNewSurveyBinding.pinText.setText(addresses.get(0).postalCode)
                         if (selectedMarker != null) {
                             selectedMarker!!.remove()
                         }
@@ -4143,6 +4182,28 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         }
     }
 
+    private fun validateMarketInformation(): Boolean {
+        val eoSiteId = activityApnaNewSurveyBinding.existingOutletSiteId.text.toString().trim()
+        if (eoSiteId.isNotEmpty()) {
+            if (!eoSiteId.startsWith("0", true)) {
+                return true
+            } else {
+                marketInformationErrorMessage = "Please enter valid site id"
+                return false
+            }
+        }
+        return true
+//        if (eoSiteId.isNotEmpty()) {
+//            if (eoSiteId.all { c -> !c.equals('0') }) {
+//                return true
+//            } else {
+//                marketInformationErrorMessage = "Please enter valid site id"
+//                return false
+//            }
+//        }
+//        return true
+    }
+
     private fun validateSiteSpecification(): Boolean {
         val dimensionType = activityApnaNewSurveyBinding.dimensionTypeSelect.text.toString().trim()
         val length = activityApnaNewSurveyBinding.lengthText.text.toString().trim()
@@ -4353,8 +4414,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
         stateName = state
         cityName = city
         activityApnaNewSurveyBinding.locationText.setText(location)
-        activityApnaNewSurveyBinding.stateText.setText(stateName)
-        activityApnaNewSurveyBinding.cityText.setText(cityName)
+//        activityApnaNewSurveyBinding.stateText.setText(stateName)
+//        activityApnaNewSurveyBinding.cityText.setText(cityName)
         locationListDialog.dismiss()
     }
 
@@ -4750,10 +4811,15 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     override fun onMarkerDragEnd(p0: Marker) {
         if (map != null) {
             map!!.mapType = GoogleMap.MAP_TYPE_NORMAL
-            val latLang = LatLng(p0!!.position.latitude, p0!!.position.longitude)
+            val latLang = LatLng(p0.position.latitude, p0.position.longitude)
             map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(latLang, 15f))
             activityApnaNewSurveyBinding.latitude.setText(String.format("%.5f", latLang.latitude))
             activityApnaNewSurveyBinding.longitude.setText(String.format("%.5f", latLang.longitude))
+
+            val addresses = geocoder.getFromLocation(latLang.latitude, latLang.longitude, 1)
+            activityApnaNewSurveyBinding.stateText.setText(addresses!!.get(0).adminArea)
+            activityApnaNewSurveyBinding.cityText.setText(addresses.get(0).locality)
+            activityApnaNewSurveyBinding.pinText.setText(addresses.get(0).postalCode)
         }
     }
 

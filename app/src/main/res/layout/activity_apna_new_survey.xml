@@ -234,7 +234,6 @@
                                         android:id="@+id/stateText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
-                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
@@ -260,7 +259,6 @@
                                         android:id="@+id/cityText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
-                                        android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
@@ -272,6 +270,7 @@
                                         android:textColorHint="@color/black"
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
+<!--                                android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"-->
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/pin"
@@ -287,6 +286,9 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
                                         android:hint="PIN *"
+                                        android:editable="false"
+                                        android:enabled="true"
+                                        android:focusable="false"
                                         android:inputType="number"
                                         android:maxLength="6"
                                         android:paddingStart="@dimen/value_10dp"
