@@ -12,9 +12,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 class PreviewTrafficAdapter(
     val mContext: Context,
     private val trafficGenerators: ArrayList<SurveyDetailsList.TrafficGenerator>,
-
-    ) : RecyclerView.Adapter<PreviewTrafficAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<PreviewTrafficAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val apartmentAdapterLayoutBinding: TrafficAdapterLayoutBinding = DataBindingUtil.inflate(

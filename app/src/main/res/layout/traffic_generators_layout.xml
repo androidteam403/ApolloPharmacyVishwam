@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -36,43 +35,4 @@
                 android:src="@drawable/close_ashh" />
         </LinearLayout>
     </LinearLayout>
-
-    <!--<RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/value_5dp"
-            android:background="@drawable/gray_rounded_corner"
-            android:orientation="horizontal"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="10dp">
-
-
-            <TextView
-                android:id="@+id/trafficGeneratorsItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/value_5dp"
-                android:layout_marginEnd="@dimen/value_5dp"
-                android:text="Mall"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_15sp"
-                android:textStyle="bold" />
-
-            <ImageView
-                android:id="@+id/delete_item"
-                android:layout_width="@dimen/value_20dp"
-                android:layout_height="@dimen/value_20dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/value_3dp"
-                android:layout_marginEnd="@dimen/value_3dp"
-                android:src="@drawable/closee_whitee"
-                android:tint="@color/gray"
-                tools:ignore="UseAppTint" />
-
-        </LinearLayout>
-    </RelativeLayout>-->
 </layout>

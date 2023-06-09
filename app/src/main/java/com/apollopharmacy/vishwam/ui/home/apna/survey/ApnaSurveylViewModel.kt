@@ -76,6 +76,7 @@ class ApnaSurveylViewModel : ViewModel() {
                                 getSurveyListResponse.value =
                                     surveyListResponse
                             } else {
+                                apnaSurveyCallback.onFailureGetSurveyDetails(surveyListResponse.message.toString())
                                 apnaSurveyCallback.onFailuregetSurveyDetails(surveyListResponse)
                             }
 

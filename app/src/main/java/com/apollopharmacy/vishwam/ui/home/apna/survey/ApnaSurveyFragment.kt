@@ -32,6 +32,13 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     var itemsPerPage: Int = 10
     var handler: Handler = Handler()
 
+    var surveyList = ArrayList<SurveyListResponse.Row>()
+    var surveyListLoad = ArrayList<SurveyListResponse.Row?>()
+    private var isLoading = false
+    private var isLastRecord = false
+    private var page = 1
+    private val pageSize = 18
+
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
     override val layoutRes: Int
@@ -74,13 +81,13 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val inputText = s.toString()
                 val filteredList = ArrayList<SurveyListResponse.Row?>()
-                for (i in surveyListResponse.indices) {
+                for (i in surveyList.indices) {
                     if (inputText.isEmpty()) {
                         filteredList.clear()
-                        filteredList.addAll(surveyListResponse)
+                        filteredList.addAll(surveyList)
                     } else {
-                        if (surveyListResponse.get(i).id.toString().contains(inputText, true)) {
-                            filteredList.add(surveyListResponse.get(i))
+                        if (surveyList.get(i).id.toString().contains(inputText, true)) {
+                            filteredList.add(surveyList.get(i))
                         }
                     }
                 }
@@ -127,11 +134,11 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 //        })
 //    }
 
-    override fun onStart() {
-        super.onStart()
+//    override fun onStart() {
+//        super.onStart()
 //        showLoading()
 //        viewModel.getApnaSurveyList(this)
-    }
+//    }
 
     override fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row) {
         val i = Intent(activity, ApnaPreviewActivity::class.java)
@@ -189,8 +196,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 //        viewBinding.recyclerViewapproval.layoutManager = layoutManager
     }
 
-    override fun onFailuregetSurveyDetails(surveyListResponse: Any) {
-       hideLoading()
+    override fun onFailureGetSurveyDetails(message: String) {
+        hideLoading()
+        viewBinding.recyclerViewapproval.visibility = View.GONE
+        viewBinding.noListFound.visibility = View.VISIBLE
     }
 
     private fun initAdapter() {
