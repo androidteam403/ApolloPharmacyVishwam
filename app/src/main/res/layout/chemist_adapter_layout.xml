@@ -16,7 +16,7 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.2"
                 android:background="@drawable/apna_table_border_top">
 
@@ -26,8 +26,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="Chemist Three"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -35,7 +35,7 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/apna_table_border_left_top">
 
@@ -45,8 +45,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="Yes"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -54,7 +54,7 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".8"
                 android:background="@drawable/apna_table_border_left_top">
 
@@ -64,8 +64,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="\u20B910.2"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -73,7 +73,7 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.2"
                 android:background="@drawable/apna_table_border_left_top">
 
@@ -83,8 +83,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="Yes"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -92,7 +92,7 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".8"
                 android:background="@drawable/apna_table_border_left_top">
 
@@ -102,8 +102,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="\u20B910.2"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />

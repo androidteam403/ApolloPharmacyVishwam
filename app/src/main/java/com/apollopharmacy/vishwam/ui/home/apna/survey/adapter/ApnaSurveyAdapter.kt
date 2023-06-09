@@ -75,9 +75,12 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.surveyby.setText("$fName $lName")
         var locationName = ""
         var cityName = ""
-        if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
-        if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
-
+        if(approvedOrders.location!=null){
+            if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
+        }
+//        if(approvedOrders.city!=null) {
+//            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
+//        }
 
         holder.apnaSurveyLayoutBinding.storeName.setText("$locationName$cityName")
 

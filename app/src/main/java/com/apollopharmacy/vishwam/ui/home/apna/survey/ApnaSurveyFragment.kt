@@ -189,6 +189,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 //        viewBinding.recyclerViewapproval.layoutManager = layoutManager
     }
 
+    override fun onFailuregetSurveyDetails(surveyListResponse: Any) {
+       hideLoading()
+    }
+
     private fun initAdapter() {
         adapter = ApnaSurveyAdapter(
             requireContext(),

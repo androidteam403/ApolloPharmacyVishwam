@@ -155,6 +155,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var imageFile: File? = null
     var videoFile: File? = null
     private var compressedImageFileName: String? = null
+    private var numericValues ="0123456789"
+    private var alphabets ="qwertyuiopasdfghjklzxcvbnm"
 
     lateinit var cityItemAdapter: CityItemAdapter
     lateinit var stateItemAdapter: StateItemAdapter
@@ -762,7 +764,20 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     ).show()
                 } else {
                     currentPosition++
-                    showNext(currentPosition)
+                    for( k in numericValues.indices){
+                        for( z in alphabets.indices){
+                            if(activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(numericValues.get(k))||
+                                activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(alphabets.get(z))){
+                                showNext(currentPosition)
+                            }else{
+                                Toast.makeText(applicationContext, "Please enter valid site name", Toast.LENGTH_SHORT).show()
+                            }
+                        }
+
+
+                    }
+
+
                 }
             }
         }

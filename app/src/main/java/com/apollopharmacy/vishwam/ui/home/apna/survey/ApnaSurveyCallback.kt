@@ -6,5 +6,6 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 interface ApnaSurveyCallback {
     fun onClick(position: Int, surveyListResponse: SurveyListResponse.Row)
     fun onSuccessgetSurveyDetails(value: SurveyListResponse)
+     fun onFailuregetSurveyDetails(surveyListResponse: Any)
 
 }
