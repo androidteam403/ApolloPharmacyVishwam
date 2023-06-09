@@ -22,7 +22,6 @@ import kotlinx.coroutines.withContext
 import java.io.File
 import java.net.URLEncoder
 
-
 class ApnaNewSurveyViewModel : ViewModel() {
 
     val locationList = MutableLiveData<LocationListResponse>()

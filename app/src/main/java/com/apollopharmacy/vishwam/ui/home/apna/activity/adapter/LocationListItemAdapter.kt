@@ -14,7 +14,7 @@ class LocationListItemAdapter(
     var mCallback: ApnaNewSurveyCallBack,
     var mContext: Context,
     var locationList: ArrayList<LocationListResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<LocationListItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LocationListItemAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)

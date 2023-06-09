@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
@@ -17,26 +18,24 @@ import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class ApnaSurveyAdapter(
     val mContext: Context,
     var approveList: ArrayList<SurveyListResponse.Row?>,
     val mClicklistner: ApnaSurveyCallback,
-
-    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val VIEW_TYPE_ITEM = 0
     private val VIEW_TYPE_LOADING = 1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         if (viewType == VIEW_TYPE_ITEM) {
-        val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.apna_survey_layout,
-                parent,
-                false
-            )
-        return ViewHolder(apnaSurveyLayoutBinding)
+            val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(mContext),
+                    R.layout.apna_survey_layout,
+                    parent,
+                    false
+                )
+            return ViewHolder(apnaSurveyLayoutBinding)
         } else {
             val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(mContext),
@@ -64,7 +63,12 @@ class ApnaSurveyAdapter(
             }
         }
 //        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.surveyId)
-        holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.id)
+        if (approvedOrders.id != null) {
+            holder.apnaSurveyLayoutBinding.storeId.setText(approvedOrders.id)
+        } else {
+            holder.apnaSurveyLayoutBinding.storeId.setText("-")
+        }
+
         var fName = ""
         var lName = ""
         if (approvedOrders.createdId!!.firstName != null) fName =
@@ -75,11 +79,23 @@ class ApnaSurveyAdapter(
         holder.apnaSurveyLayoutBinding.surveyby.setText("$fName $lName")
         var locationName = ""
         var cityName = ""
-        if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
-        if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 
+        if (approvedOrders.location != null) {
+            if (approvedOrders.location!!.name != null) {
+                locationName = approvedOrders.location!!.name!!
+            }
+        }
+//        if (approvedOrders.city != null) {
+//            if (approvedOrders.city!!.name != null) {
+//                cityName = ", ${approvedOrders.city!!.name}"
+//            }
+//        }
 
-        holder.apnaSurveyLayoutBinding.storeName.setText("$locationName$cityName")
+//        if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
+//        if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
+
+//        holder.apnaSurveyLayoutBinding.location.setText("$locationName$cityName")
+        holder.apnaSurveyLayoutBinding.location.setText("-")
 
         val inputDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         val outputDateFormat = SimpleDateFormat("dd MMMM,yyyy")
@@ -97,16 +113,17 @@ class ApnaSurveyAdapter(
                         .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
                 ) {
                     if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
+                        holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.VISIBLE
                         holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(
                             inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
                     } else {
-                        holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                        holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
                     }
                 } else {
-                    holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                    holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
                 }
             } else {
-                holder.apnaSurveyLayoutBinding.surveyended.setText("-")
+                holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
             }
         }
 
@@ -128,16 +145,17 @@ class ApnaSurveyAdapter(
                             .isNotEmpty() && !approvedOrders.status!!.name.toString().equals("null")
                     ) {
                         if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
+                            holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.VISIBLE
                             holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1,
                                 date2))
                         } else {
-                            holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                            holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                         }
                     } else {
-                        holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                        holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                     }
                 } else {
-                    holder.apnaSurveyLayoutBinding.timeTaken.setText("-")
+                    holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                 }
             }
 

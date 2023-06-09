@@ -18,6 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/apna_project_actionbar_bg"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/value_10dp"
                 android:visibility="visible">
@@ -25,8 +26,8 @@
                 <ImageView
                     android:id="@+id/arrow"
                     android:layout_width="@dimen/value_32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginTop="4dp"
+                    android:layout_height="@dimen/value_32dp"
+                    android:layout_marginEnd="8dp"
                     android:contentDescription="@string/app_name"
                     android:rotation="-90"
                     android:src="@drawable/ic_baseline_north_24"
@@ -42,10 +43,20 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="@dimen/value_6dp"
                         android:text="APNA Survey Preview"
                         android:textColor="@color/white"
-                        android:textSize="16sp"
+                        android:textSize="@dimen/text_16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/surveyId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/value_6dp"
+                        android:text="APNA4215"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -73,24 +84,24 @@
                             android:tint="@color/white"
                             tools:ignore="UseAppTint" />
 
-                        <ImageView
+                        <!--<ImageView
                             android:layout_width="@dimen/value_30dp"
                             android:layout_height="@dimen/value_30dp"
                             android:layout_gravity="center"
-                            android:layout_marginEnd="20sp"
+                            android:layout_marginEnd="@dimen/text_20sp"
                             android:background="@drawable/green_backgroundplus"
                             android:paddingTop="5dp"
                             android:paddingBottom="6dp"
                             android:src="@drawable/ic_baseline_edit_24"
-                            android:visibility="gone" />
+                            android:visibility="gone" />-->
 
-                        <ImageView
+                        <!--<ImageView
                             android:layout_width="35dp"
                             android:layout_height="35dp"
                             android:layout_gravity="center"
                             android:layout_marginEnd="20sp"
                             android:src="@drawable/closee_whitee"
-                            android:visibility="gone" />
+                            android:visibility="gone" />-->
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
@@ -125,11 +136,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="@dimen/text_12sp"
-                                android:layout_marginTop="8dp"
-                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="@dimen/value_8dp"
+                                android:layout_marginBottom="@dimen/value_8dp"
                                 android:orientation="vertical">
 
-                                <LinearLayout
+                                <!--<LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal">
@@ -150,24 +161,24 @@
                                         android:text="APNA4215"
                                         android:textColor="@color/black"
                                         android:textSize="11.5sp" />
-                                </LinearLayout>
+                                </LinearLayout>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop="3dp"
+                                    android:layout_marginTop="@dimen/value_3dp"
                                     android:orientation="horizontal">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Location :  "
+                                        android:text="Location: "
                                         android:textColor="@color/grey"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
-                                        android:id="@+id/storeName"
+                                        android:id="@+id/location"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"
@@ -179,7 +190,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop="3dp"
+                                    android:layout_marginTop="@dimen/value_3dp"
                                     android:orientation="horizontal"
                                     android:weightSum="2">
 
@@ -193,7 +204,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Survey Started :  "
+                                            android:text="Survey Started: "
                                             android:textColor="@color/grey"
                                             android:textSize="@dimen/text_12sp" />
 
@@ -208,6 +219,7 @@
                                     </LinearLayout>
 
                                     <LinearLayout
+                                        android:id="@+id/surveyEndedLayout"
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_weight="1"
@@ -217,9 +229,9 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Survey Ended :  "
+                                            android:text="Survey Ended: "
                                             android:textColor="@color/grey"
-                                            android:textSize="12sp" />
+                                            android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:id="@+id/surveyended"
@@ -236,16 +248,16 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_marginTop="3dp"
+                                    android:layout_marginTop="@dimen/value_3dp"
                                     android:orientation="horizontal">
 
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Surveyed By :  "
+                                        android:text="Surveyed By: "
                                         android:textColor="@color/grey"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/surveyby"
@@ -262,9 +274,7 @@
                             <View
                                 android:layout_width="match_parent"
                                 android:layout_height="0.5dp"
-                                android:background="@color/grey">
-
-                            </View>
+                                android:background="@color/grey" />
 
                             <LinearLayout
                                 android:id="@+id/statusLayout"
@@ -285,30 +295,31 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:layout_gravity="center"
-                                        android:layout_marginLeft="12dp"
+                                        android:layout_marginLeft="@dimen/value_12dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:paddingTop="5dp"
-                                        android:text="Status : "
+                                        android:paddingTop="@dimen/value_5dp"
+                                        android:text="Status: "
                                         android:textColor="@color/grey"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/status"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"
-                                        android:paddingTop="6dp"
-                                        android:text="Completed "
+                                        android:paddingTop="@dimen/value_6dp"
+                                        android:text="Completed"
                                         android:textColor="#39B54A"
                                         android:textSize="11.5sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
+                                    android:id="@+id/timeTakenLayout"
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_weight="1.4"
                                     android:orientation="horizontal"
-                                    android:paddingBottom="9dp">
+                                    android:paddingBottom="@dimen/value_9dp">
 
                                     <TextView
                                         android:layout_width="wrap_content"
@@ -316,17 +327,17 @@
                                         android:layout_gravity="center"
                                         android:layout_marginLeft="@dimen/value_10dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:paddingTop="6dp"
-                                        android:text="Time Taken : "
+                                        android:paddingTop="@dimen/value_6dp"
+                                        android:text="Time Taken: "
                                         android:textColor="@color/grey"
-                                        android:textSize="12sp" />
+                                        android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/timeTaken"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:fontFamily="@font/poppin_bold"
-                                        android:paddingTop="7dp"
+                                        android:paddingTop="@dimen/value_7dp"
                                         android:text="55:54:22"
                                         android:textColor="@color/white"
                                         android:textSize="11.5sp" />
@@ -349,7 +360,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Key Features"
-                                android:textColor="@color/apna_project_actionbar_color" />
+                                android:textColor="@color/apna_project_actionbar_color"
+                                android:textSize="@dimen/text_16sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -509,7 +521,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
                                 android:text="Category Sale"
-                                android:textColor="@color/apna_project_actionbar_color" />
+                                android:textColor="@color/apna_project_actionbar_color"
+                                android:textSize="@dimen/text_16sp" />
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -836,7 +849,6 @@
                                     android:layout_height="match_parent"
                                     android:layout_marginStart="@dimen/value_5dp"
                                     android:layout_marginTop="@dimen/value_5dp"
-                                    android:layout_marginEnd="@dimen/value_5dp"
                                     android:layout_weight=".5"
                                     android:background="@color/white"
                                     android:orientation="vertical">
@@ -959,8 +971,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_15dp"
                             android:layout_marginEnd="@dimen/value_10dp"
                             android:orientation="vertical"
                             android:visibility="visible">
@@ -969,6 +981,7 @@
                                 android:id="@+id/location_details_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -985,10 +998,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Location Details"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1073,11 +1087,11 @@
                                     android:id="@+id/map"
                                     android:name="com.google.android.gms.maps.SupportMapFragment"
                                     android:layout_width="match_parent"
-                                    android:layout_height="200dp"
+                                    android:layout_height="@dimen/value_200dp"
                                     android:layout_centerInParent="true"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginEnd="10dp" />
+                                    android:layout_marginTop="@dimen/value_10dp"
+                                    android:layout_marginEnd="@dimen/value_10dp" />
                             </LinearLayout>
                         </LinearLayout>
 
@@ -1095,6 +1109,7 @@
                                 android:id="@+id/site_specifications_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -1111,10 +1126,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Site Specifications"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1125,14 +1141,139 @@
                                 android:orientation="vertical"
                                 android:paddingBottom="@dimen/value_5dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
-                                    android:fontFamily="@font/roboto_medium"
-                                    android:text="Dimensions of the Premises"
-                                    android:textSize="@dimen/text_12sp" />
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Dimensions "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/dimension_type"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="(Sq.ft): "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:id="@+id/length"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="10.6"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="(L)"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="X"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:id="@+id/width"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="10.6"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="(W)"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="X"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:id="@+id/ceilingHeight"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="11"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="(H)"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/value_10dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:orientation="horizontal">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:gravity="center"
+                                        android:text="Total Area "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/total_area_dimension_type"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="(Sq.ft): "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+
+                                    <TextView
+                                        android:id="@+id/totalareasqft"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginEnd="@dimen/value_4dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="976.6"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_13sp" />
+                                </LinearLayout>
 
                                 <!--<LinearLayout
                                     android:layout_width="wrap_content"
@@ -1160,7 +1301,7 @@
                                         android:textSize="@dimen/text_13sp" />
                                 </LinearLayout>-->
 
-                                <LinearLayout
+                                <!--<LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
@@ -1235,9 +1376,9 @@
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_13sp" />
                                     </LinearLayout>
-                                </LinearLayout>
+                                </LinearLayout>-->
 
-                                <LinearLayout
+                                <!--<LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
@@ -1312,7 +1453,7 @@
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_13sp" />
                                     </LinearLayout>
-                                </LinearLayout>
+                                </LinearLayout>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1325,14 +1466,13 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Expected Rent :"
+                                        android:text="Expected Rent: "
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/expectedrentsrft"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:drawableLeft="@drawable/rupee_apna"
                                         android:text="100"
@@ -1352,21 +1492,19 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Security Deposit :"
+                                        android:text="Security Deposit: "
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/securitydeposit"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:drawableLeft="@drawable/rupee_apna"
                                         android:text="100"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp"
                                         app:fontFamily="@font/roboto_medium" />
-
                                 </LinearLayout>
 
                                 <!--<LinearLayout
@@ -1408,14 +1546,13 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Age Of Building :"
+                                        android:text="Age Of Building: "
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/ageOfTheBuilding"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/roboto_medium"
@@ -1479,169 +1616,96 @@
                                         app:fontFamily="@font/roboto_medium" />
                                 </LinearLayout>-->
 
-                                <TextView
+                                <!--<TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Peak Hours :"
-                                    android:textSize="@dimen/text_12sp" />
+                                    android:text="Peak hrs :"
+                                    android:textSize="@dimen/text_12sp" />-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:orientation="horizontal"
-                                    android:weightSum="3">
+                                    android:layout_marginTop="@dimen/value_5dp"
+                                    android:orientation="horizontal">
 
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
+                                    <TextView
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="Peak hrs: "
+                                        android:textSize="@dimen/text_12sp" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="Morning : "
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/morningFrom"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="9:30AM"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text=" - "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/morningTo"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="10:30AM "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-                                    </LinearLayout>
-
-                                    <!--<LinearLayout
-                                        android:layout_width="0dp"
+                                    <TextView
+                                        android:id="@+id/morningFrom"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="9:30"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="Morning To"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/morningTo"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="10:30AM "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-                                    </LinearLayout>-->
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/value_10dp"
-                                    android:orientation="horizontal"
-                                    android:weightSum="3">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
+                                    <TextView
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="horizontal">
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" - "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="Evening : "
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/eveningFrom"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="5:30PM"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text=" - "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-
-                                        <TextView
-                                            android:id="@+id/eveningTo"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="6:30PM "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-                                    </LinearLayout>
-
-                                    <!--<LinearLayout
-                                        android:layout_width="0dp"
+                                    <TextView
+                                        android:id="@+id/morningTo"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="10:30"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
 
-                                        <TextView
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="Evening To"
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" (Mrng) "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
 
-                                        <TextView
-                                            android:id="@+id/eveningTo"
-                                            android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginTop="@dimen/value_5dp"
-                                            android:fontFamily="@font/roboto_medium"
-                                            android:text="6:30PM "
-                                            android:textColor="@color/black"
-                                            android:textSize="@dimen/text_12sp" />
-                                    </LinearLayout>-->
+                                    <TextView
+                                        android:id="@+id/eveningFrom"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="5:30"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" - "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/eveningTo"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="6:30"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" (Evng) "
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -1656,7 +1720,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Present Traffic Patterns :"
+                                        android:text="Present Traffic Patterns: "
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
@@ -1736,8 +1800,8 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="10dp"
-                            android:layout_marginTop="15dp"
+                            android:layout_marginStart="@dimen/value_10dp"
+                            android:layout_marginTop="@dimen/value_15dp"
                             android:layout_marginEnd="@dimen/value_10dp"
                             android:orientation="vertical"
                             android:visibility="visible">
@@ -1746,6 +1810,7 @@
                                 android:id="@+id/market_information_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -1762,10 +1827,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Market Information"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -1787,23 +1853,49 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Existing Outlet Site ID :"
+                                        android:text="Existing Outlet: "
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:id="@+id/existingOutletSiteName"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text="APL Telangana"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=" ("
+                                        android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/existingOutletSiteId"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
-                                        android:layout_weight="1"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="4567"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/value_5dp"
+                                        android:fontFamily="@font/roboto_medium"
+                                        android:text=")"
+                                        android:textColor="@color/black"
+                                        android:textSize="@dimen/text_12sp" />
                                 </LinearLayout>
 
-                                <LinearLayout
+                                <!--<LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
@@ -1828,7 +1920,7 @@
                                         android:text="APL Telangana"
                                         android:textColor="@color/black"
                                         android:textSize="@dimen/text_12sp" />
-                                </LinearLayout>
+                                </LinearLayout>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1841,14 +1933,13 @@
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:fontFamily="@font/roboto_medium"
-                                        android:text="Existing Outlet Age :"
+                                        android:text="Existing Outlet Age: "
                                         android:textSize="@dimen/text_12sp" />
 
                                     <TextView
                                         android:id="@+id/existingOutletAge"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginTop="@dimen/value_5dp"
                                         android:layout_weight="1"
                                         android:fontFamily="@font/roboto_medium"
@@ -1989,7 +2080,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Neighbouring Stores :"
+                                    android:text="Neighbouring Stores:"
                                     android:textSize="@dimen/text_12sp" />
 
 
@@ -2124,7 +2215,7 @@
                                     android:layout_marginStart="@dimen/value_10dp"
                                     android:layout_marginTop="@dimen/value_5dp"
                                     android:fontFamily="@font/roboto_medium"
-                                    android:text="Apollo Sourcing  Comments :"
+                                    android:text="Apollo Sourcing  Comments:"
                                     android:textSize="@dimen/text_12sp" />
 
                                 <TextView
@@ -2162,29 +2253,25 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_10dp"
-                                    android:layout_marginEnd="@dimen/value_40dp"
-                                    android:orientation="horizontal"
-                                    android:weightSum="3">
+                                    android:orientation="vertical">
 
                                     <LinearLayout
-                                        android:layout_width="0dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:orientation="horizontal">
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Service Class"
+                                            android:text="Service Class: "
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:id="@+id/serviceClass"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/value_5dp"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:drawableLeft="@drawable/rupee_apna"
                                             android:text="100"
@@ -2194,24 +2281,22 @@
                                     </LinearLayout>
 
                                     <LinearLayout
-                                        android:layout_width="0dp"
+                                        android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:orientation="vertical">
+                                        android:orientation="horizontal">
 
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:fontFamily="@font/roboto_medium"
-                                            android:text="Business Class"
+                                            android:text="Business Class: "
                                             android:textSize="@dimen/text_12sp" />
 
                                         <TextView
                                             android:id="@+id/businessClass"
-                                            android:layout_width="wrap_content"
+                                            android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginStart="@dimen/value_5dp"
                                             android:layout_marginTop="@dimen/value_5dp"
                                             android:drawableLeft="@drawable/rupee_apna"
                                             android:text="100"
@@ -2340,6 +2425,7 @@
                                 android:id="@+id/competitors_details_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -2356,10 +2442,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Competitors Details"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
 
                             </LinearLayout>
 
@@ -2505,7 +2592,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/roboto_medium"
-                                                android:text="Total : "
+                                                android:text="Total: "
                                                 android:textSize="10sp" />
 
                                             <TextView
@@ -2528,7 +2615,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/roboto_medium"
-                                                android:text="Organized : "
+                                                android:text="Organized: "
                                                 android:textSize="10sp" />
 
                                             <TextView
@@ -2551,7 +2638,7 @@
                                                 android:layout_width="wrap_content"
                                                 android:layout_height="wrap_content"
                                                 android:fontFamily="@font/roboto_medium"
-                                                android:text="Un Organized : "
+                                                android:text="Un Organized: "
                                                 android:textSize="10sp" />
 
                                             <TextView
@@ -2593,6 +2680,7 @@
                                 android:id="@+id/population_and_houses_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -2609,10 +2697,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Population and Houses"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2728,6 +2817,7 @@
                                 android:id="@+id/hospitals_layout"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
@@ -2744,10 +2834,11 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="@dimen/text_dimen_10"
+                                    android:layout_marginStart="@dimen/value_10dp"
                                     android:fontFamily="@font/roboto_medium"
                                     android:text="Hospitals"
-                                    android:textColor="@color/apna_project_actionbar_color" />
+                                    android:textColor="@color/apna_project_actionbar_color"
+                                    android:textSize="@dimen/text_16sp" />
                             </LinearLayout>
 
                             <LinearLayout
@@ -2897,6 +2988,7 @@
                                     android:id="@+id/photos_and_media_layout"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
                                     android:orientation="horizontal">
 
                                     <TextView
@@ -2913,10 +3005,11 @@
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="@dimen/text_dimen_10"
+                                        android:layout_marginStart="@dimen/value_10dp"
                                         android:fontFamily="@font/roboto_medium"
                                         android:text="Photos and Media"
-                                        android:textColor="@color/apna_project_actionbar_color" />
+                                        android:textColor="@color/apna_project_actionbar_color"
+                                        android:textSize="@dimen/text_16sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -3070,10 +3163,11 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginEnd="@dimen/value_30dp"
+            android:layout_marginEnd="@dimen/value_20dp"
             android:layout_marginBottom="@dimen/value_30dp"
             android:src="@drawable/ic_baseline_north_24"
             app:backgroundTint="@color/apna_project_actionbar_color"
+            app:fabCustomSize="@dimen/value_40dp"
             app:tint="@color/white" />
     </RelativeLayout>
 </layout>

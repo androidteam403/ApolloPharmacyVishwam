@@ -1,16 +1,14 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.MediaController
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityVideoPreviewsBinding
 
 class VideoPreviewActivity : AppCompatActivity() {
-   public lateinit var activityVideoPreviewBinding: ActivityVideoPreviewsBinding
-
+    public lateinit var activityVideoPreviewBinding: ActivityVideoPreviewsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

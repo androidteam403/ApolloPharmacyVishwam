@@ -65,10 +65,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
+                        android:gravity="end"
                         android:paddingTop="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_5dp"
                         android:paddingBottom="@dimen/value_10dp"
                         android:text="\u20B9100"
-                        android:paddingStart="@dimen/value_5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />
                 </TableLayout>
@@ -84,10 +85,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
+                        android:gravity="end"
                         android:paddingTop="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_5dp"
                         android:paddingBottom="@dimen/value_10dp"
                         android:text="\u20B9100"
-                        android:paddingStart="@dimen/value_5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />
                 </TableLayout>
@@ -103,10 +105,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_medium"
+                        android:gravity="end"
                         android:paddingTop="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_5dp"
                         android:paddingBottom="@dimen/value_10dp"
                         android:text="2.1"
-                        android:paddingStart="@dimen/value_5dp"
                         android:textColor="@color/black"
                         android:textSize="@dimen/text_10sp" />
                 </TableLayout>

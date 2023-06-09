@@ -2,14 +2,16 @@ package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,10 +21,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityApnaSurveyPreviewBinding
 import com.apollopharmacy.vishwam.databinding.ApnaPreviewQuickGoDialogBinding
-import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.bumptech.glide.Glide
 import com.github.mikephil.charting.data.*
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -242,15 +242,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Site Specifications
 //        activityApnaSurveyPreviewBinding.dimensionTypeSelect.setText(surveyCreateRequest.dimensionType1)
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
-            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+            activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
         } else {
-            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-)")
+            activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
@@ -355,7 +351,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         val inputDateFormat = SimpleDateFormat("HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("HH:mm:ss")
+        val outputDateFormat = SimpleDateFormat("HH:mm")
 
         if (surveyCreateRequest.morningFrom != null) {
             activityApnaSurveyPreviewBinding.morningFrom.setText(
@@ -753,44 +749,68 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         // Category Sale
         if (surveyCreateRequest.csPharma != null) {
-            activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.pharmaValue.setText(
-                surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csPharma!! > 0) {
+                activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.pharmaValue.setText(
+                    surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.csFmcg != null) {
-            activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.fmcgValue.setText(
-                surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csFmcg!! > 0) {
+                activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.fmcgValue.setText(
+                    surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.csSurgicals != null) {
-            activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.surgicalsValue.setText(
-                surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csSurgicals!! > 0) {
+                activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.surgicalsValue.setText(
+                    surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility =
+                    View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.areaDiscount != null) {
-            activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
-                surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.areaDiscount!! > 0) {
+                activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility =
+                    View.VISIBLE
+                activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
+                    View.GONE
+                activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
+                    surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
+                    View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
@@ -1091,25 +1111,35 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         })
     }
 
-    override fun onClick(imageUrl: String) {
-        val dialog = Dialog(
-            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
-            LayoutInflater.from(this@ApnaSurveyPreviewActivity),
-            R.layout.preview_image_dialog,
-            null,
-            false
-        )
-        dialog.setContentView(previewImageDialogBinding.root)
-        Glide.with(this@ApnaSurveyPreviewActivity).load(imageUrl)
-            .placeholder(R.drawable.placeholder_image).into(previewImageDialogBinding.previewImage)
-        previewImageDialogBinding.close.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.setCancelable(false)
-        dialog.show()
+    override fun onClick(
+        imageUrl: String,
+        position: Int,
+        data: ArrayList<SurveyCreateRequest.SiteImageMb.Image>,
+    ) {
+
+        val intent = Intent(this@ApnaSurveyPreviewActivity, ApnaImagePreviewActivity::class.java)
+        intent.putExtra("IMAGE_LIST", data)
+        intent.putExtra("CURRENT_POSITION", position)
+        startActivity(intent)
+
+//        val dialog = Dialog(
+//            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
+//        )
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
+//            LayoutInflater.from(this@ApnaSurveyPreviewActivity),
+//            R.layout.preview_image_dialog,
+//            null,
+//            false
+//        )
+//        dialog.setContentView(previewImageDialogBinding.root)
+//        Glide.with(this@ApnaSurveyPreviewActivity).load(imageUrl)
+//            .placeholder(R.drawable.placeholder_image).into(previewImageDialogBinding.previewImage)
+//        previewImageDialogBinding.close.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        dialog.setCancelable(false)
+//        dialog.show()
     }
 
     override fun onClickPlay(video: String) {
