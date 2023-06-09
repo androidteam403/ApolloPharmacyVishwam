@@ -40,21 +40,18 @@ public class XYMarkerView extends MarkerView {
 //        tvContent.setText(String.format("Name: %s, Value: %s", xAxisValueFormatter.getFormattedValue(e.getX()), format.format(e.getY())));
         if (e.getData() != null) {
             linearLayout.setVisibility(View.VISIBLE);
-//            tvContent.setVisibility(View.VISIBLE);
             tvContent.setText(String.format(e.getData().toString() + ": %s", format.format(e.getY())));
         } else {
             linearLayout.setVisibility(View.VISIBLE);
-//            tvContent.setVisibility(View.VISIBLE);
             tvContent.setText(String.format("Value: %s", format.format(e.getY())));
         }
-//       Handler ha = new Handler();
-//        ha.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                tvContent.setVisibility(View.GONE);
-//                linearLayout.setVisibility(View.GONE);
-//            }
-//        },1000);
+       Handler ha = new Handler();
+        ha.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                linearLayout.setVisibility(View.GONE);
+            }
+        },1000);
 
 
 
@@ -62,22 +59,6 @@ public class XYMarkerView extends MarkerView {
       super.refreshContent(e, highlight);
     }
 
-   public void onAndroidTurn(Entry e){
-       if (e.getData() != null) {
-           tvContent.setVisibility(View.VISIBLE);
-           tvContent.setText(String.format(e.getData().toString() + ": %s", format.format(e.getY())));
-       } else {
-           tvContent.setVisibility(View.VISIBLE);
-           tvContent.setText(String.format("Value: %s", format.format(e.getY())));
-       }
-
-       tvContent.postDelayed(new Runnable() {
-           @Override
-           public void run() {
-               tvContent.setVisibility(View.GONE);
-           }
-       }, 3000);
-    }
     @Override
     public MPPointF getOffset() {
         return new MPPointF(-(getWidth() / 2), -getHeight());
