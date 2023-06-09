@@ -32,13 +32,6 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     var itemsPerPage: Int = 10
     var handler: Handler = Handler()
 
-    var surveyList = ArrayList<SurveyListResponse.Row>()
-    var surveyListLoad = ArrayList<SurveyListResponse.Row?>()
-    private var isLoading = false
-    private var isLastRecord = false
-    private var page = 1
-    private val pageSize = 18
-
     var adapter: ApnaSurveyAdapter? = null
     val APNA_NEW_SURVEY_ACTIVITY_VALUE: Int? = 1000
     override val layoutRes: Int
@@ -200,6 +193,10 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         hideLoading()
         viewBinding.recyclerViewapproval.visibility = View.GONE
         viewBinding.noListFound.visibility = View.VISIBLE
+    }
+
+    override fun onFailuregetSurveyDetails(surveyListResponse: Any) {
+        TODO("Not yet implemented")
     }
 
     private fun initAdapter() {

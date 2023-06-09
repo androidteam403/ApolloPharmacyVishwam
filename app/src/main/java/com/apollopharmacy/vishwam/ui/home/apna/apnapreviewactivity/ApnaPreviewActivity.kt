@@ -195,7 +195,7 @@ class ApnaPreviewActivity : AppCompatActivity(), ApnaNewPreviewCallBack {
 //            if(approvedOrders.city!=null) {
 //                if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
 //            }
-            apnaPreviewActivityBinding.storeName.setText("$locationName$cityName")
+//            apnaPreviewActivityBinding.storeName.setText("$locationName$cityName")
 
 //            if (approvedOrders.location!!.name != null) locationName =
 //                approvedOrders.location!!.name!!
