@@ -34,6 +34,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="HardcodedDebugMode">
         <activity
+            android:name=".ui.home.apollosensing.activity.ApolloSensingStoreActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".ui.home.apna.activity.ApnaImagePreviewActivity"
             android:exported="false"
             android:screenOrientation="portrait"

@@ -154,8 +154,8 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
     var imageFile: File? = null
     var videoFile: File? = null
     private var compressedImageFileName: String? = null
-    private var numericValues ="0123456789"
-    private var alphabets ="qwertyuiopasdfghjklzxcvbnm"
+    private var numericValues = "0123456789"
+    private var alphabets = "qwertyuiopasdfghjklzxcvbnm"
 
     lateinit var cityItemAdapter: CityItemAdapter
     lateinit var stateItemAdapter: StateItemAdapter
@@ -763,18 +763,19 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
                     ).show()
                 } else {
                     currentPosition++
-                    for( k in numericValues.indices){
-                        for( z in alphabets.indices){
-                            if(activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(numericValues.get(k))||
-                                activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(alphabets.get(z))){
-                                showNext(currentPosition)
-                            }else{
-                                Toast.makeText(applicationContext, "Please enter valid site name", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-
-
-                    }
+                    showNext(currentPosition)
+//                    for( k in numericValues.indices){
+//                        for( z in alphabets.indices){
+//                            if(activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(numericValues.get(k))||
+//                                activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().contains(alphabets.get(z))){
+//                                showNext(currentPosition)
+//                            }else{
+//                                Toast.makeText(applicationContext, "Please enter valid site name", Toast.LENGTH_SHORT).show()
+//                            }
+//                        }
+//
+//
+//                    }
 
 
                 }
@@ -4207,15 +4208,33 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
 
     private fun validateMarketInformation(): Boolean {
         val eoSiteId = activityApnaNewSurveyBinding.existingOutletSiteId.text.toString().trim()
-        if (eoSiteId.isNotEmpty()) {
-            if (!eoSiteId.startsWith("0", true)) {
-                return true
-            } else {
-                marketInformationErrorMessage = "Please enter valid site id"
-                return false
-            }
+        val eoSiteName = activityApnaNewSurveyBinding.existingOutletSiteName.text.toString().trim()
+        val regex = Regex("[a-zA-Z0-9]")
+        if (eoSiteId.startsWith("0", true)) {
+            marketInformationErrorMessage = "Please enter valid site id"
+            return false
+        } else if (eoSiteName.isNotEmpty() && !regex.containsMatchIn(eoSiteName)) {
+            marketInformationErrorMessage = "Please enter valid site name"
+            return false
+        } else if (eoSiteName.isEmpty()) {
+            return true
+        } else if (eoSiteId.isEmpty()) {
+            return true
+        } else {
+            marketInformationErrorMessage = ""
+            return true
         }
-        return true
+
+
+//        if (eoSiteId.isNotEmpty()) {
+//            if (!eoSiteId.startsWith("0", true)) {
+//                return true
+//            } else {
+//                marketInformationErrorMessage = "Please enter valid site id"
+//                return false
+//            }
+//        }
+//        return true
 //        if (eoSiteId.isNotEmpty()) {
 //            if (eoSiteId.all { c -> !c.equals('0') }) {
 //                return true
@@ -4590,7 +4609,7 @@ class ApnaNewSurveyActivity : AppCompatActivity(), ApnaNewSurveyCallBack,
             trafficStreetData =
                 trafficStreetTypeResponse.data!!.listData!!.rows as ArrayList<TrafficStreetTypeResponse.Data.ListData.Row>
         }
-        activityApnaNewSurveyBinding.trafficStreetSelect.setText(trafficStreetData[0].name.toString())
+//        activityApnaNewSurveyBinding.trafficStreetSelect.setText(trafficStreetData[0].name.toString())
     }
 
     override fun onFailureGetTrafficStreetTypeApiCall(message: String) {
