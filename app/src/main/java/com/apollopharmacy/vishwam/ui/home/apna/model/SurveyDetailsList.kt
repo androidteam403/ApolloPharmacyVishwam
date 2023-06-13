@@ -264,13 +264,13 @@ class SurveyDetailsList : Serializable {
         @Expose
         var modifiedId: ModifiedId? = null
 
-        @SerializedName("city")
-        @Expose
-        var city: City? = null
+//        @SerializedName("city")
+//        @Expose
+//        var city: City? = null
 
-        @SerializedName("state")
-        @Expose
-        var state: State? = null
+//        @SerializedName("state")
+//        @Expose
+//        var state: State? = null
 
         @SerializedName("location")
         @Expose
@@ -471,15 +471,15 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withCity(city: City?): Data {
-            this.city = city
-            return this
-        }
+//        fun withCity(city: City?): Data {
+//            this.city = city
+//            return this
+//        }
 
-        fun withState(state: State?): Data {
-            this.state = state
-            return this
-        }
+//        fun withState(state: State?): Data {
+//            this.state = state
+//            return this
+//        }
 
         fun withLocation(location: Location?): Data {
             this.location = location

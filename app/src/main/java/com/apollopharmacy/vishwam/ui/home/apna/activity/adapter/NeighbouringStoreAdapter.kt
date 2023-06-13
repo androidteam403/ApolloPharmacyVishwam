@@ -5,8 +5,6 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.view.Window
@@ -16,9 +14,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStoreBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringStoreData
-import java.io.File
 import java.text.DecimalFormat
 
 class NeighbouringStoreAdapter(
@@ -66,8 +62,11 @@ class NeighbouringStoreAdapter(
 
         if (neighbouringList.get(position).sales.isNotEmpty()) {
             holder.layoutNeighbouringStoreBinding.sales.setText(
-                "\u20B9" + DecimalFormat("##,##,##0").format(neighbouringList[position].sales.toLong())
+                neighbouringList[position].sales
             )
+//            holder.layoutNeighbouringStoreBinding.sales.setText(
+//                "\u20B9" + DecimalFormat("##,##,##0").format(neighbouringList[position].sales.toLong())
+//            )
         } else {
             holder.layoutNeighbouringStoreBinding.sales.setText("-")
         }

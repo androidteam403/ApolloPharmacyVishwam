@@ -2,14 +2,16 @@ package com.apollopharmacy.vishwam.ui.home.apna.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Point
 import android.location.Location
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewParent
 import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -19,11 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ActivityApnaSurveyPreviewBinding
 import com.apollopharmacy.vishwam.databinding.ApnaPreviewQuickGoDialogBinding
-import com.apollopharmacy.vishwam.databinding.PreviewImageDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.adapter.*
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.bumptech.glide.Glide
+import com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.XYMarkerView
 import com.github.mikephil.charting.data.*
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -72,9 +76,14 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     //    var hospitalsEntryTwo = ArrayList<BarEntry>()
     var sales = ArrayList<Float>()
+    var stores = ArrayList<String>()
     var avgSales = ArrayList<Float>()
+    var chemists = ArrayList<String>()
     var noOfHouses = ArrayList<Float>()
+    var apartmentNames = ArrayList<String>()
     var beds = ArrayList<Float>()
+    var hospitalNames = ArrayList<String>()
+    var stringValuesList = java.util.ArrayList<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -242,15 +251,11 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Site Specifications
 //        activityApnaSurveyPreviewBinding.dimensionTypeSelect.setText(surveyCreateRequest.dimensionType1)
         if (surveyCreateRequest.dimensionType != null && surveyCreateRequest.dimensionType!!.name != null) {
-            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
-            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + ")")
+            activityApnaSurveyPreviewBinding.dimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(" + surveyCreateRequest.dimensionType!!.name + "): ")
         } else {
-            activityApnaSurveyPreviewBinding.lengthDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.widthDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.heightDimensionType.setText("(-)")
-            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-)")
+            activityApnaSurveyPreviewBinding.dimensionType.setText("(-): ")
+            activityApnaSurveyPreviewBinding.totalAreaDimensionType.setText("(-): ")
         }
         if (surveyCreateRequest.length != null) {
             activityApnaSurveyPreviewBinding.length.setText(surveyCreateRequest.length)
@@ -355,7 +360,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         }
 
         val inputDateFormat = SimpleDateFormat("HH:mm:ss")
-        val outputDateFormat = SimpleDateFormat("HH:mm:ss")
+        val outputDateFormat = SimpleDateFormat("HH:mm")
 
         if (surveyCreateRequest.morningFrom != null) {
             activityApnaSurveyPreviewBinding.morningFrom.setText(
@@ -464,6 +469,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
 
                 sales = neighboringStores.map { it.sales } as ArrayList<Float>
+                stores = neighboringStores.map { it.store } as ArrayList<String>
                 setNeighborChartValues()
                 setupNeighborChart()
             } else {
@@ -545,6 +551,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     competitorsDetailsPreviewAdapter
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.layoutManager =
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
+                chemists = chemist.map { it.chemist.toString() } as ArrayList<String>
 
                 val totalOrgAvgSale =
                     chemist.stream().map { it.orgAvgSale }.mapToInt { it!!.toInt() }.sum()
@@ -595,6 +602,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
 
                 noOfHouses = apartments.map { it.noHouses!!.toInt().toFloat() } as ArrayList<Float>
+                apartmentNames = apartments.map { it.apartments.toString()} as ArrayList<String>
                 setApartmentsValues()
                 setupApartmentsChart()
             } else {
@@ -624,6 +632,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                     LinearLayoutManager(this@ApnaSurveyPreviewActivity)
 
                 beds = hospitals.map { it.beds!!.toInt().toFloat() } as ArrayList<Float>
+                hospitalNames = hospitals.map { it.hospitals.toString() } as ArrayList<String>
                 setHospitalsValues()
                 setupHospitalsChart()
             } else {
@@ -753,44 +762,68 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         // Category Sale
         if (surveyCreateRequest.csPharma != null) {
-            activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.pharmaValue.setText(
-                surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csPharma!! > 0) {
+                activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.pharmaValue.setText(
+                    surveyCreateRequest.csPharma!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.pharmaAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.pharmaNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.csFmcg != null) {
-            activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.fmcgValue.setText(
-                surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csFmcg!! > 0) {
+                activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.fmcgValue.setText(
+                    surveyCreateRequest.csFmcg!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.fmcgAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.fmcgNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.csSurgicals != null) {
-            activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.surgicalsValue.setText(
-                surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.csSurgicals!! > 0) {
+                activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.VISIBLE
+                activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.surgicalsValue.setText(
+                    surveyCreateRequest.csSurgicals!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility =
+                    View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.surgicalsAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.surgicalsNotAvailableLayout.visibility = View.VISIBLE
         }
 
         if (surveyCreateRequest.areaDiscount != null) {
-            activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.VISIBLE
-            activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility = View.GONE
-            activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
-                surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
-            )
+            if (surveyCreateRequest.areaDiscount!! > 0) {
+                activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility =
+                    View.VISIBLE
+                activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
+                    View.GONE
+                activityApnaSurveyPreviewBinding.areaDiscountValue.setText(
+                    surveyCreateRequest.areaDiscount!!.toString().substringBefore('.') + "%"
+                )
+            } else {
+                activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
+                activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
+                    View.VISIBLE
+            }
         } else {
             activityApnaSurveyPreviewBinding.areaDiscountAvailableLayout.visibility = View.GONE
             activityApnaSurveyPreviewBinding.areaDiscountNotAvailableLayout.visibility =
@@ -821,8 +854,28 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setupHospitalsChart() {
         val barDataSet = BarDataSet(hospitalsEntries, "")
+        barDataSet.isHighlightEnabled=true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.hospitalsChart.data = barData
+
+        activityApnaSurveyPreviewBinding.hospitalsChart.setDragEnabled(true)
+        activityApnaSurveyPreviewBinding.hospitalsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.hospitalsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
+//               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
+                stringValuesList.add("test")
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                mv.chartView = activityApnaSurveyPreviewBinding.hospitalsChart // For bounds control
+
+                activityApnaSurveyPreviewBinding.hospitalsChart.marker = mv
+
+            }
+
+            override fun onNothingSelected() {
+
+            }
+        })
 
         barDataSet.setColor(Color.parseColor("#07559d"))
         barData.setDrawValues(false)
@@ -866,7 +919,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         activityApnaSurveyPreviewBinding.hospitalsChart.description.isEnabled = false
         activityApnaSurveyPreviewBinding.hospitalsChart.legend.isEnabled = false
-        activityApnaSurveyPreviewBinding.hospitalsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.hospitalsChart.setTouchEnabled(true)
         activityApnaSurveyPreviewBinding.hospitalsChart.invalidate()
     }
 
@@ -881,7 +934,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setHospitalsValues() {
         for (i in beds.indices) {
-            hospitalsEntries.add(BarEntry(i.toFloat(), beds.get(i)))
+            hospitalsEntries.add(BarEntry(i.toFloat(), beds.get(i), hospitalNames.get(i)))
         }
 //        hospitalsEntryOne.add(BarEntry(1f, 5f))
 //        hospitalsEntryOne.add(BarEntry(2f, 2f))
@@ -893,8 +946,28 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setupApartmentsChart() {
         val barDataSet = BarDataSet(apartmentsEntries, "")
+        barDataSet.isHighlightEnabled=true
         val barData = BarData(barDataSet)
         activityApnaSurveyPreviewBinding.apartmentsChart.data = barData
+
+        activityApnaSurveyPreviewBinding.apartmentsChart.setDragEnabled(true)
+        activityApnaSurveyPreviewBinding.apartmentsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.apartmentsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
+//               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
+                stringValuesList.add("test")
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                mv.chartView = activityApnaSurveyPreviewBinding.apartmentsChart // For bounds control
+
+                activityApnaSurveyPreviewBinding.apartmentsChart.marker = mv
+            }
+
+            override fun onNothingSelected() {
+
+            }
+
+        })
 
         barDataSet.setColor(Color.parseColor("#00aa9e"))
         barData.setDrawValues(false)
@@ -935,13 +1008,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
         activityApnaSurveyPreviewBinding.apartmentsChart.description.isEnabled = false
         activityApnaSurveyPreviewBinding.apartmentsChart.legend.isEnabled = false
-        activityApnaSurveyPreviewBinding.apartmentsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.apartmentsChart.setTouchEnabled(true)
         activityApnaSurveyPreviewBinding.apartmentsChart.invalidate()
     }
 
     private fun setApartmentsValues() {
         for (i in noOfHouses.indices) {
-            apartmentsEntries.add(BarEntry(i.toFloat(), noOfHouses.get(i)))
+            apartmentsEntries.add(BarEntry(i.toFloat(), noOfHouses.get(i), apartmentNames.get(i)))
         }
 //        apartmentsEntryTwo.add(BarEntry(1f, 6f))
 //        apartmentsEntryTwo.add(BarEntry(2f, 5f))
@@ -955,7 +1028,26 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     private fun setupCompetitorsChart() {
         val lineDataSet = LineDataSet(competitorsEntries, "")
         val lineData = LineData(lineDataSet)
+        lineDataSet.isHighlightEnabled=true
         activityApnaSurveyPreviewBinding.competitorsChart.data = lineData
+
+        activityApnaSurveyPreviewBinding.competitorsChart.setDragEnabled(true)
+        activityApnaSurveyPreviewBinding.competitorsChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.competitorsChart.setOnChartValueSelectedListener(object : OnChartValueSelectedListener{
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
+//               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
+                stringValuesList.add("test")
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                mv.chartView = activityApnaSurveyPreviewBinding.competitorsChart // For bounds control
+
+                activityApnaSurveyPreviewBinding.competitorsChart.marker = mv
+            }
+
+            override fun onNothingSelected() {
+
+            }
+        })
 
         // Line width
         lineDataSet.lineWidth = 2f
@@ -994,13 +1086,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.competitorsChart.getAxisLeft().setDrawGridLines(false)
         activityApnaSurveyPreviewBinding.competitorsChart.getXAxis().setDrawGridLines(false)
 
-        activityApnaSurveyPreviewBinding.competitorsChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.competitorsChart.setTouchEnabled(true)
         activityApnaSurveyPreviewBinding.competitorsChart.invalidate()
     }
 
     private fun setCompetitorsValues() {
         for (i in avgSales.indices) {
-            competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i)))
+            competitorsEntries.add(Entry(i.toFloat(), avgSales.get(i), chemists.get(i)))
         }
 //        competitorsEntries.add(Entry(0f, 5f))
 //        competitorsEntries.add(Entry(1f, 7f))
@@ -1010,7 +1102,26 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
     private fun setupNeighborChart() {
         val barDataSet = BarDataSet(neighborEntries, "")
         val barData = BarData(barDataSet)
+        barDataSet.isHighlightEnabled = true
         activityApnaSurveyPreviewBinding.neighborChart.data = barData
+
+        activityApnaSurveyPreviewBinding.neighborChart.setDragEnabled(true)
+        activityApnaSurveyPreviewBinding.neighborChart.setScaleEnabled(true);
+        activityApnaSurveyPreviewBinding.neighborChart.setDrawValueAboveBar(true)
+        activityApnaSurveyPreviewBinding.neighborChart.setOnChartValueSelectedListener(object :
+            OnChartValueSelectedListener {
+            override fun onValueSelected(e: Entry?, h: Highlight?) {
+//                apnaPreviewActivityBinding.neighborChart.tooltipText=e!!.y.toString()
+//               Toast.makeText(this@ApnaPreviewActivity, "test", Toast.LENGTH_SHORT).show()
+                stringValuesList.add("test")
+                val mv = XYMarkerView(this@ApnaSurveyPreviewActivity, IndexAxisValueFormatter(stringValuesList))
+                mv.chartView = activityApnaSurveyPreviewBinding.neighborChart // For bounds control
+
+                activityApnaSurveyPreviewBinding.neighborChart.marker = mv
+            }
+            override fun onNothingSelected() {
+            }
+        })
 
         // Set bar colors
         barDataSet.colors = listOf(
@@ -1037,7 +1148,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMinimum(0f)
         activityApnaSurveyPreviewBinding.neighborChart.getAxisLeft().setAxisMaximum(sales.max())
         // Disable touch
-        activityApnaSurveyPreviewBinding.neighborChart.setTouchEnabled(false)
+        activityApnaSurveyPreviewBinding.neighborChart.setTouchEnabled(true)
         // Remove description
         activityApnaSurveyPreviewBinding.neighborChart.description.isEnabled = false
         // Remove legend
@@ -1056,7 +1167,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
 
     private fun setNeighborChartValues() {
         for (i in sales.indices) {
-            neighborEntries.add(BarEntry(i.toFloat(), sales.get(i)))
+            neighborEntries.add(BarEntry(i.toFloat(), sales.get(i), stores.get(i)))
         }
 //        neighborEntries.add(BarEntry(1f, 18f))
 //        neighborEntries.add(BarEntry(2f, 13f))
@@ -1091,25 +1202,35 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         })
     }
 
-    override fun onClick(imageUrl: String) {
-        val dialog = Dialog(
-            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
-        )
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
-            LayoutInflater.from(this@ApnaSurveyPreviewActivity),
-            R.layout.preview_image_dialog,
-            null,
-            false
-        )
-        dialog.setContentView(previewImageDialogBinding.root)
-        Glide.with(this@ApnaSurveyPreviewActivity).load(imageUrl)
-            .placeholder(R.drawable.placeholder_image).into(previewImageDialogBinding.previewImage)
-        previewImageDialogBinding.close.setOnClickListener {
-            dialog.dismiss()
-        }
-        dialog.setCancelable(false)
-        dialog.show()
+    override fun onClick(
+        imageUrl: String,
+        position: Int,
+        data: ArrayList<SurveyCreateRequest.SiteImageMb.Image>,
+    ) {
+
+        val intent = Intent(this@ApnaSurveyPreviewActivity, ApnaImagePreviewActivity::class.java)
+        intent.putExtra("IMAGE_LIST", data)
+        intent.putExtra("CURRENT_POSITION", position)
+        startActivity(intent)
+
+//        val dialog = Dialog(
+//            this@ApnaSurveyPreviewActivity, android.R.style.Theme_Black_NoTitleBar_Fullscreen
+//        )
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//        val previewImageDialogBinding = DataBindingUtil.inflate<PreviewImageDialogBinding>(
+//            LayoutInflater.from(this@ApnaSurveyPreviewActivity),
+//            R.layout.preview_image_dialog,
+//            null,
+//            false
+//        )
+//        dialog.setContentView(previewImageDialogBinding.root)
+//        Glide.with(this@ApnaSurveyPreviewActivity).load(imageUrl)
+//            .placeholder(R.drawable.placeholder_image).into(previewImageDialogBinding.previewImage)
+//        previewImageDialogBinding.close.setOnClickListener {
+//            dialog.dismiss()
+//        }
+//        dialog.setCancelable(false)
+//        dialog.show()
     }
 
     override fun onClickPlay(video: String) {
