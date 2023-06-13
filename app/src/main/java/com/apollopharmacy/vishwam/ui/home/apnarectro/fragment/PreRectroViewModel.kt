@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
@@ -112,18 +113,26 @@ class PreRectroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("RT STORE PENDING AND APPROVED LIST")) {
-                baseUrl = "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
-                token = data.APIS[i].TOKEN
-                break
-            }
+//            if (Config.KEY=="2039") {
+
+
+                if (data.APIS[i].NAME.equals("RT STORE PENDING AND APPROVED LIST")) {
+                    baseUrl = data.APIS[i].URL
+
+                    token = data.APIS[i].TOKEN
+                    break
+                }
+//            }
+//            else if (Config.KEY=="2034"){
+//                baseUrl =  "https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
+//                token = "h72genrSSNFivOi/cfiX3A=="
+//            }
         }
 
         viewModelScope.launch {
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.getStorePendingAndApprovedListApnaRetro("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/GetStorependingAndApprovedList"
-                    ,
-                    "h72genrSSNFivOi/cfiX3A==",
+                ApnaRectroApiRepo.getStorePendingAndApprovedListApnaRetro(baseUrl,
+                    token,
                     getStorePendingAndApprovedListReq)
 
 //                        RegistrationRepo.NewComplaintRegistration(

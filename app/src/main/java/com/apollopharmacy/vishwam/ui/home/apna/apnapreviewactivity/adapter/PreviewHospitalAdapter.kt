@@ -12,9 +12,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 class PreviewHospitalAdapter(
     val mContext: Context,
     private val hospitalListData: ArrayList<SurveyDetailsList.Hospital>,
-
-    ) : RecyclerView.Adapter<PreviewHospitalAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<PreviewHospitalAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val hospitalAdapterLayoutBinding: HospitalAdapterLayoutBinding = DataBindingUtil.inflate(
@@ -27,8 +25,8 @@ class PreviewHospitalAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=hospitalListData.get(position)
-        if (items.hospitals!!.isNotEmpty())  {
+        val items = hospitalListData.get(position)
+        if (items.hospitals!!.isNotEmpty()) {
             holder.hospitalAdapterLayoutBinding.name.setText(items.hospitals)
         } else {
             holder.hospitalAdapterLayoutBinding.name.setText("-")
@@ -39,13 +37,15 @@ class PreviewHospitalAdapter(
             holder.hospitalAdapterLayoutBinding.beds.setText("-")
         }
         if (items.speciality != null) {
-            if (items.speciality!!.uid.toString().isNotEmpty() && items.speciality!!.uid != null) {
-                holder.hospitalAdapterLayoutBinding.multispeciality.setText(items.speciality!!.uid.toString())
+            if (items.speciality!!.name.toString()
+                    .isNotEmpty() && items.speciality!!.name != null
+            ) {
+                holder.hospitalAdapterLayoutBinding.speciality.setText(items.speciality!!.name.toString())
             } else {
-                holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+                holder.hospitalAdapterLayoutBinding.speciality.setText("-")
             }
         } else {
-            holder.hospitalAdapterLayoutBinding.multispeciality.setText("-")
+            holder.hospitalAdapterLayoutBinding.speciality.setText("-")
         }
         if (items.noOpd.toString().isNotEmpty()) {
             holder.hospitalAdapterLayoutBinding.noOfOpd.setText(items.noOpd.toString())

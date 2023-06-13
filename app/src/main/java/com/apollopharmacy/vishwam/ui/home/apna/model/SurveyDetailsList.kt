@@ -15,6 +15,26 @@ class SurveyDetailsList : Serializable {
     @SerializedName("data")
     var data: Data? = null
 
+    inner class ToiletsAvailability: Serializable {
+        @SerializedName("uid")
+        @Expose
+        var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
+
+        @SerializedName("other")
+        @Expose
+        var other: Other_1? = null
+    }
+
+    inner class Other_1: Serializable {
+        @SerializedName("color")
+        @Expose
+        var color: String? = null
+    }
+
     inner class Apartment : Serializable {
         @SerializedName("uid")
         @Expose
@@ -180,6 +200,18 @@ class SurveyDetailsList : Serializable {
         @Expose
         var extngOutletName: String? = null
 
+        @SerializedName("id")
+        @Expose
+        var id: String? = null
+
+        @SerializedName("eo_site_id")
+        @Expose
+        var eoSiteId: String? = null
+
+        @SerializedName("eo_site_name")
+        @Expose
+        var eoSiteName: String? = null
+
         @SerializedName("lat")
         @Expose
         var lat: String? = null
@@ -212,6 +244,10 @@ class SurveyDetailsList : Serializable {
         @Expose
         var surveyId: String? = null
 
+        @SerializedName("toilets_availability")
+        @Expose
+        var toiletsAvailability: ToiletsAvailability? = null
+
         @SerializedName("traffic_patterns")
         @Expose
         var trafficPatterns: String? = null
@@ -228,13 +264,13 @@ class SurveyDetailsList : Serializable {
         @Expose
         var modifiedId: ModifiedId? = null
 
-        @SerializedName("city")
-        @Expose
-        var city: City? = null
+//        @SerializedName("city")
+//        @Expose
+//        var city: City? = null
 
-        @SerializedName("state")
-        @Expose
-        var state: State? = null
+//        @SerializedName("state")
+//        @Expose
+//        var state: State? = null
 
         @SerializedName("location")
         @Expose
@@ -250,7 +286,7 @@ class SurveyDetailsList : Serializable {
 
         @SerializedName("building_age")
         @Expose
-        var buildingAge: Int? = null
+        var buildingAge: Double? = null
 
         @SerializedName("morning_from")
         @Expose
@@ -435,15 +471,15 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withCity(city: City?): Data {
-            this.city = city
-            return this
-        }
+//        fun withCity(city: City?): Data {
+//            this.city = city
+//            return this
+//        }
 
-        fun withState(state: State?): Data {
-            this.state = state
-            return this
-        }
+//        fun withState(state: State?): Data {
+//            this.state = state
+//            return this
+//        }
 
         fun withLocation(location: Location?): Data {
             this.location = location
@@ -460,7 +496,7 @@ class SurveyDetailsList : Serializable {
             return this
         }
 
-        fun withBuildingAge(buildingAge: Int?): Data {
+        fun withBuildingAge(buildingAge: Double?): Data {
             this.buildingAge = buildingAge
             return this
         }
@@ -600,6 +636,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): DimensionType {
             this.uid = uid
             return this
@@ -759,7 +799,7 @@ class SurveyDetailsList : Serializable {
         var rent = 0
 
         @SerializedName("sales")
-        var sales = 0.0
+        var sales: Float = 0.0F
 
         @SerializedName("sqft")
         var sqft = 0.0
@@ -769,6 +809,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Organised {
             this.uid = uid
             return this
@@ -789,6 +833,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Parking {
             this.uid = uid
             return this
@@ -809,6 +857,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Speciality {
             this.uid = uid
             return this
@@ -875,6 +927,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): TrafficGenerator {
             this.uid = uid
             return this
@@ -885,6 +941,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): TrafficStreetType {
             this.uid = uid
             return this
@@ -905,6 +965,10 @@ class SurveyDetailsList : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
+
+        @SerializedName("name")
+        @Expose
+        var name: String? = null
         fun withUid(uid: String?): Unorganised {
             this.uid = uid
             return this

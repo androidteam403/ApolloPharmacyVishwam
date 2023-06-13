@@ -155,6 +155,7 @@ class VerifyUserActivity : AppCompatActivity() {
         val intent = Intent(this, SplashActivity::class.java)
         startActivity(intent)
         finish()
+
         overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
     }
 

@@ -2,8 +2,8 @@ package com.apollopharmacy.vishwam.ui.home.apna.activity.model
 
 class HospitalData(
     var hospitalName: String,
-    var beds: Int,
+    var beds: String,
     var speciality: String,
-    var noOfOpd: Int,
-    var occupancy: Int,
+    var noOfOpd: String,
+    var occupancy: String,
 )

@@ -14,7 +14,7 @@ class LocationListItemAdapter(
     var mCallback: ApnaNewSurveyCallBack,
     var mContext: Context,
     var locationList: ArrayList<LocationListResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<LocationListItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<LocationListItemAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -33,7 +33,16 @@ class LocationListItemAdapter(
         holder.viewItemRowBinding.itemName.text = locationList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onLocationListItemSelect(position, locationList[position].name.toString(), locationList[position].uid.toString())
+//            mCallback.onLocationListItemSelect(position, locationList[position].name.toString(), locationList[position].uid.toString())
+            mCallback.onLocationListItemSelect(
+                position,
+                locationList[position].name.toString(),
+                locationList[position].city!!.state!!.name.toString(),
+                locationList[position].city!!.name.toString(),
+                locationList[position].uid.toString(),
+                locationList[position].city!!.state!!.uid.toString(),
+                locationList[position].city!!.uid.toString()
+            )
         }
     }
 

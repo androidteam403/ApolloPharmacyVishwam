@@ -25,7 +25,7 @@ class ApprovalImagesListAdapter(
     ) :
 
     RecyclerView.Adapter<ApprovalImagesListAdapter.ViewHolder>() {
-
+    var status: String=""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
@@ -50,7 +50,7 @@ class ApprovalImagesListAdapter(
                             approveList as ArrayList<List<GetImageUrlResponse.ImageUrl>>,
                             categoryPos,
                             categoryName,
-                            approvedOrders.get(j).url!!)
+                            approvedOrders.get(j).url!!,status)
 
                     }
                 }
@@ -63,7 +63,7 @@ class ApprovalImagesListAdapter(
                     approveList as ArrayList<List<GetImageUrlResponse.ImageUrl>>,
                     categoryPos,
                     categoryName,
-                    "")
+                    "",status)
 
             }
         }
@@ -75,7 +75,10 @@ class ApprovalImagesListAdapter(
                 Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)
                     .into(holder.preRetroImagesLayoutBinding.image)
+                status= approvedOrders.get(i).status!!
                 if (approvedOrders.get(i).status!!.toLowerCase().contains("0")) {
+
+
                     holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
                         ContextCompat.getColorStateList(
                             mContext,
@@ -96,7 +99,10 @@ class ApprovalImagesListAdapter(
                 Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)
                     .into(holder.preRetroImagesLayoutBinding.image)
+                status= approvedOrders.get(i).status!!
+
                 if (approvedOrders.get(i).status!!.toLowerCase().contains("0")) {
+
                     holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
                         ContextCompat.getColorStateList(
                             mContext,
@@ -118,6 +124,8 @@ class ApprovalImagesListAdapter(
                 Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)
                     .into(holder.preRetroImagesLayoutBinding.image)
+                status= approvedOrders.get(i).status!!
+
                 if (approvedOrders.get(i).status!!.toLowerCase().contains("0")) {
                     holder.preRetroImagesLayoutBinding.imagetick.imageTintList =
                         ContextCompat.getColorStateList(

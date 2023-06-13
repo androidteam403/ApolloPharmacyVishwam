@@ -8,32 +8,25 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:layout_marginTop="14dp"
-        android:layout_marginEnd="14dp"
-
+        android:layout_marginEnd="12dp"
         app:cardCornerRadius="@dimen/value_5dp"
         app:cardElevation="3dp"
-
         app:strokeColor="@color/light_ash"
         app:strokeWidth="0.10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@color/white"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:id="@+id/taskCompletedLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-
-
                 android:orientation="vertical"
                 android:visibility="visible">
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -53,9 +46,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Survey ID :  "
+                            android:text="Survey ID: "
                             android:textColor="@color/grey"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/storeId"
@@ -78,21 +71,19 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="@dimen/value_3dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-
-
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Location :  "
+                            android:text="Location: "
                             android:textColor="@color/grey"
                             android:textSize="@dimen/text_12sp" />
 
                         <TextView
-                            android:id="@+id/storeName"
+                            android:id="@+id/location"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/poppin_bold"
@@ -104,78 +95,74 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
+                        android:layout_marginTop="@dimen/value_3dp"
                         android:orientation="horizontal"
-
                         android:weightSum="2">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/value_5dp"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Survey Started :  "
+                                android:text="Survey Started: "
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:id="@+id/surveystart"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppin_bold"
-                                android:text="07 Apr,2023-12:30PM"
+                                android:text="07 Apr,2023"
                                 android:textColor="@color/black"
                                 android:textSize="11.5sp" />
-
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/surveyEndedLayout"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:orientation="vertical">
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/roboto_medium"
-                                android:text="Survey Ended :  "
+                                android:text="Survey Ended: "
                                 android:textColor="@color/grey"
-                                android:textSize="12sp" />
+                                android:textSize="@dimen/text_12sp" />
 
                             <TextView
                                 android:id="@+id/surveyended"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppin_bold"
-                                android:text="12 Apr,2023-4:30PM"
+                                android:text="12 Apr,2023"
                                 android:textColor="@color/black"
                                 android:textSize="11.5sp" />
-
                         </LinearLayout>
-
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginTop="3dp"
-
+                        android:layout_marginTop="@dimen/value_3dp"
                         android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Surveyed By :  "
+                            android:text="Surveyed By: "
                             android:textColor="@color/grey"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/surveyby"
@@ -187,22 +174,17 @@
                             android:textColor="@color/black"
                             android:textSize="11.5sp" />
                     </LinearLayout>
-
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"
-                    android:background="@color/grey">
-
-                </View>
+                    android:background="@color/grey" />
 
                 <LinearLayout
                     android:id="@+id/statusLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
-                    android:background="@drawable/retro_background_approval"
                     android:orientation="horizontal"
                     android:visibility="visible"
                     android:weightSum="3">
@@ -214,38 +196,35 @@
                         android:orientation="horizontal"
                         android:paddingBottom="@dimen/value_5dp">
 
-
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="6dp"
+                            android:layout_marginLeft="@dimen/value_12dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="5dp"
-                            android:text="Status : "
+                            android:paddingTop="@dimen/value_5dp"
+                            android:text="Status: "
                             android:textColor="@color/grey"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/status"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/poppin_bold"
-
-                            android:paddingTop="6dp"
+                            android:paddingTop="@dimen/value_6dp"
                             android:text="Completed "
                             android:textColor="#39B54A"
                             android:textSize="11.5sp" />
                     </LinearLayout>
 
-
                     <LinearLayout
+                        android:id="@+id/timeTakenLayout"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1.6"
                         android:orientation="horizontal"
-
-                        android:paddingBottom="9dp">
+                        android:paddingBottom="@dimen/value_9dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -253,32 +232,23 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="@dimen/value_10dp"
                             android:fontFamily="@font/roboto_medium"
-                            android:paddingTop="6dp"
-                            android:text="Time Taken : "
+                            android:paddingTop="@dimen/value_6dp"
+                            android:text="Time Taken: "
                             android:textColor="@color/grey"
-                            android:textSize="12sp" />
+                            android:textSize="@dimen/text_12sp" />
 
                         <TextView
                             android:id="@+id/timeTaken"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/poppin_bold"
-
-                            android:paddingTop="7dp"
+                            android:paddingTop="@dimen/value_7dp"
                             android:text="55:54:22"
                             android:textColor="@color/white"
                             android:textSize="11.5sp" />
-                        <!--                   pending textcolor     android:textColor="#f26522"-->
-
                     </LinearLayout>
-
-
                 </LinearLayout>
             </LinearLayout>
-
-
         </LinearLayout>
-
-
     </com.google.android.material.card.MaterialCardView>
 </layout>

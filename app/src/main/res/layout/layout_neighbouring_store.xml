@@ -11,8 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/light_gray_rounded_corners"
-            android:padding="@dimen/value_10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/value_10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -46,49 +46,49 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Store"
-                        android:textSize="@dimen/text_12sp"
                         android:textColor="@color/gray"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/store"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Rajeev Pharmacy"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Rent"
-                        android:textSize="@dimen/text_12sp"
                         android:textColor="@color/gray"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/rent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="1000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -101,316 +101,51 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Sales"
-                        android:textSize="@dimen/text_12sp"
                         android:textColor="@color/gray"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/sales"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="2000"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1">
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="Sq.ft."
-                        android:textSize="@dimen/text_12sp"
                         android:textColor="@color/gray"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_12sp" />
 
                     <TextView
                         android:id="@+id/sqFt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_bold"
                         android:text="2"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp"
-                        android:fontFamily="@font/roboto_bold"/>
+                        android:textSize="@dimen/text_14sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>
-
-    <!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/value_8dp"
-            android:background="@drawable/white_rounded_bg"
-            android:orientation="vertical"
-            android:padding="@dimen/value_10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppin_bold"
-                    android:text="Neighbouring Store"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppin_bold"
-                    android:text=" ("
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
-
-                <TextView
-                    android:id="@+id/locationText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppin_bold"
-                    android:text="Left"
-                    android:textColor="#68c3ea"
-                    android:textSize="@dimen/text_14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppin_bold"
-                    android:text=")"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_8dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                &lt;!&ndash; Store &ndash;&gt;
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/value_5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    &lt;!&ndash;<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:text="Store"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />&ndash;&gt;
-
-                    &lt;!&ndash;<EditText
-                        android:id="@+id/storeText"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_marginRight="8dp"
-                        android:background="@drawable/gray_border"
-                        android:inputType="text"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:paddingEnd="@dimen/value_10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditTextApnaProject">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/storeText"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:hint="Store"
-                            android:inputType="text"
-                            android:paddingStart="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                &lt;!&ndash; Rent &ndash;&gt;
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    &lt;!&ndash;<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/value_15dp"
-                        android:text="Rent"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />&ndash;&gt;
-
-                    &lt;!&ndash;<EditText
-                        android:id="@+id/rentText"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:background="@drawable/gray_border"
-                        android:inputType="number"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:paddingEnd="@dimen/value_10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditTextApnaProject">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/rentText"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:hint="Rent"
-                            android:inputType="number"
-                            android:paddingStart="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/value_8dp"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/value_5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    &lt;!&ndash;<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:text="Sales"
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />&ndash;&gt;
-
-                    &lt;!&ndash;<EditText
-                        android:id="@+id/salesText"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_marginRight="8dp"
-                        android:background="@drawable/gray_border"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditTextApnaProject">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/salesText"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:hint="Sales"
-                            android:inputType="numberDecimal"
-                            android:paddingStart="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    &lt;!&ndash;<TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:text="Sq.ft."
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/text_12sp"
-                        android:textStyle="bold" />&ndash;&gt;
-
-                    &lt;!&ndash;<EditText
-                        android:id="@+id/sqFtText"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/value_40dp"
-                        android:layout_marginEnd="@dimen/value_10dp"
-                        android:background="@drawable/gray_border"
-                        android:inputType="numberDecimal"
-                        android:paddingStart="@dimen/value_10dp"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_14sp" />&ndash;&gt;
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColorHint="@color/black"
-                        android:theme="@style/TextLabelEditTextApnaProject">
-
-                        <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/sqFtText"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/value_50dp"
-                            android:hint="Sq.ft."
-                            android:inputType="numberDecimal"
-                            android:paddingStart="@dimen/value_10dp"
-                            android:paddingEnd="@dimen/value_10dp"
-                            android:textColor="@color/black"
-                            android:textColorHint="@color/black"
-                            android:textSize="14sp" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-    </RelativeLayout>-->
 </layout>
