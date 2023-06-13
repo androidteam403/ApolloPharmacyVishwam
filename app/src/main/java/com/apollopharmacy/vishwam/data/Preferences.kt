@@ -148,6 +148,7 @@ object Preferences {
     private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
+    private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
     private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
@@ -404,6 +405,14 @@ object Preferences {
 
     fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
+    }
+
+    fun setRetroEmployeeRoleUid(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETRO, role).apply()
+    }
+
+    fun getRetroEmployeeRoleUid(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_RETRO, "")!!
     }
 
     fun setEmployeeRoleUidNewDrugRequest(role: String) {
