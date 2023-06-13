@@ -195,6 +195,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             Toast.makeText(context, "Customer phone number must be 10 digits.", Toast.LENGTH_SHORT)
                 .show()
             return false
+        }else if(customerPhoneNumber.equals("0000000000")){
+            viewBinding.customerPhoneNumber.requestFocus()
+            Toast.makeText(context, "Customer phone number should not contain all digits zero.", Toast.LENGTH_SHORT)
+                .show()
+            return false
         } else if (customerName.isEmpty()) {
             viewBinding.name.requestFocus()
             Toast.makeText(context, "Customer name should not be empty.", Toast.LENGTH_SHORT).show()
@@ -205,6 +210,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
 
     private fun startTimer() {
+        viewBinding.resendOtp.visibility = View.GONE
         countDownTimer = object : CountDownTimer(countDownTime, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 val remainingTime = millisUntilFinished / 1000
@@ -216,6 +222,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             override fun onFinish() {
                 otp = "-1"
                 viewBinding.timer.setText("00:00")
+                viewBinding.resendOtp.visibility = View.VISIBLE
             }
         }
         countDownTimer.start()
@@ -430,7 +437,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             isOtpVerified = true
             viewBinding.sendOtpBtn.visibility = View.GONE
             viewBinding.otpVerificationLayout.visibility = View.VISIBLE
-            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
+//            viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
 //            viewBinding.sendLinkBtn.setBackgroundColor(
 //                ContextCompat.getColor(
 //                    requireContext(), R.color.greenn
@@ -574,7 +581,12 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             Toast.makeText(context, "Customer phone number must be 10 digits.", Toast.LENGTH_SHORT)
                 .show()
             return false
-        } else if (customerName.isEmpty()) {
+        } else if(customerPhoneNumber.equals("0000000000")){
+            viewBinding.phoneNumber.requestFocus()
+            Toast.makeText(context, "Customer phone number should not contain all digits zero.", Toast.LENGTH_SHORT)
+                .show()
+            return false
+        }else if (customerName.isEmpty()) {
             viewBinding.custName.requestFocus()
             Toast.makeText(context, "Customer name should not be empty.", Toast.LENGTH_SHORT).show()
             return false
@@ -680,6 +692,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                                 requireContext(), R.color.white
                             )
                         )
+                        viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
                     } else {
                         Toast.makeText(context, "Invalid otp", Toast.LENGTH_SHORT).show()
                         viewBinding.otpView.text!!.clear()
