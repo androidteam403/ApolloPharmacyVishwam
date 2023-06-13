@@ -46,6 +46,7 @@ object Preferences {
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
     private const val  APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
+    private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
 
 
     fun savingToken(userId: String) {
@@ -398,6 +399,13 @@ object Preferences {
 
     fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
+    }
+    fun setRetroEmployeeRoleUid(role: String) {
+        sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETRO, role).apply()
+    }
+
+    fun getRetroEmployeeRoleUid(): String {
+        return sharedPreferences.getString(EMPLOYEE_ROLE_RETRO, "")!!
     }
 
     fun setEmployeeRoleUidNewDrugRequest(role: String) {

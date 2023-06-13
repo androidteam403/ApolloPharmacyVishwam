@@ -190,6 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawer;
     public String employeeRole = "";
+    public String employeeRoleRetro = "";
+
     public String employeeRoleNewDrugRequest;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -473,6 +475,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         employeeRole = Preferences.INSTANCE.getEmployeeRoleUid();
+        employeeRoleRetro=Preferences.INSTANCE.getRetroEmployeeRoleUid();
         employeeRoleNewDrugRequest = Preferences.INSTANCE.getEmployeeRoleUidNewDrugRequest();
         if (loginData != null) {
 //            userNameText.setText("JaiKumar Loknathan Mudaliar");
