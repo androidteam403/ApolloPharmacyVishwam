@@ -14,7 +14,7 @@ class NeighbouringLocationAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
     var data: ArrayList<NeighbouringLocationResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<NeighbouringLocationAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NeighbouringLocationAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)

@@ -14,17 +14,18 @@ import java.text.DecimalFormat
 class NeighbouringStorePreviewAdapter(
     var mContext: Context,
     var data: ArrayList<SurveyCreateRequest.NeighboringStore>,
-): RecyclerView.Adapter<NeighbouringStorePreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NeighbouringStorePreviewAdapter.ViewHolder>() {
     class ViewHolder(val layoutNeighbouringStorePreviewBinding: LayoutNeighbouringStorePreviewBinding) :
         RecyclerView.ViewHolder(layoutNeighbouringStorePreviewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutNeighbouringStorePreviewBinding = DataBindingUtil.inflate<LayoutNeighbouringStorePreviewBinding>(
-            LayoutInflater.from(mContext),
-            R.layout.layout_neighbouring_store_preview,
-            parent,
-            false
-        )
+        val layoutNeighbouringStorePreviewBinding =
+            DataBindingUtil.inflate<LayoutNeighbouringStorePreviewBinding>(
+                LayoutInflater.from(mContext),
+                R.layout.layout_neighbouring_store_preview,
+                parent,
+                false
+            )
         return ViewHolder(layoutNeighbouringStorePreviewBinding)
     }
 
@@ -41,12 +42,15 @@ class NeighbouringStorePreviewAdapter(
             holder.layoutNeighbouringStorePreviewBinding.store.setText("-")
         }
         if (data[position].rent != null) {
-            holder.layoutNeighbouringStorePreviewBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(data[position].rent!!.toLong()))
+            holder.layoutNeighbouringStorePreviewBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                data[position].rent!!.toLong()))
         } else {
             holder.layoutNeighbouringStorePreviewBinding.rent.setText("-")
         }
         if (data[position].sales != null) {
-            holder.layoutNeighbouringStorePreviewBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(data[position].sales!!.toLong()))
+            holder.layoutNeighbouringStorePreviewBinding.sales.setText(data.get(position).sales!!.toString())
+//            holder.layoutNeighbouringStorePreviewBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+//                data[position].sales!!.toLong()))
         } else {
             holder.layoutNeighbouringStorePreviewBinding.sales.setText("-")
         }

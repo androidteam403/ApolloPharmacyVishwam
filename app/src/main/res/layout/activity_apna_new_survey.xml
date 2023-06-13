@@ -46,6 +46,7 @@
                     android:layout_height="@dimen/value_25dp"
                     android:src="@drawable/eye"
                     android:tint="@color/white"
+                    android:visibility="gone"
                     tools:ignore="UseAppTint" />
 
                 <ImageView
@@ -84,7 +85,7 @@
                         android:id="@+id/locationDetailsLayout"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/value_8dp"
                         android:orientation="vertical"
                         android:visibility="visible">
 
@@ -107,7 +108,7 @@
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
                                     android:gravity="center_vertical|center_horizontal"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="1"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -149,7 +150,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/locationDetailsExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -167,7 +168,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -185,7 +186,7 @@
                                 android:layout_height="wrap_content"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="10dp">
+                                android:padding="@dimen/value_10dp">
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/location"
@@ -203,23 +204,23 @@
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
-                                        android:hint="Select Location *"
+                                        android:hint="Select Region *"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="@dimen/value_8dp"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="10dp">
+                                android:padding="@dimen/value_10dp">
 
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -251,7 +252,7 @@
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
@@ -270,14 +271,13 @@
                                         android:textColorHint="@color/black"
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
-<!--                                android:drawableEnd="@drawable/ic_baseline_arrow_drop_down_24"-->
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/pin"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="@dimen/value_5dp"
                                     android:textColorHint="@color/black"
                                     android:theme="@style/TextLabelEditTextApnaProject">
 
@@ -285,10 +285,10 @@
                                         android:id="@+id/pinText"
                                         android:layout_width="match_parent"
                                         android:layout_height="@dimen/value_50dp"
-                                        android:hint="PIN *"
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
+                                        android:hint="PIN *"
                                         android:inputType="number"
                                         android:maxLength="6"
                                         android:paddingStart="@dimen/value_10dp"
@@ -305,7 +305,7 @@
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="10dp">
+                                android:padding="@dimen/value_10dp">
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/nearByLandmarks"
@@ -325,7 +325,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
@@ -335,7 +335,7 @@
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
-                                android:padding="10dp">
+                                android:padding="@dimen/value_10dp">
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -361,8 +361,8 @@
 
                                         <ImageView
                                             android:id="@+id/locationIcon"
-                                            android:layout_width="35dp"
-                                            android:layout_height="35dp"
+                                            android:layout_width="@dimen/value_35dp"
+                                            android:layout_height="@dimen/value_35dp"
                                             android:src="@drawable/ic_baseline_my_location_24"
                                             android:tint="#0071bc"
                                             tools:ignore="UseAppTint" />
@@ -395,7 +395,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -425,7 +425,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
@@ -479,7 +479,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="2"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -491,7 +491,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_background"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="2"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -520,7 +520,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/siteSpecificationsExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -538,7 +538,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -547,7 +547,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/value_5dp"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -675,7 +675,7 @@
                                     <RelativeLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".5">
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -693,11 +693,11 @@
                                                 android:enabled="false"
                                                 android:focusable="false"
                                                 android:hint="Total Area"
-                                                android:paddingStart="10dp"
-                                                android:paddingEnd="10dp"
+                                                android:paddingStart="@dimen/value_10dp"
+                                                android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
                                         <ImageView
@@ -743,12 +743,13 @@
                                             android:id="@+id/perSqFtRadioButton"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
+                                            android:layout_marginEnd="@dimen/value_20dp"
                                             android:buttonTint="@color/apna_project_actionbar_color"
                                             android:fontFamily="@font/price_bold"
                                             android:text="Per sq.ft"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_14sp" />
 
-                                        <TextView
+                                        <!--<TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginStart="@dimen/value_10dp"
@@ -756,7 +757,7 @@
                                             android:fontFamily="@font/poppin_bold"
                                             android:text="or"
                                             android:textColor="@color/black"
-                                            android:textSize="@dimen/text_14sp" />
+                                            android:textSize="@dimen/text_14sp" />-->
 
                                         <RadioButton
                                             android:id="@+id/inchRadioButton"
@@ -765,7 +766,7 @@
                                             android:buttonTint="@color/apna_project_actionbar_color"
                                             android:fontFamily="@font/poppin_bold"
                                             android:text="Per inch"
-                                            android:textSize="@dimen/text_12sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </RadioGroup>
                                 </LinearLayout>
 
@@ -776,8 +777,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
+                                        android:layout_width="@dimen/value_20dp"
+                                        android:layout_height="@dimen/value_20dp"
                                         android:layout_marginStart="@dimen/value_8dp"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
@@ -801,7 +802,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -820,8 +821,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
+                                        android:layout_width="@dimen/value_20dp"
+                                        android:layout_height="@dimen/value_20dp"
                                         android:layout_marginStart="@dimen/value_10dp"
                                         android:layout_marginEnd="@dimen/value_8dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
@@ -845,7 +846,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -879,9 +880,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginEnd="@dimen/value_30dp"
                                         android:buttonTint="@color/apna_project_actionbar_color"
-                                        android:checked="true"
                                         android:text="Yes"
-                                        android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
 
@@ -891,7 +890,6 @@
                                         android:layout_height="wrap_content"
                                         android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="No"
-                                        android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
                                 </RadioGroup>
@@ -940,7 +938,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
                                     <com.google.android.material.textfield.TextInputLayout
@@ -966,7 +964,6 @@
                                             android:textColorHint="@color/black"
                                             android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
-
                                 </LinearLayout>
                             </LinearLayout>
 
@@ -1000,7 +997,6 @@
                                         android:layout_marginEnd="@dimen/value_30dp"
                                         android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="Yes"
-                                        android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
 
@@ -1010,7 +1006,6 @@
                                         android:layout_height="wrap_content"
                                         android:buttonTint="@color/apna_project_actionbar_color"
                                         android:text="No"
-                                        android:textColor="@color/gray"
                                         android:textSize="@dimen/text_14sp"
                                         android:textStyle="bold" />
                                 </RadioGroup>
@@ -1033,7 +1028,6 @@
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_14sp" />
 
-
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/trafficStreet"
                                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -1055,7 +1049,6 @@
                                         android:textColorHint="@color/black"
                                         android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
-
                             </LinearLayout>
 
                             <LinearLayout
@@ -1080,7 +1073,6 @@
                                     android:text="Select morning peak hours between\n(00:00 - 11:59)"
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_12sp" />
-
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -1125,9 +1117,8 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
-
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1166,9 +1157,8 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
-
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -1222,9 +1212,8 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
-
                                     </LinearLayout>
 
                                     <LinearLayout
@@ -1263,9 +1252,8 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
-
                                     </LinearLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1296,12 +1284,10 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
-
                         </LinearLayout>
-
                     </LinearLayout>
 
                     <!-- Market Information Layout -->
@@ -1330,7 +1316,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="3"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -1342,7 +1328,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="3"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -1371,7 +1357,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/marketInformationExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -1389,7 +1375,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -1397,7 +1383,7 @@
                             android:id="@+id/marketInformationExtraData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -1425,7 +1411,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -1445,7 +1431,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
@@ -1499,8 +1485,8 @@
                                     android:gravity="center_vertical">
 
                                     <ImageView
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
+                                        android:layout_width="@dimen/value_20dp"
+                                        android:layout_height="@dimen/value_20dp"
                                         android:layout_marginEnd="@dimen/value_10dp"
                                         android:src="@drawable/ic_baseline_currency_rupee_24"
                                         android:tint="#818181"
@@ -1523,7 +1509,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1568,15 +1554,15 @@
                                                 android:id="@+id/pharmaText"
                                                 android:layout_width="match_parent"
                                                 android:layout_height="@dimen/value_50dp"
-                                                android:hint="Pharma"
                                                 android:clickable="true"
+                                                android:hint="Pharma"
                                                 android:inputType="number"
                                                 android:maxLength="4"
                                                 android:paddingStart="@dimen/value_10dp"
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -1603,7 +1589,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
@@ -1632,7 +1618,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
                             </LinearLayout>
@@ -1663,7 +1649,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
@@ -1700,13 +1686,13 @@
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
-                                        android:hint="Select Location"
+                                        android:hint="Select Neighbouring Location"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
@@ -1734,7 +1720,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
                                     <com.google.android.material.textfield.TextInputLayout
@@ -1755,7 +1741,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
                                 </LinearLayout>
 
@@ -1784,7 +1770,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
                                     <com.google.android.material.textfield.TextInputLayout
@@ -1806,7 +1792,7 @@
                                             android:paddingEnd="@dimen/value_10dp"
                                             android:textColor="@color/black"
                                             android:textColorHint="@color/black"
-                                            android:textSize="14sp" />
+                                            android:textSize="@dimen/text_14sp" />
                                     </com.google.android.material.textfield.TextInputLayout>
 
                                     <androidx.appcompat.widget.AppCompatButton
@@ -1896,7 +1882,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
                             </LinearLayout>
 
@@ -1934,7 +1920,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <LinearLayout
@@ -1953,9 +1939,8 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="3dp"
+                                            android:layout_marginBottom="@dimen/value_3dp"
                                             android:text="Service Class"
-                                            android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -1975,7 +1960,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -1988,9 +1973,8 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:layout_marginBottom="3dp"
+                                            android:layout_marginBottom="@dimen/value_3dp"
                                             android:text="Business Class"
-                                            android:textColor="@color/gray"
                                             android:textStyle="bold" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2010,7 +1994,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
@@ -2055,7 +2039,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -2097,7 +2081,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="4"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2109,7 +2093,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="4"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2138,7 +2122,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/competitorsDetailsExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -2156,7 +2140,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -2164,7 +2148,7 @@
                             android:id="@+id/competitorsDetailsExtraData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -2174,7 +2158,6 @@
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
-
 
                                 <com.google.android.material.textfield.TextInputLayout
                                     android:id="@+id/chemist"
@@ -2215,7 +2198,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Organised"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2240,7 +2222,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
                                     </LinearLayout>
@@ -2256,7 +2238,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Avg sale"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2277,7 +2258,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
                                 </LinearLayout>
@@ -2301,7 +2282,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Un-organised"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2326,7 +2306,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -2342,7 +2322,6 @@
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
                                             android:text="Avg sale"
-                                            android:textColor="@color/gray"
                                             android:textSize="@dimen/text_12sp" />
 
                                         <com.google.android.material.textfield.TextInputLayout
@@ -2363,7 +2342,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -2421,7 +2400,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
-                                            android:text="10.2 Lac"
+                                            android:text="100"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
@@ -2445,7 +2424,7 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
-                                            android:text="10.2 Lac"
+                                            android:text="10"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
@@ -2468,12 +2447,11 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:fontFamily="@font/roboto_bold"
-                                            android:text="10.2 Lac"
+                                            android:text="10"
                                             android:textColor="@color/black"
                                             android:textSize="@dimen/text_14sp" />
                                     </LinearLayout>
                                 </LinearLayout>
-
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
@@ -2504,7 +2482,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="5"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2516,7 +2494,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="5"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2545,7 +2523,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/populationAndHousesExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -2553,9 +2531,9 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/populationAndHousesExpandCompleted"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -2563,7 +2541,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -2571,7 +2549,7 @@
                             android:id="@+id/populationAndHousesExtraData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -2598,13 +2576,13 @@
                                         android:editable="false"
                                         android:enabled="true"
                                         android:focusable="false"
-                                        android:hint="Select type"
+                                        android:hint="Select Apartment Type"
                                         android:inputType="text"
                                         android:paddingStart="@dimen/value_10dp"
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
                                 <com.google.android.material.textfield.TextInputLayout
@@ -2658,16 +2636,16 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:weightSum="1"
                                         android:layout_marginTop="@dimen/value_8dp"
-                                        android:orientation="horizontal">
+                                        android:orientation="horizontal"
+                                        android:weightSum="1">
 
                                         <com.google.android.material.textfield.TextInputLayout
                                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -2687,15 +2665,15 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
 
                                         <LinearLayout
                                             android:layout_width="0dp"
                                             android:layout_height="wrap_content"
-                                            android:layout_weight=".2"
+                                            android:layout_gravity="bottom"
                                             android:layout_marginStart="@dimen/value_8dp"
-                                            android:layout_gravity="bottom">
+                                            android:layout_weight=".2">
 
                                             <androidx.appcompat.widget.AppCompatButton
                                                 android:id="@+id/apartmentsAddBtn"
@@ -2707,7 +2685,6 @@
                                                 android:textSize="@dimen/text_14sp" />
                                         </LinearLayout>
                                     </LinearLayout>
-
                                 </LinearLayout>
 
                                 <androidx.recyclerview.widget.RecyclerView
@@ -2747,7 +2724,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/orange_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="6"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2759,7 +2736,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginEnd="@dimen/value_15dp"
                                     android:background="@drawable/green_rounded_background"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="6"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -2788,7 +2765,7 @@
                                     android:visibility="gone" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/hospitalsExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -2796,9 +2773,9 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/hospitalsExpandCompleted"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -2806,7 +2783,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -2814,7 +2791,7 @@
                             android:id="@+id/hospitalsExtraData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -2847,7 +2824,7 @@
                                         android:paddingEnd="@dimen/value_10dp"
                                         android:textColor="@color/black"
                                         android:textColorHint="@color/black"
-                                        android:textSize="14sp" />
+                                        android:textSize="@dimen/text_14sp" />
                                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -2882,7 +2859,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -2909,9 +2886,8 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
-
                                     </LinearLayout>
                                 </LinearLayout>
 
@@ -2926,7 +2902,7 @@
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginEnd="10dp"
+                                        android:layout_marginEnd="@dimen/value_10dp"
                                         android:layout_weight=".9"
                                         android:orientation="vertical">
 
@@ -2947,7 +2923,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -2975,7 +2951,7 @@
                                                 android:paddingEnd="@dimen/value_10dp"
                                                 android:textColor="@color/black"
                                                 android:textColorHint="@color/black"
-                                                android:textSize="14sp" />
+                                                android:textSize="@dimen/text_14sp" />
                                         </com.google.android.material.textfield.TextInputLayout>
                                     </LinearLayout>
 
@@ -3033,7 +3009,7 @@
                                     android:layout_marginEnd="@dimen/value_10dp"
                                     android:background="@drawable/green_rounded_background"
                                     android:backgroundTint="@color/apna_project_actionbar_color"
-                                    android:paddingHorizontal="7dp"
+                                    android:paddingHorizontal="@dimen/value_7dp"
                                     android:text="7"
                                     android:textColor="@color/white"
                                     android:textSize="@dimen/text_18sp"
@@ -3050,7 +3026,7 @@
                                     android:textStyle="bold" />
                             </LinearLayout>
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/photoMediaExpand"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -3058,9 +3034,9 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="visible"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
-                            <ImageView
+                            <!--<ImageView
                                 android:id="@+id/photoMediaExpandCompleted"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
@@ -3068,7 +3044,7 @@
                                 android:src="@drawable/ic_baseline_keyboard_arrow_down_24"
                                 android:tint="@color/apna_project_actionbar_color"
                                 android:visibility="gone"
-                                tools:ignore="UseAppTint" />
+                                tools:ignore="UseAppTint" />-->
 
                         </RelativeLayout>
 
@@ -3076,7 +3052,7 @@
                             android:id="@+id/photoMediaExtraData"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="55dp"
+                            android:layout_marginBottom="@dimen/value_55dp"
                             android:orientation="vertical"
                             android:visibility="visible">
 
@@ -3086,7 +3062,6 @@
                                 android:background="@drawable/white_rounded_bg"
                                 android:orientation="vertical"
                                 android:padding="@dimen/value_10dp">
-
 
                                 <RelativeLayout
                                     android:layout_width="match_parent"
@@ -3203,10 +3178,9 @@
 
                                     <androidx.cardview.widget.CardView
                                         android:layout_width="@dimen/value_100dp"
-                                        android:layout_height="73dp"
+                                        android:layout_height="@dimen/value_73dp"
                                         app:cardBackgroundColor="#efefef"
-                                        app:cardCornerRadius="8dp">
-
+                                        app:cardCornerRadius="@dimen/value_8dp">
 
                                         <RelativeLayout
                                             android:id="@+id/beforeCaptureLayout"
@@ -3255,10 +3229,9 @@
                                                 <ImageView
                                                     android:layout_width="@dimen/value_20dp"
                                                     android:layout_height="@dimen/value_20dp"
-                                                    android:layout_marginTop="4dp"
+                                                    android:layout_marginTop="@dimen/value_4dp"
                                                     android:src="@drawable/ic_baseline_play_arrow_24" />
                                             </LinearLayout>
-
 
                                             <LinearLayout
                                                 android:id="@+id/deleteVideo"
@@ -3284,12 +3257,9 @@
                             </LinearLayout>
                         </LinearLayout>
                     </LinearLayout>
-
                 </LinearLayout>
-
             </FrameLayout>
         </androidx.core.widget.NestedScrollView>
-
 
         <!-- Next Button Layout -->
         <LinearLayout
@@ -3301,7 +3271,6 @@
             android:gravity="center_horizontal"
             android:paddingVertical="@dimen/value_12dp"
             android:visibility="visible">
-            <!--#39b54a-->
 
             <TextView
                 android:layout_width="wrap_content"

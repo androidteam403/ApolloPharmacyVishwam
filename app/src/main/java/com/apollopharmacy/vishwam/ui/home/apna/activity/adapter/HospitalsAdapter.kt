@@ -15,13 +15,12 @@ import com.apollopharmacy.vishwam.databinding.AdapterHospitalsListBinding
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.HospitalData
-import java.io.File
 
 class HospitalsAdapter(
     var mContext: Context,
     var mCallBack: ApnaNewSurveyCallBack,
     var hospitalsList: ArrayList<HospitalData>,
-): RecyclerView.Adapter<HospitalsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<HospitalsAdapter.ViewHolder>() {
 
     class ViewHolder(val adapterHospitalsListBinding: AdapterHospitalsListBinding) :
         RecyclerView.ViewHolder(adapterHospitalsListBinding.root)

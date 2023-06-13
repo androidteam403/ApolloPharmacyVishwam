@@ -44,7 +44,7 @@ object Preferences {
     private const val EMPLOYEE_ROLE_NEW_DRUG_REQUEST = "EMPLOYEE_ROLE_NEW_DRUG_REQUEST"
     private const val FCM_KEY = "FCM_KEY"
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
-    private const val  APNA_RETRO_SITE = "APNA_RETRO_SITE"
+    private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
     private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
 
@@ -123,6 +123,7 @@ object Preferences {
     fun getUserPassword(): String {
         return sharedPreferences.getString(KEY_USER_PASSWORD, "")!!
     }
+
     fun getFcmKey(): String {
         return sharedPreferences.getString(FCM_KEY, "")!!
     }
@@ -163,6 +164,8 @@ object Preferences {
     private const val KEY_EMP_MOBILE_NUMBER = "KEY_EMP_MOBILE_NUMBER"
     private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
         "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
+    private const val KEY_APOLLO_SENSING_SITE_ID = "KEY_APOLLO_SENSING_SITE_ID"
+    private const val KEY_APOLLO_SENSING_SITE_NAME = "KEY_APOLLO_SENSING_SITE_NAME"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -269,6 +272,7 @@ object Preferences {
     fun isSiteIdListFetched(): Boolean {
         return sharedPreferences.getBoolean(PREF_SITE_ID_FETCHED, false)
     }
+
     fun setSiteRetroListFetched(isSiteIdListFetched: Boolean) {
         sharedPreferences.edit().putBoolean(PREF_SITE_RETRO_FETCHED, isSiteIdListFetched).apply()
     }
@@ -441,8 +445,6 @@ object Preferences {
     }
 
 
-
-
     fun setApnaRetroSite(role: String) {
         sharedPreferences.edit().putString(APNA_RETRO_SITE, role).apply()
     }
@@ -452,9 +454,6 @@ object Preferences {
     }
 
 
-
-
-
     fun setRectroSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_RECTRO_SITEID, swachhSiteId).apply()
     }
@@ -462,6 +461,7 @@ object Preferences {
     fun getRectroSiteId(): String {
         return sharedPreferences.getString(KEY_RECTRO_SITEID, "")!!
     }
+
     fun setRectroSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_RECTRO_SITENAME, swachhSiteId).apply()
     }
@@ -469,6 +469,7 @@ object Preferences {
     fun getRectroSiteName(): String {
         return sharedPreferences.getString(KEY_RECTRO_SITENAME, "")!!
     }
+
     fun setSwachhSiteId(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_SWACHH_SITEID, swachhSiteId).apply()
     }
@@ -492,6 +493,7 @@ object Preferences {
     fun getSwachSiteName(): String {
         return sharedPreferences.getString(KEY_SWACHH_SITENAME, "")!!
     }
+
     fun setApnaSiteName(swachhSiteId: String) {
         sharedPreferences.edit().putString(KEY_APNA_SITENAME, swachhSiteId).apply()
     }
@@ -600,5 +602,22 @@ object Preferences {
 
     fun getResponseNewTicketlist(): String {
         return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
+    }
+
+    fun setApolloSensingSiteId(apolloSensingSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_ID, apolloSensingSiteId).apply()
+    }
+
+    fun setApolloSensingSiteName(apolloSensingSiteName: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_NAME, apolloSensingSiteName)
+            .apply()
+    }
+
+    fun getApolloSensingSiteId(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_ID, "")!!
+    }
+
+    fun getApolloSensingSiteName(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_NAME, "")!!
     }
 }

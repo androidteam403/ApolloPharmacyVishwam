@@ -14,7 +14,7 @@ class CityItemAdapter(
     var mCallBack: ApnaNewSurveyCallBack,
     var mContext: Context,
     var cityList: ArrayList<CityListResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<CityItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CityItemAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -33,7 +33,9 @@ class CityItemAdapter(
         holder.viewItemRowBinding.itemName.text = cityList[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallBack.onCityItemSelect(position, cityList[position].name.toString(), cityList[position].uid.toString())
+            mCallBack.onCityItemSelect(position,
+                cityList[position].name.toString(),
+                cityList[position].uid.toString())
         }
     }
 

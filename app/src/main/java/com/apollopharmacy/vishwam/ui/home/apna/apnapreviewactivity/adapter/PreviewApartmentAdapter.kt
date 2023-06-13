@@ -13,8 +13,7 @@ import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
 class PreviewApartmentAdapter(
     val mContext: Context,
     private val hospitalListData: ArrayList<SurveyDetailsList.Apartment>,
-
-    ) : RecyclerView.Adapter<PreviewApartmentAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PreviewApartmentAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

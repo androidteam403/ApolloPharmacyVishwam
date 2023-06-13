@@ -38,6 +38,9 @@ import com.apollopharmacy.vishwam.databinding.DialogResetPrescriptionUploadFormB
 import com.apollopharmacy.vishwam.databinding.FragmentApolloSensingBinding
 import com.apollopharmacy.vishwam.databinding.LinkSendConfirmDialogBinding
 import com.apollopharmacy.vishwam.databinding.PrescriptionUploadedConfirmDialogBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.apollosensing.activity.ApolloSensingStoreActivity
 import com.apollopharmacy.vishwam.ui.home.apollosensing.adapter.PrescriptionImageAdapter
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
@@ -45,6 +48,7 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsReque
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
+import com.github.dhaval2404.imagepicker.ImagePicker
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -52,7 +56,7 @@ import java.io.FileNotFoundException
 
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
-    ApolloSensingFragmentCallback {
+    ApolloSensingFragmentCallback, MainActivityCallback {
     var employeeName: String = ""
     lateinit var prescriptionImageAdapter: PrescriptionImageAdapter
     var isOtpVerified: Boolean = false
@@ -72,6 +76,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     override fun setup() {
+        MainActivity.mInstance.mainActivityCallback = this
         viewBinding.callback = this@ApolloSensingFragment
         val userData = LoginRepo.getProfile()
         otpValidation()
@@ -159,7 +164,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         askPermissions(100)
                         return@setOnClickListener
                     } else {
-                        openCamera()
+//                        openCamera()
+                        if (prescriptionImageList.size == 5) {
+                            Toast.makeText(requireContext(),
+                                "You are allowed to upload only five prescription",
+                                Toast.LENGTH_SHORT).show()
+                        } else {
+                            openCamera()
+                        }
                     }
                 } else {
                     Toast.makeText(
@@ -258,19 +270,22 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     }
 
     private fun openCamera() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        imageFile = File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
-        compressedImageFileName = "${System.currentTimeMillis()}.jpg"
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
-        } else {
-            val photoUri = FileProvider.getUriForFile(
-                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
-            )
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-        }
-        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
+        ImagePicker.with(this@ApolloSensingFragment)
+            .crop()
+            .start(Config.REQUEST_CODE_CAMERA)
+//        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//        imageFile = File(ViswamApp.context.cacheDir, "${System.currentTimeMillis()}.jpg")
+//        compressedImageFileName = "${System.currentTimeMillis()}.jpg"
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(imageFile))
+//        } else {
+//            val photoUri = FileProvider.getUriForFile(
+//                ViswamApp.context, ViswamApp.context.packageName + ".provider", imageFile!!
+//            )
+//            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
+//        }
+//        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+//        startActivityForResult(intent, Config.REQUEST_CODE_CAMERA)
     }
 
     fun encodeImage(path: String): String? {
@@ -291,9 +306,17 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null && resultCode == Activity.RESULT_OK) {
+//        if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null && resultCode == Activity.RESULT_OK) {
+//            val imageBase64 = encodeImage(imageFile!!.absolutePath)
+//            prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
+//        }
+        if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
+            val uri = data!!.data
+            imageFile = File(uri!!.path!!)
             val imageBase64 = encodeImage(imageFile!!.absolutePath)
             prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
+        } else if (requestCode == 571 && resultCode == Activity.RESULT_OK) {
+            Preferences.getApolloSensingSiteId()
         }
         if (prescriptionImageList.size > 0) {
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.START
@@ -692,5 +715,16 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 }
             }
         })
+    }
+
+    override fun onClickFilterIcon() {
+    }
+
+    override fun onClickSiteIdIcon() {
+        val intent = Intent(context, ApolloSensingStoreActivity::class.java)
+        startActivityForResult(intent, 571)
+    }
+
+    override fun onClickQcFilterIcon() {
     }
 }

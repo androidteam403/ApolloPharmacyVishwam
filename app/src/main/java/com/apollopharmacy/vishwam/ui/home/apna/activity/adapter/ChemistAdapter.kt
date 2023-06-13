@@ -15,7 +15,6 @@ import com.apollopharmacy.vishwam.databinding.AdapterChemistListBinding
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ChemistData
-import java.io.File
 import java.text.DecimalFormat
 
 class ChemistAdapter(
