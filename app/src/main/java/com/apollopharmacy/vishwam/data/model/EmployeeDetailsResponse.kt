@@ -39,6 +39,10 @@ class EmployeeDetailsResponse : Serializable {
         @Expose
         var uploadSwach: UploadSwach? = null
 
+         @SerializedName("upload_apna_retro")
+         @Expose
+         var uploadApnaRetro: UploadApnaRetro? = null
+
          @SerializedName("new_drug_request")
          @Expose
          var newDrugRequest: NewDrugRequest? = null
@@ -159,6 +163,33 @@ class EmployeeDetailsResponse : Serializable {
 
             }
         }
+
+         class UploadApnaRetro : Serializable {
+             @SerializedName("uid")
+             @Expose
+             var uid: String? = null
+
+             @SerializedName("name")
+             @Expose
+             var name: String? = null
+
+             @SerializedName("other")
+             @Expose
+             var other: Other? = null
+
+             @SerializedName("icon")
+             @Expose
+             var icon: Any? = null
+
+             class Other : Serializable {
+                 @SerializedName("color")
+                 @Expose
+                 var color: Any? = null
+
+
+             }
+         }
+
 
          class NewDrugRequest : Serializable {
              @SerializedName("uid")

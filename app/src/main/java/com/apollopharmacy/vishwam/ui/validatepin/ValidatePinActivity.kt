@@ -196,6 +196,50 @@ class ValidatePinActivity : AppCompatActivity(), ValidatePinCallBack {
                         Preferences.setEmployeeRoleUid("")
                     }
 
+
+
+
+
+                    if (it.data != null && it.data?.uploadApnaRetro != null) {
+//                        it.data!!.role!!.code = "store_supervisor"
+//                        it.data!!.uploadSwach!!.uid = "Yes"
+                        Preferences.storeEmployeeDetailsResponseJsonNewDrug(Gson().toJson(it))
+                        if (it.data?.uploadApnaRetro?.uid != null) {
+//                            it.data?.uploadSwach?.uid = "Yes"
+//                            it.data?.swacchDefaultSite?.site = ""
+                            Preferences.setEmployeeRoleUidNewDrugRequest(it.data?.uploadApnaRetro?.uid!!)
+                            if (it.data?.uploadApnaRetro?.uid!!.equals(
+                                    "Yes",
+                                    true
+                                )
+                            ) {
+                                Preferences.setRetroEmployeeRoleUid(it.data?.uploadApnaRetro?.uid!!)
+                            } else {
+                                Preferences.setRetroEmployeeRoleUid("")
+                            }
+
+                        } else {
+                            Preferences.setRetroEmployeeRoleUid("")
+                        }
+                    } else {
+                        Preferences.setRetroEmployeeRoleUid("")
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     if (it.data != null && it.data?.newDrugRequest != null) {
 //                        it.data!!.role!!.code = "store_supervisor"
 //                        it.data!!.uploadSwach!!.uid = "Yes"
