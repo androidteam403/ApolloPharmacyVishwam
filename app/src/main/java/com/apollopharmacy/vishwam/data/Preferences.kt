@@ -163,8 +163,10 @@ object Preferences {
     private const val KEY_EMP_MOBILE_NUMBER = "KEY_EMP_MOBILE_NUMBER"
     private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
         "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
-    private const val KEY_APOLLO_SENSING_SITE_ID = "KEY_APOLLO_SENSING_SITE_ID"
-    private const val KEY_APOLLO_SENSING_SITE_NAME = "KEY_APOLLO_SENSING_SITE_NAME"
+    private const val KEY_APOLLO_SENSING_STORE_ID = "KEY_APOLLO_SENSING_STORE_ID"
+    private const val KEY_APOLLO_SENSING_STORE_NAME = "KEY_APOLLO_SENSING_STORE_NAME"
+
+    private const val KEY_STORE_LIST_JSON = "KEY_STORE_LIST_ITEM"
 
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
@@ -596,20 +598,28 @@ object Preferences {
         return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
     }
 
-    fun setApolloSensingSiteId(apolloSensingSiteId: String) {
-        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_ID, apolloSensingSiteId).apply()
+    fun setApolloSensingStoreId(apolloSensingSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_ID, apolloSensingSiteId).apply()
     }
 
-    fun setApolloSensingSiteName(apolloSensingSiteName: String) {
-        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_NAME, apolloSensingSiteName)
+    fun getApolloSensingStoreId(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_ID, "")!!
+    }
+
+    fun setApolloSensingStoreName(apolloSensingSiteName: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_NAME, apolloSensingSiteName)
             .apply()
     }
 
-    fun getApolloSensingSiteId(): String {
-        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_ID, "")!!
+    fun getApolloSensingStoreName(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_NAME, "")!!
     }
 
-    fun getApolloSensingSiteName(): String {
-        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_NAME, "")!!
-    }
+//    fun setStoreListItem(storeListItem: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_JSON, storeListItem).apply()
+//    }
+//
+//    fun getStoreListItem(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_JSON, "")!!
+//    }
 }

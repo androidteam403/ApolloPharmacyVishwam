@@ -14,10 +14,10 @@ import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.databinding.FragmentChampsSurveyBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
-import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.champs.survey.activity.surveydetails.SurveyDetailsActivity
 import com.apollopharmacy.vishwam.ui.home.champs.survey.fragment.adapter.GetStoreDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.model.GetStoreWiseDetailsModelResponse
+import com.apollopharmacy.vishwam.ui.home.model.StoreDetailsModelResponse
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectChampsSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
@@ -26,10 +26,10 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     NewSurveyCallback, MainActivityCallback {
     var getStoreDetailsAdapter: GetStoreDetailsAdapter? = null
     var getStoreWiseDetailsResponse: GetStoreWiseDetailsModelResponse? = null
-    var storeId: String?=""
-    var address:String?=""
-    var siteName:String?=""
-    var siteCity:String?=""
+    var storeId: String? = ""
+    var address: String? = ""
+    var siteName: String? = ""
+    var siteCity: String? = ""
     var isSiteIdEmpty: Boolean = false
 
     override val layoutRes: Int
@@ -42,9 +42,9 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun setup() {
         viewBinding.callback = this
         MainActivity.mInstance.mainActivityCallback = this
-        Utlis.hideLoading()
+//        Utlis.hideLoading()
         if (Preferences.getApnaSiteId().isEmpty()) {
-            showLoading()
+//            showLoading()
             val i = Intent(context, SelectChampsSiteIDActivity::class.java)
             i.putExtra("modulename", "CHAMPS")
             startActivityForResult(i, 781)
@@ -152,37 +152,44 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onClickCloseIcon() {
         viewBinding.enterStoreEdittext.setText("")
     }
+
     override fun onSuccessgetStoreDetails(storeDetailsResponse: StoreDetailsModelResponse) {
-        if(storeDetailsResponse!=null && storeDetailsResponse.storeDetails!=null){
-            for(i in storeDetailsResponse.storeDetails.indices){
-                if(storeDetailsResponse.storeDetails.get(i).siteid.equals(viewBinding.enterStoreEdittext.text.toString())){
-                    storeId =storeDetailsResponse.storeDetails.get(i).siteid
+        if (storeDetailsResponse != null && storeDetailsResponse.storeDetails != null) {
+            for (i in storeDetailsResponse.storeDetails.indices) {
+                if (storeDetailsResponse.storeDetails.get(i).siteid.equals(viewBinding.enterStoreEdittext.text.toString())) {
+                    storeId = storeDetailsResponse.storeDetails.get(i).siteid
                     siteName = storeDetailsResponse.storeDetails.get(i).sitename
                     siteCity = storeDetailsResponse.storeDetails.get(i).city
-                    address = storeDetailsResponse.storeDetails.get(i).region +", " + storeDetailsResponse.storeDetails.get(i).city
-                    viewBinding.storeId.text= storeDetailsResponse.storeDetails.get(i).siteid
-                    viewBinding.address.text=storeDetailsResponse.storeDetails.get(i).region +", " + storeDetailsResponse.storeDetails.get(i).city
+                    address =
+                        storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
+                            i
+                        ).city
+                    viewBinding.storeId.text = storeDetailsResponse.storeDetails.get(i).siteid
+                    viewBinding.address.text =
+                        storeDetailsResponse.storeDetails.get(i).region + ", " + storeDetailsResponse.storeDetails.get(
+                            i
+                        ).city
                 }
-        }
+            }
 
         }
 
         hideLoading()
 
         if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                showLoading()
-                viewModel.getStoreWiseDetailsChampsApi(
-                    this,
-                    viewBinding.enterStoreEdittext.text.toString()
-                )
-            } else {
-                Toast.makeText(
-                    activity,
-                    resources.getString(R.string.label_network_error),
-                    Toast.LENGTH_SHORT
-                )
-                    .show()
-            }
+            showLoading()
+            viewModel.getStoreWiseDetailsChampsApi(
+                this,
+                viewBinding.enterStoreEdittext.text.toString()
+            )
+        } else {
+            Toast.makeText(
+                activity,
+                resources.getString(R.string.label_network_error),
+                Toast.LENGTH_SHORT
+            )
+                .show()
+        }
 
 //        if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //            showLoading()
@@ -242,10 +249,14 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 
     override fun onSuccessgetStoreWiseDetails(getStoreWiseDetailsResponses: GetStoreWiseDetailsModelResponse) {
         getStoreWiseDetailsResponse = getStoreWiseDetailsResponses
-        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
+        if (getStoreWiseDetailsResponses != null && getStoreWiseDetailsResponses.status && getStoreWiseDetailsResponses.storeWiseDetails != null && getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail != null) {
             viewBinding.emailId.setText(getStoreWiseDetailsResponses.storeWiseDetails.executiveEmail)
-        }else{
+        } else {
             viewBinding.emailId.setText("--")
+            Preferences.setApnaSite("")
+            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            i.putExtra("modulename", "CHAMPS")
+            startActivityForResult(i, 781)
         }
         hideLoading()
     }
@@ -253,6 +264,10 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
     override fun onFailuregetStoreWiseDetails(value: GetStoreWiseDetailsModelResponse) {
         if (value != null && value.message != null) {
             viewBinding.emailId.setText("--")
+            Preferences.setApnaSite("")
+            val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+            i.putExtra("modulename", "CHAMPS")
+            startActivityForResult(i, 781)
 //            Toast.makeText(context, "" + value.message, Toast.LENGTH_SHORT).show()
         }
         hideLoading()
@@ -276,29 +291,29 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
             isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
-             if (requestCode == 781) {
-                 hideLoading()
-                 Utlis.hideLoading()
-                 if (isSiteIdEmpty) {
-                     MainActivity.mInstance.onBackPressed()
+            if (requestCode == 781) {
+                hideLoading()
+                Utlis.hideLoading()
+                if (isSiteIdEmpty) {
+                    MainActivity.mInstance.onBackPressed()
 //                    hideLoadingTemp()
-                     hideLoading()
-                 } else {
-                     if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
-                         showLoading()
-                         viewModel.getStoreDetailsChampsApi(
-                             this
-                         )
-                     } else {
-                         Toast.makeText(
-                             activity,
-                             resources.getString(R.string.label_network_error),
-                             Toast.LENGTH_SHORT
-                         )
-                             .show()
-                     }
-                 }
-             }
+                    hideLoading()
+                } else {
+                    if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
+                        showLoading()
+                        viewModel.getStoreDetailsChampsApi(
+                            this
+                        )
+                    } else {
+                        Toast.makeText(
+                            activity,
+                            resources.getString(R.string.label_network_error),
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
+                }
+            }
             viewBinding.enterStoreEdittext.setText(Preferences.getApnaSiteId())
 //            if (NetworkUtil.isNetworkConnected(ViswamApp.context)) {
 //                showLoading()
@@ -312,8 +327,6 @@ class NewSurveyFragment : BaseFragment<NewSurveyViewModel, FragmentChampsSurveyB
 //                )
 //                    .show()
 //            }
-
-
 
 
         }

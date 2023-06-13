@@ -82,6 +82,7 @@
                                 android:id="@+id/layout1"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/value_70dp"
+                                android:gravity="center_vertical"
                                 android:layout_marginTop="@dimen/value_8dp">
 
                                 <ImageView
@@ -91,29 +92,36 @@
                                     android:onClick="@{()-> callback.onClickBack()}"
                                     android:src="@drawable/ic_baseline_keyboard_backspace_24"
                                     app:tint="#777777" />
+                                <ImageView
+                                    android:layout_gravity="center"
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:src="@drawable/survey_icon_blue" />
+
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_width="@dimen/value_50dp"-->
+<!--                                    android:layout_height="@dimen/value_50dp">-->
+
+<!--                                    <ImageView-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:layout_width="@dimen/value_40dp"-->
+<!--                                        android:layout_height="@dimen/value_40dp"-->
+<!--                                        android:src="@drawable/survey_icon_blue" />-->
+<!--                                </LinearLayout>-->
 
                                 <LinearLayout
-                                    android:layout_gravity="center"
-                                    android:layout_width="@dimen/value_50dp"
-                                    android:layout_height="@dimen/value_50dp">
-
-                                    <ImageView
-                                        android:layout_gravity="center"
-                                        android:layout_width="@dimen/value_40dp"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:src="@drawable/survey_icon_blue" />
-                                </LinearLayout>
-
-                                <LinearLayout
-                                    android:layout_gravity="center"
                                     android:layout_width="match_parent"
                                     android:weightSum="1"
+                                    android:gravity="center_vertical"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
                                     <LinearLayout
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_weight="0.8"
+                                        android:gravity="center_vertical"
+
                                         android:orientation="vertical">
                                         <TextView
                                             android:layout_width="wrap_content"
