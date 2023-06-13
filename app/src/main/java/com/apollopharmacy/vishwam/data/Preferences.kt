@@ -166,6 +166,8 @@ object Preferences {
     private const val KEY_APOLLO_SENSING_STORE_ID = "KEY_APOLLO_SENSING_STORE_ID"
     private const val KEY_APOLLO_SENSING_STORE_NAME = "KEY_APOLLO_SENSING_STORE_NAME"
 
+    private const val KEY_STORE_LIST_JSON = "KEY_STORE_LIST_ITEM"
+
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
     }
@@ -612,4 +614,12 @@ object Preferences {
     fun getApolloSensingStoreName(): String {
         return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_NAME, "")!!
     }
+
+//    fun setStoreListItem(storeListItem: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_JSON, storeListItem).apply()
+//    }
+//
+//    fun getStoreListItem(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_JSON, "")!!
+//    }
 }
