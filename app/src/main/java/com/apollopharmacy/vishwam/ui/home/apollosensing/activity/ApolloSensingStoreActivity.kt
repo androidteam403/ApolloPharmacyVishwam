@@ -27,6 +27,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
     var siteDataList = ArrayList<StoreListItem>()
     lateinit var siteIdAdapter: SiteIdAdapter
     private lateinit var dialog: Dialog
+    var isSiteIdEmpty:Boolean=false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityApolloSensingStoreBinding =
@@ -34,6 +35,7 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
                 R.layout.activity_apollo_sensing_store)
         viewModel =
             ViewModelProvider(this)[ApolloSensingStoreViewModel::class.java]
+        activityApolloSensingStoreBinding.callback = this
         Utlis.showLoading(this)
         viewModel.siteId()
         onSuccessSiteIdLIst()
@@ -94,22 +96,52 @@ class ApolloSensingStoreActivity : AppCompatActivity(), ApolloSensingStoreCallba
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
             dialog.dismiss()
-            if (storeListItem.site != null) {
-                Preferences.setApolloSensingSiteId(storeListItem.site)
-            } else {
-                Preferences.setApolloSensingSiteId("")
+            Preferences.setApolloSensingStoreId(storeListItem.site!!)
+            if(storeListItem.store_name!=null){
+                Preferences.setApolloSensingStoreName(storeListItem.store_name)
+            }else{
+                Preferences.setApolloSensingStoreName("")
             }
-            if (storeListItem.store_name != null) {
-                Preferences.setApolloSensingSiteName(storeListItem.store_name)
-            } else {
-                Preferences.setApolloSensingSiteName("")
-            }
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-            dialog.show()
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             val intent = Intent()
             setResult(Activity.RESULT_OK, intent)
+            finish()
         }
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.show()
+    }
+
+    override fun onClickCancel() {
+        if(!Preferences.getApolloSensingStoreId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+    }
+
+    override fun onBackPressed() {
+        if(!Preferences.getApolloSensingStoreId().isEmpty()){
+            isSiteIdEmpty=false
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        else{
+            isSiteIdEmpty=true
+            val intent = Intent()
+            intent.putExtra("isSiteIdEmpty", isSiteIdEmpty)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
     }
 }

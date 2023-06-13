@@ -92,7 +92,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/value_20dp"
                                     android:layout_marginBottom="@dimen/value_10dp"
-                                    android:text="Ameerpet"
+                                    android:text=""
                                     android:textColor="@color/black"
                                     android:textSize="@dimen/text_dimen_9"
                                     android:textStyle="bold" />

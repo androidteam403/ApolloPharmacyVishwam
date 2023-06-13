@@ -57,6 +57,7 @@ import java.io.FileNotFoundException
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
     ApolloSensingFragmentCallback, MainActivityCallback {
+    var isSiteIdEmpty: Boolean = false
     var employeeName: String = ""
     lateinit var prescriptionImageAdapter: PrescriptionImageAdapter
     var isOtpVerified: Boolean = false
@@ -78,6 +79,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.callback = this@ApolloSensingFragment
+        if (Preferences.getApolloSensingStoreId().isEmpty()) {
+            showLoading()
+            val intent = Intent(context, ApolloSensingStoreActivity::class.java)
+            startActivityForResult(intent, 571)
+        } else {
+            viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
+            viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
+        }
         val userData = LoginRepo.getProfile()
         otpValidation()
         if (userData != null) {
@@ -88,11 +97,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         viewBinding.employeeId.setText(Preferences.getToken())
         viewBinding.employeeName.setText(employeeName)
 
-        if (storeData.size > 0) {
-            viewBinding.storeId.setText(storeData.get(0).SITEID)
-            viewBinding.storeName.setText(storeData.get(0).SITENAME)
-            viewBinding.storeLocation.setText(storeData.get(0).DCNAME)
-        }
+//        if (storeData.size > 0) {
+//            viewBinding.storeId.setText(storeData.get(0).SITEID)
+//            viewBinding.storeName.setText(storeData.get(0).SITENAME)
+//            viewBinding.storeLocation.setText(storeData.get(0).DCNAME)
+//        }
 
         viewBinding.sendLink.setOnClickListener {
             viewBinding.uploadCustomerPrescriptionLayout.visibility = View.GONE
@@ -310,13 +319,23 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //            val imageBase64 = encodeImage(imageFile!!.absolutePath)
 //            prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
 //        }
+        if (resultCode == Activity.RESULT_OK) {
+            isSiteIdEmpty = data!!.getBooleanExtra("isSiteIdEmpty", isSiteIdEmpty)
+        }
         if (requestCode == Config.REQUEST_CODE_CAMERA && resultCode == Activity.RESULT_OK) {
             val uri = data!!.data
             imageFile = File(uri!!.path!!)
             val imageBase64 = encodeImage(imageFile!!.absolutePath)
             prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
-        } else if (requestCode == 571 && resultCode == Activity.RESULT_OK) {
-            Preferences.getApolloSensingSiteId()
+        } else if (requestCode == 571) {
+            if (isSiteIdEmpty) {
+                MainActivity.mInstance.onBackPressed()
+                hideLoading()
+            } else {
+                viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
+                viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
+                hideLoading()
+            }
         }
         if (prescriptionImageList.size > 0) {
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.START
