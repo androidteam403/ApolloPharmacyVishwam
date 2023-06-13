@@ -1517,7 +1517,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (isCMSRequired) {
             listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-//                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
+                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
