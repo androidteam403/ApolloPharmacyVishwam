@@ -89,7 +89,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
         if(status == "0"){
             activityPreRectroReviewScreenBinding.totalImageandaction.visibility=View.VISIBLE
         }else{
-            activityPreRectroReviewScreenBinding.totalImageandaction.visibility=View.GONE
+            activityPreRectroReviewScreenBinding.totalImageandaction.visibility=View.VISIBLE
 
         }
 
@@ -335,7 +335,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
         imageRequest.stageid = "1"
         imageRequest.reamrks = ""
         imageRequest.statusid = statusId
-        imageRequest.storeid = store
+        imageRequest.storeid = store.split("-").get(0)
         imageRequest.userid = com.apollopharmacy.vishwam.data.Preferences.getToken()
         imageRequest.rating = ""
         imageRequest.imageurls = saveRequestImageslist
@@ -346,7 +346,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
 
     override fun onClickBack() {
 
-        if(status == "0") {
+        if(status == "0"||status == "1"||status == "2") {
 
             val imagesStatusAlertDialog = Dialog(this)
             val dialogLastimagePreviewAlertBinding: DialogLastimagePreviewAlertBinding =
@@ -486,7 +486,7 @@ class PreRectroReviewActivity : AppCompatActivity(), PreviewLastImageCallback {
                     imageRequest.stageid = "1"
                     imageRequest.reamrks = comments.text.toString()
                     imageRequest.statusid = statusId
-                    imageRequest.storeid = store
+                    imageRequest.storeid = store.split("-").get(0)
                     imageRequest.userid = com.apollopharmacy.vishwam.data.Preferences.getToken()
                     imageRequest.rating = ratingforsubmit.toString()
 

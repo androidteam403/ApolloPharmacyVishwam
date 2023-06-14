@@ -1229,6 +1229,26 @@
                             app:layout_constraintTop_toTopOf="parent" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/subworkflow_config_details_list_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/value_5dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/value_1dp"
+                        android:layout_margin="@dimen/value_10dp"
+                        android:background="@color/splash_start_color" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/subworkflow_config_details_list_recyclerview"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
