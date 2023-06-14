@@ -537,7 +537,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     customerName,
                     customerPhoneNumber,
                     this@ApolloSensingFragment,
-                    Preferences.getSiteId(),
+                    Preferences.getApolloSensingStoreId(),
                     Utlis.getCurrentTimeStampFormat()!!
                 )
             }
@@ -571,7 +571,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             if (NetworkUtil.isNetworkConnected(requireContext())) {
                 showLoading()
                 val saveImageUrlsRequest = SaveImageUrlsRequest()
-                saveImageUrlsRequest.siteId = Preferences.getSiteId()
+                saveImageUrlsRequest.siteId = Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
                 saveImageUrlsRequest.type = "STORE"
                 saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
                 saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
