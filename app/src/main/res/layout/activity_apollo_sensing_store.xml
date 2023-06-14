@@ -43,6 +43,7 @@
                 android:id="@+id/close_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="@{()-> callback.onClickCancel()}"
                 android:layout_alignParentEnd="true"
                 android:contentDescription="@string/app_name"
                 android:paddingStart="@dimen/value_10dp"
@@ -101,4 +102,10 @@
                 tools:listitem="@layout/view_item_row" />
         </LinearLayout>
     </RelativeLayout>
+
+    <data>
+        <variable
+            name="callback"
+            type="com.apollopharmacy.vishwam.ui.home.apollosensing.activity.ApolloSensingStoreCallback" />
+    </data>
 </layout>

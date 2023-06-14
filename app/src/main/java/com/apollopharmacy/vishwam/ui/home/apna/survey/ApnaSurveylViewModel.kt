@@ -23,7 +23,7 @@ class ApnaSurveylViewModel : ViewModel() {
     val state = MutableLiveData<State>()
     var getSurveyListResponse = MutableLiveData<SurveyListResponse>()
 
-    fun getApnaSurveyList(apnaSurveyCallback: ApnaSurveyCallback,pageNo :String,rows:String) {
+    fun getApnaSurveyList(apnaSurveyCallback: ApnaSurveyCallback) {
 
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
@@ -37,7 +37,7 @@ class ApnaSurveylViewModel : ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}"//admin
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${1}&rows=${1}"//admin
 
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {

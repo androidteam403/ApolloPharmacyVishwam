@@ -46,7 +46,6 @@ object Preferences {
     private const val PREF_SITE_RETRO_FETCHED = "PREF_SITE_RETRO_FETCHED"
     private const val APNA_RETRO_SITE = "APNA_RETRO_SITE"
     private const val APP_LEVEL_DESIGNATION_RETRO = "APP_LEVEL_DESIGNATION_RETRO"
-    private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
 
 
     fun savingToken(userId: String) {
@@ -149,6 +148,7 @@ object Preferences {
     private const val KEY_USER_PASSWORD = "KEY_PASSWORD"
     private const val UPLOADED_DATE_DAY_WISE = ""
     private const val EMPLOYEE_ROLE = ""
+    private const val EMPLOYEE_ROLE_RETRO = "EMPLOYEE_ROLE_RETRO"
 
     private const val KEY_SWACHH_SITEID = "KEY_SWACHH_SITEID"
     private const val KEY_RECTRO_SITEID = "KEY_RECTRO_SITEID"
@@ -164,9 +164,11 @@ object Preferences {
     private const val KEY_EMP_MOBILE_NUMBER = "KEY_EMP_MOBILE_NUMBER"
     private const val PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON =
         "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
-    private const val KEY_APOLLO_SENSING_SITE_ID = "KEY_APOLLO_SENSING_SITE_ID"
-    private const val KEY_APOLLO_SENSING_SITE_NAME = "KEY_APOLLO_SENSING_SITE_NAME"
-    private const val PREF_KEY_APNA_SURVEY_LIST_JSON = "PREF_KEY_APNA_SURVEY_LIST_JSON"
+    private const val KEY_APOLLO_SENSING_STORE_ID = "KEY_APOLLO_SENSING_STORE_ID"
+    private const val KEY_APOLLO_SENSING_STORE_NAME = "KEY_APOLLO_SENSING_STORE_NAME"
+
+    private const val KEY_STORE_LIST_JSON = "KEY_STORE_LIST_ITEM"
+
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
     }
@@ -404,6 +406,7 @@ object Preferences {
     fun getEmployeeRoleUid(): String {
         return sharedPreferences.getString(EMPLOYEE_ROLE, "")!!
     }
+
     fun setRetroEmployeeRoleUid(role: String) {
         sharedPreferences.edit().putString(EMPLOYEE_ROLE_RETRO, role).apply()
     }
@@ -594,14 +597,6 @@ object Preferences {
     fun getEmpPhoneNumber(): String {
         return sharedPreferences.getString(KEY_EMP_MOBILE_NUMBER, "")!!
     }
-    fun setResponseSurveylist(responseNewTicketlistJson: String) {
-        sharedPreferences.edit()
-            .putString(PREF_KEY_APNA_SURVEY_LIST_JSON, responseNewTicketlistJson).apply()
-    }
-
-    fun getResponseSurveylist(): String {
-        return sharedPreferences.getString(PREF_KEY_APNA_SURVEY_LIST_JSON, "")!!
-    }
 
     fun setResponseNewTicketlist(responseNewTicketlistJson: String) {
         sharedPreferences.edit()
@@ -612,20 +607,28 @@ object Preferences {
         return sharedPreferences.getString(PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON, "")!!
     }
 
-    fun setApolloSensingSiteId(apolloSensingSiteId: String) {
-        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_ID, apolloSensingSiteId).apply()
+    fun setApolloSensingStoreId(apolloSensingSiteId: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_ID, apolloSensingSiteId).apply()
     }
 
-    fun setApolloSensingSiteName(apolloSensingSiteName: String) {
-        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_SITE_NAME, apolloSensingSiteName)
+    fun getApolloSensingStoreId(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_ID, "")!!
+    }
+
+    fun setApolloSensingStoreName(apolloSensingSiteName: String) {
+        sharedPreferences.edit().putString(KEY_APOLLO_SENSING_STORE_NAME, apolloSensingSiteName)
             .apply()
     }
 
-    fun getApolloSensingSiteId(): String {
-        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_ID, "")!!
+    fun getApolloSensingStoreName(): String {
+        return sharedPreferences.getString(KEY_APOLLO_SENSING_STORE_NAME, "")!!
     }
 
-    fun getApolloSensingSiteName(): String {
-        return sharedPreferences.getString(KEY_APOLLO_SENSING_SITE_NAME, "")!!
-    }
+//    fun setStoreListItem(storeListItem: String) {
+//        sharedPreferences.edit().putString(KEY_STORE_LIST_JSON, storeListItem).apply()
+//    }
+//
+//    fun getStoreListItem(): String {
+//        return sharedPreferences.getString(KEY_STORE_LIST_JSON, "")!!
+//    }
 }
