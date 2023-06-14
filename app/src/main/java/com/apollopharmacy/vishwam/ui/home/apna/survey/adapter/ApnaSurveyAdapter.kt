@@ -73,7 +73,8 @@ class ApnaSurveyAdapter(
 
         var fName = ""
         var lName = ""
-        if (approvedOrders.createdId!!.firstName != null) fName =
+        if (approvedOrders.createdId!!.firstName != null)
+            fName =
             approvedOrders.createdId!!.firstName!!
 
         if (approvedOrders.createdId!!.lastName != null) lName =

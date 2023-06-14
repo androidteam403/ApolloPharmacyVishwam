@@ -208,7 +208,7 @@ class SurveyListResponse : Serializable {
         }
     }
 
-    inner class Row : Serializable {
+    public class Row : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null

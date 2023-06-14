@@ -166,7 +166,7 @@ object Preferences {
         "PREF_KEY_RESPONSE_NEW_TICKET_LIST_JSON"
     private const val KEY_APOLLO_SENSING_SITE_ID = "KEY_APOLLO_SENSING_SITE_ID"
     private const val KEY_APOLLO_SENSING_SITE_NAME = "KEY_APOLLO_SENSING_SITE_NAME"
-
+    private const val PREF_KEY_APNA_SURVEY_LIST_JSON = "PREF_KEY_APNA_SURVEY_LIST_JSON"
     fun saveApi(apiItems: String) {
         sharedPreferences.edit().putString(KEY_API, apiItems).apply()
     }
@@ -593,6 +593,14 @@ object Preferences {
 
     fun getEmpPhoneNumber(): String {
         return sharedPreferences.getString(KEY_EMP_MOBILE_NUMBER, "")!!
+    }
+    fun setResponseSurveylist(responseNewTicketlistJson: String) {
+        sharedPreferences.edit()
+            .putString(PREF_KEY_APNA_SURVEY_LIST_JSON, responseNewTicketlistJson).apply()
+    }
+
+    fun getResponseSurveylist(): String {
+        return sharedPreferences.getString(PREF_KEY_APNA_SURVEY_LIST_JSON, "")!!
     }
 
     fun setResponseNewTicketlist(responseNewTicketlistJson: String) {
