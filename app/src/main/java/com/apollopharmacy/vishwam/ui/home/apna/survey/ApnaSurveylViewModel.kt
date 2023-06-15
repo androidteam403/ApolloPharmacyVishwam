@@ -52,7 +52,7 @@ class ApnaSurveylViewModel : ViewModel() {
         val cancelled = if (status.contains("cancelled")) "cancelled" else ""
 
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&pageNo=${pageNo}&rows=${rows}" +
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${pageNo}&rows=${rows}" +
 
                     if (isSearch) {
                         "&id=$searchQuary&"

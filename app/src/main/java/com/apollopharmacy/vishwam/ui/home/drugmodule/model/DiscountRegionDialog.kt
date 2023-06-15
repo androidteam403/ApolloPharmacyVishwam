@@ -94,8 +94,9 @@ class DiscountRegionDialog : DialogFragment(){
 
             abstractDialogClick = activity as NewDialogSiteClickListner
 
+            viewBinding.textHead.setText("Search Region Id ")
 
-
+            viewBinding.searchSiteText.setText("Search Region Id or Region Name")
 
 
 

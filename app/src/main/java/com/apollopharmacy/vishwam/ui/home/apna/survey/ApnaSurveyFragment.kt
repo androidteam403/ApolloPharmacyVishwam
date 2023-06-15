@@ -59,7 +59,6 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         MainActivity.mInstance.mainActivityCallback = this
         MainActivity.mInstance.filterIndicator.visibility = View.GONE
 //        showLoading()
-        searchPageNo == 0
         callAPI(pageNo, rowSize, false)
         MainActivity.mInstance.plusIconApna.setOnClickListener {
             requireActivity().startActivityForResult(
@@ -72,8 +71,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         viewBinding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    searchPageNo = pageNo - 1
-                    callAPI(pageNo - 1, 1, true)
+                    callAPI(1, rowSize, true)
                     return true
                 }
                 return false
@@ -92,7 +90,6 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
     private var isLoading = false
     private var pageNo = 1
-    private var searchPageNo = 0
 
     var rowSize = 10
     override fun onSuccessgetSurveyDetails(surveyListResponse: SurveyListResponse) {
@@ -101,7 +98,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         if (getsurveyList != null && getsurveyList!!.size > 0) {
             viewBinding.recyclerViewApproved.visibility = View.VISIBLE
             viewBinding.noListFound.visibility = View.GONE
-            if (pageNo == 1 || searchPageNo != 0) {
+            if (pageNo == 1 ) {
                 surveyResponseList.clear()
                 surveyResponseList.addAll(getsurveyList!!)
                 layoutManager = LinearLayoutManager(context)
@@ -148,7 +145,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 if (!isLoading && !isFirstTime) {
                     //findLastCompletelyVisibleItemPostition() returns position of last fully visible view.
                     ////It checks, fully visible view is the last one.
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter!!.getData()?.size!! - 1 && searchPageNo == 0) {
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == adapter!!.getData()?.size!! - 1 ) {
                         loadMore()
                     }
                 }
@@ -163,7 +160,6 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             newdata.isLoading = "YES"
             adapter!!.getData().add(newdata)
             adapter!!.notifyItemInserted(adapter!!.getData().size - 1)
-            searchPageNo == 0
             callAPI(pageNo, rowSize, false)
 
         })
@@ -231,6 +227,8 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
                 null,
                 false
             )
+
+        viewBinding.search.setText("")
         surveyListStatusFilterDialog!!.setContentView(dialogSurveyListFilterBinding.root)
         surveyListStatusFilterDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
@@ -315,8 +313,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
             if (surveyListStatusFilterDialog != null && surveyListStatusFilterDialog.isShowing) {
                 surveyListStatusFilterDialog.dismiss()
-                searchPageNo = pageNo - 1
-                callAPI(pageNo-1, rowSize, false)
+                callAPI(1, rowSize, false)
 
 
             }
@@ -345,7 +342,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
             dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apply_btn_disable_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = false
         } else {
-            dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.yellow_drawable)
+            dialogComplaintListFilterBinding.submit.setBackgroundResource(R.drawable.apna_project_actionbar_bg)
             dialogComplaintListFilterBinding.isSubmitEnable = true
         }
     }
