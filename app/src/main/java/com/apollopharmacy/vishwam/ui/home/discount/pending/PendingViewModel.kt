@@ -31,6 +31,8 @@ class PendingViewModel : ViewModel() {
     val acceptRequest = MutableLiveData<SimpleResponse>()
     val swipeStatus = LiveEvent<Boolean>()
     private var arrayList: List<PendingOrder.PENDINGLISTItem>? = null
+    var colorList = MutableLiveData<GetDiscountColorResponse>()
+
 
     fun getPendingList(isSwipeRequired: Boolean) {
         if (isSwipeRequired) {
@@ -107,9 +109,7 @@ class PendingViewModel : ViewModel() {
         }
     }
 
-    fun getDiscountColorDetails(
-
-    ) {
+    fun getDiscountColorDetails(pendingFragmentCallback: PendingFragmentCallback) {
 
         val state = MutableLiveData<State>()
         val url = Preferences.getApi()
@@ -135,6 +135,7 @@ class PendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
                     if (response.value.status == true) {
+                        pendingFragmentCallback.onSuccessgetColorList(response.value)
 
                     } else {
 

@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.discount.pending
 import android.app.Activity
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -25,6 +26,7 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.discount.AcceptOrRejectDiscountOrder
 import com.apollopharmacy.vishwam.data.model.discount.BulkAcceptOrRejectDiscountOrder
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
@@ -37,13 +39,14 @@ import com.valdesekamdem.library.mdtoast.MDToast
 import kotlin.math.roundToInt
 
 class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrderBinding>(),
-    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked {
+    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked, PendingFragmentCallback {
 
     private lateinit var pendingRecyclerView: PendingRecyclerView
     private val TAG = "PendingOrderFragment"
     private var acptRejcIndentNo: String = ""
     private var isBulkChecked: Boolean = false
     var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+    var colorResponseList = ArrayList<GetDiscountColorResponse.TrainingDetail>()
 
     override val layoutRes: Int
         get() = R.layout.fragment_pending_order
@@ -54,8 +57,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
 
     override fun setup() {
         viewBinding.pendingViewModel = viewModel
-
-
+        viewModel.getDiscountColorDetails(this)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -68,6 +70,10 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             )
                 .show()
         }
+
+
+
+
         viewModel.pendingList.observe(viewLifecycleOwner) {
             if (it.isEmpty() || it.size == 0) {
 
@@ -79,7 +85,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 pendinglistItem = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                pendingRecyclerView = PendingRecyclerView(it, this)
+                pendingRecyclerView = PendingRecyclerView(it, this,colorResponseList)
                 viewBinding.recyclerViewPending.adapter = pendingRecyclerView
                 checkSelectedList("")
                 hideLoading()
@@ -536,12 +542,18 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             viewModel.filterData(filterData as ArrayList<PendingOrder.PENDINGLISTItem>)
         }
     }
+
+    override fun onSuccessgetColorList(value: GetDiscountColorResponse) {
+        colorResponseList =
+            value.trainingDetails as ArrayList<GetDiscountColorResponse.TrainingDetail>
+    }
 }
 
 class PendingRecyclerView(
     val pendingOrderList: ArrayList<PendingOrder.PENDINGLISTItem>,
-    private val listener: ClickListener,
-) :
+    private val listener: ClickListener,val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>,
+
+    ) :
     SimpleRecyclerView<PendingOrderAdapterBinding, PendingOrder.PENDINGLISTItem>(
         pendingOrderList,
         R.layout.pending_order_adapter
@@ -552,6 +564,23 @@ class PendingRecyclerView(
         items: PendingOrder.PENDINGLISTItem,
         position: Int,
     ) {
+
+
+        for (i in colorList.indices){
+            for (j in  items.ITEMS.indices){
+                if (colorList.get(i).length!!.toInt()<= items.ITEMS.get(j).REQUEST_DISC!!.toInt()){
+                   binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+
+                }else
+                {
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
+
+                }
+            }
+        }
+
+
+
         binding.storeIdText.text = items.STORE
         binding.postedDate.text = items.POSTEDDATE
         binding.locations.text = items.DCCODE
