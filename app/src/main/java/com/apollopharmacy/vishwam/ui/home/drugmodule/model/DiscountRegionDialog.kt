@@ -13,13 +13,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
-import com.apollopharmacy.vishwam.dialog.model.DiscountSiteViewModel
-import com.apollopharmacy.vishwam.dialog.model.SiteViewModel
+import com.apollopharmacy.vishwam.dialog.model.DiscountRegionViewModel
 import com.apollopharmacy.vishwam.util.Utils
 
 class DiscountRegionDialog : DialogFragment(){
@@ -61,7 +59,7 @@ class DiscountRegionDialog : DialogFragment(){
                 WindowManager.LayoutParams.WRAP_CONTENT
             );
             viewBinding = DialogSiteListBinding.inflate(inflater, container, false)
-            var viewModel = ViewModelProviders.of(requireActivity())[DiscountSiteViewModel::class.java]
+            var viewModel = ViewModelProviders.of(requireActivity())[DiscountRegionViewModel::class.java]
             viewBinding.closeDialog.visibility = View.VISIBLE
 
             viewModel.fixedArrayList.observe(viewLifecycleOwner, Observer {
@@ -94,8 +92,9 @@ class DiscountRegionDialog : DialogFragment(){
 
             abstractDialogClick = activity as NewDialogSiteClickListner
 
+            viewBinding.textHead.setText("Search Region Id ")
 
-
+            viewBinding.searchSiteText.setText("Search Region Id or Region Name")
 
 
 

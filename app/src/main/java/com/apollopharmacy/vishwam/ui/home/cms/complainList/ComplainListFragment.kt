@@ -125,6 +125,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
+        userData = LoginRepo.getProfile()!!
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
 
