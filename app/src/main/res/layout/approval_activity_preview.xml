@@ -208,7 +208,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:fontFamily="@font/roboto_medium"
-                            android:text="Done all the images - send your feedback"
+                            android:text="-"
                             android:textColor="@color/black"
                             android:textSize="@dimen/text_12sp" />
                     </LinearLayout>
@@ -437,6 +437,12 @@
                                 android:textSize="@dimen/text_14sp" />
                         </LinearLayout>
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/colorGrey"
+                        android:visibility="invisible"></View>
 
                     <View
                         android:layout_width="match_parent"
@@ -479,7 +485,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="6dp"
                         android:background="@color/colorGrey"
                         android:visibility="invisible"></View>
 
@@ -488,7 +494,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/text_12sp"
                         android:orientation="horizontal"
-                        android:visibility="invisible">
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -506,10 +512,15 @@
                             android:layout_marginLeft="4dp"
                             android:fontFamily="@font/roboto_medium"
                             android:text="Re-Shoot "
+                            android:id="@+id/status"
                             android:textColor="@color/color_red"
                             android:textSize="@dimen/text_15sp" />
                     </LinearLayout>
-
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@color/colorGrey"></View>
 
                 </LinearLayout>
 

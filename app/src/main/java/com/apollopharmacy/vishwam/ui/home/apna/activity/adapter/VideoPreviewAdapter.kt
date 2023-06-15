@@ -15,8 +15,7 @@ class VideoPreviewAdapter(
     val mContext: Context,
     val mCallback: ApnaSurveyPreviewCallback,
     private val videoList: List<SurveyCreateRequest.VideoMb.Video>,
-
-    ) : RecyclerView.Adapter<VideoPreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<VideoPreviewAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

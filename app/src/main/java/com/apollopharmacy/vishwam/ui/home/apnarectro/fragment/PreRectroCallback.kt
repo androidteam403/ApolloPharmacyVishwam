@@ -19,7 +19,9 @@ interface PreRectroCallback {
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootDate: String?,
-        reshootBy: String?
+        reshootBy: String?,
+        retroStage: String?
+
     )
     fun onClickPreRetroPending(s: String)
     fun onClickPostRetroPending(
@@ -35,7 +37,8 @@ interface PreRectroCallback {
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootBy: String?,
-        reshootDate: String?
+        reshootDate: String?,
+        retroStage: String?
     )
      fun onSuccessgetStorePendingApprovedApiCall(value: GetStorePendingAndApprovedListRes)
 

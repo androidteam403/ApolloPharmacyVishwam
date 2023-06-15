@@ -15,9 +15,7 @@ class PreviewVideoAdapter(
     val mContext: Context,
     private val videoList: List<SurveyDetailsList.Video>,
     val videoClicklistner: ApnaNewPreviewCallBack,
-
-    ) : RecyclerView.Adapter<PreviewVideoAdapter.ViewHolder>() {
-
+) : RecyclerView.Adapter<PreviewVideoAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val videoAdapterLayoutBinding: VideoAdapterLayoutBinding = DataBindingUtil.inflate(

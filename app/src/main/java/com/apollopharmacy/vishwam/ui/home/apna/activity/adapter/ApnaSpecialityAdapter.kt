@@ -14,7 +14,7 @@ class ApnaSpecialityAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
     var apnaSpecialityList: ArrayList<ApnaSpecialityResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<ApnaSpecialityAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ApnaSpecialityAdapter.ViewHolder>() {
 
     class ViewHolder(val viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -30,10 +30,11 @@ class ApnaSpecialityAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.viewItemRowBinding.itemName.text = apnaSpecialityList[position].name
+        holder.viewItemRowBinding.itemName.text = apnaSpecialityList[position].uid
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallback.onApnaSpecialityItemSelect(position, apnaSpecialityList[position].name.toString())
+            mCallback.onApnaSpecialityItemSelect(position,
+                apnaSpecialityList[position].uid.toString())
         }
     }
 

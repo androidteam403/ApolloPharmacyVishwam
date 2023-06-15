@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.discount.pending
 
+import android.content.Intent
 import android.content.res.Resources
 import android.text.Editable
 import android.text.TextWatcher
@@ -28,6 +29,8 @@ import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.MainActivity.userDesignation
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
+import com.apollopharmacy.vishwam.ui.home.discount.pending.dashboardfilter.DashboardFilterActivity
+import com.apollopharmacy.vishwam.ui.home.qcfail.qcfilter.QcFilterActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.*
 import com.valdesekamdem.library.mdtoast.MDToast
@@ -45,11 +48,42 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         get() = R.layout.fragment_pending_order
 
     override fun retrieveViewModel(): PendingViewModel {
-        return ViewModelProvider(this).get(PendingViewModel::class.java)
+        return ViewModelProvider(this)[PendingViewModel::class.java]
     }
 
     override fun setup() {
         viewBinding.pendingViewModel = viewModel
+//
+//        var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+//
+//            var remarksList = ArrayList<PendingOrder.REMARKSItem>()
+//            var statusList = ArrayList<PendingOrder.STATUSItem>()
+//            var itemsList = ArrayList<PendingOrder.ITEMSItem>()
+//            val pending = PendingOrder.PENDINGLISTItem("13011520758", "8", remarksList, "REFO859", itemsList, "16001", "16001", "GOOD", "16301", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16301", statusList, false)
+//            val pending1 = PendingOrder.PENDINGLISTItem("13011520759", "7", remarksList, "REFO489", itemsList, "16001", "16002", "GOOD", "16902", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16902", statusList, false)
+//            val pending2 = PendingOrder.PENDINGLISTItem("130251305", "6", remarksList, "REFO489", itemsList, "16001", "16031", "GOOD", "16231", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16231", statusList, false)
+//            val pending3 = PendingOrder.PENDINGLISTItem("1311711121", "4", remarksList, "REFO849", itemsList, "16001", "13251", "GOOD", "13051", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "13051", statusList, false)
+//            val pending4 = PendingOrder.PENDINGLISTItem("13117111968", "3", remarksList, "REFO892", itemsList, "16001", "13051", "GOOD", "13851", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "13851", statusList, false)
+//            val pending5 = PendingOrder.PENDINGLISTItem("13117111963", "9", remarksList, "REFO896", itemsList, "16001", "14051", "GOOD", "12051", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "12051", statusList, false)
+//            val pending6 = PendingOrder.PENDINGLISTItem("13117111401", "10", remarksList, "REFO895", itemsList, "16001", "14351", "GOOD", "14151", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "14151", statusList, false)
+//            val pending7 = PendingOrder.PENDINGLISTItem("13117111403", "10", remarksList, "REFO893", itemsList, "16001", "15002", "GOOD", "15402", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "15402", statusList, false)
+//            val pending8 = PendingOrder.PENDINGLISTItem("13117111641", "10", remarksList, "REFO82", itemsList, "16001", "17001", "GOOD", "17801", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "17801", statusList, false)
+//            val pending9 = PendingOrder.PENDINGLISTItem("13117111961", "3", remarksList, "REFO891", itemsList, "16001", "14051", "GOOD", "14851", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "", statusList, false)
+//            pendinglistItem.add(pending)
+//            pendinglistItem.add(pending1)
+//            pendinglistItem.add(pending2)
+//            pendinglistItem.add(pending3)
+//            pendinglistItem.add(pending4)
+//            pendinglistItem.add(pending5)
+//            pendinglistItem.add(pending6)
+//            pendinglistItem.add(pending7)
+//            pendinglistItem.add(pending8)
+//            pendinglistItem.add(pending9)
+//        viewBinding.recyclerViewPending.visibility = View.VISIBLE
+
+
+//        pendingRecyclerView = PendingRecyclerView(pendinglistItem, this)
+//        viewBinding.recyclerViewPending.adapter = pendingRecyclerView
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -62,7 +96,10 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             )
                 .show()
         }
-        viewModel.pendingList.observe(viewLifecycleOwner, {
+        viewModel.pendingList.observe(viewLifecycleOwner) {
+
+
+
             if (it.isEmpty() || it.size == 0) {
                 hideLoading()
                 viewBinding.emptyList.visibility = View.VISIBLE
@@ -71,16 +108,125 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             } else {
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
+
+
                 pendingRecyclerView = PendingRecyclerView(it, this)
                 viewBinding.recyclerViewPending.adapter = pendingRecyclerView
                 checkSelectedList("")
                 hideLoading()
             }
-        })
+        }
         viewBinding.filter.setOnClickListener {
+//            var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+//
+//            var remarksList = ArrayList<PendingOrder.REMARKSItem>()
+//            var statusList = ArrayList<PendingOrder.STATUSItem>()
+//            var itemsList = ArrayList<PendingOrder.ITEMSItem>()
+//            val pending = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "16001", "", "16301", "", "", "13001", "", "", 0, "", "", "16301", statusList, false)
+//            val pending1 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "16002", "", "16902", "", "", "13001", "", "", 0, "", "", "16902", statusList, false)
+//            val pending2 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "16031", "", "16231", "", "", "13001", "", "", 0, "", "", "16231", statusList, false)
+//            val pending3 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "13251", "", "13051", "", "", "13001", "", "", 0, "", "", "13051", statusList, false)
+//            val pending4 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "13051", "", "13851", "", "", "13001", "", "", 0, "", "", "13851", statusList, false)
+//            val pending5 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "14051", "", "12051", "", "", "13001", "", "", 0, "", "", "12051", statusList, false)
+//            val pending6 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "14351", "", "14151", "", "", "13001", "", "", 0, "", "", "14151", statusList, false)
+//            val pending7 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "15002", "", "15402", "", "", "13001", "", "", 0, "", "", "15402", statusList, false)
+//            val pending8 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "17001", "", "17801", "", "", "13001", "", "", 0, "", "", "17801", statusList, false)
+//            val pending9 = PendingOrder.PENDINGLISTItem("", "", remarksList, "", itemsList, "", "14051", "", "14851", "", "", "13001", "", "", 0, "", "", "", statusList, false)
+//
+//
+//            val pending10 = PendingOrder.PENDINGLISTItem(
+//                "",
+//                "",
+//                remarksList,
+//                "",
+//                itemsList,
+//                "",
+//                "14351",
+//                "",
+//                "14251",
+//                "",
+//                "",
+//                "13001",
+//                "",
+//                "",
+//                0,
+//                "",
+//                "",
+//                "",
+//                statusList,
+//                false
+//            )
+//            val pending11 = PendingOrder.PENDINGLISTItem(
+//                "",
+//                "",
+//                remarksList,
+//                "",
+//                itemsList,
+//                "",
+//                "15002",
+//                "",
+//                "15042",
+//                "",
+//                "",
+//                "13001",
+//                "",
+//                "",
+//                0,
+//                "",
+//                "",
+//                "",
+//                statusList,
+//                false
+//            )
+//            val pending12 = PendingOrder.PENDINGLISTItem(
+//                "",
+//                "",
+//                remarksList,
+//                "",
+//                itemsList,
+//                "",
+//                "17001",
+//                "",
+//                "13001",
+//                "",
+//                "",
+//                "13001",
+//                "",
+//                "",
+//                0,
+//                "",
+//                "",
+//                "",
+//                statusList,
+//                false
+//            )
+//
+//
+//
+//
+//            pendinglistItem.add(pending)
+//            pendinglistItem.add(pending1)
+//            pendinglistItem.add(pending2)
+//            pendinglistItem.add(pending3)
+//            pendinglistItem.add(pending4)
+//            pendinglistItem.add(pending5)
+//            pendinglistItem.add(pending6)
+//            pendinglistItem.add(pending7)
+//            pendinglistItem.add(pending8)
+//            pendinglistItem.add(pending9)
+//            pendinglistItem.add(pending10)
+//            pendinglistItem.add(pending11)
+//            pendinglistItem.add(pending12)
+//
+//
+//            val i = Intent(context, DashboardFilterActivity::class.java)
+//
+//            i.putExtra("storeList", pendinglistItem)
+//            startActivityForResult(i, 210)
+
             viewModel.filterClicked()
         }
-        viewModel.acceptRequest.observe(viewLifecycleOwner, {
+        viewModel.acceptRequest.observe(viewLifecycleOwner) {
             if (it.STATUS) {
                 if (pendingRecyclerView.pendingOrderList.size <= 10) {
                     viewModel.getPendingList(false)
@@ -115,7 +261,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 hideLoading()
                 ShowError.showToastMessage(it.MESSAGE, requireContext())
             }
-        })
+        }
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
                 is Command.ShowButtonSheet -> {
@@ -126,7 +272,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 }
                 is Command.ShowToast -> {
                     hideLoading()
-                    if (command.message.equals("no data found.please check empid")) {
+                    if (command.message == "no data found.please check empid") {
                         viewBinding.emptyList.visibility = View.VISIBLE
                         viewBinding.bulkAppRejLayout.visibility = View.GONE
                         viewBinding.recyclerViewPending.visibility = View.GONE
@@ -184,11 +330,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     }
 
     override fun onItemChecked(orderdetails: PendingOrder.PENDINGLISTItem, position: Int) {
-        if (orderdetails.isItemChecked) {
-            orderdetails.isItemChecked = false
-        } else {
-            orderdetails.isItemChecked = true
-        }
+        orderdetails.isItemChecked = !orderdetails.isItemChecked
         pendingRecyclerView.notifyItemChanged(position)
         checkSelectedList("")
     }
@@ -231,15 +373,10 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         }
     }
 
-    private fun sendRequestForAcceptAndReject(
-        orderdetails: PendingOrder.PENDINGLISTItem,
-        type: String,
-    ) {
+    private fun sendRequestForAcceptAndReject(orderdetails: PendingOrder.PENDINGLISTItem, type: String, ) {
         if (orderdetails.REMARK!!.isNotEmpty()) {
             showOrderAcceptationDialog(
-                AcceptOrRejectDiscountOrder(
-                    AcceptOrRejectDiscountOrder.ORDER(
-                        orderdetails.TRACKINGREFNAME,
+                AcceptOrRejectDiscountOrder(AcceptOrRejectDiscountOrder.ORDER(orderdetails.TRACKINGREFNAME,
                         orderdetails.BULKDISCOUNTPER,
                         orderdetails.TRACKINGREFCODE,
                         orderdetails.ITEMS,
@@ -252,8 +389,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         orderdetails.STORE,
                         Preferences.getToken(),
                         orderdetails.INDENTNO,
-                        orderdetails.TELNO
-                    ), orderdetails.REMARK, TYPE = type
+                        orderdetails.TELNO), orderdetails.REMARK, TYPE = type
                 )
             )
         } else {
@@ -479,7 +615,7 @@ class PendingRecyclerView(
         position: Int,
     ) {
         binding.storeIdText.text = items.STORE
-        binding.postedDate.text = Utlis.convertDate(items.POSTEDDATE)
+        binding.postedDate.text =items.POSTEDDATE
         binding.locations.text = items.DCCODE
         binding.dcLocation.text = items.DCNAME
         binding.storeNameText.text = items.STORENAME
@@ -517,11 +653,7 @@ class PendingRecyclerView(
         }
 
         val isMarginRequired: Boolean
-        if (pendingOrderList[position].ISMARGIN == 1) {
-            isMarginRequired = true
-        } else {
-            isMarginRequired = false
-        }
+        isMarginRequired = pendingOrderList[position].ISMARGIN == 1
 
         updateCatAvgValues(binding, pendingOrderList[position])
 

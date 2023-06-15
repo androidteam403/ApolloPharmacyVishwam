@@ -15,7 +15,7 @@ class TrafficGeneratorAdapter(
     var mContext: Context,
     var mCallback: ApnaNewSurveyCallBack,
     var trafficGenerators: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>,
-): RecyclerView.Adapter<TrafficGeneratorAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TrafficGeneratorAdapter.ViewHolder>() {
 
     class ViewHolder(var viewItemRowBinding: ViewItemRowBinding) :
         RecyclerView.ViewHolder(viewItemRowBinding.root)
@@ -41,7 +41,9 @@ class TrafficGeneratorAdapter(
                 holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
                 trafficGenerators[position].isSelected = true
             }
-            mCallback.onTrafficGeneratorItemSelect(position, trafficGenerators[position].name.toString(), trafficGenerators[position].isSelected)
+            mCallback.onTrafficGeneratorItemSelect(position,
+                trafficGenerators[position].name.toString(),
+                trafficGenerators[position].isSelected)
         }
         if (trafficGenerators[position].isSelected == true) {
             holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#00a651"))
@@ -49,13 +51,13 @@ class TrafficGeneratorAdapter(
             holder.viewItemRowBinding.itemName.setTextColor(Color.parseColor("#000000"))
         }
     }
-        override fun getItemCount(): Int {
-            return trafficGenerators.size
-        }
 
-        fun filter(filteredList: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>) {
-            this.trafficGenerators = filteredList
-            notifyDataSetChanged()
-        }
+    override fun getItemCount(): Int {
+        return trafficGenerators.size
+    }
 
+    fun filter(filteredList: ArrayList<TrafficGeneratorsResponse.Data.ListData.Row>) {
+        this.trafficGenerators = filteredList
+        notifyDataSetChanged()
+    }
 }

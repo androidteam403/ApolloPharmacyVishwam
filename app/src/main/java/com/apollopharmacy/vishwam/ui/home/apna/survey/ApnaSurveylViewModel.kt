@@ -37,7 +37,7 @@ class ApnaSurveylViewModel : ViewModel() {
             }
         }
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}"//admin
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/apna_project_survey/list/project-survey-list-for-mobile?employee_id=${Preferences.getValidatedEmpId()}&page=${1}&rows=${1}"//admin
 
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
@@ -76,7 +76,8 @@ class ApnaSurveylViewModel : ViewModel() {
                                 getSurveyListResponse.value =
                                     surveyListResponse
                             } else {
-
+                                apnaSurveyCallback.onFailureGetSurveyDetails(surveyListResponse.message.toString())
+                                apnaSurveyCallback.onFailuregetSurveyDetails(surveyListResponse)
                             }
 
                         }

@@ -20,7 +20,7 @@ class AdminModuleViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 ChampsAdminRepo.getCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    "https://jsonblob.com/api/jsonBlob/1081128169679110144"//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
+                    "https://172.16.103.116/Apollo/Champs/getCategoryDetails"//"https://172.16.103.116/Apollo/Champs/getCategoryDetails"
                 )
             }
             when (response) {
@@ -54,14 +54,14 @@ class AdminModuleViewModel : ViewModel() {
     fun getSubCategoryDetailsApiCall(mCallback: AdminModuleCallBack, categoryName: String) {
         val state = MutableLiveData<State>()
 
-        var subCategoryUrl = "https://jsonblob.com/api/jsonBlob/1081152839623131136"
+        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails"//?categoryName="+categoryName
         // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=$categoryName"
 
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 ChampsAdminRepo.getSubCategoryDetailsApiCall("h72genrSSNFivOi/cfiX3A==",
-                    subCategoryUrl)
+                    subCategoryUrl, categoryName)
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -98,8 +98,8 @@ class AdminModuleViewModel : ViewModel() {
     ) {
         val state = MutableLiveData<State>()
 
-        var subCategoryUrl = "https://jsonblob.com/api/jsonBlob/1082284080367943680"
-        // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/getSubCategoryDetails?categoryName=$categoryName"
+        var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/saveCategoryConfigurationDetails"
+        // var subCategoryUrl = "https://172.16.103.116/Apollo/Champs/saveCategoryConfigurationDetails"
 
         viewModelScope.launch {
             state.value = State.SUCCESS

@@ -843,7 +843,7 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
 
     override fun onClickSiteIdIcon() {
         showLoading()
-        val i = Intent(context, SelectChampsSiteIDActivity::class.java)
+        val i = Intent(context, SelectSwachhSiteIDActivity::class.java)
         startActivityForResult(i, 781)
     }
 
