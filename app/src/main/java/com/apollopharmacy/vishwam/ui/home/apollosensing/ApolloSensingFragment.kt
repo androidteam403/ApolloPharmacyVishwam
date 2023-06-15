@@ -278,6 +278,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
                 viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
                 viewBinding.verifiedSuccessfullyLayout.visibility = View.GONE
+                viewBinding.otpView.getText()!!.clear()
             }
         }
         countDownTimer.start()
