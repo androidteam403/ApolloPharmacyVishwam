@@ -71,7 +71,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
         viewBinding.search.setOnEditorActionListener(object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    pageNo==1
+                    pageNo=1
                     callAPI(pageNo, rowSize, true)
                     return true
                 }
@@ -314,7 +314,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
 
             if (surveyListStatusFilterDialog != null && surveyListStatusFilterDialog.isShowing) {
                 surveyListStatusFilterDialog.dismiss()
-                pageNo==1
+                pageNo=1
                 callAPI(pageNo, rowSize, false)
 
 
