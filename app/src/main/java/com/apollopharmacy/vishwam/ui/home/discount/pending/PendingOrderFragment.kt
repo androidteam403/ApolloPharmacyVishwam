@@ -568,7 +568,7 @@ class PendingRecyclerView(
 
         for (i in colorList.indices){
             for (j in  items.ITEMS.indices){
-                if (colorList.get(i).length!!.toInt()<= items.ITEMS.get(j).REQUEST_DISC!!.toInt()){
+                if (colorList.get(i).length!!.toInt()<= items.ITEMS[j].REQUEST_DISC!!.toInt()&& colorList[i].type!!.toUpperCase().equals("VISDISC")){
                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
 
                 }else
