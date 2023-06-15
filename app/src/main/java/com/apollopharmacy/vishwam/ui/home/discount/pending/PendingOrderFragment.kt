@@ -53,37 +53,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
 
     override fun setup() {
         viewBinding.pendingViewModel = viewModel
-//
-//        var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
-//
-//            var remarksList = ArrayList<PendingOrder.REMARKSItem>()
-//            var statusList = ArrayList<PendingOrder.STATUSItem>()
-//            var itemsList = ArrayList<PendingOrder.ITEMSItem>()
-//            val pending = PendingOrder.PENDINGLISTItem("13011520758", "8", remarksList, "REFO859", itemsList, "16001", "16001", "GOOD", "16301", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16301", statusList, false)
-//            val pending1 = PendingOrder.PENDINGLISTItem("13011520759", "7", remarksList, "REFO489", itemsList, "16001", "16002", "GOOD", "16902", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16902", statusList, false)
-//            val pending2 = PendingOrder.PENDINGLISTItem("130251305", "6", remarksList, "REFO489", itemsList, "16001", "16031", "GOOD", "16231", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "16231", statusList, false)
-//            val pending3 = PendingOrder.PENDINGLISTItem("1311711121", "4", remarksList, "REFO849", itemsList, "16001", "13251", "GOOD", "13051", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "13051", statusList, false)
-//            val pending4 = PendingOrder.PENDINGLISTItem("13117111968", "3", remarksList, "REFO892", itemsList, "16001", "13051", "GOOD", "13851", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "13851", statusList, false)
-//            val pending5 = PendingOrder.PENDINGLISTItem("13117111963", "9", remarksList, "REFO896", itemsList, "16001", "14051", "GOOD", "12051", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "12051", statusList, false)
-//            val pending6 = PendingOrder.PENDINGLISTItem("13117111401", "10", remarksList, "REFO895", itemsList, "16001", "14351", "GOOD", "14151", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "14151", statusList, false)
-//            val pending7 = PendingOrder.PENDINGLISTItem("13117111403", "10", remarksList, "REFO893", itemsList, "16001", "15002", "GOOD", "15402", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "15402", statusList, false)
-//            val pending8 = PendingOrder.PENDINGLISTItem("13117111641", "10", remarksList, "REFO82", itemsList, "16001", "17001", "GOOD", "17801", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "17801", statusList, false)
-//            val pending9 = PendingOrder.PENDINGLISTItem("13117111961", "3", remarksList, "REFO891", itemsList, "16001", "14051", "GOOD", "14851", "26-MAY-2023", "ABCD", "13001", "ABCD", "", 0, "", "", "", statusList, false)
-//            pendinglistItem.add(pending)
-//            pendinglistItem.add(pending1)
-//            pendinglistItem.add(pending2)
-//            pendinglistItem.add(pending3)
-//            pendinglistItem.add(pending4)
-//            pendinglistItem.add(pending5)
-//            pendinglistItem.add(pending6)
-//            pendinglistItem.add(pending7)
-//            pendinglistItem.add(pending8)
-//            pendinglistItem.add(pending9)
-//        viewBinding.recyclerViewPending.visibility = View.VISIBLE
-
-
-//        pendingRecyclerView = PendingRecyclerView(pendinglistItem, this)
-//        viewBinding.recyclerViewPending.adapter = pendingRecyclerView
+        viewModel.getDiscountColorDetails()
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()

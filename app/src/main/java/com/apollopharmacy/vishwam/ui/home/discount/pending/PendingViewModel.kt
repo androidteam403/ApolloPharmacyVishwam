@@ -108,7 +108,7 @@ class PendingViewModel : ViewModel() {
     }
 
     fun getDiscountColorDetails(
-        previewLastImageCallback: PreviewLastImageCallback,
+
     ) {
 
         val state = MutableLiveData<State>()
