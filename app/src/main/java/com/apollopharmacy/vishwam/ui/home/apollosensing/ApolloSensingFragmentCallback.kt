@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.apollosensing
 
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import java.io.File
 
 interface ApolloSensingFragmentCallback {
@@ -27,4 +28,6 @@ interface ApolloSensingFragmentCallback {
     fun onClickBacktoMainScreen()
 
     fun onClickBacktoMainScreenPrescription()
+
+    fun onSuccessUpdateDefaultSiteIdApiCall(updateUserDefaultSiteResponse: UpdateUserDefaultSiteResponse)
 }
