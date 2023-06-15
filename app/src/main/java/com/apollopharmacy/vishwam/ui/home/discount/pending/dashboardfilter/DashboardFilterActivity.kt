@@ -1,30 +1,20 @@
 package com.apollopharmacy.vishwam.ui.home.discount.pending.dashboardfilter
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp.Companion.context
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.databinding.ActivityDashboardFilterBinding
-import com.apollopharmacy.vishwam.databinding.ActivityQcFilterBinding
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DiscountRegionDialog
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DiscountSiteDialog
-import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
-import com.apollopharmacy.vishwam.util.Utlis
-import com.google.gson.Gson
-import org.apache.commons.lang3.StringUtils
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcCalender
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcCalenderToDate
+import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcRegionList
 
 class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     DiscountSiteDialog.NewDialogSiteClickListner,
@@ -43,12 +33,9 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        activityDashboardFilterBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_dashboard_filter)
+        activityDashboardFilterBinding = DataBindingUtil.setContentView(this, R.layout.activity_dashboard_filter)
         if (intent != null) {
-            storeList =
-                intent.getSerializableExtra("storeList") as ArrayList<PendingOrder.PENDINGLISTItem>
-
+            storeList = intent.getSerializableExtra("storeList") as ArrayList<PendingOrder.PENDINGLISTItem>
         }
         activityDashboardFilterBinding.fromDateText.setOnClickListener {
             QcCalender().apply {
