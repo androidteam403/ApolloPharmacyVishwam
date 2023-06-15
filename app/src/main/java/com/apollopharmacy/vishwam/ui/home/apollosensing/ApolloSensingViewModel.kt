@@ -7,17 +7,23 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
+import com.apollopharmacy.vishwam.data.model.GetDetailsRequest
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
 import com.apollopharmacy.vishwam.data.network.ApiResult
 import com.apollopharmacy.vishwam.data.network.ApolloSensingRepo
+import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ApolloSensingViewModel : ViewModel() {
+
 
     val state = MutableLiveData<State>()
     fun sendGlobalSmsApiCall(
@@ -183,6 +189,83 @@ class ApolloSensingViewModel : ViewModel() {
                     state.value = State.ERROR
                 }
 
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
+    fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest, callback: ApolloSensingFragmentCallback) {
+        val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
+        val url = Preferences.getApi()
+
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrL = ""
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                baseUrL = data.APIS[i].URL
+                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+        //
+        //https://apis.v35.dev.zeroco.de-////apollocms
+        var baseUrl = ""
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("CMS update_user_default_site")) {
+                baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        "URL":"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site","NAME":"CMS update_user_default_site","TOKEN":""},
+
+//        val baseUrl: String =
+//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/save-update/update-user-default-site"
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,
+                    token1,
+                    GetDetailsRequest(baseUrl, "POST", updateUserDefaultSiteRequestJson, "", ""))
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val updateUserDefaultSiteResponse =
+                                Gson().fromJson(BackShlash.removeSubString(res),
+                                    UpdateUserDefaultSiteResponse::class.java)
+                            if (updateUserDefaultSiteResponse.success!!) {
+                                callback.onSuccessUpdateDefaultSiteIdApiCall(updateUserDefaultSiteResponse)
+//                                updateUserDefaultSiteResponseMutable.value =
+//                                    updateUserDefaultSiteResponse
+
+//                                updateSwachhDefaultSiteResponseModel.value =
+//                                    updateSwachhDefaultSiteResponse
+                            } else {
+
+                            }
+                        }
+                    } else {
+                    }
+                }
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
