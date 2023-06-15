@@ -48,6 +48,8 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
+import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
@@ -60,6 +62,7 @@ import java.io.FileNotFoundException
 
 class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApolloSensingBinding>(),
     ApolloSensingFragmentCallback, MainActivityCallback {
+    var isSendLinkApiCall: Boolean = false
     var isSiteIdEmpty: Boolean = false
     var employeeName: String = ""
     lateinit var prescriptionImageAdapter: PrescriptionImageAdapter
@@ -73,6 +76,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var storeData = ArrayList<LoginDetails.StoreData>()
     var otp = "-1"
     lateinit var dialog: Dialog
+    var siteId: String = ""
     override val layoutRes: Int
         get() = R.layout.fragment_apollo_sensing
 
@@ -97,6 +101,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             val site = employeeDetailsResponse.data!!.site!!.site
             val storeName = employeeDetailsResponse.data!!.site!!.storeName
             if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                siteId = site
                 viewBinding.storeId.setText(site)
                 viewBinding.storeName.setText(storeName)
                 MainActivity.mInstance.siteIdIcon.visibility = View.GONE
@@ -105,6 +110,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 val intent = Intent(context, ApolloSensingStoreActivity::class.java)
                 startActivityForResult(intent, 571)
             } else {
+                siteId = Preferences.getApolloSensingStoreId()
                 viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
                 viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
             }
@@ -434,7 +440,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
                             if (prescriptionImageList.size < 5) {
-                                prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
+                                prescriptionImageList.add(ImageDto(imageFileGallery!!,
+                                    imageBase64!!))
                             } else {
                                 break
                             }
@@ -456,6 +463,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     MainActivity.mInstance.onBackPressed()
                     hideLoading()
                 } else {
+                    siteId = Preferences.getApolloSensingStoreId()
                     viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
                     viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
 
@@ -785,7 +793,15 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //            )
             startTimer()
         } else {
-            showConfirmDialog()
+//            showConfirmDialog()
+            isSendLinkApiCall = true
+            val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+            updateUserDefaultSiteRequest.empId = Preferences.getToken()
+            updateUserDefaultSiteRequest.site = siteId
+            retrieveViewModel().updateDefaultSiteIdApiCall(
+                updateUserDefaultSiteRequest,
+                this@ApolloSensingFragment
+            )
         }
     }
 
@@ -887,7 +903,15 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun onSuccessUploadPrescriptionApiCall(message: String) {
         hideLoading()
-        openDialog()
+//        openDialog()
+        isSendLinkApiCall = false
+        val updateUserDefaultSiteRequest = UpdateUserDefaultSiteRequest()
+        updateUserDefaultSiteRequest.empId = Preferences.getToken()
+        updateUserDefaultSiteRequest.site = siteId
+        retrieveViewModel().updateDefaultSiteIdApiCall(
+            updateUserDefaultSiteRequest,
+            this@ApolloSensingFragment
+        )
     }
 
     override fun onFailureUploadPrescriptionApiCall(message: String) {
@@ -901,6 +925,14 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun onClickBacktoMainScreenPrescription() {
         confirmationForResetUploadPrescriptionForm()
+    }
+
+    override fun onSuccessUpdateDefaultSiteIdApiCall(updateUserDefaultSiteResponse: UpdateUserDefaultSiteResponse) {
+        if (isSendLinkApiCall) {
+            showConfirmDialog()
+        } else {
+            openDialog()
+        }
     }
 
     fun validateUploadPrescription(): Boolean {
