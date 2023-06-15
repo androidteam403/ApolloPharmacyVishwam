@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.databinding.AdapterGetstorepersonhistoryBinding
 import com.apollopharmacy.vishwam.databinding.ApnaSurveyLayoutBinding
 import com.apollopharmacy.vishwam.databinding.LoadingProgressLazyBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback
+import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -21,37 +23,57 @@ import java.util.*
 
 class ApnaSurveyAdapter(
     val mContext: Context,
-    var approveList: ArrayList<SurveyListResponse.Row?>,
+    var approveList: ArrayList<SurveyListResponse.Row>,
     val mClicklistner: ApnaSurveyCallback,
 
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private val VIEW_TYPE_ITEM = 0
-    private val VIEW_TYPE_LOADING = 1
 
+
+
+    companion object {
+        private const val VIEW_TYPE_DATA = 0;
+        private const val VIEW_TYPE_PROGRESS = 1;
+    }
+    override fun getItemViewType(position: Int): Int {
+        var viewtype = approveList?.get(position)
+        //if data is load, returns PROGRESSBAR viewtype.
+        return if (viewtype!!.isLoading!=null) {
+            VIEW_TYPE_PROGRESS
+        } else VIEW_TYPE_DATA
+
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == VIEW_TYPE_ITEM) {
-            val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
-                DataBindingUtil.inflate(
+        return when (viewType) {
+            VIEW_TYPE_DATA -> {//inflates row layout
+                val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
+                    DataBindingUtil.inflate(
+                        LayoutInflater.from(parent.context),
+                        R.layout.apna_survey_layout,
+                        parent,
+                        false
+                    )
+                return ViewHolder(apnaSurveyLayoutBinding)
+            }
+            GetStorePersonAdapter.VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+                val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
                     LayoutInflater.from(mContext),
-                    R.layout.apna_survey_layout,
+                    R.layout.loading_progress_lazy,
                     parent,
-                    false
-                )
-            return ViewHolder(apnaSurveyLayoutBinding)
-        } else {
-            val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.loading_progress_lazy,
-                parent,
-                false)
-            return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
+                    false)
+                return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
+            }
+            else -> throw IllegalArgumentException("Different View type")
         }
+
+
+
+
     }
 
     @SuppressLint("SetTextI18n", "SimpleDateFormat")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is ApnaSurveyAdapter.ViewHolder) {
-            onBindViewHolderItem((holder as ViewHolder), position)
+        if (holder is ViewHolder) {
+            onBindViewHolderItem(holder, position)
         }
     }
 
@@ -255,9 +277,7 @@ class ApnaSurveyAdapter(
             elapsedHours, elapsedMinutes, elapsedSeconds)
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (approveList.get(position) == null) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
-    }
+
 
     override fun getItemCount(): Int {
         return approveList.size
@@ -268,11 +288,11 @@ class ApnaSurveyAdapter(
 //        notifyDataSetChanged()
 //    }
 
-    fun getData(): ArrayList<SurveyListResponse.Row?> {
+    fun getData(): ArrayList<SurveyListResponse.Row> {
         return approveList
     }
 
-    fun filter(filteredList: ArrayList<SurveyListResponse.Row?>) {
+    fun filter(filteredList: ArrayList<SurveyListResponse.Row>) {
         this.approveList = filteredList
         notifyDataSetChanged()
     }

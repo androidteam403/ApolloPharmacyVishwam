@@ -1159,13 +1159,6 @@ class SampleSwachUi : BaseFragment<SampleSwachViewModel, FragmentSampleuiSwachBi
                     ?.addAll((value.getList!! as ArrayList<Get>?)!!)
                 getStorePersonAdapter.notifyDataSetChanged()
 
-//                        if (getStorePersonAdapter.getData() != null && getStorePersonAdapter.getData()?.size!! > 0) {
-//                            viewBinding.imageRecyclerView.visibility = View.VISIBLE
-//                            viewBinding.noOrdersFound.visibility = View.GONE
-//                        } else {
-//                            viewBinding.imageRecyclerView.visibility = View.GONE
-//                            viewBinding.noOrdersFound.visibility = View.VISIBLE
-//                        }
                 isLoading = false
             } else {
                 viewBinding.noOrdersFound.visibility = View.GONE

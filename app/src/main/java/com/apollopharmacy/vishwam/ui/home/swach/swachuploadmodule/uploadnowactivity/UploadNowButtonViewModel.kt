@@ -56,11 +56,11 @@ class UploadNowButtonViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        swachhapolloModel.value = result.value
+                        swachhapolloModel.value = result.value!!
                     } else {
                         state.value = State.ERROR
                         commandsNewSwach.value = CommandsNewSwachImp.ShowToast(result.value.message)
-                        swachhapolloModel.value = result.value
+                        swachhapolloModel.value = result.value!!
                     }
                 }
                 is ApiResult.GenericError -> {
@@ -138,7 +138,7 @@ class UploadNowButtonViewModel : ViewModel() {
                 is ApiResult.Success -> {
 
                     state.value = State.ERROR
-                    uploadSwachModel.value = response.value
+                    uploadSwachModel.value = response.value!!
 
 
                     if (response.value.status ?: null == false) {
