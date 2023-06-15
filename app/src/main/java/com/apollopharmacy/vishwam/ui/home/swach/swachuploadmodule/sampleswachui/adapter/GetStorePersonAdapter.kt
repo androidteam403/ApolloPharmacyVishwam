@@ -35,7 +35,7 @@ class GetStorePersonAdapter(
 
     companion object {
         private const val VIEW_TYPE_DATA = 0;
-        private const val VIEW_TYPE_PROGRESS = 1;
+        const val VIEW_TYPE_PROGRESS = 1;
     }
 
     override fun getItemViewType(position: Int): Int {

@@ -15,13 +15,12 @@ import com.apollopharmacy.vishwam.databinding.AdapterApartmentsListBinding
 import com.apollopharmacy.vishwam.databinding.ImageDeleteConfirmDialogBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.ApnaNewSurveyCallBack
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentData
-import java.io.File
 
 class ApartmentTypeItemAdapter(
     var mContext: Context,
     var mCallBack: ApnaNewSurveyCallBack,
     var data: ArrayList<ApartmentData>,
-): RecyclerView.Adapter<ApartmentTypeItemAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ApartmentTypeItemAdapter.ViewHolder>() {
 
     class ViewHolder(val adapterApartmentsListBinding: AdapterApartmentsListBinding) :
         RecyclerView.ViewHolder(adapterApartmentsListBinding.root)

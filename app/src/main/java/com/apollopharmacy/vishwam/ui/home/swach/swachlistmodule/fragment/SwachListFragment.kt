@@ -194,7 +194,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
             viewBinding.tabsforexecutive.visibility = View.GONE
         }
 
-        viewModel.getpendingAndApprovedListResponse.observe(viewLifecycleOwner, {
+        viewModel.getpendingAndApprovedListResponse.observe(viewLifecycleOwner) {
             Utlis.hideLoading()
 
             val getpendingAndApprovedListResponse: GetpendingAndApprovedListResponse
@@ -206,6 +206,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         true -> {
                             getApprovedList = getpendingAndApprovedListResponse.getApprovedList
                         }
+
                         else -> {}
                     }
 
@@ -213,6 +214,7 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                         true -> {
                             getPendingList = getpendingAndApprovedListResponse.getPendingList
                         }
+
                         else -> {}
                     }
 
@@ -352,7 +354,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
                             for (i in pendingAndApprovedList.indices) {
                                 if (!pendingAndApprovedList.get(i).isDateformat!!) {
                                     if (pendingAndApprovedList.get(i).uploadedDate != "" && pendingAndApprovedList.get(
-                                            i).uploadedDate != null
+                                            i
+                                        ).uploadedDate != null
                                     ) {
                                         val strDate = pendingAndApprovedList.get(i).uploadedDate
                                         val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
@@ -409,7 +412,8 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 //                                    viewBinding.approvedListRecyclerview.adapter =
 //                                        pendingApprovedListAdapter
                                     pendingApprovedListAdapter =
-                                        PendingApprovedListAdapter(context,
+                                        PendingApprovedListAdapter(
+                                            context,
                                             pendingAndApprovedList,
                                             this
                                         )
@@ -609,10 +613,11 @@ class SwachListFragment : BaseFragment<SwachListViewModel, FragmentSwachhListBin
 
 
                 }
+
                 else -> {}
             }
 
-        })
+        }
 
         addScrollerListener()
     }

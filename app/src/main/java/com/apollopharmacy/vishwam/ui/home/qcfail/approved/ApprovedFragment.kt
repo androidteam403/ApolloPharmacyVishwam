@@ -42,8 +42,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var lastIndex = 0
     var increment: Int = 0
 
-    public var storeStringList=ArrayList<String>()
-    public var regionStringList=ArrayList<String>()
+    public var storeStringList = ArrayList<String>()
+    public var regionStringList = ArrayList<String>()
     public var isBulkChecked: Boolean = false
     var getStatusList: List<ActionResponse>? = null
     var statusList = ArrayList<ActionResponse>()
@@ -86,21 +86,13 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         Preferences.setQcRegion("")
         MainActivity.mInstance.qcfilterIndicator.visibility = View.GONE
         MainActivity.mInstance.qcfilterIcon.visibility = View.VISIBLE
-//        MainActivity.mInstance.headerTitle.setText("Approved List")
-
-
-
-
         MainActivity.mInstance.mainActivityCallback = this
-
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
 
         val cal = Calendar.getInstance()
         cal.add(Calendar.DATE, -7)
         fromDate = simpleDateFormat.format(cal.time)
-//        viewModel.getQcRegionList()
-//        viewModel.getQcStoreist()
         viewModel.getQcList(Preferences.getToken(), fromDate, currentDate, "", "")
         var intent = Intent()
         if (!list.isNullOrEmpty()) {
@@ -127,24 +119,16 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
         viewModel.qcStoreList.observe(viewLifecycleOwner, Observer {
             hideLoading()
             if (!it.storelist.isNullOrEmpty()) {
-
                 for (i in it.storelist!!) {
                     val items = QcStoreList.Store()
                     items.siteid = i.siteid
                     items.sitename = i.sitename
-
-
                     storeList.add(items)
                     storeAdapter?.notifyDataSetChanged()
                 }
 
             }
         })
-
-
-//1stapril2019   default code=pendinglist
-
-
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getStatusList = listOf(it)
@@ -184,7 +168,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
 
         })
-        viewModel.qcLists.observe(viewLifecycleOwner, { it ->
+        viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             viewBinding.refreshSwipe.isRefreshing = false
             storeStringList.clear();
             regionStringList.clear();
@@ -253,25 +237,23 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 } else {
                     adapter =
                         context?.let { it1 ->
-                            QcApproveListAdapter(it1,
+                            QcApproveListAdapter(
+                                it1,
                                 subList!!.get(increment),
                                 this,
                                 itemsList,
                                 statusList,
-                                filterApproveList)
+                                filterApproveList
+                            )
                         }
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
             }
 
-        })
-
+        }
         viewBinding.refreshSwipe.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             submitClickApproved()
         })
-
-
-
         viewBinding.nextPage.setOnClickListener {
             if (increment < subList?.size?.minus(1)!!) {
                 increment++
@@ -293,12 +275,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 adapter =
                     context?.let { it1 ->
-                        QcApproveListAdapter(it1,
+                        QcApproveListAdapter(
+                            it1,
                             subList!!.get(increment),
                             this,
                             itemsList,
                             statusList,
-                            filterApproveList)
+                            filterApproveList
+                        )
                     }
                 viewBinding.recyclerViewApproved.adapter = adapter
 
@@ -307,7 +291,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
             }
         }
-
         viewBinding.prevPage.setOnClickListener {
 
             if (increment > 0) {
@@ -330,12 +313,14 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 adapter =
                     context?.let { it1 ->
-                        QcApproveListAdapter(it1,
+                        QcApproveListAdapter(
+                            it1,
                             subList!!.get(increment),
                             this,
                             itemsList,
                             statusList,
-                            filterApproveList)
+                            filterApproveList
+                        )
                     }
                 viewBinding.recyclerViewApproved.adapter = adapter
             } else {
@@ -345,8 +330,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
             }
         }
-//        viewBinding.recyclerViewApproved.adapter = adapter
-
         viewBinding.filter.setOnClickListener {
 //            val i = Intent(context, QcFilterActivity::class.java)
 //            startActivityForResult(i, 210)
@@ -355,10 +338,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 //                QcSiteDialog.show()
 //            }
         }
-
-
-
-
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
                 is Command.ShowQcButtonSheet -> {
@@ -367,6 +346,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                     activity?.supportFragmentManager?.let { dialog.show() }
                 }
+
                 is Command.ShowToast -> {
                     hideLoading()
                     if (command.message.equals("no data found.please check empid")) {
@@ -378,6 +358,7 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         }
@@ -420,15 +401,18 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 if (data != null) {
                     showLoading()
-                    viewModel.getQcList(Preferences.getToken(),
+                    viewModel.getQcList(
+                        Preferences.getToken(),
                         data.getStringExtra("fromQcDate").toString(),
                         data.getStringExtra("toDate").toString(),
                         data.getStringExtra("siteId").toString(),
-                        data.getStringExtra("regionId").toString())
+                        data.getStringExtra("regionId").toString()
+                    )
 
                     if (data.getStringExtra("fromQcDate").toString()
                             .equals(fromDate) && data.getStringExtra(
-                            "toDate").toString()
+                            "toDate"
+                        ).toString()
                             .equals(currentDate) && data.getStringExtra("regionId").toString()
                             .isNullOrEmpty()
                     ) {
@@ -518,10 +502,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     ) {
         TODO("Not yet implemented")
     }
-
-
-
-
 
 
     override fun clickedApply(

@@ -14,8 +14,7 @@ import java.text.DecimalFormat
 class PreviewChemistAdapter(
     val mContext: Context,
     private val chemistData: ArrayList<SurveyDetailsList.Chemist>,
-
-    ) : RecyclerView.Adapter<PreviewChemistAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PreviewChemistAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,7 +49,8 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.organized.setText("-")
         }
         if (items.orgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.orgAvgSale!!.toLong()))
+            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                items.orgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.avgsale.setText("-")
         }
@@ -66,7 +66,8 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.unorganized.setText("-")
         }
         if (items.unorgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(items.unorgAvgSale!!.toLong()))
+            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                items.unorgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.unorganisedAvgSale.setText("-")
         }

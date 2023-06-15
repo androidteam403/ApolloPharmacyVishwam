@@ -207,6 +207,8 @@ dependencies {
     // OTP View
     implementation 'io.github.chaosleung:pinview:1.4.4'
 
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
+
 
     // This dependency is downloaded from the Google’s Maven repository.
     // So, make sure you also include that repository in your project's build.gradle file.

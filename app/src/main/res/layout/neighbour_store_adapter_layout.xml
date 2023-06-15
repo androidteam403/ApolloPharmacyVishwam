@@ -8,15 +8,16 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:weightSum="5">
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".8"
-                android:background="@drawable/apna_table_border_top">
+                android:background="@drawable/apna_table_border_top"
+                android:padding="0.5dp">
 
                 <TextView
                     android:id="@+id/neighbor_location"
@@ -24,18 +25,19 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
-                    android:text="Opposite"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
+                    android:text="Opposites"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
             </TableLayout>
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1.4"
-                android:background="@drawable/apna_table_border_left_top">
+                android:background="@drawable/apna_table_border_left_top"
+                android:padding="0.5dp">
 
                 <TextView
                     android:id="@+id/store"
@@ -43,27 +45,30 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
-                    android:text="Rajeev Pharmacy"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
+                    android:text="Rajeev Pharmacy "
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
             </TableLayout>
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/apna_table_border_left_top">
+                android:background="@drawable/apna_table_border_left_top"
+                android:padding="0.5dp">
 
                 <TextView
                     android:id="@+id/rent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="end"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingEnd="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="\u20B9100"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -71,18 +76,21 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/apna_table_border_left_top">
+                android:background="@drawable/apna_table_border_left_top"
+                android:padding="0.5dp">
 
                 <TextView
                     android:id="@+id/sales"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="end"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingEnd="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="\u20B9100"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />
@@ -90,18 +98,21 @@
 
             <TableLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight=".8"
-                android:background="@drawable/apna_table_border_left_top">
+                android:background="@drawable/apna_table_border_left_top"
+                android:padding="0.5dp">
 
                 <TextView
                     android:id="@+id/sqft"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_medium"
+                    android:gravity="end"
                     android:paddingStart="@dimen/value_5dp"
-                    android:paddingTop="@dimen/value_10dp"
-                    android:paddingBottom="@dimen/value_10dp"
+                    android:paddingTop="@dimen/value_5dp"
+                    android:paddingEnd="@dimen/value_5dp"
+                    android:paddingBottom="@dimen/value_5dp"
                     android:text="2.1"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_10sp" />

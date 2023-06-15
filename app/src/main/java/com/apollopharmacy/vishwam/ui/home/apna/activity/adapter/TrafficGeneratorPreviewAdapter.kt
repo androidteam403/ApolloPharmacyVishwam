@@ -7,13 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.TrafficAdapterLayoutBinding
-import com.apollopharmacy.vishwam.databinding.TrafficGeneratorsLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 
 class TrafficGeneratorPreviewAdapter(
     var mContext: Context,
     var data: ArrayList<SurveyCreateRequest.TrafficGenerator>,
-): RecyclerView.Adapter<TrafficGeneratorPreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TrafficGeneratorPreviewAdapter.ViewHolder>() {
 
     class ViewHolder(val trafficAdapterLayoutBinding: TrafficAdapterLayoutBinding) :
         RecyclerView.ViewHolder(trafficAdapterLayoutBinding.root)

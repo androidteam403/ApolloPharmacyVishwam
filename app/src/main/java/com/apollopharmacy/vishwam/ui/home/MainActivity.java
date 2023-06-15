@@ -844,7 +844,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Apna Survey":
                 headerText.setText("Apna Survey");
                 fragment = new ApnaSurveyFragment();
-                filterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.VISIBLE);
                 plusIconApna.setVisibility(View.VISIBLE);
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
@@ -861,7 +861,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
-                siteIdIcon.setVisibility(View.GONE);
+                siteIdIcon.setVisibility(View.VISIBLE);
                 isHomeScreen = false;
                 riderNotificationLayout.setVisibility(View.GONE);
                 break;
@@ -1521,7 +1521,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if (isCMSRequired) {
             listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-//                            .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
+                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
@@ -1578,13 +1578,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //        listView.addHeaderModel(new HeaderModel("Apna Rectro", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Pre Rectro", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion", R.drawable.ic_apollo_survey_admin)).addChildModel(new ChildModel("Pre Rectro Approval", R.drawable.ic_apollo_survey_68__1_)).addChildModel(new ChildModel("Post Rectro Approval", R.drawable.ic_apollo_survey_report__1_)).addChildModel(new ChildModel("After Completion Approval", R.drawable.ic_apollo_survey_admin)));
 
-        if ((employeeRoleRetro.equalsIgnoreCase("Yes"))&&Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
+        if ((employeeRoleRetro.equalsIgnoreCase("Yes")) && Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_))
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
 
-        }
-      else   if ((employeeRoleRetro.equalsIgnoreCase("Yes"))) {
+        } else if ((employeeRoleRetro.equalsIgnoreCase("Yes"))) {
             listView.addHeaderModel(new HeaderModel("Apna Retro", Color.WHITE, true, R.drawable.ic_menu_champ)
                     .addChildModel(new ChildModel("Creation", R.drawable.ic_apollo_survey_68__1_)));
         } else if (Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("exec") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("MANAGER") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().toLowerCase().contains("ceo") || Preferences.INSTANCE.getAppLevelDesignationApnaRetro().equals("GENERAL MANAGER")) {

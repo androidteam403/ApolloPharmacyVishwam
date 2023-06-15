@@ -1,18 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.activity
 
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApartmentTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ApnaSpecialityResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.CityListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.DimensionTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ImageDto
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.LocationListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.NeighbouringLocationResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.ParkingTypeResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.StateListResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficGeneratorsResponse
-import com.apollopharmacy.vishwam.ui.home.apna.activity.model.TrafficStreetTypeResponse
+import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import java.io.File
 
 interface ApnaNewSurveyCallBack {

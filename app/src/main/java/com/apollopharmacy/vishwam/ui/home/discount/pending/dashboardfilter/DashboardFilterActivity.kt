@@ -30,7 +30,10 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
     DiscountSiteDialog.NewDialogSiteClickListner,
     QcCalenderToDate.DateSelected, DiscountRegionDialog.NewDialogSiteClickListner {
     lateinit var activityDashboardFilterBinding: ActivityDashboardFilterBinding
-
+    var fromDateDiscount: String = ""
+    var siteId: String = ""
+    var dcCode: String = ""
+    var toDateDiscount: String = ""
     var storeList = ArrayList<PendingOrder.PENDINGLISTItem>()
 
 
@@ -68,15 +71,55 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
             }.show(supportFragmentManager, "")
         }
 
+        activityDashboardFilterBinding.reset.setOnClickListener {
+            activityDashboardFilterBinding.siteIdSelect.setText("")
+            activityDashboardFilterBinding.regionIdSelect.setText("")
+            activityDashboardFilterBinding.toDateText.setText("")
+            activityDashboardFilterBinding.fromDateText.setText("")
+
+        }
+
+
+
+        activityDashboardFilterBinding.applybutoon.setOnClickListener {
+            if (fromDateDiscount.isNullOrEmpty()){
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            } else if(fromDateDiscount.isNullOrEmpty() ){
+
+                Toast.makeText(context, "Mandatory Fields Should not be  Empty", Toast.LENGTH_LONG).show()
+
+            }
+
+            else {
+                val intent = Intent()
+                intent.putExtra("fromDate", fromDateDiscount)
+                intent.putExtra("toDate", toDateDiscount)
+                intent.putExtra("siteId", siteId)
+                intent.putExtra("dcCode", dcCode)
+                intent.putExtra("apply", "apply")
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }
+        }
+
+        activityDashboardFilterBinding.cancel.setOnClickListener {
+
+            onBackPressed()
+        }
+
+
         activityDashboardFilterBinding.siteIdSelect.setOnClickListener {
             DiscountSiteDialog().apply {
-                arguments = DiscountSiteDialog().generateParsedData(storeList)
+                arguments =
+                    DiscountSiteDialog().generateParsedData(storeList.distinctBy { it.STORE.isNotEmpty() } as ArrayList<PendingOrder.PENDINGLISTItem>)
             }.show(supportFragmentManager, "")
 
         }
         activityDashboardFilterBinding.regionIdSelect.setOnClickListener {
             DiscountRegionDialog().apply {
-                arguments = DiscountRegionDialog().generateParsedData(storeList)
+                arguments =
+                    DiscountRegionDialog().generateParsedData(storeList.distinctBy { it.DCCODE.isNotEmpty() } as ArrayList<PendingOrder.PENDINGLISTItem>)
             }.show(supportFragmentManager, "")
 
         }
@@ -86,19 +129,25 @@ class DashboardFilterActivity : AppCompatActivity(), QcCalender.DateSelected,
 
     override fun fromDate(fromDate: String, showingDate: String) {
         activityDashboardFilterBinding.fromDateText.setText(fromDate)
+        fromDateDiscount = fromDate
     }
 
     override fun toDate(dateSelected: String, showingDate: String) {
         activityDashboardFilterBinding.toDateText.setText(dateSelected)
+        toDateDiscount = dateSelected
 
     }
 
     override fun selectSite(departmentDto: PendingOrder.PENDINGLISTItem) {
-        activityDashboardFilterBinding.siteIdSelect.setText(departmentDto.STORENAME)
+        activityDashboardFilterBinding.siteIdSelect.setText(departmentDto.STORE)
+        siteId=departmentDto.STORE
+
     }
 
     override fun selectRegion(departmentDto: PendingOrder.PENDINGLISTItem) {
-        activityDashboardFilterBinding.regionIdSelect.setText(departmentDto.DCNAME)    }
+        activityDashboardFilterBinding.regionIdSelect.setText(departmentDto.DCCODE)
+        dcCode=departmentDto.DCCODE
+    }
 
 
 }

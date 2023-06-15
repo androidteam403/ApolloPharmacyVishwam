@@ -6,14 +6,13 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.databinding.AdapterHospitalsListPreviewBinding
 import com.apollopharmacy.vishwam.databinding.HospitalAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
 
 class HospitalsPreviewAdapter(
     var mContext: Context,
     var data: ArrayList<SurveyCreateRequest.Hospital>,
-): RecyclerView.Adapter<HospitalsPreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<HospitalsPreviewAdapter.ViewHolder>() {
 
     class ViewHolder(val hospitalAdapterLayoutBinding: HospitalAdapterLayoutBinding) :
         RecyclerView.ViewHolder(hospitalAdapterLayoutBinding.root)
