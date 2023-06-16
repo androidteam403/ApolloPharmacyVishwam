@@ -92,7 +92,7 @@ class ApnaSurveyFragment() : BaseFragment<ApnaSurveylViewModel, FragmentApnaSurv
     private var isLoading = false
     private var pageNo = 1
 
-    var rowSize = 10
+    var rowSize = 18
     override fun onSuccessgetSurveyDetails(surveyListResponse: SurveyListResponse) {
         hideLoading()
         var getsurveyList = surveyListResponse.data!!.listData!!.rows
