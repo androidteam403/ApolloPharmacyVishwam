@@ -97,14 +97,25 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         } catch (e: JsonParseException) {
             e.printStackTrace()
         }
-        if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
-            val site = employeeDetailsResponse.data!!.site!!.site
-            val storeName = employeeDetailsResponse.data!!.site!!.storeName
-            if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
-                siteId = site
-                viewBinding.storeId.setText(site)
-                viewBinding.storeName.setText(storeName)
-                MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+
+        if (employeeDetailsResponse != null && employeeDetailsResponse.data != null && employeeDetailsResponse.data!!.role != null) {
+            if (employeeDetailsResponse!!.data!!.role!!.name!!.equals("Store Supervisor", true)) {
+                val site = employeeDetailsResponse.data!!.site!!.site
+                val storeName = employeeDetailsResponse.data!!.site!!.storeName
+                if ((site != null && storeName != null) && (site.isNotEmpty() && storeName.isNotEmpty())) {
+                    siteId = site
+                    viewBinding.storeId.setText(site)
+                    viewBinding.storeName.setText(storeName)
+                    MainActivity.mInstance.siteIdIcon.visibility = View.GONE
+                } else if (Preferences.getApolloSensingStoreId().isEmpty()) {
+                    showLoading()
+                    val intent = Intent(context, ApolloSensingStoreActivity::class.java)
+                    startActivityForResult(intent, 571)
+                } else {
+                    siteId = Preferences.getApolloSensingStoreId()
+                    viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
+                    viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
+                }
             } else if (Preferences.getApolloSensingStoreId().isEmpty()) {
                 showLoading()
                 val intent = Intent(context, ApolloSensingStoreActivity::class.java)
@@ -119,6 +130,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             val intent = Intent(context, ApolloSensingStoreActivity::class.java)
             startActivityForResult(intent, 571)
         } else {
+            siteId = Preferences.getApolloSensingStoreId()
             viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
             viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
         }
@@ -209,9 +221,9 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         return@setOnClickListener
                     } else {
 //                        openCamera()
-                        if (prescriptionImageList.size == 5) {
+                        if (prescriptionImageList.size == 10) {
                             Toast.makeText(requireContext(),
-                                "You are allowed to upload only five prescriptions",
+                                "You are allowed to upload only ten prescriptions",
                                 Toast.LENGTH_SHORT).show()
                         } else {
                             showOption()
@@ -433,13 +445,13 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 dialog.dismiss()
                 val images = data!!.clipData
                 if (images != null) {
-                    if (images!!.itemCount <= 5) {
+                    if (images!!.itemCount <= 10) {
                         for (i in 0 until images.itemCount) {
                             var imagePath =
                                 getRealPathFromURI(requireContext(), images.getItemAt(i).uri)
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
-                            if (prescriptionImageList.size < 5) {
+                            if (prescriptionImageList.size < 10) {
                                 prescriptionImageList.add(ImageDto(imageFileGallery!!,
                                     imageBase64!!))
                             } else {
@@ -448,7 +460,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         }
                     } else {
                         Toast.makeText(requireContext(),
-                            "You are allowed to upload only five prescription",
+                            "You are allowed to upload only ten prescription",
                             Toast.LENGTH_SHORT).show()
                     }
                 } else {
