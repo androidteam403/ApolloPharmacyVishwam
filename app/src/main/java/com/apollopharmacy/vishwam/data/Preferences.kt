@@ -14,8 +14,11 @@ object Preferences {
     private const val KEY_APP_LEVEL_DESIGNATION = "KEY_APP_LEVEL_DESIGNATION"
     private const val KEY_FROM_DATE = "KEY_FROM_DATE"
     private const val KEY_TO_DATE = "KEY_TO_DATE"
-
+    private const val KEY_DISC_FROM_DATE = "KEY_DISC_FROM_DATE"
+    private const val KEY_DISC_TO_DATE = "KEY_DISC_TO_DATE"
     private const val KEY_QC_REGION_ID = "KEY_QC_REGION_ID"
+    private const val KEY_DISC_SITE_ID = "KEY_DISC_SITE_ID"
+    private const val KEY_DISC_REGION_ID = "KEY_DISC_REGION_ID"
 
 
     private const val KEY_QC_SITE_ID = "KEY_QC_SITE_ID"
@@ -543,14 +546,24 @@ object Preferences {
 //            return null
 //        }
 
+    fun setDiscountFromDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_FROM_DATE, siteIdList).apply()
+    }
+    fun getDiscountFromDate(): String {
+        return sharedPreferences.getString(KEY_DISC_FROM_DATE, "")!!
+    }
 
     fun setQcFromDate(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_FROM_DATE, siteIdList).apply()
+    }fun getQcFromDate(): String {
+        return sharedPreferences.getString(KEY_FROM_DATE, "")!!
     }
 
-
-    fun getQcFromDate(): String {
-        return sharedPreferences.getString(KEY_FROM_DATE, "")!!
+    fun setDiscountToDate(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_TO_DATE, siteIdList).apply()
+    }
+    fun getDiscountToDate(): String {
+        return sharedPreferences.getString(KEY_DISC_TO_DATE, "")!!
     }
 
     fun setQcToDate(siteIdList: String) {
@@ -570,8 +583,22 @@ object Preferences {
     fun getQcSite(): String {
         return sharedPreferences.getString(KEY_QC_SITE_ID, "")!!
     }
+    fun setDiscountSite(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_SITE_ID, siteIdList).apply()
+    }
 
 
+    fun getDiscountSite(): String {
+        return sharedPreferences.getString(KEY_DISC_SITE_ID, "")!!
+    }
+    fun setDiscountRegion(siteIdList: String) {
+        sharedPreferences.edit().putString(KEY_DISC_REGION_ID, siteIdList).apply()
+    }
+
+
+    fun getDiscountRegion(): String {
+        return sharedPreferences.getString(KEY_DISC_REGION_ID, "")!!
+    }
     fun setQcRegion(siteIdList: String) {
         sharedPreferences.edit().putString(KEY_QC_REGION_ID, siteIdList).apply()
     }
