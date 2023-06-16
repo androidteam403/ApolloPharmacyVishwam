@@ -189,7 +189,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
 
-        viewModel.qcPendingCountList.observe(viewLifecycleOwner, {
+        viewModel.qcPendingCountList.observe(viewLifecycleOwner) {
 
             hideLoading()
 
@@ -230,10 +230,10 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
             }
 
 
-        })
+        }
 
 
-        viewModel.qcPendingHierarchyHistoryList.observe(viewLifecycleOwner, {
+        viewModel.qcPendingHierarchyHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
 
             if (it.status == true) {
@@ -287,9 +287,9 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
             rtoPendencyAdapter?.notifyDataSetChanged()
 
-        })
+        }
 
-        viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner, {
+        viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.status == true) {
 
@@ -337,7 +337,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
                 rtoPendencyAdapter?.notifyDataSetChanged()
             }
 
-        })
+        }
 
         viewBinding.rtopendency.setOnClickListener {
             if (getdashboardHistoryList.isNullOrEmpty()) {

@@ -10,6 +10,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -131,6 +132,8 @@ class SelectPreRectroSiteActivity : AppCompatActivity(), SelectRectroSiteCallbac
         val ok = dialog.findViewById<TextView>(R.id.yes_btnSiteChange)
         ok.setOnClickListener {
             dialog.dismiss()
+            Preferences.setApnaRetroSite(storeListItem.site!!)
+            Toast.makeText(this,storeListItem.site!!,Toast.LENGTH_LONG).show()
             Preferences.setRectroSiteId(storeListItem.site!!)
             Preferences.setRectroSiteName(storeListItem.store_name!!)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))

@@ -60,9 +60,9 @@ class FilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMenuF
         var viewModel = ViewModelProvider(this).get(FilterViewModel::class.java)
         viewModel.setFilterMenu()
         listener = targetFragment as FilterClicked
-        viewModel.listFilterData.observe(viewLifecycleOwner, { filterList ->
+        viewModel.listFilterData.observe(viewLifecycleOwner) { filterList ->
             filterLayoutBinding.itemRecyclerView.adapter = MenuFilterAdapter(filterList, this)
-        })
+        }
         filterLayoutBinding.applybutoon.setOnClickListener {
             if (::filterData.isInitialized) {
                 listener!!.clickedApply(filterData, pendingList, clickedTag!!, toDate!!)
@@ -98,6 +98,7 @@ class FilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMenuF
     override fun clickMenu(clickedMenu: Int) {
         if (clickedMenu == 0) {
             filterLayoutBinding.dateLayout.visibility = View.VISIBLE
+            filterLayoutBinding.searchLayout.visibility=View.GONE
             filterLayoutBinding.searchRecyclerView.visibility = View.GONE
             clickedTag = 0
         } else if (clickedMenu == 1) {
@@ -108,6 +109,8 @@ class FilterFragment : BottomSheetDialogFragment(), MenuFilterAdapter.ClickMenuF
         } else if (clickedMenu == 2) {
             menuWiseSubMenu(pendingList, clickedMenu)
             filterLayoutBinding.searchRecyclerView.visibility = View.VISIBLE
+            filterLayoutBinding.searchLayout.visibility=View.VISIBLE
+
             filterLayoutBinding.dateLayout.visibility = View.GONE
             clickedTag = 2
         }
@@ -188,15 +191,11 @@ class MenuFilterAdapter(filterDataList: List<FilterData>, var listner: ClickMenu
     }
 }
 
-class SubMenuAdapter(subFilterData: List<FilterData>, var listner: UserSelected) :
-    SimpleRecyclerView<SubmenuFilterAdapterBinding, FilterData>(
-        subFilterData,
-        R.layout.submenu_filter_adapter
-    ) {
+class SubMenuAdapter(subFilterData: List<FilterData>, var listner: UserSelected) : SimpleRecyclerView<SubmenuFilterAdapterBinding, FilterData>(subFilterData, R.layout.submenu_filter_adapter) {
     var menuFilter = -1
     override fun bindItems(
         binding: SubmenuFilterAdapterBinding,
-        items: FilterData,
+        items:  FilterData,
         position: Int,
     ) {
         binding.menuTitle.text = items.MenuTitle
@@ -213,7 +212,7 @@ class SubMenuAdapter(subFilterData: List<FilterData>, var listner: UserSelected)
             } else {
                 binding.root.setBackgroundResource(R.color.faded_click)
                 binding.menuTitle.setTextColor(binding.root.resources.getColor(R.color.white))
-                listner.clickedItem(items.MenuTitle)
+                listner.clickedItem( items.MenuTitle)
                 menuFilter = position
                 notifyDataSetChanged()
             }

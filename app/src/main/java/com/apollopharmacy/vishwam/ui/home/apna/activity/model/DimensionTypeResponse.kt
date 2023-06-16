@@ -12,17 +12,17 @@ class DimensionTypeResponse {
     @Expose
     var success: Boolean? = null
 
-    inner class Data {
+     class Data {
         @SerializedName("listData")
         @Expose
         var listData: ListData? = null
 
-        inner class ListData {
+         class ListData {
             @SerializedName("rows")
             @Expose
             var rows: List<Row>? = null
 
-            inner class Row {
+              class Row {
                 @SerializedName("name")
                 @Expose
                 var name: String? = null

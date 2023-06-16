@@ -13,17 +13,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSiteAttendenceBinding
-import com.apollopharmacy.vishwam.databinding.DialogSiteListBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemBinding
-import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.dialog.model.DoctorListViewModel
-import com.apollopharmacy.vishwam.dialog.model.SiteAttendenceViewModel
-import com.apollopharmacy.vishwam.dialog.model.SiteViewModel
 import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.DoctorListResponse
-import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteListResponse
 import com.apollopharmacy.vishwam.util.Utils
 
 class DoctorListDialog : DialogFragment() {

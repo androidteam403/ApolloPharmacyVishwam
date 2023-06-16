@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -81,7 +81,8 @@
                             <LinearLayout
                                 android:id="@+id/layout1"
                                 android:layout_width="match_parent"
-                                android:layout_height="@dimen/value_50dp"
+                                android:layout_height="@dimen/value_70dp"
+                                android:gravity="center_vertical"
                                 android:layout_marginTop="@dimen/value_8dp">
 
                                 <ImageView
@@ -91,67 +92,87 @@
                                     android:onClick="@{()-> callback.onClickBack()}"
                                     android:src="@drawable/ic_baseline_keyboard_backspace_24"
                                     app:tint="#777777" />
-
-                                <LinearLayout
-                                    android:layout_width="@dimen/value_50dp"
-                                    android:layout_height="@dimen/value_50dp">
-
-                                    <ImageView
-                                        android:layout_gravity="center"
-                                        android:layout_width="@dimen/value_40dp"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:src="@drawable/survey_icon_blue" />
-                                </LinearLayout>
-
-                                <LinearLayout
+                                <ImageView
                                     android:layout_gravity="center"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="vertical">
+                                    android:layout_width="@dimen/value_40dp"
+                                    android:layout_height="@dimen/value_40dp"
+                                    android:src="@drawable/survey_icon_blue" />
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/store_id"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_18sp"
-                                        android:textStyle="bold" />
+<!--                                <LinearLayout-->
+<!--                                    android:layout_gravity="center"-->
+<!--                                    android:layout_width="@dimen/value_50dp"-->
+<!--                                    android:layout_height="@dimen/value_50dp">-->
 
-                                    <TextView
-
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:id="@+id/address"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold"
-                                        android:textSize="@dimen/text_15sp" />
-                                </LinearLayout>
+<!--                                    <ImageView-->
+<!--                                        android:layout_gravity="center"-->
+<!--                                        android:layout_width="@dimen/value_40dp"-->
+<!--                                        android:layout_height="@dimen/value_40dp"-->
+<!--                                        android:src="@drawable/survey_icon_blue" />-->
+<!--                                </LinearLayout>-->
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:gravity="end|center_vertical"
-                                    android:paddingRight="@dimen/value_20dp">
+                                    android:weightSum="1"
+                                    android:gravity="center_vertical"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="0.8"
+                                        android:gravity="center_vertical"
 
-                                    <ImageView
-                                        android:layout_width="50dp"
-                                        android:layout_height="wrap_content"
-                                        android:src="@drawable/help_icon_question_mark"
-                                        app:tint="#293d55" />
+                                        android:orientation="vertical">
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/store_id"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:id="@+id/address"
+                                            android:textColor="@color/black"
+                                            android:textStyle="bold"
+                                            android:textSize="@dimen/text_15sp" />
+
+                                    </LinearLayout>
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_weight="0.2"
+                                        android:layout_height="match_parent"
+                                        android:gravity="end|center_vertical"
+                                        android:layout_marginRight="@dimen/text_dimen_10">
+
+                                        <ImageView
+                                            android:layout_width="50dp"
+                                            android:layout_height="wrap_content"
+                                            android:src="@drawable/help_icon_question_mark"
+                                            app:tint="#293d55" />
+                                    </LinearLayout>
                                 </LinearLayout>
+
+
                             </LinearLayout>
 
                             <LinearLayout
+                                android:weightSum="1"
                                 android:id="@+id/layout2"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="match_parent"
                                 android:layout_below="@+id/layout1"
                                 android:layout_marginTop="@dimen/value_8dp"
                                 android:gravity="center_vertical"
                                 android:orientation="horizontal">
 
                                 <TextView
-                                    android:layout_width="@dimen/value_25dp"
+                                    android:layout_weight="0.07"
+                                    android:layout_width="0dp"
                                     android:layout_height="@dimen/value_25dp"
                                     android:background="@drawable/grey_backgroundup"
                                     android:gravity="center"
@@ -162,53 +183,63 @@
 
                                 <TextView
                                     android:id="@+id/category_name"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="@dimen/value_8dp"
+                                    android:layout_weight="0.65"
                                     android:gravity="center_vertical"
+                                    android:lines="2"
                                     android:textColor="@color/black"
-                                    android:textSize="@dimen/twenty20_sp"
+                                    android:textSize="@dimen/text_18sp"
                                     android:textStyle="bold" />
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:gravity="end">
+                                    android:layout_weight="0.28"
+                                    android:orientation="horizontal">
 
-                                    <TextView
-                                        android:layout_width="@dimen/value_40dp"
-                                        android:layout_height="@dimen/value_40dp"
-                                        android:background="@drawable/grey_rounded_rectangle"
-                                        android:gravity="center_vertical|center_horizontal"
-                                        android:id="@+id/sumOfrating"
-                                        android:text="0"
-                                        android:layout_marginRight="@dimen/value_2dp"
-                                        android:textAlignment="center"
-                                        android:textColor="#838383"
-                                        android:textSize="@dimen/text_18sp"
-                                        android:textStyle="bold" />
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content">
 
-                                    <TextView
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:layout_marginLeft="@dimen/value_5dp"
-                                        android:gravity="center_vertical|center_horizontal"
-                                        android:text="/"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_20sp"
-                                        android:textStyle="bold" />
+                                        <TextView
+                                           android:text="0"
+                                            android:id="@+id/sumOfrating"
+                                            android:layout_width="@dimen/value_40dp"
+                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_marginRight="@dimen/value_2dp"
+                                            android:background="@drawable/grey_rounded_rectangle"
+                                            android:gravity="center_vertical|center_horizontal"
+                                            android:textAlignment="center"
+                                            android:textColor="#838383"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
 
-                                    <TextView
-                                        android:layout_width="@dimen/value_40dp"
-                                        android:layout_height="@dimen/value_40dp"
-                                       android:layout_gravity="center"
-                                        android:textAlignment="center"
-                                        android:gravity="center_vertical|center_horizontal"
-                                        android:id="@+id/overallSum"
-                                        android:textColor="@color/black"
-                                        android:textSize="@dimen/text_18sp"
-                                        android:textStyle="bold" />
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginLeft="@dimen/value_5dp"
+                                            android:gravity="center_vertical|center_horizontal"
+                                            android:text="/"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_20sp"
+                                            android:textStyle="bold" />
+
+                                        <TextView
+                                            android:id="@+id/overallSum"
+                                            android:layout_width="42dp"
+                                            android:layout_height="@dimen/value_40dp"
+                                            android:layout_gravity="center"
+                                            android:gravity="center_vertical|center_horizontal"
+                                            android:textAlignment="center"
+                                            android:textColor="@color/black"
+                                            android:textSize="@dimen/text_18sp"
+                                            android:textStyle="bold" />
+                                    </LinearLayout>
                                 </LinearLayout>
+
+
                             </LinearLayout>
 
                             <!--                <LinearLayout-->
@@ -507,13 +538,13 @@
                             <!--                    </LinearLayout>-->
                             <!--                </LinearLayout>-->
 
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/category_recyclerView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_below="@+id/layout2"
                                 android:layout_marginTop="@dimen/value_8dp" />
-
 
                             <LinearLayout
                                 android:id="@+id/upload_image_header"
@@ -581,6 +612,7 @@
                                 android:layout_below="@+id/zero_mb_used_text">
 
                                 <TextView
+                                    android:id="@+id/camera_text"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:text="Click on photo/Android/Camera to attach image from camera"
@@ -854,6 +886,7 @@
 <!--                                </LinearLayout>-->
 
                                 <LinearLayout
+                                    android:id="@+id/continue_layout"
                                     android:layout_marginBottom="@dimen/value_5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"

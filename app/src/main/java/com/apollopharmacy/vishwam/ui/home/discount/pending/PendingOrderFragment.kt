@@ -1,6 +1,9 @@
 package com.apollopharmacy.vishwam.ui.home.discount.pending
 
+import android.app.Activity
+import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.TypedValue
@@ -23,33 +26,38 @@ import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.ViswamApp
 import com.apollopharmacy.vishwam.data.model.discount.AcceptOrRejectDiscountOrder
 import com.apollopharmacy.vishwam.data.model.discount.BulkAcceptOrRejectDiscountOrder
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.databinding.*
 import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.ui.home.MainActivity.userDesignation
 import com.apollopharmacy.vishwam.ui.home.discount.filter.FilterFragment
+import com.apollopharmacy.vishwam.ui.home.discount.pending.dashboardfilter.DashboardFilterActivity
 import com.apollopharmacy.vishwam.ui.login.Command
 import com.apollopharmacy.vishwam.util.*
 import com.valdesekamdem.library.mdtoast.MDToast
 import kotlin.math.roundToInt
 
 class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrderBinding>(),
-    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked {
+    PendingRecyclerView.ClickListener, FilterFragment.FilterClicked, PendingFragmentCallback {
 
     private lateinit var pendingRecyclerView: PendingRecyclerView
     private val TAG = "PendingOrderFragment"
     private var acptRejcIndentNo: String = ""
     private var isBulkChecked: Boolean = false
+    var pendinglistItem = ArrayList<PendingOrder.PENDINGLISTItem>()
+    var colorResponseList = ArrayList<GetDiscountColorResponse.TrainingDetail>()
 
     override val layoutRes: Int
         get() = R.layout.fragment_pending_order
 
     override fun retrieveViewModel(): PendingViewModel {
-        return ViewModelProvider(this).get(PendingViewModel::class.java)
+        return ViewModelProvider(this)[PendingViewModel::class.java]
     }
 
     override fun setup() {
         viewBinding.pendingViewModel = viewModel
+        viewModel.getDiscountColorDetails(this)
 
         if (NetworkUtil.isNetworkConnected(requireContext())) {
             showLoading()
@@ -62,25 +70,37 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             )
                 .show()
         }
-        viewModel.pendingList.observe(viewLifecycleOwner, {
+
+
+
+
+        viewModel.pendingList.observe(viewLifecycleOwner) {
             if (it.isEmpty() || it.size == 0) {
+
                 hideLoading()
                 viewBinding.emptyList.visibility = View.VISIBLE
                 viewBinding.bulkAppRejLayout.visibility = View.GONE
                 viewBinding.recyclerViewPending.visibility = View.GONE
             } else {
+                pendinglistItem = it
                 viewBinding.emptyList.visibility = View.GONE
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                pendingRecyclerView = PendingRecyclerView(it, this)
+                pendingRecyclerView = PendingRecyclerView(it, this,colorResponseList)
                 viewBinding.recyclerViewPending.adapter = pendingRecyclerView
                 checkSelectedList("")
                 hideLoading()
             }
-        })
-        viewBinding.filter.setOnClickListener {
-            viewModel.filterClicked()
         }
-        viewModel.acceptRequest.observe(viewLifecycleOwner, {
+        viewBinding.filter.setOnClickListener {
+
+            val i = Intent(context, DashboardFilterActivity::class.java)
+
+            i.putExtra("storeList", pendinglistItem)
+            startActivityForResult(i, 210)
+
+//            viewModel.filterClicked()
+        }
+        viewModel.acceptRequest.observe(viewLifecycleOwner) {
             if (it.STATUS) {
                 if (pendingRecyclerView.pendingOrderList.size <= 10) {
                     viewModel.getPendingList(false)
@@ -115,7 +135,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                 hideLoading()
                 ShowError.showToastMessage(it.MESSAGE, requireContext())
             }
-        })
+        }
         viewModel.command.observe(viewLifecycleOwner) { command ->
             when (command) {
                 is Command.ShowButtonSheet -> {
@@ -124,9 +144,10 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                     dialog.setTargetFragment(this, 0)
                     activity?.supportFragmentManager?.let { dialog.show(it, "") }
                 }
+
                 is Command.ShowToast -> {
                     hideLoading()
-                    if (command.message.equals("no data found.please check empid")) {
+                    if (command.message == "no data found.please check empid") {
                         viewBinding.emptyList.visibility = View.VISIBLE
                         viewBinding.bulkAppRejLayout.visibility = View.GONE
                         viewBinding.recyclerViewPending.visibility = View.GONE
@@ -136,6 +157,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                         Toast.makeText(requireContext(), command.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         }
@@ -171,6 +193,60 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         sendRequestForAcceptAndReject(orderdetails, TYPE_ACCEPT)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 210) {
+            if (resultCode == Activity.RESULT_OK) {
+
+                data!!.getStringExtra("fromDate").toString()
+
+
+                var filterData = pendinglistItem.filter { m ->
+                    (Utlis.filterDateFormate(data!!.getStringExtra("fromDate").toString())
+                        .before(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) &&
+                            (Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
+                                .after(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))))) ||
+                            Utlis.filterDateFormate(data!!.getStringExtra("fromDate").toString())
+                                .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE))) ||
+                            Utlis.filterDateFormate(data!!.getStringExtra("toDate").toString())
+                                .equals(Utlis.filterDateFormate(Utlis.convertDateTimeZone(m.POSTEDDATE)))
+                }
+
+
+                if (data!!.getStringExtra("siteId").toString()
+                        .isNotEmpty() && data!!.getStringExtra("dcCode").toString().isNotEmpty()
+                ) {
+                    viewModel.filterData(filterData.filter {
+                        it.STORE.equals(
+                            data!!.getStringExtra("siteId").toString()
+                        ) && it.DCCODE.equals(data!!.getStringExtra("dcCode").toString())
+                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                } else if (data!!.getStringExtra("dcCode").toString()
+                        .isNullOrEmpty() && data!!.getStringExtra("siteId").toString().isNotEmpty()
+                ) {
+                    viewModel.filterData(filterData.filter {
+                        it.STORE.equals(
+                            data!!.getStringExtra("siteId").toString()
+                        )
+                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                } else if (data!!.getStringExtra("siteId").toString()
+                        .isNullOrEmpty() && data!!.getStringExtra("dcCode").toString().isNotEmpty()
+                ) {
+                    viewModel.filterData(filterData.filter {
+                        it.STORE.equals(
+                            data!!.getStringExtra("dcCode").toString()
+                        )
+                    } as ArrayList<PendingOrder.PENDINGLISTItem>)
+                } else {
+                    viewModel.filterData(filterData as ArrayList<PendingOrder.PENDINGLISTItem>)
+
+                }
+
+
+            }
+        }
+    }
+
     override fun orderReject(orderdetails: PendingOrder.PENDINGLISTItem) {
         sendRequestForAcceptAndReject(orderdetails, TYPE_REJECT)
     }
@@ -184,11 +260,7 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
     }
 
     override fun onItemChecked(orderdetails: PendingOrder.PENDINGLISTItem, position: Int) {
-        if (orderdetails.isItemChecked) {
-            orderdetails.isItemChecked = false
-        } else {
-            orderdetails.isItemChecked = true
-        }
+        orderdetails.isItemChecked = !orderdetails.isItemChecked
         pendingRecyclerView.notifyItemChanged(position)
         checkSelectedList("")
     }
@@ -203,13 +275,17 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         }
         if (pendingItemChecked) {
             val params: RelativeLayout.LayoutParams =
-                RelativeLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
-                    ConstraintLayout.LayoutParams.MATCH_PARENT)
-            params.setMargins(0, 0, 0, TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP,
-                60f,
-                Resources.getSystem().displayMetrics
-            ).roundToInt())
+                RelativeLayout.LayoutParams(
+                    ConstraintLayout.LayoutParams.MATCH_PARENT,
+                    ConstraintLayout.LayoutParams.MATCH_PARENT
+                )
+            params.setMargins(
+                0, 0, 0, TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    60f,
+                    Resources.getSystem().displayMetrics
+                ).roundToInt()
+            )
             this.viewBinding.parentLayout.setLayoutParams(params)
             viewBinding.bulkAppRejLayout.visibility = View.VISIBLE
         } else {
@@ -315,7 +391,8 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
         val bulkOrders: ArrayList<BulkAcceptOrRejectDiscountOrder.ORDER> = ArrayList()
         for (i in selectedItemList.indices) {
             val bulkItem: BulkAcceptOrRejectDiscountOrder.ORDER =
-                BulkAcceptOrRejectDiscountOrder.ORDER(selectedItemList[i].TRACKINGREFNAME,
+                BulkAcceptOrRejectDiscountOrder.ORDER(
+                    selectedItemList[i].TRACKINGREFNAME,
                     selectedItemList[i].BULKDISCOUNTPER,
                     selectedItemList[i].TRACKINGREFCODE,
                     selectedItemList[i].ITEMS,
@@ -328,7 +405,8 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
                     selectedItemList[i].STORE,
                     Preferences.getToken(),
                     selectedItemList[i].INDENTNO,
-                    selectedItemList[i].TELNO)
+                    selectedItemList[i].TELNO
+                )
             bulkOrders.add(bulkItem)
         }
         showBulkOrderAcceptationDialog(BulkAcceptOrRejectDiscountOrder(bulkOrders, type), type)
@@ -464,22 +542,47 @@ class PendingOrderFragment : BaseFragment<PendingViewModel, FragmentPendingOrder
             viewModel.filterData(filterData as ArrayList<PendingOrder.PENDINGLISTItem>)
         }
     }
+
+    override fun onSuccessgetColorList(value: GetDiscountColorResponse) {
+        colorResponseList =
+            value.trainingDetails as ArrayList<GetDiscountColorResponse.TrainingDetail>
+    }
 }
 
 class PendingRecyclerView(
     val pendingOrderList: ArrayList<PendingOrder.PENDINGLISTItem>,
-    private val listener: ClickListener,
-) :
-    SimpleRecyclerView<PendingOrderAdapterBinding, PendingOrder.PENDINGLISTItem>(pendingOrderList,
-        R.layout.pending_order_adapter) {
+    private val listener: ClickListener,val colorList: ArrayList<GetDiscountColorResponse.TrainingDetail>,
+
+    ) :
+    SimpleRecyclerView<PendingOrderAdapterBinding, PendingOrder.PENDINGLISTItem>(
+        pendingOrderList,
+        R.layout.pending_order_adapter
+    ) {
     private val orderItemsId = ArrayList<String>()
     override fun bindItems(
         binding: PendingOrderAdapterBinding,
         items: PendingOrder.PENDINGLISTItem,
         position: Int,
     ) {
+
+
+        for (i in colorList.indices){
+            for (j in  items.ITEMS.indices){
+                if (colorList.get(i).length!!.toInt()<= items.ITEMS[j].REQUEST_DISC!!.toInt()&& colorList[i].type!!.toUpperCase().equals("VISDISC")){
+                   binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+
+                }else
+                {
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor("#FDB813"))
+
+                }
+            }
+        }
+
+
+
         binding.storeIdText.text = items.STORE
-        binding.postedDate.text = Utlis.convertDate(items.POSTEDDATE)
+        binding.postedDate.text = items.POSTEDDATE
         binding.locations.text = items.DCCODE
         binding.dcLocation.text = items.DCNAME
         binding.storeNameText.text = items.STORENAME
@@ -517,11 +620,7 @@ class PendingRecyclerView(
         }
 
         val isMarginRequired: Boolean
-        if (pendingOrderList[position].ISMARGIN == 1) {
-            isMarginRequired = true
-        } else {
-            isMarginRequired = false
-        }
+        isMarginRequired = pendingOrderList[position].ISMARGIN == 1
 
         updateCatAvgValues(binding, pendingOrderList[position])
 
@@ -598,8 +697,10 @@ class PendingRecyclerView(
                         surgAvgDisc = surgTotalDisc / surgItmes
                         otherAvgDisc = otherTotalDisc / otherItmes
 
-                        Utils.printMessage("PendingOrderFrag",
-                            "Pharma : " + pharmaAvgDisc + ", FMCG : " + fmcgAvgDisc + ", PL : " + plAvgDisc + ", Surgical : " + surgAvgDisc + ", Other : " + otherAvgDisc)
+                        Utils.printMessage(
+                            "PendingOrderFrag",
+                            "Pharma : " + pharmaAvgDisc + ", FMCG : " + fmcgAvgDisc + ", PL : " + plAvgDisc + ", Surgical : " + surgAvgDisc + ", Other : " + otherAvgDisc
+                        )
                         binding.pharmaBulkDisc.setText(
                             String.format(
                                 "%.2f",
@@ -836,7 +937,8 @@ class PendingRecyclerView(
         binding.pharmaAdd.setOnClickListener {
             isItemUpdating = true
             binding.pharmaAdd.setTag(null);
-            addBulkDiscount(binding,
+            addBulkDiscount(
+                binding,
                 binding.pharmaBulkDisc.text.toString().toDouble(),
                 pharmaAvgDisc,
                 pendingOrderListItem, binding.pharmaBulkDisc
@@ -845,7 +947,8 @@ class PendingRecyclerView(
         binding.pharmaSub.setOnClickListener {
             isItemUpdating = true
             binding.pharmaAdd.setTag(null);
-            subtractBulkDiscount(binding,
+            subtractBulkDiscount(
+                binding,
                 binding.pharmaBulkDisc.text.toString().toDouble(),
                 pendingOrderListItem,
                 binding.pharmaBulkDisc
@@ -866,17 +969,20 @@ class PendingRecyclerView(
                     isItemUpdating = false
                 } else {
                     binding.updateAvgLayout.visibility = View.VISIBLE
-                    updateAvgChangedVal(binding,
+                    updateAvgChangedVal(
+                        binding,
                         pharmaAvgDisc,
                         binding.pharmaBulkDisc,
-                        pendingOrderListItem.ITEMS)
+                        pendingOrderListItem.ITEMS
+                    )
                 }
             }
         })
 
         binding.fmcgAdd.setOnClickListener {
             isItemUpdating = true
-            addBulkDiscount(binding,
+            addBulkDiscount(
+                binding,
                 binding.fmcgBulkDisc.text.toString().toDouble(),
                 fmcgAvgDisc,
                 pendingOrderListItem, binding.fmcgBulkDisc
@@ -884,7 +990,8 @@ class PendingRecyclerView(
         }
         binding.fmcgSub.setOnClickListener {
             isItemUpdating = true
-            subtractBulkDiscount(binding,
+            subtractBulkDiscount(
+                binding,
                 binding.fmcgBulkDisc.text.toString().toDouble(),
                 pendingOrderListItem,
                 binding.fmcgBulkDisc
@@ -904,16 +1011,19 @@ class PendingRecyclerView(
                     isItemUpdating = false
                 } else {
                     binding.updateAvgLayout.visibility = View.VISIBLE
-                    updateAvgChangedVal(binding,
+                    updateAvgChangedVal(
+                        binding,
                         fmcgAvgDisc,
                         binding.fmcgBulkDisc,
-                        pendingOrderListItem.ITEMS)
+                        pendingOrderListItem.ITEMS
+                    )
                 }
             }
         })
         binding.plAdd.setOnClickListener {
             isItemUpdating = true
-            addBulkDiscount(binding,
+            addBulkDiscount(
+                binding,
                 binding.plBulkDisc.text.toString().toDouble(),
                 plAvgDisc,
                 pendingOrderListItem, binding.plBulkDisc
@@ -921,7 +1031,8 @@ class PendingRecyclerView(
         }
         binding.plSub.setOnClickListener {
             isItemUpdating = true
-            subtractBulkDiscount(binding,
+            subtractBulkDiscount(
+                binding,
                 binding.plBulkDisc.text.toString().toDouble(),
                 pendingOrderListItem,
                 binding.plBulkDisc
@@ -941,16 +1052,19 @@ class PendingRecyclerView(
                     isItemUpdating = false
                 } else {
                     binding.updateAvgLayout.visibility = View.VISIBLE
-                    updateAvgChangedVal(binding,
+                    updateAvgChangedVal(
+                        binding,
                         plAvgDisc,
                         binding.plBulkDisc,
-                        pendingOrderListItem.ITEMS)
+                        pendingOrderListItem.ITEMS
+                    )
                 }
             }
         })
         binding.surgicalAdd.setOnClickListener {
             isItemUpdating = true
-            addBulkDiscount(binding,
+            addBulkDiscount(
+                binding,
                 binding.surgicalBulkDisc.text.toString().toDouble(),
                 surgAvgDisc,
                 pendingOrderListItem, binding.surgicalBulkDisc
@@ -958,7 +1072,8 @@ class PendingRecyclerView(
         }
         binding.surgicalSub.setOnClickListener {
             isItemUpdating = true
-            subtractBulkDiscount(binding,
+            subtractBulkDiscount(
+                binding,
                 binding.surgicalBulkDisc.text.toString().toDouble(),
                 pendingOrderListItem,
                 binding.surgicalBulkDisc
@@ -978,16 +1093,19 @@ class PendingRecyclerView(
                     isItemUpdating = false
                 } else {
                     binding.updateAvgLayout.visibility = View.VISIBLE
-                    updateAvgChangedVal(binding,
+                    updateAvgChangedVal(
+                        binding,
                         surgAvgDisc,
                         binding.surgicalBulkDisc,
-                        pendingOrderListItem.ITEMS)
+                        pendingOrderListItem.ITEMS
+                    )
                 }
             }
         })
         binding.otherAdd.setOnClickListener {
             isItemUpdating = true
-            addBulkDiscount(binding,
+            addBulkDiscount(
+                binding,
                 binding.otherBulkDisc.text.toString().toDouble(),
                 otherAvgDisc,
                 pendingOrderListItem, binding.otherBulkDisc
@@ -995,7 +1113,8 @@ class PendingRecyclerView(
         }
         binding.otherSub.setOnClickListener {
             isItemUpdating = true
-            subtractBulkDiscount(binding,
+            subtractBulkDiscount(
+                binding,
                 binding.otherBulkDisc.text.toString().toDouble(),
                 pendingOrderListItem,
                 binding.otherBulkDisc
@@ -1015,10 +1134,12 @@ class PendingRecyclerView(
                     isItemUpdating = false
                 } else {
                     binding.updateAvgLayout.visibility = View.VISIBLE
-                    updateAvgChangedVal(binding,
+                    updateAvgChangedVal(
+                        binding,
                         otherAvgDisc,
                         binding.otherBulkDisc,
-                        pendingOrderListItem.ITEMS)
+                        pendingOrderListItem.ITEMS
+                    )
                 }
             }
         })
@@ -1169,8 +1290,10 @@ class OrderAdapter(
                 binding.marginLayout.visibility = View.GONE
             }
             binding.add.setOnClickListener {
-                Utils.printMessage("PendingOrderFrag",
-                    "Apr Disc : " + pendingOrder.APPROVED_DISC + ", Original Disc : " + pendingOrder.ORIGINAL_DISC)
+                Utils.printMessage(
+                    "PendingOrderFrag",
+                    "Apr Disc : " + pendingOrder.APPROVED_DISC + ", Original Disc : " + pendingOrder.ORIGINAL_DISC
+                )
                 binding.bulkDisc.setText(
                     String.format(
                         "%.2f",
@@ -1255,9 +1378,11 @@ class OrderAdapter(
                                 binding.bulkDisc.addTextChangedListener(this)
                             } else {
                                 pendingOrder.APPROVED_DISC = p0.toString().toDoubleOrNull()
-                                Utils.printMessage("PendingOrderFrag",
+                                Utils.printMessage(
+                                    "PendingOrderFrag",
                                     "Approved Disc : " + pendingOrder.APPROVED_DISC + ", P0 value : " + p0.toString()
-                                        .toDoubleOrNull())
+                                        .toDoubleOrNull()
+                                )
                             }
                         }
                         listener.changedAmountForTotal(items)

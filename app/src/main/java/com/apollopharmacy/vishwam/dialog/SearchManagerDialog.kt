@@ -13,14 +13,11 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.data.model.cms.StoreListItem
 import com.apollopharmacy.vishwam.databinding.DialogSearchArticleBinding
 import com.apollopharmacy.vishwam.databinding.ViewItemRowBinding
 import com.apollopharmacy.vishwam.dialog.model.SearchManagerDialogViewModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Data
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Row
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.OnSelectedListnerSite
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.SiteRecyclerView
 
 class SearchManagerDialog(var transactionPOSModel: Data) : DialogFragment() {
 

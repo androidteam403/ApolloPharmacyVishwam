@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="Select Site ID for Swachh Upload"
+                android:text="Select Site ID"
                 android:textColor="@color/colorWhite"
                 android:textSize="@dimen/text_18sp"
                 android:textStyle="bold" />
@@ -50,7 +50,7 @@
                 android:paddingStart="@dimen/value_10dp"
                 android:paddingEnd="@dimen/value_10dp"
                 android:src="@drawable/close_icon"
-                android:tint="@color/white" />
+                app:tint="@color/white" />
         </RelativeLayout>
 
         <LinearLayout
