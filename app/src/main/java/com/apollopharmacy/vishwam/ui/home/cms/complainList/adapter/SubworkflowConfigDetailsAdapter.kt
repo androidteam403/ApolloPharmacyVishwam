@@ -1,14 +1,17 @@
 package com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.AdapterSubworkflowConfigDetailsActionsBinding
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+
 
 class SubworkflowConfigDetailsAdapter(
     var context: Context,
@@ -36,12 +39,19 @@ class SubworkflowConfigDetailsAdapter(
         position: Int,
     ) {
         val row = rowsList.get(position)
+        holder.adapterSubworkflowConfigDetailsActionsBinding.row = row
         holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.text =
             "${row.action!!.action}"
-        holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.setBackgroundColor(
-            Color.parseColor(
-                row.action!!.backgroundColor!!
-            )
+//        holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.setBackgroundColor(
+//            Color.parseColor(
+//                row.action!!.backgroundColor!!
+//            )
+//        )
+
+        val colorInt = Color.parseColor(row.action!!.backgroundColor!!)
+        ViewCompat.setBackgroundTintList(
+            holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn,
+            ColorStateList.valueOf(colorInt)
         )
         holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.setTextColor(
             Color.parseColor(

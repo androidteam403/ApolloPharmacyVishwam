@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="isNewChecked"
+            type="Boolean" />
+
+        <variable
+            name="isInProgressChecked"
+            type="Boolean" />
+
+
+
+        <variable
+            name="isRejectedChecked"
+            type="Boolean" />
+
+        <variable
+            name="isApproveChecked"
+            type="Boolean" />
+
+        <variable
+            name="isClosedChecked"
+            type="Boolean" />
+
+
+        <variable
+            name="isSubmitEnable"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/dialog_background">
+
+        <RelativeLayout
+            android:id="@+id/header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/apna_project_actionbar_color"
+            android:paddingTop="@dimen/value_15dp"
+            android:paddingBottom="@dimen/value_15dp">
+
+            <TextView
+                android:id="@+id/textHead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/label_filters_by_status"
+                android:textColor="@color/colorWhite"
+                android:textSize="@dimen/text_18sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/close_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:contentDescription="@string/app_name"
+                android:paddingStart="@dimen/value_10dp"
+                android:paddingEnd="@dimen/value_10dp"
+                android:src="@drawable/close_icon"
+                app:tint="@color/white" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/header_layout"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/value_5dp"
+            android:paddingEnd="@dimen/value_5dp"
+            android:paddingBottom="@dimen/value_5dp">
+
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/status_radio_group"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"-->
+            <!--                tools:ignore="UselessParent">-->
+
+            <CheckBox
+                android:id="@+id/new_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/apna_project_actionbar_color"
+                android:checked="@{isNewChecked}"
+                android:text="@string/label_new" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/in_progress_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/apna_project_actionbar_color"
+                android:checked="@{isInProgressChecked}"
+                android:text="@string/label_in_progress" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey"
+                android:buttonTint="@color/apna_project_actionbar_color" />
+
+
+
+            <CheckBox
+                android:id="@+id/rejected_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/apna_project_actionbar_color"
+                android:checked="@{isRejectedChecked}"
+                android:text="@string/label_rejectedd" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/approved_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/apna_project_actionbar_color"
+                android:checked="@{isApproveChecked}"
+                android:text="Approved" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+            <CheckBox
+                android:id="@+id/closed_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:buttonTint="@color/apna_project_actionbar_color"
+                android:checked="@{isClosedChecked}"
+                android:text="Cancelled" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="@dimen/value_2dp"
+                android:background="@color/grey" />
+
+
+
+            <!--            </RadioGroup>-->
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/submit"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/value_35dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/value_5dp"
+                android:background="@drawable/apna_project_actionbar_bg"
+                android:enabled="@{isSubmitEnable}"
+                android:text="@string/label_apply"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_14sp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</layout>

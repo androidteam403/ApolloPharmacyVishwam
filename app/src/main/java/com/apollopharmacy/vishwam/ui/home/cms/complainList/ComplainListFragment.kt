@@ -125,6 +125,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
+        userData = LoginRepo.getProfile()!!
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
 
@@ -560,6 +561,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
         fun getData(): ArrayList<ResponseNewTicketlist.Row> {
             return orderData
+        }
+
+        fun setData(row: ArrayList<ResponseNewTicketlist.Row>) {
+            orderData = row
         }
 
         fun getItem(position: Int): ResponseNewTicketlist.Row {
@@ -1146,6 +1151,11 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     orderData!!.get(position).subworkflowConfigDetailsResponse!!.data!!.listData!!.rows!!
                 )
                 binding.subworkflowConfigDetailsListLayout.visibility = View.VISIBLE
+
+                var layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+                //attaches LinearLayoutManager with RecyclerView
+                binding.subworkflowConfigDetailsListRecyclerview.layoutManager = layoutManager
                 binding.subworkflowConfigDetailsListRecyclerview.adapter =
                     subworkflowConfigDetailsAdapter
             } else {
@@ -2317,8 +2327,12 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         position: Int,
     ) {
         Utlis.hideLoading()
-        adapter.orderData[position].subworkflowConfigDetailsResponse =
+        adapter.orderData.get(position).subworkflowConfigDetailsResponse =
             subworkflowConfigDetailsResponse
+//       var orderData: ArrayList<ResponseNewTicketlist.Row> = adapter.getData()
+//
+//        orderData.get(position).subworkflowConfigDetailsResponse
+//        adapter.setData()
         adapter.notifyItemChanged(position)
     }
 
