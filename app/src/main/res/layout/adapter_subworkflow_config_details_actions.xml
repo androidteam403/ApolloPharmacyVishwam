@@ -10,11 +10,17 @@
             android:id="@+id/action_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{row.action.action}"
+            android:paddingStart="@dimen/value_10dp"
+            android:paddingTop="@dimen/value_5dp"
+            android:background="@drawable/green_background"
+            android:paddingEnd="@dimen/value_10dp"
+            android:paddingBottom="@dimen/value_5dp"
+            android:text="Save"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/text_14sp" />
 
+        <!--        android:text="@{row.action.action}"-->
     </RelativeLayout>
 
     <data>

@@ -181,8 +181,8 @@ object Utlis {
 
     fun approvedConvertDate(DatefromServer: String): String {
         // val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
-        val sourceFormat = SimpleDateFormat("MM/dd/yyyy HH:mm:ss", Locale.ENGLISH)
-        val destFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destFormat = SimpleDateFormat("dd/MMM/yyyy", Locale.ENGLISH)
         // val destFormat = SimpleDateFormat("MMM-dd-yyyy")
         val convertedDate: Date = sourceFormat.parse(DatefromServer)
         return destFormat.format(convertedDate)
@@ -199,7 +199,17 @@ object Utlis {
             return ""
         }
     }
-
+    @SuppressLint("SimpleDateFormat")
+    fun convertDateTimeZone(DateFromServer: String): String {
+        try {
+            val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss")
+            val destFormat = SimpleDateFormat("dd-MMM-yyyy")
+            val convertedDate: Date = sourceFormat.parse(DateFromServer)
+            return destFormat.format(convertedDate)
+        } catch (e: Exception) {
+            return ""
+        }
+    }
     fun formatTheDate(dateToFormat: String): String {
         val sourceFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
         val destFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
@@ -208,8 +218,8 @@ object Utlis {
     }
 
     fun filterDateFormate(dateForFilter: String): Date {
-        val sourceFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.ENGLISH)
-        val destinationFormat = SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH)
+        val sourceFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
+        val destinationFormat = SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
         val convertedDate: Date = sourceFormat.parse(dateForFilter)
         return convertedDate
     }

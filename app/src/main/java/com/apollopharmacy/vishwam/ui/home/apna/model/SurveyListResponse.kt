@@ -208,7 +208,7 @@ class SurveyListResponse : Serializable {
         }
     }
 
-    inner class Row : Serializable {
+    public class Row : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -252,6 +252,8 @@ class SurveyListResponse : Serializable {
         @SerializedName("modified_time")
         @Expose
         var modifiedTime: String? = null
+
+        var isLoading : String? = null
         fun withUid(uid: String?): Row {
             this.uid = uid
             return this
