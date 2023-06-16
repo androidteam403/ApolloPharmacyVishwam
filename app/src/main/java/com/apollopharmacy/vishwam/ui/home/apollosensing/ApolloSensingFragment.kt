@@ -452,6 +452,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null) {
                 val imageBase64 = encodeImage(imageFile!!.absolutePath)
                 prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
+                viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 dialog.dismiss()
             } else if (requestCode == Config.REQUEST_CODE_GALLERY) {
                 dialog.dismiss()
@@ -466,6 +467,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             if (prescriptionImageList.size < 10) {
                                 prescriptionImageList.add(ImageDto(imageFileGallery!!,
                                     imageBase64!!))
+                                viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                             } else {
                                 break
                             }
@@ -481,6 +483,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     var imageFileGallery: File? = File(imagePath)
                     val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
                     prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
+                    viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 }
             } else if (requestCode == 571) {
                 if (isSiteIdEmpty) {
@@ -796,6 +799,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
     override fun deleteImage(position: Int, file: File) {
         prescriptionImageList.removeAt(position)
+        viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
         if (prescriptionImageList.size < 1) {
             viewBinding.prescriptionImgRcvLayout.gravity = Gravity.CENTER_HORIZONTAL
             viewBinding.prescriptionImgRcv.visibility = View.GONE
@@ -1105,7 +1109,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                         )
                         viewBinding.verifiedSuccessfullyLayout.visibility = View.VISIBLE
                     } else {
-                        Toast.makeText(context, "Invalid otp", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "Invalid OTP", Toast.LENGTH_SHORT).show()
                         viewBinding.otpView.text!!.clear()
                         viewBinding.sendLinkBtn.setBackgroundColor(Color.parseColor("#efefef"))
                         viewBinding.sendLinkText.setTextColor(Color.parseColor("#b5b5b5"))
