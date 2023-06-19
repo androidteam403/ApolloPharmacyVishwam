@@ -9,13 +9,20 @@ import androidx.core.view.ViewCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
+import com.apollopharmacy.vishwam.data.model.cms.ResponseNewTicketlist
 import com.apollopharmacy.vishwam.databinding.AdapterSubworkflowConfigDetailsActionsBinding
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.ImageClickListener
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
 
 
 class SubworkflowConfigDetailsAdapter(
     var context: Context,
+    val imageClickListener: ImageClickListener,
     var rowsList: ArrayList<SubworkflowConfigDetailsResponse.Rows>,
+    val data: TicketData,
+    val responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+    val positionHeader: Int,
 ) :
     RecyclerView.Adapter<SubworkflowConfigDetailsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
@@ -41,13 +48,7 @@ class SubworkflowConfigDetailsAdapter(
         val row = rowsList.get(position)
         holder.adapterSubworkflowConfigDetailsActionsBinding.row = row
         holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.text =
-            "${row.action!!.action}"
-//        holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn.setBackgroundColor(
-//            Color.parseColor(
-//                row.action!!.backgroundColor!!
-//            )
-//        )
-
+            "${row.action!!.name}"
         val colorInt = Color.parseColor(row.action!!.backgroundColor!!)
         ViewCompat.setBackgroundTintList(
             holder.adapterSubworkflowConfigDetailsActionsBinding.actionBtn,
@@ -58,6 +59,15 @@ class SubworkflowConfigDetailsAdapter(
                 row.action!!.textColor!!
             )
         )
+
+        holder.itemView.setOnClickListener {
+            imageClickListener.onClickAction(
+                data,
+                responseList,
+                positionHeader,
+                row
+            )
+        }
     }
 
     override fun getItemCount(): Int {

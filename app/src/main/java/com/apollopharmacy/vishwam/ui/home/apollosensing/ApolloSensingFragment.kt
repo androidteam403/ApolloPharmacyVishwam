@@ -224,9 +224,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     } else {
 //                        openCamera()
                         if (prescriptionImageList.size == 10) {
-                            Toast.makeText(requireContext(),
+                            Toast.makeText(
+                                requireContext(),
                                 "You are allowed to upload only ten prescriptions",
-                                Toast.LENGTH_SHORT).show()
+                                Toast.LENGTH_SHORT
+                            ).show()
                         } else {
                             showOption()
                         }
@@ -465,17 +467,23 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
                             if (prescriptionImageList.size < 10) {
-                                prescriptionImageList.add(ImageDto(imageFileGallery!!,
-                                    imageBase64!!))
+                                prescriptionImageList.add(
+                                    ImageDto(
+                                        imageFileGallery!!,
+                                        imageBase64!!
+                                    )
+                                )
                                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                             } else {
                                 break
                             }
                         }
                     } else {
-                        Toast.makeText(requireContext(),
+                        Toast.makeText(
+                            requireContext(),
                             "You are allowed to upload only ten prescription",
-                            Toast.LENGTH_SHORT).show()
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
                     val uri = data.data
@@ -779,6 +787,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         }
 
         linkSendConfirmDialogBinding.okButton.setOnClickListener {
+            stopTimer()
             viewBinding.customerPhoneNumber.getText()!!.clear()
             viewBinding.name.getText()!!.clear()
             viewBinding.otpView.getText()!!.clear()
