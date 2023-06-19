@@ -660,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Approval List":
                 headerText.setText("Approval List");
 //                fragment = new ComplainListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);

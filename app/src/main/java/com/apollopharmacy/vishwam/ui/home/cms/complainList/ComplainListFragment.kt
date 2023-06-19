@@ -119,10 +119,10 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.viewmodel = viewModel
-//        if (arguments?.getBoolean("isFromApprovalList") == true) {
+        if (arguments?.getBoolean("isFromApprovalList") == true) {
 //            viewBinding.dateSelectionLayout.visibility = View.GONE
-//
-//        }
+            viewBinding.dateFilterLayout.visibility = View.GONE
+        }
         setFilterIndication()
         val siteId = Preferences.getSiteId()
         userData = LoginRepo.getProfile()!!
@@ -2095,6 +2095,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         TicketSubworkflowActionUpdateRequest()
                     ticketSubworkflowActionUpdateRequest.uid = responseList.get(position).uid
                     ticketSubworkflowActionUpdateRequest.comment = "${remark.text.toString()}"
+                    ticketSubworkflowActionUpdateRequest.employee_id =
+                        "${Preferences.getValidatedEmpId()}"
                     var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
                     subworkflow.uid = row.uid!!
                     ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
@@ -2379,10 +2381,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
     ) {
         hideLoading()
         responseList.get(position).isExpanded = false
-        responseList.get(position).status!!.code = "solved"
-        responseList.get(position).status!!.name = "Resolved"
-        responseList.get(position).status!!.background_color = "#047604"
-        responseList.get(position).status!!.text_color = "#FFFFFF"
+
+        if (ticketSubworkflowActionUpdateResponse != null && ticketSubworkflowActionUpdateResponse.success!! && ticketSubworkflowActionUpdateResponse.data != null && ticketSubworkflowActionUpdateResponse.data!!.status != null && ticketSubworkflowActionUpdateResponse.data!!.status != null) {
+            responseList.get(position).status!!.code =
+                ticketSubworkflowActionUpdateResponse.data!!.status!!.code!! //"solved"
+            responseList.get(position).status!!.name =
+                ticketSubworkflowActionUpdateResponse.data!!.status!!.name!! //"Resolved"
+            responseList.get(position).status!!.background_color =
+                ticketSubworkflowActionUpdateResponse.data!!.status!!.background_color //"#047604"
+            responseList.get(position).status!!.text_color =
+                ticketSubworkflowActionUpdateResponse.data!!.status!!.text_color!! //"#FFFFFF"
+        }
         adapter.orderData = responseList
         adapter.notifyItemChanged(position)
     }

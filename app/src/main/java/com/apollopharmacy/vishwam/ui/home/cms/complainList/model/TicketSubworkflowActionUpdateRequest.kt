@@ -12,6 +12,9 @@ class TicketSubworkflowActionUpdateRequest {
     @field:SerializedName("subworkflow")
     var subworkflow: Subworkflow? = null
 
+    @field:SerializedName("employee_id")
+    var employee_id: String? = null
+
     class Subworkflow {
         @field:SerializedName("uid")
         var uid: String? = null
