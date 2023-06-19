@@ -6,22 +6,22 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:background="@color/white"
-
         android:layout_height="match_parent"
+
+        android:background="@color/white"
         tools:context=".ui.DiscountActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
+            android:layout_height="match_parent"
 
-            android:layout_height="match_parent">
+            android:layout_marginBottom="50dp">
+
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-
 
 
                 <androidx.recyclerview.widget.RecyclerView
@@ -41,11 +41,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
-                android:elevation="20dp"
                 android:backgroundTint="@color/backgroundColor"
+                android:elevation="20dp"
 
-                android:visibility="gone"
                 android:src="@drawable/ic_filter"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -140,6 +140,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/continue_btn"
             android:layout_width="match_parent"
@@ -149,17 +150,40 @@
             android:gravity="center_vertical"
             android:visibility="visible">
 
+            <RelativeLayout
+                android:id="@+id/spinner_layout"
+                android:layout_width="@dimen/value_75dp"
+                android:layout_height="@dimen/value_50dp"
+                android:layout_marginTop="@dimen/value_3dp"
+                android:background="@drawable/spinner_background">
+
+                <Spinner
+                    android:id="@+id/item_count_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:minHeight="0dp"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/value_10dp"
+                    android:src="@drawable/bottomarrow" />
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/prev_page"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-
+                android:layout_toRightOf="@+id/spinner_layout"
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-
                 android:padding="@dimen/text_10sp"
                 android:rotation="180"
                 android:src="@drawable/ic_arrow__next_page"
@@ -174,10 +198,8 @@
                 android:layout_centerVertical="true"
                 android:fontFamily="@font/roboto_medium"
                 android:text=""
-
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
-
 
             <ImageView
                 android:id="@+id/next_page"
@@ -186,17 +208,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="5dp"
-
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-
                 android:padding="@dimen/text_10sp"
                 android:src="@drawable/ic_arrow__next_page"
                 android:textColor="@color/black"
                 android:textSize="9sp" />
-
         </RelativeLayout>
-
     </RelativeLayout>
 </layout>

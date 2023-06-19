@@ -349,7 +349,6 @@
                                 android:textSize="@dimen/dimen11sp"
                                 android:textStyle="bold" />
                         </LinearLayout>
-
                     </LinearLayout>
                 </LinearLayout>
 
@@ -723,6 +722,7 @@
                         android:visibility="gone">
 
                         <TextView
+                            android:id="@+id/uploadCustomerPrescriptionText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
@@ -731,15 +731,56 @@
                             android:textColor="#2c86a4"
                             android:textSize="@dimen/text_16sp" />
 
-                        <ImageView
-                            android:layout_width="@dimen/value_30dp"
-                            android:layout_height="@dimen/value_30dp"
-                            android:layout_alignParentEnd="true"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:src="@drawable/closee_black"
-                            android:tint="#868686"
-                            android:visibility="gone"
-                            tools:ignore="UseAppTint" />
+                            android:layout_toRightOf="@+id/uploadCustomerPrescriptionText"
+                            android:gravity="end"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="("
+                                android:textColor="#2c86a4"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/imageCount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="3"
+                                android:textColor="#2c86a4"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=" / "
+                                android:textColor="#2c86a4"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/totalImages"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="10"
+                                android:textColor="#2c86a4"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=")"
+                                android:textColor="#2c86a4"
+                                android:textSize="@dimen/text_12sp"
+                                android:textStyle="bold" />
+                        </LinearLayout>
                     </RelativeLayout>
 
                     <LinearLayout

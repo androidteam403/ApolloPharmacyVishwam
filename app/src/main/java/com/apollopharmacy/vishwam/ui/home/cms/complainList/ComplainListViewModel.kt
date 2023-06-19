@@ -34,8 +34,11 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowAcce
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowRejectRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubWorkflowRejectResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.SubworkflowConfigDetailsResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketData
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateRequest
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.WorkFlowUpdateModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.Utils
@@ -1613,6 +1616,96 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 
+    }
+
+    fun actionUpdateApiCall(
+        complaintListFragmentCallback: ComplaintListFragmentCallback,
+        ticketSubworkflowActionUpdateRequest: TicketSubworkflowActionUpdateRequest,
+        row: SubworkflowConfigDetailsResponse.Rows,
+        remark: String,
+        data1: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/ticket-subworkflow-action-update"
+        var token1 = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl = data.APIS[i].URL
+//                token1 = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var proxyBaseUrL= ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrL = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+//        val baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/pos-ticket-accept-reject-update"
+        val requestNewComplaintRegistrationJson =
+            Gson().toJson(ticketSubworkflowActionUpdateRequest)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    proxyBaseUrL,
+                    proxyToken,
+                    GetDetailsRequest(baseUrl, "POST", requestNewComplaintRegistrationJson, "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val request = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                TicketSubworkflowActionUpdateResponse::class.java
+                            )
+                            if (request.success!!) {
+                                complaintListFragmentCallback.onSuccessActionUpdate(
+                                    request,
+                                    row,
+                                    remark,
+                                    data1,
+                                    responseList,
+                                    position
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(request.message.toString())
+                            }
+
+                        }
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
     }
 
 }

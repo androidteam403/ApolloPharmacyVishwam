@@ -21,8 +21,10 @@ object QcApiRepo {
         region: String,
     ): ApiResult<QcListsResponse> {
         return try {
+//            val response =
+//                Api.getClient().qcResponseList(url, empId, fromDate, toDate, storeId, region)
             val response =
-                Api.getClient().qcResponseList(url, empId, fromDate, toDate, storeId, region)
+                Api.getClient().qcResponseList()
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

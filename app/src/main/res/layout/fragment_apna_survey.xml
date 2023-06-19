@@ -157,7 +157,10 @@
             </LinearLayout>
 
 
-
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/pullToRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewApproved"
@@ -167,6 +170,8 @@
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:itemCount="2"
                     tools:listitem="@layout/apna_survey_layout" />
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
             <TextView
                 android:id="@+id/no_list_found"
                 android:layout_width="match_parent"

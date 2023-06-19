@@ -5,8 +5,13 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -74,6 +79,9 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     var increment: Int = 0
     var names = ArrayList<QcListsResponse.Pending>();
 
+    var itemsPerPageList = arrayOf("5", "10", "15", "20", "25", "30")
+    var selectedItem = ""
+
 
     override val layoutRes: Int
         get() = R.layout.qc_fragment_pending
@@ -85,6 +93,37 @@ class PendingFragment : BaseFragment<QcPendingViewModel, QcFragmentPendingBindin
     @SuppressLint("ResourceType")
     override fun setup() {
 
+        val arrayAdapter = object :
+            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageList) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup,
+            ): View {
+                val view: TextView =
+                    super.getDropDownView(position, convertView, parent) as TextView
+                return view
+            }
+        }
+
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        viewBinding.itemCountSpinner.adapter = arrayAdapter
+
+        viewBinding.itemCountSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    selectedItem = itemsPerPageList[position]
+                    Log.i("SELECTED ITEM", selectedItem)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
 
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")

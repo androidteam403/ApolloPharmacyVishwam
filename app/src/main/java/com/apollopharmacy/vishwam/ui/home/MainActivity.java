@@ -660,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Approval List":
                 headerText.setText("Approval List");
 //                fragment = new ComplainListFragment();
-                filterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -701,7 +701,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Pending":
                 headerText.setText("Pending List");
                 fragment = new PendingOrderFragment();
-                filterIcon.setVisibility(View.GONE);
+                filterIcon.setVisibility(View.VISIBLE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
