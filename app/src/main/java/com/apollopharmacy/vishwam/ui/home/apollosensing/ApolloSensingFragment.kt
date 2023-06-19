@@ -69,7 +69,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var isOtpVerified: Boolean = false
     var isPrescriptionUpload: Boolean = false
     var countDownTime: Long = 60000
-    lateinit var countDownTimer: CountDownTimer
+    var countDownTimer: CountDownTimer? = null
     var imageFile: File? = null
     private var compressedImageFileName: String? = null
     var prescriptionImageList = ArrayList<ImageDto>()
@@ -77,6 +77,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     var otp = "-1"
     lateinit var dialog: Dialog
     var siteId: String = ""
+    var errorMessage: String = ""
     override val layoutRes: Int
         get() = R.layout.fragment_apollo_sensing
 
@@ -216,33 +217,54 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         viewBinding.addMorePrescription.setOnClickListener {
             val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
             val name = viewBinding.custName.text.toString().trim()
-            if (phoneNumber.isNotEmpty() && name.isNotEmpty()) {
-                if (phoneNumber.length == 10 && !phoneNumber.equals("0000000000")) {
-                    if (!checkPermission()) {
-                        askPermissions(100)
-                        return@setOnClickListener
-                    } else {
-//                        openCamera()
-                        if (prescriptionImageList.size == 10) {
-                            Toast.makeText(
-                                requireContext(),
-                                "You are allowed to upload only ten prescriptions",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        } else {
-                            showOption()
-                        }
-                    }
+            if (validateCustomerDetails(phoneNumber, name)) {
+                if (!checkPermission()) {
+                    askPermissions(100)
+                    return@setOnClickListener
                 } else {
-                    Toast.makeText(
-                        requireContext(), "Please enter valid phone number", Toast.LENGTH_SHORT
-                    ).show()
+                    if (prescriptionImageList.size == 10) {
+                        Toast.makeText(
+                            requireContext(),
+                            "You are allowed to upload only ten prescriptions",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        showOption()
+                    }
                 }
             } else {
-                Toast.makeText(
-                    requireContext(), "Please enter phone number and name", Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
             }
+
+//            val phoneNumber = viewBinding.phoneNumber.text.toString().trim()
+//            val name = viewBinding.custName.text.toString().trim()
+//            if (phoneNumber.isNotEmpty() && name.isNotEmpty()) {
+//                if (phoneNumber.length == 10 && !phoneNumber.equals("0000000000")) {
+//                    if (!checkPermission()) {
+//                        askPermissions(100)
+//                        return@setOnClickListener
+//                    } else {
+////                        openCamera()
+//                        if (prescriptionImageList.size == 10) {
+//                            Toast.makeText(
+//                                requireContext(),
+//                                "You are allowed to upload only ten prescriptions",
+//                                Toast.LENGTH_SHORT
+//                            ).show()
+//                        } else {
+//                            showOption()
+//                        }
+//                    }
+//                } else {
+//                    Toast.makeText(
+//                        requireContext(), "Please enter valid phone number", Toast.LENGTH_SHORT
+//                    ).show()
+//                }
+//            } else {
+//                Toast.makeText(
+//                    requireContext(), "Please enter phone number and name", Toast.LENGTH_SHORT
+//                ).show()
+//            }
         }
 
 //        viewBinding.uploadPrescriptionBtn.setOnClickListener {
@@ -253,9 +275,32 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 //        }
     }
 
+    private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
+        if (phoneNumber.isEmpty()) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number should not be empty."
+            return false
+        } else if (phoneNumber.length < 10) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number must be 10 digits."
+            return false
+        } else if (phoneNumber.equals("0000000000")) {
+            viewBinding.phoneNumber.requestFocus()
+            errorMessage = "Customer phone number should not contain all digits zero."
+            return false
+        } else if (name.isEmpty()) {
+            viewBinding.custName.requestFocus()
+            errorMessage = "Name should not be empty."
+            return false
+        } else {
+            errorMessage = ""
+            return true
+        }
+    }
+
     fun stopTimer() {
         if (countDownTimer != null) {
-            countDownTimer.cancel()
+            countDownTimer!!.cancel()
         }
     }
 
@@ -311,7 +356,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 viewBinding.otpView.getText()!!.clear()
             }
         }
-        countDownTimer.start()
+        countDownTimer!!.start()
     }
 
     private fun openDialog() {
