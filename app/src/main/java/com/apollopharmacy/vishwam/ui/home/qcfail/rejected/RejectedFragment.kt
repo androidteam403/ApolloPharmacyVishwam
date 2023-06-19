@@ -2,7 +2,12 @@ package com.apollopharmacy.vishwam.ui.home.qcfail.rejected
 
 import android.app.Activity
 import android.content.Intent
+import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -34,8 +39,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
     var getRejectList: ArrayList<QcListsResponse.Reject>? = null
-    public var storeStringList=ArrayList<String>()
-    public var regionStringList=ArrayList<String>()
+    public var storeStringList = ArrayList<String>()
+    public var regionStringList = ArrayList<String>()
     var qcRejectItemsList = ArrayList<QcAcceptRejectRequest.Item>()
     var orderId: String = ""
     var reason: String = ""
@@ -54,6 +59,9 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
     var names = ArrayList<QcListsResponse.Pending>();
 
+    var itemsPerPageList = arrayOf("5", "10", "15", "20", "25", "30")
+    var selectedItem = ""
+
     override val layoutRes: Int
         get() = R.layout.fragment_rejected_qc
 
@@ -62,6 +70,36 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
+        val arrayAdapter = object :
+            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageList) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup,
+            ): View {
+                var view: TextView =
+                    super.getDropDownView(position, convertView, parent) as TextView
+                return view
+            }
+        }
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        viewBinding.itemCountSpinner.adapter = arrayAdapter
+        viewBinding.itemCountSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    selectedItem = itemsPerPageList.get(position)
+                    Log.i("SELECTED ITEM", selectedItem)
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+            }
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -150,7 +188,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
                 viewBinding.recyclerViewPending.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
-                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
 
 
                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
@@ -167,8 +205,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 regionStringList.clear()
                 regionStringList.addAll(regionListSet)
                 storeStringList.addAll(stroreListSet)
-                 subList = ListUtils.partition(it.rejectedlist, 5)
-                 pageNo = 1
+                subList = ListUtils.partition(it.rejectedlist, 5)
+                pageNo = 1
                 increment = 0
                 if (pageNo == 1) {
                     viewBinding.prevPage.visibility = View.GONE
@@ -206,12 +244,10 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                     }
                 viewBinding.recyclerViewPending.adapter = adapter
 
-             }
-
-                 else  {
-                     viewBinding.emptyList.visibility = View.VISIBLE
-                     viewBinding.recyclerViewPending.visibility = View.GONE
-                 viewBinding.continueBtn.visibility=View.GONE
+            } else {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewPending.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
 //                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
             }
         })
@@ -380,7 +416,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-
     override fun imageData(position: Int, orderno: String, itemName: String, imageUrl: String) {
         if (imageUrl.isNullOrEmpty()) {
             Toast.makeText(requireContext(), "Images Urls is empty", Toast.LENGTH_SHORT).show()
@@ -445,7 +480,6 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
 
-
     override fun clickedApply(
         selectedData: String,
         data: ArrayList<QcStoreList.Store>,
@@ -467,8 +501,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     override fun onClickQcFilterIcon() {
         val i = Intent(context, QcFilterActivity::class.java)
         i.putExtra("activity", "3")
-        i.putStringArrayListExtra("storeList",storeStringList)
-        i.putStringArrayListExtra("regionList",regionStringList)
+        i.putStringArrayListExtra("storeList", storeStringList)
+        i.putStringArrayListExtra("regionList", regionStringList)
         startActivityForResult(i, 210)
     }
 

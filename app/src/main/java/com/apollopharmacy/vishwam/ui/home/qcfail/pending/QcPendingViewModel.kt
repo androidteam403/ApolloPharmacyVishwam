@@ -72,7 +72,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcPendingLists.value = result.value
+                        qcPendingLists.value = result.value!!
                     } else {
 //                        if (pendingFragmentCallback != null){
 //                            if (result.value != null && result.value.message != null){
