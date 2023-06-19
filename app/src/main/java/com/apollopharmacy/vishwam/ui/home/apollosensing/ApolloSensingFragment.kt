@@ -278,19 +278,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     private fun validateCustomerDetails(phoneNumber: String, name: String): Boolean {
         if (phoneNumber.isEmpty()) {
             viewBinding.phoneNumber.requestFocus()
-            errorMessage = "Customer phone number should not be empty"
+            errorMessage = "Customer phone number should not be empty."
             return false
         } else if (phoneNumber.length < 10) {
             viewBinding.phoneNumber.requestFocus()
-            errorMessage = "Please enter valid phone number"
+            errorMessage = "Customer phone number must be 10 digits."
             return false
         } else if (phoneNumber.equals("0000000000")) {
             viewBinding.phoneNumber.requestFocus()
-            errorMessage = "Customer phone number should not contain all digits zero"
+            errorMessage = "Customer phone number should not contain all digits zero."
             return false
         } else if (name.isEmpty()) {
             viewBinding.custName.requestFocus()
-            errorMessage = "Name should not be empty"
+            errorMessage = "Name should not be empty."
             return false
         } else {
             errorMessage = ""
