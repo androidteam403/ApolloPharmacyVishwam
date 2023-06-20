@@ -5,14 +5,12 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.content.Intent.getIntent
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -75,8 +73,8 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
     var currentDate = String()
     var fromDate = String()
 
-    var itemsPerPageList = arrayOf("5", "10", "15", "20", "25", "30")
-    var selectedItem = ""
+    var itemsPerPageCountList = arrayOf("5", "10", "15")
+    var selectedCount: Int = 0
 
     override val layoutRes: Int
         get() = R.layout.fragment_approved_qc
@@ -87,35 +85,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
     @SuppressLint("ResourceType")
     override fun setup() {
-        val arrayAdapter = object :
-            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageList) {
-            override fun getDropDownView(
-                position: Int,
-                convertView: View?,
-                parent: ViewGroup,
-            ): View {
-                val view: TextView =
-                    super.getDropDownView(position, convertView, parent) as TextView
-                return view
-            }
-        }
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        viewBinding.itemCountSpinner.adapter = arrayAdapter
-        viewBinding.itemCountSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long,
-                ) {
-                    selectedItem = itemsPerPageList[position]
-                    Log.i("SELECTED ITEM", selectedItem)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-            }
         showLoading()
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
@@ -196,16 +165,10 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 itemsList.add(items)
                 adapter?.notifyDataSetChanged()
             }
-
-
-
-
-
             adapter?.notifyDataSetChanged()
-
-
         })
-        viewModel.qcLists.observe(viewLifecycleOwner) { it ->
+
+        /*viewModel.qcLists.observe(viewLifecycleOwner) { it ->
             viewBinding.refreshSwipe.isRefreshing = false
             storeStringList.clear();
             regionStringList.clear();
@@ -250,9 +213,6 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 }
 
-
-
-
                 if (subList?.size == 1) {
                     viewBinding.continueBtn.visibility = View.GONE
                 } else {
@@ -260,11 +220,9 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
 
                 }
 
-
 //                filterApproveList.subList(startPageApproved, endPageNumApproved)
                 if (subList != null) {
                     viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
                 }
 
                 if (increment == 0) {
@@ -286,8 +244,38 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                     viewBinding.recyclerViewApproved.adapter = adapter
                 }
             }
+        }*/
 
+        val arrayAdapter = object :
+            ArrayAdapter<String>(requireContext(), R.layout.dropdown_item, itemsPerPageCountList) {
+            override fun getDropDownView(
+                position: Int,
+                convertView: View?,
+                parent: ViewGroup,
+            ): View {
+                val view: TextView =
+                    super.getDropDownView(position, convertView, parent) as TextView
+                return view
+            }
         }
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        viewBinding.itemCountSpinner.adapter = arrayAdapter
+        viewBinding.itemCountSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long,
+                ) {
+                    selectedCount = itemsPerPageCountList[position].toInt()
+                    showApprovedList()
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+            }
+
         viewBinding.refreshSwipe.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
             submitClickApproved()
         })
@@ -397,6 +385,86 @@ class ApprovedFragment : BaseFragment<QcApprovedViewModel, FragmentApprovedQcBin
                 }
 
                 else -> {}
+            }
+        }
+    }
+
+    private fun showApprovedList() {
+        viewModel.qcLists.observe(viewLifecycleOwner) { it ->
+            viewBinding.refreshSwipe.isRefreshing = false
+            storeStringList.clear();
+            regionStringList.clear();
+            hideLoading()
+            if (it.approvedlist.isNullOrEmpty()) {
+                viewBinding.emptyList.visibility = View.VISIBLE
+                viewBinding.recyclerViewApproved.visibility = View.GONE
+                viewBinding.continueBtn.visibility = View.GONE
+//                Toast.makeText(requireContext(), "No Approved Data", Toast.LENGTH_SHORT).show()
+            } else {
+
+                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
+
+                for (i in filterApproveList.indices) {
+                    storeStringList.add(filterApproveList[i].storeid.toString())
+                    regionStringList.add(filterApproveList[i].dcCode.toString())
+                }
+                val regionListSet: MutableSet<String> = LinkedHashSet()
+                val stroreListSet: MutableSet<String> = LinkedHashSet()
+                stroreListSet.addAll(storeStringList)
+                regionListSet.addAll(regionStringList)
+                storeStringList.clear()
+                regionStringList.clear()
+                regionStringList.addAll(regionListSet)
+                storeStringList.addAll(stroreListSet)
+                viewBinding.recyclerViewApproved.visibility = View.VISIBLE
+                viewBinding.emptyList.visibility = View.GONE
+                filterApproveList = (it.approvedlist as ArrayList<QcListsResponse.Approved>?)!!
+                subList = ListUtils.partition(it.approvedlist, selectedCount)
+                pageNo = 1
+                increment = 0
+                if (pageNo == 1) {
+                    viewBinding.prevPage.visibility = View.GONE
+                } else {
+                    viewBinding.prevPage.visibility = View.VISIBLE
+
+                }
+                if (increment == subList?.size!!.minus(1)) {
+                    viewBinding.nextPage.visibility = View.GONE
+                } else {
+                    viewBinding.nextPage.visibility = View.VISIBLE
+
+                }
+
+                if (subList?.size == 1) {
+                    viewBinding.continueBtn.visibility = View.GONE
+                } else {
+                    viewBinding.continueBtn.visibility = View.VISIBLE
+
+                }
+
+//                filterApproveList.subList(startPageApproved, endPageNumApproved)
+                if (subList != null) {
+                    viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+                }
+
+                if (increment == 0) {
+                    viewBinding.prevPage.visibility = View.GONE
+                }
+                if (subList.isNullOrEmpty()) {
+                } else {
+                    adapter =
+                        context?.let { it1 ->
+                            QcApproveListAdapter(
+                                it1,
+                                subList!!.get(increment),
+                                this,
+                                itemsList,
+                                statusList,
+                                filterApproveList
+                            )
+                        }
+                    viewBinding.recyclerViewApproved.adapter = adapter
+                }
             }
         }
     }

@@ -97,7 +97,7 @@
 
             <RelativeLayout
                 android:id="@+id/spinner_layout"
-                android:layout_width="@dimen/value_75dp"
+                android:layout_width="@dimen/value_70dp"
                 android:layout_height="@dimen/value_50dp"
                 android:layout_marginTop="@dimen/value_3dp"
                 android:background="@drawable/spinner_background">
