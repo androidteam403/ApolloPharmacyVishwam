@@ -87,8 +87,10 @@ class ApolloSensingViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
+        val devUrl = "http://dev.thresholdsoft.com/Apollo-sensing"
+        val ipUrl = " http://172.16.103.116:8445"
         var baseUrl =
-            "https://t.zeroco.de/index.php?format=text&url=http://dev.thresholdsoft.com/Apollo-sensing?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
+            "https://t.zeroco.de/index.php?format=text&url=http://172.16.103.116:8445?${customerName}_${customerMobileNumber}_${siteId}_${timeStamp}"
         // "https://t.zeroco.de/index.php?url=http://dev.thresholdsoft.com/Apollo-sensing/?format=text&cusomer=$customerName&mobile=$customerMobileNumber&id=$timeStamp"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("testt")) {
@@ -196,7 +198,10 @@ class ApolloSensingViewModel : ViewModel() {
         }
     }
 
-    fun updateDefaultSiteIdApiCall(updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest, callback: ApolloSensingFragmentCallback) {
+    fun updateDefaultSiteIdApiCall(
+        updateUserDefaultSiteRequest: UpdateUserDefaultSiteRequest,
+        callback: ApolloSensingFragmentCallback,
+    ) {
         val updateUserDefaultSiteRequestJson = Gson().toJson(updateUserDefaultSiteRequest)
         val url = Preferences.getApi()
 
@@ -229,9 +234,11 @@ class ApolloSensingViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                SwachApiiRepo.updateSwachhDefaultSite(baseUrL,
+                SwachApiiRepo.updateSwachhDefaultSite(
+                    baseUrL,
                     token1,
-                    GetDetailsRequest(baseUrl, "POST", updateUserDefaultSiteRequestJson, "", ""))
+                    GetDetailsRequest(baseUrl, "POST", updateUserDefaultSiteRequestJson, "", "")
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
@@ -241,10 +248,14 @@ class ApolloSensingViewModel : ViewModel() {
                         if (resp != null) {
                             val res = BackShlash.removeBackSlashes(resp)
                             val updateUserDefaultSiteResponse =
-                                Gson().fromJson(BackShlash.removeSubString(res),
-                                    UpdateUserDefaultSiteResponse::class.java)
+                                Gson().fromJson(
+                                    BackShlash.removeSubString(res),
+                                    UpdateUserDefaultSiteResponse::class.java
+                                )
                             if (updateUserDefaultSiteResponse.success!!) {
-                                callback.onSuccessUpdateDefaultSiteIdApiCall(updateUserDefaultSiteResponse)
+                                callback.onSuccessUpdateDefaultSiteIdApiCall(
+                                    updateUserDefaultSiteResponse
+                                )
 //                                updateUserDefaultSiteResponseMutable.value =
 //                                    updateUserDefaultSiteResponse
 
@@ -257,15 +268,19 @@ class ApolloSensingViewModel : ViewModel() {
                     } else {
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
