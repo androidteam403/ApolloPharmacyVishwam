@@ -660,7 +660,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case "Approval List":
                 headerText.setText("Approval List");
 //                fragment = new ComplainListFragment();
-                filterIcon.setVisibility(View.VISIBLE);
+                filterIcon.setVisibility(View.GONE);
                 qcfilterIcon.setVisibility(View.GONE);
                 plusIconApna.setVisibility(View.GONE);
                 filterIconApna.setVisibility(View.GONE);
@@ -1520,9 +1520,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
         if (isCMSRequired) {
-            listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
-            );
+            listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list)));//.addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
         }
         if (isDiscountRequired) {
             listView.addHeaderModel(new HeaderModel("Discount", Color.WHITE, true, R.drawable.ic_menu_discount).addChildModel(new ChildModel("Pending", R.drawable.ic_apollo_pending)).addChildModel(new ChildModel("Approved", R.drawable.ic_apollo_approve__1_)).addChildModel(new ChildModel("Rejected", R.drawable.ic_apollo_reject)).addChildModel(new ChildModel("Bill", R.drawable.ic_apollo_bill)));

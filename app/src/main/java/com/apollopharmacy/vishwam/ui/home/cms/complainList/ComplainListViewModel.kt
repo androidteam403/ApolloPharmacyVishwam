@@ -100,7 +100,7 @@ class ComplainListViewModel : ViewModel() {
                 e.printStackTrace()
             }
             baseUrl =
-                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/subworkflow-tickets-for-mobile?employee_id=Akhil01"
+                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/subworkflow-tickets-for-mobile?"//employee_id=Akhil01
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"
 
 
@@ -149,6 +149,32 @@ class ComplainListViewModel : ViewModel() {
         if (!isApprovalList) {
             baseUrl =
                 baseUrl + "employee_id=${requestComplainList.empid}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                    "reason_code=new_drug&"
+                } else {
+                    ""
+                } + if (isSearch) {
+                    "site_ticket=$searchQuary&"
+                } else {
+                    "site_ticket=$searchQuary&"
+                } + "${
+                    URLEncoder.encode("status[0]", "utf-8")
+                }=${new}&${
+                    URLEncoder.encode("status[1]", "utf-8")
+                }=${inprogress}&${
+                    URLEncoder.encode("status[2]", "utf-8")
+                }=${solved}&${
+                    URLEncoder.encode("status[3]", "utf-8")
+                }=${rejected}&${
+                    URLEncoder.encode("status[4]", "utf-8")
+                }=${reopened}&${
+                    URLEncoder.encode("status[5]", "utf-8")
+                }=${closed}&${
+                    URLEncoder.encode("status[6]", "utf-8")
+                }=${onHold}"
+        } else {
+            //${requestComplainList.empid}
+            baseUrl =
+                baseUrl + "employee_id=Akhil01&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""
@@ -1640,7 +1666,7 @@ class ComplainListViewModel : ViewModel() {
             }
         }
 //        val data = Gson().fromJson(url, ValidateResponse::class.java)
-        var proxyBaseUrL= ""
+        var proxyBaseUrL = ""
         var proxyToken = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
