@@ -11,6 +11,7 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteList
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
@@ -801,6 +802,9 @@ interface ViswamAppApi {
         @Url url: String, @Header("token") token: String,
         @Body saveImageUrlsRequest: SaveImageUrlsRequest,
     ): com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
+
+    @GET
+    suspend fun CHECK_SCREEN_STATUS_API_CALL(@Url url: String): CheckScreenStatusResponse
 
     @GET
     suspend fun getDiscountColorDetails(

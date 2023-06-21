@@ -46,8 +46,10 @@ class CategoryDetailsAdapter(
             holder.adapterCategoryDetailsBinding.ratingBarVisible.visibility = View.VISIBLE
             if (categoryDetailss.sumOfSubCategoryRating == 0.0f) {
                 holder.adapterCategoryDetailsBinding.progressBar.progress = 0
+                holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_names)
                 holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progrss_drawable_skyblue))
             } else {
+                holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
                 holder.adapterCategoryDetailsBinding.progressBar.progress =
                     (categoryDetailss.sumOfSubCategoryRating)!!.toInt()
                 holder.adapterCategoryDetailsBinding.progressBar.setProgressDrawable(applicationContext.resources.getDrawable(R.drawable.progress_drawable_green))
@@ -57,7 +59,7 @@ class CategoryDetailsAdapter(
                 (categoryDetailss.rating)!!.toInt()
             holder.adapterCategoryDetailsBinding.outOfRating.text =
                 ((categoryDetailss.sumOfSubCategoryRating)).toString() + "/" + categoryDetailss.rating
-            holder.adapterCategoryDetailsBinding.applyBackgroundLayout.setBackgroundResource(R.drawable.background_for_champs_green)
+
             holder.adapterCategoryDetailsBinding.rightArrow.visibility = View.GONE
             holder.adapterCategoryDetailsBinding.categoryName.setTextColor(
                 applicationContext.getColor(

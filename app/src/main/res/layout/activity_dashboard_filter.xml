@@ -14,36 +14,40 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/value_70dp"
             android:background="@color/app_center_color"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="@dimen/twenty_three23_sp"
-                android:layout_height="24dp"
-                android:layout_marginStart="@dimen/text_12sp"
-                android:layout_marginTop="@dimen/twenty20_dp"
+                android:layout_width="@dimen/value_25dp"
+                android:layout_height="@dimen/value_25dp"
+                android:layout_marginStart="@dimen/text_dimen_10"
+                android:contentDescription="@string/app_name"
                 android:src="@drawable/filtersnew" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="@dimen/value_70dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/twenty20_dp"
-                android:layout_marginTop="@dimen/text_18sp"
                 android:elevation="@dimen/value_5dp"
-
                 android:fontFamily="@font/droidsans"
                 android:text="Filters"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_20sp" />
 
-            <ImageView
-                android:id="@+id/cancel"
-                android:layout_width="@dimen/value_35dp"
-                android:layout_height="@dimen/value_35dp"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/closee_whitee"
-                android:visibility="visible" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end">
 
+                <ImageView
+                    android:id="@+id/cancel"
+                    android:layout_width="@dimen/value_35dp"
+                    android:layout_height="@dimen/value_35dp"
+                    android:layout_marginEnd="@dimen/text_dimen_10"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/closee_whitee"
+                    android:visibility="visible" />
+            </RelativeLayout>
         </LinearLayout>
 
 

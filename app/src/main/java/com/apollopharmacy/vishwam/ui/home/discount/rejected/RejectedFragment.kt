@@ -1,6 +1,7 @@
 package com.apollopharmacy.vishwam.ui.home.discount.rejected
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.model.LoginDetails
 import com.apollopharmacy.vishwam.data.model.discount.FilterDiscountRequest
+import com.apollopharmacy.vishwam.data.model.discount.GetDiscountColorResponse
 import com.apollopharmacy.vishwam.data.model.discount.PendingOrder
 import com.apollopharmacy.vishwam.data.model.discount.RejectedOrderResponse
 import com.apollopharmacy.vishwam.data.network.LoginRepo
@@ -26,12 +28,12 @@ import com.apollopharmacy.vishwam.util.Utils
 import com.apollopharmacy.vishwam.util.Utils.getDateDifference
 import com.apollopharmacy.vishwam.util.Utlis
 import java.util.*
-import kotlin.collections.ArrayList
 
 class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding>(),
-    DiscountCalendarDialog.DateSelected {
+    DiscountCalendarDialog.DateSelected, RejectedFragmentCallback {
 
     var isFromDateSelected: Boolean = false
+    var colorResponseList = java.util.ArrayList<GetDiscountColorResponse.TrainingDetail>()
 
     override val layoutRes: Int
         get() = R.layout.fragment_rejected
@@ -44,7 +46,7 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
 
     override fun setup() {
         viewBinding.rejectedViewModel = viewModel
-
+        viewModel.getDiscountColorDetails(this)
         viewBinding.fromDateText.setText(Utils.getCurrentDate())
         viewBinding.toDateText.setText(Utils.getCurrentDate())
         userData = LoginRepo.getProfile()!!
@@ -70,7 +72,7 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
                 viewBinding.rejectedRecycler.visibility = View.GONE
                 Toast.makeText(requireContext(), "No Rejected data", Toast.LENGTH_SHORT).show()
             } else {
-                viewBinding.rejectedRecycler.adapter = ApproveRecyclerView(it)
+                viewBinding.rejectedRecycler.adapter = ApproveRecyclerView(it, colorResponseList)
                 viewBinding.rejectedRecycler.visibility = View.VISIBLE
                 viewBinding.emptyList.visibility = View.GONE
             }
@@ -89,6 +91,7 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
                         Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 else -> {}
             }
         })
@@ -175,8 +178,10 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
             }.show(childFragmentManager, "")
         } else {
             DiscountCalendarDialog().apply {
-                arguments = generateParsedData(viewBinding.toDateText.text.toString(),
-                    viewBinding.fromDateText.text.toString())
+                arguments = generateParsedData(
+                    viewBinding.toDateText.text.toString(),
+                    viewBinding.fromDateText.text.toString()
+                )
             }.show(childFragmentManager, "")
         }
     }
@@ -189,12 +194,17 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 val datePattern = android.icu.text.SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH)
                 val dateDifference =
-                    Utils.getDateDiff(datePattern,
+                    Utils.getDateDiff(
+                        datePattern,
                         viewBinding.fromDateText.text.toString(),
-                        Utils.getCurrentDate())
+                        Utils.getCurrentDate()
+                    )
                         .toInt()
                 if (dateDifference <= 14) {
                     //Nothing to do
+                    finalDate =
+                        Utils.getCurrentDate()
+                    viewBinding.toDateText.setText(finalDate)
                 } else {
                     finalDate =
                         Utils.getCustomHalfMonthDate(viewBinding.fromDateText.text.toString())
@@ -205,9 +215,17 @@ class RejectedFragment : BaseFragment<RejectedViewModel, FragmentRejectedBinding
             viewBinding.toDateText.setText(showingDate)
         }
     }
+
+    override fun onSuccessgetColorList(value: GetDiscountColorResponse) {
+        colorResponseList =
+            value.trainingDetails as java.util.ArrayList<GetDiscountColorResponse.TrainingDetail>
+    }
 }
 
-class ApproveRecyclerView(val orderData: List<RejectedOrderResponse.REJECTEDLISTItem>) :
+class ApproveRecyclerView(
+    val orderData: List<RejectedOrderResponse.REJECTEDLISTItem>,
+    val colorList: java.util.ArrayList<GetDiscountColorResponse.TrainingDetail>,
+) :
     SimpleRecyclerView<RejectedLayoutBinding, RejectedOrderResponse.REJECTEDLISTItem>(
         orderData,
         R.layout.rejected_layout
@@ -219,6 +237,18 @@ class ApproveRecyclerView(val orderData: List<RejectedOrderResponse.REJECTEDLIST
         items: RejectedOrderResponse.REJECTEDLISTItem,
         position: Int,
     ) {
+        binding.pendingLayout.setBackgroundColor(Color.parseColor("#69BD77"))
+        for (i in colorList.indices) {
+            for (j in items.ITEMS.indices) {
+                if (colorList.get(i).length!!.toInt() <= items.ITEMS[j].APPROVEDDISC!!.toInt() && colorList[i].type!!.toUpperCase()
+                        .equals("VISDISC")
+                ) {
+                    binding.pendingLayout.setBackgroundColor(Color.parseColor(colorList.get(i).name))
+                }
+            }
+        }
+
+
         binding.storeText.text = items.STORE
         binding.postedDate.text = Utlis.convertDate(items.POSTEDDATE)
         binding.storeNameText.text = items.STORE
