@@ -44,6 +44,7 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apollosensing.activity.ApolloSensingStoreActivity
 import com.apollopharmacy.vishwam.ui.home.apollosensing.adapter.PrescriptionImageAdapter
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
@@ -88,6 +89,11 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun setup() {
         MainActivity.mInstance.mainActivityCallback = this
         viewBinding.callback = this@ApolloSensingFragment
+
+        if (NetworkUtil.isNetworkConnected(requireContext())) {
+            showLoading()
+            viewModel.checkScreenStatus(this@ApolloSensingFragment)
+        }
         val empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
         var employeeDetailsResponse: EmployeeDetailsResponse? = null
         try {
@@ -1029,6 +1035,30 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         } else {
             openDialog()
         }
+    }
+
+    override fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse) {
+        hideLoading()
+        if (checkScreenStatusResponse != null && checkScreenStatusResponse!!.status == true) {
+            if (checkScreenStatusResponse.CUSTLINK!! == true && checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.VISIBLE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            } else if (checkScreenStatusResponse.CUSTLINK!! == true) {
+                viewBinding.sendLink.visibility = View.VISIBLE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.GONE
+            } else if (checkScreenStatusResponse.STORELINK!! == true) {
+                viewBinding.sendLink.visibility = View.GONE
+                viewBinding.or.visibility = View.GONE
+                viewBinding.takePhoto.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    override fun onFailureCheckScreenStatusApiCall(message: String) {
+        hideLoading()
+        Toast.makeText(requireContext(), "$message", Toast.LENGTH_SHORT).show()
     }
 
     fun validateUploadPrescription(): Boolean {

@@ -26,6 +26,56 @@ class ApolloSensingViewModel : ViewModel() {
 
 
     val state = MutableLiveData<State>()
+
+    fun checkScreenStatus(
+        apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var baseUrl = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("SEN ACCESS")) {
+                baseUrl = data.APIS[i].URL
+                break
+            }
+        }
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                ApolloSensingRepo.checkScreenStatus(
+                    baseUrl
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.SUCCESS
+                    if (response.value.status == true) {
+                        apolloSensingFragmentCallback.onSuccessCheckScreenStatusApiCall(response.value)
+                    } else {
+                        apolloSensingFragmentCallback.onFailureCheckScreenStatusApiCall(response.value.message!!)
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
     fun sendGlobalSmsApiCall(
         type: String,
         sendGlobalSmsRequest: SendGlobalSmsRequest,
@@ -34,7 +84,8 @@ class ApolloSensingViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
-        var baseUrl = "" //"https://apsmtest.apollopharmacy.org:8443/GSMS/APOLLO/SMS/SendGlobalSms"//"https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms"
+        var baseUrl =
+            "" //"https://apsmtest.apollopharmacy.org:8443/GSMS/APOLLO/SMS/SendGlobalSms"//"https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN GSMS")) {
                 baseUrl = data.APIS[i].URL
@@ -147,7 +198,8 @@ class ApolloSensingViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
-        var baseUrl = "" //"https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
+        var baseUrl =
+            "" //"https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
         var baseToken = "" //"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
