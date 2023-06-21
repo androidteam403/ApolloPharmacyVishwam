@@ -925,7 +925,11 @@ class PostRetroUploadImagesActivity : AppCompatActivity(), PostRetroUploadImages
                         "Pre Retro is Submitted for Review \n Transaction id is: " + saveImageUrlsResponse.retroid
                 }
             } else {
-                if (stage.equals("isPostRetroStage")) {
+                 if (stage.equals("isPreRetroStage")) {
+                    textMessage.text =
+                        "Pre Retro is Submitted for Review for transaction id: " + retroid
+                }
+                else if (stage.equals("isPostRetroStage")) {
                     textMessage.text =
                         "Post Retro is Submitted for Review for transaction id: " + retroid
                 } else {

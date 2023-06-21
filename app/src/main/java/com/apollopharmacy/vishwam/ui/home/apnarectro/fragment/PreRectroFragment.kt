@@ -3,7 +3,6 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.fragment
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -17,7 +16,6 @@ import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
-import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
@@ -27,7 +25,6 @@ import com.apollopharmacy.vishwam.util.NetworkUtil
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
-import kotlin.collections.ArrayList
 
 
 class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBinding>(),
@@ -198,7 +195,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootDate: String?,
-        reshootBy: String?,retroStage: String?
+        reshootBy: String?, retroStage: String?,
     ) {
         val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -244,7 +241,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         partiallyApprovedBy: String?,
         partiallyApprovedDate: String?,
         reshootBy: String?,
-        reshootDate: String?,retroStage: String?
+        reshootDate: String?, retroStage: String?,
     ) {
         val intent = Intent(context, PostRetroUploadImagesActivity::class.java)
         intent.putExtra("fragmentName", fragmentName)
@@ -288,6 +285,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             }
             getStorePendingApprovedList.groupByRetrodList =
                 getStorePendingApprovedListDummys as List<MutableList<GetStorePendingAndApprovedListRes.Get>>?
+//            Collections.sort(getStorePendingApprovedList.groupByRetrodList,
+//                Comparator<Any?> { s1, s2 ->
+//                    -s1.getOnholddatetime().compareToIgnoreCase(s2.getOnholddatetime())
+//                })
             listAdapter =
                 ListAdapter(getStorePendingApprovedList.groupByRetrodList, requireContext(), this)
             val layoutManager = LinearLayoutManager(ViswamApp.context)
