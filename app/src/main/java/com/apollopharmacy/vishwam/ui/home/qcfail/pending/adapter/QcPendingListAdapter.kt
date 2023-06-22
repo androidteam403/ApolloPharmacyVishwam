@@ -1,10 +1,13 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.pending.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
@@ -14,28 +17,29 @@ import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.QcListsResponse
 import com.apollopharmacy.vishwam.ui.home.qcfail.pending.PendingFragmentCallback
 import com.apollopharmacy.vishwam.util.Utlis
-import java.sql.Types.TIME
+import java.util.Locale
 
 class QcPendingListAdapter(
-    val mContext: Context,
+    var mContext: Context,
     var pendingList: List<QcListsResponse.Pending>,
-    val imageClicklistner: QcListsCallback,
+    var imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
     var pendingFragmentCallback: PendingFragmentCallback,
-) :
+) : RecyclerView.Adapter<QcPendingListAdapter.ViewHolder>(),Filterable {
+    var charString: String? = ""
+    private var pendingFilterList=ArrayList<QcListsResponse.Pending>()
 
-    RecyclerView.Adapter<QcPendingListAdapter.ViewHolder>() {
+    private var pendingListList=ArrayList<QcListsResponse.Pending>()
+    init {
+        pendingListList= pendingList as ArrayList<QcListsResponse.Pending>
 
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val pendingLayoutBinding: QcPendingLayoutBinding =
-            DataBindingUtil.inflate(
-                LayoutInflater.from(mContext),
-                R.layout.qc_pending_layout,
-                parent,
-                false
-            )
+        val pendingLayoutBinding: QcPendingLayoutBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(mContext), R.layout.qc_pending_layout, parent, false
+        )
         return ViewHolder(pendingLayoutBinding)
 
     }
@@ -98,9 +102,9 @@ class QcPendingListAdapter(
         } else {
 
 
-            var qcFailDate = pendingOrders.qcfaildate.toString()!!
-                .substring(0,
-                    Math.min(pendingOrders.qcfaildate.toString()!!.length, 10))
+            var qcFailDate = pendingOrders.qcfaildate.toString()!!.substring(
+                    0, Math.min(pendingOrders.qcfaildate.toString()!!.length, 10)
+                )
             holder.pendingLayoutBinding.reqDate.text = Utlis.formatdate(qcFailDate)
 
 //            holder.pendingLayoutBinding.reqDate.setText(pendingOrders.qcfaildate.toString()!!
@@ -112,9 +116,9 @@ class QcPendingListAdapter(
             holder.pendingLayoutBinding.postedDate.setText("-")
 
         } else {
-            var reqDate = pendingOrders.requesteddate.toString()!!
-                .substring(0,
-                    Math.min(pendingOrders.requesteddate.toString()!!.length, 10))
+            var reqDate = pendingOrders.requesteddate.toString()!!.substring(
+                    0, Math.min(pendingOrders.requesteddate.toString()!!.length, 10)
+                )
             holder.pendingLayoutBinding.postedDate.text = Utlis.formatdate(reqDate)
 //            holder.pendingLayoutBinding.postedDate.setText(pendingOrders.requesteddate.toString()!!
 //                .substring(0,
@@ -172,15 +176,21 @@ class QcPendingListAdapter(
             }
 
             if (totalPrices.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.totalCost.setText(" " + String.format("%.2f",
-                    totalPrices))
+                holder.pendingLayoutBinding.totalCost.setText(
+                    " " + String.format(
+                        "%.2f", totalPrices
+                    )
+                )
             } else {
                 holder.pendingLayoutBinding.totalCost.setText("-")
             }
 
             if (discounts.toString().isNotEmpty()) {
-                holder.pendingLayoutBinding.discountTotal.setText(" " + String.format("%.2f",
-                    discounts))
+                holder.pendingLayoutBinding.discountTotal.setText(
+                    " " + String.format(
+                        "%.2f", discounts
+                    )
+                )
             } else {
                 holder.pendingLayoutBinding.discountTotal.setText("-")
 
@@ -189,8 +199,11 @@ class QcPendingListAdapter(
             var netPayment = totalPrices - discounts
             if (netPayment.toString().isNotEmpty()) {
 
-                holder.pendingLayoutBinding.remainingPayment.setText(" " + String.format("%.2f",
-                    netPayment))
+                holder.pendingLayoutBinding.remainingPayment.setText(
+                    " " + String.format(
+                        "%.2f", netPayment
+                    )
+                )
             } else {
                 holder.pendingLayoutBinding.remainingPayment.setText("-")
             }
@@ -219,16 +232,19 @@ class QcPendingListAdapter(
             }
             var qcPendingListAdapter: QcPendingListAdapter
 
-            holder.pendingLayoutBinding.recyclerView.adapter =
-                item.itemlist?.let {
-                    QcPendingOrderDetailsAdapter(mContext, imageClicklistner,
-                        it,
-                        position,
-                        pendingList,
-                        pendingFragmentCallback,
-                        this, pendingOrders.omsorderno.toString(),
-                        holder.pendingLayoutBinding)
-                }
+            holder.pendingLayoutBinding.recyclerView.adapter = item.itemlist?.let {
+                QcPendingOrderDetailsAdapter(
+                    mContext,
+                    imageClicklistner,
+                    it,
+                    position,
+                    pendingList,
+                    pendingFragmentCallback,
+                    this,
+                    pendingOrders.omsorderno.toString(),
+                    holder.pendingLayoutBinding
+                )
+            }
             holder.pendingLayoutBinding.recyclerView.scrollToPosition(position)
         }
         holder.pendingLayoutBinding.acceptClick.setOnClickListener {
@@ -236,9 +252,12 @@ class QcPendingListAdapter(
                 holder.pendingLayoutBinding.acceptClick,
                 position,
                 pendingOrders.orderno.toString(),
-                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
+                holder.pendingLayoutBinding.writeRemarks.text.toString(),
+                item.itemlist!!,
                 pendingOrders.storeid!!,
-                pendingOrders.status!!,pendingOrders.omsorderno.toString())
+                pendingOrders.status!!,
+                pendingOrders.omsorderno.toString()
+            )
         }
 
         holder.pendingLayoutBinding.rejectClick.setOnClickListener {
@@ -248,9 +267,12 @@ class QcPendingListAdapter(
                 holder.pendingLayoutBinding.rejectClick,
                 position,
                 pendingOrders.orderno.toString(),
-                holder.pendingLayoutBinding.writeRemarks.text.toString(), item.itemlist!!,
+                holder.pendingLayoutBinding.writeRemarks.text.toString(),
+                item.itemlist!!,
                 pendingOrders.storeid!!,
-                pendingOrders.status!!,pendingOrders.omsorderno.toString())
+                pendingOrders.status!!,
+                pendingOrders.omsorderno.toString()
+            )
         }
 
         if (pendingList[position].isItemChecked) {
@@ -304,5 +326,49 @@ class QcPendingListAdapter(
 
     class ViewHolder(val pendingLayoutBinding: QcPendingLayoutBinding) :
         RecyclerView.ViewHolder(pendingLayoutBinding.root)
+
+    override fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                charString = charSequence.toString()
+                if (charString!!.isEmpty()) {
+                    pendingList = pendingListList
+                } else {
+                    pendingFilterList.clear()
+                    for (row in pendingListList) {
+                        if (!pendingFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+                                .contains(
+                                    charString!!.toUpperCase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                        ) {
+                            pendingFilterList.add(row)
+                        }
+                    }
+                    pendingList = pendingFilterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = pendingList
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                if (pendingList != null && !pendingList.isEmpty()) {
+                    pendingList =
+                        filterResults.values as java.util.ArrayList<QcListsResponse.Pending>
+                    try {
+                        notifyDataSetChanged()
+                    } catch (e: Exception) {
+                        Log.e("FullfilmentAdapter", e.message!!)
+                    }
+                } else {
+                    notifyDataSetChanged()
+                }
+            }
+        }
+    }
+
 
 }

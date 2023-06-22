@@ -31,16 +31,11 @@ class QcPendingViewModel : ViewModel() {
     var qcRejectionList: ArrayList<QcReasonList.Remarks>? = null
     var qcStoreIdList: ArrayList<QcStoreList.Store>? = null
     var qcRegionIdList: ArrayList<QcRegionList.Store>? = null
-
     val state = MutableLiveData<State>()
     val command = LiveEvent<Command>()
-
     private var arrayList: List<QcStoreList.Store>? = null
     private var regionList: List<QcRegionList.Store>? = null
-
     private var listarrayList = ArrayList<String>()
-
-
     fun getQcPendingList(
         empId: String,
         fromDate: String,
@@ -72,14 +67,14 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcPendingLists.value = result.value
+                        qcPendingLists.value = result.value!!
                     } else {
 //                        if (pendingFragmentCallback != null){
 //                            if (result.value != null && result.value.message != null){
 //                                pendingFragmentCallback.onFailureGetPendingAndAcceptAndRejectList(result.value.message!!)
 //                            }
 //                        }
-                        qcPendingLists.value = result.value
+                        qcPendingLists.value = result.value!!
                         state.value = State.ERROR
                     }
                 }
@@ -129,7 +124,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcPendingItemsLists.value = result.value
+                        qcPendingItemsLists.value = result.value!!
                     } else {
                         state.value = State.ERROR
                     }
@@ -178,7 +173,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRejectionLists.value = result.value
+                        qcRejectionLists.value = result.value!!
                         qcRejectionList =
                             result.value.remarkslist as ArrayList<QcReasonList.Remarks>?
 
@@ -230,7 +225,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcRegionLists.value = result.value
+                        qcRegionLists.value = result.value!!
                         qcRegionIdList = result.value.storelist as ArrayList<QcRegionList.Store>?
 
                     } else {
@@ -281,7 +276,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcStoreList.value = result.value
+                        qcStoreList.value = result.value!!
                         qcStoreIdList = result.value.storelist as ArrayList<QcStoreList.Store>?
 
                     } else {
@@ -334,7 +329,7 @@ class QcPendingViewModel : ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcAcceptRejectRequestList.value = result.value
+                        qcAcceptRejectRequestList.value = result.value!!
                         Toast.makeText(context, "Sucessfull", Toast.LENGTH_SHORT).show()
 
                     } else {

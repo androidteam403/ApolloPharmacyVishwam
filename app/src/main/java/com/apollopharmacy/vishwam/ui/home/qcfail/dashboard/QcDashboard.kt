@@ -11,6 +11,8 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentQcDashboardBinding
+import com.apollopharmacy.vishwam.ui.home.MainActivity
+import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.dashboard.adapter.*
 import com.apollopharmacy.vishwam.ui.home.qcfail.model.*
 import java.util.*
@@ -18,7 +20,7 @@ import java.util.stream.Collectors
 import kotlin.collections.ArrayList
 
 class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>(),
-    QcDashBoardCallback {
+    QcDashBoardCallback,MainActivityCallback {
     private var pendingCountResponseList = ArrayList<PendingCountResponse.Pendingcount>()
     private var designationsList = ArrayList<String>()
     private var dashboardHistoryList = ArrayList<Getqcfailpendinghistorydashboard.Pendingcount>()
@@ -48,16 +50,9 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
     override fun setup() {
         showLoading()
-//
-//        Preferences.savingToken("APL49380")
-//        Preferences.setAppLevelDesignationQCFail("GENERAL MANAGER")
-
+        MainActivity.mInstance.mainActivityCallback = this
         callApi()
-
-        viewModel.getQcPendingList(
-            Preferences.getToken(),
-            Preferences.getAppLevelDesignationQCFail()
-        )
+        viewModel.getQcPendingList(Preferences.getToken(), Preferences.getAppLevelDesignationQCFail())
 
         viewBinding.searchView.setFilters(arrayOf<InputFilter>(InputFilter.AllCaps()))
 
@@ -393,7 +388,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
 
 
     fun callApi() {
-//        showLoading()
+
 
         viewModel.getQcPendingDashboardHistoryList(
             Preferences.getToken(),
@@ -452,6 +447,25 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         viewModel.getQcPendingDashboardHistoryList(empId, designation)
 
     }
+
+    override fun onClickFilterIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickSiteIdIcon() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onClickQcFilterIcon() {
+        showLoading()
+        dashboardHistoryList.clear()
+        dashboardHierarchyList.clear()
+        designationsList.clear()
+        callApi()
+        viewModel.getQcPendingList(
+            Preferences.getToken(),
+            Preferences.getAppLevelDesignationQCFail()
+        )    }
 
 }
 

@@ -1,21 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
 
         tools:context=".ui.home.qcfail.pending">
 
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/value_45dp"
+            android:id="@+id/search_layout"
+            android:layout_marginStart="@dimen/five5_sp"
+            android:layout_marginTop="@dimen/value_5dp"
+            android:layout_marginEnd="@dimen/five5_sp"
+            android:background="@drawable/search_view_pendency"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/search_view"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="@dimen/value_60dp"
+                android:layout_weight="1.8"
+                android:background="@color/transparent"
+                android:gravity="left|center"
+                android:hint="Search by Order ID"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingStart="@dimen/text_15sp"
+
+                android:textColor="@color/black"
+                android:textColorHint="@android:color/black"
+                android:textSize="@dimen/text_14sp" />
+
+            <ImageView
+                android:id="@+id/close"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+
+                android:layout_marginEnd="@dimen/text_10sp"
+                android:layout_weight=".2"
+
+
+                android:src="@drawable/ic_search_24" />
+
+
+            <ImageView
+                android:id="@+id/close_arrow"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="@dimen/text_10sp"
+                android:layout_weight=".2"
+                android:src="@drawable/closee_black"
+
+
+                android:visibility="gone" />
+        </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
-            android:layout_height="match_parent">
+            android:layout_below="@id/search_layout"
+            android:layout_marginTop="8dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="50dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
@@ -38,11 +96,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="30dp"
-                android:elevation="20dp"
                 android:backgroundTint="@color/backgroundColor"
+                android:elevation="20dp"
 
-                android:visibility="gone"
                 android:src="@drawable/ic_filter"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintRight_toRightOf="parent" />
 
@@ -63,6 +121,7 @@
                     android:layout_centerInParent="true"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/qca" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -77,9 +136,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:indeterminateTint="@color/backgroundColor"
+                android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:visibility="gone"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -94,17 +153,56 @@
             android:gravity="center_vertical"
             android:visibility="visible">
 
+            <RelativeLayout
+                android:id="@+id/spinnerlayout"
+                android:layout_width="@dimen/value_120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/value_3dp"
+               >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/filtertype"
+
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/value_15dp"
+                    android:layout_marginTop="@dimen/value_10dp"
+                    android:layout_marginRight="@dimen/value_15dp"
+                    android:focusable="true"
+                    android:textColorHint="@color/white"
+
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <EditText
+                        android:id="@+id/selectfiltertype"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:clickable="true"
+                        android:drawableEnd="@drawable/ic_baseline_arrow"
+                        android:editable="false"
+                        android:enabled="true"
+                        android:focusable="false"
+                        android:hint="Select Rows"
+                        android:paddingStart="@dimen/value_10dp"
+                        android:paddingEnd="@dimen/value_10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="6sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </RelativeLayout>
+
             <ImageView
                 android:id="@+id/prev_page"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-
+                android:layout_toRightOf="@+id/spinnerlayout"
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"
-
                 android:padding="@dimen/text_10sp"
                 android:rotation="180"
                 android:src="@drawable/ic_arrow__next_page"
@@ -115,14 +213,11 @@
                 android:id="@+id/pgno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+                android:layout_centerInParent="true"
                 android:fontFamily="@font/roboto_medium"
                 android:text=""
-
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_13sp" />
-
 
             <ImageView
                 android:id="@+id/next_page"
@@ -142,6 +237,7 @@
                 android:textSize="9sp" />
 
         </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/bulkAppRejLayout"
             android:layout_width="match_parent"
@@ -174,22 +270,22 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center_vertical"
                     android:text="Select All"
-                    android:textSize="@dimen/text_16sp"
                     android:textColor="@color/white"
+                    android:textSize="@dimen/text_16sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="@dimen/value_80dp"
                 android:id="@+id/acceptClick"
+                android:layout_width="@dimen/value_80dp"
 
                 android:layout_height="@dimen/value_40dp"
                 android:layout_marginLeft="@dimen/dimen160dp"
                 android:background="@drawable/qc_bulk_accept_background"
                 android:text="Accept"
-                android:visibility="visible"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_13sp" />
+                android:textSize="@dimen/text_13sp"
+                android:visibility="visible" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/rejectClick"
@@ -199,9 +295,9 @@
                 android:layout_marginEnd="@dimen/text_20sp"
                 android:background="@drawable/qc_accept_background"
                 android:text="Accept"
-                android:visibility="invisible"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_13sp" />
+                android:textSize="@dimen/text_13sp"
+                android:visibility="invisible" />
         </LinearLayout>
 
     </RelativeLayout>

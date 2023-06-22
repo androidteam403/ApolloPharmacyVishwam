@@ -32,8 +32,18 @@ class DashboardSitesAdapter(
     @SuppressLint("ResourceAsColor")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val items = pendingCountResponseList.get(position)
-        holder.dashboardSitesBinding.pendingCount.setText(items.pendingcount.toString())
-        holder.dashboardSitesBinding.storeid.setText(items.siteid)
+        if (items.ordertype.equals("REVERSE RETURN")){
+            holder.dashboardSitesBinding.rtcount.setText(items.pendingcount.toString())
+            holder.dashboardSitesBinding.frcount.setText("-")
+
+        }
+        else  if (items.ordertype.equals("FORWARD RETURN")){
+            holder.dashboardSitesBinding.frcount.setText(items.pendingcount.toString())
+            holder.dashboardSitesBinding.rtcount.setText("-")
+
+        }
+
+            holder.dashboardSitesBinding.storeid.setText(items.siteid)
         holder.dashboardSitesBinding.empid.setText(items.empid)
     }
 
