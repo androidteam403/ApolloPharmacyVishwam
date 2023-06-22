@@ -79,11 +79,11 @@ class ApprovalImagesListAdapter(
                     Glide.with(mContext).load(approvedOrders.get(i).url.toString())
                     .placeholder(R.drawable.thumbnail_image)
                     .into(holder.preRetroImagesLayoutBinding.image)
-                    if (holder.preRetroImagesLayoutBinding.image.drawable.constantState!!.equals(mContext.resources.getDrawable(R.drawable.thumbnail_image).constantState)){
-                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.GONE
-                    }else{
-                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.VISIBLE
-                    }
+//                    if (holder.preRetroImagesLayoutBinding.image.drawable.constantState!!.equals(mContext.resources.getDrawable(R.drawable.thumbnail_image).constantState)){
+//                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.GONE
+//                    }else{
+//                        holder.preRetroImagesLayoutBinding.imagetick.visibility= View.VISIBLE
+//                    }
 
 
                 status= approvedOrders.get(i).status!!
