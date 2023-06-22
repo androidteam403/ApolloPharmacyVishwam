@@ -174,7 +174,7 @@ class ComplainListViewModel : ViewModel() {
         } else {
             //${requestComplainList.empid}
             baseUrl =
-                baseUrl + "employee_id=Akhil01&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=Akhil01&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""
@@ -182,21 +182,7 @@ class ComplainListViewModel : ViewModel() {
                     "site_ticket=$searchQuary&"
                 } else {
                     "site_ticket=$searchQuary&"
-                } + "${
-                    URLEncoder.encode("status[0]", "utf-8")
-                }=${new}&${
-                    URLEncoder.encode("status[1]", "utf-8")
-                }=${inprogress}&${
-                    URLEncoder.encode("status[2]", "utf-8")
-                }=${solved}&${
-                    URLEncoder.encode("status[3]", "utf-8")
-                }=${rejected}&${
-                    URLEncoder.encode("status[4]", "utf-8")
-                }=${reopened}&${
-                    URLEncoder.encode("status[5]", "utf-8")
-                }=${closed}&${
-                    URLEncoder.encode("status[6]", "utf-8")
-                }=${onHold}"
+                }
         }
 //"https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/mobile-ticket-list-by-emp-id?&employee_id=${requestComplainList.empid}&status=${status}&from_date=${requestComplainList.fromDate}&to_date=${requestComplainList.toDate}&page=${requestComplainList.page}&rows=10"
         viewModelScope.launch {
@@ -1584,7 +1570,7 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode(
                 "step_order", "utf-8"
             )
-        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}"
+        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"Akhil01"}"
         baseUrl = "$baseUrl$queryPath"
         viewModelScope.launch {
             state.value = State.SUCCESS

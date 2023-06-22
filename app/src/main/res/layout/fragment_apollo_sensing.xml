@@ -742,7 +742,8 @@
                             android:layout_centerVertical="true"
                             android:layout_toRightOf="@+id/uploadCustomerPrescriptionText"
                             android:gravity="end"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="wrap_content"

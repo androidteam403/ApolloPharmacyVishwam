@@ -37,6 +37,7 @@ import com.apollopharmacy.vishwam.dialog.SimpleRecyclerView
 import com.apollopharmacy.vishwam.dialog.model.SubmitticketDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowActionDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
@@ -425,7 +426,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     null,
                     null,
                     null,
-                    null,
+                    null, null,
                     false,
                     false,
                     false,
@@ -1123,6 +1124,7 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 //            }
 //            binding.siteName.text = items.site.store_name
 
+
             if (isApprovalListFragment) {
                 if (orderData.get(position).subworkflowConfigDetailsResponse != null && orderData!!.get(
                         position
@@ -1152,6 +1154,33 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                     binding.subworkflowConfigDetailsListLayout.visibility = View.GONE
                 }
 
+
+                //Subworkflow action details adapter.....
+                if (orderData != null
+                    && orderData.get(position) != null
+                    && orderData.get(position).ticket_subworkflow_history != null
+                    && orderData.get(position).ticket_subworkflow_history!!.size > 0
+                ) {
+                    if (orderData.get(position).ticketSubworkflowInfo != null
+                        && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action != null
+                        && orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action != null
+                    ) {
+                        binding.subworkflowAction.text =
+                            "${orderData.get(position).ticketSubworkflowInfo!!.subworkflow_action!!.action}"
+                    }
+                    var subworkflowActionDetailsAdapter = SubworkflowActionDetailsAdapter(
+                        context,
+                        orderData.get(position).ticket_subworkflow_history!!
+                    )
+                    binding.subworkflowDetailsHistoryLayout.visibility = View.VISIBLE
+                    var layoutManager =
+                        LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+                    binding.subworkflowActionDetailsRecyclerview.layoutManager = layoutManager
+                    binding.subworkflowActionDetailsRecyclerview.adapter =
+                        subworkflowActionDetailsAdapter
+                } else {
+                    binding.subworkflowDetailsHistoryLayout.visibility = View.GONE
+                }
             }
             binding.pendingLayout.setOnClickListener {
                 imageClickListener.onComplaintItemClick(position, orderData)
@@ -2391,6 +2420,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 ticketSubworkflowActionUpdateResponse.data!!.status!!.background_color //"#047604"
             responseList.get(position).status!!.text_color =
                 ticketSubworkflowActionUpdateResponse.data!!.status!!.text_color!! //"#FFFFFF"
+        }
+        if (ticketSubworkflowActionUpdateResponse != null && ticketSubworkflowActionUpdateResponse.success!!
+            && ticketSubworkflowActionUpdateResponse.data!! != null && ticketSubworkflowActionUpdateResponse.data!!.ticketSubworkflowInfo != null
+        ) {
+            responseList.get(position).ticketSubworkflowInfo =
+                ticketSubworkflowActionUpdateResponse.data!!.ticketSubworkflowInfo!!
+        }
+        if (ticketSubworkflowActionUpdateResponse != null && ticketSubworkflowActionUpdateResponse.success!!
+            && ticketSubworkflowActionUpdateResponse.data!! != null && ticketSubworkflowActionUpdateResponse.data!!.ticket_subworkflow_history != null
+        ) {
+            responseList.get(position).ticket_subworkflow_history =
+                ticketSubworkflowActionUpdateResponse.data!!.ticket_subworkflow_history!!
         }
         adapter.orderData = responseList
         adapter.notifyItemChanged(position)

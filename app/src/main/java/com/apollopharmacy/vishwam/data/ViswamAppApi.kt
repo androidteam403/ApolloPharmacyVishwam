@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusR
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -69,16 +70,15 @@ interface ViswamAppApi {
     suspend fun deRegisterDevice(
         @Url url: String,
         @Header("token") token: String,
-
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
     //
-    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
@@ -806,6 +806,14 @@ interface ViswamAppApi {
 
     @GET
     suspend fun CHECK_SCREEN_STATUS_API_CALL(@Url url: String): CheckScreenStatusResponse
+
+    @Multipart
+    @POST
+    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+        @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
+        @Part file: MultipartBody.Part,
+    ): SensingFileUploadResponse
+
 
     @GET
     suspend fun getDiscountColorDetails(

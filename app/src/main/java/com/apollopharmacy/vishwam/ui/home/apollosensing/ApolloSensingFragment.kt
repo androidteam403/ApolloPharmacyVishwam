@@ -49,12 +49,14 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.ImageDto
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import com.apollopharmacy.vishwam.util.NetworkUtil
 import com.apollopharmacy.vishwam.util.Utlis
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParseException
+import me.echodev.resizer.Resizer
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileInputStream
@@ -228,10 +230,10 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     askPermissions(100)
                     return@setOnClickListener
                 } else {
-                    if (prescriptionImageList.size == 10) {
+                    if (prescriptionImageList.size == 2) {
                         Toast.makeText(
                             requireContext(),
-                            "You are allowed to upload only ten prescriptions",
+                            "You are allowed to upload only two prescriptions",
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
@@ -511,13 +513,13 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 dialog.dismiss()
                 val images = data!!.clipData
                 if (images != null) {
-                    if (images!!.itemCount <= 10) {
+                    if (images!!.itemCount <= 2) {
                         for (i in 0 until images.itemCount) {
                             var imagePath =
                                 getRealPathFromURI(requireContext(), images.getItemAt(i).uri)
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
-                            if (prescriptionImageList.size < 10) {
+                            if (prescriptionImageList.size < 2) {
                                 prescriptionImageList.add(
                                     ImageDto(
                                         imageFileGallery!!,
@@ -532,7 +534,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     } else {
                         Toast.makeText(
                             requireContext(),
-                            "You are allowed to upload only ten prescription",
+                            "You are allowed to upload only two prescription",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
@@ -975,32 +977,95 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
+    var referenceUrls = ArrayList<String>()
     override fun onClickUploadPrescription() {
         if (validateUploadPrescription()) {
             if (NetworkUtil.isNetworkConnected(requireContext())) {
-                showLoading()
-                val saveImageUrlsRequest = SaveImageUrlsRequest()
-                saveImageUrlsRequest.siteId =
-                    Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
-                saveImageUrlsRequest.type = "STORE"
-                saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
-                saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
-                saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
-                val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
-                for (i in prescriptionImageList) {
-                    val base64Image = SaveImageUrlsRequest.Base64Image()
-                    base64Image.base64Image = i.base64Images
-                    base64ImageList.add(base64Image)
+                /* val saveImageUrlsRequest = SaveImageUrlsRequest()
+                 saveImageUrlsRequest.siteId =
+                     Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+                 saveImageUrlsRequest.type = "STORE"
+                 saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+                 saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+                 saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+                 val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+                 for (i in prescriptionImageList) {
+                     val base64Image = SaveImageUrlsRequest.Base64Image()
+                     base64Image.base64Image = i.base64Images
+                     base64ImageList.add(base64Image)
+                 }
+                 saveImageUrlsRequest.base64ImageList = base64ImageList*/
+
+
+//                retrieveViewModel().saveImageUrlsApiCall(
+//                    saveImageUrlsRequest, this@ApolloSensingFragment
+//                )
+//                var file: File? = null
+//                if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+//                    file = prescriptionImageList.get(0).file
+//                }
+//                if (file != null) {
+//                    showLoading()
+//                    val resizedImage = Resizer(requireContext())
+//                        .setTargetLength(1080)
+//                        .setQuality(100)
+//                        .setOutputFormat("JPG")
+////                .setOutputFilename(fileNameForCompressedImage)
+//                        .setOutputDirPath(
+//                            ViswamApp.Companion.context.cacheDir.toString()
+//                        )
+//
+//                        .setSourceImage(file)
+//                        .resizedFile
+//                    retrieveViewModel().sensingFileUpload(this@ApolloSensingFragment, resizedImage)
+//                }
+
+                if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+                    showLoading()
+                    referenceUrls.clear()
+                    uploadImages(prescriptionImageList, 0)
                 }
-                saveImageUrlsRequest.base64ImageList = base64ImageList
-
-
-                retrieveViewModel().saveImageUrlsApiCall(
-                    saveImageUrlsRequest, this@ApolloSensingFragment
-                )
             }
         }
 
+    }
+
+
+    fun uploadImages(prescriptionImageList: ArrayList<ImageDto>?, pos: Int) {
+        if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+            var file: File? = null
+            if (prescriptionImageList != null && prescriptionImageList.size > 0) {
+                file = prescriptionImageList.get(pos).file
+            }
+            if (file != null) {
+                showLoading()
+                val resizedImage = Resizer(requireContext())
+                    .setTargetLength(1080)
+                    .setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+
+                    .setSourceImage(file)
+                    .resizedFile
+
+                if (pos == 1 || prescriptionImageList.size == 1) {
+                    retrieveViewModel().sensingFileUpload(
+                        this@ApolloSensingFragment,
+                        resizedImage,
+                        true
+                    )
+                } else {
+                    retrieveViewModel().sensingFileUpload(
+                        this@ApolloSensingFragment,
+                        resizedImage,
+                        false
+                    )
+                }
+            }
+        }
     }
 
     override fun onSuccessUploadPrescriptionApiCall(message: String) {
@@ -1059,6 +1124,43 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
     override fun onFailureCheckScreenStatusApiCall(message: String) {
         hideLoading()
         Toast.makeText(requireContext(), "$message", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccessSensingFileUploadApiCall(
+        sensingFileUploadResponse: SensingFileUploadResponse,
+        isLastImage: Boolean,
+    ) {
+        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
+            .show()
+        referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
+        if (isLastImage) {
+            val saveImageUrlsRequest = SaveImageUrlsRequest()
+            saveImageUrlsRequest.siteId =
+                Preferences.getApolloSensingStoreId() //Preferences.getSiteId()
+            saveImageUrlsRequest.type = "STORE"
+            saveImageUrlsRequest.requestedBy = Preferences.getValidatedEmpId()
+            saveImageUrlsRequest.customerName = viewBinding.custName.text.toString().trim()
+            saveImageUrlsRequest.mobNo = viewBinding.phoneNumber.text.toString().trim()
+            val base64ImageList = ArrayList<SaveImageUrlsRequest.Base64Image>()
+            for (i in referenceUrls) {
+                val base64Image = SaveImageUrlsRequest.Base64Image()
+                base64Image.base64Image = i
+                base64ImageList.add(base64Image)
+            }
+            saveImageUrlsRequest.base64ImageList = base64ImageList
+            retrieveViewModel().saveImageUrlsApiCall(
+                saveImageUrlsRequest, this@ApolloSensingFragment
+            )
+        } else {
+            uploadImages(prescriptionImageList, 1)
+        }
+
+    }
+
+    override fun onFailureSensingFileUploadApiCall(sensingFileUploadResponse: SensingFileUploadResponse) {
+        hideLoading()
+        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
+            .show()
     }
 
     fun validateUploadPrescription(): Boolean {
