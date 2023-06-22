@@ -2,6 +2,7 @@ package com.apollopharmacy.vishwam.ui.home.apollosensing
 
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
 import java.io.File
 
@@ -35,4 +36,11 @@ interface ApolloSensingFragmentCallback {
     fun onSuccessCheckScreenStatusApiCall(checkScreenStatusResponse: CheckScreenStatusResponse)
 
     fun onFailureCheckScreenStatusApiCall(message: String)
+
+    fun onSuccessSensingFileUploadApiCall(
+        sensingFileUploadResponse: SensingFileUploadResponse,
+        isLastImage: Boolean,
+    )
+
+    fun onFailureSensingFileUploadApiCall(sensingFileUploadResponse: SensingFileUploadResponse)
 }

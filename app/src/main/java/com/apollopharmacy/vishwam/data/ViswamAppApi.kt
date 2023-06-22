@@ -15,6 +15,7 @@ import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusR
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -805,6 +806,14 @@ interface ViswamAppApi {
 
     @GET
     suspend fun CHECK_SCREEN_STATUS_API_CALL(@Url url: String): CheckScreenStatusResponse
+
+    @Multipart
+    @POST
+    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+        @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
+        @Part file: MultipartBody.Part,
+    ): SensingFileUploadResponse
+
 
     @GET
     suspend fun getDiscountColorDetails(

@@ -2421,6 +2421,18 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
             responseList.get(position).status!!.text_color =
                 ticketSubworkflowActionUpdateResponse.data!!.status!!.text_color!! //"#FFFFFF"
         }
+        if (ticketSubworkflowActionUpdateResponse != null && ticketSubworkflowActionUpdateResponse.success!!
+            && ticketSubworkflowActionUpdateResponse.data!! != null && ticketSubworkflowActionUpdateResponse.data!!.ticketSubworkflowInfo != null
+        ) {
+            responseList.get(position).ticketSubworkflowInfo =
+                ticketSubworkflowActionUpdateResponse.data!!.ticketSubworkflowInfo!!
+        }
+        if (ticketSubworkflowActionUpdateResponse != null && ticketSubworkflowActionUpdateResponse.success!!
+            && ticketSubworkflowActionUpdateResponse.data!! != null && ticketSubworkflowActionUpdateResponse.data!!.ticket_subworkflow_history != null
+        ) {
+            responseList.get(position).ticket_subworkflow_history =
+                ticketSubworkflowActionUpdateResponse.data!!.ticket_subworkflow_history!!
+        }
         adapter.orderData = responseList
         adapter.notifyItemChanged(position)
     }

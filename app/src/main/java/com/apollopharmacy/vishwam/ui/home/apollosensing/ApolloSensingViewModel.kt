@@ -14,6 +14,7 @@ import com.apollopharmacy.vishwam.data.network.ApolloSensingRepo
 import com.apollopharmacy.vishwam.data.network.SwachApiiRepo
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.BackShlash
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteRequest
 import com.apollopharmacy.vishwam.ui.home.cms.registration.model.UpdateUserDefaultSiteResponse
@@ -21,6 +22,11 @@ import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
+
 
 class ApolloSensingViewModel : ViewModel() {
 
@@ -33,13 +39,15 @@ class ApolloSensingViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
-        var baseUrl = ""
-        for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SEN ACCESS")) {
-                baseUrl = data.APIS[i].URL
-                break
-            }
-        }
+        var baseUrl = "https://apsmtest.apollopharmacy.org:8443/SENSING/CheckScreenStatus"
+        /*
+                for (i in data.APIS.indices) {
+                    if (data.APIS[i].NAME.equals("SEN ACCESS")) {
+                        baseUrl = data.APIS[i].URL
+                        break
+                    }
+                }
+        */
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -84,7 +92,8 @@ class ApolloSensingViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
-        var baseUrl = "" //"https://apsmtest.apollopharmacy.org:8443/GSMS/APOLLO/SMS/SendGlobalSms"//"https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms"
+        var baseUrl =
+            "https://apsmtest.apollopharmacy.org:8443/GSMS/APOLLO/SMS/SendGlobalSms"//"https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms"
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN GSMS")) {
                 baseUrl = data.APIS[i].URL
@@ -198,12 +207,12 @@ class ApolloSensingViewModel : ViewModel() {
         val data = Gson().fromJson(url, ValidateResponse::class.java)
 
         var baseUrl =
-            "" //"https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
-        var baseToken = "" //"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
+            "https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
+        var baseToken = "h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
-                baseUrl = data.APIS[i].URL
-                baseToken = data.APIS[i].TOKEN
+                /* baseUrl = data.APIS[i].URL
+                 baseToken = data.APIS[i].TOKEN*/
                 break
             }
         }
@@ -338,4 +347,70 @@ class ApolloSensingViewModel : ViewModel() {
             }
         }
     }
+
+    fun sensingFileUpload(
+        apolloSensingFragmentCallback: ApolloSensingFragmentCallback,
+        file: File,
+        isLastImage: Boolean,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+
+        var sensingFileUploadRequest = SensingFileUploadRequest()
+        sensingFileUploadRequest.Filename = file
+
+        var baseUrl = "https://blbext.apollopharmacy.org:3443/SENSING/Apollo/SensingFileUpload"
+        var token = "9f15bdd0fcd5423190cHNK"
+        /*
+                for (i in data.APIS.indices) {
+                    if (data.APIS[i].NAME.equals("SEN BLOB")) {
+                        baseUrl = data.APIS[i].URL
+                        token = data.APIS[i].TOKEN
+                        break
+                    }
+                }
+        */
+
+
+        val requestBody = RequestBody.create("*/*".toMediaTypeOrNull(), file)
+        val fileToUpload = MultipartBody.Part.createFormData("file", file.name, requestBody)
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                ApolloSensingRepo.sensingFileUpload(
+                    baseUrl, "multipart/form-data", token, fileToUpload
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.SUCCESS
+                    if (response.value.status == true) {
+                        apolloSensingFragmentCallback.onSuccessSensingFileUploadApiCall(
+                            response.value!!,
+                            isLastImage!!
+                        )
+                    } else {
+                        apolloSensingFragmentCallback.onFailureSensingFileUploadApiCall(response.value!!)
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
+
 }
