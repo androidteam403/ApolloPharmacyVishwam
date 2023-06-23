@@ -39,6 +39,7 @@ import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketDetailsRe
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketResolveCloseModel
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateRequest
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.TicketSubworkflowActionUpdateResponse
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.UserListForSubworkflowResponse
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.WorkFlowUpdateModel
 import com.apollopharmacy.vishwam.ui.home.cms.registration.CmsCommand
 import com.apollopharmacy.vishwam.util.Utils
@@ -174,7 +175,7 @@ class ComplainListViewModel : ViewModel() {
         } else {
             //${requestComplainList.empid}
             baseUrl =
-                baseUrl + "employee_id=Akhil01&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=SE35674&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""
@@ -358,7 +359,7 @@ class ComplainListViewModel : ViewModel() {
             "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_it/save-update/it-cc-frwd-to-fin-status-update"
         var token1 = ""
 //        for (i in data.APIS.indices) {
-//            if (data.APIS[i].NAME.equals("CMS pos_ticket_accept_reject_update")) {
+//            if (data.APIS[i].NAME.equals("")) {
 //                baseUrl = data.APIS[i].URL
 //                token1 = data.APIS[i].TOKEN
 //                break
@@ -1398,8 +1399,8 @@ class ComplainListViewModel : ViewModel() {
         val subWorkflowAcceptRequestJson = Gson().toJson(subWorkflowAcceptRequest)
 
         val subWorkflowAcceptUrl =
-//            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-update"
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-update"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/subworkflow-update"
+//            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/subworkflow-update"
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
@@ -1570,7 +1571,7 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode(
                 "step_order", "utf-8"
             )
-        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"Akhil01"}"
+        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"SE35674"}"
         baseUrl = "$baseUrl$queryPath"
         viewModelScope.launch {
             state.value = State.SUCCESS
@@ -1686,12 +1687,7 @@ class ComplainListViewModel : ViewModel() {
                             )
                             if (request.success!!) {
                                 complaintListFragmentCallback.onSuccessActionUpdate(
-                                    request,
-                                    row,
-                                    remark,
-                                    data1,
-                                    responseList,
-                                    position
+                                    request, row, remark, data1, responseList, position
                                 )
                             } else {
                                 command.value = CmsCommand.ShowToast(request.message.toString())
@@ -1720,4 +1716,99 @@ class ComplainListViewModel : ViewModel() {
         }
     }
 
+
+    fun userlistForSubworkflowApiCall(
+        complaintListFragmentCallback: ComplaintListFragmentCallback, ticketData: TicketData,
+        responseList: java.util.ArrayList<ResponseNewTicketlist.Row>,
+        position: Int, row: SubworkflowConfigDetailsResponse.Rows,
+    ) {
+        val url = Preferences.getApi()
+        val data = Gson().fromJson(url, ValidateResponse::class.java)
+        var baseUrl =
+            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/user/list/user-list-for-subworkflow"
+        var token = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("")) {
+//                baseUrl = data.APIS[i].URL
+//                token = data.APIS[i].TOKEN
+                break
+            }
+        }
+        baseUrl = "${baseUrl}?" + "${
+            URLEncoder.encode("dependents[reason]", "utf-8")
+        }=${responseList.get(position)!!.reason!!.uid}" + "&&${
+            URLEncoder.encode("dependents[action]", "utf-8")
+        }=${row!!.uid}" + "&&${
+            URLEncoder.encode("dependents[region]", "utf-8")
+        }=${responseList.get(position)!!.region!!.uid}" + "&&${
+            URLEncoder.encode("dependents[cluster]", "utf-8")
+        }=${responseList.get(position)!!.cluster!!.uid}" + "&&${
+            URLEncoder.encode("dependents[site_type]", "utf-8")
+        }=${responseList.get(position)!!.site!!.site_type!!.uid}"
+
+
+        var proxyBaseUrL = ""
+        var proxyToken = ""
+        for (i in data.APIS.indices) {
+            if (data.APIS[i].NAME.equals("VISW Proxy API URL")) {
+                proxyBaseUrL = data.APIS[i].URL
+                proxyToken = data.APIS[i].TOKEN
+                break
+            }
+        }
+
+        viewModelScope.launch {
+            state.value = State.SUCCESS
+            val response = withContext(Dispatchers.IO) {
+                RegistrationRepo.getDetails(
+                    proxyBaseUrL,
+                    proxyToken,
+                    GetDetailsRequest(baseUrl, "GET", "The", "", "")
+                )
+            }
+            when (response) {
+                is ApiResult.Success -> {
+                    state.value = State.ERROR
+                    if (response != null) {
+                        val resp: String = response.value.string()
+                        if (resp != null) {
+                            val res = BackShlash.removeBackSlashes(resp)
+                            val request = Gson().fromJson(
+                                BackShlash.removeSubString(res),
+                                UserListForSubworkflowResponse::class.java
+                            )
+                            if (request.success!!) {
+                                complaintListFragmentCallback.onSuccessUsersListforSubworkflow(
+                                    ticketData,
+                                    responseList,
+                                    position,
+                                    row,
+                                    request
+                                )
+                            } else {
+                                command.value = CmsCommand.ShowToast(request.message.toString())
+                            }
+
+                        }
+                    }
+                }
+
+                is ApiResult.GenericError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.NetworkError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownError -> {
+                    state.value = State.ERROR
+                }
+
+                is ApiResult.UnknownHostException -> {
+                    state.value = State.ERROR
+                }
+            }
+        }
+    }
 }
