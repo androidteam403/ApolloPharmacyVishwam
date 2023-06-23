@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -16,12 +17,14 @@ import com.apollopharmacy.vishwam.databinding.FragmentPreRectroBinding
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.apnarectro.fragment.adapter.ListAdapter
+import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListReq
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetStorePendingAndApprovedListRes
 import com.apollopharmacy.vishwam.ui.home.apnarectro.postrectro.postrectrouploadimages.PostRetroUploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.uploadactivity.UploadImagesActivity
 import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.selectswachhid.SelectSwachhSiteIDActivity
 import com.apollopharmacy.vishwam.util.NetworkUtil
+import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.stream.Collectors
@@ -47,8 +50,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
         MainActivity.mInstance.mainActivityCallback = this
 //        Preferences.savingToken("APL67949")
         viewBinding.callback = this
-        Toast.makeText(context, "" + Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
-
+//        Toast.makeText(context, "" + Preferences.getAppLevelDesignationApnaRetro(), Toast.LENGTH_SHORT).show()
+        viewBinding.pullToRefreshApproved.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            submitClickApproved()
+        })
         if (this.arguments?.getBoolean("fromPreRectro") == true) {
 
             if (Preferences.getApnaSiteId().isEmpty()) {
@@ -106,16 +111,41 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
 
     }
 
+    fun submitClickApproved() {
+
+
+        if (!viewBinding.pullToRefreshApproved.isRefreshing)
+            Utlis.showLoading(requireContext())
+
+        val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        val currentDate: String = simpleDateFormat.format(Date())
+        var fromdate = simpleDateFormat.format(cal.time)
+        var toDate = currentDate
+        showLoading()
+        var getStorePendingApprovedRequest = GetStorePendingAndApprovedListReq()
+        getStorePendingApprovedRequest.storeid = Preferences.getApnaSiteId()
+        getStorePendingApprovedRequest.empid = Preferences.getToken()
+        getStorePendingApprovedRequest.fromdate = fromdate
+        getStorePendingApprovedRequest.todate = toDate
+        viewModel.getStorePendingApprovedListApiCallApnaRetro(
+            getStorePendingApprovedRequest, this
+        )
+
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
-            Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT).show()
             if (requestCode == 781) {
                 viewBinding.storeId.text = Preferences.getApnaSiteId()
                 viewBinding.storeName.text =
                     Preferences.getApnaSiteId() + " - " + Preferences.getApnaSiteName()
-                Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT)
-                    .show()
+//                Toast.makeText(context, "" + Preferences.getRectroSiteId(), Toast.LENGTH_SHORT)
+//                    .show()
                 hideLoading()
                 if (NetworkUtil.isNetworkConnected(requireContext())) {
                     val simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -268,6 +298,10 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
     override fun onSuccessgetStorePendingApprovedApiCall(getStorePendingApprovedList: GetStorePendingAndApprovedListRes) {
         if (getStorePendingApprovedList.status.equals(true) && getStorePendingApprovedList.getList.size > 0) {
             hideLoading()
+            if (viewBinding.pullToRefreshApproved.isRefreshing) {
+//            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
+                viewBinding.pullToRefreshApproved.isRefreshing = false
+            }
             storeList= getStorePendingApprovedList.getList as ArrayList<GetStorePendingAndApprovedListRes.Get>?
             viewBinding.listRecyclerView.visibility = View.VISIBLE
             viewBinding.noOrdersFound.visibility = View.GONE
@@ -276,7 +310,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             val retroIdsGroupedList: Map<String, List<GetStorePendingAndApprovedListRes.Get>> =
                 getStorePendingApprovedList.getList.stream()
                     .collect(Collectors.groupingBy { w -> w.retroid })
-            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
+//            Toast.makeText(context, "" + retroIdsGroupedList.size, Toast.LENGTH_SHORT).show()
 
             var getStorePendingApprovedListDummys =
                 ArrayList<ArrayList<GetStorePendingAndApprovedListRes.Get>>()
@@ -301,6 +335,7 @@ class PreRectroFragment() : BaseFragment<PreRectroViewModel, FragmentPreRectroBi
             viewBinding.recordsUploaded.visibility = View.GONE
             viewBinding.listRecyclerView.visibility = View.GONE
             viewBinding.noOrdersFound.visibility = View.VISIBLE
+            viewBinding.pullToRefreshApproved.visibility=View.GONE
         }
 
     }

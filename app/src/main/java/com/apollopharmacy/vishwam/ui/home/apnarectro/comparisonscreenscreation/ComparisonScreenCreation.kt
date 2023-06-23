@@ -146,7 +146,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
         if (stage == "isPreRetroStage") {
             activityPostRectroReviewScreenBinding.reviewName.setText("Pre Retro Review")
-            if (posImageUrlList.size == 1&& uploadStage.equals("reshootStage")) {
+            if (posImageUrlList.size == 1&& posImageUrlList.get(0).status!!.equals("2")) {
                 activityPostRectroReviewScreenBinding.reshootCameraPreRetro.visibility=View.VISIBLE
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.GONE
@@ -200,7 +200,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
             }
 
-        } else if (stage.equals("isPostRetroStage")) {
+        }
+        else if (stage.equals("isPostRetroStage")) {
             activityPostRectroReviewScreenBinding.reviewName.setText("Post Retro Review")
 
             if (posImageUrlList.size == 1 && uploadStage.equals("newUploadStage")) {
@@ -219,7 +220,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
 
 
 
-            else if (posImageUrlList.size == 2 && uploadStage.equals("reshootStage")) {
+            else if (posImageUrlList.size == 2 && posImageUrlList.get(1).status.equals("2")) {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
@@ -230,7 +231,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Post Retro Image"
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-            } else if (posImageUrlList.size == 2) {
+            }
+            else if (posImageUrlList.size == 2) {
                 activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.GONE
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -238,7 +240,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isEnabled = false
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = false
                 checkBoxClickedCount = 2
-            } else if (posImageUrlList.size == 3) {
+            }
+            else if (posImageUrlList.size == 3) {
                 activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = false
                 activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -253,7 +256,8 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.postRectroCheckbox.isEnabled = true
 
             }
-        } else {
+        }
+        else {
             activityPostRectroReviewScreenBinding.reviewName.text = "After Completion Review"
             if (posImageUrlList.size == 2 && uploadStage == "newUploadStage") {
                 activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
@@ -269,35 +273,51 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                 activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
                 activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
                     "Upload After Completion Retro"
-            } else {
-                if (posImageUrlList.size == 3 && uploadStage == "reshootStage") {
+            }
+               else if (posImageUrlList.size == 3 && posImageUrlList.get(2).status.equals("2")) {
+                activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility = View.GONE
+                activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.VISIBLE
+                activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+                    "After Completion Image"
+                activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
                     activityPostRectroReviewScreenBinding.postRectroCbLayout.setBackgroundColor(
                         resources.getColor(R.color.grey)
                     )
                     activityPostRectroReviewScreenBinding.postRectroCheckbox.isChecked = false
-                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
-                        "Upload After Completion"
+                    activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked = true
+                activityPostRectroReviewScreenBinding.afterCompletionCbLayout.setBackgroundColor(
+                    resources.getColor(R.color.blue)
+                )
 
-                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
-                        View.VISIBLE
-                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility =
-                        View.VISIBLE
-                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
-                        View.VISIBLE
-                    activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
-                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
-                        View.VISIBLE
-                    if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility =
-                            View.VISIBLE
-                    } else {
-                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
-                    }
-                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
-                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
-                        "After Completion Image"
-                } else if (posImageUrlList.size == 3) {
+//                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+//                        "Upload After Completion"
+//
+//                    activityPostRectroReviewScreenBinding.postRectroCbLayout.visibility =
+//                        View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.preRectroCbLayout.visibility =
+//                        View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.afterCompletionCbLayout.visibility =
+//                        View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.secondImageLayout.visibility = View.GONE
+//                    activityPostRectroReviewScreenBinding.uploadCameraLayout.visibility =
+//                        View.VISIBLE
+//                    if (activityPostRectroReviewScreenBinding.afterCompletionCheckbox.isChecked) {
+//                        activityPostRectroReviewScreenBinding.reshootCamera.visibility =
+//                            View.VISIBLE
+//                    } else {
+//                        activityPostRectroReviewScreenBinding.reshootCamera.visibility = View.GONE
+//                    }
+//                    activityPostRectroReviewScreenBinding.uploadnowbutton.visibility = View.VISIBLE
+//                    activityPostRectroReviewScreenBinding.uploadPostOrAfterImageText.text =
+//                        "After Completion Image"
+                }
+                else if (posImageUrlList.size == 3) {
                     activityPostRectroReviewScreenBinding.comparisonText.visibility = View.VISIBLE
                     activityPostRectroReviewScreenBinding.reviewName.setText("After Completion Review")
                     activityPostRectroReviewScreenBinding.preRectroCheckbox.isChecked = true
@@ -309,7 +329,7 @@ class ComparisonScreenCreation : AppCompatActivity(), ComparisonScreenCreationCa
                     checkBoxClickedCount = 2
                 }
 
-            }
+
 
         }
         activityPostRectroReviewScreenBinding.retroId.text = retroid

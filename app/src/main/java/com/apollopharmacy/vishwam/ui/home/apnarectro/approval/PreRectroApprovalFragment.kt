@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.approval
 import android.content.Intent
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
@@ -14,6 +15,7 @@ import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.apnasiteIdselect.A
 import com.apollopharmacy.vishwam.ui.home.apnarectro.approval.previewscreen.ApprovalPreviewActivity
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendindAndApproverequest
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.GetRetroPendingAndApproveResponse
+import com.apollopharmacy.vishwam.util.Utlis
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -43,6 +45,9 @@ class PreRectroApprovalFragment() :
 //        Preferences.savingToken("APL49391")
 //        Preferences.setAppLevelDesignationApnaRetro("CEO")
         MainActivity.mInstance.mainActivityCallback = this
+        viewBinding.pullToRefreshApproved.setOnRefreshListener(SwipeRefreshLayout.OnRefreshListener {
+            submitClickApproved()
+        })
 
         var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
@@ -77,6 +82,27 @@ class PreRectroApprovalFragment() :
         intent.putExtra("uploadOn", status!![position][subPos].uploadedDate)
         intent.putExtra("retroId", status!!.get(position).get(subPos).retroid)
         startActivityForResult(intent, 221)
+
+
+    }
+    fun submitClickApproved() {
+
+
+        if (!viewBinding.pullToRefreshApproved.isRefreshing)
+            Utlis.showLoading(requireContext())
+
+        var getRetroPendindAndApproverequest = GetRetroPendindAndApproverequest()
+        val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
+        currentDate = simpleDateFormat.format(Date())
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.DATE, -7)
+        fromDate = simpleDateFormat.format(cal.time)
+        getRetroPendindAndApproverequest.empid = Preferences.getToken()
+        getRetroPendindAndApproverequest.storeid =Preferences.getRectroSiteId()
+        getRetroPendindAndApproverequest.fromdate = fromDate
+        getRetroPendindAndApproverequest.todate = currentDate
+
+        viewModel.getRectroApprovalList(getRetroPendindAndApproverequest, this)
 
 
     }
@@ -128,6 +154,10 @@ class PreRectroApprovalFragment() :
     }
 
     override fun onSuccessRetroApprovalList(getStorePendingApprovedList: GetRetroPendingAndApproveResponse) {
+        if (viewBinding.pullToRefreshApproved.isRefreshing) {
+//            Toast.makeText(context, "Refresh", Toast.LENGTH_LONG).show()
+            viewBinding.pullToRefreshApproved.isRefreshing = false
+        }
         hideLoading()
         var list: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
         var list1: java.util.ArrayList<GetRetroPendingAndApproveResponse.Retro>? = null
