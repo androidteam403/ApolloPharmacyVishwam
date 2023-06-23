@@ -96,6 +96,10 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
             showLoading()
             viewModel.checkScreenStatus(this@ApolloSensingFragment)
         }
+
+    }
+
+    fun setUpNew() {
         val empDetailsResponse = Preferences.getEmployeeDetailsResponseJson()
         var employeeDetailsResponse: EmployeeDetailsResponse? = null
         try {
@@ -1119,6 +1123,7 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                 viewBinding.takePhoto.visibility = View.VISIBLE
             }
         }
+        setUpNew()
     }
 
     override fun onFailureCheckScreenStatusApiCall(message: String) {

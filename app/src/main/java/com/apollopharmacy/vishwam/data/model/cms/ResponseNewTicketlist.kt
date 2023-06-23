@@ -61,8 +61,8 @@ data class ResponseNewTicketlist(
 //        @field:SerializedName("parent")
 //        var parent: Parent?,
 
-//        @field:SerializedName("cluster")
-//        var cluster: Cluster?,
+        @field:SerializedName("cluster")
+        var cluster: Cluster?,
 
         @field:SerializedName("created_id") var created_id: CreatedId?,
 
@@ -72,8 +72,8 @@ data class ResponseNewTicketlist(
 //        @field:SerializedName("department")
 //        var department: Department?,
 
-//        @field:SerializedName("region")
-//        var region: Region?,
+        @field:SerializedName("region")
+        var region: Region?,
 
 //        @field:SerializedName("location")
 //        var location: LocationObj?,
@@ -265,6 +265,8 @@ data class ResponseNewTicketlist(
         @field:SerializedName("uid") val uid: String? = null,
 
         @field:SerializedName("site") val site: String? = null,
+
+        @field:SerializedName("site_type") val site_type: SiteType? = null,
 
         @field:SerializedName("store_name") val store_name: String? = null,
     ) : Serializable

@@ -39,6 +39,7 @@ import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowActionDetailsAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.SubworkflowConfigDetailsAdapter
+import com.apollopharmacy.vishwam.ui.home.cms.complainList.adapter.UsersListforSubworkflowSpinnerAdapter
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.*
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.Department
 import com.apollopharmacy.vishwam.ui.home.cms.complainList.model.ItemStatus
@@ -312,12 +313,16 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
 
         viewModel.ticketDetailsResponseLiveData.observe(viewLifecycleOwner, Observer {
             adapter.orderData[it.position].ticketDetailsResponse = it
-//            Utlis.hideLoading()
-//            adapter.notifyItemChanged(it.position)
-            Utlis.showLoading(requireContext())
-            viewModel.getSubworkFlowConfigDetails(
-                this@ComplainListFragment, it.position, adapter.orderData[it.position]
-            )
+            if (arguments?.getBoolean("isFromApprovalList") == true) {
+                Utlis.showLoading(requireContext())
+                viewModel.getSubworkFlowConfigDetails(
+                    this@ComplainListFragment, it.position, adapter.orderData[it.position]
+                )
+            } else {
+                Utlis.hideLoading()
+                adapter.notifyItemChanged(it.position)
+
+            }
 
 
         })
@@ -420,8 +425,8 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                 val newdata = ResponseNewTicketlist.Row(
                     "",
                     "",
-                    null,
-                    null,
+                    null, null,
+                    null, null,
                     null,
                     null,
                     null,
@@ -2094,6 +2099,28 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         responseList: ArrayList<ResponseNewTicketlist.Row>,
         position: Int, row: SubworkflowConfigDetailsResponse.Rows,
     ) {
+        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+            if (NetworkUtil.isNetworkConnected(requireContext())) {
+                showLoading()
+                viewModel.userlistForSubworkflowApiCall(
+                    this@ComplainListFragment,
+                    data, responseList, position, row
+                )
+            }
+        } else {
+            showActionPopup(data, responseList, position, row, null)
+        }
+    }
+
+
+    fun showActionPopup(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        row: SubworkflowConfigDetailsResponse.Rows,
+        userListForSubworkflowResponse: UserListForSubworkflowResponse?,
+    ) {
+
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
@@ -2111,6 +2138,48 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         yesBtn.text = row.action!!.name!!
         val noBtn = dialog.findViewById(R.id.reject) as Button
         val dialogClose = dialog.findViewById(R.id.diloga_close) as ImageView
+        var userDropdownLayout =
+            dialog.findViewById(R.id.user_dropdown_layout) as LinearLayout
+        var userForsubworkflow = UserListForSubworkflowResponse.Rows()
+        if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+            if (userListForSubworkflowResponse != null
+                && userListForSubworkflowResponse.success!!
+                && userListForSubworkflowResponse.data != null
+                && userListForSubworkflowResponse.data!!.listData != null
+                && userListForSubworkflowResponse.data!!.listData!!.rows != null
+                && userListForSubworkflowResponse.data!!.listData!!.rows!!.size > 0
+            ) {
+                userDropdownLayout.visibility = View.VISIBLE
+                val spinner = dialog.findViewById(R.id.user_list_for_subworkflow_spinner) as Spinner
+                var usersListforSubworkflowSpinnerAdapter =
+                    UsersListforSubworkflowSpinnerAdapter(
+                        requireContext(),
+                        userListForSubworkflowResponse.data!!.listData!!.rows!!
+                    )
+                spinner.adapter = usersListforSubworkflowSpinnerAdapter
+                spinner.setSelection(0)
+                spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View,
+                        positionDropDown: Int,
+                        id: Long,
+                    ) {
+                        userForsubworkflow =
+                            userListForSubworkflowResponse.data!!.listData!!.rows!!.get(
+                                positionDropDown
+                            )
+                    }
+
+                    override fun onNothingSelected(parent: AdapterView<*>?) {}
+                })
+            } else {
+                userDropdownLayout.visibility = View.GONE
+            }
+        } else {
+            userDropdownLayout.visibility = View.GONE
+        }
+
         dialogClose.setOnClickListener { dialog.dismiss() }
         yesBtn.setOnClickListener {
             if (remark.text.toString().isEmpty()) {
@@ -2435,6 +2504,17 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
         }
         adapter.orderData = responseList
         adapter.notifyItemChanged(position)
+    }
+
+    override fun onSuccessUsersListforSubworkflow(
+        data: TicketData,
+        responseList: ArrayList<ResponseNewTicketlist.Row>,
+        position: Int,
+        row: SubworkflowConfigDetailsResponse.Rows,
+        userListForSubworkflowResponse: UserListForSubworkflowResponse?,
+    ) {
+        hideLoading()
+        showActionPopup(data, responseList, position, row, userListForSubworkflowResponse)
     }
 }
 

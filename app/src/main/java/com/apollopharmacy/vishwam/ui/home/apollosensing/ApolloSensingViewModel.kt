@@ -206,7 +206,7 @@ class ApolloSensingViewModel : ViewModel() {
 
         var baseUrl = ""
         //  "https://apsmtest.apollopharmacy.org:8443/SENSING/SaveSensingDetails" //"https://172.16.103.116:8443/SENSING/SaveSensingDetails"
-        var baseToken = ""//"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
+        var baseToken = "" //"h72genrSSNFivOi/cfiX3A==" //"h72genrSSNFivOi/cfiX3A=="
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN SAVEDETAILS")) {
                 baseUrl = data.APIS[i].URL
