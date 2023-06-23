@@ -510,7 +510,19 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
 
             if (requestCode == Config.REQUEST_CODE_CAMERA && imageFile != null) {
                 val imageBase64 = encodeImage(imageFile!!.absolutePath)
-                prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!))
+                val resizedImage = Resizer(requireContext())
+                    .setTargetLength(1080)
+                    .setQuality(100)
+                    .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                    .setOutputDirPath(
+                        ViswamApp.Companion.context.cacheDir.toString()
+                    )
+
+                    .setSourceImage(imageFile)
+                    .resizedFile
+
+                prescriptionImageList.add(ImageDto(imageFile!!, imageBase64!!, resizedImage))
                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 dialog.dismiss()
             } else if (requestCode == Config.REQUEST_CODE_GALLERY) {
@@ -523,11 +535,22 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                                 getRealPathFromURI(requireContext(), images.getItemAt(i).uri)
                             var imageFileGallery: File? = File(imagePath)
                             val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
+                            val resizedImage = Resizer(requireContext())
+                                .setTargetLength(1080)
+                                .setQuality(100)
+                                .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                                .setOutputDirPath(
+                                    ViswamApp.Companion.context.cacheDir.toString()
+                                )
+
+                                .setSourceImage(imageFileGallery)
+                                .resizedFile
                             if (prescriptionImageList.size < 2) {
                                 prescriptionImageList.add(
                                     ImageDto(
                                         imageFileGallery!!,
-                                        imageBase64!!
+                                        imageBase64!!,resizedImage
                                     )
                                 )
                                 viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
@@ -546,15 +569,28 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
                     val uri = data.data
                     var imagePath = getRealPathFromURI(requireContext(), uri!!)
                     var imageFileGallery: File? = File(imagePath)
+                    val resizedImage = Resizer(requireContext())
+                        .setTargetLength(1080)
+                        .setQuality(100)
+                        .setOutputFormat("JPG")
+//                .setOutputFilename(fileNameForCompressedImage)
+                        .setOutputDirPath(
+                            ViswamApp.Companion.context.cacheDir.toString()
+                        )
+
+                        .setSourceImage(imageFileGallery)
+                        .resizedFile
+
                     val imageBase64 = encodeImage(imageFileGallery!!.absolutePath)
-                    prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!))
+                    prescriptionImageList.add(ImageDto(imageFileGallery!!, imageBase64!!, resizedImage))
                     viewBinding.imageCount!!.setText(prescriptionImageList.size.toString())
                 }
             } else if (requestCode == 571) {
                 if (isSiteIdEmpty) {
                     MainActivity.mInstance.onBackPressed()
                     hideLoading()
-                } else {
+                }
+                else {
                     siteId = Preferences.getApolloSensingStoreId()
                     viewBinding.storeId.setText(Preferences.getApolloSensingStoreId())
                     viewBinding.storeName.setText(Preferences.getApolloSensingStoreName())
@@ -1135,8 +1171,8 @@ class ApolloSensingFragment : BaseFragment<ApolloSensingViewModel, FragmentApoll
         sensingFileUploadResponse: SensingFileUploadResponse,
         isLastImage: Boolean,
     ) {
-        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
-            .show()
+//        Toast.makeText(requireContext(), sensingFileUploadResponse.message, Toast.LENGTH_SHORT)
+//            .show()
         referenceUrls.add(sensingFileUploadResponse.referenceurl!!)
         if (isLastImage) {
             val saveImageUrlsRequest = SaveImageUrlsRequest()

@@ -25,8 +25,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/value_50dp"
             android:gravity="center_horizontal"
-            android:paddingStart="@dimen/value_70dp"
-            android:paddingEnd="@dimen/value_70dp">
+            android:layout_marginStart="@dimen/value_40dp"
+            android:layout_marginEnd="@dimen/value_40dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -37,8 +37,8 @@
 
                 <ImageView
                     android:id="@+id/camera"
-                    android:layout_width="@dimen/value_50dp"
-                    android:layout_height="@dimen/value_50dp"
+                    android:layout_width="@dimen/value_60dp"
+                    android:layout_height="@dimen/value_60dp"
                     android:src="@drawable/camera"
                     android:tint="@color/black"
                     tools:ignore="UseAppTint" />
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="CAMERA"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -60,8 +60,8 @@
 
                 <ImageView
                     android:id="@+id/gallery"
-                    android:layout_width="@dimen/value_50dp"
-                    android:layout_height="@dimen/value_50dp"
+                    android:layout_width="@dimen/value_60dp"
+                    android:layout_height="@dimen/value_60dp"
                     android:src="@drawable/gallery"
                     android:tint="@color/black"
                     tools:ignore="UseAppTint" />
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:text="GALLERY"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/text_13sp"
+                    android:textSize="@dimen/text_12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
