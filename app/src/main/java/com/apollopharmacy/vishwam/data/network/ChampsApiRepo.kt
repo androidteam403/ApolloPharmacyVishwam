@@ -1,9 +1,6 @@
 package com.apollopharmacy.vishwam.data.network
 
 import com.apollopharmacy.vishwam.data.Config
-import com.apollopharmacy.vishwam.data.model.DeviceDeRegResponse
-import com.apollopharmacy.vishwam.data.model.ValidateOtpRequest
-import com.apollopharmacy.vishwam.data.model.ValidateOtpResponse
 import com.apollopharmacy.vishwam.ui.home.model.*
 import com.google.gson.JsonSyntaxException
 import retrofit2.HttpException
@@ -284,6 +281,39 @@ object ChampsApiRepo {
     suspend fun getStoreDetailsChampsApi(): ApiResult<StoreDetailsModelResponse> {
         return try {
             val response = Api.getClient().GET_STORE_DETAILS_API(Config.ATTENDANCE_API_HEADER)
+            ApiResult.Success(response)
+        } catch (e: Exception) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            ApiResult.NetworkError
+        } catch (e: Throwable) {
+            e.printStackTrace()
+            ApiResult.UnknownError(e.message)
+        } catch (e: HttpException) {
+            ApiUtils.parseHttpError(e)
+        } catch (e: UnknownError) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketTimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: JsonSyntaxException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: ConnectException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: SocketException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: TimeoutException) {
+            ApiResult.UnknownError(e.message)
+        } catch (e: UnknownHostException) {
+            ApiResult.UnknownHostException(e.message)
+        }
+    }
+
+    suspend fun getSurveyDetailsApi(startDate: String, endDate: String, id: String): ApiResult<GetSurveyDetailsModelResponse> {
+        return try {
+            val response = Api.getClient().GET_SURVEY_DETAILS_API(Config.ATTENDANCE_API_HEADER, startDate, endDate, id )
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)

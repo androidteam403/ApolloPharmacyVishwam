@@ -380,7 +380,7 @@ import java.io.Serializable;
             private String theCcCamerasWorking;
             @SerializedName("printers_working_condition")
             @Expose
-            private Integer printersWorkingCondition;
+            private String printersWorkingCondition;
             @SerializedName("maintenance_images")
             @Expose
             private String maintenanceImages;
@@ -669,11 +669,11 @@ import java.io.Serializable;
                 this.theCcCamerasWorking = theCcCamerasWorking;
             }
 
-            public Integer getPrintersWorkingCondition() {
+            public String getPrintersWorkingCondition() {
                 return printersWorkingCondition;
             }
 
-            public void setPrintersWorkingCondition(Integer printersWorkingCondition) {
+            public void setPrintersWorkingCondition(String printersWorkingCondition) {
                 this.printersWorkingCondition = printersWorkingCondition;
             }
 

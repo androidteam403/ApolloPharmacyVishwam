@@ -208,7 +208,7 @@ class SurveyListResponse : Serializable {
         }
     }
 
-    inner class Row : Serializable {
+    public class Row : Serializable {
         @SerializedName("uid")
         @Expose
         var uid: String? = null
@@ -229,13 +229,21 @@ class SurveyListResponse : Serializable {
         @Expose
         var location: Location? = null
 
-        @SerializedName("city")
-        @Expose
-        var city: City? = null
+//        @SerializedName("city")
+//        @Expose
+//        var city: City? = null
 
-        @SerializedName("state")
+//        @SerializedName("state")
+//        @Expose
+//        var state: State? = null
+
+//        @SerializedName("state")
+//        @Expose
+//        var state: String? = null
+
+        @SerializedName("id")
         @Expose
-        var state: State? = null
+        var id: String? = null
 
         @SerializedName("created_time")
         @Expose
@@ -244,6 +252,8 @@ class SurveyListResponse : Serializable {
         @SerializedName("modified_time")
         @Expose
         var modifiedTime: String? = null
+
+        var isLoading : String? = null
         fun withUid(uid: String?): Row {
             this.uid = uid
             return this
@@ -269,15 +279,15 @@ class SurveyListResponse : Serializable {
             return this
         }
 
-        fun withCity(city: City?): Row {
-            this.city = city
-            return this
-        }
+//        fun withCity(city: City?): Row {
+//            this.city = city
+//            return this
+//        }
 
-        fun withState(state: State?): Row {
-            this.state = state
-            return this
-        }
+//        fun withState(state: State?): Row {
+//            this.state = state
+//            return this
+//        }
 
         fun withCreatedTime(createdTime: String?): Row {
             this.createdTime = createdTime
@@ -298,15 +308,15 @@ class SurveyListResponse : Serializable {
         @SerializedName("name")
         @Expose
         var name: String? = null
-        fun withUid(uid: String?): State {
-            this.uid = uid
-            return this
-        }
+//        fun withUid(uid: String?): State {
+//            this.uid = uid
+//            return this
+//        }
 
-        fun withName(name: String?): State {
-            this.name = name
-            return this
-        }
+//        fun withName(name: String?): State {
+//            this.name = name
+//            return this
+//        }
     }
 
     inner class Status : Serializable {

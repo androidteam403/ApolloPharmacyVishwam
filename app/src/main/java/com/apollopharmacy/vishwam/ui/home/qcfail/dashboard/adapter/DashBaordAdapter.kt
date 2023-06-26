@@ -148,7 +148,9 @@ class DashBaordAdapter(
                 holder.dashboardSiteBinding.logo.setImageResource(R.drawable.qc_manager)
                 holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#636fc1"))
                 holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#636fc1"))
-                holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#636fc1"))
+                holder.dashboardSiteBinding.rt.setTextColor(Color.parseColor("#636fc1"))
+
+                holder.dashboardSiteBinding.fr.setTextColor(Color.parseColor("#636fc1"))
                 holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#636fc1"))
                 holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#7e88c7"))
                 holder.dashboardSiteBinding.pendingCountSum.setText(managerPendingCountSum.stream()
@@ -185,7 +187,9 @@ class DashBaordAdapter(
                 }
                 holder.dashboardSiteBinding.empid.setTextColor(Color.parseColor("#f4a841"))
                 holder.dashboardSiteBinding.siteId.setTextColor(Color.parseColor("#f4a841"))
-                holder.dashboardSiteBinding.pending.setTextColor(Color.parseColor("#f4a841"))
+                holder.dashboardSiteBinding.rt.setTextColor(Color.parseColor("#f4a841"))
+
+                holder.dashboardSiteBinding.fr.setTextColor(Color.parseColor("#f4a841"))
                 holder.dashboardSiteBinding.generalmanagerLayout.setBackgroundColor(Color.parseColor("#f4a841"))
                 holder.dashboardSiteBinding.arrowlayout.setBackgroundColor(Color.parseColor("#f6b968"))
                 holder.dashboardSiteBinding.pendingCountSum.setText(executivePendingCountSum.stream()

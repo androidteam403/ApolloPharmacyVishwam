@@ -18,12 +18,13 @@ class ImagePreviewAdapter(
 ) : RecyclerView.Adapter<ImagePreviewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val adapterSitePhotoPreviewBinding: AdapterSitePhotoPreviewBinding = DataBindingUtil.inflate(
-            LayoutInflater.from(mContext),
-            R.layout.adapter_site_photo_preview,
-            parent,
-            false
-        )
+        val adapterSitePhotoPreviewBinding: AdapterSitePhotoPreviewBinding =
+            DataBindingUtil.inflate(
+                LayoutInflater.from(mContext),
+                R.layout.adapter_site_photo_preview,
+                parent,
+                false
+            )
         return ViewHolder(adapterSitePhotoPreviewBinding)
     }
 
@@ -32,7 +33,7 @@ class ImagePreviewAdapter(
             data[position].url))
 
         holder.adapterSitePhotoPreviewBinding.eyeImageRes.setOnClickListener {
-            imageClickListener.onClick(data[position].url.toString())
+            imageClickListener.onClick(data[position].url.toString(), position, data)
         }
     }
 

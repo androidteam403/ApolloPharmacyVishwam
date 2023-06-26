@@ -16,9 +16,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.data.model.cms.ReasonmasterV2Response
 import com.apollopharmacy.vishwam.databinding.DialogCustomBinding
 import com.apollopharmacy.vishwam.databinding.ViewListItemBinding
-import com.apollopharmacy.vishwam.dialog.model.ReasonViewModel
 import com.apollopharmacy.vishwam.ui.home.drugmodule.model.CategoryViewModel
-import com.apollopharmacy.vishwam.ui.home.drugmodule.model.DoctorSpecialityDialog
 
 class Dialog : DialogFragment() {
 

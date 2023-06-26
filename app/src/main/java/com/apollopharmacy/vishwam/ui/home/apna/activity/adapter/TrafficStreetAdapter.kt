@@ -36,7 +36,8 @@ class TrafficStreetAdapter(
         holder.viewItemRowBinding.itemName.text = trafficStreetTypes[position].name
 
         holder.viewItemRowBinding.itemName.setOnClickListener {
-            mCallBack.onTrafficStreetItemSelect(position, trafficStreetTypes[position].name.toString())
+            mCallBack.onTrafficStreetItemSelect(position,
+                trafficStreetTypes[position].name.toString())
         }
     }
 
