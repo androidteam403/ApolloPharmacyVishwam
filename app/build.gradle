@@ -208,6 +208,8 @@ dependencies {
     implementation 'io.github.chaosleung:pinview:1.4.4'
 
     implementation 'com.github.dhaval2404:imagepicker:2.1'
+    // Before and after image slider
+    implementation 'com.github.blackfox94:before_after_slider:701e3d5861'
 
 
     // This dependency is downloaded from the Google’s Maven repository.
