@@ -101,7 +101,8 @@ class ComplainListViewModel : ViewModel() {
                 e.printStackTrace()
             }
             baseUrl =
-                "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/subworkflow-tickets-for-mobile?"//employee_id=Akhil01
+                "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/subworkflow-tickets-for-mobile?"
+            // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/list/subworkflow-tickets-for-mobile?"//employee_id=Akhil01
 //            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/list/ticket-subwrkflw-pending-approval-list?emp_role=${employeeDetailsResponse!!.data!!.role!!.uid}&emp_dept=${employeeDetailsResponse!!.data!!.department!!.uid}"
 
 
@@ -173,9 +174,9 @@ class ComplainListViewModel : ViewModel() {
                     URLEncoder.encode("status[6]", "utf-8")
                 }=${onHold}"
         } else {
-            //${requestComplainList.empid}
+            //${requestComplainList.empid}//SE35674....RH75774748
             baseUrl =
-                baseUrl + "employee_id=SE35674&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
+                baseUrl + "employee_id=RH75774748&page=${requestComplainList.page}&rows=10&" + if (isDrugList) {
                     "reason_code=new_drug&"
                 } else {
                     ""
@@ -1320,8 +1321,8 @@ class ComplainListViewModel : ViewModel() {
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("CMS MBTICKETDTS")) {
                 baseUrL =
-//                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
-                    data.APIS[i].URL
+                    "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/select/mobile-ticket-details?"
+//                    data.APIS[i].URL
                 //val token = data.APIS[i].TOKEN
                 break
             }
@@ -1552,8 +1553,8 @@ class ComplainListViewModel : ViewModel() {
 //            }
 //
 //        }
-        baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
+        baseUrl = "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
+           // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket_subworkflow_config/list/subworkflow-config-details?"
 
         var queryPath = "${
             URLEncoder.encode(
@@ -1571,7 +1572,7 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode(
                 "step_order", "utf-8"
             )
-        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"SE35674"}"
+        }=${row.ticketSubworkflowInfo!!.subworkflow_step_order}&&ticket_id=${row.ticket_id}&&employee_id=${"RH75774748"}"//SE35674...RH75774748
         baseUrl = "$baseUrl$queryPath"
         viewModelScope.launch {
             state.value = State.SUCCESS
@@ -1643,7 +1644,8 @@ class ComplainListViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/ticket-subworkflow-action-update"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/ticket/save-update/ticket-subworkflow-action-update"
+        // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/ticket/save-update/ticket-subworkflow-action-update"
         var token1 = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
@@ -1725,7 +1727,8 @@ class ComplainListViewModel : ViewModel() {
         val url = Preferences.getApi()
         val data = Gson().fromJson(url, ValidateResponse::class.java)
         var baseUrl =
-            "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/user/list/user-list-for-subworkflow"
+            "https://cmsuat.apollopharmacy.org/zc-v3.1-user-svc/2.0/apollo_cms/api/user/list/user-list-for-subworkflow"
+        // "https://apis.v35.dev.zeroco.de/zc-v3.1-user-svc/2.0/apollocms/api/user/list/user-list-for-subworkflow"
         var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("")) {
@@ -1738,13 +1741,15 @@ class ComplainListViewModel : ViewModel() {
             URLEncoder.encode("dependents[reason]", "utf-8")
         }=${responseList.get(position)!!.reason!!.uid}" + "&&${
             URLEncoder.encode("dependents[action]", "utf-8")
-        }=${row!!.uid}" + "&&${
+        }=${row!!.action!!.uid}" + "&&${
             URLEncoder.encode("dependents[region]", "utf-8")
         }=${responseList.get(position)!!.region!!.uid}" + "&&${
             URLEncoder.encode("dependents[cluster]", "utf-8")
         }=${responseList.get(position)!!.cluster!!.uid}" + "&&${
             URLEncoder.encode("dependents[site_type]", "utf-8")
-        }=${responseList.get(position)!!.site!!.site_type!!.uid}"
+        }=${responseList.get(position)!!.site!!.site_type!!.uid}" + "&&${
+            URLEncoder.encode("dependents[employee_id]", "utf-8")
+        }=RH75774748"//SE35674  RH75774748
 
 
         var proxyBaseUrL = ""

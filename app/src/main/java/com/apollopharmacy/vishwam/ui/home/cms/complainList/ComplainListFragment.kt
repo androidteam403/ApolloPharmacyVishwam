@@ -2193,11 +2193,31 @@ class ComplainListFragment : BaseFragment<ComplainListViewModel, FragmentComplai
                         TicketSubworkflowActionUpdateRequest()
                     ticketSubworkflowActionUpdateRequest.uid = responseList.get(position).uid
                     ticketSubworkflowActionUpdateRequest.comment = "${remark.text.toString()}"
-                    ticketSubworkflowActionUpdateRequest.employee_id =
-                        "${Preferences.getValidatedEmpId()}"
+                    ticketSubworkflowActionUpdateRequest.employee_id = "RH75774748" //"SE35674"
+                       // "SE35674"//${Preferences.getValidatedEmpId()}
                     var subworkflow = TicketSubworkflowActionUpdateRequest.Subworkflow()
                     subworkflow.uid = row.uid!!
                     ticketSubworkflowActionUpdateRequest.subworkflow = subworkflow
+
+                    if (row.action!!.code.equals("forward") && row.assignToUser!!.uid!!.equals("Yes")) {
+                        var toUser = TicketSubworkflowActionUpdateRequest.ToUser()
+                        toUser.uid = userForsubworkflow.uid
+                        toUser.firstName = userForsubworkflow.firstName
+                        toUser.middleName = userForsubworkflow.middleName
+                        toUser.lastName = userForsubworkflow.lastName
+                        toUser.loginUnique = userForsubworkflow.loginUnique
+                        var role = TicketSubworkflowActionUpdateRequest.Role()
+                        role.uid = userForsubworkflow.role!!.uid
+                        role.code = userForsubworkflow.role!!.code
+                        role.name = userForsubworkflow.role!!.name
+                        toUser.role = role
+                        var level = TicketSubworkflowActionUpdateRequest.Level()
+                        level.uid = userForsubworkflow.level!!.uid
+                        level.name = userForsubworkflow.level!!.name
+                        toUser.level = level
+                        ticketSubworkflowActionUpdateRequest.toUser = toUser
+                    }
+
                     viewModel.actionUpdateApiCall(
                         this@ComplainListFragment,
                         ticketSubworkflowActionUpdateRequest,

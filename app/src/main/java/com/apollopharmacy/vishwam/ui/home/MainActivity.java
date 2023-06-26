@@ -157,6 +157,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static boolean isQcFailRequired = false;
     public static boolean isSwachhRequired = false;
     public static boolean isDrugRequired = false;
+
+    public static boolean isSensingRequired = false;
     //    private String mCurrentFrag;
     private int selectedItemPos = -1;
 
@@ -496,11 +498,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             isSwachhRequired = loginData.getIS_SWACHHAPP();
             isQcFailRequired = loginData.getIS_QCFAILAPP();
             isDrugRequired = loginData.getIS_NEWDRUGAPP();
+            isSensingRequired = loginData.getIS_SENSINGAPP();
         }
 
         TextView versionInfo = findViewById(R.id.versionInfo);
         versionInfo.setText("Version : " + BuildConfig.VERSION_NAME);
-        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired);
+        updateDynamicNavMenu(isAttendanceRequired, isCMSRequired, isDiscountRequired, isSwachhRequired, isQcFailRequired, isDrugRequired, isSensingRequired);
 //        listView.expandGroup(2);
 
         ImageView openDrawer = findViewById(R.id.openDrawer);
@@ -1502,7 +1505,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired) {
+    private void updateDynamicNavMenu(boolean isAttendanceRequired, boolean isCMSRequired, boolean isDiscountRequired, boolean isSwachhRequired, boolean isQcFailRequired, boolean isDrugRequired, boolean isSensingRequired) {
         listView.init(this).addHeaderModel(new HeaderModel("Home", R.drawable.ic_menu_home));
 
 //        listView = findViewById(R.id.expandable_navigation);
@@ -1514,14 +1517,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 //        listView.addHeaderModel(new HeaderModel("Cash Deposit", Color.WHITE, false, R.drawable.ic_apollo_pending));
 
-        listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
-
+        if (!isSensingRequired) {
+            listView.addHeaderModel(new HeaderModel("Apollo Sensing", Color.WHITE, false, R.drawable.ic_menu_champ));
+        }
         if (isAttendanceRequired) {
             listView.addHeaderModel(new HeaderModel("Attendance Management", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Attendance", R.drawable.ic_menu_reports)).addChildModel(new ChildModel("History", R.drawable.ic_menu_survey)));
         }
         if (isCMSRequired) {
             listView.addHeaderModel(new HeaderModel("CMS", Color.WHITE, true, R.drawable.ic_menu_cms).addChildModel(new ChildModel("Complaint Register", R.drawable.ic_apollo_complaint_register)).addChildModel(new ChildModel("Complaint List", R.drawable.ic_apollo_complaint_list))
-//                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
+                    .addChildModel(new ChildModel("Approval List", R.drawable.ic_apollo_complaint_list))
             );
         }
         if (isDiscountRequired) {
@@ -1593,9 +1597,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .addChildModel(new ChildModel("Approval", R.drawable.ic_apollo_survey_68__1_)));
         }*/
 
-/*
         listView.addHeaderModel(new HeaderModel("APNA", Color.WHITE, true, R.drawable.ic_menu_champ).addChildModel(new ChildModel("Apna Survey", R.drawable.ic_apollo_survey_68__1_)));
-*/
 
         listView.build().addOnGroupClickListener((parent, v, groupPosition, id) -> {
             List<HeaderModel> listHeader = listView.getListHeader();
