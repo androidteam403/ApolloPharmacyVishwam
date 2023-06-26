@@ -3,6 +3,7 @@ package com.apollopharmacy.vishwam.ui.home.apnarectro.prerectro.prerecctroreview
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.apollopharmacy.vishwam.data.Config
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.data.State
 import com.apollopharmacy.vishwam.data.model.ValidateResponse
@@ -38,7 +39,7 @@ class PreviewPreRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+            if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                 baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
@@ -47,36 +48,43 @@ class PreviewPreRetroViewModel : ViewModel() {
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveAcceptAndReshoot("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT",
-                    "h72genrSSNFivOi/cfiX3A==",
-                    saveAcceptAndReshootRequest)
+                ApnaRectroApiRepo.saveAcceptAndReshoot(
+                    baseUrl,
+                    token,
+                    saveAcceptAndReshootRequest
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
                     if (response.value.status == true) {
                         previewLastImageCallback.onSuccessSaveAcceptReshoot(response.value)
-                        saveAcceptAndReshootResponse.value = response.value
+                        saveAcceptAndReshootResponse.value = response.value!!
                     } else {
                         previewLastImageCallback.onFailureSaveAcceptReshoot(response.value)
-                        saveAcceptAndReshootResponse.value = response.value
+                        saveAcceptAndReshootResponse.value = response.value!!
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }
             }
         }
     }
+
     fun getRatingResponse(
         saveAcceptAndReshootRequest: SaveAcceptRequest,
         previewLastImageCallback: PreviewLastImageCallback,
@@ -88,37 +96,44 @@ class PreviewPreRetroViewModel : ViewModel() {
         var baseUrl = ""
         var token = ""
         for (i in data.APIS.indices) {
-            if (data.APIS[i].NAME.equals("SW SAVE ACCEPT AND RESHOOT")) {
+            if (data.APIS[i].NAME.equals("RT SAVE ACCEPT AND RESHOOT")) {
                 baseUrl = data.APIS[i].URL
                 token = data.APIS[i].TOKEN
                 break
             }
+
         }
         viewModelScope.launch {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
-                ApnaRectroApiRepo.saveAcceptAndReshoot("https://online.apollopharmacy.org/ARTRO/APOLLO/Retro/SAVEACCEPTANDRESHOOT",
-                    "h72genrSSNFivOi/cfiX3A==",
-                    saveAcceptAndReshootRequest)
+                ApnaRectroApiRepo.saveAcceptAndReshoot(
+                    baseUrl,
+                    token,
+                    saveAcceptAndReshootRequest
+                )
             }
             when (response) {
                 is ApiResult.Success -> {
                     state.value = State.ERROR
                     if (response.value.status == true) {
                         previewLastImageCallback.onSuccessRatingResponse(response.value)
-                    }else{
+                    } else {
                         previewLastImageCallback.onFailureRatingResponse(response.value)
                     }
                 }
+
                 is ApiResult.GenericError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.NetworkError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownError -> {
                     state.value = State.ERROR
                 }
+
                 is ApiResult.UnknownHostException -> {
                     state.value = State.ERROR
                 }

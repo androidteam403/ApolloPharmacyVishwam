@@ -77,11 +77,11 @@ class ImagesUploadAdapterPostRetro(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         var posImageUrlList = getImagesUrlList.get(position)
-        if (stage.equals("isPreRetroStage")) {
+        if (stage == "isPreRetroStage") {
             for (i in posImageUrlList) {
                 if (i.stage.equals("1")) {
                     if (i.status.equals("0")) {
-                        Glide.with(ViswamApp.context).load(i.url)
+                        Glide.with(context).load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
@@ -101,7 +101,7 @@ class ImagesUploadAdapterPostRetro(
 
                     } else if (i.status.equals("1"))
                     {
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -123,7 +123,7 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("2")) {
                         if(i.file!=null){
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.file)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -135,7 +135,7 @@ class ImagesUploadAdapterPostRetro(
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                             holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 1.0f
                         }else{
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.url)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -170,8 +170,8 @@ class ImagesUploadAdapterPostRetro(
             for (i in posImageUrlList) {
                 if (i.stage.equals("2")) {
                     isPostCreate=false
-                    if (i.status.equals("0")) {
-                        Glide.with(ViswamApp.context)
+                    if (i.status.equals("1")) {
+                        Glide.with(context)
                             .load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -181,12 +181,11 @@ class ImagesUploadAdapterPostRetro(
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility =
                             View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.cameraIcon.visibility = View.GONE
-                        holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility =
-                            View.VISIBLE
+                        holder.adapterImagesuploadApnaBinding.tickMarkGreen.visibility = View.VISIBLE
                         holder.adapterImagesuploadApnaBinding.imageTick.imageTintList =
                             ContextCompat.getColorStateList(
                                 context,
-                                R.color.material_amber_accent_700
+                                R.color.green
                             )
 
                         holder.adapterImagesuploadApnaBinding.redTrash.visibility=View.GONE
@@ -194,7 +193,7 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("1")) {
 //                    if(uploadStage){
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -228,7 +227,7 @@ class ImagesUploadAdapterPostRetro(
                     else if (i.status.equals("2")) {
 
                         if(i.file!=null){
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.file)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -240,7 +239,7 @@ class ImagesUploadAdapterPostRetro(
                             holder.adapterImagesuploadApnaBinding.imageTick.imageTintList =
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                         }else{
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.url)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -262,7 +261,7 @@ class ImagesUploadAdapterPostRetro(
                     }else if (i.status.equals("9")){
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.file)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -281,8 +280,8 @@ class ImagesUploadAdapterPostRetro(
                     if (i.stage.equals("1")) {
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        Glide.with(ViswamApp.context).load(i.url)
-                        .placeholder(R.drawable.placeholder_image)
+                        Glide.with(context).load(i.url)
+                            .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f
 //            holder.afterCaptureImage.setImageURI(Uri.fromFile(SwachModelResponse?.file))
@@ -301,7 +300,7 @@ class ImagesUploadAdapterPostRetro(
                 if (i.stage.equals("3")) {
                     isPostCreate=false
                     if (i.status.equals("0")) {
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -323,7 +322,7 @@ class ImagesUploadAdapterPostRetro(
                     }
                     else if (i.status.equals("1")) {
 //                    if(uploadStage){
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -356,7 +355,7 @@ class ImagesUploadAdapterPostRetro(
                     else if (i.status.equals("2")) {
 
                         if(i.file!=null){
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.file)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -368,7 +367,7 @@ class ImagesUploadAdapterPostRetro(
                             holder.adapterImagesuploadApnaBinding.imageTick.imageTintList =
                                 ContextCompat.getColorStateList(context, R.color.material_amber_accent_700)
                         }else{
-                            Glide.with(ViswamApp.context)
+                            Glide.with(context)
                                 .load(i.url)
                                 .placeholder(R.drawable.placeholder_image)
                                 .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -389,7 +388,7 @@ class ImagesUploadAdapterPostRetro(
                     }else if (i.status.equals("9")){
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        Glide.with(ViswamApp.context)
+                        Glide.with(context)
                             .load(i.file)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
@@ -409,7 +408,7 @@ class ImagesUploadAdapterPostRetro(
                     if (i.stage.equals("2")) {
                         holder.adapterImagesuploadApnaBinding.beforecapturelayout.visibility = View.GONE
                         holder.adapterImagesuploadApnaBinding.aftercapturelayout.visibility = View.VISIBLE
-                        Glide.with(ViswamApp.context).load(i.url)
+                        Glide.with(context).load(i.url)
                             .placeholder(R.drawable.placeholder_image)
                             .into(holder.adapterImagesuploadApnaBinding.aftercapturedimage)
                         holder.adapterImagesuploadApnaBinding.aftercapturedimage.alpha = 0.5f

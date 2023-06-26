@@ -23,7 +23,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickListner,
-    QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,
+    QcRegionDialog.NewDialogSiteClickListner, QcCalender.DateSelected,QcOrderTypeDialog.GstDialogClickListner,
     QcCalenderToDate.DateSelected, QcFilterSiteCallBack {
     lateinit var activityQcFilterBinding: ActivityQcFilterBinding
     lateinit var viewModel: QcSiteActivityViewModel
@@ -44,6 +44,7 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     var getregionList = ArrayList<QcStoreList.Store>()
     var uniqueRegionList = ArrayList<UniqueRegionList>()
     var uniqueStoreList = ArrayList<UniqueStoreList>()
+    var orderTypeList = ArrayList<String>()
 
     var regionList = ArrayList<QcRegionList.Store>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +54,8 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
         if (intent != null) {
           storeStringList= intent.getStringArrayListExtra("storeList")!!
             regionStringList= intent.getStringArrayListExtra("regionList")!!
+            orderTypeList.add("FT")
+            orderTypeList.add("RT")
 
         }
 
@@ -307,6 +310,12 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
             }.show(supportFragmentManager, "")
         }
 
+        activityQcFilterBinding.selectfiltertype.setOnClickListener {
+            QcOrderTypeDialog().apply {
+                arguments = QcOrderTypeDialog().generateParsedData(orderTypeList)
+            }.show(supportFragmentManager, "")
+            }
+
 
         activityQcFilterBinding.regionIdSelect.setOnClickListener {
 
@@ -465,5 +474,10 @@ class QcFilterActivity : AppCompatActivity(), QcSiteDialog.NewDialogSiteClickLis
     override fun getSiteIdList(storelist: List<QcStoreList.Store>?) {
 
     }
+
+    override fun selectOrderType(orderType: String) {
+        activityQcFilterBinding.selectfiltertype.setText(orderType)
+    }
+
 
 }

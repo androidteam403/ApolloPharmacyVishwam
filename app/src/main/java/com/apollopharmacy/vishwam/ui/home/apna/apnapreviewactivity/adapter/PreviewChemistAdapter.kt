@@ -1,5 +1,6 @@
 package com.apollopharmacy.vishwam.ui.home.apna.apnapreviewactivity.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -8,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.ChemistAdapterLayoutBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyDetailsList
+import java.text.DecimalFormat
 
 class PreviewChemistAdapter(
     val mContext: Context,
     private val chemistData: ArrayList<SurveyDetailsList.Chemist>,
-
-    ) : RecyclerView.Adapter<PreviewChemistAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<PreviewChemistAdapter.ViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,16 +27,21 @@ class PreviewChemistAdapter(
         return ViewHolder(chemistLayoutBinding)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val items=chemistData.get(position)
-        if (items.chemist!!.isNotEmpty()) {
-            holder.chemistLayoutBinding.name.setText(items.chemist)
+        val items = chemistData.get(position)
+        if (items.chemist != null) {
+            if (items.chemist!!.isNotEmpty()) {
+                holder.chemistLayoutBinding.name.setText(items.chemist)
+            } else {
+                holder.chemistLayoutBinding.name.setText("-")
+            }
         } else {
             holder.chemistLayoutBinding.name.setText("-")
         }
         if (items.organised != null) {
-            if (items.organised!!.uid.toString().isNotEmpty() && items.organised!!.uid != null) {
-                holder.chemistLayoutBinding.organized.setText(items.organised!!.uid.toString())
+            if (items.organised!!.name.toString().isNotEmpty() && items.organised!!.name != null) {
+                holder.chemistLayoutBinding.organized.setText(items.organised!!.name.toString())
             } else {
                 holder.chemistLayoutBinding.organized.setText("-")
             }
@@ -43,13 +49,16 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.organized.setText("-")
         }
         if (items.orgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.avgsale.setText(items.orgAvgSale.toString())
+            holder.chemistLayoutBinding.avgsale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                items.orgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.avgsale.setText("-")
         }
         if (items.unorganised != null) {
-            if (items.unorganised!!.uid.toString().isNotEmpty() && items.unorganised!!.uid != null) {
-                holder.chemistLayoutBinding.unorganized.setText(items.unorganised!!.uid)
+            if (items.unorganised!!.name.toString()
+                    .isNotEmpty() && items.unorganised!!.name != null
+            ) {
+                holder.chemistLayoutBinding.unorganized.setText(items.unorganised!!.name)
             } else {
                 holder.chemistLayoutBinding.unorganized.setText("-")
             }
@@ -57,7 +66,8 @@ class PreviewChemistAdapter(
             holder.chemistLayoutBinding.unorganized.setText("-")
         }
         if (items.unorgAvgSale.toString().isNotEmpty()) {
-            holder.chemistLayoutBinding.unorganisedAvgSale.setText(items.unorgAvgSale.toString())
+            holder.chemistLayoutBinding.unorganisedAvgSale.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                items.unorgAvgSale!!.toLong()))
         } else {
             holder.chemistLayoutBinding.unorganisedAvgSale.setText("-")
         }

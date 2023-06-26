@@ -11,8 +11,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/value_4dp"
             android:background="@drawable/light_gray_rounded_corners"
-            android:padding="@dimen/value_10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="@dimen/value_10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -170,11 +170,11 @@ class DashBoardViewModel: ViewModel() {
                 is ApiResult.Success -> {
                     if (result.value.status ?: null == true) {
                         state.value = State.ERROR
-                        qcPendingCountList.value = result.value
+                        qcPendingCountList.value = result.value!!
 
                     } else {
                         state.value = State.ERROR
-                        qcPendingCountList.value = result.value
+                        qcPendingCountList.value = result.value!!
 
                     }
                 }

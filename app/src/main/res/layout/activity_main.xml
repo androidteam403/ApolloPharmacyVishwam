@@ -55,16 +55,17 @@
                     android:layout_height="25dp"
                     android:layout_gravity="center"
                     android:layout_marginEnd="@dimen/value_5dp"
-                    android:background="@drawable/green_backgroundplus"
                     android:paddingTop="5dp"
+                    android:visibility="gone"
                     android:paddingBottom="5dp"
                     android:src="@drawable/plus" />
+<!--                android:background="@drawable/green_backgroundplus"-->
 
                 <ImageView
                     android:id="@+id/filtericonapna"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-
+                    android:visibility="gone"
                     android:layout_gravity="center"
                     android:src="@drawable/filtersnew" />
             </LinearLayout>
@@ -76,6 +77,14 @@
                 android:contentDescription="@string/app_name"
                 android:src="@drawable/siteid_icon"
                 android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/refreshIconQc"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:tint="@color/white"
+                android:src="@drawable/ic_refresh_black" />
 
             <RelativeLayout
                 android:id="@+id/filterIcon"

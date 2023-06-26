@@ -201,7 +201,10 @@
     <color name="green_color_resource">#4f99b1</color>
 
     <color name="ash_color_for_apna">#A8A4A4</color>
+    <color name="pending_color_for_apna">#f26522</color>
+
     <color name="lightt_blue">#ecf6f8</color>
     <color name="light_green">#d4f8d4</color>
+    <color name="partial_green">#5EBC5E</color>
 
 </resources>

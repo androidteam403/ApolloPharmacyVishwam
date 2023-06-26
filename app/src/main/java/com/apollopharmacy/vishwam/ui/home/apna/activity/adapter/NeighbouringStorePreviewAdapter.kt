@@ -9,30 +9,32 @@ import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.databinding.LayoutNeighbouringStorePreviewBinding
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.SurveyCreateRequest
+import java.text.DecimalFormat
 
 class NeighbouringStorePreviewAdapter(
     var mContext: Context,
     var data: ArrayList<SurveyCreateRequest.NeighboringStore>,
-): RecyclerView.Adapter<NeighbouringStorePreviewAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<NeighbouringStorePreviewAdapter.ViewHolder>() {
     class ViewHolder(val layoutNeighbouringStorePreviewBinding: LayoutNeighbouringStorePreviewBinding) :
         RecyclerView.ViewHolder(layoutNeighbouringStorePreviewBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val layoutNeighbouringStorePreviewBinding = DataBindingUtil.inflate<LayoutNeighbouringStorePreviewBinding>(
-            LayoutInflater.from(mContext),
-            R.layout.layout_neighbouring_store_preview,
-            parent,
-            false
-        )
+        val layoutNeighbouringStorePreviewBinding =
+            DataBindingUtil.inflate<LayoutNeighbouringStorePreviewBinding>(
+                LayoutInflater.from(mContext),
+                R.layout.layout_neighbouring_store_preview,
+                parent,
+                false
+            )
         return ViewHolder(layoutNeighbouringStorePreviewBinding)
     }
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (data[position].location!!.uid != null) {
-            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + data[position].location!!.uid + ")" + " :")
+            holder.layoutNeighbouringStorePreviewBinding.neighborLocation.setText(data[position].location!!.uid)
         } else {
-            holder.layoutNeighbouringStorePreviewBinding.name.setText("Neighbouring Store " + "(" + "-" + ")" + " :")
+            holder.layoutNeighbouringStorePreviewBinding.neighborLocation.setText("-")
         }
         if (data[position].store != null) {
             holder.layoutNeighbouringStorePreviewBinding.store.setText(data[position].store)
@@ -40,12 +42,15 @@ class NeighbouringStorePreviewAdapter(
             holder.layoutNeighbouringStorePreviewBinding.store.setText("-")
         }
         if (data[position].rent != null) {
-            holder.layoutNeighbouringStorePreviewBinding.rent.setText(data[position].rent.toString())
+            holder.layoutNeighbouringStorePreviewBinding.rent.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+                data[position].rent!!.toLong()))
         } else {
             holder.layoutNeighbouringStorePreviewBinding.rent.setText("-")
         }
         if (data[position].sales != null) {
-            holder.layoutNeighbouringStorePreviewBinding.sales.setText(data[position].sales.toString())
+            holder.layoutNeighbouringStorePreviewBinding.sales.setText(data.get(position).sales!!.toString())
+//            holder.layoutNeighbouringStorePreviewBinding.sales.setText("\u20B9" + DecimalFormat("##,##,##0").format(
+//                data[position].sales!!.toLong()))
         } else {
             holder.layoutNeighbouringStorePreviewBinding.sales.setText("-")
         }

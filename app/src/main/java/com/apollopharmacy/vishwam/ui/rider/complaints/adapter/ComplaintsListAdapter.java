@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.apollopharmacy.vishwam.R;
 import com.apollopharmacy.vishwam.databinding.AdapterComplaintsListBinding;
-import com.apollopharmacy.vishwam.databinding.LoadingProgressbarBinding;
+import com.apollopharmacy.vishwam.databinding.LoadingProgressLazyBinding;
 import com.apollopharmacy.vishwam.ui.rider.complaints.ComplaintsFragmentCallback;
 import com.apollopharmacy.vishwam.ui.rider.complaints.model.ComplaintsResponse;
 import com.apollopharmacy.vishwam.ui.rider.reports.adapter.OrdersCodStatusAdapter;
@@ -45,8 +45,8 @@ public class ComplaintsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             AdapterComplaintsListBinding complaintsListBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.adapter_complaints_list, parent, false);
             return new ComplaintViewHolder(complaintsListBinding);
         } else {
-            LoadingProgressbarBinding loadingProgressbarBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.loading_progressbar, parent, false);
-            return new LoadingViewHolder(loadingProgressbarBinding);
+            LoadingProgressLazyBinding loadingProgressbarComplaintBinding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.loading_progress_lazy, parent, false);
+            return new LoadingViewHolder(loadingProgressbarComplaintBinding);
         }
     }
 
@@ -95,11 +95,11 @@ public class ComplaintsListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
     public class LoadingViewHolder extends RecyclerView.ViewHolder {
-        LoadingProgressbarBinding loadingProgressbarBinding;
+        LoadingProgressLazyBinding loadingProgressbarComplaintBinding;
 
-        public LoadingViewHolder(@NonNull LoadingProgressbarBinding loadingProgressbarBinding) {
-            super(loadingProgressbarBinding.getRoot());
-            this.loadingProgressbarBinding = loadingProgressbarBinding;
+        public LoadingViewHolder(@NonNull LoadingProgressLazyBinding loadingProgressbarComplaintBinding) {
+            super(loadingProgressbarComplaintBinding.getRoot());
+            this.loadingProgressbarComplaintBinding = loadingProgressbarComplaintBinding;
         }
     }
 }

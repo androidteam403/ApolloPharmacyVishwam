@@ -20,8 +20,8 @@ object ChampsAdminRepo {
         baseUrl: String,
     ): ApiResult<GetCategoryDetailsResponse> {
         return try {
-            val response = Api.getClient().GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
-//            val response = Api.getClient().GET_CATEGORY_DETAILS_API_CALL(token, baseUrl)
+//            val response = Api.getClient().GET_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
+           val response = Api.getClient().GET_CATEGORY_DETAILS_API_CALL(token, baseUrl)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -55,10 +55,11 @@ object ChampsAdminRepo {
     suspend fun getSubCategoryDetailsApiCall(
         token: String,
         baseUrl: String,
+        categoryName: String,
     ): ApiResult<GetSubCategoryDetailsResponse> {
         return try {
-            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
-//            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL(token, baseUrl)
+//            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL_JSONBLOB(baseUrl)
+            val response = Api.getClient().GET_SUB_CATEGORY_DETAILS_API_CALL(token, baseUrl, categoryName)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
@@ -95,9 +96,9 @@ object ChampsAdminRepo {
         saveCategoryConfigurationDetailsRequest: SaveCategoryConfigurationDetailsRequest,
     ): ApiResult<SaveCategoryConfigurationDetailsResponse> {
         return try {
-            val response =
-                Api.getClient().SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL_JSONBLOB(baseUrl)
-//            val response = Api.getClient().SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(token, baseUrl)
+//            val response =
+//                Api.getClient().SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL_JSONBLOB(baseUrl)
+           val response = Api.getClient().SAVE_CATEGORY_CONFIGURATION_DETAILS_API_CALL(token, baseUrl, saveCategoryConfigurationDetailsRequest)
             ApiResult.Success(response)
         } catch (e: Exception) {
             ApiResult.UnknownError(e.message)
