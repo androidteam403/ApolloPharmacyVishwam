@@ -92,9 +92,11 @@ class ApolloSensingViewModel : ViewModel() {
 
         var baseUrl = ""
         // "https://apsmtest.apollopharmacy.org:8443/GSMS/APOLLO/SMS/SendGlobalSms"//"https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms"
+        var token = ""
         for (i in data.APIS.indices) {
             if (data.APIS[i].NAME.equals("SEN GSMS")) {
                 baseUrl = data.APIS[i].URL
+                token = data.APIS[i].TOKEN
                 break
             }
         }
@@ -102,7 +104,7 @@ class ApolloSensingViewModel : ViewModel() {
             state.value = State.SUCCESS
             val response = withContext(Dispatchers.IO) {
                 ApolloSensingRepo.sendGlobalSmsApiCall(
-                    baseUrl, sendGlobalSmsRequest
+                    baseUrl,token, sendGlobalSmsRequest
                 )
             }
             when (response) {

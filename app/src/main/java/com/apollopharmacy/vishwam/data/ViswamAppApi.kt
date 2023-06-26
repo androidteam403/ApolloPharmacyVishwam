@@ -74,11 +74,11 @@ interface ViswamAppApi {
     ): DeviceDeRegResponse
 
 
-    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
-    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
-
-//    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+//    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
+
+    @POST("https://viswam.apollopharmacy.org/mprodvend/APOLLO/Vendor/VALIDATEVENDOR")
+    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
 
     @GET("https://jsonblob.com/api/jsonBlob/1100710312562409472")
@@ -788,7 +788,7 @@ interface ViswamAppApi {
     //Apollo sensing apis
     @POST//(https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms)
     suspend fun SEND_GLOBAL_SMS_API_CALL(
-        @Url url: String,
+        @Url url: String, @Header("token") token: String,
         @Body sendGlobalSmsRequest: SendGlobalSmsRequest?,
     ): SendGlobalSmsResponse
 

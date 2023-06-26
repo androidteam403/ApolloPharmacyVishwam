@@ -11,24 +11,24 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
-            android:layout_marginBottom="50dp"
+            android:layout_height="match_parent"
 
-            android:layout_height="match_parent">
+            android:layout_marginBottom="50dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewApproved"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:itemCount="5"
-                tools:listitem="@layout/qc_approvedlayout" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewApproved"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/qc_approvedlayout" />
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -78,17 +78,17 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <View-->
-<!--            android:id="@+id/filter_indication"-->
-<!--            android:layout_width="@dimen/text_12sp"-->
-<!--            android:layout_height="@dimen/text_12sp"-->
-<!--            android:layout_alignParentBottom="true"-->
-<!--            android:layout_marginLeft="284dp"-->
-<!--            android:layout_marginBottom="73dp"-->
-<!--            android:background="@drawable/red_indication"-->
-<!--            android:visibility="gone"-->
+        <!--        <View-->
+        <!--            android:id="@+id/filter_indication"-->
+        <!--            android:layout_width="@dimen/text_12sp"-->
+        <!--            android:layout_height="@dimen/text_12sp"-->
+        <!--            android:layout_alignParentBottom="true"-->
+        <!--            android:layout_marginLeft="284dp"-->
+        <!--            android:layout_marginBottom="73dp"-->
+        <!--            android:background="@drawable/red_indication"-->
+        <!--            android:visibility="gone"-->
 
-<!--            tools:ignore="MissingConstraints,NotSibling" />-->
+        <!--            tools:ignore="MissingConstraints,NotSibling" />-->
 
 
         <RelativeLayout
@@ -101,27 +101,33 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:id="@+id/spinner_layout"
-                android:layout_width="@dimen/value_75dp"
-                android:layout_height="@dimen/value_50dp"
-                android:layout_marginTop="@dimen/value_3dp"
-                android:background="@drawable/spinner_background">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
-                <Spinner
-                    android:id="@+id/item_count_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:id="@+id/spinner_layout"
+                    android:layout_width="@dimen/value_75dp"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_3dp"
+                    android:background="@drawable/spinner_background">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:src="@drawable/bottomarrow" />
+                    <Spinner
+                        android:id="@+id/item_count_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:minHeight="0dp"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:src="@drawable/bottomarrow" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <ImageView
@@ -130,7 +136,6 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-                android:layout_toRightOf="@+id/spinner_layout"
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"

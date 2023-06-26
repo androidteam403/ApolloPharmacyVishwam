@@ -19,11 +19,12 @@ import java.util.concurrent.TimeoutException
 
 object ApolloSensingRepo {
     suspend fun sendGlobalSmsApiCall(
-        url: String,
+        url: String, token: String,
         sendGlobalSmsRequest: SendGlobalSmsRequest?,
     ): ApiResult<SendGlobalSmsResponse> {
         return try {
-            val response = Api.getClient().SEND_GLOBAL_SMS_API_CALL(url, sendGlobalSmsRequest)
+            val response =
+                Api.getClient().SEND_GLOBAL_SMS_API_CALL(url, token, sendGlobalSmsRequest)
             if (response.status == true) ApiResult.Success(response)
             else ApiResult.GenericError(null, "error")
         } catch (e: Exception) {
