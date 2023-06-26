@@ -63,6 +63,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:onClick="@{()-> callback.onClickBack()}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="end"
@@ -647,11 +648,13 @@
                         android:layout_height="@dimen/value_40dp"
                         android:layout_marginStart="@dimen/value_40dp"
                         android:contentDescription="@string/app_name"
+                        android:layout_gravity="center"
 
                         android:onClick="@{()-> callback.onClickReShoot()}"
                         android:src="@drawable/action_reshoot" />
 
                     <ImageView
+                        android:layout_gravity="center"
                         android:id="@+id/accept"
                         android:layout_width="@dimen/value_40dp"
                         android:layout_height="@dimen/value_40dp"
@@ -678,7 +681,7 @@
 
             android:orientation="horizontal"
             android:padding="@dimen/value_12dp"
-            android:visibility="@{isLastPos ? view.VISIBLE : view.GONE}">
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="wrap_content"

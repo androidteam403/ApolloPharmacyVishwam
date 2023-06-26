@@ -11,9 +11,11 @@ import com.apollopharmacy.vishwam.ui.home.adrenalin.attendance.livedata.SiteList
 import com.apollopharmacy.vishwam.ui.home.apna.activity.model.*
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apnarectro.model.*
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.CheckScreenStatusResponse
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsRequest
 import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SendGlobalSmsResponse
+import com.apollopharmacy.vishwam.ui.home.apollosensing.model.SensingFileUploadResponse
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsRequest
 import com.apollopharmacy.vishwam.ui.home.cashcloser.model.CashDepositDetailsResponse
 import com.apollopharmacy.vishwam.ui.home.champs.admin.adminmodule.model.GetCategoryDetailsResponse
@@ -68,11 +70,10 @@ interface ViswamAppApi {
     suspend fun deRegisterDevice(
         @Url url: String,
         @Header("token") token: String,
-
         @Query("EmpId") id: String,
     ): DeviceDeRegResponse
 
-    //
+
 //    @POST("https://172.16.103.116:8443/mrodvend/APOLLO/Vendor/VALIDATEVENDOR")
 //    suspend fun getValidate(@Header("token") token: String, @Body data: CommonRequest): String
 
@@ -787,7 +788,7 @@ interface ViswamAppApi {
     //Apollo sensing apis
     @POST//(https://172.16.103.116:8443/GSMS/APOLLO/SMS/SendGlobalSms)
     suspend fun SEND_GLOBAL_SMS_API_CALL(
-        @Url url: String,
+        @Url url: String, @Header("token") token: String,
         @Body sendGlobalSmsRequest: SendGlobalSmsRequest?,
     ): SendGlobalSmsResponse
 
@@ -802,6 +803,17 @@ interface ViswamAppApi {
         @Url url: String, @Header("token") token: String,
         @Body saveImageUrlsRequest: SaveImageUrlsRequest,
     ): com.apollopharmacy.vishwam.ui.home.apollosensing.model.SaveImageUrlsResponse
+
+    @GET
+    suspend fun CHECK_SCREEN_STATUS_API_CALL(@Url url: String): CheckScreenStatusResponse
+
+    @Multipart
+    @POST
+    suspend fun SENSING_FILE_UPLOAD_API_CALL(
+        @Url url: String, @Header("TYPE") type: String, @Header("token") token: String,
+        @Part file: MultipartBody.Part,
+    ): SensingFileUploadResponse
+
 
     @GET
     suspend fun getDiscountColorDetails(

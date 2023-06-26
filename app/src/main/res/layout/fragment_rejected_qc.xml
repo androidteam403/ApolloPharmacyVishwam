@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         android:background="@color/white"
         tools:context=".ui.DiscountActivity">
 
@@ -13,12 +15,14 @@
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+
             android:layout_marginBottom="50dp">
 
             <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                 android:id="@+id/refreshSwipe"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewPending"
@@ -39,6 +43,7 @@
                 android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/backgroundColor"
                 android:elevation="20dp"
+
                 android:src="@drawable/ic_filter"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +74,10 @@
                     android:text="No Rejected Data Available"
                     android:textColor="@color/backgroundColor"
                     android:textSize="15dp" />
+
             </RelativeLayout>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <RelativeLayout
@@ -143,27 +151,33 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:id="@+id/spinner_layout"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_50dp"
-                android:layout_marginTop="@dimen/value_3dp"
-                android:background="@drawable/spinner_background">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
-                <Spinner
-                    android:id="@+id/item_count_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:id="@+id/spinner_layout"
+                    android:layout_width="@dimen/value_75dp"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_3dp"
+                    android:background="@drawable/spinner_background">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:src="@drawable/bottomarrow" />
+                    <Spinner
+                        android:id="@+id/item_count_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:minHeight="0dp"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:src="@drawable/bottomarrow" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <ImageView
@@ -172,7 +186,6 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-                android:layout_toRightOf="@+id/spinner_layout"
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"

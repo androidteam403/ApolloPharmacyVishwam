@@ -96,27 +96,33 @@
             android:visibility="visible">
 
             <RelativeLayout
-                android:id="@+id/spinner_layout"
-                android:layout_width="@dimen/value_70dp"
-                android:layout_height="@dimen/value_50dp"
-                android:layout_marginTop="@dimen/value_3dp"
-                android:background="@drawable/spinner_background">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
 
-                <Spinner
-                    android:id="@+id/item_count_spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:textSize="16sp" />
+                <RelativeLayout
+                    android:id="@+id/spinner_layout"
+                    android:layout_width="@dimen/value_75dp"
+                    android:layout_height="@dimen/value_50dp"
+                    android:layout_marginTop="@dimen/value_3dp"
+                    android:background="@drawable/spinner_background">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/value_10dp"
-                    android:src="@drawable/bottomarrow" />
+                    <Spinner
+                        android:id="@+id/item_count_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:minHeight="0dp"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/value_10dp"
+                        android:src="@drawable/bottomarrow" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <ImageView
@@ -125,7 +131,6 @@
                 android:layout_height="48dp"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
-                android:layout_toRightOf="@+id/spinner_layout"
                 android:contentDescription="@string/app_name"
                 android:fontFamily="@font/roboto_medium"
                 android:gravity="center"

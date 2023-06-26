@@ -207,5 +207,6 @@
     <color name="lightt_blue">#ecf6f8</color>
     <color name="light_green">#d4f8d4</color>
     <color name="partial_green">#5EBC5E</color>
+    <color name="subworkflow_details_text_color">#548985</color>
 
 </resources>
