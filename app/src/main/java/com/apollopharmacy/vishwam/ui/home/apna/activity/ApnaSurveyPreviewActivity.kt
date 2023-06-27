@@ -473,12 +473,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 setNeighborChartValues()
                 setupNeighborChart()
             } else {
-                activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
+//                activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
             }
         } else {
-            activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
+//            activityApnaSurveyPreviewBinding.neighborStoreHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.neighbourRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.neighbouringStoreNotFound.visibility = View.VISIBLE
         }
@@ -539,7 +539,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Competitors details
         if (surveyCreateRequest.chemist != null) {
             if (surveyCreateRequest.chemist!!.size > 0) {
-                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.VISIBLE
+//                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.GONE
@@ -573,13 +573,13 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 setCompetitorsValues()
                 setupCompetitorsChart()
             } else {
-                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
+//                activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.GONE
             }
         } else {
-            activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
+//            activityApnaSurveyPreviewBinding.chemistHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.chemistRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.chemistListNotFound.visibility = View.VISIBLE
             activityApnaSurveyPreviewBinding.chemistTotal.visibility = View.GONE
@@ -588,7 +588,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Population and houses
         if (surveyCreateRequest.apartments != null) {
             if (surveyCreateRequest.apartments!!.size > 0) {
-                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.VISIBLE
+//                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.GONE
                 apartments =
@@ -606,12 +606,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 setApartmentsValues()
                 setupApartmentsChart()
             } else {
-                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
+//                activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.VISIBLE
             }
         } else {
-            activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
+//            activityApnaSurveyPreviewBinding.apartmentsHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.apartmnetRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.apartmentsListNotFound.visibility = View.VISIBLE
         }
@@ -619,7 +619,7 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
         // Hospitals
         if (surveyCreateRequest.hospitals != null) {
             if (surveyCreateRequest.hospitals!!.size > 0) {
-                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.VISIBLE
+//                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.VISIBLE
                 activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.GONE
                 hospitals = surveyCreateRequest.hospitals as ArrayList<SurveyCreateRequest.Hospital>
@@ -636,12 +636,12 @@ class ApnaSurveyPreviewActivity : AppCompatActivity(), ApnaSurveyPreviewCallback
                 setHospitalsValues()
                 setupHospitalsChart()
             } else {
-                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
+//                activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.GONE
                 activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.VISIBLE
             }
         } else {
-            activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
+//            activityApnaSurveyPreviewBinding.hospitalsHeader.visibility = View.GONE
             activityApnaSurveyPreviewBinding.hospitalRecyclerView.visibility = View.GONE
             activityApnaSurveyPreviewBinding.hospitalListNotFound.visibility = View.VISIBLE
         }
