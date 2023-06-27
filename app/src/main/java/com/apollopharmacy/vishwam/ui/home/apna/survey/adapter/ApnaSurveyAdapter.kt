@@ -10,15 +10,13 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.apollopharmacy.vishwam.R
-import com.apollopharmacy.vishwam.databinding.AdapterGetstorepersonhistoryBinding
 import com.apollopharmacy.vishwam.databinding.ApnaSurveyLayoutBinding
 import com.apollopharmacy.vishwam.databinding.LoadingProgressLazyBinding
 import com.apollopharmacy.vishwam.ui.home.apna.model.SurveyListResponse
 import com.apollopharmacy.vishwam.ui.home.apna.survey.ApnaSurveyCallback
-import com.apollopharmacy.vishwam.ui.home.swach.swachuploadmodule.sampleswachui.adapter.GetStorePersonAdapter
 import java.text.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 
 class ApnaSurveyAdapter(
@@ -29,28 +27,31 @@ class ApnaSurveyAdapter(
     ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
 
-
     companion object {
         private const val VIEW_TYPE_DATA = 0;
         private const val VIEW_TYPE_PROGRESS = -1;
     }
+
+
     override fun getItemViewType(position: Int): Int {
         var viewtype = approveList?.get(position)
         //if data is load, returns PROGRESSBAR viewtype.
-        return if (viewtype!!.isLoading!=null) {
+        return if (viewtype!!.isLoading != null && viewtype.isLoading.equals("YES")) {
             VIEW_TYPE_PROGRESS
         } else position
 
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        if (viewType == VIEW_TYPE_PROGRESS){
+        if (viewType == VIEW_TYPE_PROGRESS) {
             val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
                 LayoutInflater.from(mContext),
                 R.layout.loading_progress_lazy,
                 parent,
-                false)
+                false
+            )
             return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
-        }else{
+        } else {
             val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
@@ -62,34 +63,29 @@ class ApnaSurveyAdapter(
         }
 
 
-
-
-
-/*
-        return when (viewType) {
-            VIEW_TYPE_DATA -> {//inflates row layout
-                val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
-                    DataBindingUtil.inflate(
-                        LayoutInflater.from(parent.context),
-                        R.layout.apna_survey_layout,
-                        parent,
-                        false
-                    )
-                return ViewHolder(apnaSurveyLayoutBinding)
-            }
-            GetStorePersonAdapter.VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
-                val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
-                    LayoutInflater.from(mContext),
-                    R.layout.loading_progress_lazy,
-                    parent,
-                    false)
-                return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
-            }
-            else -> throw IllegalArgumentException("Different View type")
-        }
-*/
-
-
+        /*
+                return when (viewType) {
+                    VIEW_TYPE_DATA -> {//inflates row layout
+                        val apnaSurveyLayoutBinding: ApnaSurveyLayoutBinding =
+                            DataBindingUtil.inflate(
+                                LayoutInflater.from(parent.context),
+                                R.layout.apna_survey_layout,
+                                parent,
+                                false
+                            )
+                        return ViewHolder(apnaSurveyLayoutBinding)
+                    }
+                    GetStorePersonAdapter.VIEW_TYPE_PROGRESS -> {//inflates progressbar layout
+                        val loadingProgressLazyBinding: LoadingProgressLazyBinding = DataBindingUtil.inflate(
+                            LayoutInflater.from(mContext),
+                            R.layout.loading_progress_lazy,
+                            parent,
+                            false)
+                        return LoadingApnaSurveyViewHolder(loadingProgressLazyBinding)
+                    }
+                    else -> throw IllegalArgumentException("Different View type")
+                }
+        */
 
 
     }
@@ -121,15 +117,16 @@ class ApnaSurveyAdapter(
         var lName = ""
         if (approvedOrders.createdId!!.firstName != null)
             fName =
-            approvedOrders.createdId!!.firstName!!
+                approvedOrders.createdId!!.firstName!!
 
         if (approvedOrders.createdId!!.lastName != null) lName =
             approvedOrders.createdId!!.lastName!!
         holder.apnaSurveyLayoutBinding.surveyby.setText("$fName $lName")
         var locationName = ""
         var cityName = ""
-        if(approvedOrders.location!=null){
-            if (approvedOrders.location!!.name != null) locationName = approvedOrders.location!!.name!!
+        if (approvedOrders.location != null) {
+            if (approvedOrders.location!!.name != null) locationName =
+                approvedOrders.location!!.name!!
         }
 //        if(approvedOrders.city!=null) {
 //            if (approvedOrders.city!!.name != null) cityName = ", ${approvedOrders.city!!.name}"
@@ -158,8 +155,11 @@ class ApnaSurveyAdapter(
                 ) {
                     if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
                         holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.VISIBLE
-                        holder.apnaSurveyLayoutBinding.surveyended.setText(outputDateFormat.format(
-                            inputDateFormat.parse(approvedOrders.modifiedTime!!)!!))
+                        holder.apnaSurveyLayoutBinding.surveyended.setText(
+                            outputDateFormat.format(
+                                inputDateFormat.parse(approvedOrders.modifiedTime!!)!!
+                            )
+                        )
                     } else {
                         holder.apnaSurveyLayoutBinding.surveyEndedLayout.visibility = View.GONE
                     }
@@ -190,8 +190,12 @@ class ApnaSurveyAdapter(
                     ) {
                         if (approvedOrders.status!!.name.toString().equals("Approved", true)) {
                             holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.VISIBLE
-                            holder.apnaSurveyLayoutBinding.timeTaken.setText(printDifference(date1,
-                                date2))
+                            holder.apnaSurveyLayoutBinding.timeTaken.setText(
+                                printDifference(
+                                    date1,
+                                    date2
+                                )
+                            )
                         } else {
                             holder.apnaSurveyLayoutBinding.timeTakenLayout.visibility = View.GONE
                         }
@@ -217,8 +221,11 @@ class ApnaSurveyAdapter(
                             ContextCompat.getColor(mContext, R.color.apna_project_actionbar_color)
                         )
                     } else {
-                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(Color.parseColor(
-                            approvedOrders.status!!.backgroundColor))
+                        holder.apnaSurveyLayoutBinding.statusLayout.setBackgroundColor(
+                            Color.parseColor(
+                                approvedOrders.status!!.backgroundColor
+                            )
+                        )
                     }
                 } else {
                 }
@@ -298,9 +305,9 @@ class ApnaSurveyAdapter(
         val elapsedSeconds = different / secondsInMilli
         return String.format(
             "%02d:%02d:%02d",
-            elapsedHours, elapsedMinutes, elapsedSeconds)
+            elapsedHours, elapsedMinutes, elapsedSeconds
+        )
     }
-
 
 
     override fun getItemCount(): Int {
