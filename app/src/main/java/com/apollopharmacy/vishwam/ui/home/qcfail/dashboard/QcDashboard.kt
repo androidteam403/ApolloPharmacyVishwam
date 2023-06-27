@@ -1,10 +1,12 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.dashboard
 
+import android.content.Intent.getIntent
 import android.graphics.Color
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.apollopharmacy.vishwam.R
@@ -30,6 +32,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     var employeId: String = ""
     var isClick: Boolean = false
     var isDataFetched: Boolean = false
+    var vishwamDependancyClicked: Boolean=true;
 
     var dashboardHierarchyList = ArrayList<Getqcfailpendinghistoryforhierarchy>()
     var getdashboardHierarchyList: List<Getqcfailpendinghistoryforhierarchy>? = null
@@ -287,6 +290,7 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
         viewModel.qcPendingDashboardHistoryList.observe(viewLifecycleOwner) {
             hideLoading()
             if (it.status == true) {
+//                Toast.makeText(context, "Refresh done", Toast.LENGTH_SHORT).show()
 
 
                 val getqcfailpendinghistorydashboard: Getqcfailpendinghistorydashboard
@@ -457,15 +461,17 @@ class QcDashboard : BaseFragment<DashBoardViewModel, FragmentQcDashboardBinding>
     }
 
     override fun onClickQcFilterIcon() {
-        showLoading()
-        dashboardHistoryList.clear()
-        dashboardHierarchyList.clear()
-        designationsList.clear()
-        callApi()
-        viewModel.getQcPendingList(
-            Preferences.getToken(),
-            Preferences.getAppLevelDesignationQCFail()
-        )    }
+//        setup()
+//        showLoading()
+//        dashboardHistoryList.clear()
+//        dashboardHierarchyList.clear()
+//        designationsList.clear()
+//        callApi()
+//        viewModel.getQcPendingList(
+//            Preferences.getToken(),
+//            Preferences.getAppLevelDesignationQCFail()
+//        )
+          }
 
 }
 

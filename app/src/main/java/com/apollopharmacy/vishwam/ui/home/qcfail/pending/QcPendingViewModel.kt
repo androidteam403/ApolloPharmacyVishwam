@@ -100,6 +100,9 @@ class QcPendingViewModel : ViewModel() {
         }
     }
 
+    fun setPendingList(qcListsResponse: QcListsResponse) {
+        qcPendingLists.value = qcListsResponse
+    }
 
     fun getQcPendingItemsList(orderId: String) {
         val url = Preferences.getApi()
@@ -362,9 +365,9 @@ class QcPendingViewModel : ViewModel() {
     fun getReasons(): ArrayList<QcReasonList.Remarks> {
 
         var names = ArrayList<QcReasonList.Remarks>()
-        if(qcRejectionList.isNullOrEmpty()){
-            Toast.makeText(context,"Reject Reasons not available",Toast.LENGTH_LONG)
-        }else{
+        if (qcRejectionList.isNullOrEmpty()) {
+            Toast.makeText(context, "Reject Reasons not available", Toast.LENGTH_LONG)
+        } else {
             names = qcRejectionList!!
 
         }
@@ -389,8 +392,10 @@ class QcPendingViewModel : ViewModel() {
 //        }
 
         arrayList = qcStoreIdList
-        command.value = Command.ShowQcButtonSheet(BottomSheetDialog::class.java,
-            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList)))
+        command.value = Command.ShowQcButtonSheet(
+            BottomSheetDialog::class.java,
+            bundleOf(Pair(QcFilterFragment.KEY_PENDING_DATA_QC, arrayList))
+        )
 
 
     }

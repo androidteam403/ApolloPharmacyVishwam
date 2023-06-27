@@ -1,8 +1,14 @@
 package com.apollopharmacy.vishwam.ui.home.qcfail.rejected
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.View
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +16,7 @@ import com.apollopharmacy.vishwam.R
 import com.apollopharmacy.vishwam.base.BaseFragment
 import com.apollopharmacy.vishwam.data.Preferences
 import com.apollopharmacy.vishwam.databinding.FragmentRejectedQcBinding
+import com.apollopharmacy.vishwam.dialog.QcListSizeDialog
 import com.apollopharmacy.vishwam.ui.home.MainActivity
 import com.apollopharmacy.vishwam.ui.home.MainActivityCallback
 import com.apollopharmacy.vishwam.ui.home.qcfail.filter.QcFilterFragment
@@ -25,11 +32,11 @@ import java.util.*
 class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBinding>(),
     MainActivityCallback,
     QcListsCallback,
-    QcFilterFragment.QcFilterClicked {
-
+    QcFilterFragment.QcFilterClicked, QcListSizeDialog.GstDialogClickListners, Filterable {
+    var qcListsResponse : QcListsResponse? = null
     var adapter: QcRejectedListAdapter? = null
     public var isBulkChecked: Boolean = false
-
+    var pageSize:Int=0
     var getitemList: List<QcItemListResponse>? = null
     var itemsList = ArrayList<QcItemListResponse>()
     var getRejectitemList: List<QcItemListResponse.Item>? = null
@@ -43,8 +50,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     var getStatusList: List<ActionResponse>? = null
     var statusList = ArrayList<ActionResponse>()
     private var filterRejectList = ArrayList<QcListsResponse.Reject>()
-    var subList: List<List<QcListsResponse.Reject>>? = null
-
+    var subList= ArrayList<ArrayList<QcListsResponse.Reject>>()
+    var pageSizeList = ArrayList<String>()
+    var charString: String? = ""
+    private var rejectedListList=ArrayList<QcListsResponse.Reject>()
+    private var rejectedFilterList=ArrayList<QcListsResponse.Reject>()
     //     var reason= String
     var fromDate = String()
     var currentDate = String()
@@ -62,6 +72,8 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
     }
 
     override fun setup() {
+        pageSize=Preferences.getQcRejectedPageSiz()
+        viewBinding.selectfiltertype.setText("Rows: " +Preferences.getQcRejectedPageSiz().toString())
         Preferences.setQcFromDate("")
         Preferences.setQcToDate("")
         Preferences.setQcSite("")
@@ -71,6 +83,15 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 //        MainActivity.mInstance.headerTitle.setText("Rejected List")
         showLoading()
         MainActivity.mInstance.mainActivityCallback = this
+        pageSizeList.add("5")
+        pageSizeList.add("10")
+        pageSizeList.add("15")
+
+        viewBinding.selectfiltertype.setOnClickListener {
+            QcListSizeDialog().apply {
+                arguments = QcListSizeDialog().generateParsedData(pageSizeList)
+            }.show(childFragmentManager  , "")
+        }
 
         val simpleDateFormat = SimpleDateFormat("dd-MMM-yyyy")
         currentDate = simpleDateFormat.format(Date())
@@ -88,7 +109,39 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         viewModel.getQcRejectList(Preferences.getToken(), fromDate, currentDate, "", "")
 
 
+        viewBinding.searchView.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
 
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s!!.length > 2) {
+                    viewBinding.closeArrow.visibility = View.VISIBLE
+
+                    viewBinding.close.visibility = View.GONE
+//                    if (adapter != null) {
+                    getFilter()!!.filter(s)
+//                    }
+                } else if (viewBinding.searchView.getText().toString().equals("")) {
+                    viewBinding.close.visibility = View.VISIBLE
+                    viewBinding.closeArrow.visibility = View.GONE
+
+//                    if (adapter != null) {
+
+                    getFilter()!!.filter("")
+//                    }
+                } else {
+                    viewBinding.close.visibility = View.VISIBLE
+                    viewBinding.closeArrow.visibility = View.GONE
+
+//                    if (adapter != null) {
+                    getFilter()!!.filter("")
+//                    }
+                }
+            }
+        })
         viewModel.qcStatusLists.observe(viewLifecycleOwner, Observer {
             hideLoading()
             getStatusList = listOf(it)
@@ -142,78 +195,11 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         })
 
         viewModel.qcRejectLists.observe(viewLifecycleOwner, { it ->
+            qcListsResponse = it
+            rejectedListList= it.rejectedlist!!
+            setQcRejectedListResponse(it.rejectedlist!!)
             hideLoading()
-            viewBinding.refreshSwipe.isRefreshing = false
-            storeStringList.clear()
-            regionStringList.clear()
-            if (it.rejectedlist != null && it.rejectedlist!!.size > 0) {
 
-                viewBinding.recyclerViewPending.visibility = View.VISIBLE
-                viewBinding.emptyList.visibility = View.GONE
-                 filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-
-                filterRejectList = (it.rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
-
-                for (i in filterRejectList.indices) {
-                    storeStringList.add(filterRejectList[i].storeid.toString())
-                    regionStringList.add(filterRejectList[i].dcCode.toString())
-                }
-                val regionListSet: MutableSet<String> = LinkedHashSet()
-                val stroreListSet: MutableSet<String> = LinkedHashSet()
-                stroreListSet.addAll(storeStringList)
-                regionListSet.addAll(regionStringList)
-                storeStringList.clear()
-                regionStringList.clear()
-                regionStringList.addAll(regionListSet)
-                storeStringList.addAll(stroreListSet)
-                 subList = ListUtils.partition(it.rejectedlist, 5)
-                 pageNo = 1
-                increment = 0
-                if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
-                } else {
-                    viewBinding.prevPage.visibility = View.VISIBLE
-
-                }
-                if (increment == subList?.size!!.minus(1)) {
-                    viewBinding.nextPage.visibility = View.GONE
-                } else {
-                    viewBinding.nextPage.visibility = View.VISIBLE
-
-                }
-
-
-
-                if (subList?.size == 1) {
-                    viewBinding.continueBtn.visibility = View.GONE
-                } else {
-                    viewBinding.continueBtn.visibility = View.VISIBLE
-
-                }
-                viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
-
-
-
-
-                adapter =
-                    context?.let { it1 ->
-                        QcRejectedListAdapter(it1, this,
-                            subList!!.get(increment),
-
-                            itemsList,
-                            statusList)
-                    }
-                viewBinding.recyclerViewPending.adapter = adapter
-
-             }
-
-                 else  {
-                     viewBinding.emptyList.visibility = View.VISIBLE
-                     viewBinding.recyclerViewPending.visibility = View.GONE
-                 viewBinding.continueBtn.visibility=View.GONE
-//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
-            }
         })
 
 
@@ -241,7 +227,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
 
 
                 if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
+                    viewBinding.prevPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.prevPage.visibility = View.VISIBLE
 
@@ -281,7 +267,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
                 increment--
                 pageNo--
                 if (pageNo == 1) {
-                    viewBinding.prevPage.visibility = View.GONE
+                    viewBinding.prevPage.visibility = View.INVISIBLE
                 } else {
                     viewBinding.prevPage.visibility = View.VISIBLE
 
@@ -306,7 +292,7 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
             } else {
 
                 Toast.makeText(requireContext(), "No More Data To Load", Toast.LENGTH_SHORT).show()
-                viewBinding.prevPage.visibility = View.GONE
+                viewBinding.prevPage.visibility = View.INVISIBLE
 
             }
         }
@@ -469,7 +455,213 @@ class RejectedFragment : BaseFragment<QcRejectedViewModel, FragmentRejectedQcBin
         i.putExtra("activity", "3")
         i.putStringArrayListExtra("storeList",storeStringList)
         i.putStringArrayListExtra("regionList",regionStringList)
+        i.putExtra("fragmentName", "reject")
         startActivityForResult(i, 210)
+    }
+
+    override fun selectListSize(listSize: String) {
+        Preferences.setQcRejectedPageSize(listSize.toInt());
+        viewBinding.selectfiltertype.setText("Rows: " +listSize)
+        pageSize=Preferences.getQcRejectedPageSiz()
+        viewModel.setRejectedList(qcListsResponse!!)
+//        Toast.makeText(context, "selected", Toast.LENGTH_SHORT).show()
+    }
+
+//    override fun getFilter(): Filter? {
+//        return object : Filter() {
+//            override fun performFiltering(charSequence: CharSequence): FilterResults {
+//                charString = charSequence.toString()
+//                if (charString!!.isEmpty()) {
+//                    qcListsResponse!!.rejectedlist = rejectedListList
+//                } else {
+//                    rejectedFilterList.clear()
+//                    for (row in rejectedListList) {
+//                        if (!rejectedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+//                                .contains(
+//                                    charString!!.toUpperCase(
+//                                        Locale.getDefault()
+//                                    )
+//                                )
+//                        ) {
+//                            rejectedFilterList.add(row)
+//                        }
+//                    }
+//                    qcListsResponse!!.rejectedlist = rejectedFilterList
+//                }
+//                val filterResults = FilterResults()
+//                filterResults.values = qcListsResponse!!.rejectedlist
+//                return filterResults
+//            }
+//
+//            @SuppressLint("NotifyDataSetChanged")
+//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+//                if (qcListsResponse!!.rejectedlist != null && !qcListsResponse!!.rejectedlist!!.isEmpty()) {
+//                    qcListsResponse!!.rejectedlist =
+//                        filterResults.values as java.util.ArrayList<QcListsResponse.Reject>
+//                    try {
+//                        viewModel.setRejectedList(qcListsResponse!!)
+//                    } catch (e: Exception) {
+//                        Log.e("FullfilmentAdapter", e.message!!)
+//                    }
+//                } else {
+//                    viewModel.setRejectedList(qcListsResponse!!)
+//                }
+//            }
+//        }
+//    }
+
+    override fun getFilter(): Filter? {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                charString = charSequence.toString()
+                if (charString!!.isEmpty()) {
+                    qcListsResponse!!.rejectedlist = rejectedListList
+//                    setQcPedningListResponse(qcListsResponse!!.pendinglist!!)
+                } else {
+                    rejectedFilterList.clear()
+                    for (row in rejectedListList) {
+                        if (!rejectedFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+                                .contains(
+                                    charString!!.toUpperCase(
+                                        Locale.getDefault()
+                                    )
+                                )
+                        ) {
+                            rejectedFilterList.add(row)
+                        }
+                    }
+                    qcListsResponse!!.rejectedlist = rejectedFilterList
+                }
+                val filterResults = FilterResults()
+                filterResults.values = qcListsResponse!!.rejectedlist
+                return filterResults
+            }
+
+            @SuppressLint("NotifyDataSetChanged")
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                if (qcListsResponse!!.rejectedlist != null && !qcListsResponse!!.rejectedlist!!.isEmpty()) {
+                    qcListsResponse!!.rejectedlist =
+                        filterResults.values as java.util.ArrayList<QcListsResponse.Reject>
+                    try {
+                        setQcRejectedListResponse(qcListsResponse!!.rejectedlist!!)
+                    } catch (e: Exception) {
+                        Log.e("FullfilmentAdapter", e.message!!)
+                    }
+                } else {
+                    setQcRejectedListResponse(qcListsResponse!!.rejectedlist!!)
+                }
+            }
+        }
+    }
+
+    private fun setQcRejectedListResponse(rejectedlist: List<QcListsResponse.Reject>) {
+        viewBinding.refreshSwipe.isRefreshing = false
+        storeStringList.clear()
+        regionStringList.clear()
+        if (rejectedlist != null && rejectedlist!!.size > 0) {
+
+            viewBinding.recyclerViewPending.visibility = View.VISIBLE
+            viewBinding.emptyList.visibility = View.GONE
+            filterRejectList = (rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+
+
+            filterRejectList = (rejectedlist as ArrayList<QcListsResponse.Reject>?)!!
+
+            for (i in filterRejectList.indices) {
+                storeStringList.add(filterRejectList[i].storeid.toString())
+                regionStringList.add(filterRejectList[i].dcCode.toString())
+            }
+            val regionListSet: MutableSet<String> = LinkedHashSet()
+            val stroreListSet: MutableSet<String> = LinkedHashSet()
+            stroreListSet.addAll(storeStringList)
+            regionListSet.addAll(regionStringList)
+            storeStringList.clear()
+            regionStringList.clear()
+            regionStringList.addAll(regionListSet)
+            storeStringList.addAll(stroreListSet)
+            splitTheArrayList(rejectedlist)
+//            subList = ListUtils.partition(rejectedlist, pageSize)
+            pageNo = 1
+            increment = 0
+            if (pageNo == 1) {
+                viewBinding.prevPage.visibility = View.INVISIBLE
+            } else {
+                viewBinding.prevPage.visibility = View.VISIBLE
+
+            }
+            if (increment == subList?.size!!.minus(1)) {
+                viewBinding.nextPage.visibility = View.GONE
+            } else {
+                viewBinding.nextPage.visibility = View.VISIBLE
+
+            }
+
+
+
+            if (subList?.size == 1) {
+                viewBinding.continueBtn.visibility = View.GONE
+            } else {
+                viewBinding.continueBtn.visibility = View.VISIBLE
+
+            }
+            viewBinding.pgno.setText("Total Pages" + " ( " + pageNo + " / " + subList!!.size + " )")
+
+
+
+
+            adapter =
+                context?.let { it1 ->
+                    QcRejectedListAdapter(it1, this,
+                        subList!!.get(increment),
+
+                        itemsList,
+                        statusList)
+                }
+            viewBinding.recyclerViewPending.adapter = adapter
+
+        }
+
+        else  {
+            viewBinding.emptyList.visibility = View.VISIBLE
+            viewBinding.recyclerViewPending.visibility = View.GONE
+            viewBinding.continueBtn.visibility=View.GONE
+//                     Toast.makeText(requireContext(), "No Rejected Data", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun splitTheArrayList(rejectedList: ArrayList<QcListsResponse.Reject>?) {
+        subList?.clear()
+        var rejectedSubList: ArrayList<QcListsResponse.Reject>? = ArrayList()
+        var pageStartPos = 0;
+        var pageEndPos = pageSize
+        for (i in rejectedList!!) {
+            rejectedSubList!!.add(i)
+            if (rejectedList.indexOf(i) == (rejectedList.size - 1)) {
+                val list: ArrayList<QcListsResponse.Reject> =
+                    ArrayList<QcListsResponse.Reject>(
+                        rejectedList.subList(
+                            pageStartPos,
+                            rejectedList.size
+                        )
+                    )
+                subList!!.add(list)
+            } else if ((rejectedList.indexOf(i) + 1) % pageSize == 0) {
+                val list: ArrayList<QcListsResponse.Reject> =
+                    ArrayList<QcListsResponse.Reject>(
+                        rejectedList.subList(
+                            pageStartPos,
+                            pageEndPos
+                        )
+                    )
+                subList!!.add(list)
+                pageStartPos = pageStartPos + pageSize
+                pageEndPos = pageEndPos + pageSize
+            }
+        }
+//        if(adapter!=null){
+//            adapter!!.notifyDataSetChanged()
+//        }
+
     }
 
 

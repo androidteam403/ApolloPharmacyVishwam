@@ -25,7 +25,7 @@ class QcPendingListAdapter(
     var imageClicklistner: QcListsCallback,
     var qcItemList: ArrayList<QcItemListResponse>,
     var pendingFragmentCallback: PendingFragmentCallback,
-) : RecyclerView.Adapter<QcPendingListAdapter.ViewHolder>(),Filterable {
+) : RecyclerView.Adapter<QcPendingListAdapter.ViewHolder>() {
     var charString: String? = ""
     private var pendingFilterList=ArrayList<QcListsResponse.Pending>()
 
@@ -327,48 +327,48 @@ class QcPendingListAdapter(
     class ViewHolder(val pendingLayoutBinding: QcPendingLayoutBinding) :
         RecyclerView.ViewHolder(pendingLayoutBinding.root)
 
-    override fun getFilter(): Filter? {
-        return object : Filter() {
-            override fun performFiltering(charSequence: CharSequence): FilterResults {
-                charString = charSequence.toString()
-                if (charString!!.isEmpty()) {
-                    pendingList = pendingListList
-                } else {
-                    pendingFilterList.clear()
-                    for (row in pendingListList) {
-                        if (!pendingFilterList.contains(row) && row.omsorderno!!.toUpperCase()
-                                .contains(
-                                    charString!!.toUpperCase(
-                                        Locale.getDefault()
-                                    )
-                                )
-                        ) {
-                            pendingFilterList.add(row)
-                        }
-                    }
-                    pendingList = pendingFilterList
-                }
-                val filterResults = FilterResults()
-                filterResults.values = pendingList
-                return filterResults
-            }
-
-            @SuppressLint("NotifyDataSetChanged")
-            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                if (pendingList != null && !pendingList.isEmpty()) {
-                    pendingList =
-                        filterResults.values as java.util.ArrayList<QcListsResponse.Pending>
-                    try {
-                        notifyDataSetChanged()
-                    } catch (e: Exception) {
-                        Log.e("FullfilmentAdapter", e.message!!)
-                    }
-                } else {
-                    notifyDataSetChanged()
-                }
-            }
-        }
-    }
+//    override fun getFilter(): Filter? {
+//        return object : Filter() {
+//            override fun performFiltering(charSequence: CharSequence): FilterResults {
+//                charString = charSequence.toString()
+//                if (charString!!.isEmpty()) {
+//                    pendingList = pendingListList
+//                } else {
+//                    pendingFilterList.clear()
+//                    for (row in pendingListList) {
+//                        if (!pendingFilterList.contains(row) && row.omsorderno!!.toUpperCase()
+//                                .contains(
+//                                    charString!!.toUpperCase(
+//                                        Locale.getDefault()
+//                                    )
+//                                )
+//                        ) {
+//                            pendingFilterList.add(row)
+//                        }
+//                    }
+//                    pendingList = pendingFilterList
+//                }
+//                val filterResults = FilterResults()
+//                filterResults.values = pendingList
+//                return filterResults
+//            }
+//
+//            @SuppressLint("NotifyDataSetChanged")
+//            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+//                if (pendingList != null && !pendingList.isEmpty()) {
+//                    pendingList =
+//                        filterResults.values as java.util.ArrayList<QcListsResponse.Pending>
+//                    try {
+//                        notifyDataSetChanged()
+//                    } catch (e: Exception) {
+//                        Log.e("FullfilmentAdapter", e.message!!)
+//                    }
+//                } else {
+//                    notifyDataSetChanged()
+//                }
+//            }
+//        }
+//    }
 
 
 }

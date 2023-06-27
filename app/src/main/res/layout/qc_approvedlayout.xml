@@ -46,7 +46,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.32"
+                        android:layout_weight="0.34"
                         android:gravity="start">
 
                         <TextView
@@ -73,7 +73,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.24"
+                        android:layout_weight="0.21"
                         android:gravity="start">
 
                         <TextView
