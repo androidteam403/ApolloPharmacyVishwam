@@ -35,14 +35,23 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_20sp" />
 
-            <ImageView
-                android:id="@+id/cancel"
-                android:layout_width="@dimen/value_35dp"
-                android:layout_height="@dimen/value_35dp"
-                android:layout_marginStart="205dp"
-                android:layout_marginTop="15dp"
-                android:src="@drawable/closee_whitee"
-                android:visibility="visible" />
+            <LinearLayout
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ImageView
+                    android:layout_gravity="end"
+                    android:id="@+id/cancel"
+                    android:layout_width="@dimen/value_35dp"
+                    android:layout_height="@dimen/value_35dp"
+                    android:layout_marginTop="15dp"
+                    android:src="@drawable/closee_whitee"
+                    android:visibility="visible" />
+            </LinearLayout>
+
+
 
         </LinearLayout>
 

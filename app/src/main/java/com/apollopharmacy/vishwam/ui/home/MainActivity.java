@@ -429,6 +429,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (mainActivityCallback != null) {
                 mainActivityCallback.onClickQcFilterIcon();
             }
+//            displaySelectedScreen("QcDashboard");
+//            headerText.setText("Dashboard");
+//            fragment = new QcDashboard();
+//            qcfilterIcon.setVisibility(View.GONE);
+//            plusIconApna.setVisibility(View.GONE);
+//            refreshIconQc.setVisibility(View.VISIBLE);
+//
+//            filterIconApna.setVisibility(View.GONE);
+//            filterIcon.setVisibility(View.GONE);
+//            siteIdIcon.setVisibility(View.GONE);
+//            isHomeScreen = false;
+//            riderNotificationLayout.setVisibility(View.GONE);
+//            toolbar.setBackground(ContextCompat.getDrawable(this, R.drawable.home_actionbar_bg));
+            if (fragment != null) {
+                fragment=new QcDashboard();
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+                ft.detach(fragment);
+                ft.attach(fragment);
+                ft.replace(R.id.fragment_container, fragment);
+                ft.commit();
+                drawer.closeDrawer(GravityCompat.START);
+            }
+
+
+
+
         });
 
         FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
